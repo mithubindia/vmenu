@@ -3,10 +3,10 @@
 # Configuración
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 SCRIPT_VERSION="1.0.0"  # Versión actual del menú
-VERSION_FILE="/tmp/proxmenux_version"
 LANGUAGE_FILE="/root/.proxmenux_language"
 DEFAULT_LANGUAGE="es"
-TEMP_LANG_FILE="/tmp/proxmenux_lang"
+LANG_DIR="/usr/local/share/proxmenux/lang"
+LANG_FILE="$LANG_DIR/selected.lang"
 
 # Colores para salida
 YW="\033[33m"; GN="\033[1;92m"; RD="\033[01;31m"; CL="\033[m"
@@ -14,28 +14,44 @@ msg_info() { echo -ne " ${YW}[INFO] $1...${CL}"; }
 msg_ok() { echo -e " ${GN}[OK] $1${CL}"; }
 msg_error() { echo -e " ${RD}[ERROR] $1${CL}"; }
 
-# Verificar idioma seleccionado o configurarlo
-if [ ! -f "$LANGUAGE_FILE" ]; then
-    echo "Idioma predeterminado: Español (es)"
-    echo "$DEFAULT_LANGUAGE" > "$LANGUAGE_FILE"
+# Crear el directorio de idioma si no existe
+if [ ! -d "$LANG_DIR" ]; then
+    mkdir -p "$LANG_DIR"
 fi
 
-LANGUAGE=$(cat "$LANGUAGE_FILE")
-LANG_PATH="$REPO_URL/lang/$LANGUAGE.lang"
+# Seleccionar idioma en la primera ejecución
+if [ ! -f "$LANGUAGE_FILE" ]; then
+    LANGUAGE=$(whiptail --title "Seleccionar Idioma" --menu "Elige tu idioma / Select your language:" 15 60 2 \
+        "es" "Español" \
+        "en" "English" 3>&1 1>&2 2>&3)
+
+    if [ -z "$LANGUAGE" ]; then
+        echo "No seleccionaste un idioma. Saliendo..." >&2
+        exit 1
+    fi
+
+    echo "$LANGUAGE" > "$LANGUAGE_FILE"
+    msg_ok "Idioma seleccionado: $LANGUAGE"
+else
+    LANGUAGE=$(cat "$LANGUAGE_FILE")
+    msg_info "Idioma cargado: $LANGUAGE"
+fi
 
 # Descargar archivo de idioma
-wget -qO "$TEMP_LANG_FILE" "$LANG_PATH"
+msg_info "Descargando archivo de idioma..."
+LANG_PATH="$REPO_URL/lang/$LANGUAGE.lang"
+wget -qO "$LANG_FILE" "$LANG_PATH"
 if [ $? -ne 0 ]; then
-    echo "Error al cargar el archivo de idioma. Asegúrate de que tienes conexión a Internet." >&2
+    msg_error "Error al cargar el archivo de idioma. Verifica la conexión a Internet o la URL."
     exit 1
 fi
-source "$TEMP_LANG_FILE"
+source "$LANG_FILE"
 
 # Verificar si hay una nueva versión del menú
 msg_info "Comprobando actualizaciones..."
-wget -qO "$VERSION_FILE" "$REPO_URL/version.txt"
+wget -qO "/tmp/proxmenux_version" "$REPO_URL/version.txt"
 if [ $? -eq 0 ]; then
-    REMOTE_VERSION=$(cat "$VERSION_FILE")
+    REMOTE_VERSION=$(cat "/tmp/proxmenux_version")
     if [ "$REMOTE_VERSION" != "$SCRIPT_VERSION" ]; then
         whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60 && {
             wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"
