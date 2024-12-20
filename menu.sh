@@ -3,11 +3,12 @@
 # Configuración
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 SCRIPT_VERSION="1.0.0"  # Versión actual del menú
+LOCAL_VERSION_FILE="/usr/local/share/proxmenux/version.txt"
 VERSION_FILE="/tmp/proxmenux_version"
-LANGUAGE_FILE="/root/.proxmenux_language"  # Archivo donde se guarda el idioma seleccionado
+LANGUAGE_FILE="/root/.proxmenux_language"
 LANG_DIR="/usr/local/share/proxmenux/lang"
 LANG_FILE="$LANG_DIR/selected.lang"
-SKIP_UPDATE_CHECK=${SKIP_UPDATE_CHECK:-false} # Control de reinicio
+SKIP_UPDATE_CHECK=${SKIP_UPDATE_CHECK:-false}
 
 # Colores para salida
 YW="\033[33m"; GN="\033[1;92m"; RD="\033[01;31m"; CL="\033[m"
@@ -15,7 +16,7 @@ msg_info() { echo -ne " ${YW}[INFO] $1...${CL}"; }
 msg_ok() { echo -e " ${GN}[OK] $1${CL}"; }
 msg_error() { echo -e " ${RD}[ERROR] $1${CL}"; }
 
-# Crear el directorio de idioma si no existe
+# Crear el directorio de idioma y versiones si no existe
 if [ ! -d "$LANG_DIR" ]; then
     mkdir -p "$LANG_DIR"
 fi
@@ -54,13 +55,25 @@ if [ "$SKIP_UPDATE_CHECK" = "false" ]; then
     wget -qO "$VERSION_FILE" "$REPO_URL/version.txt"
     if [ $? -eq 0 ]; then
         REMOTE_VERSION=$(cat "$VERSION_FILE")
-        if [ "$REMOTE_VERSION" != "$SCRIPT_VERSION" ]; then
+
+        # Comprobar si el archivo local de versión existe
+        if [ ! -f "$LOCAL_VERSION_FILE" ]; then
+            echo "$SCRIPT_VERSION" > "$LOCAL_VERSION_FILE"
+        fi
+
+        LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE")
+
+        # Comparar versión local con remota
+        if [ "$REMOTE_VERSION" != "$LOCAL_VERSION" ]; then
             whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60 && {
                 wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"
                 chmod +x /usr/local/bin/menu.sh
+                echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
                 whiptail --title "$UPDATE_COMPLETE" --msgbox "$UPDATE_MESSAGE" 10 60
                 SKIP_UPDATE_CHECK=true exec env SKIP_UPDATE_CHECK=true /usr/local/bin/menu.sh
             }
+        else
+            msg_ok "El menú está actualizado."
         fi
     else
         msg_error "No se pudo comprobar la versión. Continuando sin actualizar..."
