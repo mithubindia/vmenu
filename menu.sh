@@ -76,19 +76,6 @@ show_menu() {
             wget -qO- "$REPO_URL/scripts/add_hw_acceleration_lxc.sh" | bash
             ;;
         3)
-            # Cambiar idioma
-            NEW_LANGUAGE=$(whiptail --title "$CHANGE_LANGUAGE_TITLE" --menu "$CHOOSE_LANGUAGE" 15 60 2 \
-                "en" "English" \
-                "es" "Español" 3>&1 1>&2 2>&3)
-            if [ -n "$NEW_LANGUAGE" ]; then
-                echo "$NEW_LANGUAGE" > "$LANGUAGE_FILE"
-                LANGUAGE="$NEW_LANGUAGE"
-                LANG_PATH="$REPO_URL/lang/$LANGUAGE.lang"
-                wget -qO "$TEMP_LANG_FILE" "$LANG_PATH"
-                source "$TEMP_LANG_FILE"
-            fi
-            ;;
-        4)
             msg_ok "$BYE_MESSAGE"
             exit 0
             ;;
