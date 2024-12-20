@@ -5,10 +5,10 @@ REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 SCRIPT_VERSION="1.0.0"  # Versión actual del menú
 LOCAL_VERSION_FILE="/usr/local/share/proxmenux/version.txt"
 VERSION_FILE="/tmp/proxmenux_version"
-LANGUAGE_FILE="/root/.proxmenux_language"
+LANGUAGE_FILE="/root/.proxmenux_language"  # Archivo donde se guarda el idioma seleccionado
 LANG_DIR="/usr/local/share/proxmenux/lang"
 LANG_FILE="$LANG_DIR/selected.lang"
-SKIP_UPDATE_CHECK=${SKIP_UPDATE_CHECK:-false}
+SKIP_UPDATE_CHECK=${SKIP_UPDATE_CHECK:-false} # Control de reinicio
 
 # Colores para salida
 YW="\033[33m"; GN="\033[1;92m"; RD="\033[01;31m"; CL="\033[m"
@@ -39,14 +39,19 @@ else
     msg_info "Idioma cargado: $LANGUAGE"
 fi
 
-# Descargar archivo de idioma
-msg_info "Descargando archivo de idioma..."
-LANG_PATH="$REPO_URL/lang/$LANGUAGE.lang"
-wget -qO "$LANG_FILE" "$LANG_PATH"
-if [ $? -ne 0 ]; then
-    msg_error "Error al cargar el archivo de idioma. Verifica la conexión a Internet o la URL."
-    exit 1
+# Comprobar si el archivo de idioma existe localmente
+if [ ! -f "$LANG_FILE" ]; then
+    msg_info "Descargando archivo de idioma por primera vez..."
+    LANG_PATH="$REPO_URL/lang/$LANGUAGE.lang"
+    wget -qO "$LANG_FILE" "$LANG_PATH"
+    if [ $? -ne 0 ]; then
+        msg_error "Error al cargar el archivo de idioma. Verifica la conexión a Internet o la URL."
+        exit 1
+    fi
+else
+    msg_ok "Archivo de idioma ya existe localmente."
 fi
+
 source "$LANG_FILE"
 
 # Verificar si hay una nueva versión del menú (solo si no se reinició)
