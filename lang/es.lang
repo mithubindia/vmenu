@@ -1,8 +1,14 @@
+# Mensajes del sistema
 MENU_TITLE="ProxMenux - Menú Principal"
+CONFIG_TITLE="ProxMenux - Configuración"
 SELECT_OPTION="Selecciona una opción:"
 OPTION_1="Configurar iGPU + TPU"
-OPTION_2="Desinstalar ProxMenu"
+OPTION_2="Configuración"
+LANG_OPTION="Cambiar idioma"
+UNINSTALL_OPTION="Desinstalar ProxMenu"
 EXIT_MESSAGE="Saliendo del menú. ¡Hasta luego!"
+
+# Mensajes de actualización
 UPDATE_TITLE="Actualización Disponible"
 UPDATE_PROMPT="Hay una nueva versión disponible. ¿Quieres actualizar ahora?"
 UPDATE_MESSAGE="El menú ha sido actualizado correctamente."
@@ -11,23 +17,35 @@ UPDATE_POSTPONED="Actualización pospuesta. Continuando con la versión actual."
 UPDATE_CHECKING="Comprobando actualizaciones..."
 UPDATE_CURRENT="El menú está actualizado."
 UPDATE_CHECK_ERROR="No se pudo comprobar actualizaciones. Continuando..."
+FIRST_INSTALL="Primera instalación. Versión actual:"
+
+# Mensajes de desinstalación
 UNINSTALL_TITLE="Desinstalar ProxMenu"
 UNINSTALL_CONFIRM="¿Estás seguro de que quieres desinstalar ProxMenu?"
 UNINSTALL_COMPLETE="ProxMenu ha sido desinstalado correctamente."
 UNINSTALL_PROCESS="Desinstalando ProxMenu..."
+
+# Mensajes de script
 SCRIPT_RUNNING="Ejecutando script igpu_tpu.sh..."
 SCRIPT_SUCCESS="Script ejecutado correctamente."
 SCRIPT_ERROR="Error al ejecutar el script."
-LANG_SELECT="Seleccionar Idioma / Select Language"
-LANG_PROMPT="Elige tu idioma / Choose your language:"
+
+# Mensajes de idioma
+LANG_SELECT="Seleccionar Idioma"
+LANG_PROMPT="Elige tu idioma:"
 LANG_ERROR="No se seleccionó ningún idioma. Saliendo..."
 LANG_SUCCESS="Idioma seleccionado:"
 LANG_LOADED="Idioma cargado:"
 LANG_DOWNLOAD="Descargando archivo de idioma..."
 LANG_DOWNLOAD_ERROR="Error al descargar el archivo de idioma. Verifica tu conexión a internet."
 LANG_EXISTS="Archivo de idioma existe localmente."
+
+# Mensajes de dependencias
 DEPS_INSTALLING="Instalando dependencias necesarias..."
 DEPS_SUCCESS="Dependencias instaladas."
 DEPS_ERROR="Error al instalar dependencias. Por favor, instala whiptail manualmente."
-FIRST_INSTALL="Primera instalación. Versión actual:"
 
+# Mensajes bilingües (primera ejecución)
+INITIAL_LANG_SELECT="Seleccionar Idioma / Select Language"
+INITIAL_LANG_PROMPT="Elige tu idioma / Choose your language:"
+INITIAL_LANG_ERROR="No se seleccionó ningún idioma. Saliendo... / No language selected. Exiting..."
