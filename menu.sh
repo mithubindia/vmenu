@@ -7,117 +7,136 @@ LANG_DIR="$BASE_DIR/lang"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 REMOTE_VERSION_FILE="$BASE_DIR/latest_version.txt"
 LANGUAGE_FILE="/root/.proxmenux_language"
-MENU_TITLE="ProxMenux - Menú Principal"
-SKIP_UPDATE_CHECK=${SKIP_UPDATE_CHECK:-false}
 
 # Colores para salida
 YW="\033[33m"; GN="\033[1;92m"; RD="\033[01;31m"; CL="\033[m"
-msg_info() { echo -ne " ${YW}[INFO] $1...${CL}"; }
+msg_info() { echo -e " ${YW}[INFO] $1${CL}"; }
 msg_ok() { echo -e " ${GN}[OK] $1${CL}"; }
 msg_error() { echo -e " ${RD}[ERROR] $1${CL}"; }
 
-# Crear carpetas necesarias
+# Crear directorios necesarios
 mkdir -p "$LANG_DIR"
 
 # Seleccionar idioma en la primera ejecución
 if [ ! -f "$LANGUAGE_FILE" ]; then
-    LANGUAGE=$(whiptail --title "Seleccionar Idioma" --menu "Elige tu idioma / Select your language:" 15 60 2 \
+    LANGUAGE=$(whiptail --title "$LANG_SELECT" --menu "$LANG_PROMPT" 15 60 2 \
         "es" "Español" \
         "en" "English" 3>&1 1>&2 2>&3)
 
     if [ -z "$LANGUAGE" ]; then
-        echo "No seleccionaste un idioma. Saliendo..." >&2
+        msg_error "$LANG_ERROR"
         exit 1
     fi
 
     echo "$LANGUAGE" > "$LANGUAGE_FILE"
-    msg_ok "Idioma seleccionado: $LANGUAGE"
+    msg_ok "$LANG_SUCCESS $LANGUAGE"
 else
     LANGUAGE=$(cat "$LANGUAGE_FILE")
-    msg_info "Idioma cargado: $LANGUAGE"
+    msg_info "$LANG_LOADED $LANGUAGE"
 fi
 
 # Descargar archivo de idioma si no existe
 LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
 if [ ! -f "$LANG_FILE" ]; then
-    msg_info "Descargando archivo de idioma..."
-    wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"
-    if [ $? -ne 0 ]; then
-        msg_error "Error al cargar el archivo de idioma. Verifica la conexión a Internet o la URL."
+    msg_info "$LANG_DOWNLOAD"
+    if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
+        msg_error "$LANG_DOWNLOAD_ERROR"
         exit 1
     fi
 else
-    msg_ok "Archivo de idioma ya existe localmente."
+    msg_ok "$LANG_EXISTS"
 fi
 
+# Cargar archivo de idioma
 source "$LANG_FILE"
 
-# Verificar actualizaciones del menú
-if [ "$SKIP_UPDATE_CHECK" = "false" ]; then
-    msg_info "Comprobando actualizaciones..."
+# Verificar actualizaciones
+check_updates() {
+    msg_info "$UPDATE_CHECKING"
     if wget -qO "$REMOTE_VERSION_FILE" "$REPO_URL/version.txt"; then
         REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r')
 
         if [ ! -f "$LOCAL_VERSION_FILE" ]; then
-            echo "1.0.0" > "$LOCAL_VERSION_FILE"
-        fi
-
-        LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r')
-
-        if [ "$REMOTE_VERSION" != "$LOCAL_VERSION" ]; then
-            whiptail --title "Actualización Disponible" --yesno "Hay una nueva versión. ¿Actualizar ahora?" 10 60 && {
-                wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"
-                chmod +x /usr/local/bin/menu.sh
-                echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-                exec /usr/local/bin/menu.sh
-            }
+            # Si es la primera instalación, usar la versión del repositorio
+            echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
+            msg_info "$FIRST_INSTALL $REMOTE_VERSION"
         else
-            msg_ok "El menú está actualizado."
+            LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r')
+
+            if [ "$(printf '%s\n' "$LOCAL_VERSION" "$REMOTE_VERSION" | sort -V | tail -n1)" = "$REMOTE_VERSION" ] && [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
+                if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
+                    if wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"; then
+                        chmod +x /usr/local/bin/menu.sh
+                        echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
+                        msg_ok "$UPDATE_MESSAGE"
+                        exec /usr/local/bin/menu.sh
+                    else
+                        msg_error "$UPDATE_ERROR"
+                    fi
+                else
+                    msg_info "$UPDATE_POSTPONED"
+                fi
+            else
+                msg_ok "$UPDATE_CURRENT"
+            fi
         fi
     else
-        msg_error "No se pudo comprobar la versión. Continuando sin actualizar..."
+        msg_error "$UPDATE_CHECK_ERROR"
     fi
-fi
+}
 
-# Verificar dependencias
-check_dependencies() {
-    if ! command -v whiptail &> /dev/null; then
-        msg_info "Instalando dependencias necesarias..."
-        apt-get update
-        apt-get install -y whiptail
-        msg_ok "Dependencias instaladas."
+# Función para desinstalar ProxMenu
+uninstall_proxmenu() {
+    if whiptail --title "$UNINSTALL_TITLE" --yesno "$UNINSTALL_CONFIRM" 10 60; then
+        msg_info "$UNINSTALL_PROCESS"
+        rm -rf "$BASE_DIR"
+        rm -f "/usr/local/bin/menu.sh"
+        rm -f "$LANGUAGE_FILE"
+        msg_ok "$UNINSTALL_COMPLETE"
+        exit 0
     fi
 }
 
 # Mostrar menú principal
 show_menu() {
-    OPTION=$(whiptail --title "$MENU_TITLE" --menu "Selecciona una opción:" 15 60 4 \
-        "1" "Añadir HW iGPU" \
-        "2" "Añadir Coral TPU + HW iGPU" \
-        "3" "Salir" 3>&1 1>&2 2>&3)
+    OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 2 \
+        "1" "$OPTION_1" \
+        "2" "$OPTION_2" 3>&1 1>&2 2>&3)
 
     case $OPTION in
         1)
-            msg_info "Ejecutando script para HW iGPU..."
-            wget -qO- "$REPO_URL/scripts/add_hw_acceleration_lxc.sh" | bash
+            msg_info "$SCRIPT_RUNNING"
+            if wget -qO- "$REPO_URL/scripts/igpu_tpu.sh" | bash; then
+                msg_ok "$SCRIPT_SUCCESS"
+            else
+                msg_error "$SCRIPT_ERROR"
+            fi
             ;;
         2)
-            msg_info "Ejecutando script para Coral TPU + HW iGPU..."
-            wget -qO- "$REPO_URL/scripts/add_coral_tpu_lxc.sh" | bash
-            wget -qO- "$REPO_URL/scripts/add_hw_acceleration_lxc.sh" | bash
-            ;;
-        3)
-            msg_ok "¡Hasta luego!"
-            exit 0
+            uninstall_proxmenu
             ;;
         *)
-            msg_error "Opción no válida."
+            # Si el usuario presiona Cancelar o Esc
+            msg_ok "$EXIT_MESSAGE"
+            exit 0
             ;;
     esac
 }
 
-# Dependencias y bucle del menú
-check_dependencies
+# Verificar dependencias
+if ! command -v whiptail &> /dev/null; then
+    msg_info "$DEPS_INSTALLING"
+    if apt-get update && apt-get install -y whiptail; then
+        msg_ok "$DEPS_SUCCESS"
+    else
+        msg_error "$DEPS_ERROR"
+        exit 1
+    fi
+fi
+
+# Flujo principal
+check_updates
 while true; do
     show_menu
 done
+
