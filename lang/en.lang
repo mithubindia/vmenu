@@ -1,8 +1,14 @@
+# System messages
 MENU_TITLE="ProxMenux - Main Menu"
+CONFIG_TITLE="ProxMenux - Configuration"
 SELECT_OPTION="Select an option:"
 OPTION_1="Configure iGPU + TPU"
-OPTION_2="Uninstall ProxMenu"
+OPTION_2="Settings"
+LANG_OPTION="Change language"
+UNINSTALL_OPTION="Uninstall ProxMenu"
 EXIT_MESSAGE="Exiting menu. Goodbye!"
+
+# Update messages
 UPDATE_TITLE="Update Available"
 UPDATE_PROMPT="A new version is available. Do you want to update now?"
 UPDATE_MESSAGE="Menu has been updated successfully."
@@ -11,22 +17,36 @@ UPDATE_POSTPONED="Update postponed. Continuing with current version."
 UPDATE_CHECKING="Checking for updates..."
 UPDATE_CURRENT="Menu is up to date."
 UPDATE_CHECK_ERROR="Couldn't check for updates. Continuing..."
+FIRST_INSTALL="First installation. Current version:"
+
+# Uninstall messages
 UNINSTALL_TITLE="Uninstall ProxMenu"
 UNINSTALL_CONFIRM="Are you sure you want to uninstall ProxMenu?"
 UNINSTALL_COMPLETE="ProxMenu has been uninstalled successfully."
 UNINSTALL_PROCESS="Uninstalling ProxMenu..."
+
+# Script messages
 SCRIPT_RUNNING="Running igpu_tpu.sh script..."
 SCRIPT_SUCCESS="Script executed successfully."
 SCRIPT_ERROR="Error executing the script."
-LANG_SELECT="Select Language / Seleccionar Idioma"
-LANG_PROMPT="Choose your language / Elige tu idioma:"
+
+# Language messages
+LANG_SELECT="Select Language"
+LANG_PROMPT="Choose your language:"
 LANG_ERROR="No language selected. Exiting..."
 LANG_SUCCESS="Language selected:"
 LANG_LOADED="Language loaded:"
 LANG_DOWNLOAD="Downloading language file..."
 LANG_DOWNLOAD_ERROR="Error downloading language file. Check your internet connection."
 LANG_EXISTS="Language file exists locally."
+
+# Dependency messages
 DEPS_INSTALLING="Installing required dependencies..."
 DEPS_SUCCESS="Dependencies installed."
 DEPS_ERROR="Error installing dependencies. Please install whiptail manually."
-FIRST_INSTALL="First installation. Current version:"
+
+# Bilingual messages (first run)
+INITIAL_LANG_SELECT="Select Language / Seleccionar Idioma"
+INITIAL_LANG_PROMPT="Choose your language / Elige tu idioma:"
+INITIAL_LANG_ERROR="No language selected. Exiting... / No se seleccionó ningún idioma. Saliendo..."
+
