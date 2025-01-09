@@ -17,47 +17,91 @@ msg_error() { echo -e " ${RD}[ERROR] $1${CL}"; }
 # Crear directorios necesarios
 mkdir -p "$LANG_DIR"
 
-# Seleccionar idioma en la primera ejecución
-if [ ! -f "$LANGUAGE_FILE" ]; then
+# Descargar archivo de idioma por defecto (español) para mensajes iniciales
+if [ ! -f "$LANG_DIR/es.lang" ]; then
+    if ! wget -qO "$LANG_DIR/es.lang" "$REPO_URL/lang/es.lang"; then
+        msg_error "Error al descargar el archivo de idioma inicial."
+        exit 1
+    fi
+fi
+
+# Cargar mensajes iniciales
+source "$LANG_DIR/es.lang"
+
+# Cargar o seleccionar idioma
+load_language() {
+    if [ ! -f "$LANGUAGE_FILE" ]; then
+        select_language_first_time
+    else
+        LANGUAGE=$(cat "$LANGUAGE_FILE")
+        LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
+        if [ ! -f "$LANG_FILE" ]; then
+            msg_info "$LANG_DOWNLOAD"
+            if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
+                msg_error "$LANG_DOWNLOAD_ERROR"
+                exit 1
+            fi
+        fi
+        source "$LANG_FILE"
+        msg_info "$LANG_LOADED $LANGUAGE"
+    fi
+}
+
+# Función para la primera selección de idioma
+select_language_first_time() {
+    LANGUAGE=$(whiptail --title "$INITIAL_LANG_SELECT" --menu "$INITIAL_LANG_PROMPT" 15 60 2 \
+        "es" "Español" \
+        "en" "English" 3>&1 1>&2 2>&3)
+
+    if [ -z "$LANGUAGE" ]; then
+        msg_error "$INITIAL_LANG_ERROR"
+        exit 1
+    fi
+
+    LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
+    if [ ! -f "$LANG_FILE" ]; then
+        if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
+            msg_error "$LANG_DOWNLOAD_ERROR"
+            exit 1
+        fi
+    fi
+
+    echo "$LANGUAGE" > "$LANGUAGE_FILE"
+    source "$LANG_FILE"
+    msg_ok "$LANG_SUCCESS $LANGUAGE"
+}
+
+# Función para cambiar idioma desde el menú
+select_language() {
     LANGUAGE=$(whiptail --title "$LANG_SELECT" --menu "$LANG_PROMPT" 15 60 2 \
         "es" "Español" \
         "en" "English" 3>&1 1>&2 2>&3)
 
     if [ -z "$LANGUAGE" ]; then
         msg_error "$LANG_ERROR"
-        exit 1
+        return
+    fi
+
+    LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
+    if [ ! -f "$LANG_FILE" ]; then
+        msg_info "$LANG_DOWNLOAD"
+        if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
+            msg_error "$LANG_DOWNLOAD_ERROR"
+            return
+        fi
     fi
 
     echo "$LANGUAGE" > "$LANGUAGE_FILE"
     msg_ok "$LANG_SUCCESS $LANGUAGE"
-else
-    LANGUAGE=$(cat "$LANGUAGE_FILE")
-    msg_info "$LANG_LOADED $LANGUAGE"
-fi
-
-# Descargar archivo de idioma si no existe
-LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
-if [ ! -f "$LANG_FILE" ]; then
-    msg_info "$LANG_DOWNLOAD"
-    if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
-        msg_error "$LANG_DOWNLOAD_ERROR"
-        exit 1
-    fi
-else
-    msg_ok "$LANG_EXISTS"
-fi
-
-# Cargar archivo de idioma
-source "$LANG_FILE"
+    exec "$0"
+}
 
 # Verificar actualizaciones
 check_updates() {
-    msg_info "$UPDATE_CHECKING"
     if wget -qO "$REMOTE_VERSION_FILE" "$REPO_URL/version.txt"; then
         REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r')
 
         if [ ! -f "$LOCAL_VERSION_FILE" ]; then
-            # Si es la primera instalación, usar la versión del repositorio
             echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
             msg_info "$FIRST_INSTALL $REMOTE_VERSION"
         else
@@ -76,9 +120,8 @@ check_updates() {
                 else
                     msg_info "$UPDATE_POSTPONED"
                 fi
-            else
-                msg_ok "$UPDATE_CURRENT"
             fi
+            # Se eliminó el mensaje cuando las versiones son iguales
         fi
     else
         msg_error "$UPDATE_CHECK_ERROR"
@@ -97,30 +140,52 @@ uninstall_proxmenu() {
     fi
 }
 
+# Mostrar menú de configuración
+show_config_menu() {
+    while true; do
+        OPTION=$(whiptail --title "$CONFIG_TITLE" --menu "$SELECT_OPTION" 15 60 2 \
+            "1" "$LANG_OPTION" \
+            "2" "$UNINSTALL_OPTION" 3>&1 1>&2 2>&3)
+
+        case $OPTION in
+            1)
+                select_language
+                ;;
+            2)
+                uninstall_proxmenu
+                ;;
+            *)
+                return
+                ;;
+        esac
+    done
+}
+
 # Mostrar menú principal
 show_menu() {
-    OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 2 \
-        "1" "$OPTION_1" \
-        "2" "$OPTION_2" 3>&1 1>&2 2>&3)
+    while true; do
+        OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 2 \
+            "1" "$OPTION_1" \
+            "2" "$OPTION_2" 3>&1 1>&2 2>&3)
 
-    case $OPTION in
-        1)
-            msg_info "$SCRIPT_RUNNING"
-            if wget -qO- "$REPO_URL/scripts/igpu_tpu.sh" | bash; then
-                msg_ok "$SCRIPT_SUCCESS"
-            else
-                msg_error "$SCRIPT_ERROR"
-            fi
-            ;;
-        2)
-            uninstall_proxmenu
-            ;;
-        *)
-            # Si el usuario presiona Cancelar o Esc
-            msg_ok "$EXIT_MESSAGE"
-            exit 0
-            ;;
-    esac
+        case $OPTION in
+            1)
+                msg_info "$SCRIPT_RUNNING"
+                if wget -qO- "$REPO_URL/scripts/igpu_tpu.sh" | bash; then
+                    msg_ok "$SCRIPT_SUCCESS"
+                else
+                    msg_error "$SCRIPT_ERROR"
+                fi
+                ;;
+            2)
+                show_config_menu
+                ;;
+            *)
+                msg_ok "$EXIT_MESSAGE"
+                exit 0
+                ;;
+        esac
+    done
 }
 
 # Verificar dependencias
@@ -135,8 +200,6 @@ if ! command -v whiptail &> /dev/null; then
 fi
 
 # Flujo principal
+load_language
 check_updates
-while true; do
-    show_menu
-done
-
+show_menu
