@@ -2,7 +2,6 @@
 
 # Configuración
 SCRIPT_VERSION="1.3"
-BACKUP_DIR="/root/proxmox_backups"
 LOG_FILE="/var/log/proxmox_backup_restore.log"
 
 # Colores para salida
@@ -477,4 +476,3 @@ restore_files() {
 # Iniciar el script
 select_interface_mode
 show_main_menu
-
