@@ -187,7 +187,7 @@ show_menu() {
                 "4" "$EXIT_MENU" 3>&1 1>&2 2>&3)
         else
             clear
-            echo -e "${YW}=== $MAIN_MENU_TITLE ===${CL}"
+            echo -e "${YW}=== ${MAIN_MENU_TITLE} ===${CL}"
             echo "1) $OPTION_1"
             echo "2) $OPTION_2"
             echo "3) $OPTION_3"
