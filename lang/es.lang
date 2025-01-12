@@ -22,7 +22,7 @@ UPDATE_POSTPONED="Actualización pospuesta. Continuando con la versión actual."
 UPDATE_CHECKING="Comprobando actualizaciones..."
 UPDATE_CURRENT="El menú está actualizado."
 UPDATE_CHECK_ERROR="No se pudo comprobar actualizaciones. Continuando..."
-FIRST_INSTALL="Primera instalación. Versión actual:"
+FIRST_INSTALL="Primera instalación. Versión actual: %s"
 NEW_VERSION_AVAILABLE="Nueva versión disponible: %s (actual: %s)"
 CURRENT_VERSION_INFO="Versión actual: %s"
 
