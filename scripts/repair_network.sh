@@ -66,12 +66,12 @@ warning() {
 # Función para detectar interfaces de red físicas
 detect_physical_interfaces() {
     physical_interfaces=$(ip -o link show | awk -F': ' '$2 !~ /^(lo|vmbr|bond|dummy)/ {print $2}')
-    log "${NETWORK_PHYSICAL_INTERFACES}: $physical_interfaces"
+    echo "${NETWORK_PHYSICAL_INTERFACES}: $physical_interfaces"
 }
 
 # Función para verificar y corregir la configuración de puentes
 check_and_fix_bridges() {
-    log "${NETWORK_CHECKING_BRIDGES}"
+    echo "${NETWORK_CHECKING_BRIDGES}"
     bridges=$(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}')
     for bridge in $bridges; do
         old_port=$(grep -A1 "iface $bridge" /etc/network/interfaces | grep "bridge-ports" | awk '{print $2}')
@@ -85,14 +85,14 @@ check_and_fix_bridges() {
                 error "${NETWORK_NO_PHYSICAL_INTERFACE}"
             fi
         else
-            log "${NETWORK_BRIDGE_PORT_OK}: $bridge - $old_port"
+            echo "${NETWORK_BRIDGE_PORT_OK}: $bridge - $old_port"
         fi
     done
 }
 
 # Función para limpiar interfaces no existentes
 clean_nonexistent_interfaces() {
-    log "${NETWORK_CLEANING_INTERFACES}"
+    echo "${NETWORK_CLEANING_INTERFACES}"
     configured_interfaces=$(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo" | grep -v "vmbr")
     for iface in $configured_interfaces; do
         if ! ip link show "$iface" &>/dev/null; then
@@ -104,7 +104,7 @@ clean_nonexistent_interfaces() {
 
 # Función para configurar interfaces físicas
 configure_physical_interfaces() {
-    log "${NETWORK_CONFIGURING_INTERFACES}"
+    echo "${NETWORK_CONFIGURING_INTERFACES}"
     for iface in $physical_interfaces; do
         if ! grep -q "iface $iface" /etc/network/interfaces; then
             echo -e "\niface $iface inet manual" >> /etc/network/interfaces
@@ -115,7 +115,7 @@ configure_physical_interfaces() {
 
 # Función para reiniciar el servicio de red
 restart_networking() {
-    log "${NETWORK_RESTARTING}"
+    echo "${NETWORK_RESTARTING}"
     systemctl restart networking
     if [ $? -eq 0 ]; then
         success "${NETWORK_RESTART_SUCCESS}"
@@ -137,20 +137,20 @@ check_network_connectivity() {
 
 # Función para mostrar información de IP
 show_ip_info() {
-    log "${NETWORK_IP_INFO}"
+    echo "${NETWORK_IP_INFO}"
     for interface in $physical_interfaces $(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}'); do
         ip_info=$(ip addr show $interface 2>/dev/null | grep "inet " | awk '{print $2}')
         if [ -n "$ip_info" ]; then
-            log "$interface: $ip_info"
+            echo "$interface: $ip_info"
         else
-            log "$interface: ${NETWORK_NO_IP}"
+            echo "$interface: ${NETWORK_NO_IP}"
         fi
     done
 }
 
 # Función para reparar la red
 repair_network() {
-    log "${NETWORK_REPAIR_STARTED}"
+    echo "${NETWORK_REPAIR_STARTED}"
     detect_physical_interfaces
     clean_nonexistent_interfaces
     check_and_fix_bridges
@@ -162,16 +162,16 @@ repair_network() {
     else
         error "${NETWORK_REPAIR_FAILED}"
     fi
-    log "${NETWORK_REPAIR_PROCESS_FINISHED}"
+    echo "${NETWORK_REPAIR_PROCESS_FINISHED}"
 }
 
 # Función para verificar la configuración de red
 verify_network() {
-    log "${NETWORK_VERIFY_STARTED}"
+    echo "${NETWORK_VERIFY_STARTED}"
     detect_physical_interfaces
     show_ip_info
     check_network_connectivity
-    log "${NETWORK_VERIFY_FINISHED}"
+    echo "${NETWORK_VERIFY_FINISHED}"
 }
 
 # Función para mostrar el menú en modo consola
@@ -233,8 +233,8 @@ show_whiptail_menu() {
 
 # Función principal
 main() {
-#    log "Iniciando script de reparación de red (versión $VERSION)"
-#    log "Uso de whiptail: $USE_WHIPTAIL"
+    echo "Iniciando script de reparación de red (versión $VERSION)"
+    echo "Uso de whiptail: $USE_WHIPTAIL"
     
     if $USE_WHIPTAIL; then
         show_whiptail_menu
@@ -245,4 +245,3 @@ main() {
 
 # Ejecutar la función principal
 main
-
