@@ -193,7 +193,6 @@ show_main_menu() {
                 show_ip_info
                 ;;
             4)
-                echo "${MENU_EXIT_MSG}"
                 return
                 ;;
         esac
