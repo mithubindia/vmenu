@@ -1,12 +1,16 @@
-# Mensajes del sistema
+# Mensajes generales del sistema
 MENU_TITLE="ProxMenux - Menú Principal"
 CONFIG_TITLE="ProxMenux - Configuración"
 SELECT_OPTION="Selecciona una opción:"
-OPTION_1="Configurar iGPU + TPU"
-OPTION_2="Configuración"
 LANG_OPTION="Cambiar idioma"
 UNINSTALL_OPTION="Desinstalar ProxMenu"
 EXIT_MESSAGE="Saliendo del menú. ¡Hasta luego!"
+
+# Opciones del menú principal
+OPTION_1="Configurar iGPU + TPU"
+OPTION_2="Reparar red"
+OPTION_3="Configuración"
+
 
 # Mensajes de actualización
 UPDATE_TITLE="Actualización Disponible"
@@ -50,7 +54,7 @@ INITIAL_LANG_SELECT="Seleccionar Idioma / Select Language"
 INITIAL_LANG_PROMPT="Elige tu idioma / Choose your language:"
 INITIAL_LANG_ERROR="No se seleccionó ningún idioma. Saliendo... / No language selected. Exiting..."
 
-########### Archivo de idioma español para el script de reparación de red
+# --- Mensajes para el script de reparación de red (repair_network.sh) ---
 
 # Mensajes generales
 MENU_TITLE="Menú de Reparación de Red"
@@ -98,3 +102,4 @@ NETWORK_REPAIR_FAILED="Fallo en la reparación de red"
 NETWORK_REPAIR_PROCESS_FINISHED="Proceso de reparación de red finalizado"
 NETWORK_VERIFY_STARTED="Iniciando verificación de red"
 NETWORK_VERIFY_FINISHED="Verificación de red finalizada"
+# --- Fin de mensajes para repair_network.sh ---
