@@ -31,6 +31,17 @@ if ! command -v whiptail &> /dev/null; then
     fi
 fi
 
+if ! command -v curl &> /dev/null; then
+    msg_info "Instalando curl..."
+    if apt-get update && apt-get install -y curl; then
+        msg_ok "curl instalado correctamente."
+    else
+        msg_error "Error al instalar curl. Por favor, instálalo manualmente."
+        exit 1
+    fi
+fi
+
+
 # Crear las carpetas necesarias
 msg_info "Creando carpetas necesarias..."
 mkdir -p "$LANG_DIR"
