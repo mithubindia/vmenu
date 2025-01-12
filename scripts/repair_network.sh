@@ -51,21 +51,16 @@ else
 fi
 
 # Funciones de utilidad
-log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
-    echo -e "$1"
-}
-
 error() {
-    log "${RED}${NETWORK_ERROR}: $1${NC}"
+    echo -e "${RED}${NETWORK_ERROR}: $1${NC}"
 }
 
 success() {
-    log "${GREEN}${NETWORK_SUCCESS}: $1${NC}"
+    echo -e "${GREEN}${NETWORK_SUCCESS}: $1${NC}"
 }
 
 warning() {
-    log "${YELLOW}${NETWORK_WARNING}: $1${NC}"
+    echo -e "${YELLOW}${NETWORK_WARNING}: $1${NC}"
 }
 
 # Función para detectar interfaces de red físicas
