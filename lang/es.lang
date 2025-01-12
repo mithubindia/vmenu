@@ -1,5 +1,5 @@
 # Mensajes generales del sistema
-MENU_TITLE="ProxMenux - Menú Principal"
+MAIN_MENU_TITLE="ProxMenux - Menú Principal"
 CONFIG_TITLE="ProxMenux - Configuración"
 SELECT_OPTION="Selecciona una opción:"
 LANG_OPTION="Cambiar idioma"
