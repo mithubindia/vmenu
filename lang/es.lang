@@ -12,6 +12,10 @@ OPTION_1="Configurar iGPU + TPU"
 OPTION_2="Reparar red"
 OPTION_3="Configuración"
 
+# Mensajes de versión
+VERSION_OPTION="Mostrar información de versión"
+VERSION_TITLE="Información de versión"
+VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/ProxMenux/tree/main"
 
 # Mensajes de actualización
 UPDATE_CHECKING="Comprobando actualizaciones..."
