@@ -23,6 +23,9 @@ UPDATE_CHECKING="Comprobando actualizaciones..."
 UPDATE_CURRENT="El menú está actualizado."
 UPDATE_CHECK_ERROR="No se pudo comprobar actualizaciones. Continuando..."
 FIRST_INSTALL="Primera instalación. Versión actual:"
+NEW_VERSION_AVAILABLE="Nueva versión disponible: %s (actual: %s)"
+CURRENT_VERSION_INFO="Versión actual: %s"
+
 
 # Mensajes de desinstalación
 UNINSTALL_TITLE="Desinstalar ProxMenu"
