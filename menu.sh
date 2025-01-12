@@ -164,9 +164,10 @@ show_config_menu() {
 # Mostrar menú principal
 show_menu() {
     while true; do
-        OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 2 \
+        OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 3 \
             "1" "$OPTION_1" \
-            "2" "$OPTION_2" 3>&1 1>&2 2>&3)
+            "2" "$OPTION_2" \
+            "3" "$OPTION_3" 3>&1 1>&2 2>&3)
 
         case $OPTION in
             1)
@@ -178,6 +179,14 @@ show_menu() {
                 fi
                 ;;
             2)
+                msg_info "$NETWORK_REPAIR_RUNNING"
+                if wget -qO- "$REPO_URL/scripts/repair_network.sh" | bash; then
+                    msg_ok "$NETWORK_REPAIR_SUCCESS"
+                else
+                    msg_error "$NETWORK_REPAIR_ERROR"
+                fi
+                ;;
+            3)
                 show_config_menu
                 ;;
             *)
@@ -187,6 +196,7 @@ show_menu() {
         esac
     done
 }
+
 
 # Verificar dependencias
 if ! command -v whiptail &> /dev/null; then
