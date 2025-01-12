@@ -1,22 +1,25 @@
-# System messages
+# General system messages
 MENU_TITLE="ProxMenux - Main Menu"
 CONFIG_TITLE="ProxMenux - Configuration"
 SELECT_OPTION="Select an option:"
-OPTION_1="Configure iGPU + TPU"
-OPTION_2="Settings"
 LANG_OPTION="Change language"
 UNINSTALL_OPTION="Uninstall ProxMenu"
 EXIT_MESSAGE="Exiting menu. Goodbye!"
 
+# Main menu options
+OPTION_1="Configure iGPU + TPU"
+OPTION_2="Repair network"
+OPTION_3="Settings"
+
 # Update messages
 UPDATE_TITLE="Update Available"
 UPDATE_PROMPT="A new version is available. Do you want to update now?"
-UPDATE_MESSAGE="Menu has been updated successfully."
+UPDATE_MESSAGE="The menu has been updated successfully."
 UPDATE_ERROR="Error downloading the update."
-UPDATE_POSTPONED="Update postponed. Continuing with current version."
+UPDATE_POSTPONED="Update postponed. Continuing with the current version."
 UPDATE_CHECKING="Checking for updates..."
-UPDATE_CURRENT="Menu is up to date."
-UPDATE_CHECK_ERROR="Couldn't check for updates. Continuing..."
+UPDATE_CURRENT="The menu is up to date."
+UPDATE_CHECK_ERROR="Could not check for updates. Continuing..."
 FIRST_INSTALL="First installation. Current version:"
 
 # Uninstall messages
@@ -34,14 +37,14 @@ SCRIPT_ERROR="Error executing the script."
 LANG_SELECT="Select Language"
 LANG_PROMPT="Choose your language:"
 LANG_ERROR="No language selected. Exiting..."
-LANG_SUCCESS="Language selected:"
+LANG_SUCCESS="Selected language:"
 LANG_LOADED="Language loaded:"
 LANG_DOWNLOAD="Downloading language file..."
 LANG_DOWNLOAD_ERROR="Error downloading language file. Check your internet connection."
 LANG_EXISTS="Language file exists locally."
 
 # Dependency messages
-DEPS_INSTALLING="Installing required dependencies..."
+DEPS_INSTALLING="Installing necessary dependencies..."
 DEPS_SUCCESS="Dependencies installed."
 DEPS_ERROR="Error installing dependencies. Please install whiptail manually."
 
@@ -50,9 +53,7 @@ INITIAL_LANG_SELECT="Select Language / Seleccionar Idioma"
 INITIAL_LANG_PROMPT="Choose your language / Elige tu idioma:"
 INITIAL_LANG_ERROR="No language selected. Exiting... / No se seleccionó ningún idioma. Saliendo..."
 
-########### English language file for the network repair script
-
-# General messages
+# --- Messages for the network repair script (repair_network.sh) ---
 MENU_TITLE="Network Repair Menu"
 MENU_PROMPT="Please select an option:"
 MENU_REPAIR="Repair network"
@@ -63,25 +64,21 @@ MENU_CANCELED="Operation canceled by user."
 MENU_EXIT_MSG="Exiting network repair script. Goodbye!"
 INVALID_OPTION="Invalid option. Please try again."
 PRESS_ENTER="Press Enter to continue..."
-
-# Result titles
 RESULT_TITLE="Operation Result"
-REPAIR_COMPLETED="Network repair completed. Check the log for details."
-VERIFY_COMPLETED="Network verification completed. Check the log for details."
-IP_INFO_COMPLETED="IP information displayed. Check the log for details."
-
-# Network messages
+REPAIR_COMPLETED="Network repair completed."
+VERIFY_COMPLETED="Network verification completed."
+IP_INFO_COMPLETED="IP information displayed."
 NETWORK_ERROR="ERROR"
 NETWORK_SUCCESS="SUCCESS"
 NETWORK_WARNING="WARNING"
 NETWORK_PHYSICAL_INTERFACES="Detected physical interfaces"
 NETWORK_CONFIGURED_INTERFACES="Configured interfaces"
 NETWORK_CHECKING_BRIDGES="Checking bridge configuration"
-NETWORK_BRIDGE_PORT_MISSING="Bridge port non-existent or inactive"
+NETWORK_BRIDGE_PORT_MISSING="Bridge port non-existent or not active"
 NETWORK_BRIDGE_PORT_UPDATED="Bridge port updated"
 NETWORK_NO_PHYSICAL_INTERFACE="No suitable physical interface found"
 NETWORK_BRIDGE_PORT_OK="Bridge port correct"
-NETWORK_CLEANING_INTERFACES="Cleaning non-existent interface configurations"
+NETWORK_CLEANING_INTERFACES="Cleaning configurations of non-existent interfaces"
 NETWORK_INTERFACE_REMOVED="Interface removed"
 NETWORK_CONFIGURING_INTERFACES="Configuring interfaces"
 NETWORK_INTERFACE_ADDED="Interface added"
@@ -98,4 +95,12 @@ NETWORK_REPAIR_FAILED="Network repair failed"
 NETWORK_REPAIR_PROCESS_FINISHED="Network repair process finished"
 NETWORK_VERIFY_STARTED="Starting network verification"
 NETWORK_VERIFY_FINISHED="Network verification finished"
-
+NETWORK_REPAIR_RUNNING="Running network repair..."
+NETWORK_REPAIR_SUCCESS="Network repair executed successfully."
+NETWORK_REPAIR_ERROR="Error executing network repair."
+NETWORK_VERIFY_RUNNING="Running network verification..."
+NETWORK_VERIFY_SUCCESS="Network verification completed successfully."
+NETWORK_VERIFY_ERROR="Error executing network verification."
+NETWORK_IP_INFO_RUNNING="Obtaining IP information..."
+NETWORK_IP_INFO_SUCCESS="IP information obtained successfully."
+NETWORK_IP_INFO_ERROR="Error obtaining IP information."
