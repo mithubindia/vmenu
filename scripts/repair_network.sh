@@ -193,6 +193,7 @@ show_main_menu() {
                 show_ip_info
                 ;;
             4)
+                echo "${MENU_EXIT_MSG}"
                 return
                 ;;
         esac
@@ -201,10 +202,8 @@ show_main_menu() {
 
 # Función principal
 main() {
-    whiptail --title "${REPAIR_MENU_TITLE}" --msgbox "${NETWORK_REPAIR_STARTED}" 8 78
     show_main_menu
 }
 
 # Ejecutar la función principal
 main
-
