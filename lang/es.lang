@@ -14,17 +14,16 @@ OPTION_3="Configuración"
 
 
 # Mensajes de actualización
-UPDATE_TITLE="Actualización Disponible"
-UPDATE_PROMPT="Hay una nueva versión disponible. ¿Quieres actualizar ahora?"
-UPDATE_MESSAGE="El menú ha sido actualizado correctamente."
-UPDATE_ERROR="Error al descargar la actualización."
-UPDATE_POSTPONED="Actualización pospuesta. Continuando con la versión actual."
 UPDATE_CHECKING="Comprobando actualizaciones..."
-UPDATE_CURRENT="El menú está actualizado."
-UPDATE_CHECK_ERROR="No se pudo comprobar actualizaciones. Continuando..."
-FIRST_INSTALL="Primera instalación. Versión actual: %s"
-NEW_VERSION_AVAILABLE="Nueva versión disponible: %s (actual: %s)"
-CURRENT_VERSION_INFO="Versión actual: %s"
+UPDATE_ERROR_REMOTE="Error al comprobar la versión remota."
+UPDATE_NEW_AVAILABLE="Nueva versión disponible: %s (actual: %s)"
+UPDATE_TITLE="Actualización disponible"
+UPDATE_PROMPT="¿Deseas actualizar a la última versión %s?"
+UPDATE_POSTPONED="Actualización pospuesta."
+UPDATE_CURRENT="El menú ya está actualizado (%s)."
+UPDATE_PROCESS="Actualizando a la versión %s..."
+UPDATE_COMPLETE="Actualización completada a la versión %s."
+UPDATE_ERROR_DOWNLOAD="Error al descargar la actualización."
 
 
 # Mensajes de desinstalación
