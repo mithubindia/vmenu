@@ -1,5 +1,5 @@
 # General system messages
-MENU_TITLE="ProxMenux - Main Menu"
+MAIN_MENU_TITLE="ProxMenux - Main Menu"
 CONFIG_TITLE="ProxMenux - Configuration"
 SELECT_OPTION="Select an option:"
 LANG_OPTION="Change language"
@@ -55,7 +55,7 @@ INITIAL_LANG_PROMPT="Choose your language / Elige tu idioma:"
 INITIAL_LANG_ERROR="No language selected. Exiting... / No se seleccionó ningún idioma. Saliendo..."
 
 # --- Messages for the network repair script (repair_network.sh) ---
-MENU_TITLE="Network Repair Menu"
+REPAIR_MENU_TITLE="Network Repair Menu"
 MENU_PROMPT="Please select an option:"
 MENU_REPAIR="Repair network"
 MENU_VERIFY="Verify network configuration"
