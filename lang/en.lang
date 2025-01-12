@@ -4,6 +4,7 @@ CONFIG_TITLE="ProxMenux - Configuration"
 SELECT_OPTION="Select an option:"
 LANG_OPTION="Change language"
 UNINSTALL_OPTION="Uninstall ProxMenu"
+EXIT_MENU="Exit"
 EXIT_MESSAGE="Exiting menu. Goodbye!"
 
 # Main menu options
