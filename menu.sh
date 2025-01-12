@@ -123,23 +123,46 @@ check_updates() {
         else
             LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r')
 
-            if [ "$(printf '%s\n' "$LOCAL_VERSION" "$REMOTE_VERSION" | sort -V | tail -n1)" = "$REMOTE_VERSION" ] && [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-                if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
-                    if wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"; then
-                        chmod +x /usr/local/bin/menu.sh
-                        echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-                        msg_ok "$UPDATE_MESSAGE"
-                        exec /usr/local/bin/menu.sh
+            if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
+                msg_info "$UPDATE_CHECKING"
+                if [ "$(printf '%s\n' "$LOCAL_VERSION" "$REMOTE_VERSION" | sort -V | tail -n1)" = "$REMOTE_VERSION" ]; then
+                    if $USE_WHIPTAIL; then
+                        if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
+                            perform_update
+                        else
+                            msg_info "$UPDATE_POSTPONED"
+                        fi
                     else
-                        msg_error "$UPDATE_ERROR"
+                        echo -e "${YW}$UPDATE_TITLE${CL}"
+                        echo "$UPDATE_PROMPT"
+                        read -p "¿Desea actualizar? (s/N): " response
+                        if [[ $response =~ ^[Ss]$ ]]; then
+                            perform_update
+                        else
+                            msg_info "$UPDATE_POSTPONED"
+                        fi
                     fi
                 else
-                    msg_info "$UPDATE_POSTPONED"
+                    msg_info "$UPDATE_CURRENT"
                 fi
+            else
+                msg_info "$UPDATE_CURRENT"
             fi
         fi
     else
         msg_error "$UPDATE_CHECK_ERROR"
+    fi
+}
+
+# Función para realizar la actualización
+perform_update() {
+    if wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"; then
+        chmod +x /usr/local/bin/menu.sh
+        echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
+        msg_ok "$UPDATE_MESSAGE"
+        exec /usr/local/bin/menu.sh
+    else
+        msg_error "$UPDATE_ERROR"
     fi
 }
 
