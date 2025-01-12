@@ -180,16 +180,18 @@ show_config_menu() {
 show_menu() {
     while true; do
         if $USE_WHIPTAIL; then
-            OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 3 \
+            OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 4 \
                 "1" "$OPTION_1" \
                 "2" "$OPTION_2" \
-                "3" "$OPTION_3" 3>&1 1>&2 2>&3)
+                "3" "$OPTION_3" \
+                "4" "$EXIT_MENU" 3>&1 1>&2 2>&3)
         else
             clear
             echo -e "${YW}=== $MENU_TITLE ===${CL}"
-            echo "1) $OPTION_2"
-            echo "2) $OPTION_3"
-            echo "q) $EXIT_MESSAGE"
+            echo "1) $OPTION_1"
+            echo "2) $OPTION_2"
+            echo "3) $OPTION_3"
+            echo "q) $EXIT_MENU"
             echo
             read -p "$SELECT_OPTION " OPTION
         fi
@@ -220,6 +222,12 @@ show_menu() {
             3)
                 show_config_menu
                 ;;
+            4)
+                if $USE_WHIPTAIL; then
+                    msg_ok "$EXIT_MESSAGE"
+                    exit 0
+                fi
+                ;;
             q|Q)
                 if ! $USE_WHIPTAIL; then
                     msg_ok "$EXIT_MESSAGE"
@@ -238,6 +246,7 @@ show_menu() {
         esac
     done
 }
+
 
 # Verificar dependencias
 if ! command -v whiptail &> /dev/null; then
