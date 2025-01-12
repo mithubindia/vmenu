@@ -189,7 +189,8 @@ show_main_menu() {
                 ;;
             4)
                 whiptail --title "${MENU_EXIT_TITLE}" --msgbox "${MENU_EXIT_MSG}" 8 78
-                exit 0
+                return
+                clear_screen
                 ;;
         esac
     done
