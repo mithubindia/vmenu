@@ -14,6 +14,22 @@ msg_info() { echo -e " ${YW}[INFO] $1${CL}"; }
 msg_ok() { echo -e " ${GN}[OK] $1${CL}"; }
 msg_error() { echo -e " ${RD}[ERROR] $1${CL}"; }
 
+# Detectar si se está ejecutando en la consola física de Proxmox
+is_physical_console() {
+    if [ "$(tty)" = "/dev/tty1" ] || [ "$(tty)" = "/dev/tty2" ] || [ "$(tty)" = "/dev/tty3" ]; then
+        return 0  # Es consola física
+    else
+        return 1  # No es consola física
+    fi
+}
+
+# Determinar si se debe usar whiptail
+if is_physical_console; then
+    USE_WHIPTAIL=false
+else
+    USE_WHIPTAIL=true
+fi
+
 # Crear directorios necesarios
 mkdir -p "$LANG_DIR"
 
@@ -121,7 +137,6 @@ check_updates() {
                     msg_info "$UPDATE_POSTPONED"
                 fi
             fi
-            # Se eliminó el mensaje cuando las versiones son iguales
         fi
     else
         msg_error "$UPDATE_CHECK_ERROR"
@@ -164,10 +179,20 @@ show_config_menu() {
 # Mostrar menú principal
 show_menu() {
     while true; do
-        OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 3 \
-            "1" "$OPTION_1" \
-            "2" "$OPTION_2" \
-            "3" "$OPTION_3" 3>&1 1>&2 2>&3)
+        if $USE_WHIPTAIL; then
+            OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 3 \
+                "1" "$OPTION_1" \
+                "2" "$OPTION_2" \
+                "3" "$OPTION_3" 3>&1 1>&2 2>&3)
+        else
+            clear
+            echo -e "${YW}=== $MENU_TITLE ===${CL}"
+            echo "1) $OPTION_2"
+            echo "2) $OPTION_3"
+            echo "q) $EXIT_MESSAGE"
+            echo
+            read -p "$SELECT_OPTION " OPTION
+        fi
 
         case $OPTION in
             1)
@@ -177,6 +202,9 @@ show_menu() {
                 else
                     msg_error "$SCRIPT_ERROR"
                 fi
+                if ! $USE_WHIPTAIL; then
+                    read -p "$PRESS_ENTER"
+                fi
                 ;;
             2)
                 msg_info "$NETWORK_REPAIR_RUNNING"
@@ -185,18 +213,31 @@ show_menu() {
                 else
                     msg_error "$NETWORK_REPAIR_ERROR"
                 fi
+                if ! $USE_WHIPTAIL; then
+                    read -p "$PRESS_ENTER"
+                fi
                 ;;
             3)
                 show_config_menu
                 ;;
+            q|Q)
+                if ! $USE_WHIPTAIL; then
+                    msg_ok "$EXIT_MESSAGE"
+                    exit 0
+                fi
+                ;;
             *)
-                msg_ok "$EXIT_MESSAGE"
-                exit 0
+                if $USE_WHIPTAIL; then
+                    msg_ok "$EXIT_MESSAGE"
+                    exit 0
+                else
+                    msg_error "$INVALID_OPTION"
+                    sleep 2
+                fi
                 ;;
         esac
     done
 }
-
 
 # Verificar dependencias
 if ! command -v whiptail &> /dev/null; then
