@@ -56,7 +56,7 @@ INITIAL_LANG_PROMPT="Elige tu idioma / Choose your language:"
 INITIAL_LANG_ERROR="No se seleccionó ningún idioma. Saliendo... / No language selected. Exiting..."
 
 # --- Mensajes para el script de reparación de red (repair_network.sh) ---
-MENU_TITLE="Menú de Reparación de Red"
+REPAIR_MENU_TITLE="Menú de Reparación de Red"
 MENU_PROMPT="Por favor, seleccione una opción:"
 MENU_REPAIR="Reparar la red"
 MENU_VERIFY="Verificar la configuración de red"
