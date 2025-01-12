@@ -178,7 +178,7 @@ verify_network() {
 show_console_menu() {
     while true; do
         clear_screen
-        echo "${MENU_TITLE}"
+        echo "${REPAIR_MENU_TITLE}"
         echo "1. ${MENU_REPAIR}"
         echo "2. ${MENU_VERIFY}"
         echo "3. ${MENU_SHOW_IP}"
@@ -197,7 +197,7 @@ show_console_menu() {
 # Función para mostrar el menú en modo whiptail
 show_whiptail_menu() {
     while true; do
-        OPTION=$(whiptail --title "${MENU_TITLE}" --menu "${MENU_PROMPT}" 15 60 4 \
+        OPTION=$(whiptail --title "${REPAIR_MENU_TITLE}" --menu "${MENU_PROMPT}" 15 60 4 \
         "1" "${MENU_REPAIR}" \
         "2" "${MENU_VERIFY}" \
         "3" "${MENU_SHOW_IP}" \
