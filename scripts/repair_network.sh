@@ -27,100 +27,86 @@ else
     exit 1
 fi
 
-# Función para limpiar la pantalla
-clear_screen() {
-    if [ "$USE_WHIPTAIL" = false ]; then
-        clear
-    fi
-}
-
-# Detectar si se está ejecutando en la consola física de Proxmox
-is_physical_console() {
-    if [ "$(tty)" = "/dev/tty1" ] || [ "$(tty)" = "/dev/tty2" ] || [ "$(tty)" = "/dev/tty3" ]; then
-        return 0  # Es consola física
-    else
-        return 1  # No es consola física
-    fi
-}
-
-# Determinar si se debe usar whiptail
-if is_physical_console; then
-    USE_WHIPTAIL=false
-else
-    USE_WHIPTAIL=true
-fi
-
 # Funciones de utilidad
 error() {
-    echo -e "${RED}${NETWORK_ERROR}: $1${NC}"
+    whiptail --title "${NETWORK_ERROR}" --msgbox "$1" 8 78
 }
 
 success() {
-    echo -e "${GREEN}${NETWORK_SUCCESS}: $1${NC}"
+    whiptail --title "${NETWORK_SUCCESS}" --msgbox "$1" 8 78
 }
 
 warning() {
-    echo -e "${YELLOW}${NETWORK_WARNING}: $1${NC}"
+    whiptail --title "${NETWORK_WARNING}" --msgbox "$1" 8 78
 }
 
 # Función para detectar interfaces de red físicas
 detect_physical_interfaces() {
     physical_interfaces=$(ip -o link show | awk -F': ' '$2 !~ /^(lo|vmbr|bond|dummy)/ {print $2}')
-    echo "${NETWORK_PHYSICAL_INTERFACES}: $physical_interfaces"
+    whiptail --title "${NETWORK_PHYSICAL_INTERFACES}" --msgbox "$physical_interfaces" 10 78
 }
 
 # Función para verificar y corregir la configuración de puentes
 check_and_fix_bridges() {
-    echo "${NETWORK_CHECKING_BRIDGES}"
+    local output=""
+    output+="${NETWORK_CHECKING_BRIDGES}\n\n"
     bridges=$(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}')
     for bridge in $bridges; do
         old_port=$(grep -A1 "iface $bridge" /etc/network/interfaces | grep "bridge-ports" | awk '{print $2}')
         if ! ip link show "$old_port" &>/dev/null; then
-            warning "${NETWORK_BRIDGE_PORT_MISSING}: $bridge - $old_port"
+            output+="${NETWORK_BRIDGE_PORT_MISSING}: $bridge - $old_port\n"
             new_port=$(echo "$physical_interfaces" | tr ' ' '\n' | grep -v "vmbr" | head -n1)
             if [ -n "$new_port" ]; then
                 sed -i "/iface $bridge/,/bridge-ports/ s/bridge-ports.*/bridge-ports $new_port/" /etc/network/interfaces
-                success "${NETWORK_BRIDGE_PORT_UPDATED}: $bridge - $old_port -> $new_port"
+                output+="${NETWORK_BRIDGE_PORT_UPDATED}: $bridge - $old_port -> $new_port\n"
             else
-                error "${NETWORK_NO_PHYSICAL_INTERFACE}"
+                output+="${NETWORK_NO_PHYSICAL_INTERFACE}\n"
             fi
         else
-            echo "${NETWORK_BRIDGE_PORT_OK}: $bridge - $old_port"
+            output+="${NETWORK_BRIDGE_PORT_OK}: $bridge - $old_port\n"
         fi
     done
+    whiptail --title "${NETWORK_CHECKING_BRIDGES}" --msgbox "$output" 20 78
 }
 
 # Función para limpiar interfaces no existentes
 clean_nonexistent_interfaces() {
-    echo "${NETWORK_CLEANING_INTERFACES}"
+    local output=""
+    output+="${NETWORK_CLEANING_INTERFACES}\n\n"
     configured_interfaces=$(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo" | grep -v "vmbr")
     for iface in $configured_interfaces; do
         if ! ip link show "$iface" &>/dev/null; then
             sed -i "/iface $iface/,/^$/d" /etc/network/interfaces
-            success "${NETWORK_INTERFACE_REMOVED}: $iface"
+            output+="${NETWORK_INTERFACE_REMOVED}: $iface\n"
         fi
     done
+    whiptail --title "${NETWORK_CLEANING_INTERFACES}" --msgbox "$output" 15 78
 }
 
 # Función para configurar interfaces físicas
 configure_physical_interfaces() {
-    echo "${NETWORK_CONFIGURING_INTERFACES}"
+    local output=""
+    output+="${NETWORK_CONFIGURING_INTERFACES}\n\n"
     for iface in $physical_interfaces; do
         if ! grep -q "iface $iface" /etc/network/interfaces; then
             echo -e "\niface $iface inet manual" >> /etc/network/interfaces
-            success "${NETWORK_INTERFACE_ADDED}: $iface"
+            output+="${NETWORK_INTERFACE_ADDED}: $iface\n"
         fi
     done
+    whiptail --title "${NETWORK_CONFIGURING_INTERFACES}" --msgbox "$output" 15 78
 }
 
 # Función para reiniciar el servicio de red
 restart_networking() {
-    echo "${NETWORK_RESTARTING}"
-    systemctl restart networking
-    if [ $? -eq 0 ]; then
-        success "${NETWORK_RESTART_SUCCESS}"
+    if (whiptail --title "${NETWORK_RESTARTING}" --yesno "${NETWORK_RESTART_CONFIRM}" 10 60); then
+        systemctl restart networking
+        if [ $? -eq 0 ]; then
+            success "${NETWORK_RESTART_SUCCESS}"
+        else
+            error "${NETWORK_RESTART_FAILED}"
+        fi
     else
-        error "${NETWORK_RESTART_FAILED}"
+        warning "${NETWORK_RESTART_CANCELED}"
     fi
 }
 
@@ -137,20 +123,22 @@ check_network_connectivity() {
 
 # Función para mostrar información de IP
 show_ip_info() {
-    echo "${NETWORK_IP_INFO}"
+    local ip_info=""
+    ip_info+="${NETWORK_IP_INFO}\n\n"
     for interface in $physical_interfaces $(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}'); do
-        ip_info=$(ip addr show $interface 2>/dev/null | grep "inet " | awk '{print $2}')
-        if [ -n "$ip_info" ]; then
-            echo "$interface: $ip_info"
+        local interface_ip=$(ip addr show $interface 2>/dev/null | grep "inet " | awk '{print $2}')
+        if [ -n "$interface_ip" ]; then
+            ip_info+="$interface: $interface_ip\n"
         else
-            echo "$interface: ${NETWORK_NO_IP}"
+            ip_info+="$interface: ${NETWORK_NO_IP}\n"
         fi
     done
+    whiptail --title "${NETWORK_IP_INFO}" --msgbox "$ip_info" 20 78
 }
 
 # Función para reparar la red
 repair_network() {
-    echo "${NETWORK_REPAIR_STARTED}"
+    whiptail --title "${NETWORK_REPAIR_STARTED}" --infobox "${NETWORK_REPAIR_PROCESS}" 8 78
     detect_physical_interfaces
     clean_nonexistent_interfaces
     check_and_fix_bridges
@@ -162,40 +150,20 @@ repair_network() {
     else
         error "${NETWORK_REPAIR_FAILED}"
     fi
-    echo "${NETWORK_REPAIR_PROCESS_FINISHED}"
+    whiptail --title "${NETWORK_REPAIR_PROCESS_FINISHED}" --msgbox "${PRESS_ENTER}" 8 78
 }
 
 # Función para verificar la configuración de red
 verify_network() {
-    echo "${NETWORK_VERIFY_STARTED}"
+    whiptail --title "${NETWORK_VERIFY_STARTED}" --infobox "${NETWORK_VERIFY_PROCESS}" 8 78
     detect_physical_interfaces
     show_ip_info
     check_network_connectivity
-    echo "${NETWORK_VERIFY_FINISHED}"
+    whiptail --title "${NETWORK_VERIFY_FINISHED}" --msgbox "${PRESS_ENTER}" 8 78
 }
 
-# Función para mostrar el menú en modo consola
-show_console_menu() {
-    while true; do
-        clear_screen
-        echo "${REPAIR_MENU_TITLE}"
-        echo "1. ${MENU_REPAIR}"
-        echo "2. ${MENU_VERIFY}"
-        echo "3. ${MENU_SHOW_IP}"
-        echo "4. ${MENU_EXIT}"
-        read -p "${MENU_PROMPT}" choice
-        case $choice in
-            1) repair_network; read -p "${PRESS_ENTER}"; clear_screen ;;
-            2) verify_network; read -p "${PRESS_ENTER}"; clear_screen ;;
-            3) show_ip_info; read -p "${PRESS_ENTER}"; clear_screen ;;
-            4) echo "${MENU_EXIT_MSG}"; return ;;
-            *) echo "${INVALID_OPTION}"; sleep 2; clear_screen ;;
-        esac
-    done
-}
-
-# Función para mostrar el menú en modo whiptail
-show_whiptail_menu() {
+# Función para mostrar el menú principal
+show_main_menu() {
     while true; do
         OPTION=$(whiptail --title "${REPAIR_MENU_TITLE}" --menu "${MENU_PROMPT}" 15 60 4 \
         "1" "${MENU_REPAIR}" \
@@ -212,20 +180,16 @@ show_whiptail_menu() {
         case $OPTION in
             1)
                 repair_network
-                whiptail --title "${RESULT_TITLE}" --msgbox "${REPAIR_COMPLETED}" 8 78
                 ;;
             2)
                 verify_network
-                whiptail --title "${RESULT_TITLE}" --msgbox "${VERIFY_COMPLETED}" 8 78
                 ;;
             3)
                 show_ip_info
-                whiptail --title "${RESULT_TITLE}" --msgbox "${IP_INFO_COMPLETED}" 8 78
                 ;;
             4)
-                echo "${MENU_EXIT_MSG}"
-                return
-                clear_screen
+                whiptail --title "${MENU_EXIT_TITLE}" --msgbox "${MENU_EXIT_MSG}" 8 78
+                exit 0
                 ;;
         esac
     done
@@ -233,14 +197,8 @@ show_whiptail_menu() {
 
 # Función principal
 main() {
-    echo "Iniciando script de reparación de red (versión $VERSION)"
-    echo "Uso de whiptail: $USE_WHIPTAIL"
-    
-    if $USE_WHIPTAIL; then
-        show_whiptail_menu
-    else
-        show_console_menu
-    fi
+    whiptail --title "Reparación de Red" --msgbox "Iniciando script de reparación de red (versión $VERSION)" 8 78
+    show_main_menu
 }
 
 # Ejecutar la función principal
