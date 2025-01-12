@@ -129,7 +129,8 @@ perform_update() {
     msg_info "$(printf "$UPDATE_PROCESS" "$REMOTE_VERSION")"
 
     # Descargar el nuevo menú
-    if curl -sLo /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)"; then
+    if curl -sLo /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)" && \
+       curl -sLo "$LANG_DIR/$LANGUAGE.lang" "$REPO_URL/lang/$LANGUAGE.lang?$(date +%s)"; then
         chmod +x /usr/local/bin/menu.sh
         echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
         msg_ok "$(printf "$UPDATE_COMPLETE" "$REMOTE_VERSION")"
@@ -163,10 +164,11 @@ show_version_info() {
 # Mostrar menú de configuración
 show_config_menu() {
     while true; do
-        OPTION=$(whiptail --title "$CONFIG_TITLE" --menu "$SELECT_OPTION" 15 60 3 \
+        OPTION=$(whiptail --title "$CONFIG_TITLE" --menu "$SELECT_OPTION" 15 60 4 \
             "1" "$LANG_OPTION" \
             "2" "$VERSION_OPTION" \
-            "3" "$UNINSTALL_OPTION" 3>&1 1>&2 2>&3)
+            "3" "$UNINSTALL_OPTION" \
+            "4" "$EXIT_MENU" 3>&1 1>&2 2>&3)
 
         case $OPTION in
             1)
@@ -177,6 +179,9 @@ show_config_menu() {
                 ;;
             3)
                 uninstall_proxmenu
+                ;;
+            4)
+                return
                 ;;
             *)
                 return
