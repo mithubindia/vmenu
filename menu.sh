@@ -5,7 +5,6 @@ REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
 LANG_DIR="$BASE_DIR/lang"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
-REMOTE_VERSION_FILE="$BASE_DIR/remote_version.txt"
 LANGUAGE_FILE="/root/.proxmenux_language"
 
 # Colores para salida
@@ -96,77 +95,47 @@ select_language() {
     exec "$0"
 }
 
-# Verificar actualizaciones
+# Función para verificar y realizar actualizaciones
 check_updates() {
     msg_info "$UPDATE_CHECKING"
-    
-    # Eliminar el archivo remote_version.txt si existe
-    rm -f "$REMOTE_VERSION_FILE"
-    
-    # Forzar la descarga de la versión remota sin usar caché
-    if wget -qO "$REMOTE_VERSION_FILE" --no-cache "$REPO_URL/version.txt?$(date +%s)"; then
-        REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r' | tr -d '\n')
-        
-        if [ -z "$REMOTE_VERSION" ]; then
-            msg_error "$UPDATE_CHECK_ERROR"
-            return 1
-        fi
 
-        if [ ! -f "$LOCAL_VERSION_FILE" ]; then
-            echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-            msg_info "$(printf "$FIRST_INSTALL" "$REMOTE_VERSION")"
+    # Descargar la versión remota sin caché y leer directamente
+    REMOTE_VERSION=$(curl -s "$REPO_URL/version.txt?$(date +%s)" | tr -d '\r\n')
+    
+    if [ -z "$REMOTE_VERSION" ]; then
+        msg_error "$UPDATE_CHECK_ERROR"
+        return 1
+    fi
+
+    # Leer versión local o establecer como la primera instalación
+    LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "")
+
+    if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
+        msg_info "$(printf "$NEW_VERSION_AVAILABLE" "$REMOTE_VERSION" "$LOCAL_VERSION")"
+        if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
+            perform_update "$REMOTE_VERSION"
         else
-            LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r' | tr -d '\n')
-
-            if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-                if version_gt "$REMOTE_VERSION" "$LOCAL_VERSION"; then
-                    msg_info "$(printf "$NEW_VERSION_AVAILABLE" "$REMOTE_VERSION" "$LOCAL_VERSION")"
-                    if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
-                        perform_update
-                    else
-                        msg_info "$UPDATE_POSTPONED"
-                    fi
-                else
-                    msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
-                fi
-            else
-                msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
-            fi
+            msg_info "$UPDATE_POSTPONED"
         fi
     else
-        msg_error "$UPDATE_CHECK_ERROR"
+        msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
     fi
-    
-    # Eliminar el archivo remote_version.txt después de la comprobación
-    rm -f "$REMOTE_VERSION_FILE"
 }
 
 # Función para realizar la actualización
 perform_update() {
-    # Limpiar la caché antes de la actualización
-    sync
-    echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || true
-    
-    # Descargar y actualizar el script evitando la caché
-    if wget -qO /usr/local/bin/menu.sh --no-cache "$REPO_URL/menu.sh?$(date +%s)"; then
+    REMOTE_VERSION=$1
+    msg_info "$UPDATING"
+
+    # Descargar la última versión del script
+    if curl -sLo /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)"; then
         chmod +x /usr/local/bin/menu.sh
         echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
         msg_ok "$UPDATE_MESSAGE"
-        
-        # Limpiar la caché nuevamente antes de ejecutar el nuevo script
-        sync
-        echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || true
-        
-        # Ejecutar el nuevo script
         exec /usr/local/bin/menu.sh
     else
         msg_error "$UPDATE_ERROR"
     fi
-}
-
-# Función para comparar versiones
-version_gt() {
-    test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"
 }
 
 
