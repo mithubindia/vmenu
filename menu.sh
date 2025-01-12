@@ -5,7 +5,7 @@ REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
 LANG_DIR="$BASE_DIR/lang"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
-REMOTE_VERSION_FILE="$BASE_DIR/latest_version.txt"
+REMOTE_VERSION_FILE="$BASE_DIR/remote_version.txt"
 LANGUAGE_FILE="/root/.proxmenux_language"
 
 # Colores para salida
@@ -96,20 +96,19 @@ select_language() {
     exec "$0"
 }
 
-# Verificar actualizaciones
 check_updates() {
-    if wget -qO "$REMOTE_VERSION_FILE" "$REPO_URL/version.txt"; then
-        REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r')
+    msg_info "$UPDATE_CHECKING"
+    if wget -qO "$REMOTE_VERSION_FILE" "$REPO_URL/version.txt?$(date +%s)"; then
+        REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r' | tr -d '\n')
 
         if [ ! -f "$LOCAL_VERSION_FILE" ]; then
             echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
             msg_info "$FIRST_INSTALL $REMOTE_VERSION"
         else
-            LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r')
+            LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r' | tr -d '\n')
 
             if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-                msg_info "$UPDATE_CHECKING"
-                if [ "$(printf '%s\n' "$LOCAL_VERSION" "$REMOTE_VERSION" | sort -V | tail -n1)" = "$REMOTE_VERSION" ]; then
+                if version_gt "$REMOTE_VERSION" "$LOCAL_VERSION"; then
                     if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
                         perform_update
                     else
@@ -129,14 +128,30 @@ check_updates() {
 
 # Función para realizar la actualización
 perform_update() {
-    if wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh"; then
+    # Limpiar la caché antes de la actualización
+    sync
+    echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || true
+    
+    # Descargar y actualizar el script evitando la caché
+    if wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)"; then
         chmod +x /usr/local/bin/menu.sh
         echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
         msg_ok "$UPDATE_MESSAGE"
+        
+        # Limpiar la caché nuevamente antes de ejecutar el nuevo script
+        sync
+        echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || true
+        
+        # Ejecutar el nuevo script
         exec /usr/local/bin/menu.sh
     else
         msg_error "$UPDATE_ERROR"
     fi
+}
+
+# Función para comparar versiones
+version_gt() {
+    test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"
 }
 
 # Función para desinstalar ProxMenu
