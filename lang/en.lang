@@ -12,6 +12,11 @@ OPTION_1="Configure iGPU + TPU"
 OPTION_2="Repair network"
 OPTION_3="Settings"
 
+# Version messages
+VERSION_OPTION="Show version information"
+VERSION_TITLE="Version Information"
+VERSION_INFO="Current version: %s\n\nFor more information, visit:\nhttps://github.com/MacRimi/ProxMenux/tree/main"
+
 # Update messages
 UPDATE_CHECKING="Checking for updates..."
 UPDATE_ERROR_REMOTE="Error checking remote version."
