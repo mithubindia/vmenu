@@ -123,6 +123,7 @@ check_network_connectivity() {
 
 # Función para mostrar información de IP
 show_ip_info() {
+    whiptail --title "${NETWORK_IP_INFO}" --infobox "${NETWORK_IP_INFO_RUNNING}" 8 78
     local ip_info=""
     ip_info+="${NETWORK_IP_INFO}\n\n"
     for interface in $physical_interfaces $(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}'); do
@@ -133,12 +134,12 @@ show_ip_info() {
             ip_info+="$interface: ${NETWORK_NO_IP}\n"
         fi
     done
-    whiptail --title "${NETWORK_IP_INFO}" --msgbox "$ip_info" 20 78
+    whiptail --title "${RESULT_TITLE}" --msgbox "${ip_info}\n\n${IP_INFO_COMPLETED}\n\n${PRESS_ENTER}" 20 78
 }
 
 # Función para reparar la red
 repair_network() {
-    whiptail --title "${NETWORK_REPAIR_STARTED}" --infobox "${NETWORK_REPAIR_PROCESS}" 8 78
+    whiptail --title "${NETWORK_REPAIR_STARTED}" --infobox "${NETWORK_REPAIR_RUNNING}" 8 78
     detect_physical_interfaces
     clean_nonexistent_interfaces
     check_and_fix_bridges
@@ -146,20 +147,24 @@ repair_network() {
     restart_networking
     if check_network_connectivity; then
         show_ip_info
-        success "${NETWORK_REPAIR_COMPLETED}"
+        success "${NETWORK_REPAIR_SUCCESS}"
     else
-        error "${NETWORK_REPAIR_FAILED}"
+        error "${NETWORK_REPAIR_ERROR}"
     fi
-    whiptail --title "${NETWORK_REPAIR_PROCESS_FINISHED}" --msgbox "${PRESS_ENTER}" 8 78
+    whiptail --title "${RESULT_TITLE}" --msgbox "${REPAIR_COMPLETED}\n\n${PRESS_ENTER}" 10 78
 }
 
 # Función para verificar la configuración de red
 verify_network() {
-    whiptail --title "${NETWORK_VERIFY_STARTED}" --infobox "${NETWORK_VERIFY_PROCESS}" 8 78
+    whiptail --title "${NETWORK_VERIFY_STARTED}" --infobox "${NETWORK_VERIFY_RUNNING}" 8 78
     detect_physical_interfaces
     show_ip_info
-    check_network_connectivity
-    whiptail --title "${NETWORK_VERIFY_FINISHED}" --msgbox "${PRESS_ENTER}" 8 78
+    if check_network_connectivity; then
+        success "${NETWORK_VERIFY_SUCCESS}"
+    else
+        error "${NETWORK_VERIFY_ERROR}"
+    fi
+    whiptail --title "${RESULT_TITLE}" --msgbox "${VERIFY_COMPLETED}\n\n${PRESS_ENTER}" 10 78
 }
 
 # Función para mostrar el menú principal
@@ -189,7 +194,6 @@ show_main_menu() {
                 ;;
             4)
                 return
-        
                 ;;
         esac
     done
@@ -197,9 +201,10 @@ show_main_menu() {
 
 # Función principal
 main() {
-    whiptail --title "Reparación de Red" --msgbox "Iniciando script de reparación de red (versión $VERSION)" 8 78
+    whiptail --title "${REPAIR_MENU_TITLE}" --msgbox "${NETWORK_REPAIR_STARTED}" 8 78
     show_main_menu
 }
 
 # Ejecutar la función principal
 main
+
