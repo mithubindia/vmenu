@@ -96,9 +96,10 @@ select_language() {
     exec "$0"
 }
 
+# Verificar actualizaciones
 check_updates() {
     msg_info "$UPDATE_CHECKING"
-    if wget -qO "$REMOTE_VERSION_FILE" "$REPO_URL/version.txt?$(date +%s)"; then
+    if wget -qO- "$REPO_URL/version.txt?$(date +%s)" > "$REMOTE_VERSION_FILE"; then
         REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r' | tr -d '\n')
 
         if [ ! -f "$LOCAL_VERSION_FILE" ]; then
@@ -153,6 +154,7 @@ perform_update() {
 version_gt() {
     test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"
 }
+
 
 # Función para desinstalar ProxMenu
 uninstall_proxmenu() {
