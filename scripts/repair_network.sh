@@ -184,7 +184,7 @@ show_console_menu() {
             1) repair_network; read -p "${PRESS_ENTER}"; clear_screen ;;
             2) verify_network; read -p "${PRESS_ENTER}"; clear_screen ;;
             3) show_ip_info; read -p "${PRESS_ENTER}"; clear_screen ;;
-            4) echo "${MENU_EXIT_MSG}"; exit ;;
+            4) echo "${MENU_EXIT_MSG}"; return ;;
             *) echo "${INVALID_OPTION}"; sleep 2; clear_screen ;;
         esac
     done
@@ -220,7 +220,8 @@ show_whiptail_menu() {
                 ;;
             4)
                 echo "${MENU_EXIT_MSG}"
-                exit
+                return
+                clear_screen
                 ;;
         esac
     done
