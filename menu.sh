@@ -189,7 +189,7 @@ show_menu() {
             clear
             echo -e "${YW}=== $MENU_TITLE ===${CL}"
             echo "1) $OPTION_1"
-            echo "1) $OPTION_2"
+            echo "2) $OPTION_2"
             echo "2) $OPTION_3"
             echo "q) $EXIT_MENU"
             echo
