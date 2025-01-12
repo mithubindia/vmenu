@@ -188,7 +188,6 @@ show_main_menu() {
                 show_ip_info
                 ;;
             4)
-                # whiptail --title "${MENU_EXIT_TITLE}" --msgbox "${MENU_EXIT_MSG}" 8 78
                 return
         
                 ;;
