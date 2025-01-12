@@ -2,6 +2,9 @@
 
 # Configuración
 VERSION="1.0"
+BASE_DIR="/usr/local/share/proxmenux"
+LANG_DIR="$BASE_DIR/lang"
+LANGUAGE_FILE="/root/.proxmenux_language"
 
 # Colores para salida
 RED='\033[0;31m'
@@ -10,11 +13,17 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 # Cargar el archivo de idioma
-LANG_FILE="/usr/local/bin/ProxMenux/lang/es.lang"
-if [ -f "$LANG_FILE" ]; then
-    source "$LANG_FILE"
+if [ -f "$LANGUAGE_FILE" ]; then
+    LANGUAGE=$(cat "$LANGUAGE_FILE")
+    LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
+    if [ -f "$LANG_FILE" ]; then
+        source "$LANG_FILE"
+    else
+        echo "Error: No se pudo cargar el archivo de idioma $LANG_FILE."
+        exit 1
+    fi
 else
-    echo "Error: No se pudo cargar el archivo de idioma."
+    echo "Error: No se pudo determinar el idioma. Archivo $LANGUAGE_FILE no encontrado."
     exit 1
 fi
 
