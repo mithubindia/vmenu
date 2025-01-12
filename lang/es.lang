@@ -56,7 +56,6 @@ INITIAL_LANG_ERROR="No se seleccionó ningún idioma. Saliendo... / No language 
 
 # --- Mensajes para el script de reparación de red (repair_network.sh) ---
 
-# Mensajes generales
 MENU_TITLE="Menú de Reparación de Red"
 MENU_PROMPT="Por favor, seleccione una opción:"
 MENU_REPAIR="Reparar la red"
@@ -67,14 +66,10 @@ MENU_CANCELED="Operación cancelada por el usuario."
 MENU_EXIT_MSG="Saliendo del script de reparación de red. ¡Hasta luego!"
 INVALID_OPTION="Opción no válida. Por favor, intente de nuevo."
 PRESS_ENTER="Presione Enter para continuar..."
-
-# Títulos de resultados
 RESULT_TITLE="Resultado de la Operación"
 REPAIR_COMPLETED="Reparación de red completada. Revise el log para más detalles."
 VERIFY_COMPLETED="Verificación de red completada. Revise el log para más detalles."
 IP_INFO_COMPLETED="Información de IP mostrada. Revise el log para más detalles."
-
-# Mensajes de red
 NETWORK_ERROR="ERROR"
 NETWORK_SUCCESS="ÉXITO"
 NETWORK_WARNING="ADVERTENCIA"
@@ -102,4 +97,13 @@ NETWORK_REPAIR_FAILED="Fallo en la reparación de red"
 NETWORK_REPAIR_PROCESS_FINISHED="Proceso de reparación de red finalizado"
 NETWORK_VERIFY_STARTED="Iniciando verificación de red"
 NETWORK_VERIFY_FINISHED="Verificación de red finalizada"
+NETWORK_REPAIR_RUNNING="Ejecutando reparación de red..."
+NETWORK_REPAIR_SUCCESS="Reparación de red ejecutada con éxito."
+NETWORK_REPAIR_ERROR="Error al ejecutar la reparación de red."
+NETWORK_VERIFY_RUNNING="Ejecutando verificación de red..."
+NETWORK_VERIFY_SUCCESS="Verificación de red completada con éxito."
+NETWORK_VERIFY_ERROR="Error al ejecutar la verificación de red."
+NETWORK_IP_INFO_RUNNING="Obteniendo información de IP..."
+NETWORK_IP_INFO_SUCCESS="Información de IP obtenida con éxito."
+NETWORK_IP_INFO_ERROR="Error al obtener información de IP."
 # --- Fin de mensajes para repair_network.sh ---
