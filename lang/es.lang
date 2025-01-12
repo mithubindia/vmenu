@@ -50,7 +50,7 @@ INITIAL_LANG_SELECT="Seleccionar Idioma / Select Language"
 INITIAL_LANG_PROMPT="Elige tu idioma / Choose your language:"
 INITIAL_LANG_ERROR="No se seleccionó ningún idioma. Saliendo... / No language selected. Exiting..."
 
-########## Script Reparacion de Red ##########
+########### Archivo de idioma español para el script de reparación de red
 
 # Mensajes generales
 MENU_TITLE="Menú de Reparación de Red"
