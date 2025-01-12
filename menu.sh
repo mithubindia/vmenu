@@ -127,7 +127,7 @@ check_updates() {
                         msg_info "$UPDATE_POSTPONED"
                     fi
                 else
-                    msg_info "$UPDATE_CURRENT"
+                    msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
                 fi
             else
                 msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
