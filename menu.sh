@@ -99,31 +99,35 @@ select_language() {
 # Verificar actualizaciones
 check_updates() {
     msg_info "$UPDATE_CHECKING"
-    if wget -qO- "$REPO_URL/version.txt?$(date +%s)" > "$REMOTE_VERSION_FILE"; then
-        REMOTE_VERSION=$(cat "$REMOTE_VERSION_FILE" | tr -d '\r' | tr -d '\n')
+    
+    # Forzar la descarga de la versión remota sin usar caché
+    REMOTE_VERSION=$(wget -qO- --no-cache "$REPO_URL/version.txt?$(date +%s)" | tr -d '\r' | tr -d '\n')
+    
+    if [ -z "$REMOTE_VERSION" ]; then
+        msg_error "$UPDATE_CHECK_ERROR"
+        return 1
+    fi
 
-        if [ ! -f "$LOCAL_VERSION_FILE" ]; then
-            echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-            msg_info "$FIRST_INSTALL $REMOTE_VERSION"
-        else
-            LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r' | tr -d '\n')
+    if [ ! -f "$LOCAL_VERSION_FILE" ]; then
+        echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
+        msg_info "$FIRST_INSTALL $REMOTE_VERSION"
+    else
+        LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" | tr -d '\r' | tr -d '\n')
 
-            if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-                if version_gt "$REMOTE_VERSION" "$LOCAL_VERSION"; then
-                    if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
-                        perform_update
-                    else
-                        msg_info "$UPDATE_POSTPONED"
-                    fi
+        if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
+            if version_gt "$REMOTE_VERSION" "$LOCAL_VERSION"; then
+                msg_info "Nueva versión disponible: $REMOTE_VERSION (actual: $LOCAL_VERSION)"
+                if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
+                    perform_update
                 else
-                    msg_info "$UPDATE_CURRENT"
+                    msg_info "$UPDATE_POSTPONED"
                 fi
             else
                 msg_info "$UPDATE_CURRENT"
             fi
+        else
+            msg_info "$UPDATE_CURRENT (Versión: $LOCAL_VERSION)"
         fi
-    else
-        msg_error "$UPDATE_CHECK_ERROR"
     fi
 }
 
@@ -134,7 +138,7 @@ perform_update() {
     echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || true
     
     # Descargar y actualizar el script evitando la caché
-    if wget -qO /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)"; then
+    if wget -qO /usr/local/bin/menu.sh --no-cache "$REPO_URL/menu.sh?$(date +%s)"; then
         chmod +x /usr/local/bin/menu.sh
         echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
         msg_ok "$UPDATE_MESSAGE"
