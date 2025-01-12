@@ -205,6 +205,7 @@ show_menu() {
                 show_config_menu
                 ;;
             4)
+                clear
                 msg_ok "$EXIT_MESSAGE"
                 exit 0
                 ;;
