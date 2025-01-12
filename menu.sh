@@ -116,7 +116,7 @@ check_updates() {
 
         if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
             if version_gt "$REMOTE_VERSION" "$LOCAL_VERSION"; then
-                msg_info "Nueva versión disponible: $REMOTE_VERSION (actual: $LOCAL_VERSION)"
+                msg_info "$(printf "$NEW_VERSION_AVAILABLE" "$REMOTE_VERSION" "$LOCAL_VERSION")"
                 if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
                     perform_update
                 else
@@ -126,10 +126,11 @@ check_updates() {
                 msg_info "$UPDATE_CURRENT"
             fi
         else
-            msg_info "$UPDATE_CURRENT (Versión: $LOCAL_VERSION)"
+            msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
         fi
     fi
 }
+
 
 # Función para realizar la actualización
 perform_update() {
