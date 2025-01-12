@@ -97,46 +97,49 @@ select_language() {
 
 # Función para verificar y realizar actualizaciones
 check_updates() {
-    msg_info "$UPDATE_CHECKING"
-
-    # Descargar la versión remota sin caché y leer directamente
+    msg_info "Comprobando actualizaciones..."
+    
+    # Descargar versión remota
     REMOTE_VERSION=$(curl -s "$REPO_URL/version.txt?$(date +%s)" | tr -d '\r\n')
     
     if [ -z "$REMOTE_VERSION" ]; then
-        msg_error "$UPDATE_CHECK_ERROR"
+        msg_error "Error al comprobar la versión remota."
         return 1
     fi
 
     # Leer versión local o establecer como la primera instalación
-    LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "")
+    LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "0.0.0")
 
     if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-        msg_info "$(printf "$NEW_VERSION_AVAILABLE" "$REMOTE_VERSION" "$LOCAL_VERSION")"
-        if whiptail --title "$UPDATE_TITLE" --yesno "$UPDATE_PROMPT" 10 60; then
+        msg_info "Nueva versión disponible: $REMOTE_VERSION (actual: $LOCAL_VERSION)"
+        if whiptail --title "Actualización disponible" --yesno "¿Deseas actualizar a la última versión $REMOTE_VERSION?" 10 60; then
             perform_update "$REMOTE_VERSION"
         else
-            msg_info "$UPDATE_POSTPONED"
+            msg_info "Actualización pospuesta."
         fi
     else
-        msg_info "$(printf "$CURRENT_VERSION_INFO" "$LOCAL_VERSION")"
+        msg_info "El menú ya está actualizado ($LOCAL_VERSION)."
     fi
 }
 
 # Función para realizar la actualización
 perform_update() {
     REMOTE_VERSION=$1
-    msg_info "$UPDATING"
+    msg_info "Actualizando a la versión $REMOTE_VERSION..."
 
-    # Descargar la última versión del script
+    # Descargar el nuevo menú
     if curl -sLo /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)"; then
         chmod +x /usr/local/bin/menu.sh
         echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-        msg_ok "$UPDATE_MESSAGE"
+        msg_ok "Actualización completada a la versión $REMOTE_VERSION."
+
+        # Reiniciar el menú con la nueva versión
         exec /usr/local/bin/menu.sh
     else
-        msg_error "$UPDATE_ERROR"
+        msg_error "Error al descargar la actualización."
     fi
 }
+
 
 
 # Función para desinstalar ProxMenu
