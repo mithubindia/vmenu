@@ -180,14 +180,14 @@ show_config_menu() {
 show_menu() {
     while true; do
         if $USE_WHIPTAIL; then
-            OPTION=$(whiptail --title "$MENU_TITLE" --menu "$SELECT_OPTION" 15 60 4 \
+            OPTION=$(whiptail --title "$MAIN_MENU_TITLE" --menu "$SELECT_OPTION" 15 60 4 \
                 "1" "$OPTION_1" \
                 "2" "$OPTION_2" \
                 "3" "$OPTION_3" \
                 "4" "$EXIT_MENU" 3>&1 1>&2 2>&3)
         else
             clear
-            echo -e "${YW}=== $MENU_TITLE ===${CL}"
+            echo -e "${YW}=== $MAIN_MENU_TITLE ===${CL}"
             echo "1) $OPTION_1"
             echo "2) $OPTION_2"
             echo "3) $OPTION_3"
