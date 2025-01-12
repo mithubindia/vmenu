@@ -154,18 +154,28 @@ uninstall_proxmenu() {
     fi
 }
 
+# Función para mostrar información de versión
+show_version_info() {
+    local version=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "1.0.0")
+    whiptail --title "$VERSION_TITLE" --msgbox "$(printf "$VERSION_INFO" "$version")" 12 60
+}
+
 # Mostrar menú de configuración
 show_config_menu() {
     while true; do
-        OPTION=$(whiptail --title "$CONFIG_TITLE" --menu "$SELECT_OPTION" 15 60 2 \
+        OPTION=$(whiptail --title "$CONFIG_TITLE" --menu "$SELECT_OPTION" 15 60 3 \
             "1" "$LANG_OPTION" \
-            "2" "$UNINSTALL_OPTION" 3>&1 1>&2 2>&3)
+            "2" "$VERSION_OPTION" \
+            "3" "$UNINSTALL_OPTION" 3>&1 1>&2 2>&3)
 
         case $OPTION in
             1)
                 select_language
                 ;;
             2)
+                show_version_info
+                ;;
+            3)
                 uninstall_proxmenu
                 ;;
             *)
@@ -174,6 +184,7 @@ show_config_menu() {
         esac
     done
 }
+
 
 # Mostrar menú principal
 show_menu() {
