@@ -95,15 +95,16 @@ select_language() {
     exec "$0"
 }
 
+
 # Función para verificar y realizar actualizaciones
 check_updates() {
-    msg_info "Comprobando actualizaciones..."
+    msg_info "$UPDATE_CHECKING"
     
     # Descargar versión remota
     REMOTE_VERSION=$(curl -s "$REPO_URL/version.txt?$(date +%s)" | tr -d '\r\n')
     
     if [ -z "$REMOTE_VERSION" ]; then
-        msg_error "Error al comprobar la versión remota."
+        msg_error "$UPDATE_ERROR_REMOTE"
         return 1
     fi
 
@@ -111,35 +112,34 @@ check_updates() {
     LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "0.0.0")
 
     if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-        msg_info "Nueva versión disponible: $REMOTE_VERSION (actual: $LOCAL_VERSION)"
-        if whiptail --title "Actualización disponible" --yesno "¿Deseas actualizar a la última versión $REMOTE_VERSION?" 10 60; then
+        msg_info "$(printf "$UPDATE_NEW_AVAILABLE" "$REMOTE_VERSION" "$LOCAL_VERSION")"
+        if whiptail --title "$UPDATE_TITLE" --yesno "$(printf "$UPDATE_PROMPT" "$REMOTE_VERSION")" 10 60; then
             perform_update "$REMOTE_VERSION"
         else
-            msg_info "Actualización pospuesta."
+            msg_info "$UPDATE_POSTPONED"
         fi
     else
-        msg_info "El menú ya está actualizado ($LOCAL_VERSION)."
+        msg_info "$(printf "$UPDATE_CURRENT" "$LOCAL_VERSION")"
     fi
 }
 
 # Función para realizar la actualización
 perform_update() {
     REMOTE_VERSION=$1
-    msg_info "Actualizando a la versión $REMOTE_VERSION..."
+    msg_info "$(printf "$UPDATE_PROCESS" "$REMOTE_VERSION")"
 
     # Descargar el nuevo menú
     if curl -sLo /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)"; then
         chmod +x /usr/local/bin/menu.sh
         echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-        msg_ok "Actualización completada a la versión $REMOTE_VERSION."
+        msg_ok "$(printf "$UPDATE_COMPLETE" "$REMOTE_VERSION")"
 
         # Reiniciar el menú con la nueva versión
         exec /usr/local/bin/menu.sh
     else
-        msg_error "Error al descargar la actualización."
+        msg_error "$UPDATE_ERROR_DOWNLOAD"
     fi
 }
-
 
 
 # Función para desinstalar ProxMenu
