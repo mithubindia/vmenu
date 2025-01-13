@@ -15,7 +15,7 @@ OPTION_3="Configuración"
 # Mensajes de versión
 VERSION_OPTION="Mostrar información de versión"
 VERSION_TITLE="Información de versión"
-VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/ProxMenux/tree/main"
+VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/ProxMenux"
 
 # Mensajes de actualización
 UPDATE_CHECKING="Comprobando actualizaciones..."
