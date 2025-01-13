@@ -82,12 +82,10 @@ select_language() {
     fi
 
     LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
-    if [ ! -f "$LANG_FILE" ]; then
-        msg_info "$LANG_DOWNLOAD"
-        if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
-            msg_error "$LANG_DOWNLOAD_ERROR"
-            return
-        fi
+    msg_info "$LANG_DOWNLOAD"
+    if ! curl -sLo "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang?$(date +%s)"; then
+        msg_error "$LANG_DOWNLOAD_ERROR"
+        return
     fi
 
     echo "$LANGUAGE" > "$LANGUAGE_FILE"
