@@ -148,7 +148,7 @@ msg_ok "$(translate "Disco físico del sistema identificado"): $disco_fisico. $(
 VM_LIST=$(qm list | awk 'NR>1 {print $1, $2}')
 if [ -z "$VM_LIST" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No hay VMs disponibles en el sistema.")" 8 40
-    exit 1
+    return
 fi
 
 # Seleccionar VM
@@ -156,7 +156,7 @@ VMID=$(whiptail --title "$(translate "Seleccionar VM")" --menu "$(translate "Sel
 
 if [ -z "$VMID" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No se seleccionó ninguna VM.")" 8 40
-    exit 1
+    return
 fi
 
 VMID=$(echo "$VMID" | tr -d '"')
@@ -164,7 +164,7 @@ VMID=$(echo "$VMID" | tr -d '"')
 # Verificar que VMID es un número
 if ! [[ "$VMID" =~ ^[0-9]+$ ]]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "El ID de VM seleccionado no es válido.")" 8 40
-    exit 1
+    return
 fi
 
 clear
@@ -174,7 +174,7 @@ msg_ok "$(translate "VM seleccionada correctamente.")"
 VM_STATUS=$(qm status "$VMID" | awk '{print $2}')
 if [ "$VM_STATUS" == "running" ]; then
     whiptail --title "$(translate "Advertencia")" --msgbox "$(translate "La VM está encendida. Apágala antes de añadir discos.")" 12 60
-    exit 1
+    return
 fi
 
 msg_info "$(translate "Detectando discos disponibles...")"
@@ -194,7 +194,7 @@ msg_ok "$(translate "Discos disponibles detectados.")"
 if [ "${#DISCOS_LIBRES[@]}" -eq 0 ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No hay discos disponibles para esta VM.")" 8 40
     clear
-    exit 1
+    return
 fi
 
 # Calcular longitud máxima del contenido
@@ -214,7 +214,7 @@ SELECCIONADOS=$(whiptail --title "$(translate "Seleccionar Discos")" --checklist
 if [ -z "$SELECCIONADOS" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No se seleccionaron discos.")" 10 $TOTAL_WIDTH
     clear
-    exit 1
+    return
 fi
 
 msg_ok "$(translate "Discos seleccionados correctamente.")"
@@ -229,7 +229,7 @@ INTERFAZ=$(whiptail --title "$(translate "Tipo de Interfaz")" --menu "$(translat
 if [ -z "$INTERFAZ" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No se seleccionó un tipo de interfaz para los discos.")" 8 40
     clear
-    exit 1
+    return
 fi
 
 msg_ok "$(translate "Tipo de interfaz seleccionado: $INTERFAZ")"
