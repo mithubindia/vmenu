@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# ProxMenu - A menu-driven script for Proxmox VE administration
+# Copyright (c) 2024 ProxMenu
+# Author: MacRimi
+# License: MIT
+# https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE
+
 # Repository and directory structure
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 INSTALL_DIR="/usr/local/bin"
