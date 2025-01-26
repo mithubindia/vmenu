@@ -42,7 +42,23 @@ if [ -z "$VMID" ]; then
     exit 1
 fi
 
-# 2. Select disk images
+# 2. Select storage volume
+msg_info "$(translate 'Getting storage volumes...')"
+STORAGE_LIST=$(pvesm status -content images | awk 'NR>1 {print $1}')
+if [ -z "$STORAGE_LIST" ]; then
+    msg_error "$(translate 'No storage volumes available')"
+    exit 1
+fi
+msg_ok "$(translate 'Storage volumes retrieved')"
+
+STORAGE=$(whiptail --title "$(translate 'Select Storage')" --menu "$(translate 'Select the storage volume for disk import:')" 15 60 8 $STORAGE_LIST 3>&1 1>&2 2>&3)
+
+if [ -z "$STORAGE" ]; then
+    msg_error "$(translate 'No storage selected')"
+    exit 1
+fi
+
+# 3. Select disk images
 msg_info "$(translate 'Scanning for disk images...')"
 if [ -z "$IMAGES" ]; then
     msg_error "$(translate 'No compatible disk images found in') $IMAGES_DIR"
@@ -62,41 +78,48 @@ if [ -z "$SELECTED_IMAGES" ]; then
     exit 1
 fi
 
-# 3. Import each selected image
+# 4. Import each selected image
 for IMAGE in $SELECTED_IMAGES; do
     # Remove quotes from selected image
     IMAGE=$(echo "$IMAGE" | tr -d '"')
 
-    # 4. Select disk type for each image
-    INTERFACE=$(whiptail --title "$(translate 'Interface Type')" --menu "$(translate 'Select disk type for image:') $IMAGE" 15 40 4 \
-        "sata" "$(translate 'Add as SATA')" \
-        "scsi" "$(translate 'Add as SCSI')" \
-        "virtio" "$(translate 'Add as VirtIO')" \
-        "ide" "$(translate 'Add as IDE')" 3>&1 1>&2 2>&3)
+    # 5. Select disk format for each image
+    FORMAT=$(whiptail --title "$(translate 'Disk Format')" --menu "$(translate 'Select disk format for image:') $IMAGE" 15 40 4 \
+    "raw" "$(translate 'Raw format')" \
+    "qcow2" "$(translate 'QCOW2 format')" \
+    "vmdk" "$(translate 'VMDK format')" 3>&1 1>&2 2>&3)
+
+    if [ -z "$FORMAT" ]; then
+        msg_error "$(translate 'No disk format selected for') $IMAGE"
+        continue
+    fi
+
+    # 6. Select interface type for each image
+    INTERFACE=$(whiptail --title "$(translate 'Interface Type')" --menu "$(translate 'Select interface type for image:') $IMAGE" 15 40 4 \
+    "scsi" "$(translate 'SCSI')" \
+    "sata" "$(translate 'SATA')" \
+    "virtio" "$(translate 'VirtIO')" \
+    "ide" "$(translate 'IDE')" 3>&1 1>&2 2>&3)
 
     if [ -z "$INTERFACE" ]; then
-        msg_error "$(translate 'No disk type selected for') $IMAGE"
+        msg_error "$(translate 'No interface type selected for') $IMAGE"
         continue
     fi
 
     FULL_PATH="$IMAGES_DIR/$IMAGE"
 
-    # 5. Add image with automatic index
-    INDEX=0
-
-    # Find available index
-    while qm config "$VMID" | grep -q "${INTERFACE}${INDEX}"; do
-        ((INDEX++))
-    done
-
-    msg_info "$(translate 'Importing image:') $IMAGE $(translate 'as') ${INTERFACE}${INDEX}..."
+    msg_info "$(translate 'Importing image:') $IMAGE $(translate 'as') ${FORMAT}..."
     
     (
-        if qm importdisk "$VMID" "$FULL_PATH" "local-lvm" --format "$INTERFACE"; then
-            if qm set "$VMID" -${INTERFACE}${INDEX} "$FULL_PATH"; then
-                msg_ok "$(translate 'Successfully imported') $IMAGE $(translate 'as') ${INTERFACE}${INDEX}"
+        if qm importdisk "$VMID" "$FULL_PATH" "$STORAGE" --format "$FORMAT"; then
+            # Find the next available disk slot
+            NEXT_SLOT=$(qm config "$VMID" | grep -oP "${INTERFACE}\d+" | sort -n | tail -n1 | sed "s/${INTERFACE}//")
+            NEXT_SLOT=$((NEXT_SLOT + 1))
+            
+            if qm set "$VMID" --${INTERFACE}${NEXT_SLOT} "$STORAGE:vm-${VMID}-disk-${NEXT_SLOT}"; then
+                msg_ok "$(translate 'Successfully imported') $IMAGE $(translate 'as') ${INTERFACE}${NEXT_SLOT}"
             else
-                msg_error "$(translate 'Failed to configure disk') ${INTERFACE}${INDEX} $(translate 'for VM') $VMID"
+                msg_error "$(translate 'Failed to configure disk') ${INTERFACE}${NEXT_SLOT} $(translate 'for VM') $VMID"
             fi
         else
             msg_error "$(translate 'Failed to import') $IMAGE"
