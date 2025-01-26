@@ -7,8 +7,9 @@ source "/usr/local/share/proxmenux/utils.sh"
 IMAGES_DIR="/var/lib/vz/template/images/"
 
 # Check if there are any images in the directory
-if [ -z "$(ls -A "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")" ]; then
-    whiptail --title "$(translate 'No Images Found')" --msgbox "$(translate 'No compatible disk images found in') $IMAGES_DIR\n\n$(translate 'Please add some images and try again.')" 10 60
+IMAGES=$(ls -A "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")
+if [ -z "$IMAGES" ]; then
+    whiptail --title "$(translate 'No Images Available')" --msgbox "$(translate 'No disk images available for import in') $IMAGES_DIR\n\n$(translate 'Supported formats: .img, .qcow2, .vmdk')\n\n$(translate 'Please add some images and try again.')" 12 60
     exit 0
 fi
 
@@ -43,7 +44,10 @@ fi
 
 # 2. Select disk images
 msg_info "$(translate 'Scanning for disk images...')"
-IMAGES=$(ls "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")
+if [ -z "$IMAGES" ]; then
+    msg_error "$(translate 'No compatible disk images found in') $IMAGES_DIR"
+    exit 0
+fi
 msg_ok "$(translate 'Disk images found')"
 
 IMAGE_LIST=""
@@ -105,3 +109,4 @@ done
 
 msg_ok "$(translate 'All selected images have been processed')"
 exit 0
+
