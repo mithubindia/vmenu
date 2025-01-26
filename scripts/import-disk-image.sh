@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# ProxMenu - A menu-driven script for Proxmox VE administration
-# Copyright (c) 2024 ProxMenu
-# Author: MacRimi
-# License: MIT
-# https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE
-
-# Source utility functions
+# Source utility functions from local installation
 source "/usr/local/share/proxmenux/utils.sh"
 
 # Path where disk images are stored
 IMAGES_DIR="/var/lib/vz/template/images/"
+
+# Check if there are any images in the directory
+if [ -z "$(ls -A "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")" ]; then
+    whiptail --title "$(translate 'No Images Found')" --msgbox "$(translate 'No compatible disk images found in') $IMAGES_DIR\n\n$(translate 'Please add some images and try again.')" 10 60
+    exit 0
+fi
 
 # Check dependencies
 check_dependencies qm whiptail jq
@@ -44,10 +44,6 @@ fi
 # 2. Select disk images
 msg_info "$(translate 'Scanning for disk images...')"
 IMAGES=$(ls "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")
-if [ -z "$IMAGES" ]; then
-    msg_error "$(translate 'No compatible disk images found in') $IMAGES_DIR"
-    exit 1
-fi
 msg_ok "$(translate 'Disk images found')"
 
 IMAGE_LIST=""
