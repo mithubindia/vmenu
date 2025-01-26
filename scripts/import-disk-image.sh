@@ -51,7 +51,13 @@ if [ -z "$STORAGE_LIST" ]; then
 fi
 msg_ok "$(translate 'Storage volumes retrieved')"
 
-STORAGE=$(whiptail --title "$(translate 'Select Storage')" --menu "$(translate 'Select the storage volume for disk import:')" 15 60 8 $STORAGE_LIST 3>&1 1>&2 2>&3)
+# Create an array of storage options for whiptail
+STORAGE_OPTIONS=()
+for storage in $STORAGE_LIST; do
+    STORAGE_OPTIONS+=("$storage" "$storage")
+done
+
+STORAGE=$(whiptail --title "$(translate 'Select Storage')" --menu "$(translate 'Select the storage volume for disk import:')" 15 60 8 "${STORAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
 if [ -z "$STORAGE" ]; then
     msg_error "$(translate 'No storage selected')"
@@ -109,17 +115,23 @@ for IMAGE in $SELECTED_IMAGES; do
     FULL_PATH="$IMAGES_DIR/$IMAGE"
 
     msg_info "$(translate 'Importing image:') $IMAGE $(translate 'as') ${FORMAT}..."
-    
+
     (
         if qm importdisk "$VMID" "$FULL_PATH" "$STORAGE" --format "$FORMAT"; then
             # Find the next available disk slot
             NEXT_SLOT=$(qm config "$VMID" | grep -oP "${INTERFACE}\d+" | sort -n | tail -n1 | sed "s/${INTERFACE}//")
             NEXT_SLOT=$((NEXT_SLOT + 1))
-            
-            if qm set "$VMID" --${INTERFACE}${NEXT_SLOT} "$STORAGE:vm-${VMID}-disk-${NEXT_SLOT}"; then
-                msg_ok "$(translate 'Successfully imported') $IMAGE $(translate 'as') ${INTERFACE}${NEXT_SLOT}"
+
+            IMPORTED_DISK=$(qm config "$VMID" | grep -oP "${STORAGE}:[^\s]+")
+
+            if [ -n "$IMPORTED_DISK" ]; then
+                if qm set "$VMID" --${INTERFACE}${NEXT_SLOT} "$IMPORTED_DISK"; then
+                    msg_ok "$(translate 'Successfully imported') $IMAGE $(translate 'as') ${INTERFACE}${NEXT_SLOT}"
+                else
+                    msg_error "$(translate 'Failed to configure disk') ${INTERFACE}${NEXT_SLOT} $(translate 'for VM') $VMID"
+                fi
             else
-                msg_error "$(translate 'Failed to configure disk') ${INTERFACE}${NEXT_SLOT} $(translate 'for VM') $VMID"
+                msg_error "$(translate 'Failed to find imported disk')"
             fi
         else
             msg_error "$(translate 'Failed to import') $IMAGE"
