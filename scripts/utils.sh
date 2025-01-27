@@ -29,7 +29,7 @@ CL="\033[m"
 BFR="\\r\\033[K"
 HOLD="-"
 CM="${GN}✓${CL}"
-TAB="  
+TAB="    "  
 
 # Default language
 LANGUAGE="${LANGUAGE:-en}"
