@@ -16,19 +16,20 @@ LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu.sh"
 VENV_PATH="/opt/googletrans-env"
 
+
 # Translation context
 TRANSLATION_CONTEXT="Context: Technical message for Proxmox and IT. Translate:"
 
 # Color and style definitions
-YW='\033[33m'    # Yellow
-BL='\033[36m'    # Blue
-RD='\033[01;31m' # Red
-BGN='\033[4;92m' # Background Green
-GN='\033[32m'    # Green
-CL='\033[m'      # Clear
-BFR="\\r\\033[K" # Carriage return
-HOLD="-"         # Separator
-TAB="    "       # Tab
+YW="\033[33m"
+YWB="\033[1;33m"
+GN="\033[1;92m"
+RD="\033[01;31m"
+CL="\033[m"
+BFR="\\r\\033[K"
+HOLD="-"
+CM="${GN}✓${CL}"
+TAB="  
 
 # Default language
 LANGUAGE="${LANGUAGE:-en}"
@@ -64,7 +65,7 @@ msg_ok() {
     fi
     printf "\e[?25h"
     local msg="$1"
-    echo -e "${BFR}${CM}${GN}${msg}${CL}"
+    echo -e "${BFR}${TAB}${CM}${GN}${msg}${CL}"
 }
 
 # Display error message
