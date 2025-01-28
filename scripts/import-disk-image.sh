@@ -218,3 +218,4 @@ for IMAGE in $SELECTED_IMAGES; do
 done
 
 msg_ok "$(translate 'All selected images have been processed')"
+sleep 2
