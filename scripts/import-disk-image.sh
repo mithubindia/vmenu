@@ -38,8 +38,7 @@ if [ -z "$IMAGES" ]; then
     exit 0
 fi
 
-# Check dependencies
-check_dependencies qm whiptail jq || exit 1
+
 
 # Initial setup
 if ! [ -d "$IMAGES_DIR" ]; then
