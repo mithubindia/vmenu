@@ -34,7 +34,7 @@ initialize_cache() {
     fi
 }
 
- Load language from JSON file
+ # Load language from JSON file
 load_language() {
     if [ -f "$CONFIG_FILE" ]; then
         LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
