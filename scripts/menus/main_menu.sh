@@ -38,10 +38,10 @@ fi
 
 
     case $OPTION in
-        1) bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;
-        2) bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
-        3) bash <(curl -s "$REPO_URL/scripts/menus/network_menu") ;;
-        4) bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
+        1) exec bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;
+        2) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
+        3) exec bash <(curl -s "$REPO_URL/scripts/menus/network_menu") ;;
+        4) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
         5) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
         *) msg_error "Opción inválida"; sleep 2 ;;
     esac
