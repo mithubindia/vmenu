@@ -34,6 +34,13 @@ initialize_cache() {
     fi
 }
 
+ Load language from JSON file
+load_language() {
+    if [ -f "$CONFIG_FILE" ]; then
+        LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
+    fi
+}
+
 show_menu() {
     while true; do
         OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 15 60 5 \
@@ -59,5 +66,6 @@ done
 
 # Main flow
 initialize_cache
+load_language
 show_menu
 
