@@ -161,21 +161,3 @@ print(translate_text('$text', '$dest_lang'))
     fi
 }
 
-# Check required dependencies
-check_dependencies() {
-    local deps=("$@")
-    local missing=()
-    
-    for dep in "${deps[@]}"; do
-        if ! command -v "$dep" >/dev/null 2>&1; then
-            missing+=("$dep")
-        fi
-    done
-    
-    if [ ${#missing[@]} -ne 0 ]; then
-        msg_error "Missing dependencies: ${missing[*]}"
-        return 1
-    fi
-    
-    return 0
-}
