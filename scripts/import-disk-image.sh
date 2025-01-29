@@ -16,7 +16,7 @@ UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/util
 BASE_DIR="/usr/local/share/proxmenux"
 CACHE_FILE="$BASE_DIR/cache.json"
 VENV_PATH="/opt/googletrans-env"  
-LANGUAGE=$(jq -r '.language' "$BASE_DIR/config.json" 2>/dev/null || echo "en")
+LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
 
 
 
