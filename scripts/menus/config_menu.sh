@@ -44,12 +44,8 @@ show_config_menu() {
             3)
                 uninstall_proxmenu
                 ;;
-            4)
-                return
-                ;;
-            *)
-                return
-                ;;
+            4) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
+            *) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
         esac
     done
 }
