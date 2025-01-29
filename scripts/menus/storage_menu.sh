@@ -51,7 +51,7 @@ fi
                 fi
                 ;;
                 
-            3) exit 0 ;;
-            *) exit 0 ;;
+            3) return ;;
+            *) return ;;
         esac
     done
