@@ -51,7 +51,7 @@ fi
                 fi
                 ;;
                 
-            3) return ;;
-            *) return ;;
+            3) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
+            *) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
         esac
     done
