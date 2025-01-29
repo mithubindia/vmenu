@@ -156,8 +156,14 @@ change_language() {
 
     echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
     msg_ok "$(translate "Language changed to") $LANGUAGE"
-    exec "$0"
+
+    # 🔄 Descargar y ejecutar el script nuevamente para aplicar el cambio
+    TMP_FILE=$(mktemp)
+    curl -s "$REPO_URL/scripts/menus/config_menu.sh" > "$TMP_FILE"
+    chmod +x "$TMP_FILE"
+    exec bash "$TMP_FILE"
 }
+
 
 # Function to check and perform updates
 check_updates() {
