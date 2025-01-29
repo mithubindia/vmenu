@@ -1,14 +1,40 @@
 #!/bin/bash
 
-# Definir la URL base del repositorio en GitHub
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts"
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
+# ==========================================================
 
-while true; do
-    OPTION=$(whiptail --title "ProxMenu - Menú Principal" --menu "Seleccione una categoría:" 15 60 5 \
-        "1" "Almacenamiento y discos duros" \
-        "2" "Configuración" \
-        "3" "Red y conexiones" \
-        "4" "Salir" 3>&1 1>&2 2>&3)
+
+# Configuration
+UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+BASE_DIR="/usr/local/share/proxmenux"
+CACHE_FILE="$BASE_DIR/cache.json"
+VENV_PATH="/opt/googletrans-env"
+LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
+
+
+# Try to load utils.sh from GitHub
+if ! source <(curl -sSf "$UTILS_URL"); then
+    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
+    exit 1
+fi
+
+
+    while true; do
+        OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 15 60 5 \
+            "1" "$(translate "GPUs and Coral-TPU")" \
+            "2" "$(translate "Hard Drives, Disk Images, and Storage")" \
+            "3" "$(translate "Network")" \
+            "4" "$(translate "Settings")" \
+            "5" "$(translate "Exit")" 3>&1 1>&2 2>&3)
+
+
 
     case $OPTION in
         1) bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;
