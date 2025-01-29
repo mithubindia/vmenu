@@ -1,3 +1,31 @@
+#!/bin/bash
+
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
+# ==========================================================
+
+
+# Configuration ============================================
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+BASE_DIR="/usr/local/share/proxmenux"
+CACHE_FILE="$BASE_DIR/cache.json"
+VENV_PATH="/opt/googletrans-env"
+LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
+
+if ! source <(curl -sSf "$UTILS_URL"); then
+    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
+    exit 1
+fi
+# ==========================================================
+
+
 show_config_menu() {
     while true; do
         OPTION=$(whiptail --title "$(translate "Configuration Menu")" --menu "$(translate "Select an option:")" 15 60 4 \
