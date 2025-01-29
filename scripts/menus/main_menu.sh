@@ -38,9 +38,9 @@ fi
 
 
     case $OPTION in
-        1) exec bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;  # Evita el subshell
-        2) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;  # Evita el subshell
-        3) exec bash <(curl -s "$REPO_URL/menu-network.sh") ;;  # Evita el subshell
+        1) bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;
+        2) bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
+        3) bash <(curl -s "$REPO_URL/menu-network.sh") ;;
         4) clear; exit 0 ;;
         5) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
         *) msg_error "Opción inválida"; sleep 2 ;;
