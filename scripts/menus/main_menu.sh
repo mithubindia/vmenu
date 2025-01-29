@@ -53,7 +53,7 @@ show_menu() {
 
 
     case $OPTION in
-        1) exec bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;
+        1) exec bash <(curl -s "$REPO_URL/scripts/menus/igpu_tpu.sh") ;;
         2) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
         3) exec bash <(curl -s "$REPO_URL/scripts/menus/network_menu") ;;
         4) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
