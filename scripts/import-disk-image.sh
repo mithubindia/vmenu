@@ -183,13 +183,19 @@ for IMAGE in $SELECTED_IMAGES; do
                 LAST_SLOT=$(echo "$EXISTING_DISKS" | tail -n1 | sed "s/${INTERFACE}//")
                 NEXT_SLOT=$((LAST_SLOT + 1))
             fi
+            
 
-            # Ask if SSD emulation is desired
-            if (whiptail --title "$(translate 'SSD Emulation')" --yesno "$(translate 'Do you want to use SSD emulation for this disk?')" 10 60); then
-                SSD_OPTION=",ssd=1"
+            # Ask if SSD emulation is desired (only for non-VirtIO interfaces)
+            if [ "$INTERFACE" != "virtio" ]; then
+                if (whiptail --title "$(translate 'SSD Emulation')" --yesno "$(translate 'Do you want to use SSD emulation for this disk?')" 10 60); then
+                    SSD_OPTION=",ssd=1"
+                else
+                    SSD_OPTION=""
+                fi
             else
                 SSD_OPTION=""
             fi
+            
 
             msg_info "$(translate 'Configuring disk')"
 
@@ -200,6 +206,7 @@ for IMAGE in $SELECTED_IMAGES; do
                 # Ask if the disk should be bootable
                 if (whiptail --title "$(translate 'Make Bootable')" --yesno "$(translate 'Do you want to make this disk bootable?')" 10 60); then
                     msg_info "$(translate 'Configuring disk as bootable')"
+                    
                     if qm set "$VMID" --boot c --bootdisk ${INTERFACE}${NEXT_SLOT} &>/dev/null; then
                         msg_ok "$(translate 'Disk configured as bootable')"
                     else
