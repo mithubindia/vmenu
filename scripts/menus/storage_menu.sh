@@ -20,6 +20,11 @@ VENV_PATH="/opt/googletrans-env"
 LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
 # ==========================================================
 
+# Try to load utils.sh from GitHub
+if ! source <(curl -sSf "$UTILS_URL"); then
+    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
+    exit 1
+fi
 
 
     while true; do
