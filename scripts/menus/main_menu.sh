@@ -12,7 +12,7 @@
 
 
 # Configuration
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/menus"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
 BASE_DIR="/usr/local/share/proxmenux"
 CACHE_FILE="$BASE_DIR/cache.json"
@@ -39,7 +39,7 @@ fi
 
     case $OPTION in
         1) bash <(curl -s "$REPO_URL/menu-almacenamiento.sh") ;;
-        2) bash <(curl -s "$REPO_URL/storage_menu.sh") ;;
+        2) bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
         3) bash <(curl -s "$REPO_URL/menu-network.sh") ;;
         4) clear; exit 0 ;;
         5) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
