@@ -12,7 +12,7 @@
 
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/menus"
 UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
 BASE_DIR="/usr/local/share/proxmenux"
 CACHE_FILE="$BASE_DIR/cache.json"
