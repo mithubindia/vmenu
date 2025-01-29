@@ -41,6 +41,7 @@ fi
         2) bash <(curl -s "$REPO_URL/menu-config.sh") ;;
         3) bash <(curl -s "$REPO_URL/menu-network.sh") ;;
         4) clear; exit 0 ;;
+        5) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
         *) msg_error "Opción inválida"; sleep 2 ;;
     esac
 done
