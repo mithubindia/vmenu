@@ -11,14 +11,14 @@
 # ==========================================================
 
 
-# Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/menus"
+# Configuration
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
 BASE_DIR="/usr/local/share/proxmenux"
 CACHE_FILE="$BASE_DIR/cache.json"
 VENV_PATH="/opt/googletrans-env"
 LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
-# ==========================================================
+
 
 # Try to load utils.sh from GitHub
 if ! source <(curl -sSf "$UTILS_URL"); then
