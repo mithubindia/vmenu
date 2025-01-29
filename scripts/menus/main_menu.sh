@@ -26,7 +26,15 @@ if ! source <(curl -sSf "$UTILS_URL"); then
     exit 1
 fi
 
+# Initialize cache
+initialize_cache() {
+    if [ ! -f "$CACHE_FILE" ]; then
+        echo "{}" > "$CACHE_FILE"
+        return
+    fi
+}
 
+show_menu() {
     while true; do
         OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 15 60 5 \
             "1" "$(translate "GPUs and Coral-TPU")" \
@@ -47,3 +55,9 @@ fi
     esac
     
 done
+}
+
+# Main flow
+initialize_cache
+show_menu
+
