@@ -63,12 +63,12 @@ change_language() {
     echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
     msg_ok "$(translate "Language changed to") $LANGUAGE"
 
-    # 🔄 Descargar el script nuevamente
+    # Descargar el script nuevamente
     TMP_FILE=$(mktemp)
     curl -s "$REPO_URL/scripts/menus/config_menu.sh" > "$TMP_FILE"
     chmod +x "$TMP_FILE"
 
-    # 📌 Programar la eliminación del archivo cuando termine el proceso
+    # Programar la eliminación del archivo cuando termine el proceso
     trap 'rm -f "$TMP_FILE"' EXIT
 
     exec bash "$TMP_FILE"
