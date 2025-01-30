@@ -282,7 +282,7 @@ install_coral_in_container() {
     msg_ok "Controladores de Coral TPU instalados dentro del contenedor."
 }
 
-# Ejecutar directamente la lógica de la opción 2
+
 if dpkg -l | grep -qw gasket-dkms; then
     msg_info "Controladores de Coral ya están instalados en el host."
 
