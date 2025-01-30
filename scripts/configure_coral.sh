@@ -354,6 +354,19 @@ final_restart_prompt
 # Version     : 1.0
 # Last Updated: 28/01/2025
 # ==========================================================
+# Description:
+# This script automates the configuration and installation of
+# Coral TPU and iGPU support in Proxmox VE containers. It:
+# - Configures a selected LXC container for hardware acceleration
+# - Installs and sets up Coral TPU drivers on the Proxmox host
+# - Installs necessary drivers inside the container
+# - Manages required system and container restarts
+#
+# The script aims to simplify the process of enabling
+# AI-powered video analysis capabilities in containers
+# LXC, leveraging hardware acceleration for
+# improved performance.
+# ==========================================================
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
