@@ -333,3 +333,346 @@ final_restart_prompt
 validate_pve_version
 select_container
 final_restart_prompt
+
+
+
+
+
+
+
+
+
+
+#!/bin/bash
+
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
+# ==========================================================
+
+# Configuration ============================================
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+BASE_DIR="/usr/local/share/proxmenux"
+CACHE_FILE="$BASE_DIR/cache.json"
+CONFIG_FILE="$BASE_DIR/config.json"
+VENV_PATH="/opt/googletrans-env"
+
+if ! source <(curl -sSf "$UTILS_URL"); then
+    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
+    exit 1
+fi
+
+initialize_cache() {
+    if [ ! -f "$CACHE_FILE" ]; then
+        echo "{}" > "$CACHE_FILE"
+        return
+    fi
+}
+
+load_language() {
+    if [ -f "$CONFIG_FILE" ]; then
+        LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
+    fi
+}
+
+# ==========================================================
+
+# Global variables
+CHANGES_MADE=0  # Initialize changes to check if container restart is necessary
+NEED_REBOOT=0  # Controls if a full server reboot is required
+
+# Validate that the selected container is valid
+validate_container_id() {
+    if [ -z "$CONTAINER_ID" ]; then
+        msg_error "$(translate 'Container ID not defined. Make sure to select a container first.')"
+        exit 1
+    fi
+}
+
+# Function for restart
+restart_prompt() {
+    if (whiptail --title "$(translate 'Restart Required')" --yesno "$(translate 'The installation requires a server restart for changes to take effect. Do you want to restart now?')" 8 58); then
+        msg_info "$(translate 'Restarting the server...')"
+        reboot
+    else
+        msg_info "$(translate 'Restart not performed. Please restart manually later to apply changes.')"
+    fi
+}
+
+# Server restart at the end
+final_restart_prompt() {
+    if [ "$NEED_REBOOT" -eq 1 ]; then
+        msg_info "$(translate 'It is recommended to restart the server to apply changes correctly.')"
+        restart_prompt
+    fi
+}
+
+# LXC container selection
+select_container() {
+    CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)
+    if [ -z "$CONTAINERS" ]; then
+        msg_error "$(translate 'No containers available in Proxmox.')"
+        exit 1
+    fi
+
+    CONTAINER_ID=$(whiptail --title "$(translate 'Select Container')" \
+        --menu "$(translate 'Select the LXC container:')" 15 60 5 $CONTAINERS 3>&1 1>&2 2>&3)
+
+    if [ -z "$CONTAINER_ID" ]; then
+        msg_error "$(translate 'No container selected. Exiting.')"
+        exit 1
+    fi
+
+    if ! pct list | awk 'NR>1 {print $1}' | grep -qw "$CONTAINER_ID"; then
+        msg_error "$(translate 'Container with ID') $CONTAINER_ID $(translate 'does not exist. Exiting.')"
+        exit 1
+    fi
+
+    msg_ok "$(translate 'Container selected:') $CONTAINER_ID"
+}
+
+# Validate and change to privileged if necessary
+ensure_privileged_container() {
+    validate_container_id
+    CONFIG_FILE="/etc/pve/lxc/${CONTAINER_ID}.conf"
+    if [ ! -f "$CONFIG_FILE" ]; then
+        msg_error "$(translate 'Configuration file for container') $CONTAINER_ID $(translate 'not found.')"
+        exit 1
+    fi
+
+    if grep -q "^unprivileged: 1" "$CONFIG_FILE"; then
+        msg_info "$(translate 'The container is unprivileged. Changing to privileged...')"
+        sed -i "s/^unprivileged: 1/unprivileged: 0/" "$CONFIG_FILE"
+        STORAGE_TYPE=$(pct config "$CONTAINER_ID" | grep "^rootfs:" | awk -F, '{print $2}' | cut -d'=' -f2)
+        if [[ "$STORAGE_TYPE" == "dir" ]]; then
+            STORAGE_PATH=$(pct config "$CONTAINER_ID" | grep "^rootfs:" | awk '{print $2}' | cut -d',' -f1)
+            chown -R root:root "$STORAGE_PATH"
+        fi
+        msg_ok "$(translate 'Container changed to privileged.')"
+    else
+        msg_ok "$(translate 'The container is already privileged.')"
+    fi
+}
+
+# Verify and configure repositories on the host
+verify_and_add_repos() {
+    msg_info "$(translate 'Verifying and configuring necessary repositories on the host...')"
+
+    if ! grep -q "pve-no-subscription" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
+        echo "deb http://download.proxmox.com/debian/pve $(lsb_release -sc) pve-no-subscription" | tee /etc/apt/sources.list.d/pve-no-subscription.list
+        msg_ok "$(translate 'pve-no-subscription repository added.')"
+    else
+        msg_ok "$(translate 'pve-no-subscription repository already configured.')"
+    fi
+
+    if ! grep -q "non-free-firmware" /etc/apt/sources.list; then
+        echo "deb http://deb.debian.org/debian $(lsb_release -sc) main contrib non-free-firmware
+deb http://deb.debian.org/debian $(lsb_release -sc)-updates main contrib non-free-firmware
+deb http://security.debian.org/debian-security $(lsb_release -sc)-security main contrib non-free-firmware" | tee -a /etc/apt/sources.list
+        msg_ok "$(translate 'non-free-firmware repositories added.')"
+    else
+        msg_ok "$(translate 'non-free-firmware repositories already configured.')"
+    fi
+
+    apt-get update
+    msg_ok "$(translate 'Repositories verified and updated.')"
+}
+
+# Configure Coral TPU in the container
+configure_lxc_for_coral() {
+    ensure_privileged_container
+    CONFIG_FILE="/etc/pve/lxc/${CONTAINER_ID}.conf"
+
+    # Verify and add configurations only if they don't exist
+    if ! grep -Pq "^lxc.cgroup2.devices.allow: c 189:\* rwm # Coral USB$" "$CONFIG_FILE"; then
+        echo "lxc.cgroup2.devices.allow: c 189:* rwm # Coral USB" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -Pq "^lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir$" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
+    fi
+
+    msg_ok "$(translate 'Coral TPU configuration (USB and M.2) added to container') $CONTAINER_ID."
+}
+
+# Configure iGPU in the container
+configure_lxc_for_igpu() {
+    ensure_privileged_container
+    CONFIG_FILE="/etc/pve/lxc/${CONTAINER_ID}.conf"
+
+    # Verify and add configurations only if they don't exist
+    if ! grep -q "features: nesting=1" "$CONFIG_FILE"; then
+        echo "features: nesting=1" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -q "c 226:0 rwm" "$CONFIG_FILE"; then
+        echo "lxc.cgroup2.devices.allow: c 226:0 rwm # iGPU" >> "$CONFIG_FILE"
+        echo "lxc.cgroup2.devices.allow: c 226:128 rwm # iGPU" >> "$CONFIG_FILE"
+        echo "lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir" >> "$CONFIG_FILE"
+        echo "lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -q "c 29:0 rwm # Framebuffer" "$CONFIG_FILE"; then
+        echo "lxc.cgroup2.devices.allow: c 29:0 rwm # Framebuffer" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -q "lxc.mount.entry: /dev/fb0" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file" >> "$CONFIG_FILE"
+    fi
+
+    msg_ok "$(translate 'iGPU configuration added to container') $CONTAINER_ID."
+}
+
+# Install iGPU drivers in the container
+install_igpu_in_container() {
+    msg_info "$(translate 'Installing iGPU drivers inside the container...')"
+    pct start "$CONTAINER_ID"
+    pct exec "$CONTAINER_ID" -- bash -c "
+    apt-get update && \
+    apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools && \
+    chgrp video /dev/dri && chmod 755 /dev/dri && \
+    adduser root video && adduser root render
+    "
+    msg_ok "$(translate 'iGPU drivers installed inside the container.')"
+}
+
+# Install TPU on host and verification.
+NEED_REBOOT=0
+install_coral_host() {
+    FORCE_REINSTALL=$1
+
+    # Check if the driver is already installed
+    if [ "$FORCE_REINSTALL" != "--force" ]; then
+        msg_info "$(translate 'Checking if Coral TPU drivers are already installed...')"
+        if dpkg -l | grep -qw gasket-dkms; then
+            msg_ok "$(translate 'Coral TPU drivers are already installed.')"
+            return 0
+        fi
+    fi
+
+    msg_info "$(translate 'Installing Coral TPU drivers on the host...')"
+    verify_and_add_repos
+    apt-get install -y git devscripts dh-dkms dkms pve-headers-$(uname -r)
+
+    # Clone the default branch of the repository
+    cd /tmp
+    rm -rf gasket-driver
+    msg_info "$(translate 'Cloning the default branch of the Google Coral repository...')"
+    git clone https://github.com/google/gasket-driver.git
+    if [ $? -ne 0 ]; then
+        msg_error "$(translate 'Could not clone the repository.')"
+        exit 1
+    fi
+
+    cd gasket-driver/
+
+    # Build and install the .deb package
+    debuild -us -uc -tc -b
+    if [ $? -ne 0 ]; then
+        msg_error "$(translate 'Error building the driver packages.')"
+        exit 1
+    fi
+
+    dpkg -i ../gasket-dkms_*.deb
+    if [ $? -ne 0 ]; then
+        msg_error "$(translate 'Error installing the driver packages.')"
+        exit 1
+    fi
+
+    msg_ok "$(translate 'Coral TPU drivers installed on the host from the default branch.')"
+    NEED_REBOOT=1  # Mark that a full server reboot is required
+}
+
+# Install Coral TPU drivers in the container
+install_coral_in_container() {
+    msg_info "$(translate 'Detecting Coral TPU devices inside the container...')"
+    CORAL_M2=$(lspci | grep -i "Global Unichip")
+
+    if [[ -n "$CORAL_M2" ]]; then
+        DRIVER_OPTION=$(whiptail --title "$(translate 'Select driver version')" \
+            --menu "$(translate 'Choose the driver version for Coral M.2:\n\nCaution: Maximum mode generates more heat.')" 15 60 2 \
+            1 "libedgetpu1-std ($(translate 'standard performance'))" \
+            2 "libedgetpu1-max ($(translate 'maximum performance'))" 3>&1 1>&2 2>&3)
+
+        case "$DRIVER_OPTION" in
+            1) DRIVER_PACKAGE="libedgetpu1-std" ;;
+            2) DRIVER_PACKAGE="libedgetpu1-max" ;;
+            *) DRIVER_PACKAGE="libedgetpu1-std" ;;
+        esac
+    else
+        DRIVER_PACKAGE="libedgetpu1-std"
+    fi
+
+    pct start "$CONTAINER_ID"
+    pct exec "$CONTAINER_ID" -- bash -c "
+    apt-get update && \
+    apt-get install -y gnupg python3 python3-pip python3-venv && \
+    curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/coral-edgetpu.gpg && \
+    echo 'deb [signed-by=/usr/share/keyrings/coral-edgetpu.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main' | tee /etc/apt/sources.list.d/coral-edgetpu.list && \
+    apt-get update && \
+    apt-get install -y $DRIVER_PACKAGE
+    "
+    msg_ok "$(translate 'Coral TPU drivers installed inside the container.')"
+}
+
+# Logic of the Coral installation process
+if dpkg -l | grep -qw gasket-dkms; then
+    msg_info "$(translate 'Coral drivers are already installed on the host.')"
+
+    if (whiptail --title "$(translate 'Reinstall drivers')" --yesno "$(translate 'Do you want to reinstall Coral drivers on the server?\n(This is only necessary in case of error)')" 10 60); then
+        msg_info "$(translate 'Reinstalling Coral drivers on the host...')"
+        install_coral_host --force
+        configure_lxc_for_coral && CHANGES_MADE=1
+        install_coral_in_container && CHANGES_MADE=1
+        configure_lxc_for_igpu && CHANGES_MADE=1
+        install_igpu_in_container && CHANGES_MADE=1
+        msg_info "$(translate 'Restarting the udev service to apply changes...')"
+        systemctl restart udev
+        msg_ok "$(translate 'The udev service has been successfully restarted. No full server reboot required.')"
+    else
+        configure_lxc_for_coral && CHANGES_MADE=1
+        install_coral_in_container && CHANGES_MADE=1
+        configure_lxc_for_igpu && CHANGES_MADE=1
+        install_igpu_in_container && CHANGES_MADE=1
+        if [ "$CHANGES_MADE" -eq 1 ]; then
+            if pct status "$CONTAINER_ID" | grep -q "running"; then
+                pct restart "$CONTAINER_ID"
+            else
+                pct start "$CONTAINER_ID"
+            fi
+            msg_ok "$(translate 'Container') $CONTAINER_ID $(translate 'has been restarted to apply Coral TPU changes.')"
+        fi
+    fi
+else
+    msg_info "$(translate 'Installing Coral drivers for the first time on the host...')"
+    install_coral_host
+    configure_lxc_for_coral && CHANGES_MADE=1
+    install_coral_in_container && CHANGES_MADE=1
+    configure_lxc_for_igpu && CHANGES_MADE=1
+    install_igpu_in_container && CHANGES_MADE=1
+    if pct status "$CONTAINER_ID" | grep -q "running"; then
+        pct restart "$CONTAINER_ID"
+    else
+        pct start "$CONTAINER_ID"
+    fi
+fi
+
+msg_ok "$(translate 'Configuration completed.')"
+
+# Request restart at the end if necessary
+final_restart_prompt
+
+# Start
+validate_pve_version
+select_container
+final_restart_prompt
