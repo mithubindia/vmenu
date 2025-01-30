@@ -55,6 +55,14 @@ load_language() {
 # ==========================================================
 
 
+# Validar que el contenedor seleccionado es válido
+validate_container_id() {
+    if [ -z "$CONTAINER_ID" ]; then
+        msg_error "ID del contenedor no definido. Asegúrate de seleccionar un contenedor primero."
+        exit 1
+    fi
+}
+
 
 # Selección del contenedor LXC
 select_container() {
@@ -80,6 +88,7 @@ select_container() {
     msg_ok "Contenedor seleccionado: $CONTAINER_ID"
 }
 
+
 # Validar y cambiar a privilegiado si es necesario
 ensure_privileged_container() {
     validate_container_id
@@ -100,6 +109,7 @@ ensure_privileged_container() {
         msg_ok "Contenedor cambiado a privilegiado."
     fi
 }
+
 
 # Configurar iGPU en el contenedor
 configure_lxc_for_igpu() {
@@ -190,6 +200,16 @@ load_language() {
 }
 
 # ==========================================================
+
+
+# Validar que el contenedor seleccionado es válido
+validate_container_id() {
+    if [ -z "$CONTAINER_ID" ]; then
+        msg_error "ID del contenedor no definido. Asegúrate de seleccionar un contenedor primero."
+        exit 1
+    fi
+}
+
 
 # Select LXC container
 select_container() {
