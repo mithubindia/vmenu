@@ -138,7 +138,6 @@ configure_lxc_for_igpu() {
 # Install iGPU drivers in the container
 install_igpu_in_container() {
     echo -ne "\r${TAB}${YW}-$(translate 'Installing iGPU drivers inside the container...') ${CL}"
-    # msg_info "$(translate 'Installing iGPU drivers inside the container...')"
     pct start "$CONTAINER_ID"
     pct exec "$CONTAINER_ID" -- bash -c "
     apt-get update && \
