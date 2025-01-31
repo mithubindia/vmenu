@@ -24,18 +24,9 @@ if ! source <(curl -sSf "$UTILS_URL"); then
     exit 1
 fi
 
-initialize_cache() {
-    if [ ! -f "$CACHE_FILE" ]; then
-        echo "{}" > "$CACHE_FILE"
-        return
-    fi
-}
+initialize_cache
+load_language
 
-load_language() {
-    if [ -f "$CONFIG_FILE" ]; then
-        LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
-    fi
-}
 # ==========================================================
 
     while true; do
