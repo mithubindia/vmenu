@@ -80,7 +80,6 @@ verify_and_add_repos() {
         apt-get update &>/dev/null
 
         msg_ok "Verified and updated repositories."
-        sleep 2
 }
 
 
@@ -90,7 +89,7 @@ install_coral_host() {
 
     verify_and_add_repos
 
-    apt-get install -y git devscripts dh-dkms dkms pve-headers-$(uname -r)
+    apt-get install -y git devscripts dh-dkms dkms pve-headers-$(uname -r) >/dev/null 2>&1
 
     cd /tmp
     rm -rf gasket-driver
