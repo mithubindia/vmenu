@@ -28,7 +28,7 @@ fi
 
 
     while true; do
-        OPTION=$(whiptail --title "$(translate "GPUs and Coral-TPU Menu")" --menu "$(translate "Select an option:")" 15 60 3 \
+        OPTION=$(whiptail --title "$(translate "GPUs and Coral-TPU Menu")" --menu "$(translate "Select an option:")" 15 60 8 \
             "1" "$(translate "Añadir aceleración gráfica HW iGPU a un LXC")" \
             "2" "$(translate "Añadir Coral TPU a un LXC")" \
             "3" "$(translate "Instalar/Actualizar Coral TPU en el Host")" \
