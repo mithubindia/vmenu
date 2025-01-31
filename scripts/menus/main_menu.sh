@@ -11,22 +11,20 @@
 # ==========================================================
 
 
-# Configuration
+# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
 BASE_DIR="/usr/local/share/proxmenux"
 CACHE_FILE="$BASE_DIR/cache.json"
 VENV_PATH="/opt/googletrans-env"
-LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
+# LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
 
 
-# Try to load utils.sh from GitHub
 if ! source <(curl -sSf "$UTILS_URL"); then
     echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
     exit 1
 fi
 
-# Initialize cache
 initialize_cache() {
     if [ ! -f "$CACHE_FILE" ]; then
         echo "{}" > "$CACHE_FILE"
@@ -34,12 +32,13 @@ initialize_cache() {
     fi
 }
 
- # Load language from JSON file
 load_language() {
     if [ -f "$CONFIG_FILE" ]; then
         LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
     fi
 }
+# ==========================================================
+
 
 show_menu() {
     while true; do
