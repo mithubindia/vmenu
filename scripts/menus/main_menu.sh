@@ -42,7 +42,7 @@ load_language() {
 
 show_menu() {
     while true; do
-        OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 15 60 10 \
+        OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 15 60 5 \
             "1" "$(translate "GPUs and Coral-TPU")" \
             "2" "$(translate "Hard Drives, Disk Images, and Storage")" \
             "3" "$(translate "Network")" \
