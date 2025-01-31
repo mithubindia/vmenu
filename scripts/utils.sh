@@ -37,8 +37,6 @@ HOLD="-"
 CM="${GN}✓${CL}"
 TAB="    "  
 
-# Default language
-LANGUAGE="${LANGUAGE:-en}"
 
 # Create and display spinner
 spinner() {
@@ -84,6 +82,12 @@ initialize_cache() {
     if [ ! -f "$CACHE_FILE" ]; then
         mkdir -p "$(dirname "$CACHE_FILE")"
         echo "{}" > "$CACHE_FILE"
+    fi
+}
+
+load_language() {
+    if [ -f "$CONFIG_FILE" ]; then
+        LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
     fi
 }
 
