@@ -75,21 +75,18 @@ select_container() {
 }
 
 
+# Validate that the selected container is valid
 validate_container_id() {
     if [ -z "$CONTAINER_ID" ]; then
         msg_error "$(translate 'Container ID not defined. Make sure to select a container first.')"
         exit 1
     fi
-    
+
     # Check if the container is running and stop it before configuration
     if pct status "$CONTAINER_ID" | grep -q "running"; then
         msg_info "$(translate 'Stopping the container before applying configuration...')"
         pct stop "$CONTAINER_ID"
         msg_ok "$(translate 'Container stopped.')"
-    fi
-    if [ -z "$CONTAINER_ID" ]; then
-        msg_error "$(translate 'Container ID not defined. Make sure to select a container first.')"
-        exit 1
     fi
 }
 
@@ -116,19 +113,6 @@ configure_lxc_hardware() {
         msg_ok "$(translate 'The container is already privileged.')"
     fi
 
-    # Configure Coral TPU (USB and M.2)
-    if ! grep -Pq "^lxc.cgroup2.devices.allow: c 189:\* rwm # Coral USB$" "$CONFIG_FILE"; then
-        echo "lxc.cgroup2.devices.allow: c 189:* rwm # Coral USB" >> "$CONFIG_FILE"
-    fi
-
-    if ! grep -Pq "^lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir" >> "$CONFIG_FILE"
-    fi
-
-    if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
-    fi
-
     # Configure iGPU
     if ! grep -q "features: nesting=1" "$CONFIG_FILE"; then
         echo "features: nesting=1" >> "$CONFIG_FILE"
@@ -147,6 +131,19 @@ configure_lxc_hardware() {
 
     if ! grep -q "lxc.mount.entry: /dev/fb0" "$CONFIG_FILE"; then
         echo "lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file" >> "$CONFIG_FILE"
+    fi
+
+   # Configure Coral TPU (USB and M.2)
+    if ! grep -Pq "^lxc.cgroup2.devices.allow: c 189:\* rwm # Coral USB$" "$CONFIG_FILE"; then
+        echo "lxc.cgroup2.devices.allow: c 189:* rwm # Coral USB" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -Pq "^lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir$" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir" >> "$CONFIG_FILE"
+    fi
+
+    if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
     fi
 
     msg_ok "$(translate 'Coral TPU and iGPU configuration added to container') $CONTAINER_ID."
