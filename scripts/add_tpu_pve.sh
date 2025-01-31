@@ -1,0 +1,135 @@
+#!/bin/bash
+
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
+# ==========================================================
+# Description:
+# This script installs the Coral TPU drivers on the Proxmox VE host.
+# It ensures that necessary packages are installed and compiles the
+# Coral TPU drivers for proper functionality.
+# ==========================================================
+
+
+
+# Configuration ============================================
+UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+BASE_DIR="/usr/local/share/proxmenux"
+CACHE_FILE="$BASE_DIR/cache.json"
+CONFIG_FILE="$BASE_DIR/config.json"
+VENV_PATH="/opt/googletrans-env"
+
+if ! source <(curl -sSf "$UTILS_URL"); then
+    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
+    exit 1
+fi
+
+initialize_cache() {
+    if [ ! -f "$CACHE_FILE" ]; then
+        echo "{}" > "$CACHE_FILE"
+        return
+    fi
+}
+
+load_language() {
+    if [ -f "$CONFIG_FILE" ]; then
+        LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
+    fi
+}
+# ==========================================================
+
+
+
+# Prompt before installation
+pre_install_prompt() {
+    if ! whiptail --title "Coral TPU Installation" --yesno "Installing Coral TPU drivers requires rebooting the server after installation. Do you want to proceed?" 8 60; then
+         echo -ne "\r${TAB}${YW}-$(translate 'Installation cancelled by user. Exiting.') ${CL}"
+        exit 0
+    fi
+}
+
+
+
+# Verificar y configurar repositorios en el host
+verify_and_add_repos() {
+
+    msg_info "Configuring necessary repositories on the host..."
+    sleep 2
+
+    if ! grep -q "pve-no-subscription" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
+        echo "deb http://download.proxmox.com/debian/pve $(lsb_release -sc) pve-no-subscription" | tee /etc/apt/sources.list.d/pve-no-subscription.list
+        msg_ok "Repositorio pve-no-subscription añadido."
+    fi
+
+    if ! grep -q "non-free-firmware" /etc/apt/sources.list; then
+        echo "deb http://deb.debian.org/debian $(lsb_release -sc) main contrib non-free-firmware
+        deb http://deb.debian.org/debian $(lsb_release -sc)-updates main contrib non-free-firmware
+        deb http://security.debian.org/debian-security $(lsb_release -sc)-security main contrib non-free-firmware" | tee -a /etc/apt/sources.list
+        msg_ok "Repositorios non-free-firmware añadidos."
+    fi
+
+        msg_ok "Added repositories"
+        sleep 2
+
+        msg_info "Verifying repositories..."
+        apt-get update &>/dev/null
+
+        msg_ok "Verified and updated repositories."
+        sleep 2
+}
+
+
+
+# Function to install Coral TPU drivers on the host
+install_coral_host() {
+
+    verify_and_add_repos
+
+    apt-get install -y git devscripts dh-dkms dkms pve-headers-$(uname -r)
+
+    cd /tmp
+    rm -rf gasket-driver
+    git clone https://github.com/google/gasket-driver.git
+    if [ $? -ne 0 ]; then
+        msg_error "Error: Could not clone the repository."
+        exit 1
+    fi
+
+    cd gasket-driver/
+    debuild -us -uc -tc -b
+    if [ $? -ne 0 ]; then
+        msg_error "Error: Failed to build driver packages."
+        exit 1
+    fi
+
+    dpkg -i ../gasket-dkms_*.deb
+    if [ $? -ne 0 ]; then
+        msg_error "Error: Failed to install the driver packages."
+        exit 1
+    fi
+
+    msg_ok "Coral TPU drivers installed successfully on the host."
+}
+
+# Prompt for reboot after installation
+restart_prompt() {
+
+    if whiptail --title "Coral TPU Installation" --yesno "The installation requires a server restart to apply changes. Do you want to restart now?" 8 60; then
+
+        echo -ne "\r${TAB}${YW}-$(translate 'Restarting the server...') ${CL}"
+        reboot
+    fi
+
+}
+
+
+
+# Main logic
+pre_install_prompt
+install_coral_host
+restart_prompt
