@@ -54,13 +54,21 @@ load_language() {
 # ==========================================================
 
 
-# Validar que el contenedor seleccionado es válido
+# Validate that the selected container is valid
 validate_container_id() {
     if [ -z "$CONTAINER_ID" ]; then
-        msg_error "ID del contenedor no definido. Asegúrate de seleccionar un contenedor primero."
+        msg_error "$(translate 'Container ID not defined. Make sure to select a container first.')"
         exit 1
     fi
+
+    # Check if the container is running and stop it before configuration
+    if pct status "$CONTAINER_ID" | grep -q "running"; then
+        msg_info "$(translate 'Stopping the container before applying configuration...')"
+        pct stop "$CONTAINER_ID"
+        msg_ok "$(translate 'Container stopped.')"
+    fi
 }
+
 
 
 # Select LXC container
