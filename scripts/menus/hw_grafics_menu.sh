@@ -30,13 +30,14 @@ fi
     while true; do
         OPTION=$(whiptail --title "$(translate "GPUs and Coral-TPU Menu")" --menu "$(translate "Select an option:")" 15 60 3 \
             "1" "$(translate "Añadir aceleración gráfica HW iGPU a un LXC")" \
-            "2" "$(translate "Añadir Coral TPU + HW iGPU a un LXC")" \
-            "3" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
+            "2" "$(translate "Añadir Coral TPU a un LXC")" \
+            "3" "$(translate "Instalar/Actualizar Coral TPU en el Host")" \
+            "4" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
         case $OPTION in
             1)
                 echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "HW iGPU LXC")...\033[0m"
-                bash <(curl -s "$REPO_URL/scripts/configure_igpu.sh")
+                bash <(curl -s "$REPO_URL/scripts/configure_igpu_lxc.sh")
                 if [ $? -ne 0 ]; then
                     msg_info "$(translate "Operation cancelled.")"
                     sleep 2
@@ -44,7 +45,15 @@ fi
                 ;;
             2)
                 echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Coral TPU LXC")...\033[0m"
-                bash <(curl -s "$REPO_URL/scripts/configure_coral.sh")
+                bash <(curl -s "$REPO_URL/scripts/install_coral_lxc.sh")
+                if [ $? -ne 0 ]; then
+                    msg_info "$(translate "Operation cancelled.")"
+                    sleep 2
+                fi
+                ;;
+            3)
+                echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Coral TPU LXC")...\033[0m"
+                bash <(curl -s "$REPO_URL/scripts/install_coral_pve.sh")
                 if [ $? -ne 0 ]; then
                     msg_info "$(translate "Operation cancelled.")"
                     sleep 2
