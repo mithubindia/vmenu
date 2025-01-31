@@ -65,6 +65,7 @@ validate_container_id() {
 
 # Select LXC container
 select_container() {
+    clear
     CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)
     if [ -z "$CONTAINERS" ]; then
         msg_error "$(translate 'No containers available in Proxmox.')"
