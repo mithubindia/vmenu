@@ -50,7 +50,5 @@ done
 }
 
 # Main flow
-initialize_cache
-load_language
 show_menu
 
