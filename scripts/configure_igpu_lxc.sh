@@ -149,7 +149,7 @@ configure_lxc_hardware() {
 
 # Install Coral TPU drivers in the container
 install_coral_in_container() {
-    echo -ne "\r${TAB}${YW}- $(translate 'Installing iGPU and Coral TPU drivers inside the container...') ${CL}"
+    echo -ne "${TAB}${YW}- $(translate 'Installing iGPU and Coral TPU drivers inside the container...') ${CL}"
 
     pct start "$CONTAINER_ID"
 
