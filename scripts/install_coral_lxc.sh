@@ -186,7 +186,7 @@ install_coral_in_container() {
 
     echo "- Installing Coral TPU driver (\$DRIVER_PACKAGE)..."
     apt-get install -y \$DRIVER_PACKAGE
-    EOF>>
+    EOF
 
 
     msg_ok "$(translate 'iGPU and Coral TPU drivers installed inside the container.')"
