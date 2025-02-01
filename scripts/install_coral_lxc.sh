@@ -35,9 +35,8 @@ if ! source <(curl -sSf "$UTILS_URL"); then
     exit 1
 fi
 
-initialize_cache
 load_language
-
+initialize_cache
 # ==========================================================
 
 # Select LXC container
