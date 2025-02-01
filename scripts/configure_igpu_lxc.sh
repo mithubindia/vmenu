@@ -134,7 +134,8 @@ install_igpu_in_container() {
     echo -ne "${TAB}${YW}-$(translate 'Installing iGPU drivers inside the container...') ${CL}"
     pct start "$CONTAINER_ID"
     pct exec "$CONTAINER_ID" -- bash -c "
-
+    set -e
+    echo '- Container $CONTAINER_ID start'
     apt-get update && \
     apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools && \
     chgrp video /dev/dri && chmod 755 /dev/dri && \
