@@ -83,7 +83,7 @@ validate_container_id() {
 
 
 # Configure LXC for Coral TPU and iGPU
-configure_lxc_hardware() {
+configure_lxc_for_igpu() {
     validate_container_id
     CONFIG_FILE="/etc/pve/lxc/${CONTAINER_ID}.conf"
     if [ ! -f "$CONFIG_FILE" ]; then
@@ -100,8 +100,6 @@ configure_lxc_hardware() {
             chown -R root:root "$STORAGE_PATH"
         fi
         msg_ok "$(translate 'Container changed to privileged.')"
-    else
-        msg_ok "$(translate 'The container is already privileged.')"
     fi
 
     # Configure iGPU
