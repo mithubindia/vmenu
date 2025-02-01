@@ -163,7 +163,7 @@ install_coral_in_container() {
         DRIVER_PACKAGE="libedgetpu1-std"
     fi
 
-pct exec "$CONTAINER_ID" -- bash -c "
+pct exec "$CONTAINER_ID" -- bash -c '
 set -e
 
 echo "- Updating package lists..."
@@ -186,7 +186,8 @@ apt-get update
 
 echo "- Installing Coral TPU driver ($DRIVER_PACKAGE)..."
 apt-get install -y $DRIVER_PACKAGE
-"
+'
+
 
     msg_ok "$(translate 'iGPU and Coral TPU drivers installed inside the container.')"
 }
