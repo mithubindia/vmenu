@@ -39,7 +39,6 @@ initialize_cache
 
 
 
-
 # Select LXC container
 select_container() {
     CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)
@@ -66,7 +65,6 @@ select_container() {
 
 
 
-
 # Validate that the selected container is valid
 validate_container_id() {
     if [ -z "$CONTAINER_ID" ]; then
@@ -81,7 +79,6 @@ validate_container_id() {
         msg_ok "$(translate 'Container stopped.')"
     fi
 }
-
 
 
 
@@ -127,83 +124,32 @@ configure_lxc_hardware() {
         echo "lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file" >> "$CONFIG_FILE"
     fi
 
-   # Configure Coral TPU (USB and M.2)
-    if ! grep -Pq "^lxc.cgroup2.devices.allow: c 189:\* rwm # Coral USB$" "$CONFIG_FILE"; then
-        echo "lxc.cgroup2.devices.allow: c 189:* rwm # Coral USB" >> "$CONFIG_FILE"
-    fi
-
-    if ! grep -Pq "^lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir" >> "$CONFIG_FILE"
-    fi
-
-    if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
-    fi
 
     msg_ok "$(translate 'Coral TPU and iGPU configuration added to container') $CONTAINER_ID."
 }
 
 
 
+# Install iGPU drivers in the container
+install_igpu_in_container() {
 
-
-# Install Coral TPU drivers in the container
-install_coral_in_container() {
-    echo -ne "${TAB}${YW}- $(translate 'Installing iGPU and Coral TPU drivers inside the container...') ${CL}"
-
+    echo -ne "${TAB}${YW}-$(translate 'Installing iGPU drivers inside the container...') ${CL}"
     pct start "$CONTAINER_ID"
+    pct exec "$CONTAINER_ID" -- bash -c "
 
-    CORAL_M2=$(lspci | grep -i "Global Unichip")
-    if [[ -n "$CORAL_M2" ]]; then
-        DRIVER_OPTION=$(whiptail --title "$(translate 'Select driver version')" \
-            --menu "$(translate 'Choose the driver version for Coral M.2:\n\nCaution: Maximum mode generates more heat.')" 15 60 2 \
-            1 "libedgetpu1-std ($(translate 'standard performance'))" \
-            2 "libedgetpu1-max ($(translate 'maximum performance'))" 3>&1 1>&2 2>&3)
-
-        case "$DRIVER_OPTION" in
-            1) DRIVER_PACKAGE="libedgetpu1-std" ;;
-            2) DRIVER_PACKAGE="libedgetpu1-max" ;;
-            *) DRIVER_PACKAGE="libedgetpu1-std" ;;
-        esac
-    else
-        DRIVER_PACKAGE="libedgetpu1-std"
-    fi
-
-    pct exec "$CONTAINER_ID" -- bash <<EOF
-set -e
-
-echo "- Updating package lists..."
-apt-get update
-
-echo "- Installing iGPU drivers..."
-apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools
-chgrp video /dev/dri && chmod 755 /dev/dri
-adduser root video && adduser root render
-
-echo "- Installing Coral TPU dependencies..."
-apt-get install -y gnupg python3 python3-pip python3-venv
-
-echo "- Adding Coral TPU repository..."
-curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/coral-edgetpu.gpg
-echo 'deb [signed-by=/usr/share/keyrings/coral-edgetpu.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main' | tee /etc/apt/sources.list.d/coral-edgetpu.list
-
-echo "- Updating package lists again..."
-apt-get update
-
-echo "- Installing Coral TPU driver (\$DRIVER_PACKAGE)..."
-apt-get install -y \$DRIVER_PACKAGE
-EOF
-
-
-    msg_ok "$(translate 'iGPU and Coral TPU drivers installed inside the container.')"
+    apt-get update && \
+    apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools && \
+    chgrp video /dev/dri && chmod 755 /dev/dri && \
+    adduser root video && adduser root render
+    "
+    msg_ok "$(translate 'iGPU drivers installed inside the container.')"
 }
 
 
 
 select_container 
-configure_lxc_hardware
-install_coral_in_container 
+configure_lxc_for_igpu
+install_igpu_in_container
 
 
-
-msg_ok "$(translate 'Configuration completed.')"
+msg_ok "$(translate 'iGPU configuration completed in container') $CONTAINER_ID."
