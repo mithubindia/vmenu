@@ -19,7 +19,6 @@ VENV_PATH="/opt/googletrans-env"
 
 if [[ -f "$UTILS_FILE" ]]; then
     source "$UTILS_FILE"
-
 fi
 
 load_language
