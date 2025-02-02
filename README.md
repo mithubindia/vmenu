@@ -36,7 +36,7 @@ _(Add screenshots or GIFs showcasing ProxMenux in action)_
 
 ## 📌 System Requirements
 🖥 **Compatible with:**
-- Proxmox VE **7.x / 8.x**
+- Proxmox VE 8.x**
 - Debian-based systems
 
 📦 **Dependencies:**
