@@ -27,7 +27,7 @@ initialize_cache
 
 show_config_menu() {
     while true; do
-        OPTION=$(whiptail --title "$(translate "Configuration Menu")" --menu "$(translate "Select an option:")" 15 60 4 \
+        OPTION=$(whiptail --title "$(translate "Configuration Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "Change Language")" \
             "2" "$(translate "Show Version Information")" \
             "3" "$(translate "Uninstall ProxMenu")" \
