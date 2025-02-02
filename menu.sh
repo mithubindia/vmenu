@@ -43,7 +43,7 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 # ==========================================================
 
-show_proxmenu_logo
+show_proxmenu_logo_m
 
 # Initialize language configuration
 initialize_config() {
