@@ -193,13 +193,7 @@ show_main_menu() {
         "1" "$(translate 'Repair Network')" \
         "2" "$(translate 'Verify Network')" \
         "3" "$(translate 'Show IP Information')" \
-        "4" "$(translate 'Exit')" 3>&1 1>&2 2>&3)
-
-        exitstatus=$?
-        if [ $exitstatus != 0 ]; then
-            echo "$(translate 'Menu canceled')"
-            exit
-        fi
+        "4" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
         case $OPTION in
             1)
@@ -211,9 +205,9 @@ show_main_menu() {
             3)
                 show_ip_info
                 ;;
-            4)
-                return
-                ;;
+            4) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
+            *) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
+            
         esac
     done
 }
