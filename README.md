@@ -43,11 +43,6 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 ## 📌 Contributing
 Contributions are welcome! If you want to improve **ProxMenux**, feel free to fork the repository and submit a pull request.
 
----
-
-## 📌 License
-🔖 ProxMenux is licensed under the **MIT License** – You are free to use, modify, and distribute it.  
-📜 See the full license [here](https://github.com/MacRimi/ProxMenux/blob/main/LICENSE).
 
 ---
 
@@ -55,9 +50,4 @@ Contributions are welcome! If you want to improve **ProxMenux**, feel free to fo
 If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help others discover it!
 
 ---
-
-## 🔥 Final Thoughts
-This **structured README** ensures that **users quickly understand what ProxMenux does, how to install it, and how to contribute**.
-
-🚀 **Now ready to publish on GitHub!** 😃
 
