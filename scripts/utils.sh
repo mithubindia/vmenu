@@ -57,7 +57,7 @@ spinner() {
 # Display info message with spinner
 msg_info() {
     local msg="$1"
-    echo -ne "${TAB}${YW}${HOLD}${msg}${HOLD}"
+    echo -ne "${TAB}${YW}${HOLD}${msg}"
     spinner &
     SPINNER_PID=$!
 }
