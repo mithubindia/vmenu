@@ -35,10 +35,9 @@ load_language
 initialize_cache
 # ==========================================================
 
-
 # Function to detect physical network interfaces
 detect_physical_interfaces() {
-    clear
+
     physical_interfaces=$(ip -o link show | awk -F': ' '$2 !~ /^(lo|veth|dummy|bond)/ {print $2}')
     whiptail --title "$(translate 'Network Interfaces')" --msgbox "$physical_interfaces" 10 78
 }
@@ -53,6 +52,7 @@ get_relevant_interfaces() {
 
 # Function to check and fix bridge configuration
 check_and_fix_bridges() {
+
     local output=""
     output+="$(translate 'Checking bridges')\\n\\n"
     bridges=$(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}')
@@ -76,6 +76,7 @@ check_and_fix_bridges() {
 
 
 clean_nonexistent_interfaces() {
+
     local output=""
     output+="$(translate 'Cleaning interfaces')\\n\\n"
     configured_interfaces=$(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo")
@@ -91,6 +92,7 @@ clean_nonexistent_interfaces() {
 
 # Update other functions to use physical_interfaces or get_relevant_interfaces as appropriate
 configure_physical_interfaces() {
+
     local output=""
     output+="$(translate 'Configuring interfaces')\\n\\n"
     for iface in $physical_interfaces; do
@@ -105,6 +107,8 @@ configure_physical_interfaces() {
 # Function to restart networking service
 restart_networking() {
     if (whiptail --title "$(translate 'Restarting Network')" --yesno "$(translate 'Do you want to restart the network service?')" 10 60); then
+        clear
+        msg_info "$(translate 'The network service is about to restart. You may experience a brief disconnection.')"
         systemctl restart networking
         if [ $? -eq 0 ]; then
             msg_ok "$(translate 'Network service restarted successfully')"
@@ -112,7 +116,7 @@ restart_networking() {
             msg_error "$(translate 'Failed to restart network service')"
         fi
     else
-        msg_info "$(translate 'Network restart canceled')"
+        msg_ok "$(translate 'Network restart canceled')"
     fi
 }
 
@@ -122,7 +126,7 @@ check_network_connectivity() {
         msg_ok "$(translate 'Network connectivity OK')"
         return 0
     else
-        msg_info "$(translate 'Network connectivity failed')"
+        msg_error "$(translate 'Network connectivity failed')"
         return 1
     fi
 }
@@ -133,9 +137,9 @@ show_ip_info() {
     whiptail --title "$(translate 'IP Information')" --infobox "$(translate 'Gathering IP information...')" 8 78
     local ip_info=""
     ip_info+="$(translate 'IP Information')\\n\\n"
-    
+
     local interfaces=$(get_relevant_interfaces)
-    
+
     for interface in $interfaces; do
         local interface_ip=$(ip -4 addr show $interface 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
         if [ -n "$interface_ip" ]; then
@@ -144,7 +148,7 @@ show_ip_info() {
             ip_info+="$interface: $(translate 'No IP assigned')\\n"
         fi
     done
-    
+
     whiptail --title "$(translate 'Result')" --msgbox "${ip_info}\\n\\n$(translate 'IP information gathering completed')\\n\\n$(translate 'Press Enter to continue')" 20 78
 }
 
@@ -152,6 +156,8 @@ show_ip_info() {
 # Function to repair network
 repair_network() {
     whiptail --title "$(translate 'Network Repair Started')" --infobox "$(translate 'Repairing network...')" 8 78
+    echo -ne "${TAB}${YW}-$(translate 'Repairing network...') ${CL}"
+    sleep 3
     detect_physical_interfaces
     clean_nonexistent_interfaces
     check_and_fix_bridges
@@ -169,6 +175,7 @@ repair_network() {
 # Function to verify network configuration
 verify_network() {
     whiptail --title "$(translate 'Network Verification Started')" --infobox "$(translate 'Verifying network...')" 8 78
+    echo -ne "${TAB}${YW}-$(translate 'Verifying network...') ${CL}"
     detect_physical_interfaces
     show_ip_info
     if check_network_connectivity; then
@@ -212,5 +219,5 @@ show_main_menu() {
 }
 
 
-
+    clear
     show_main_menu
