@@ -42,4 +42,12 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 ## ⭐ Support the Project!
 If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help others discover it!
 
+<div style="display: flex; justify-content: center; align-items: center;">
+  <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
+    <img src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png" alt="Support me on Ko-fi" style="width:175px; margin-right:65px;"/>
+  </a>
+</div>
+
+If you would like to support the project, you can buy me a coffee on Ko-fi! Thank you! 😊
+
 
