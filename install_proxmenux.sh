@@ -33,6 +33,7 @@
 # the system for running ProxMenux efficiently.
 # ==========================================================
 
+
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
@@ -49,6 +50,7 @@ if ! source <(curl -sSf "$UTILS_URL"); then
     echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
     exit 1
 fi
+
 # ==========================================================
 
 # Verify that it's run as root
@@ -57,10 +59,12 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+
 show_proxmenu_logo
 
-# Display installation confirmation
-echo -e "${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
+
+# Display installation information
+echo -e "${YW}ProxMenu will install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
 echo -e "${TAB}- curl (if not already installed)"
 echo -e "${TAB}- jq (if not already installed)"
@@ -68,13 +72,18 @@ echo -e "${TAB}- Python 3 (if not already installed)"
 echo -e "${TAB}- Virtual environment for Google Translate"
 echo -e "${TAB}- ProxMenu scripts and configuration files"
 echo
-read -p "Do you want to proceed with the installation? (y/n) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    msg_warn "Installation cancelled."
-    exit 1
-fi
+
+# Ask for user confirmation
+while true; do
+    echo -n "Do you want to proceed with the installation? (y/n): "
+    read -r REPLY
+    case $REPLY in
+        [Yy]* ) break;;
+        [Nn]* ) msg_warn "Installation cancelled."; exit 1;;
+        * ) echo "Please answer yes (y) or no (n).";;
+    esac
+done
+
 
 # Check system dependencies
 msg_info "Checking system dependencies..."
