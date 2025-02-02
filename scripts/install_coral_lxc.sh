@@ -24,20 +24,19 @@
 # ==========================================================
 
 # Configuration ============================================
-UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
-CACHE_FILE="$BASE_DIR/cache.json"
-CONFIG_FILE="$BASE_DIR/config.json"
+UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
-if ! source <(curl -sSf "$UTILS_URL"); then
-    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
-    exit 1
+if [[ -f "$UTILS_FILE" ]]; then
+    source "$UTILS_FILE"
 fi
 
 load_language
 initialize_cache
 # ==========================================================
+
 
 # Select LXC container
 select_container() {
