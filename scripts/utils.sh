@@ -65,7 +65,7 @@ msg_info() {
 # Display warning or highlighted information message
 msg_warn() {
     local msg="$1"
-    echo -e "${BFR}${TAB}${YWB}[INFO]${CL} ${YWB}${msg}${CL}"
+    echo -e "${BFR}${TAB}${YWB}${CL} ${YWB}${msg}${CL}"
 }
 
 # Display success message
