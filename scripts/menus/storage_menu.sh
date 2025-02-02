@@ -26,7 +26,7 @@ initialize_cache
 
 
     while true; do
-        OPTION=$(whiptail --title "$(translate "Disk and Storage Menu")" --menu "$(translate "Select an option:")" 15 60 3 \
+        OPTION=$(whiptail --title "$(translate "Disk and Storage Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "Add Disk Passthrough to a VM")" \
             "2" "$(translate "Import Disk Image to a VM")" \
             "3" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
