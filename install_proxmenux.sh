@@ -63,8 +63,8 @@ fi
 show_proxmenu_logo
 
 
-# Display installation information
-echo -e "${YW}ProxMenu will install the following components:${CL}"
+# Display installation confirmation
+echo -e "${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
 echo -e "${TAB}- curl (if not already installed)"
 echo -e "${TAB}- jq (if not already installed)"
@@ -72,17 +72,13 @@ echo -e "${TAB}- Python 3 (if not already installed)"
 echo -e "${TAB}- Virtual environment for Google Translate"
 echo -e "${TAB}- ProxMenu scripts and configuration files"
 echo
-
-# Ask for user confirmation
-while true; do
-    echo -n "Do you want to proceed with the installation? (y/n): "
-    read -r REPLY
-    case $REPLY in
-        [Yy]* ) break;;
-        [Nn]* ) msg_warn "Installation cancelled."; exit 1;;
-        * ) echo "Please answer yes (y) or no (n).";;
-    esac
-done
+read -p "Do you want to proceed with the installation? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    msg_warn "Installation cancelled."
+    exit 1
+fi
 
 
 # Check system dependencies
