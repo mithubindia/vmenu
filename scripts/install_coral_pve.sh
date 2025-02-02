@@ -105,6 +105,7 @@ restart_prompt() {
 }
 
 # Main logic
+clear
 pre_install_prompt
 install_coral_host
 restart_prompt
