@@ -62,6 +62,12 @@ msg_info() {
     SPINNER_PID=$!
 }
 
+# Display warning or highlighted information message
+msg_warn() {
+    local msg="$1"
+    echo -e "${BFR}${TAB}${YWB}[INFO]${CL} ${YWB}${msg}${CL}"
+}
+
 # Display success message
 msg_ok() {
     if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
