@@ -31,8 +31,6 @@ initialize_cache
 # ==========================================================
 
 
-
-
 # Prompt before installation
 pre_install_prompt() {
     if ! whiptail --title "Coral TPU Installation" --yesno "Installing Coral TPU drivers requires rebooting the server after installation. Do you want to proceed?" 8 60; then
