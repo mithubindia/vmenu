@@ -36,6 +36,7 @@ _(Add screenshots or GIFs showcasing ProxMenux in action)_
 
 ## 📌 Features & Menu Options
 **ProxMenux** allows you to:
+
 ✅ **Manage virtual machines (VMs) and containers (LXC).**  
 ✅ **Assign or passthrough GPUs to VMs.**  
 ✅ **Backup and restore configurations.**  
