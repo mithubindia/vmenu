@@ -25,7 +25,7 @@ initialize_cache
 # ==========================================================
 
     while true; do
-        OPTION=$(whiptail --title "$(translate "GPUs and Coral-TPU Menu")" --menu "$(translate "Select an option:")" 15 60 8 \
+        OPTION=$(whiptail --title "$(translate "GPUs and Coral-TPU Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "Add HW iGPU acceleration to an LXC")" \
             "2" "$(translate "Add Coral TPU to an LXC")" \
             "3" "$(translate "Install/Update Coral TPU on the Host")" \
