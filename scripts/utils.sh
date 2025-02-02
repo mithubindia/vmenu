@@ -196,7 +196,7 @@ print(translate_text('$text', '$dest_lang'))
 }
 
 
-function show_proxmenu_logo {
+show_proxmenu_logo {
   clear
   
   echo -e "${GN}"
