@@ -1,145 +1,157 @@
 #!/bin/bash
 
-# Configuración
-VERSION="1.0"
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
+# ==========================================================
+# Description:
+# This script allows users to assign physical disks for passthrough to existing
+# Proxmox virtual machines (VMs) through an interactive menu.
+# - Detects and lists physical and network interfaces.
+# - Verifies and repairs bridge configurations.
+# - Ensures network connectivity by checking IP assignments.
+# - Provides options to manually repair or verify network settings.
+# - Offers interactive menus for user-friendly operation.
+#
+# The script aims to simplify network troubleshooting and ensure
+# that Proxmox systems maintain stable connectivity.
+# ==========================================================
+
+# Configuration ============================================
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
-LANG_DIR="$BASE_DIR/lang"
-LANGUAGE_FILE="/root/.proxmenux_language"
+UTILS_FILE="$BASE_DIR/utils.sh"
+VENV_PATH="/opt/googletrans-env"
 
-# Colores para salida
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m' # No Color
-
-# Cargar el archivo de idioma
-if [ -f "$LANGUAGE_FILE" ]; then
-    LANGUAGE=$(cat "$LANGUAGE_FILE")
-    LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
-    if [ -f "$LANG_FILE" ]; then
-        source "$LANG_FILE"
-    else
-        echo "Error: No se pudo cargar el archivo de idioma $LANG_FILE."
-        exit 1
-    fi
-else
-    echo "Error: No se pudo determinar el idioma. Archivo $LANGUAGE_FILE no encontrado."
-    exit 1
+if [[ -f "$UTILS_FILE" ]]; then
+    source "$UTILS_FILE"
 fi
+load_language
+initialize_cache
+# ==========================================================
 
-# Funciones de utilidad
-error() {
-    whiptail --title "${NETWORK_ERROR}" --msgbox "$1" 8 78
-}
 
-success() {
-    whiptail --title "${NETWORK_SUCCESS}" --msgbox "$1" 8 78
-}
-
-warning() {
-    whiptail --title "${NETWORK_WARNING}" --msgbox "$1" 8 78
-}
-
-# Función para detectar interfaces de red físicas
+# Function to detect physical network interfaces
 detect_physical_interfaces() {
-    physical_interfaces=$(ip -o link show | awk -F': ' '$2 !~ /^(lo|vmbr|bond|dummy)/ {print $2}')
-    whiptail --title "${NETWORK_PHYSICAL_INTERFACES}" --msgbox "$physical_interfaces" 10 78
+    clear
+    physical_interfaces=$(ip -o link show | awk -F': ' '$2 !~ /^(lo|veth|dummy|bond)/ {print $2}')
+    whiptail --title "$(translate 'Network Interfaces')" --msgbox "$physical_interfaces" 10 78
 }
 
-# Función para verificar y corregir la configuración de puentes
+
+# Function to get all relevant network interfaces (physical and bridges)
+get_relevant_interfaces() {
+    echo $(ip -o link show | awk -F': ' '$2 !~ /^(lo|veth|dummy)/ {print $2}')
+}
+
+
+
+# Function to check and fix bridge configuration
 check_and_fix_bridges() {
     local output=""
-    output+="${NETWORK_CHECKING_BRIDGES}\n\n"
+    output+="$(translate 'Checking bridges')\\n\\n"
     bridges=$(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}')
     for bridge in $bridges; do
         old_port=$(grep -A1 "iface $bridge" /etc/network/interfaces | grep "bridge-ports" | awk '{print $2}')
         if ! ip link show "$old_port" &>/dev/null; then
-            output+="${NETWORK_BRIDGE_PORT_MISSING}: $bridge - $old_port\n"
+            output+="$(translate 'Bridge port missing'): $bridge - $old_port\\n"
             new_port=$(echo "$physical_interfaces" | tr ' ' '\n' | grep -v "vmbr" | head -n1)
             if [ -n "$new_port" ]; then
                 sed -i "/iface $bridge/,/bridge-ports/ s/bridge-ports.*/bridge-ports $new_port/" /etc/network/interfaces
-                output+="${NETWORK_BRIDGE_PORT_UPDATED}: $bridge - $old_port -> $new_port\n"
+                output+="$(translate 'Bridge port updated'): $bridge - $old_port -> $new_port\\n"
             else
-                output+="${NETWORK_NO_PHYSICAL_INTERFACE}\n"
+                output+="$(translate 'No physical interface available')\\n"
             fi
         else
-            output+="${NETWORK_BRIDGE_PORT_OK}: $bridge - $old_port\n"
+            output+="$(translate 'Bridge port OK'): $bridge - $old_port\\n"
         fi
     done
-    whiptail --title "${NETWORK_CHECKING_BRIDGES}" --msgbox "$output" 20 78
+    whiptail --title "$(translate 'Checking Bridges')" --msgbox "$output" 20 78
 }
 
-# Función para limpiar interfaces no existentes
+
 clean_nonexistent_interfaces() {
     local output=""
-    output+="${NETWORK_CLEANING_INTERFACES}\n\n"
-    configured_interfaces=$(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo" | grep -v "vmbr")
+    output+="$(translate 'Cleaning interfaces')\\n\\n"
+    configured_interfaces=$(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo")
     for iface in $configured_interfaces; do
-        if ! ip link show "$iface" &>/dev/null; then
+        if [[ ! $iface =~ ^(vmbr|bond) ]] && ! ip link show "$iface" &>/dev/null; then
             sed -i "/iface $iface/,/^$/d" /etc/network/interfaces
-            output+="${NETWORK_INTERFACE_REMOVED}: $iface\n"
+            output+="$(translate 'Interface removed'): $iface\\n"
         fi
     done
-    whiptail --title "${NETWORK_CLEANING_INTERFACES}" --msgbox "$output" 15 78
+    whiptail --title "$(translate 'Cleaning Interfaces')" --msgbox "$output" 15 78
 }
 
-# Función para configurar interfaces físicas
+
+# Update other functions to use physical_interfaces or get_relevant_interfaces as appropriate
 configure_physical_interfaces() {
     local output=""
-    output+="${NETWORK_CONFIGURING_INTERFACES}\n\n"
+    output+="$(translate 'Configuring interfaces')\\n\\n"
     for iface in $physical_interfaces; do
         if ! grep -q "iface $iface" /etc/network/interfaces; then
             echo -e "\niface $iface inet manual" >> /etc/network/interfaces
-            output+="${NETWORK_INTERFACE_ADDED}: $iface\n"
+            output+="$(translate 'Interface added'): $iface\\n"
         fi
     done
-    whiptail --title "${NETWORK_CONFIGURING_INTERFACES}" --msgbox "$output" 15 78
+    whiptail --title "$(translate 'Configuring Interfaces')" --msgbox "$output" 15 78
 }
 
-# Función para reiniciar el servicio de red
+# Function to restart networking service
 restart_networking() {
-    if (whiptail --title "${NETWORK_RESTARTING}" --yesno "${NETWORK_RESTART_CONFIRM}" 10 60); then
+    if (whiptail --title "$(translate 'Restarting Network')" --yesno "$(translate 'Do you want to restart the network service?')" 10 60); then
         systemctl restart networking
         if [ $? -eq 0 ]; then
-            success "${NETWORK_RESTART_SUCCESS}"
+            msg_ok "$(translate 'Network service restarted successfully')"
         else
-            error "${NETWORK_RESTART_FAILED}"
+            msg_error "$(translate 'Failed to restart network service')"
         fi
     else
-        warning "${NETWORK_RESTART_CANCELED}"
+        msg_info "$(translate 'Network restart canceled')"
     fi
 }
 
-# Función para verificar la conectividad de red
+# Function to check network connectivity
 check_network_connectivity() {
     if ping -c 4 8.8.8.8 &> /dev/null; then
-        success "${NETWORK_CONNECTIVITY_OK}"
+        msg_ok "$(translate 'Network connectivity OK')"
         return 0
     else
-        warning "${NETWORK_CONNECTIVITY_FAILED}"
+        msg_info "$(translate 'Network connectivity failed')"
         return 1
     fi
 }
 
-# Función para mostrar información de IP
+
+# Update the show_ip_info function to use the new get_relevant_interfaces function
 show_ip_info() {
-    whiptail --title "${NETWORK_IP_INFO}" --infobox "${NETWORK_IP_INFO_RUNNING}" 8 78
+    whiptail --title "$(translate 'IP Information')" --infobox "$(translate 'Gathering IP information...')" 8 78
     local ip_info=""
-    ip_info+="${NETWORK_IP_INFO}\n\n"
-    for interface in $physical_interfaces $(grep "^auto vmbr" /etc/network/interfaces | awk '{print $2}'); do
-        local interface_ip=$(ip addr show $interface 2>/dev/null | grep "inet " | awk '{print $2}')
+    ip_info+="$(translate 'IP Information')\\n\\n"
+    
+    local interfaces=$(get_relevant_interfaces)
+    
+    for interface in $interfaces; do
+        local interface_ip=$(ip -4 addr show $interface 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
         if [ -n "$interface_ip" ]; then
-            ip_info+="$interface: $interface_ip\n"
+            ip_info+="$interface: $interface_ip\\n"
         else
-            ip_info+="$interface: ${NETWORK_NO_IP}\n"
+            ip_info+="$interface: $(translate 'No IP assigned')\\n"
         fi
     done
-    whiptail --title "${RESULT_TITLE}" --msgbox "${ip_info}\n\n${IP_INFO_COMPLETED}\n\n${PRESS_ENTER}" 20 78
+    
+    whiptail --title "$(translate 'Result')" --msgbox "${ip_info}\\n\\n$(translate 'IP information gathering completed')\\n\\n$(translate 'Press Enter to continue')" 20 78
 }
 
-# Función para reparar la red
+
+# Function to repair network
 repair_network() {
-    whiptail --title "${NETWORK_REPAIR_STARTED}" --infobox "${NETWORK_REPAIR_RUNNING}" 8 78
+    whiptail --title "$(translate 'Network Repair Started')" --infobox "$(translate 'Repairing network...')" 8 78
     detect_physical_interfaces
     clean_nonexistent_interfaces
     check_and_fix_bridges
@@ -147,38 +159,38 @@ repair_network() {
     restart_networking
     if check_network_connectivity; then
         show_ip_info
-        success "${NETWORK_REPAIR_SUCCESS}"
+        msg_ok "$(translate 'Network repair completed successfully')"
     else
-        error "${NETWORK_REPAIR_ERROR}"
+        msg_error "$(translate 'Network repair failed')"
     fi
-    whiptail --title "${RESULT_TITLE}" --msgbox "${REPAIR_COMPLETED}\n\n${PRESS_ENTER}" 10 78
+    whiptail --title "$(translate 'Result')" --msgbox "$(translate 'Repair process completed')\\n\\n$(translate 'Press Enter to continue')" 10 78
 }
 
-# Función para verificar la configuración de red
+# Function to verify network configuration
 verify_network() {
-    whiptail --title "${NETWORK_VERIFY_STARTED}" --infobox "${NETWORK_VERIFY_RUNNING}" 8 78
+    whiptail --title "$(translate 'Network Verification Started')" --infobox "$(translate 'Verifying network...')" 8 78
     detect_physical_interfaces
     show_ip_info
     if check_network_connectivity; then
-        success "${NETWORK_VERIFY_SUCCESS}"
+        msg_ok "$(translate 'Network verification completed successfully')"
     else
-        error "${NETWORK_VERIFY_ERROR}"
+        msg_error "$(translate 'Network verification failed')"
     fi
-    whiptail --title "${RESULT_TITLE}" --msgbox "${VERIFY_COMPLETED}\n\n${PRESS_ENTER}" 10 78
+    whiptail --title "$(translate 'Result')" --msgbox "$(translate 'Verification process completed')\\n\\n$(translate 'Press Enter to continue')" 10 78
 }
 
-# Función para mostrar el menú principal
+# Function to show main menu
 show_main_menu() {
     while true; do
-        OPTION=$(whiptail --title "${REPAIR_MENU_TITLE}" --menu "${MENU_PROMPT}" 15 60 4 \
-        "1" "${MENU_REPAIR}" \
-        "2" "${MENU_VERIFY}" \
-        "3" "${MENU_SHOW_IP}" \
-        "4" "${MENU_EXIT}" 3>&1 1>&2 2>&3)
+        OPTION=$(whiptail --title "$(translate 'Network Repair Menu')" --menu "$(translate 'Choose an option:')" 15 60 4 \
+        "1" "$(translate 'Repair Network')" \
+        "2" "$(translate 'Verify Network')" \
+        "3" "$(translate 'Show IP Information')" \
+        "4" "$(translate 'Exit')" 3>&1 1>&2 2>&3)
 
         exitstatus=$?
         if [ $exitstatus != 0 ]; then
-            echo "${MENU_CANCELED}"
+            echo "$(translate 'Menu canceled')"
             exit
         fi
 
@@ -199,10 +211,6 @@ show_main_menu() {
     done
 }
 
-# Función principal
-main() {
-    show_main_menu
-}
 
-# Ejecutar la función principal
-main
+
+    show_main_menu
