@@ -212,4 +212,5 @@ echo
 
 
 # Exit
+rm -f "$BASE_DIR/install_proxmenux.sh" 
 exit 0
