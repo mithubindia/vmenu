@@ -7,12 +7,6 @@
 
 **ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
 
-## ✨ Key Features
-✔ **Easy-to-use interface** – Navigate Proxmox tasks with a structured menu.  
-✔ **Multi-language support** – Customize the interface to your preferred language.  
-✔ **Automation & scripts** – Automate repetitive tasks effortlessly.  
-✔ **Automatic updates detection** – ProxMenux detects updates automatically and prompts you before applying any changes.  
-✔ **Lightweight & fast** – Optimized for speed and low resource usage.  
 
 ---
 
