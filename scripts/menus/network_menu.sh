@@ -13,17 +13,18 @@
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
 BASE_DIR="/usr/local/share/proxmenux"
-CACHE_FILE="$BASE_DIR/cache.json"
+UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
-LANGUAGE=$(jq -r '.language // "en"' "$BASE_DIR/config.json" 2>/dev/null)
 
-if ! source <(curl -sSf "$UTILS_URL"); then
-    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
-    exit 1
+if [[ -f "$UTILS_FILE" ]]; then
+    source "$UTILS_FILE"
 fi
+
+load_language
+initialize_cache
 # ==========================================================
+
 
     while true; do
         OPTION=$(whiptail --title "$(translate "Network Menu")" --menu "$(translate "Select an option:")" 15 60 2 \
