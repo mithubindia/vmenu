@@ -9,7 +9,21 @@
 # Version     : 1.0
 # Last Updated: 28/01/2025
 # ==========================================================
-
+# Description:
+# This script automates the process of importing disk images
+# into existing Proxmox virtual machines (VMs). It:
+# - Scans the storage directory for compatible disk images (.img, .qcow2, .vmdk)
+# - Allows the user to select a target VM for disk import
+# - Lists available Proxmox storage volumes for disk placement
+# - Enables users to select one or multiple disk images for import
+# - Assigns a suitable disk interface (SATA, SCSI, VirtIO, IDE)
+# - Handles SSD emulation and bootable disk configuration (optional)
+# - Ensures disks are properly attached to the VM and configured
+#
+# This script simplifies the process of managing virtual disk
+# imports, making it easier to integrate pre-existing disk images
+# into Proxmox virtual machines without manual configuration.
+# ==========================================================
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
