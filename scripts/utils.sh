@@ -10,7 +10,20 @@
 # Version     : 1.0
 # Last Updated: 28/01/2025
 # ==========================================================
-
+# Description:
+# This script provides a set of utility functions used across
+# ProxMenux to facilitate Proxmox VE management.
+#
+# - Defines color codes for consistent output formatting.
+# - Implements a spinner-based loading animation.
+# - Provides standardized message functions (info, success, error, warning).
+# - Handles translation with caching to reduce API requests.
+# - Initializes and manages a local cache for improved performance.
+# - Loads language settings from a configuration file.
+#
+# These utilities ensure a streamlined and uniform user experience
+# across different ProxMenux scripts.
+# ==========================================================
 
 # Repository and directory structure
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
