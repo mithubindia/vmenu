@@ -28,7 +28,7 @@ initialize_cache
 
 show_menu() {
     while true; do
-        OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 20 70 7 \
+        OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "GPUs and Coral-TPU")" \
             "2" "$(translate "Hard Drives, Disk Images, and Storage")" \
             "3" "$(translate "Network")" \
