@@ -4,9 +4,9 @@
 
 
 # ProxMenux
-ProxMenux: Un menú interactivo para Proxmox que facilita la gestión de tareas avanzadas y automatización mediante scripts alojados en GitHub. Incluye soporte multiidioma, actualizaciones automáticas y una interfaz amigable. 
+ProxMenux: An interactive menu for Proxmox that simplifies advanced task management and automation through scripts hosted on GitHub. It includes multi-language support, automatic updates, and a user-friendly interface.
 
-Para instalar ProxMenux, simplemente ejecuta el siguiente comando en la terminal de tu servidor Proxmox:
+To install ProxMenux, simply run the following command in your Proxmox server terminal:
 
 ```
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/refs/heads/main/install_proxmenux.sh)"
