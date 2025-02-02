@@ -3,7 +3,7 @@
 </div>
 
 
-# 🚀 ProxMenux: Interactive Menu for Proxmox VE Management
+# ProxMenux: Interactive Menu for Proxmox VE Management
 
 **ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
 
@@ -36,12 +36,6 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 📦 **Dependencies:**
 - `bash`, `curl`, `wget`, `jq`, `whiptail`, `python3-venv` (These dependencies are installed automatically during setup.)
 - **Translations are handled in a Python virtual environment using `googletrans-env`.**
-
----
-
-## 📌 Contributing
-Contributions are welcome! If you want to improve **ProxMenux**, feel free to fork the repository and submit a pull request.
-
 
 ---
 
