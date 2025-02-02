@@ -42,5 +42,4 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 ## ⭐ Support the Project!
 If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help others discover it!
 
----
 
