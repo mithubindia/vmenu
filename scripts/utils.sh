@@ -67,6 +67,17 @@ spinner() {
     done
 }
 
+# Function to simulate typing effect
+type_text() {
+    local text="$1"
+    local delay=0.05
+    for ((i=0; i<${#text}; i++)); do
+        echo -n "${text:$i:1}"
+        sleep $delay
+    done
+    echo
+}
+
 # Display info message with spinner
 msg_info() {
     local msg="$1"
