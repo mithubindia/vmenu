@@ -1,248 +1,125 @@
 #!/bin/bash
 
-# Configuración
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
+# ==========================================================
+# Description:
+# This script serves as the main entry point for ProxMenux,
+# a menu-driven tool designed for Proxmox VE management.
+#
+# - Displays the ProxMenu logo on startup.
+# - Loads necessary configurations and language settings.
+# - Checks for available updates and installs them if confirmed.
+# - Downloads and executes the latest main menu script.
+#
+# Key Features:
+# - Ensures ProxMenu is always up-to-date by fetching the latest version.
+# - Uses whiptail for interactive menus and language selection.
+# - Loads utility functions and translation support.
+# - Maintains a cache system to improve performance.
+# - Executes the ProxMenux main menu dynamically from the repository.
+#
+# This script ensures a streamlined and automated experience
+# for managing Proxmox VE using ProxMenux.
+# ==========================================================
+
+# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
-LANG_DIR="$BASE_DIR/lang"
+CONFIG_FILE="$BASE_DIR/config.json"
+CACHE_FILE="$BASE_DIR/cache.json"
+UTILS_FILE="$BASE_DIR/utils.sh"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
-LANGUAGE_FILE="/root/.proxmenux_language"
+VENV_PATH="/opt/googletrans-env"
 
-# Colores para salida
-YW="\033[33m"; GN="\033[1;92m"; RD="\033[01;31m"; CL="\033[m"
-msg_info() { echo -e " ${YW}[INFO] $1${CL}"; }
-msg_ok() { echo -e " ${GN}[OK] $1${CL}"; }
-msg_error() { echo -e " ${RD}[ERROR] $1${CL}"; }
-
-# Crear directorios necesarios
-mkdir -p "$LANG_DIR"
-
-# Descargar archivo de idioma por defecto (español) para mensajes iniciales
-if [ ! -f "$LANG_DIR/es.lang" ]; then
-    if ! wget -qO "$LANG_DIR/es.lang" "$REPO_URL/lang/es.lang"; then
-        msg_error "Error al descargar el archivo de idioma inicial."
-        exit 1
-    fi
+if [[ -f "$UTILS_FILE" ]]; then
+    source "$UTILS_FILE"
 fi
+# ==========================================================
 
-# Cargar mensajes iniciales
-source "$LANG_DIR/es.lang"
+show_proxmenu_logo
 
-# Cargar o seleccionar idioma
-load_language() {
-    if [ ! -f "$LANGUAGE_FILE" ]; then
-        select_language_first_time
-    else
-        LANGUAGE=$(cat "$LANGUAGE_FILE")
-        LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
-        if [ ! -f "$LANG_FILE" ]; then
-            msg_info "$LANG_DOWNLOAD"
-            if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
-                msg_error "$LANG_DOWNLOAD_ERROR"
-                exit 1
-            fi
-        fi
-        source "$LANG_FILE"
-        msg_info "$LANG_LOADED $LANGUAGE"
-    fi
-}
+# Initialize language configuration
+initialize_config() {
+    if [ ! -f "$CONFIG_FILE" ]; then
+        LANGUAGE=$(whiptail --title "$(translate "Select Language")" --menu "$(translate "Choose a language for the menu:")" 20 60 12 \
+            "en" "$(translate "English (Recommended)")" \
+            "es" "$(translate "Spanish")" \
+            "fr" "$(translate "French")" \
+            "de" "$(translate "German")" \
+            "it" "$(translate "Italian")" \
+            "pt" "$(translate "Portuguese")" \
+            "zh-cn" "$(translate "Simplified Chinese")" \
+            "ja" "$(translate "Japanese")" 3>&1 1>&2 2>&3)
 
-# Función para la primera selección de idioma
-select_language_first_time() {
-    LANGUAGE=$(whiptail --title "$INITIAL_LANG_SELECT" --menu "$INITIAL_LANG_PROMPT" 15 60 2 \
-        "es" "Español" \
-        "en" "English" 3>&1 1>&2 2>&3)
-
-    if [ -z "$LANGUAGE" ]; then
-        msg_error "$INITIAL_LANG_ERROR"
-        exit 1
-    fi
-
-    LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
-    if [ ! -f "$LANG_FILE" ]; then
-        if ! wget -qO "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang"; then
-            msg_error "$LANG_DOWNLOAD_ERROR"
+        if [ -z "$LANGUAGE" ]; then
+            msg_error "$(translate "No language selected. Exiting.")"
             exit 1
         fi
+
+        echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
+        msg_ok "$(translate "Initial language set to:") $LANGUAGE"
     fi
 
-    echo "$LANGUAGE" > "$LANGUAGE_FILE"
-    source "$LANG_FILE"
-    msg_ok "$LANG_SUCCESS $LANGUAGE"
-}
-
-# Función para cambiar idioma desde el menú
-select_language() {
-    LANGUAGE=$(whiptail --title "$LANG_SELECT" --menu "$LANG_PROMPT" 15 60 2 \
-        "es" "Español" \
-        "en" "English" 3>&1 1>&2 2>&3)
-
-    if [ -z "$LANGUAGE" ]; then
-        msg_error "$LANG_ERROR"
-        return
-    fi
-
-    LANG_FILE="$LANG_DIR/$LANGUAGE.lang"
-    msg_info "$LANG_DOWNLOAD"
-    if ! curl -sLo "$LANG_FILE" "$REPO_URL/lang/$LANGUAGE.lang?$(date +%s)"; then
-        msg_error "$LANG_DOWNLOAD_ERROR"
-        return
-    fi
-
-    echo "$LANGUAGE" > "$LANGUAGE_FILE"
-    msg_ok "$LANG_SUCCESS $LANGUAGE"
-    exec "$0"
 }
 
 
-# Función para verificar y realizar actualizaciones
 check_updates() {
-    msg_info "$UPDATE_CHECKING"
-    
-    # Descargar versión remota
-    REMOTE_VERSION=$(curl -s "$REPO_URL/version.txt?$(date +%s)" | tr -d '\r\n')
-    
+    local INSTALL_SCRIPT="$BASE_DIR/install_proxmenux.sh" 
+ 
+    # Fetch the remote version
+    local REMOTE_VERSION
+    REMOTE_VERSION=$(curl -fsSL "$REPO_URL/version.txt" | head -n 1)
+
+    # Exit silently if unable to fetch the remote version
     if [ -z "$REMOTE_VERSION" ]; then
-        msg_error "$UPDATE_ERROR_REMOTE"
-        return 1
+        return 0
     fi
 
-    # Leer versión local o establecer como la primera instalación
-    LOCAL_VERSION=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "0.0.0")
+    # Read the local version
+    local LOCAL_VERSION
+    LOCAL_VERSION=$(head -n 1 "$LOCAL_VERSION_FILE")
 
-    if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-        msg_info "$(printf "$UPDATE_NEW_AVAILABLE" "$REMOTE_VERSION" "$LOCAL_VERSION")"
-        if whiptail --title "$UPDATE_TITLE" --yesno "$(printf "$UPDATE_PROMPT" "$REMOTE_VERSION")" 10 60; then
-            perform_update "$REMOTE_VERSION"
-        else
-            msg_info "$UPDATE_POSTPONED"
+    # If the local version matches the remote version, no update is needed
+    [ "$LOCAL_VERSION" = "$REMOTE_VERSION" ] && return 0
+
+    # Prompt the user for update confirmation
+    if whiptail --title "$(translate "Update Available")" \
+                --yesno "$(translate "New version available") ($REMOTE_VERSION)\n\n$(translate "Do you want to update now?")" \
+                10 60 --defaultno; then
+
+
+        msg_warn "$(translate "Starting ProxMenu update...")"
+
+        # Download the installation script
+        if wget -qO "$INSTALL_SCRIPT" "$REPO_URL/install_proxmenux.sh"; then
+            chmod +x "$INSTALL_SCRIPT"
+
+            # Execute the script directly in the current environment
+            source "$INSTALL_SCRIPT"
+
         fi
     else
-        msg_info "$(printf "$UPDATE_CURRENT" "$LOCAL_VERSION")"
-    fi
-}
-
-# Función para realizar la actualización
-perform_update() {
-    REMOTE_VERSION=$1
-    msg_info "$(printf "$UPDATE_PROCESS" "$REMOTE_VERSION")"
-
-    # Descargar el nuevo menú
-    if curl -sLo /usr/local/bin/menu.sh "$REPO_URL/menu.sh?$(date +%s)" && \
-       curl -sLo "$LANG_DIR/$LANGUAGE.lang" "$REPO_URL/lang/$LANGUAGE.lang?$(date +%s)"; then
-        chmod +x /usr/local/bin/menu.sh
-        echo "$REMOTE_VERSION" > "$LOCAL_VERSION_FILE"
-        msg_ok "$(printf "$UPDATE_COMPLETE" "$REMOTE_VERSION")"
-
-        # Reiniciar el menú con la nueva versión
-        exec /usr/local/bin/menu.sh
-    else
-        msg_error "$UPDATE_ERROR_DOWNLOAD"
+        msg_warn "$(translate "Update postponed. You can update later from the menu.")"
     fi
 }
 
 
-# Función para desinstalar ProxMenu
-uninstall_proxmenu() {
-    if whiptail --title "$UNINSTALL_TITLE" --yesno "$UNINSTALL_CONFIRM" 10 60; then
-        msg_info "$UNINSTALL_PROCESS"
-        rm -rf "$BASE_DIR"
-        rm -f "/usr/local/bin/menu.sh"
-        rm -f "$LANGUAGE_FILE"
-        msg_ok "$UNINSTALL_COMPLETE"
-        exit 0
-    fi
-}
 
-# Función para mostrar información de versión
-show_version_info() {
-    local version=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "1.0.0")
-    whiptail --title "$VERSION_TITLE" --msgbox "$(printf "$VERSION_INFO" "$version")" 12 60
-}
-
-# Mostrar menú de configuración
-show_config_menu() {
-    while true; do
-        OPTION=$(whiptail --title "$CONFIG_TITLE" --menu "$SELECT_OPTION" 15 60 4 \
-            "1" "$LANG_OPTION" \
-            "2" "$VERSION_OPTION" \
-            "3" "$UNINSTALL_OPTION" \
-            "4" "$EXIT_MENU" 3>&1 1>&2 2>&3)
-
-        case $OPTION in
-            1)
-                select_language
-                ;;
-            2)
-                show_version_info
-                ;;
-            3)
-                uninstall_proxmenu
-                ;;
-            4)
-                return
-                ;;
-            *)
-                return
-                ;;
-        esac
-    done
+main_menu() {
+    exec bash <(curl -fsSL "$REPO_URL/scripts/menus/main_menu.sh")
 }
 
 
-# Mostrar menú principal
-show_menu() {
-    while true; do
-        OPTION=$(whiptail --title "$MAIN_MENU_TITLE" --menu "$SELECT_OPTION" 15 60 4 \
-            "1" "$OPTION_1" \
-            "2" "$OPTION_2" \
-            "3" "$OPTION_3" \
-            "4" "$EXIT_MENU" 3>&1 1>&2 2>&3)
-
-        case $OPTION in
-            1)
-                msg_info "$SCRIPT_RUNNING"
-                if wget -qO- "$REPO_URL/scripts/igpu_tpu.sh" | bash; then
-                    msg_ok "$SCRIPT_SUCCESS"
-                else
-                    msg_error "$SCRIPT_ERROR"
-                fi
-                ;;
-            2)
-                msg_info "$NETWORK_REPAIR_RUNNING"
-                if wget -qO- "$REPO_URL/scripts/repair_network.sh" | bash; then
-                    msg_ok "$NETWORK_REPAIR_SUCCESS"
-                else
-                    msg_error "$NETWORK_REPAIR_ERROR"
-                fi
-                ;;
-            3)
-                show_config_menu
-                ;;
-            4)
-                clear
-                msg_ok "$EXIT_MESSAGE"
-                exit 0
-                ;;
-            *)
-                msg_error "$INVALID_OPTION"
-                sleep 2
-                ;;
-        esac
-    done
-}
-
-# Verificar dependencias
-if ! command -v whiptail &> /dev/null; then
-    msg_info "$DEPS_INSTALLING"
-    if apt-get update && apt-get install -y whiptail; then
-        msg_ok "$DEPS_SUCCESS"
-    else
-        msg_error "$DEPS_ERROR"
-        exit 1
-    fi
-fi
-
-# Flujo principal
+# Main flow
+initialize_config
 load_language
+initialize_cache
 check_updates
-show_menu
+main_menu
