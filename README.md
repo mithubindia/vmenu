@@ -29,11 +29,6 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 
 ---
 
-## 📌 Screenshots & Interface Preview
-_(Add screenshots or GIFs showcasing ProxMenux in action)_
-
----
-
 ## 📌 System Requirements
 🖥 **Compatible with:**
 - Proxmox VE 8.x**
