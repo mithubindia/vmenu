@@ -41,6 +41,13 @@ initialize_cache
 # Path where disk images are stored
 IMAGES_DIR="/var/lib/vz/template/images/"
 
+# Ensure directory exists
+if [ ! -d "$IMAGES_DIR" ]; then
+    mkdir -p "$IMAGES_DIR"
+    chmod 755 "$IMAGES_DIR"
+    msg_info "Created missing directory: $IMAGES_DIR"
+fi
+
 # Check if there are any images in the directory
 IMAGES=$(ls -A "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")
 if [ -z "$IMAGES" ]; then
