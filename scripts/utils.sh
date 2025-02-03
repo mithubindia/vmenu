@@ -221,7 +221,7 @@ show_proxmenu_logo() {
 
 
 
-         🌟  A menu-driven script for Proxmox VE management 🌟
+           🌟  A menu-driven script for Proxmox VE management 🌟
 
 
 EOF
