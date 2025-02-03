@@ -111,7 +111,7 @@ if [ "$VM_STATUS" == "running" ]; then
     exit 1
 fi
 
-msg_info "$(translate "Detecting available disks...")"
+msg_info2 "$(translate "Detecting available disks...")"
 
 # Detect free disks, excluding the system disk and those already assigned to the selected VM
 FREE_DISKS=()
@@ -173,7 +173,7 @@ DISKS_ADDED=0
 ERROR_MESSAGES=""
 SUCCESS_MESSAGES=""
 
-msg_info "$(translate "Processing selected disks...")"
+msg_info2 "$(translate "Processing selected disks...")"
 
 for DISK in $SELECTED; do
     DISK=$(echo "$DISK" | tr -d '"')
