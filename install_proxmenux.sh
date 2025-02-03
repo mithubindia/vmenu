@@ -103,20 +103,27 @@ done
 msg_info "Setting up the virtual environment for translations..."
 if [ ! -d "$VENV_PATH" ]; then
     python3 -m venv "$VENV_PATH"
-    source "$VENV_PATH/bin/activate"
 
-    if pip install --no-cache-dir googletrans==4.0.0-rc1; then
-        msg_ok "Virtual environment configured and googletrans installed."
-    else
-        msg_error "Failed to install googletrans. Please check your internet connection."
-        deactivate
+    # Verificar si el entorno virtual se creó correctamente
+    if [ ! -f "$VENV_PATH/bin/activate" ]; then
+        msg_error "Failed to create virtual environment. Please check your Python installation."
         exit 1
     fi
-
-    deactivate
-else
-    msg_ok "Virtual environment already configured."
 fi
+
+# Activar el entorno virtual antes de instalar googletrans
+source "$VENV_PATH/bin/activate"
+
+# Instalar googletrans con soporte para entornos gestionados (Debian PEP 668)
+if pip install --break-system-packages --no-cache-dir googletrans==4.0.0-rc1; then
+    msg_ok "Virtual environment configured and googletrans installed."
+else
+    msg_error "Failed to install googletrans. Please check your internet connection."
+    deactivate
+    exit 1
+fi
+
+deactivate
 
 # Download necessary files =================================
 
