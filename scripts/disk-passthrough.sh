@@ -85,11 +85,6 @@ if [ -z "$VM_LIST" ]; then
     exit 1
 fi
 
-if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
-    kill $SPINNER_PID > /dev/null
-    wait $SPINNER_PID 2>/dev/null
-    unset SPINNER_PID
-fi
 
 # Select VM
 VMID=$(whiptail --title "$(translate "Select VM")" --menu "$(translate "Select the VM to which you want to add disks:")" 15 60 8 $VM_LIST 3>&1 1>&2 2>&3)
