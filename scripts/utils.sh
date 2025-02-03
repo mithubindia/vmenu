@@ -88,6 +88,10 @@ msg_info() {
 
 # Display warning or highlighted information message
 msg_warn() {
+    if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
+        kill $SPINNER_PID > /dev/null
+    fi
+    printf "\e[?25h"
     local msg="$1"
     echo -e "${BFR}${TAB}${YWB}${CL} ${YWB}${msg}${CL}"
 }
@@ -104,8 +108,14 @@ msg_ok() {
 
 # Display error message
 msg_error() {
-    echo -e " ${RD}[ERROR] $1${CL}"
+    if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
+        kill $SPINNER_PID > /dev/null
+    fi
+    printf "\e[?25h"
+    local msg="$1"
+    echo -e "${BFR}${TAB}${RD}[ERROR] ${msg}${CL}"
 }
+    
 
 # Initialize cache
 initialize_cache() {
@@ -218,9 +228,10 @@ EOF
 }
 
 show_proxmenu_logo_m() {
+  local color="${1:-$GN}"  
+
   clear
-  
-  echo -e "${YW}"
+  echo -e "${color}"
   cat << 'EOF'
 ██████╗ ██████╗  ██████╗ ██╗  ██╗███╗   ███╗███████╗███╗   ██╗██╗   ██╗
 ██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝████╗ ████║██╔════╝████╗  ██║██║   ██║
