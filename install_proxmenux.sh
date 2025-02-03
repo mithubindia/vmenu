@@ -45,7 +45,6 @@ LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu.sh"
 
 
-# Try to load utils.sh from GitHub
 if ! source <(curl -sSf "$UTILS_URL"); then
     echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
     exit 1
@@ -53,7 +52,6 @@ fi
 
 # ==========================================================
 
-# Verify that it's run as root
 if [ "$(id -u)" -ne 0 ]; then
     msg_error "This script must be run as root."
     exit 1
@@ -63,7 +61,6 @@ fi
 show_proxmenu_logo
 
 
-# Display installation confirmation
 echo -e "${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
 echo -e "${TAB}- curl (if not already installed)"
@@ -81,125 +78,74 @@ then
 fi
 
 
-# Check system dependencies
+# Install dependencies =====================================
+
 msg_info "Checking system dependencies..."
 
-# Install `whiptail`
-if ! command -v whiptail &> /dev/null; then
-    msg_info "Installing whiptail..."
-    if apt-get update && apt-get install -y whiptail; then
-        msg_ok "whiptail installed successfully."
-    else
-        msg_error "Failed to install whiptail. Please install it manually."
-        exit 1
-    fi
-else
-    msg_ok "whiptail is already installed."
-fi
 
-# Install `curl`
-if ! command -v curl &> /dev/null; then
-    msg_info "Installing curl..."
-    if apt-get update && apt-get install -y curl; then
-        msg_ok "curl installed successfully."
+DEPS=("whiptail" "curl" "jq" "python3" "python3-venv" "python3-pip")
+for pkg in "${DEPS[@]}"; do
+    if ! dpkg -l | grep -qw "$pkg"; then
+        msg_info "Installing $pkg..."
+        if apt-get update && apt-get install -y "$pkg"; then
+            msg_ok "$pkg installed successfully."
+        else
+            msg_error "Failed to install $pkg. Please install it manually."
+            exit 1
+        fi
     else
-        msg_error "Failed to install curl. Please install it manually."
-        exit 1
+        msg_ok "$pkg is already installed."
     fi
-else
-    msg_ok "curl is already installed."
-fi
+done
 
-# Install `jq`
-if ! command -v jq &> /dev/null; then
-    msg_info "Installing jq..."
-    if apt-get update && apt-get install -y jq; then
-        msg_ok "jq installed successfully."
-    else
-        msg_error "Failed to install jq. Please install it manually."
-        exit 1
-    fi
-else
-    msg_ok "jq is already installed."
-fi
+# Set up virtual environment ==============================
 
-# Install Python and virtualenv
-if ! command -v python3 &> /dev/null; then
-    msg_info "Installing Python 3..."
-    if apt-get update && apt-get install -y python3 python3-venv python3-pip; then
-        msg_ok "Python 3 installed successfully."
-    else
-        msg_error "Failed to install Python 3. Please install it manually."
-        exit 1
-    fi
-else
-    msg_ok "Python 3 is already installed."
-fi
-
-# Create and configure the virtual environment
 msg_info "Setting up the virtual environment for translations..."
 if [ ! -d "$VENV_PATH" ]; then
     python3 -m venv "$VENV_PATH"
     source "$VENV_PATH/bin/activate"
-    if pip install googletrans==4.0.0-rc1; then
+
+    if pip install --no-cache-dir googletrans==4.0.0-rc1; then
         msg_ok "Virtual environment configured and googletrans installed."
     else
-        msg_error "Failed to configure the virtual environment or install googletrans."
+        msg_error "Failed to install googletrans. Please check your internet connection."
         deactivate
         exit 1
     fi
+
     deactivate
 else
     msg_ok "Virtual environment already configured."
 fi
 
-# Create necessary folders
-msg_info "Creating necessary directories..."
+# Download necessary files =================================
+
+msg_ok "Necessary directories created."
 mkdir -p "$BASE_DIR"
-msg_ok "Directories created."
 
-# Download the cache file
-msg_info "Downloading the cache file..."
-if wget -qO "$CACHE_FILE" "$REPO_URL/lang/cache.json"; then
-    msg_ok "Cache file downloaded successfully."
-else
-    msg_error "Failed to download the cache file. Check the URL and your Internet connection."
-    exit 1
-fi
 
-# Download utils.sh
-msg_info "Downloading utils.sh..."
-if wget -qO "$UTILS_FILE" "$REPO_URL/scripts/utils.sh"; then
-    msg_ok "utils.sh downloaded successfully."
-else
-    msg_error "Failed to download utils.sh. Check the URL and your Internet connection."
-    exit 1
-fi
+FILES=(
+    "$CACHE_FILE $REPO_URL/lang/cache.json"
+    "$UTILS_FILE $REPO_URL/scripts/utils.sh"
+    "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
+    "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
+)
 
-# Download the main script (menu.sh)
-msg_info "Downloading the main script..."
-if wget -qO "$INSTALL_DIR/$MENU_SCRIPT" "$REPO_URL/$MENU_SCRIPT"; then
-    chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
-    msg_ok "Main script downloaded and made executable."
-else
-    msg_error "Failed to download the main script. Check the URL and your Internet connection."
-    exit 1
-fi
+for file in "${FILES[@]}"; do
+    IFS=" " read -r dest url <<< "$file"
+    msg_info "Downloading ${dest##*/}..."
+    if wget -qO "$dest" "$url"; then
+        msg_ok "${dest##*/} downloaded successfully."
+    else
+        msg_error "Failed to download ${dest##*/}. Check your Internet connection."
+        exit 1
+    fi
+done
 
-# Download the initial version
-msg_info "Downloading version file..."
-if wget -qO "$LOCAL_VERSION_FILE" "$REPO_URL/version.txt"; then
-    msg_ok "Version file downloaded."
-else
-    msg_error "Failed to download the version file."
-    exit 1
-fi
 
-# Confirmation
-#msg_ok "ProxMenux has been installed successfully."
-#echo -e "${GN} 🌟 Run: menu.sh as root to start the menu.${CL}"
+chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
 
-#msg_ok "ProxMenux has been installed successfully."
+# Installation complete ====================================
 echo
 echo -e "${YW}╭─────────────────────────────────────────────────────╮${CL}"
 echo -e "${YW}│${CL}    ${GN}🌟  ProxMenux has been installed successfull 🌟 ${CL}   ${YW}│${CL}"
@@ -211,6 +157,9 @@ echo -e "${YWB}    menu.sh${CL}"
 echo
 
 
-# Exit
-rm -f "$BASE_DIR/install_proxmenux.sh" 
+
+if [ -f "$BASE_DIR/install_proxmenux.sh" ]; then
+    rm -f "$BASE_DIR/install_proxmenux.sh"
+fi
+
 exit 0
