@@ -100,17 +100,30 @@ done
 
 # Set up virtual environment ==============================
 
-msg_info "Setting up the virtual environment for translations..."
-if [ ! -d "$VENV_PATH" ]; then
-    python3 -m venv "$VENV_PATH"
+# msg_info "Setting up the virtual environment for translations..."
 
+
+#mkdir -p /opt
+#chmod 755 /opt
+
+
+if [ ! -d "$VENV_PATH" ] || [ ! -f "$VENV_PATH/bin/activate" ]; then
+    msg_info "Creating the virtual environment..."
+    python3 -m venv --system-site-packages "$VENV_PATH"
+
+    
     if [ ! -f "$VENV_PATH/bin/activate" ]; then
         msg_error "Failed to create virtual environment. Please check your Python installation."
         exit 1
     fi
 fi
 
+
 source "$VENV_PATH/bin/activate"
+
+
+pip install --upgrade pip
+
 
 if pip install --break-system-packages --no-cache-dir googletrans==4.0.0-rc1; then
     msg_ok "Virtual environment configured and googletrans installed."
@@ -121,6 +134,7 @@ else
     fi
     exit 1
 fi
+
 
 if [ -n "$VIRTUAL_ENV" ]; then
     deactivate
