@@ -85,6 +85,12 @@ msg_info() {
     SPINNER_PID=$!
 }
 
+# Display info message
+msg_info2() {
+    local msg="$1"
+    echo -ne "${TAB}${YW}${HOLD}${msg}"
+}
+
 # Display warning or highlighted information message
 msg_warn() {
     if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
