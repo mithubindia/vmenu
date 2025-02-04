@@ -44,7 +44,7 @@ initialize_cache
                 return
                 ;;
             *)
-                msg_error "$(translate "Invalid option.")"
+                msg_warn "$(translate "Invalid option.")"
                 sleep 2
                 ;;
         esac
