@@ -36,7 +36,7 @@ initialize_cache
                 echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Disk Passthrough")...\033[0m"
                 bash <(curl -s "$REPO_URL/scripts/disk-passthrough.sh")
                 if [ $? -ne 0 ]; then
-                    msg_info "$(translate "Operation cancelled.")"
+                    msg_warn "$(translate "Operation cancelled.")"
                     sleep 2
                 fi
                 ;;
@@ -44,7 +44,7 @@ initialize_cache
                 echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Import Disk Image")...\033[0m"
                 bash <(curl -s "$REPO_URL/scripts/import-disk-image.sh")
                 if [ $? -ne 0 ]; then
-                    msg_info "$(translate "Operation cancelled.")"
+                    msg_warn "$(translate "Operation cancelled.")"
                     sleep 2
                 fi
                 ;;
