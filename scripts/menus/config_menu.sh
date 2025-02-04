@@ -30,7 +30,7 @@ show_config_menu() {
         OPTION=$(whiptail --title "$(translate "Configuration Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "Change Language")" \
             "2" "$(translate "Show Version Information")" \
-            "3" "$(translate "Uninstall ProxMenu")" \
+            "3" "$(translate "Uninstall ProxMenux")" \
             "4" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
         case $OPTION in
@@ -70,12 +70,10 @@ change_language() {
     echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
     msg_ok "$(translate "Language changed to") $LANGUAGE"
 
-    # 🔄 Descargar el script nuevamente
     TMP_FILE=$(mktemp)
     curl -s "$REPO_URL/scripts/menus/config_menu.sh" > "$TMP_FILE"
     chmod +x "$TMP_FILE"
 
-    # 📌 Programar la eliminación del archivo cuando termine el proceso
     trap 'rm -f "$TMP_FILE"' EXIT
 
     exec bash "$TMP_FILE"
@@ -89,16 +87,22 @@ uninstall_proxmenu() {
         msg_info "$(translate "Uninstalling ProxMenu...")"
         rm -rf "$BASE_DIR"
         rm -f "/usr/local/bin/menu.sh"
-        msg_ok "$(translate "ProxMenu has been completely uninstalled.")"
+        msg_ok "$(translate "ProxMenux has been completely uninstalled.")"
         exit 0
     fi
 }
 
+
 # Function to show version information
 show_version_info() {
-    local version=$(cat "$LOCAL_VERSION_FILE" 2>/dev/null || echo "1.0.0")
-    whiptail --title "$(translate "Version Information")" --msgbox "$(translate "Current ProxMenu version:") $version" 12 60
+    local version
+    version=$(<"$LOCAL_VERSION_FILE")
+    
+    whiptail --title "$(translate "Version ProxMenux")" \
+             --msgbox "$(translate "Current ProxMenux version:") $version" 12 60
 }
+
+
 
 # Main flow
 
