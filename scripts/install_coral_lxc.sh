@@ -208,3 +208,4 @@ install_coral_in_container
 
 
 msg_ok "$(translate 'Configuration completed.')"
+sleep 2
