@@ -33,26 +33,27 @@ initialize_cache
 
         case $OPTION in
             1)
-                echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "HW iGPU LXC")...\033[0m"
+                msg_info2 "$(translate "Running script:") $(translate " HW iGPU acceleration LXC")..."
                 bash <(curl -s "$REPO_URL/scripts/configure_igpu_lxc.sh")
                 if [ $? -ne 0 ]; then
-                    msg_info "$(translate "Operation cancelled.")"
+                    msg_warn "$(translate "Operation cancelled.")"
                     sleep 2
                 fi
                 ;;
             2)
-                echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Coral TPU LXC")...\033[0m"
+                msg_info2 "$(translate "Running script:") Coral TPU LXC..."
+
                 bash <(curl -s "$REPO_URL/scripts/install_coral_lxc.sh")
                 if [ $? -ne 0 ]; then
-                    msg_info "$(translate "Operation cancelled.")"
+                    msg_warn "$(translate "Operation cancelled.")"
                     sleep 2
                 fi
                 ;;
             3)
-                echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Install/Update Coral")...\033[0m"
+                msg_info2 "$(translate "Running script:") $(translate "Install/Update") Coral..."
                 bash <(curl -s "$REPO_URL/scripts/install_coral_pve.sh")
                 if [ $? -ne 0 ]; then
-                    msg_info "$(translate "Operation cancelled.")"
+                    msg_warn "$(translate "Operation cancelled.")"
                     sleep 2
                 fi
                 ;;
