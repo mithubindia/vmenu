@@ -33,7 +33,8 @@ initialize_cache
 
         case $OPTION in
             1)
-                echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Disk Passthrough")...\033[0m"
+                msg_info2 "$(translate "Running script:") $(translate "Disk Passthrough")..."
+                #echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Disk Passthrough")...\033[0m"
                 bash <(curl -s "$REPO_URL/scripts/disk-passthrough.sh")
                 if [ $? -ne 0 ]; then
                     msg_warn "$(translate "Operation cancelled.")"
