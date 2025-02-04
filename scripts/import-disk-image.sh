@@ -82,7 +82,7 @@ msg_ok "$(translate 'VM list obtained')"
 VMID=$(whiptail --title "$(translate 'Select VM')" --menu "$(translate 'Select the VM where you want to import the disk image:')" 15 60 8 $VM_LIST 3>&1 1>&2 2>&3)
 
 if [ -z "$VMID" ]; then
-    msg_error "$(translate 'No VM selected')"
+    # msg_error "$(translate 'No VM selected')"
     exit 1
 fi
 
@@ -106,7 +106,7 @@ done <<< "$STORAGE_LIST"
 STORAGE=$(whiptail --title "$(translate 'Select Storage')" --menu "$(translate 'Select the storage volume for disk import:')" 15 60 8 "${STORAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
 if [ -z "$STORAGE" ]; then
-    msg_error "$(translate 'No storage selected')"
+    # msg_error "$(translate 'No storage selected')"
     exit 1
 fi
 
@@ -115,7 +115,7 @@ fi
 # 3. Select disk images
 msg_info "$(translate 'Scanning disk images')"
 if [ -z "$IMAGES" ]; then
-    msg_error "$(translate 'No compatible disk images found in') $IMAGES_DIR"
+    msg_warn "$(translate 'No compatible disk images found in') $IMAGES_DIR"
     exit 0
 fi
 msg_ok "$(translate 'Disk images found')"
@@ -128,7 +128,7 @@ done <<< "$IMAGES"
 SELECTED_IMAGES=$(whiptail --title "$(translate 'Select Disk Images')" --checklist "$(translate 'Select the disk images to import:')" 20 60 10 "${IMAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
 if [ -z "$SELECTED_IMAGES" ]; then
-    msg_error "$(translate 'No images selected')"
+    # msg_error "$(translate 'No images selected')"
     exit 1
 fi
 
