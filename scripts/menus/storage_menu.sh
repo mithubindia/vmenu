@@ -33,8 +33,7 @@ initialize_cache
 
         case $OPTION in
             1)
-                msg_info2 "$(translate "Running script:") $(translate "Disk Passthrough")..."
-                #echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Disk Passthrough")...\033[0m"
+                msg_info2 "$(translate "Running script:") $(translate "Disk") Passthrough..."
                 bash <(curl -s "$REPO_URL/scripts/disk-passthrough.sh")
                 if [ $? -ne 0 ]; then
                     msg_warn "$(translate "Operation cancelled.")"
@@ -42,7 +41,7 @@ initialize_cache
                 fi
                 ;;
             2)
-                echo -e "\033[33m[INFO] $(translate "Running script:") $(translate "Import Disk Image")...\033[0m"
+                msg_info2 "$(translate "Running script:") $(translate "Import Disk Image")..."
                 bash <(curl -s "$REPO_URL/scripts/import-disk-image.sh")
                 if [ $? -ne 0 ]; then
                     msg_warn "$(translate "Operation cancelled.")"
