@@ -142,7 +142,7 @@ configure_lxc_hardware() {
 # Install Coral TPU drivers in the container
 install_coral_in_container() {
 
-    msg_info "$(translate 'Installing iGPU and Coral TPU drivers inside the container...')"
+    msg_info2 "$(translate 'Installing iGPU and Coral TPU drivers inside the container...')"
     tput sc
     LOG_FILE=$(mktemp)
     
