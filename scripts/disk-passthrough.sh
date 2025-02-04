@@ -34,9 +34,8 @@ CACHE_FILE="$BASE_DIR/cache.json"
 CONFIG_FILE="$BASE_DIR/config.json"
 VENV_PATH="/opt/googletrans-env"
 
-if ! source <(curl -sSf "$UTILS_URL"); then
-    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
-    exit 1
+if [[ -f "$UTILS_FILE" ]]; then
+    source "$UTILS_FILE"
 fi
 
 load_language
