@@ -66,6 +66,7 @@ spinner() {
     done
 }
 
+
 # Function to simulate typing effect
 type_text() {
     local text="$1"
@@ -77,6 +78,17 @@ type_text() {
     echo
 }
 
+
+# Stop the spinner if it is active
+cleanup() {
+    if [ -n "$spinner_pid" ]; then
+        kill $spinner_pid 2>/dev/null
+    fi
+    echo -e "\n$(translate "Operation canceled by the user.")"
+    exit 1
+}
+
+
 # Display info message with spinner
 msg_info() {
     local msg="$1"
@@ -85,11 +97,13 @@ msg_info() {
     SPINNER_PID=$!
 }
 
+
 # Display info message
 msg_info2() {
     local msg="$1"
-    echo -ne "${TAB}${YW}${HOLD}${msg}"
+    echo -e "${TAB}${YW}${HOLD}${msg}"
 }
+
 
 # Display warning or highlighted information message
 msg_warn() {
@@ -101,6 +115,7 @@ msg_warn() {
     echo -e "${BFR}${TAB}${YWB}${CL} ${YWB}${msg}${CL}"
 }
 
+
 # Display success message
 msg_ok() {
     if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
@@ -110,6 +125,7 @@ msg_ok() {
     local msg="$1"
     echo -e "${BFR}${TAB}${CM}${GN}${msg}${CL}"
 }
+
 
 # Display error message
 msg_error() {
