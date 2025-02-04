@@ -10,7 +10,7 @@
 # Last Updated: 28/01/2025
 # ==========================================================
 # Description:
-# This script allows users to assign physical disks for passthrough to existing
+# This script allows users to assign physical disks to existing
 # Proxmox virtual machines (VMs) through an interactive menu.
 # - Detects the system disk and excludes it from selection.
 # - Lists all available VMs for the user to choose from.
@@ -28,20 +28,17 @@
 
 
 # Configuration ============================================
-UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
-CACHE_FILE="$BASE_DIR/cache.json"
-CONFIG_FILE="$BASE_DIR/config.json"
+UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
 if [[ -f "$UTILS_FILE" ]]; then
     source "$UTILS_FILE"
 fi
-
 load_language
 initialize_cache
 # ==========================================================
-
 
 
 # Function to identify the physical disk where Proxmox is installed
@@ -84,7 +81,6 @@ if [ -z "$VM_LIST" ]; then
     exit 1
 fi
 
-
 # Select VM
 VMID=$(whiptail --title "$(translate "Select VM")" --menu "$(translate "Select the VM to which you want to add disks:")" 15 60 8 $VM_LIST 3>&1 1>&2 2>&3)
 
@@ -111,7 +107,7 @@ if [ "$VM_STATUS" == "running" ]; then
     exit 1
 fi
 
-msg_info2 "$(translate "Detecting available disks...")"
+msg_info "$(translate "Detecting available disks...")"
 
 # Detect free disks, excluding the system disk and those already assigned to the selected VM
 FREE_DISKS=()
@@ -173,7 +169,7 @@ DISKS_ADDED=0
 ERROR_MESSAGES=""
 SUCCESS_MESSAGES=""
 
-msg_info2 "$(translate "Processing selected disks...")"
+msg_info "$(translate "Processing selected disks...")"
 
 for DISK in $SELECTED; do
     DISK=$(echo "$DISK" | tr -d '"')
