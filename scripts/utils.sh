@@ -101,7 +101,7 @@ msg_info() {
 # Display info message
 msg_info2() {
     local msg="$1"
-    echo -e "${TAB}${YW}${HOLD}${msg}"
+    echo -ne "${TAB}${YW}${HOLD}${msg}"
 }
 
 
