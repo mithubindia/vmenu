@@ -141,8 +141,11 @@ configure_lxc_hardware() {
 
 # Install Coral TPU drivers in the container
 install_coral_in_container() {
-    echo -ne "${TAB}${YW}- $(translate 'Installing iGPU and Coral TPU drivers inside the container...') ${CL}"
 
+    msg_info "$(translate 'Installing iGPU and Coral TPU drivers inside the container...')"
+    tput sc
+    LOG_FILE=$(mktemp)
+    
     pct start "$CONTAINER_ID"
 
     CORAL_M2=$(lspci | grep -i "Global Unichip")
@@ -161,32 +164,41 @@ install_coral_in_container() {
         DRIVER_PACKAGE="libedgetpu1-std"
     fi
 
-    pct exec "$CONTAINER_ID" -- bash -c "
+    script -q -c "pct exec \"$CONTAINER_ID\" -- bash -c '
     set -e
-    
-    echo '- Updating package lists...'
+    echo \"- Updating package lists...\"
     apt-get update
-    
-    echo '- Installing iGPU drivers...'
+    echo \"- Installing iGPU drivers...\"
     apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools
     chgrp video /dev/dri && chmod 755 /dev/dri
     adduser root video && adduser root render
-    
-    echo '- Installing Coral TPU dependencies...'
+
+    echo \"- Installing Coral TPU dependencies...\"
     apt-get install -y gnupg python3 python3-pip python3-venv
-    
-    echo '- Adding Coral TPU repository...'
+
+    echo \"- Adding Coral TPU repository...\"
     curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/coral-edgetpu.gpg
-    echo 'deb [signed-by=/usr/share/keyrings/coral-edgetpu.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main' | tee /etc>
-    echo '- Updating package lists again...'
+    echo \"deb [signed-by=/usr/share/keyrings/coral-edgetpu.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main\" | tee /etc/apt/sources.list.d/coral-edgetpu.list
+
+    echo \"- Updating package lists again...\"
     apt-get update
-    echo '- Installing Coral TPU driver ($DRIVER_PACKAGE)...'
+    echo \"- Installing Coral TPU driver ($DRIVER_PACKAGE)...\"
     apt-get install -y $DRIVER_PACKAGE
-    "
+    '" "$LOG_FILE"
 
-
-    msg_ok "$(translate 'iGPU and Coral TPU drivers installed inside the container.')"
+    if [ $? -eq 0 ]; then
+        tput rc  
+        tput ed  
+        rm -f "$LOG_FILE"  
+        msg_ok "$(translate 'iGPU and Coral TPU drivers installed inside the container.')"
+    else
+        msg_error "$(translate 'Failed to install iGPU and Coral TPU drivers inside the container.')"
+        cat "$LOG_FILE"  
+        rm -f "$LOG_FILE"
+        exit 1
+    fi
 }
+
 
 
 select_container 
