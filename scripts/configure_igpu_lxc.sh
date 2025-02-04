@@ -132,17 +132,34 @@ configure_lxc_for_igpu() {
 # Install iGPU drivers in the container
 install_igpu_in_container() {
 
-    echo -ne "${TAB}${YW}-$(translate 'Installing iGPU drivers inside the container...') ${CL}"
+    msg_info2 "$(translate 'Installing iGPU drivers inside the container...')"
+    tput sc
+    LOG_FILE=$(mktemp)
+
     pct start "$CONTAINER_ID"
-    pct exec "$CONTAINER_ID" -- bash -c "
+    script -q -c "pct exec \"$CONTAINER_ID\" -- bash -c '
     set -e
-    echo '- start install'
-    apt-get update && \
-    apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools && \
-    chgrp video /dev/dri && chmod 755 /dev/dri && \
+    echo \"- Updating package lists...\"
+    apt-get update
+    echo \"- Installing iGPU drivers...\"
+    apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools
+    chgrp video /dev/dri && chmod 755 /dev/dri
     adduser root video && adduser root render
-    "
-    msg_ok "$(translate 'iGPU drivers installed inside the container.')"
+    '" "$LOG_FILE"
+
+    if [ $? -eq 0 ]; then
+        tput rc 
+        tput ed 
+        rm -f "$LOG_FILE"  
+        msg_ok "$(translate 'iGPU drivers installed inside the container.')"
+    else
+        tput rc  
+        tput ed  
+        msg_error "$(translate 'Failed to install iGPU drivers inside the container.')"
+        cat "$LOG_FILE"  
+        rm -f "$LOG_FILE"
+        exit 1
+    fi
 }
 
 
@@ -153,3 +170,4 @@ install_igpu_in_container
 
 
 msg_ok "$(translate 'iGPU configuration completed in container') $CONTAINER_ID."
+sleep 2
