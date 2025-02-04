@@ -43,7 +43,7 @@ show_menu() {
         3) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
         4) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
         5) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
-        *) msg_warn "Opción inválida"; sleep 2 ;;
+        *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
     esac
     
 done
