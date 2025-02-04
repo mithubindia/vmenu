@@ -33,7 +33,7 @@ initialize_cache
 
         case $OPTION in
             1)
-                msg_info "$(translate "Running network repair...")"
+                msg_info2 "$(translate "Running network repair...")"
                 if bash <(curl -s "$REPO_URL/scripts/repair_network.sh"); then
                     msg_ok "$(translate "Network repair completed.")"
                 else
