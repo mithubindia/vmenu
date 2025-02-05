@@ -45,9 +45,12 @@ fi
 
 show_proxmenu_logo "$YW"
 
+
+
 # Initialize language configuration
 initialize_config() {
-    if [ ! -f "$CONFIG_FILE" ]; then
+    # Check if config file exists and has language field
+    if [ ! -f "$CONFIG_FILE" ] || [ -z "$(jq -r '.language // empty' "$CONFIG_FILE")" ]; then
         LANGUAGE=$(whiptail --title "$(translate "Select Language")" --menu "$(translate "Choose a language for the menu:")" 20 60 12 \
             "en" "$(translate "English (Recommended)")" \
             "es" "$(translate "Spanish")" \
@@ -63,10 +66,17 @@ initialize_config() {
             exit 1
         fi
 
-        echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
+        if [ -f "$CONFIG_FILE" ]; then
+            # Update existing config file with new language
+            tmp=$(mktemp)
+            jq --arg lang "$LANGUAGE" '. + {language: $lang}' "$CONFIG_FILE" > "$tmp" && mv "$tmp" "$CONFIG_FILE"
+        else
+            # Create new config file if it doesn't exist
+            echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
+        fi
+        
         msg_ok "$(translate "Initial language set to:") $LANGUAGE"
     fi
-
 }
 
 
