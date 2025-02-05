@@ -10,17 +10,19 @@
 # Last Updated: 28/01/2025
 # ==========================================================
 # Description:
-# This script automates the configuration and installation of
-# Coral TPU and iGPU support in Proxmox VE containers. It:
-# - Configures a selected LXC container for hardware acceleration
-# - Installs and sets up Coral TPU drivers on the Proxmox host
-# - Installs necessary drivers inside the container
-# - Manages required system and container restarts
+# This script automates the process of enabling and configuring
+# Intel integrated GPU (iGPU) support in Proxmox VE LXC containers.
+# It performs the following main tasks:
+# - Selects a target LXC container
+# - Ensures the container is set to privileged mode
+# - Configures the LXC container for iGPU passthrough
+# - Installs necessary iGPU drivers and tools inside the container
+# - Manages container restarts as needed
 #
-# The script aims to simplify the process of enabling
-# AI-powered video analysis capabilities in containers
-# LXC, leveraging hardware acceleration for
-# improved performance.
+# The script aims to simplify the setup of hardware-accelerated
+# graphics capabilities in LXC containers, enabling efficient
+# use of Intel iGPUs for tasks such as transcoding, rendering,
+# and accelerating graphics-intensive applications.
 # ==========================================================
 
 # Configuration ============================================
