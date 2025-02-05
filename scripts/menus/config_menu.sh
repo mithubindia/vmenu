@@ -67,7 +67,14 @@ change_language() {
         return
     fi
 
-    echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
+    # Update only the language field in the config file
+    if [ -f "$CONFIG_FILE" ]; then
+        tmp=$(mktemp)
+        jq --arg lang "$LANGUAGE" '.language = $lang' "$CONFIG_FILE" > "$tmp" && mv "$tmp" "$CONFIG_FILE"
+    else
+        echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
+    fi
+
     msg_ok "$(translate "Language changed to") $LANGUAGE"
 
     TMP_FILE=$(mktemp)
