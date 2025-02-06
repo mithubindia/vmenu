@@ -190,7 +190,7 @@ install_proxmenu() {
     show_progress $current_step $total_steps "Downloading necessary files"
     mkdir -p "$BASE_DIR"
     FILES=(
-        "$CACHE_FILE $REPO_URL/lang/cache.json"
+        "$CACHE_FILE $REPO_URL/json/cache.json"
         "$UTILS_FILE $REPO_URL/scripts/utils.sh"
         "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
         "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
