@@ -10,19 +10,9 @@
 # Last Updated: 28/01/2025
 # ==========================================================
 # Description:
-# This script automates the process of enabling and configuring
-# Intel integrated GPU (iGPU) support in Proxmox VE LXC containers.
-# It performs the following main tasks:
-# - Selects a target LXC container
-# - Ensures the container is set to privileged mode
-# - Configures the LXC container for iGPU passthrough
-# - Installs necessary iGPU drivers and tools inside the container
-# - Manages container restarts as needed
-#
-# The script aims to simplify the setup of hardware-accelerated
-# graphics capabilities in LXC containers, enabling efficient
-# use of Intel iGPUs for tasks such as transcoding, rendering,
-# and accelerating graphics-intensive applications.
+# This script automates the process of enabling and configuring Intel Integrated GPU (iGPU) support in Proxmox VE LXC containers.
+# Its goal is to simplify the configuration of hardware-accelerated graphical capabilities within containers, allowing for efficient
+# use of Intel iGPUs for tasks such as transcoding, rendering, and accelerating graphics-intensive applications.
 # ==========================================================
 
 # Configuration ============================================
