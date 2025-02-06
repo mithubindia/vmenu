@@ -83,7 +83,7 @@ show_progress() {
     local total="$2"
     local message="$3"
     
-    echo -e "\n${YW}${TAB}Installing ProxMenu: Step $step of $total${CL}"
+    echo -e "\n${BOLD}${BL}${TAB}Installing ProxMenu: Step $step of $total${CL}"
     msg_info2 "$message"
     echo
 }
@@ -236,7 +236,7 @@ fi
 clear
 show_proxmenu_logo
 
-echo -e "${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
+echo -e "${BOLD}${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
 echo -e "${TAB}- curl (if not already installed)"
 echo -e "${TAB}- jq (if not already installed)"
