@@ -51,6 +51,8 @@ show_config_menu() {
 
 
 
+# ==========================================================
+
 change_language() {
     LANGUAGE=$(whiptail --title "$(translate "Change Language")" --menu "$(translate "Select a new language for the menu:")" 20 60 12 \
             "en" "$(translate "English (Recommended)")" \
@@ -77,6 +79,7 @@ change_language() {
 
     msg_ok "$(translate "Language changed to") $LANGUAGE"
 
+    # Reload the menu
     TMP_FILE=$(mktemp)
     curl -s "$REPO_URL/scripts/menus/config_menu.sh" > "$TMP_FILE"
     chmod +x "$TMP_FILE"
@@ -88,29 +91,163 @@ change_language() {
 
 
 
-# Function to uninstall ProxMenu
-uninstall_proxmenu() {
-    if whiptail --title "$(translate "Uninstall ProxMenu")" --yesno "$(translate "Are you sure you want to uninstall ProxMenu?")" 10 60; then
-        msg_info "$(translate "Uninstalling ProxMenu...")"
-        rm -rf "$BASE_DIR"
-        rm -f "/usr/local/bin/menu.sh"
-        msg_ok "$(translate "ProxMenux has been completely uninstalled.")"
-        exit 0
-    fi
-}
+# ==========================================================
 
-
-# Function to show version information
 show_version_info() {
+
+
     local version
     version=$(<"$LOCAL_VERSION_FILE")
+
     
-    whiptail --title "$(translate "Version ProxMenux")" \
-             --msgbox "$(translate "Current ProxMenux version:") $version" 12 60
+    # Prepare the information message
+    local info_message="$(translate "Current ProxMenux version:") $version\n\n"
+    info_message+="$(translate "Installed components:")\n"
+    
+    # Check and add information about installed components
+    if [ -f "$CONFIG_FILE" ]; then
+        while IFS=': ' read -r component value; do
+            # Skip the language entry as it's handled differently
+            if [ "$component" = "language" ]; then
+                continue
+            fi
+            
+            # Try to parse the status from the value if it's an object
+            local status
+            if echo "$value" | jq -e '.status' >/dev/null 2>&1; then
+                status=$(echo "$value" | jq -r '.status')
+            else
+                status="$value"
+            fi
+            
+            local translated_status=$(translate "$status")
+            case "$status" in
+                "installed"|"already_installed"|"created"|"already_exists"|"upgraded")
+                    info_message+="✓ $component: $translated_status\n"
+                    ;;
+                *)
+                    info_message+="✗ $component: $translated_status\n"
+                    ;;
+            esac
+        done < <(jq -r 'to_entries[] | "\(.key): \(.value)"' "$CONFIG_FILE")
+    else
+        info_message+="$(translate "No installation information available.")\n"
+    fi
+    
+    # Add information about ProxMenu files
+    info_message+="\n$(translate "ProxMenu files:")\n"
+    [ -f "$INSTALL_DIR/$MENU_SCRIPT" ] && info_message+="✓ $MENU_SCRIPT\n" || info_message+="✗ $MENU_SCRIPT\n"
+    [ -f "$CACHE_FILE" ] && info_message+="✓ cache.json\n" || info_message+="✗ cache.json\n"
+    [ -f "$UTILS_FILE" ] && info_message+="✓ utils.sh\n" || info_message+="✗ utils.sh\n"
+    [ -f "$CONFIG_FILE" ] && info_message+="✓ config.json\n" || info_message+="✗ config.json\n"
+    [ -f "$LOCAL_VERSION_FILE" ] && info_message+="✓ version.txt\n" || info_message+="✗ version.txt\n"
+    
+    # Add information about the virtual environment
+    info_message+="\n$(translate "Virtual Environment:")\n"
+    if [ -d "$VENV_PATH" ] && [ -f "$VENV_PATH/bin/activate" ]; then
+        info_message+="✓ $(translate "Installed")\n"
+        # Check if pip is installed in the virtual environment
+        if [ -f "$VENV_PATH/bin/pip" ]; then
+            info_message+="✓ pip: $(translate "Installed")\n"
+        else
+            info_message+="✗ pip: $(translate "Not installed")\n"
+        fi
+    else
+        info_message+="✗ $(translate "Virtual Environment"): $(translate "Not installed")\n"
+        info_message+="✗ pip: $(translate "Not installed")\n"
+    fi
+    
+    # Display the current language
+    local current_language=$(jq -r '.language // "en"' "$CONFIG_FILE")
+    info_message+="\n$(translate "Current language:")\n"
+    info_message+="$current_language\n"
+    
+    # Display the information using whiptail
+    whiptail --title "$(translate "ProxMenux Information")" \
+             --scrolltext \
+             --msgbox "$info_message" 20 70
 }
 
 
 
-# Main flow
+# ==========================================================
+
+uninstall_proxmenu() {
+    if ! whiptail --title "Uninstall ProxMenu" --yesno "$(translate "Are you sure you want to uninstall ProxMenu?")" 10 60; then
+        return
+    fi
+
+    # Show checklist for dependencies
+    DEPS_TO_REMOVE=$(whiptail --title "Remove Dependencies" --checklist \
+        "Select dependencies to remove:" 15 60 3 \
+        "python3-venv" "Python virtual environment" OFF \
+        "python3-pip"  "Python package installer" OFF \
+        "jq"          "JSON processor" OFF \
+        3>&1 1>&2 2>&3)
+    
+    echo "Uninstalling ProxMenu..."
+
+    # Remove googletrans if virtual environment exists
+    if [ -f "$VENV_PATH/bin/activate" ]; then
+        echo "Removing googletrans..."
+        source "$VENV_PATH/bin/activate"
+        pip uninstall -y googletrans >/dev/null 2>&1
+        deactivate
+    fi
+
+    # Remove virtual environment
+    if [ -d "$VENV_PATH" ]; then
+        echo "Removing virtual environment..."
+        rm -rf "$VENV_PATH"
+    fi
+
+    # Remove selected dependencies
+    if [ -n "$DEPS_TO_REMOVE" ]; then
+        echo "Removing selected dependencies..."
+        # Remove quotes and process each package
+        for dep in $(echo "$DEPS_TO_REMOVE" | tr -d '"'); do
+            echo "Removing $dep..."
+            
+            # Mark package as auto-installed
+            apt-mark auto "$dep" >/dev/null 2>&1
+            
+            # Try to remove with apt-get
+            if ! apt-get -y --purge autoremove "$dep" >/dev/null 2>&1; then
+                echo "Failed to remove $dep with apt-get. Trying with dpkg..."
+                if ! dpkg --purge "$dep" >/dev/null 2>&1; then
+                    echo "Failed to remove $dep with dpkg. Trying to force removal..."
+                    dpkg --force-all --purge "$dep" >/dev/null 2>&1
+                fi
+            fi
+            
+            # Verify if the package was actually removed
+            if dpkg -l "$dep" 2>/dev/null | grep -q '^ii'; then
+                echo "Warning: Failed to completely remove $dep. You may need to remove it manually."
+            else
+                echo "$dep successfully removed."
+            fi
+        done
+        
+        # Run autoremove to clean up any leftover dependencies
+        echo "Cleaning up unnecessary packages..."
+        apt-get autoremove -y --purge >/dev/null 2>&1
+    fi
+
+    # Remove ProxMenu files
+    rm -f "/usr/local/bin/menu.sh"
+    rm -rf "$BASE_DIR"
+
+    echo "ProxMenu has been uninstalled."
+    
+    if [ -n "$DEPS_TO_REMOVE" ]; then
+        echo "The following dependencies have been removed successfully: $DEPS_TO_REMOVE"
+    fi
+    
+    echo
+    echo "ProxMenux uninstallation complete. Thank you for using it!"
+    echo
+    exit 0
+}
+
 
 show_config_menu
