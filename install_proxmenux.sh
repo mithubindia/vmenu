@@ -6,8 +6,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
+# Version     : 1.1
+# Last Updated: 06/02/2025
 # ==========================================================
 # Description:
 # This script installs and configures ProxMenux, a menu-driven
@@ -39,133 +39,179 @@ REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
 INSTALL_DIR="/usr/local/bin"
 BASE_DIR="/usr/local/share/proxmenux"
+CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 UTILS_FILE="$BASE_DIR/utils.sh"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu.sh"
+VENV_PATH="/opt/googletrans-env"
 
-
+# Source utils.sh for common functions and styles
 if ! source <(curl -sSf "$UTILS_URL"); then
-    echo "$(translate 'Error: Could not load utils.sh from') $UTILS_URL"
+    echo "Error: Could not load utils.sh from $UTILS_URL"
     exit 1
 fi
 
 # ==========================================================
 
-if [ "$(id -u)" -ne 0 ]; then
-    msg_error "This script must be run as root."
-    exit 1
-fi
+update_config() {
+    local component="$1"
+    local status="$2"
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    
+    # List of components we want to track
+    local tracked_components=("whiptail" "curl" "jq" "python3" "python3-venv" "python3-pip" "virtual_environment" "pip" "googletrans")
+    
+    # Check if the component is in the list of tracked components
+    if [[ " ${tracked_components[@]} " =~ " ${component} " ]]; then
+        mkdir -p "$(dirname "$CONFIG_FILE")"
 
 
-show_proxmenu_logo
+        if [ ! -f "$CONFIG_FILE" ]; then
+            echo '{}' > "$CONFIG_FILE"
+        fi
+        
+        tmp=$(mktemp)
+        jq --arg comp "$component" --arg stat "$status" --arg time "$timestamp" \
+           '.[$comp] = {status: $stat, timestamp: $time}' "$CONFIG_FILE" > "$tmp" && mv "$tmp" "$CONFIG_FILE"
+    fi
+}
 
 
-echo -e "${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
-echo -e "${TAB}- whiptail (if not already installed)"
-echo -e "${TAB}- curl (if not already installed)"
-echo -e "${TAB}- jq (if not already installed)"
-echo -e "${TAB}- Python 3 (if not already installed)"
-echo -e "${TAB}- Virtual environment for Google Translate"
-echo -e "${TAB}- ProxMenu scripts and configuration files"
-echo
-read -p "Do you want to proceed with the installation? (y/n) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    msg_warn "Installation cancelled."
-    exit 1
-fi
+show_progress() {
+    local step="$1"
+    local total="$2"
+    local message="$3"
+    
+    echo -e "\n${YW}${TAB}Installing ProxMenu: Step $step of $total${CL}"
+    msg_info2 "$message"
+    echo
+}
 
 
-# Install dependencies =====================================
+# # Main installation function =============================
 
-msg_info "Checking system dependencies..."
+install_proxmenu() {
+    local total_steps=4
+    local current_step=1
+
+   # Step 1: Check and install system dependencies
+
+   show_progress $current_step $total_steps "Checking system dependencies"
 
 
-DEPS=("whiptail" "curl" "jq" "python3" "python3-venv" "python3-pip")
-for pkg in "${DEPS[@]}"; do
-    if ! dpkg -l | grep -qw "$pkg"; then
-        msg_info "Installing $pkg..."
-        if apt-get update && apt-get install -y "$pkg"; then
-            msg_ok "$pkg installed successfully."
+   if ! dpkg -l | grep -qw "jq"; then
+       msg_info "Installing jq..."
+       apt-get update > /dev/null 2>&1
+       if apt-get install -y jq > /dev/null 2>&1; then
+           msg_ok "jq installed successfully."
+           update_config "jq" "installed"
+       else
+           msg_error "Failed to install jq. Please install it manually."
+           update_config "jq" "failed"
+           return 1
+       fi
+   else
+       msg_ok "jq is already installed."
+       update_config "jq" "already_installed"
+   fi
+
+
+   DEPS=("whiptail" "curl" "python3" "python3-venv" "python3-pip")
+   for pkg in "${DEPS[@]}"; do
+       if ! dpkg -l | grep -qw "$pkg"; then
+           msg_info "Installing $pkg..."
+           if apt-get install -y "$pkg" > /dev/null 2>&1; then
+               msg_ok "$pkg installed successfully."
+               update_config "$pkg" "installed"
+           else
+               msg_error "Failed to install $pkg. Please install it manually."
+               update_config "$pkg" "failed"
+               return 1
+           fi
+       else
+           msg_ok "$pkg is already installed."
+           update_config "$pkg" "already_installed"
+       fi
+   done
+
+   ((current_step++))
+
+    # Step 2: Set up virtual environment
+
+    show_progress $current_step $total_steps "Setting up virtual environment for translate"
+    if [ ! -d "$VENV_PATH" ] || [ ! -f "$VENV_PATH/bin/activate" ]; then
+        msg_info "Creating the virtual environment..."
+        python3 -m venv --system-site-packages "$VENV_PATH" > /dev/null 2>&1
+
+        if [ ! -f "$VENV_PATH/bin/activate" ]; then
+            msg_error "Failed to create virtual environment. Please check your Python installation."
+            update_config "virtual_environment" "failed"
+            return 1
         else
-            msg_error "Failed to install $pkg. Please install it manually."
-            exit 1
+            msg_ok "Virtual environment created successfully."
+            update_config "virtual_environment" "created"
         fi
     else
-        msg_ok "$pkg is already installed."
+        msg_ok "Virtual environment already exists."
+        update_config "virtual_environment" "already_exists"
     fi
-done
+    source "$VENV_PATH/bin/activate"
+    ((current_step++))
 
-# Set up virtual environment ==============================
+    # Step 3: Install and upgrade pip and googletrans
 
-# msg_info "Setting up the virtual environment for translations..."
-
-
-#mkdir -p /opt
-#chmod 755 /opt
-
-
-if [ ! -d "$VENV_PATH" ] || [ ! -f "$VENV_PATH/bin/activate" ]; then
-    msg_info "Creating the virtual environment..."
-    python3 -m venv --system-site-packages "$VENV_PATH"
-
-    
-    if [ ! -f "$VENV_PATH/bin/activate" ]; then
-        msg_error "Failed to create virtual environment. Please check your Python installation."
-        exit 1
-    fi
-fi
-
-
-source "$VENV_PATH/bin/activate"
-
-
-pip install --upgrade pip
-
-
-if pip install --break-system-packages --no-cache-dir googletrans==4.0.0-rc1; then
-    msg_ok "Virtual environment configured and googletrans installed."
-else
-    msg_error "Failed to install googletrans. Please check your internet connection."
-    if [ -n "$VIRTUAL_ENV" ]; then
-        deactivate
-    fi
-    exit 1
-fi
-
-
-if [ -n "$VIRTUAL_ENV" ]; then
-    deactivate
-fi
-
-# Download necessary files =================================
-
-msg_ok "Necessary directories created."
-mkdir -p "$BASE_DIR"
-
-
-FILES=(
-    "$CACHE_FILE $REPO_URL/lang/cache.json"
-    "$UTILS_FILE $REPO_URL/scripts/utils.sh"
-    "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
-    "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
-)
-
-for file in "${FILES[@]}"; do
-    IFS=" " read -r dest url <<< "$file"
-    msg_info "Downloading ${dest##*/}..."
-    if wget -qO "$dest" "$url"; then
-        msg_ok "${dest##*/} downloaded successfully."
+    show_progress $current_step $total_steps "Installing and upgrading pip and googletrans"
+    msg_info "Upgrading pip..."
+    if pip install --upgrade pip > /dev/null 2>&1; then
+        msg_ok "Pip upgraded successfully."
+        update_config "pip" "upgraded"
     else
-        msg_error "Failed to download ${dest##*/}. Check your Internet connection."
-        exit 1
+        msg_error "Failed to upgrade pip."
+        update_config "pip" "upgrade_failed"
+        return 1
     fi
-done
+
+    msg_info "Installing googletrans..."
+    if pip install --break-system-packages --no-cache-dir googletrans==4.0.0-rc1 > /dev/null 2>&1; then
+        msg_ok "Googletrans installed successfully."
+        update_config "googletrans" "installed"
+    else
+        msg_error "Failed to install googletrans. Please check your internet connection."
+        update_config "googletrans" "failed"
+        deactivate
+        return 1
+    fi
+    deactivate
+    ((current_step++))
+
+    # Step 4: Download necessary files
+
+    show_progress $current_step $total_steps "Downloading necessary files"
+    mkdir -p "$BASE_DIR"
+    FILES=(
+        "$CACHE_FILE $REPO_URL/lang/cache.json"
+        "$UTILS_FILE $REPO_URL/scripts/utils.sh"
+        "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
+        "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
+    )
+    for file in "${FILES[@]}"; do
+        IFS=" " read -r dest url <<< "$file"
+        msg_info "Downloading ${dest##*/}..."
+        if wget -qO "$dest" "$url"; then
+            msg_ok "${dest##*/} downloaded successfully."
+        else
+            msg_error "Failed to download ${dest##*/}. Check your Internet connection."
+            return 1
+        fi
+    done
+    ((current_step++))
+
+    # Final setup
+
+    chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
 
 
-chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
 
 # Installation complete ====================================
 echo
@@ -179,9 +225,31 @@ echo -e "${YWB}    menu.sh${CL}"
 echo
 
 
+}
 
-if [ -f "$BASE_DIR/install_proxmenux.sh" ]; then
-    rm -f "$BASE_DIR/install_proxmenux.sh"
+# Main execution  ==========================================
+if [ "$(id -u)" -ne 0 ]; then
+    msg_error "This script must be run as root."
+    exit 1
 fi
 
-exit 0
+clear
+show_proxmenu_logo
+
+echo -e "${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
+echo -e "${TAB}- whiptail (if not already installed)"
+echo -e "${TAB}- curl (if not already installed)"
+echo -e "${TAB}- jq (if not already installed)"
+echo -e "${TAB}- Python 3 (if not already installed)"
+echo -e "${TAB}- Virtual environment for Google Translate"
+echo -e "${TAB}- ProxMenu scripts and configuration files"
+echo
+read -p "Do you want to proceed with the installation? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    install_proxmenu
+else
+    msg_warn "Installation cancelled."
+    exit 1
+fi
