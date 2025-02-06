@@ -10,19 +10,21 @@
 # Last Updated: 28/01/2025
 # ==========================================================
 # Description:
-# This script automates the process of importing disk images
-# into existing Proxmox virtual machines (VMs). It:
-# - Scans the storage directory for compatible disk images (.img, .qcow2, .vmdk)
-# - Allows the user to select a target VM for disk import
-# - Lists available Proxmox storage volumes for disk placement
-# - Enables users to select one or multiple disk images for import
-# - Assigns a suitable disk interface (SATA, SCSI, VirtIO, IDE)
-# - Handles SSD emulation and bootable disk configuration (optional)
-# - Ensures disks are properly attached to the VM and configured
+# Description:
+# This script automates the process of importing disk images into Proxmox VE virtual machines (VMs), 
+# making it easy to attach pre-existing disk files without manual configuration.
 #
-# This script simplifies the process of managing virtual disk
-# imports, making it easier to integrate pre-existing disk images
-# into Proxmox virtual machines without manual configuration.
+# Before running the script, ensure that disk images are available in /var/lib/vz/template/images/. 
+# The script scans this directory for compatible formats (.img, .qcow2, .vmdk) and lists the available files.
+#
+# Using an interactive menu, you can:
+# - Select a VM to attach the imported disk.
+# - Choose one or multiple disk images for import.
+# - Pick a storage volume in Proxmox for disk placement.
+# - Assign a suitable interface (SATA, SCSI, VirtIO, or IDE).
+# - Enable optional settings like SSD emulation or bootable disk configuration.
+#
+# Once completed, the script ensures the selected images are correctly attached and ready to use.
 # ==========================================================
 
 # Configuration ============================================
