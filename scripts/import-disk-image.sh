@@ -41,32 +41,27 @@ initialize_cache
 # Path where disk images are stored
 IMAGES_DIR="/var/lib/vz/template/images/"
 
-# Ensure directory exists
+
+# Initial setup
 if [ ! -d "$IMAGES_DIR" ]; then
-    mkdir -p "$IMAGES_DIR"
-    chmod 755 "$IMAGES_DIR"
-    msg_info "Created missing directory: $IMAGES_DIR"
+        msg_info "$(translate 'Creating images directory')"
+        mkdir -p "$IMAGES_DIR"
+        chmod 755 "$IMAGES_DIR"
+        msg_ok "$(translate 'Images directory created:') $IMAGES_DIR"
 fi
+
+
 # Check if there are any images in the directory
 IMAGES=$(ls -A "$IMAGES_DIR" | grep -E "\.(img|qcow2|vmdk)$")
 if [ -z "$IMAGES" ]; then
-    msg_error "$(translate 'No images available for import in') $IMAGES_DIR"
-    echo -e "${YW}$(translate 'Supported formats: .img, .qcow2, .vmdk')${CL}"
-    echo -e "${YW}$(translate 'Please add some images and try again.')${CL}"
-    exit 0
+    whiptail --title "$(translate 'No Images Found')" \
+             --msgbox "$(translate 'No images available for import in:')\n\n$IMAGES_DIR\n\n$(translate 'Supported formats: .img, .qcow2, .vmdk')\n\n$(translate 'Please add some images and try again.')" 15 60
+    exit 1
 fi
 
-
-
-# Initial setup
-if ! [ -d "$IMAGES_DIR" ]; then
-    msg_info "$(translate 'Creating images directory')"
-    mkdir -p "$IMAGES_DIR"
-    msg_ok "$(translate 'Images directory created')"
-fi
 
 # Display initial message
-whiptail --title "$(translate 'Import Disk Image')" --msgbox "$(translate 'Make sure the disk images you want to import are located in:')\n\n$IMAGES_DIR\n\n$(translate 'Supported formats: .img, .qcow2, .vmdk.')" 12 60
+whiptail --title "$(translate 'Import Disk Image')" --msgbox "$(translate 'Make sure the disk images you want to import are located in:')\n\n$IMAGES_DIR\n\n$(translate 'Supported formats: .img, .qcow2, .vmdk.')" 15 60
 
 
 
