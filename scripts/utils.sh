@@ -103,7 +103,7 @@ msg_info() {
 # Display info2 message
 msg_info2() {
     local msg="$1"
-    echo -e "${TAB}${BOLD}${YW}${HOLD}${msg}"
+    echo -e "${TAB}${BOLD}${YW}${HOLD}${msg}${CL}"
 }
 
 # Display success message
@@ -113,7 +113,7 @@ msg_success() {
     fi
     printf "\e[?25h"
     local msg="$1"
-    echo -e "${TAB}${BOLD}${BL}${HOLD}${msg}"
+    echo -e "${TAB}${BOLD}${BL}${HOLD}${msg}${CL}"
 }
 
 
