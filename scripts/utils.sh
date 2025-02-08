@@ -103,13 +103,17 @@ msg_info() {
 # Display info2 message
 msg_info2() {
     local msg="$1"
-    echo -ne "${TAB}${BOLD}${YW}${HOLD}${msg}"
+    echo -e "${TAB}${BOLD}${YW}${HOLD}${msg}"
 }
 
 # Display success message
 msg_success() {
+    if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
+        kill $SPINNER_PID > /dev/null
+    fi
+    printf "\e[?25h"
     local msg="$1"
-    echo -ne "${TAB}${BOLD}${BL}${HOLD}${msg}"
+    echo -e "${TAB}${BOLD}${BL}${HOLD}${msg}"
 }
 
 
