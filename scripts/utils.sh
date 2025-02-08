@@ -100,8 +100,14 @@ msg_info() {
 }
 
 
-# Display info message
+# Display info2 message
 msg_info2() {
+    local msg="$1"
+    echo -ne "${TAB}${BOLD}${YW}${HOLD}${msg}"
+}
+
+# Display success message
+msg_success() {
     local msg="$1"
     echo -ne "${TAB}${BOLD}${BL}${HOLD}${msg}"
 }
