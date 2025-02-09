@@ -106,7 +106,7 @@ show_menu() {
 
 
                 whiptail --title "Proxmox VE Helper-Scripts" \
-                         --msgbox "$(translate "Visit the website for more scripts and updates:\n\nhttps://community-scripts.github.io/ProxmoxVE/")" 15 70
+                         --msgbox "$(translate "Visit the website to discover more scripts and stay up to date with the latest updates:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
 
 
                 exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
