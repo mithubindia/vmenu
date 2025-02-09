@@ -29,20 +29,22 @@ initialize_cache
 show_menu() {
     while true; do
         OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
-            "1" "$(translate "GPUs and Coral-TPU")" \
+            "1" "$(translate "Hardware: GPUs and Coral-TPU")" \
             "2" "$(translate "Hard Drives, Disk Images, and Storage")" \
-            "3" "$(translate "Network")" \
-            "4" "$(translate "Settings")" \
-            "5" "$(translate "Exit")" 3>&1 1>&2 2>&3)
+            "3" "$(translate "Essential Proxmox VE Helper-Scripts")" \
+            "4" "$(translate "Network")" \
+            "5" "$(translate "Settings")" \
+            "6" "$(translate "Exit")" 3>&1 1>&2 2>&3)
 
 
 
     case $OPTION in
         1) exec bash <(curl -s "$REPO_URL/scripts/menus/hw_grafics_menu.sh") ;;
         2) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
-        3) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
-        4) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
-        5) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
+        3) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
+        4) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
+        5) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
+        6) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
         *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
     esac
     
