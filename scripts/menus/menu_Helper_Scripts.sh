@@ -125,7 +125,7 @@ show_menu() {
                 if whiptail --title "$(translate "Script Information")" \
                             --yes-button "$(translate "Accept")" \
                             --no-button "$(translate "Cancel")" \
-                            --yesno "$selected_description" 20 78; then
+                            --yesno "$selected_description" 25 78; then
                     msg_info2 "$(translate "Executing script:") $script_selection"
                     sleep 2
                     bash <(curl -s "$selected_url")
