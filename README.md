@@ -4,7 +4,6 @@
 
 
 # ProxMenux: Interactive Menu for Proxmox VE Management
-# Pro<img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo2.png" alt="ProxMenu Logo" width="30" height="28">enux: Interactive Menu for Proxmox VE Management
 
 **ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
 
