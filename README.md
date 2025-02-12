@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/proxmenu.png" alt="ProxMenu Logo" width="265" height="294">
+    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo2.png" alt="ProxMenu Logo" width="265" height="294">
 </div>
 
 
