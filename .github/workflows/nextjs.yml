@@ -25,21 +25,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: yarn
+          cache-dependency-path: web/yarn.lock
 
-      - name: Install dependencies and update package-lock.json
+      - name: Install dependencies
         run: |
           cd web
-          npm install
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add package-lock.json
-          git commit -m "Update package-lock.json" || echo "No changes to commit"
-          git push
+          yarn install --frozen-lockfile
 
       - name: Build Next.js project
         run: |
           cd web
-          npm run build
+          yarn build
+          yarn export
 
       - name: Copy guides and changelog
         run: |
@@ -62,5 +60,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
 
