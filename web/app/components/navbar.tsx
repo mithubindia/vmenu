@@ -1,47 +1,73 @@
+"use client"
+
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { Book, GitBranch, FileText, Github, Menu } from "lucide-react"
+import { useState } from "react"
 
 export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const navItems = [
+    { href: "/docs/introduction", icon: <Book className="h-4 w-4" />, label: "Documentation" },
+    { href: "/changelog", icon: <FileText className="h-4 w-4" />, label: "Changelog" },
+    { href: "/guides", icon: <GitBranch className="h-4 w-4" />, label: "Guides" },
+    { href: "https://github.com/MacRimi/ProxMenux", icon: <Github className="h-4 w-4" />, label: "GitHub" },
+  ]
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur border-b border-border/40">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link
-              href="/"
-              className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-            >
-              StreamLine
-            </Link>
-            <div className="hidden md:block ml-10">
-              <div className="flex items-center space-x-8">
-                <Link href="#" className="text-sm text-gray-300 hover:text-white">
-                  Pricing
-                </Link>
-                <Link href="/docs" className="text-sm text-gray-300 hover:text-white">
-                  Docs
-                </Link>
-                <Link href="#" className="text-sm text-gray-300 hover:text-white">
-                  Resources
-                </Link>
-                <Link href="#" className="text-sm text-gray-300 hover:text-white">
-                  Community
-                </Link>
-                <Link href="#" className="text-sm text-gray-300 hover:text-white">
-                  Download
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-sm">
-              Sign In
-            </Button>
-            <Button className="text-sm bg-gradient-to-r from-primary to-accent hover:opacity-90">Get Started</Button>
-          </div>
+          <Link href="/" className="flex items-center space-x-2">
+            <Image
+              src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png"
+              alt="ProxMenux Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
+            <span className="text-xl font-bold">ProxMenux</span>
+          </Link>
+
+          {/* Desktop menu */}
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center space-x-2 transition-colors hover:text-primary"
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile menu button */}
+          <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Menu className="h-6 w-6" />
+          </button>
         </div>
+
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <nav className="md:hidden py-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center space-x-2 py-2 transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </nav>
+        )}
       </div>
-    </nav>
+    </header>
   )
 }
 
