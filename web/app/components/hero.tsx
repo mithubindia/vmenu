@@ -1,30 +1,23 @@
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
 
 export default function Hero() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6">
-        ProxMenux{" "}
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-          A menu-driven script for Proxmox VE management
-        </span>
-      </h1>
-      <p className="text-base sm:text-lg md:text-xl mb-8 max-w-4xl mx-auto text-gray-300">
-        ProxMenu is a tool designed to execute shell scripts in an organized manner, using a menu system with categories
-        to facilitate access and execution of various scripts hosted on GitHub. ProxMenu simplifies script usage, aiming
-        to improve productivity and streamline automated tasks.
-      </p>
-      <div className="flex justify-center">
-        <Button size="lg" className="bg-blue-500 hover:bg-blue-600" asChild>
-          <Link href="/docs/installation">
-            Install Now
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
+    <div className="relative pt-32 pb-20 sm:pt-40 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8">
+          Everything App
+          <br />
+          <span className="text-gray-400">for your teams</span>
+        </h1>
+        <p className="max-w-2xl mx-auto text-lg sm:text-xl text-gray-400 mb-10">
+          Huly, an open-source platform, serves as an all-in-one replacement of Linear, Jira, Slack, and Notion.
+        </p>
+        <Button className="relative group px-8 py-6 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90">
+          <span className="relative z-10">Try it free</span>
+          <div className="absolute inset-0 bg-white/20 blur-lg group-hover:blur-xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
         </Button>
       </div>
-    </section>
+    </div>
   )
 }
 

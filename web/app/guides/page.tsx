@@ -1,13 +1,11 @@
 import Link from "next/link"
 
-// Interface defining the structure of a guide
 interface Guide {
   title: string
   description: string
   slug: string
 }
 
-// Guide list (manually added, can be automated later)
 const guides: Guide[] = [
   {
     title: "Setting up NVIDIA Drivers on Proxmox VE with GPU Passthrough",
@@ -16,14 +14,13 @@ const guides: Guide[] = [
     slug: "nvidia_proxmox",
   },
   {
-    title: "Example Additional Guide",
-    description: "This is a sample guide to show how multiple guides are handled.",
+    title: "Ejemplo de Guía Adicional",
+    description: "Esta es una guía de ejemplo para mostrar cómo se manejan múltiples guías.",
     slug: "example_guide",
   },
-  // Add more guides as needed
+  // Añade más guías aquí según sea necesario
 ]
 
-// Main component that renders the list of available guides
 export default function GuidesPage() {
   return (
     <div className="container mx-auto px-4 py-16">
@@ -44,3 +41,4 @@ export default function GuidesPage() {
     </div>
   )
 }
+

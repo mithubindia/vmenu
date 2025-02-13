@@ -1,0 +1,52 @@
+# Setting up NVIDIA Drivers on Proxmox VE with GPU Passthrough
+
+This guide explains how to install and configure NVIDIA drivers on your Proxmox VE host and enable GPU passthrough to your virtual machines.  This allows you to leverage the power of your NVIDIA GPU within your VMs for tasks like machine learning, gaming, or video editing.
+
+## Prerequisites
+
+Before you begin, ensure you have the following:
+
+* A Proxmox VE server with an NVIDIA GPU installed.
+* Access to the Proxmox VE command line interface (CLI) via SSH.
+* A basic understanding of Proxmox VE and virtual machine management.
+
+## Installing the NVIDIA Driver on the Proxmox VE Host
+
+This step involves installing the NVIDIA driver on your Proxmox VE host operating system.  The exact steps may vary slightly depending on your Proxmox VE version and the specific NVIDIA GPU you are using.  Consult the official NVIDIA documentation for the most up-to-date instructions.
+
+Generally, you will need to download the appropriate driver package from the NVIDIA website and then install it using the package manager for your distribution.
+
+## Enabling GPU Passthrough
+
+Once the NVIDIA driver is installed, you need to enable GPU passthrough for your virtual machines.  This involves assigning the GPU to a specific VM.
+
+1. **Identify your GPU:** Use the `lspci` command to identify the PCI address of your NVIDIA GPU.  The output will look something like this:
+
+   \`\`\`bash
+   01:00.0 VGA compatible controller: NVIDIA Corporation ...
+   \`\`\`
+
+   Note the `01:00.0` part – this is the PCI address.
+
+2. **Create a VM:** Create a new virtual machine in Proxmox VE.
+
+3. **Assign the GPU:** During the VM creation process, or afterwards using the VM's configuration, assign the NVIDIA GPU to the VM using the PCI address you identified earlier.  This is typically done in the "Hardware" section of the VM's settings.
+
+4. **Install the Guest Additions:** Once the VM is created, install the appropriate guest additions for your VM's operating system.  This will ensure that the VM can properly utilize the passed-through GPU.
+
+## Verifying GPU Passthrough
+
+After completing these steps, boot your VM and verify that the NVIDIA GPU is working correctly.  You can use tools like `nvidia-smi` (within the VM) to check the GPU status and utilization.
+
+## Troubleshooting
+
+If you encounter any issues, check the following:
+
+* **Driver Installation:** Ensure the NVIDIA driver is correctly installed on the Proxmox VE host.
+* **PCI Address:** Double-check that you have used the correct PCI address when assigning the GPU to the VM.
+* **Guest Additions:** Make sure the appropriate guest additions are installed within the VM.
+* **VM Configuration:** Verify that the VM's configuration is correct and that the GPU is properly assigned.
+* **Proxmox VE Logs:** Check the Proxmox VE logs for any errors related to the GPU or VM.
+
+This guide provides a general overview.  For more detailed instructions and troubleshooting tips, refer to the official NVIDIA and Proxmox VE documentation.
+

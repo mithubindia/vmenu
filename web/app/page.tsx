@@ -1,5 +1,3 @@
-"use client";
-
 import Hero from "@/components/hero"
 import Resources from "@/components/resources"
 import SupportProject from "@/components/support-project"
