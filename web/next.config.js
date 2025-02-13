@@ -6,6 +6,7 @@ const nextConfig = {
   },
   assetPrefix: '/ProxMenux/',
   basePath: '/ProxMenux',
-}
+  trailingSlash: true,
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
