@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  output: 'export',
   images: {
     unoptimized: true,
   },
-  assetPrefix: "/ProxMenux/",
-  basePath: "/ProxMenux",
-  distDir: "out",
+  assetPrefix: '/ProxMenux/',
+  basePath: '/ProxMenux',
 }
 
 module.exports = nextConfig
-
