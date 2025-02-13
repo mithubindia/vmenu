@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: "export", // Forces static export for GitHub Pages
+  trailingSlash: true, // Fixes route issues
   images: {
-    unoptimized: true,
+    unoptimized: true, // Fixes image loading issues on GitHub Pages
   },
-  assetPrefix: '/ProxMenux/',
-  basePath: '/ProxMenux',
-  trailingSlash: true,
-};
+  assetPrefix: process.env.NODE_ENV === "production" ? "/ProxMenux" : "",
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
