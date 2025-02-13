@@ -1,0 +1,16 @@
+# Next.js
+web/.next/
+web/out/
+
+# Node
+web/node_modules/
+
+# Logs
+web/*.log
+
+# Environment variables
+web/.env
+web/.env.local
+web/.env.development.local
+web/.env.test.local
+web/.env.production.local
