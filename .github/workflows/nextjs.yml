@@ -26,21 +26,26 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies and update package-lock.json
+      - name: Install dependencies
         run: |
           cd web
-          npm install
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add package-lock.json
-          git commit -m "Update package-lock.json" || echo "No changes to commit"
-          git push
+          npm ci
+
+      - name: Ensure required dependencies are installed
+        run: |
+          cd web
+          npm list next-themes || npm install next-themes
+          npm list @radix-ui/react-accordion || npm install @radix-ui/react-accordion
 
       - name: Verify next-themes installation
         run: |
           cd web
-          ls node_modules/next-themes || echo "next-themes NOT FOUND!"
-    
+          if [ -d "node_modules/next-themes" ]; then
+            echo "✅ next-themes found!"
+          else
+            echo "❌ ERROR: next-themes NOT FOUND!"
+            exit 1
+          fi
 
       - name: Build Next.js project
         run: |
@@ -50,8 +55,8 @@ jobs:
       - name: Copy guides and changelog
         run: |
           mkdir -p web/out/guides
-          cp guides/*.md web/out/guides/
-          cp CHANGELOG.md web/out/
+          cp -r guides/*.md web/out/guides/ || echo "No guides found"
+          cp CHANGELOG.md web/out/ || echo "No CHANGELOG.md found"
 
       - name: Upload artifact to GitHub Pages
         uses: actions/upload-pages-artifact@v3
