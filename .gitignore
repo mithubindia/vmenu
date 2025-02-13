@@ -14,3 +14,7 @@ web/.env.local
 web/.env.development.local
 web/.env.test.local
 web/.env.production.local
+
+# OS
+.DS_Store
+Thumbs.db
