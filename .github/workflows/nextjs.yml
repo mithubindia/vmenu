@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -21,64 +21,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          if [ -f "${{ github.workspace }}/web/yarn.lock" ]; then
-            echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=yarn" >> $GITHUB_OUTPUT
-            exit 0
-          elif [ -f "${{ github.workspace }}/web/package.json" ]; then
-            echo "manager=npm" >> $GITHUB_OUTPUT
-            echo "command=ci" >> $GITHUB_OUTPUT
-            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-            exit 0
-          else
-            echo "Unable to determine package manager"
-            exit 1
-          fi
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: web/package-lock.json
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
-
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('web/package-lock.json') }}-${{ hashFiles('web/**.[jt]s', 'web/**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-
-
-      - name: Install dependencies
+      - name: Install dependencies and update package-lock.json
         run: |
           cd web
-          ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-
-      - name: Generate package-lock.json
-        run: |
-          cd web
-          npm i --package-lock-only
+          npm install
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add package-lock.json
-          git commit -m "Generate package-lock.json" || echo "No changes to commit"
-          git push origin || echo "No changes to push"
+          git commit -m "Update package-lock.json" || echo "No changes to commit"
+          git push
 
       - name: Build Next.js project
         run: |
           cd web
-          ${{ steps.detect-package-manager.outputs.runner }} next build
-          ${{ steps.detect-package-manager.outputs.runner }} next export
+          npm run build
 
       - name: Copy guides and changelog
         run: |
@@ -91,7 +52,6 @@ jobs:
         with:
           path: web/out
 
-
   deploy:
     environment:
       name: github-pages
@@ -102,3 +62,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+
