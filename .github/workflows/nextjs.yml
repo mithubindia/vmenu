@@ -36,6 +36,12 @@ jobs:
           git commit -m "Update package-lock.json" || echo "No changes to commit"
           git push
 
+      - name: Verify next-themes installation
+        run: |
+          cd web
+          ls node_modules/next-themes || echo "next-themes NOT FOUND!"
+    
+
       - name: Build Next.js project
         run: |
           cd web
