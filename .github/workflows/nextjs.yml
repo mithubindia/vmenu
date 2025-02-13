@@ -38,15 +38,27 @@ jobs:
           npm list @radix-ui/react-accordion || npm install @radix-ui/react-accordion
           npm list @radix-ui/react-alert-dialog || npm install @radix-ui/react-alert-dialog
           npm list @radix-ui/react-aspect-ratio || npm install @radix-ui/react-aspect-ratio
+          npm list @radix-ui/react-avatar || npm install @radix-ui/react-avatar
+          npm list @radix-ui/react-dialog || npm install @radix-ui/react-dialog
+          npm list @radix-ui/react-tooltip || npm install @radix-ui/react-tooltip
+          npm list @radix-ui/react-switch || npm install @radix-ui/react-switch
+          npm list @radix-ui/react-popover || npm install @radix-ui/react-popover
+          npm list @radix-ui/react-toast || npm install @radix-ui/react-toast
 
       - name: Verify dependencies installation
         run: |
           cd web
-          if [ -d "node_modules/next-themes" ] && [ -d "node_modules/@radix-ui/react-accordion" ] && [ -d "node_modules/@radix-ui/react-alert-dialog" ] && [ -d "node_modules/@radix-ui/react-aspect-ratio" ]; then
-            echo "✅ All required dependencies are installed!"
-          else
-            echo "❌ ERROR: Some dependencies are missing!"
+          missing=0
+          for dep in next-themes @radix-ui/react-accordion @radix-ui/react-alert-dialog @radix-ui/react-aspect-ratio @radix-ui/react-avatar @radix-ui/react-dialog @radix-ui/react-tooltip @radix-ui/react-switch @radix-ui/react-popover @radix-ui/react-toast; do
+            if [ ! -d "node_modules/$dep" ]; then
+              echo "❌ ERROR: Missing dependency: $dep"
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
             exit 1
+          else
+            echo "✅ All required dependencies are installed!"
           fi
 
       - name: Build Next.js project
