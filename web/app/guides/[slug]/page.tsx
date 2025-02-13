@@ -3,21 +3,28 @@ import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
 
+// Function to retrieve the guide content based on the slug
 async function getGuideContent(slug: string) {
-  const guidePath = path.join(process.cwd(), "guides", `${slug}.md`)
+  const guidePath = path.join(process.cwd(), "guides", slug, "index.md") // Adjusted to look inside a folder
   const fileContents = fs.readFileSync(guidePath, "utf8")
 
   const result = await remark().use(html).process(fileContents)
   return result.toString()
 }
 
+// Function to generate static paths for all available guides
 export async function generateStaticParams() {
-  const guideFiles = fs.readdirSync(path.join(process.cwd(), "guides"))
-  return guideFiles.map((file) => ({
-    slug: file.replace(/\.md$/, ""),
-  }))
+  const guidesPath = path.join(process.cwd(), "guides")
+  const guideFolders = fs.readdirSync(guidesPath, { withFileTypes: true }) // Read only directories
+
+  return guideFolders
+    .filter((folder) => folder.isDirectory()) // Ensure it's a directory
+    .map((folder) => ({
+      slug: folder.name, // Use the folder name as slug
+    }))
 }
 
+// Page component to render a guide based on its slug
 export default async function GuidePage({ params }: { params: { slug: string } }) {
   const guideContent = await getGuideContent(params.slug)
 
@@ -27,4 +34,5 @@ export default async function GuidePage({ params }: { params: { slug: string } }
     </div>
   )
 }
+
 
