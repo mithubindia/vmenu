@@ -37,11 +37,12 @@ jobs:
           npm list next-themes || npm install next-themes
           npm list @radix-ui/react-accordion || npm install @radix-ui/react-accordion
           npm list @radix-ui/react-alert-dialog || npm install @radix-ui/react-alert-dialog
+          npm list @radix-ui/react-aspect-ratio || npm install @radix-ui/react-aspect-ratio
 
       - name: Verify dependencies installation
         run: |
           cd web
-          if [ -d "node_modules/next-themes" ] && [ -d "node_modules/@radix-ui/react-accordion" ] && [ -d "node_modules/@radix-ui/react-alert-dialog" ]; then
+          if [ -d "node_modules/next-themes" ] && [ -d "node_modules/@radix-ui/react-accordion" ] && [ -d "node_modules/@radix-ui/react-alert-dialog" ] && [ -d "node_modules/@radix-ui/react-aspect-ratio" ]; then
             echo "✅ All required dependencies are installed!"
           else
             echo "❌ ERROR: Some dependencies are missing!"
