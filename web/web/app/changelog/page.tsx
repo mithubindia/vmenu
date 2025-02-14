@@ -7,9 +7,7 @@ async function getChangelog() {
   const changelogPath = path.join(process.cwd(), "..", "CHANGELOG.md")
   try {
     const fileContents = fs.readFileSync(changelogPath, "utf8")
-    const result = await remark()
-      .use(html) // No usar sanitize: false a menos que sea seguro
-      .process(fileContents)
+    const result = await remark().use(html).process(fileContents)
     return result.toString()
   } catch (error) {
     console.error("Error reading changelog file:", error)
@@ -23,7 +21,7 @@ export default async function ChangelogPage() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-4xl">
       <h1 className="text-4xl font-bold mb-8">Changelog</h1>
-      <div className="prose prose-lg dark:prose-invert" dangerouslySetInnerHTML={{ __html: changelogContent }} />
+      <div className="prose prose-lg" dangerouslySetInnerHTML={{ __html: changelogContent }} />
     </div>
   )
 }
