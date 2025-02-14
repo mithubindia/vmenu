@@ -26,15 +26,16 @@ jobs:
         with:
           node-version: "20"
           cache: 'npm'
-          cache-dependency-path: 'web/package.json'
+          cache-dependency-path: 'web/package-lock.json'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Install dependencies and generate lock file
+      - name: Install dependencies
         run: |
           cd web
-          npm install
+          npm ci
+          npm install @tailwindcss/typography
 
       - name: Build with Next.js
         run: |
@@ -56,3 +57,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
