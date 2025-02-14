@@ -1,4 +1,4 @@
-# Changelog
+# Changelog app
 
 All notable changes to ProxMenux will be documented in this file.
 
