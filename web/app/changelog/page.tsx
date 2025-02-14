@@ -6,7 +6,9 @@ async function getChangelog() {
   const changelogPath = path.join(process.cwd(), "..", "CHANGELOG.md")
   try {
     const fileContents = fs.readFileSync(changelogPath, "utf8")
-    return fileContents
+
+    // Asegurar que los saltos de línea dobles se respeten
+    return fileContents.replace(/\r?\n/g, "  \n")
   } catch (error) {
     console.error("Error reading changelog file:", error)
     return "Changelog content not found."
