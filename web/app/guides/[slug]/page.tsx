@@ -3,7 +3,7 @@ import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
 
-const guidesDirectory = path.join(process.cwd(), "guides")
+const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
 async function getGuideContent(slug: string) {
   const fullPath = path.join(guidesDirectory, `${slug}.md`)
@@ -43,4 +43,5 @@ export default async function GuidePage({ params }: { params: { slug: string } }
     </div>
   )
 }
+
 
