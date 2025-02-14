@@ -5,16 +5,10 @@ import html from "remark-html"
 
 async function getChangelog() {
   const changelogPath = path.join(process.cwd(), "..", "CHANGELOG.md")
-  try {
-    const fileContents = fs.readFileSync(changelogPath, "utf8")
-    const result = await remark()
-      .use(html) // No usar sanitize: false a menos que sea seguro
-      .process(fileContents)
-    return result.toString()
-  } catch (error) {
-    console.error("Error reading changelog file:", error)
-    return "<p>Changelog content not found.</p>"
-  }
+  const fileContents = fs.readFileSync(changelogPath, "utf8")
+
+  const result = await remark().use(html).process(fileContents)
+  return result.toString()
 }
 
 export default async function ChangelogPage() {
