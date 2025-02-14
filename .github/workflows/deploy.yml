@@ -26,26 +26,19 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        run: |
-          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Install dependencies
         run: |
           cd web
-          npm ci
+          if [ ! -f "package-lock.json" ]; then
+            echo "package-lock.json not found. Running npm install to generate it."
+            npm install
+          else
+            echo "package-lock.json found. Running npm ci."
+            npm ci
+          fi
           npm install @tailwindcss/typography
 
       - name: Build with Next.js
@@ -68,5 +61,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
 
