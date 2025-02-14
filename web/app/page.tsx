@@ -1,13 +1,13 @@
-import Hero from "@/components/hero"
-import Resources from "@/components/resources"
-import SupportProject from "@/components/support-project"
-import Footer from "@/components/footer"
+import dynamic from "next/dynamic"
+
+const Hero = dynamic(() => import("@/components/hero"), { ssr: false })
+const Resources = dynamic(() => import("@/components/resources"), { ssr: false })
+const SupportProject = dynamic(() => import("@/components/support-project"), { ssr: false })
+const Footer = dynamic(() => import("@/components/footer"), { ssr: false })
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-16">
-      {" "}
-      {/* Added pt-16 for navbar space */}
       <Hero />
       <Resources />
       <SupportProject />
