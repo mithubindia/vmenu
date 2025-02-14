@@ -25,21 +25,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: 'npm'
+          cache-dependency-path: 'web/package.json'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Install dependencies
+      - name: Install dependencies and generate lock file
         run: |
           cd web
-          if [ ! -f "package-lock.json" ]; then
-            echo "package-lock.json not found. Running npm install to generate it."
-            npm install
-          else
-            echo "package-lock.json found. Running npm ci."
-            npm ci
-          fi
-          npm install @tailwindcss/typography
+          npm install
 
       - name: Build with Next.js
         run: |
@@ -61,4 +56,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
