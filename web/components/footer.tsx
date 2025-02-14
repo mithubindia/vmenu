@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { MessageCircle } from "lucide-react"
 import Image from "next/image"
@@ -20,11 +22,12 @@ export default function Footer() {
               className="hover:opacity-90 transition-opacity flex items-center"
             >
               <Image
-                src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png"
+                src="/images/kofi.png"
                 alt="Support me on Ko-fi"
                 width={175}
                 height={50}
                 className="w-[175px] mr-[65px]"
+                loading="lazy"
               />
             </a>
           </div>
