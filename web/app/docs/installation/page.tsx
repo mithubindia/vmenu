@@ -1,3 +1,5 @@
+"use client"
+
 import CopyableCode from "@/components/CopyableCode"
 
 export default function InstallationPage() {
