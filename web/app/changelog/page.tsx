@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import ReactMarkdown from "react-markdown"
 
 async function getChangelog() {
   const changelogPath = path.join(process.cwd(), "..", "CHANGELOG.md")
@@ -19,9 +20,9 @@ export default async function ChangelogPage() {
     <div className="bg-white text-gray-900 min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <h1 className="text-4xl font-bold mb-8">Changelog</h1>
-        <pre className="bg-gray-100 p-4 border border-gray-300 rounded-md whitespace-pre-wrap">
-          {changelogContent}
-        </pre>
+        <div className="prose prose-lg max-w-none bg-gray-100 p-4 border border-gray-300 rounded-md">
+          <ReactMarkdown>{changelogContent}</ReactMarkdown>
+        </div>
       </div>
     </div>
   )
