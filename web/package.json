@@ -61,7 +61,8 @@
     "fs": "latest",
     "path": "latest",
     "remark": "latest",
-    "remark-html": "latest"
+    "remark-html": "latest",
+    "react-markdown": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^22",
