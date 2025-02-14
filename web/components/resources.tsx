@@ -1,3 +1,5 @@
+"use client"
+
 import { Book, GitBranch, FileText, Github } from "lucide-react"
 import Link from "next/link"
 
