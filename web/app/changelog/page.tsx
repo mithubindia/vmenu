@@ -18,10 +18,12 @@ async function getChangelog() {
 export default async function ChangelogPage() {
   const changelogContent = await getChangelog()
 
-  return (
-    <div className="container mx-auto px-4 py-16 max-w-4xl">
-      <h1 className="text-4xl font-bold mb-8">Changelog</h1>
-      <div className="prose prose-lg" dangerouslySetInnerHTML={{ __html: changelogContent }} />
+ return (
+    <div className="min-h-screen bg-white text-gray-900">
+      <div className="container mx-auto px-4 py-16 max-w-4xl">
+        <h1 className="text-4xl font-bold mb-8 text-gray-900">Changelog</h1>
+        <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: changelogContent }} />
+      </div>
     </div>
   )
 }
