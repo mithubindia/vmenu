@@ -1,23 +1,21 @@
+import CopyableCode from "@/components/CopyableCode"
+
 export default function InstallationPage() {
+  const installationCode = `bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)"`
+
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-gray-900">
       <h1 className="text-3xl sm:text-4xl font-bold mb-6">Installing ProxMenux</h1>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Installation</h2>
       <p className="mb-4">To install ProxMenux, simply run the following command in your Proxmox server terminal:</p>
-      <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-        <code>
-          bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)"
-        </code>
-      </pre>
+      <CopyableCode code={installationCode} />
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">How to Use</h2>
       <p className="mb-4">
         Once installed, launch <strong>ProxMenux</strong> by running:
       </p>
-      <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-        <code>menu</code>
-      </pre>
+      <CopyableCode code="menu" />
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Troubleshooting</h2>
       <p className="mb-4">
