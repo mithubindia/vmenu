@@ -19,7 +19,7 @@ export default async function ChangelogPage() {
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <h1 className="text-4xl font-bold mb-8 text-gray-900">Changelog</h1>
         <div
-          className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-strong:text-gray-900 prose-ul:text-gray-700"
+          className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-strong:text-gray-900 prose-ul:text-gray-700 prose-hr:border-gray-300"
           dangerouslySetInnerHTML={{ __html: changelogContent }}
         />
       </div>
