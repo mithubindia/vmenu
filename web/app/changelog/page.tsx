@@ -23,7 +23,7 @@ export default async function ChangelogPage() {
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <h1 className="text-4xl font-bold mb-8">Changelog</h1>
         <div className="prose prose-lg max-w-none bg-gray-100 p-4 border border-gray-300 rounded-md">
-          <ReactMarkdown>{changelogContent}</ReactMarkdown>
+          <pre>{changelogContent}</pre>
         </div>
       </div>
     </div>
