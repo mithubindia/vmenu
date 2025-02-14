@@ -3,16 +3,16 @@ import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
 
-function markdownToHtml(markdown) {
+function markdownToHtml(markdown: string): string {
   return markdown
-    .replace(/^### (.*$)/gim, "<h3>$1</h3>") // Convertir ### en <h3>
-    .replace(/^## (.*$)/gim, "<h2>$1</h2>") // Convertir ## en <h2>
-    .replace(/^# (.*$)/gim, "<h1>$1</h1>") // Convertir # en <h1>
-    .replace(/\*\*(.*?)\*\*/gim, "<b>$1</b>") // Convertir **negrita** en <b>
-    .replace(/\*(.*?)\*/gim, "<i>$1</i>") // Convertir *cursiva* en <i>
-    .replace(/`(.*?)`/gim, "<code>$1</code>") // Convertir `código` en <code>
-    .replace(/^- (.*$)/gim, "<ul><li>$1</li></ul>") // Convertir listas en <ul>
-    .replace(/\n/g, "<br />") // Mantener los saltos de línea
+    .replace(/^### (.*$)/gim, "<h3>$1</h3>") 
+    .replace(/^## (.*$)/gim, "<h2>$1</h2>") 
+    .replace(/^# (.*$)/gim, "<h1>$1</h1>") 
+    .replace(/\*\*(.*?)\*\*/gim, "<b>$1</b>") 
+    .replace(/\*(.*?)\*/gim, "<i>$1</i>") 
+    .replace(/`(.*?)`/gim, "<code>$1</code>") 
+    .replace(/^- (.*$)/gim, "<ul><li>$1</li></ul>") 
+    .replace(/\n/g, "<br />"); 
 }
 
 async function getChangelog() {
