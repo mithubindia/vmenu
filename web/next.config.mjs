@@ -1,3 +1,9 @@
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
@@ -6,15 +12,14 @@ const nextConfig = {
   },
   assetPrefix: "/ProxMenux/",
   basePath: "/ProxMenux",
-  staticPageGenerationTimeout: 180, // Aumentamos el tiempo de espera a 180 segundos
+  staticPageGenerationTimeout: 180,
   webpack: (config, { isServer }) => {
-    const path = require("path")
-    config.resolve.alias["@guides"] = path.join(__dirname, "..", "guides")
-    config.resolve.alias["@changelog"] = path.join(__dirname, "..", "CHANGELOG.md")
+    config.resolve.alias["@guides"] = join(__dirname, "..", "guides")
+    config.resolve.alias["@changelog"] = join(__dirname, "..", "CHANGELOG.md")
     return config
   },
 }
 
-module.exports = nextConfig
+export default nextConfig
 
 
