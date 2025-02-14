@@ -1,18 +1,12 @@
+"use client"
+
 import "./globals.css"
 import { Inter } from "next/font/google"
-import type React from "react"
-import type { Metadata } from "next"
 import Navbar from "@/components/navbar"
 import MouseMoveEffect from "@/components/mouse-move-effect"
+import type React from "react" // Added import for React
 
 const inter = Inter({ subsets: ["latin"] })
-
-export const metadata: Metadata = {
-  title: "ProxMenux - A menu-driven script for Proxmox VE management",
-  description:
-    "ProxMenux is a tool designed to execute shell scripts in an organized manner for Proxmox VE management.",
-    generator: 'v0.dev'
-}
 
 export default function RootLayout({
   children,
@@ -30,6 +24,3 @@ export default function RootLayout({
   )
 }
 
-
-
-import './globals.css'
