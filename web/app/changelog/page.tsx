@@ -6,7 +6,7 @@ async function getChangelog() {
   try {
     const fileContents = fs.readFileSync(changelogPath, "utf8")
 
-    // Asegurar que el contenido no tiene espacios innecesarios
+    // Asegurar que el contenido HTML no tiene espacios innecesarios
     return fileContents.trim()
   } catch (error) {
     console.error("Error reading changelog file:", error)
@@ -21,11 +21,16 @@ export default async function ChangelogPage() {
     <div className="bg-white text-gray-900 min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <h1 className="text-4xl font-bold mb-8">Changelog</h1>
-        {/* Eliminamos clases innecesarias para evitar que el HTML se vea como texto */}
+        {/* Eliminamos el recuadro, bordes y cualquier estilo que fuerce texto plano */}
         <div
-          className="max-w-none bg-gray-100 p-4 border border-gray-300 rounded-md"
-          style={{ whiteSpace: "normal" }} // Esto evita que el HTML se muestre como texto plano
-          dangerouslySetInnerHTML={{ __html: changelogContent }} // Renderiza el HTML correctamente
+          className="max-w-none"
+          style={{
+            whiteSpace: "normal", // Asegura que el HTML se renderice correctamente
+            backgroundColor: "transparent", // Elimina cualquier fondo gris
+            border: "none", // Elimina el borde del recuadro
+            padding: "0", // Evita cualquier padding adicional
+          }}
+          dangerouslySetInnerHTML={{ __html: changelogContent }} // Renderiza HTML puro
         />
       </div>
     </div>
