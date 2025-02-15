@@ -7,7 +7,9 @@ async function getGuideContent(slug: string) {
   const guidePath = path.join(process.cwd(), "..", "guides", `${slug}.md`)
   const fileContents = fs.readFileSync(guidePath, "utf8")
 
-  const result = await remark().use(html).process(fileContents)
+  const result = await remark()
+    .use(html, { sanitize: false }) // Permitir HTML sin sanitizar para preservar los estilos
+    .process(fileContents)
   return result.toString()
 }
 
@@ -24,8 +26,8 @@ export default async function GuidePage({ params }: { params: { slug: string } }
   // Función para envolver los bloques de código con CopyableCode
   const wrapCodeBlocks = (content: string) => {
     return content.replace(
-      /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
-      (match, code) => `<CopyableCode code="${encodeURIComponent(code.trim())}" />`,
+      /<pre><code(?:\s+class="language-(\w+)")?>([\s\S]*?)<\/code><\/pre>/g,
+      (_, language, code) => `<CopyableCode code="${encodeURIComponent(code.trim())}" language="${language || ""}" />`,
     )
   }
 
