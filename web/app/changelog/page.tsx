@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
-import gfm from "remark-gfm" // 🔹 Agregamos soporte para imágenes, tablas y enlaces automáticos
+import gfm from "remark-gfm" // ✅ Agrega soporte para imágenes y tablas en Markdown
 import dynamic from "next/dynamic"
 import React from "react"
 import parse from "html-react-parser"
@@ -15,7 +15,8 @@ async function getChangelogContent() {
     const changelogPath = path.join(process.cwd(), "..", "CHANGELOG.md")
     const fileContents = fs.readFileSync(changelogPath, "utf8")
 
-    const result = await remark().use(gfm).use(html).process(fileContents) // 🔹 Se añade `remark-gfm`
+    // ✅ Agregamos `remark-gfm` para permitir imágenes
+    const result = await remark().use(gfm).use(html).process(fileContents)
     return result.toString()
   } catch (error) {
     console.error("❌ Error al leer el archivo CHANGELOG.md", error)
@@ -54,7 +55,7 @@ export default async function ChangelogPage() {
     <div className="min-h-screen bg-white text-gray-900">
       <div className="container mx-auto px-4 py-16" style={{ maxWidth: "980px" }}> {/* 📌 Ajuste exacto como GitHub */}
         <h1 className="text-4xl font-bold mb-8">Changelog</h1>
-        <div className="prose max-w-none text-[16px]">{parsedContent}</div> {/* 📌 Ahora con imágenes */}
+        <div className="prose max-w-none text-[16px]">{parsedContent}</div> {/* 📌 Texto ajustado a 16px */}
       </div>
     </div>
   )
