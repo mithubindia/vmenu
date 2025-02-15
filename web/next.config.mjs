@@ -9,6 +9,13 @@ const nextConfig = {
   output: "export",
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/MacRimi/ProxMenux/main/images/**",
+      },
+    ],
   },
   assetPrefix: "/ProxMenux/",
   basePath: "/ProxMenux",
@@ -21,5 +28,3 @@ const nextConfig = {
 }
 
 export default nextConfig
-
-
