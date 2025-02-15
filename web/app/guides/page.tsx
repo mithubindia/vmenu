@@ -47,7 +47,7 @@ export default function GuidesPage() {
   const guides = getGuides()
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-880 to-gray-780 text-white pt-16 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-16 flex flex-col">
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold mb-8">ProxMenux Guides</h1>
         <p className="text-xl mb-8">Complementary guides to make the most of your Proxmox VE.</p>
