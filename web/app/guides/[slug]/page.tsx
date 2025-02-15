@@ -12,46 +12,32 @@ const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: f
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
-// 🔹 Función para buscar archivos Markdown dentro de subdirectorios
-function findMarkdownFiles(dir: string, basePath = "") {
-  let files: { slug: string; path: string }[] = []
-
-  fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
-    const fullPath = path.join(dir, entry.name)
-    const relativePath = path.join(basePath, entry.name)
-
-    if (entry.isDirectory()) {
-      files = files.concat(findMarkdownFiles(fullPath, relativePath))
-    } else if (entry.isFile() && entry.name.endsWith(".md")) {
-      files.push({
-        slug: relativePath.replace(/\.md$/, ""), // 🔹 Quitamos la extensión `.md`
-        path: fullPath,
-      })
-    }
-  })
-
-  return files
+// 🔹 Encuentra todos los archivos Markdown dentro de `/guides`
+function getMarkdownFiles() {
+  return fs
+    .readdirSync(guidesDirectory)
+    .filter((file) => file.endsWith(".md"))
+    .map((file) => ({
+      slug: file.replace(/\.md$/, ""), // 🔹 Quitamos la extensión .md
+      path: path.join(guidesDirectory, file),
+    }))
 }
 
-// 🔹 Obtiene el contenido de la guía
+// 🔹 Obtiene el contenido de una guía específica
 async function getGuideContent(slug: string) {
   try {
-    const decodedSlug = decodeURIComponent(slug) // 🔹 Solución: Decodificamos el slug para evitar `%2F`
-    const markdownFiles = findMarkdownFiles(guidesDirectory)
-    
-    // 🔹 Buscamos el archivo dentro de subdirectorios
-    let guideFile = markdownFiles.find((file) => file.slug === decodedSlug)
+    const markdownFiles = getMarkdownFiles()
+    const guideFile = markdownFiles.find((file) => file.slug === slug)
 
     if (!guideFile) {
-      console.error(`❌ No se encontró la guía: ${decodedSlug}`)
+      console.error(`❌ No se encontró la guía: ${slug}`)
       return { content: "<p class='text-red-600'>Error: No se encontró la guía solicitada.</p>", metadata: null }
     }
 
     const fileContents = fs.readFileSync(guideFile.path, "utf8")
-    
-    // 🔹 Extraemos los metadatos (title, description, etc.)
-    const { content, data } = matter(fileContents)
+    const { content, data } = matter(fileContents) // 🔹 Extrae metadata y contenido del `.md`
 
+    // 🔹 Convertimos el Markdown a HTML con soporte para imágenes y tablas
     const result = await remark()
       .use(gfm.default || gfm)
       .use(html)
@@ -64,10 +50,10 @@ async function getGuideContent(slug: string) {
   }
 }
 
-// 🔹 Generamos rutas estáticas incluyendo subdirectorios
+// 🔹 Generamos rutas estáticas asegurando que Next.js las acepte
 export async function generateStaticParams() {
   try {
-    const markdownFiles = findMarkdownFiles(guidesDirectory)
+    const markdownFiles = getMarkdownFiles()
     return markdownFiles.map((file) => ({ slug: file.slug }))
   } catch (error) {
     console.error("❌ Error al generar las rutas estáticas para guides:", error)
