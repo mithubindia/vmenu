@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
 import CopyableCode from "@/components/CopyableCode"
 
 function processContent(content: string): React.ReactNode[] {
@@ -22,29 +21,23 @@ function processContent(content: string): React.ReactNode[] {
 }
 
 export default function GuideContent({ content }: { content: string }) {
-  const [processedContent, setProcessedContent] = useState<React.ReactNode[]>([])
-
-  useEffect(() => {
-    setProcessedContent(processContent(content))
-  }, [content])
+  const processedContent = processContent(content)
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-gray-900">
-      <div
-        className="prose prose-gray max-w-none
-        [&>h1]:text-3xl [&>h1]:sm:text-4xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:text-gray-900
-        [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-gray-900
-        [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-gray-900
-        [&>p]:mb-4 [&>p]:text-gray-900
-        [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4
-        [&>ul>li]:text-gray-900 [&>ul>li]:mb-2
-        [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4
-        [&>ol>li]:text-gray-900 [&>ol>li]:mb-2
-        [&>a]:text-blue-600 [&>a:hover]:underline
-        [&>strong]:font-bold [&>strong]:text-gray-900"
-      >
-        {processedContent}
-      </div>
+    <div
+      className="prose max-w-none text-gray-900
+      [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:text-gray-900
+      [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-gray-900
+      [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-gray-900
+      [&>p]:mb-4 [&>p]:text-gray-700
+      [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4
+      [&>ul>li]:text-gray-700 [&>ul>li]:mb-2
+      [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4
+      [&>ol>li]:text-gray-700 [&>ol>li]:mb-2
+      [&>a]:text-blue-600 [&>a:hover]:underline
+      [&>strong]:font-bold [&>strong]:text-gray-900"
+    >
+      {processedContent}
     </div>
   )
 }
