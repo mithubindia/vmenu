@@ -1,42 +1,52 @@
-<h1>Changelog / Raiz</h1>
+<div align="center">
+    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo2.png" alt="ProxMenu Logo" width="265" height="294">
+</div>
 
-<p>All notable changes to ProxMenux will be documented in this file.</p>
 
-<p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+# ProxMenux: Interactive Menu for Proxmox VE Management
 
-<h2>[Unreleased]</h2>
+**ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
 
-<h3>Added</h3>
-<ul>
-  <li>Initial project setup</li>
-  <li>Basic menu structure</li>
-  <li>Documentation framework</li>
-</ul>
 
-<h2>[0.1.0] - 2023-06-15</h2>
+---
 
-<h3>Added</h3>
-<ul>
-  <li>Core functionality for executing shell scripts</li>
-  <li>Menu-driven interface for script selection</li>
-  <li>Basic error handling and logging</li>
-</ul>
+## 📌 Installation
+To install ProxMenux, simply run the following command in your Proxmox server terminal:
 
-<h3>Changed</h3>
-<ul>
-  <li>Improved script organization with categories</li>
-</ul>
+```bash
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)"
+```
 
-<h3>Fixed</h3>
-<ul>
-  <li>Issue with script permissions on certain systems</li>
-</ul>
+---
 
-<h2>[0.0.1] - 2023-06-01</h2>
+## 📌 How to Use
+Once installed, launch **ProxMenux** by running:
 
-<h3>Added</h3>
-<ul>
-  <li>Project initialization</li>
-  <li>README with basic project description</li>
-  <li>License file</li>
-</ul>
+```bash
+menu.sh
+```
+Then, follow the on-screen options to manage your Proxmox server efficiently.
+
+---
+
+## 📌 System Requirements
+🖥 **Compatible with:**
+- Proxmox VE 8.x**
+
+📦 **Dependencies:**
+- `bash`, `curl`, `wget`, `jq`, `whiptail`, `python3-venv` (These dependencies are installed automatically during setup.)
+- **Translations are handled in a Python virtual environment using `googletrans-env`.**
+
+---
+
+## ⭐ Support the Project!
+If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help others discover it!
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
+    <img src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png" alt="Support me on Ko-fi" style="width:175px; margin-right:65px;"/>
+  </a>
+</div>
+
+If you would like to support the project, you can buy me a coffee on Ko-fi! Thank you! 😊
+
