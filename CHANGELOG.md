@@ -44,6 +44,9 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 
 ---
 
+
+![This is an image](https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png)
+
 ## ⭐ Support the Project!
 If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help others discover it!
 
