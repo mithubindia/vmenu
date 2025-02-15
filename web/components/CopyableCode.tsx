@@ -22,13 +22,13 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code }) => {
   }
 
   return (
-    <div className="relative">
-      <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-        <code>{code}</code>
+    <div className="relative my-4">
+      <pre className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto">
+        <code className="text-sm">{code}</code>
       </pre>
       <button
         onClick={copyToClipboard}
-        className="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors"
+        className="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-200 transition-colors"
         aria-label="Copy to clipboard"
       >
         {isCopied ? <Check className="h-5 w-5 text-green-500" /> : <Copy className="h-5 w-5 text-gray-500" />}
@@ -38,4 +38,5 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code }) => {
 }
 
 export default CopyableCode
+
 
