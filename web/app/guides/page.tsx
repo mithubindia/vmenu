@@ -1,4 +1,5 @@
 import Link from "next/link"
+const Footer = dynamic(() => import("@/components/footer"), { ssr: false })
 
 interface Guide {
   title: string
