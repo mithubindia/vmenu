@@ -38,15 +38,11 @@ export async function generateStaticParams() {
 }
 
 function wrapCodeBlocksWithCopyable(content: string) {
-  // Reemplazar los bloques de código de Markdown con CopyableCode
+  // Reemplazar los bloques de código con el componente CopyableCode
   const codeBlockRegex = /<pre><code>([\s\S]*?)<\/code><\/pre>/g
 
   return content.replace(codeBlockRegex, (match, code) => {
-    return `
-      <div class="bg-gray-100 border border-gray-300 rounded-md p-4 overflow-auto">
-        <CopyableCode code={\`${code.replace(/`/g, "\\`")}\`} />
-      </div>
-    `
+    return `<CopyableCode code={\`${code.replace(/`/g, "\\`")}\`} />`
   })
 }
 
@@ -55,10 +51,10 @@ export default async function GuidePage({ params }: { params: { slug: string } }
   guideContent = wrapCodeBlocksWithCopyable(guideContent)
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-gray-900">
       <div className="container mx-auto px-4 py-16 max-w-3xl">
         <div
-          className="prose prose-gray max-w-none"
+          className="prose max-w-none"
           dangerouslySetInnerHTML={{ __html: guideContent }}
         />
       </div>
