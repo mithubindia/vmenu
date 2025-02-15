@@ -21,12 +21,22 @@ export async function generateStaticParams() {
 export default async function GuidePage({ params }: { params: { slug: string } }) {
   const guideContent = await getGuideContent(params.slug)
 
+ 
+  const wrapCodeBlocks = (content: string) => {
+    return content.replace(
+      /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
+      (match, code) => `<CopyableCode code="${encodeURIComponent(code.trim())}" />`,
+    )
+  }
+
+  const wrappedContent = wrapCodeBlocks(guideContent)
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <div className="container mx-auto px-4 py-16 max-w-3xl">
         <div
           className="prose prose-lg max-w-none prose-pre:bg-gray-100 prose-pre:text-gray-900 prose-headings:text-gray-900 prose-p:text-gray-800"
-          dangerouslySetInnerHTML={{ __html: guideContent }}
+          dangerouslySetInnerHTML={{ __html: wrappedContent }}
         />
       </div>
     </div>
