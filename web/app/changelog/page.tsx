@@ -6,6 +6,7 @@ import * as gfm from "remark-gfm" // ✅ Asegura la correcta importación de `re
 import dynamic from "next/dynamic"
 import React from "react"
 import parse from "html-react-parser"
+import Footer from "@/components/footer"
 
 // 🔹 Importamos `CopyableCode` dinámicamente para evitar problemas de SSR
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
@@ -67,6 +68,7 @@ export default async function ChangelogPage() {
         <h1 className="text-4xl font-bold mb-8">Changelog</h1>
         <div className="prose max-w-none text-[16px]">{parsedContent}</div> {/* 📌 Texto ajustado a 16px */}
       </div>
+      <Footer />
     </div>
   )
 }
