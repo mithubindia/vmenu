@@ -49,13 +49,15 @@ export default async function GuidePage({ params }: { params: { slug: string } }
   guideContent = wrapCodeBlocksWithCopyable(guideContent)
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-3xl bg-white">
-      <div
-        className="prose prose-gray max-w-none
-          [&>h1]:text-gray-900 [&>h2]:text-gray-800 [&>h3]:text-gray-700
-          [&>p]:text-gray-600 [&>ul>li]:text-gray-600 [&>ol>li]:text-gray-600"
-        dangerouslySetInnerHTML={{ __html: guideContent }}
-      />
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
+        <div
+          className="prose prose-gray max-w-none
+            [&>h1]:text-gray-900 [&>h2]:text-gray-800 [&>h3]:text-gray-700
+            [&>p]:text-gray-600 [&>ul>li]:text-gray-600 [&>ol>li]:text-gray-600"
+          dangerouslySetInnerHTML={{ __html: guideContent }}
+        />
+      </div>
     </div>
   )
 }
