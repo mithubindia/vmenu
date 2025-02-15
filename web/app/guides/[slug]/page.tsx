@@ -24,6 +24,13 @@ export async function generateStaticParams() {
   }))
 }
 
+// 🔹 Elimina las comillas de los fragmentos de código en línea dentro de <code>
+function cleanInlineCode(content: string) {
+  return content.replace(/<code>(.*?)<\/code>/g, (_, codeContent) => {
+    return `<code class="bg-gray-200 text-gray-900 px-1 rounded">${codeContent}</code>`
+  })
+}
+
 // 🔹 Envuelve los bloques de código en <CopyableCode />
 function wrapCodeBlocksWithCopyable(content: string) {
   return parse(content, {
@@ -39,27 +46,15 @@ function wrapCodeBlocksWithCopyable(content: string) {
   })
 }
 
-// 🔹 Elimina las comillas de los fragmentos de código en línea dentro de <code>
-function cleanInlineCode(content: string) {
-  return parse(content, {
-    replace: (domNode: any) => {
-      if (domNode.name === "code" && domNode.children.length > 0) {
-        const codeContent = domNode.children[0].data?.trim().replace(/^`|`$/g, "") || "" // Elimina comillas inversas
-        return <code className="bg-gray-200 text-gray-900 px-1 rounded">{codeContent}</code>
-      }
-    }
-  })
-}
-
 export default async function GuidePage({ params }: { params: { slug: string } }) {
   const guideContent = await getGuideContent(params.slug)
-  const contentWithCodeBlocks = wrapCodeBlocksWithCopyable(guideContent)
-  const finalContent = cleanInlineCode(contentWithCodeBlocks) // 🔹 Limpiamos código en línea
+  const cleanedInlineCode = cleanInlineCode(guideContent) // 🔹 Primero limpiamos código en línea
+  const parsedContent = wrapCodeBlocksWithCopyable(cleanedInlineCode) // 🔹 Luego aplicamos JSX a bloques de código
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      <div className="container mx-auto px-4 py-16 max-w-3xl">
-        <div className="prose max-w-none">{finalContent}</div>
+      <div className="container mx-auto px-4 py-16 max-w-4xl"> {/* Aumentado a `max-w-4xl` */}
+        <div className="prose max-w-none text-[16px]">{parsedContent}</div> {/* Tamaño de texto 16px */}
       </div>
     </div>
   )
