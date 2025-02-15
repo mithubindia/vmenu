@@ -8,7 +8,7 @@
 **ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
 
 
-![This is an image](https://github.com/MacRimi/ProxMenux/main/images/logo2.png)
+![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png)
 
 ---
 
