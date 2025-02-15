@@ -64,6 +64,7 @@ export default function GuidesPage() {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
