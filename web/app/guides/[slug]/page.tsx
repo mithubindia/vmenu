@@ -2,66 +2,77 @@ import fs from "fs"
 import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
-import * as gfm from "remark-gfm" // ✅ Asegura la correcta importación de `remark-gfm`
+import * as gfm from "remark-gfm"
 import dynamic from "next/dynamic"
 import React from "react"
 import parse from "html-react-parser"
 
-// 🔹 Importamos `CopyableCode` dinámicamente para evitar problemas de SSR
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
+// 🔹 Función para buscar archivos Markdown dentro de subdirectorios
+function findMarkdownFiles(dir: string, basePath = "") {
+  let files: { slug: string; path: string }[] = []
+
+  fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+    const fullPath = path.join(dir, entry.name)
+    const relativePath = path.join(basePath, entry.name)
+
+    if (entry.isDirectory()) {
+      files = files.concat(findMarkdownFiles(fullPath, relativePath))
+    } else if (entry.isFile() && entry.name.endsWith(".md")) {
+      files.push({
+        slug: relativePath.replace(/\.md$/, ""), // 🔹 Quitamos la extensión .md
+        path: fullPath,
+      })
+    }
+  })
+
+  return files
+}
+
 async function getGuideContent(slug: string) {
   try {
-    const guidePath = path.join(guidesDirectory, `${slug}.md`)
+    const markdownFiles = findMarkdownFiles(guidesDirectory)
+    const guideFile = markdownFiles.find((file) => file.slug === slug)
 
-    if (!fs.existsSync(guidePath)) {
-      console.error(`❌ Archivo ${slug}.md no encontrado en guides/`)
+    if (!guideFile) {
+      console.error(`❌ No se encontró la guía: ${slug}`)
       return "<p class='text-red-600'>Error: No se encontró la guía solicitada.</p>"
     }
 
-    const fileContents = fs.readFileSync(guidePath, "utf8")
+    const fileContents = fs.readFileSync(guideFile.path, "utf8")
 
-    // ✅ Agregamos `remark-gfm` para permitir imágenes, tablas y otros elementos avanzados de Markdown
     const result = await remark()
-      .use(gfm.default || gfm) // ✅ Manejo seguro de `remark-gfm`
+      .use(gfm.default || gfm)
       .use(html)
       .process(fileContents)
 
     return result.toString()
   } catch (error) {
-    console.error(`❌ Error al leer la guía ${slug}.md`, error)
+    console.error(`❌ Error al leer la guía ${slug}`, error)
     return "<p class='text-red-600'>Error: No se pudo cargar la guía.</p>"
   }
 }
 
-// 🔹 Asegura que `generateStaticParams()` esté presente para `output: export`
+// 🔹 Generamos rutas estáticas incluyendo subdirectorios
 export async function generateStaticParams() {
   try {
-    if (fs.existsSync(guidesDirectory)) {
-      const guideFiles = fs.readdirSync(guidesDirectory)
-      return guideFiles.map((file) => ({
-        slug: file.replace(/\.md$/, ""),
-      }))
-    } else {
-      console.warn("⚠ No se encontró el directorio guides/. No se generarán rutas estáticas.")
-      return []
-    }
+    const markdownFiles = findMarkdownFiles(guidesDirectory)
+    return markdownFiles.map((file) => ({ slug: file.slug }))
   } catch (error) {
     console.error("❌ Error al generar las rutas estáticas para guides:", error)
     return []
   }
 }
 
-// 🔹 Limpia las comillas invertidas en fragmentos de código en línea
 function cleanInlineCode(content: string) {
   return content.replace(/<code>(.*?)<\/code>/g, (_, codeContent) => {
     return `<code class="bg-gray-200 text-gray-900 px-1 rounded">${codeContent.replace(/^`|`$/g, "")}</code>`
   })
 }
 
-// 🔹 Envuelve los bloques de código en <CopyableCode />
 function wrapCodeBlocksWithCopyable(content: string) {
   return parse(content, {
     replace: (domNode: any) => {
@@ -78,13 +89,13 @@ function wrapCodeBlocksWithCopyable(content: string) {
 
 export default async function GuidePage({ params }: { params: { slug: string } }) {
   const guideContent = await getGuideContent(params.slug)
-  const cleanedInlineCode = cleanInlineCode(guideContent) // 🔹 Primero limpiamos código en línea
-  const parsedContent = wrapCodeBlocksWithCopyable(cleanedInlineCode) // 🔹 Luego aplicamos JSX a bloques de código
+  const cleanedInlineCode = cleanInlineCode(guideContent)
+  const parsedContent = wrapCodeBlocksWithCopyable(cleanedInlineCode)
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      <div className="container mx-auto px-4 py-16" style={{ maxWidth: "980px" }}> {/* 📌 Ajuste exacto como GitHub */}
-        <div className="prose max-w-none text-[16px]">{parsedContent}</div> {/* 📌 Texto ajustado a 16px */}
+      <div className="container mx-auto px-4 py-16" style={{ maxWidth: "980px" }}>
+        <div className="prose max-w-none text-[16px]">{parsedContent}</div>
       </div>
     </div>
   )

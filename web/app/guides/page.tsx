@@ -1,4 +1,9 @@
+import fs from "fs"
+import path from "path"
+import matter from "gray-matter"
 import Link from "next/link"
+
+const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
 interface Guide {
   title: string
@@ -6,22 +11,39 @@ interface Guide {
   slug: string
 }
 
-const guides: Guide[] = [
-  {
-    title: "Setting up NVIDIA Drivers on Proxmox VE with GPU Passthrough",
-    description:
-      "Learn how to install and configure NVIDIA drivers on your Proxmox VE host and enable GPU passthrough to your virtual machines.",
-    slug: "nvidia_proxmox",
-  },
-  {
-    title: "Ejemplo de Guía Adicional",
-    description: "Esta es una guía de ejemplo para mostrar cómo se manejan múltiples guías.",
-    slug: "example_guide",
-  },
-  // Añade más guías aquí según sea necesario
-]
+function getGuides(): Guide[] {
+  let guides: Guide[] = []
+
+  function findGuides(dir: string, basePath = "") {
+    fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+      const fullPath = path.join(dir, entry.name)
+      const relativePath = path.join(basePath, entry.name)
+
+      if (entry.isDirectory()) {
+        findGuides(fullPath, relativePath)
+      } else if (entry.isFile() && entry.name.endsWith(".md")) {
+        const slug = relativePath.replace(/\.md$/, "")
+
+        // 🔹 Extraer metadatos usando gray-matter
+        const fileContents = fs.readFileSync(fullPath, "utf8")
+        const { data } = matter(fileContents)
+
+        guides.push({
+          title: data.title || slug.replace(/_/g, " "),
+          description: data.description || "No description available.",
+          slug,
+        })
+      }
+    })
+  }
+
+  findGuides(guidesDirectory)
+  return guides
+}
 
 export default function GuidesPage() {
+  const guides = getGuides()
+
   return (
     <div className="container mx-auto px-4 py-16">
       <h1 className="text-4xl font-bold mb-8">ProxMenux Guides</h1>
@@ -41,4 +63,3 @@ export default function GuidesPage() {
     </div>
   )
 }
-
