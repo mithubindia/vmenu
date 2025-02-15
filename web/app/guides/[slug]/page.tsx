@@ -3,7 +3,10 @@ import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
 import dynamic from "next/dynamic"
+import React from "react"
+import parse from "html-react-parser"
 
+// Importamos `CopyableCode` de forma dinámica para evitar problemas de SSR
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
 async function getGuideContent(slug: string) {
@@ -23,23 +26,27 @@ export async function generateStaticParams() {
 
 
 function wrapCodeBlocksWithCopyable(content: string) {
-  return content.replace(
-    /<pre><code class="language-(.*?)">([\s\S]*?)<\/code><\/pre>/g,
-    (match, lang, code) =>
-      `<div class="copyable-code-container"><CopyableCode code="${encodeURIComponent(
-        code.trim()
-      )}" /></div>`
-  )
+  return parse(content, {
+    replace: (domNode: any) => {
+      if (domNode.name === "pre" && domNode.children.length > 0) {
+        const codeElement = domNode.children.find((child: any) => child.name === "code")
+        if (codeElement) {
+          const codeContent = codeElement.children[0]?.data?.trim() || ""
+          return <CopyableCode code={codeContent} />
+        }
+      }
+    }
+  })
 }
 
 export default async function GuidePage({ params }: { params: { slug: string } }) {
-  let guideContent = await getGuideContent(params.slug)
-  guideContent = wrapCodeBlocksWithCopyable(guideContent)
+  const guideContent = await getGuideContent(params.slug)
+  const parsedContent = wrapCodeBlocksWithCopyable(guideContent)
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <div className="container mx-auto px-4 py-16 max-w-3xl">
-        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: guideContent }} />
+        <div className="prose max-w-none">{parsedContent}</div>
       </div>
     </div>
   )
