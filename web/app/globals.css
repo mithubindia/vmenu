@@ -68,3 +68,21 @@
   color: #1f2937;
 }
 
+/* Ajustes globales para el texto y los bordes */
+.prose {
+  color: #1f2937; /* text-gray-800 */
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: #111827; /* text-gray-900 */
+}
+
+* {
+  border-color: white;
+}
+
