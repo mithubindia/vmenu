@@ -94,6 +94,16 @@
   font-weight: 700; /* Negrita */
 }
 
+.prose p code,
+.prose li code,
+.prose td code {
+  background-color: #f3f4f6;
+  color: #1f2937;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 600;
+}
 
 * {
   border-color: white;
