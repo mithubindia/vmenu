@@ -58,6 +58,52 @@
   }
 }
 
+/* Ajustes para la clase prose */
+.prose {
+  @apply text-base text-gray-900;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold mb-3;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold mb-2;
+}
+
+.prose h4 {
+  @apply text-lg font-semibold mb-2;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose ul,
+.prose ol {
+  @apply mb-4 pl-5;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+.prose pre {
+  @apply bg-gray-100 p-4 rounded-md overflow-x-auto mb-4;
+}
+
+.prose code {
+  @apply text-sm bg-gray-100 px-1 py-0.5 rounded;
+}
+
+.prose a {
+  @apply text-blue-600 hover:underline;
+}
+
 /* Custom styles for code blocks */
 .prose pre {
   background-color: #f3f4f6;
@@ -68,18 +114,35 @@
   color: #1f2937;
 }
 
-/* Ajustes globales para el texto y los bordes */
-.prose {
-  color: #1f2937; /* text-gray-800 */
+/* Ajustes globales para el fondo y los bordes */
+body,
+html {
+  background-color: white;
 }
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  color: #111827; /* text-gray-900 */
-}
+
 * {
-  border-color: white;
+  border-color: white !important;
 }
+
+.dark {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+}
+
+/* Ajustes globales para la consistencia de tamaños de texto */
+
+.prose strong {
+  @apply text-gray-900 font-bold;
+}
+
+.prose b {
+  @apply text-gray-900 font-bold;
+}
+
+/* Ajuste para texto en negrita en las guías */
+.prose strong,
+.prose b {
+  color: #111827; /* text-gray-900 */
+  font-weight: 700;
+}
+
