@@ -24,10 +24,10 @@ export async function generateStaticParams() {
   }))
 }
 
-// 🔹 Elimina las comillas de los fragmentos de código en línea dentro de <code>
 function cleanInlineCode(content: string) {
   return content.replace(/<code>(.*?)<\/code>/g, (_, codeContent) => {
-    return `<code class="bg-gray-200 text-gray-900 px-1 rounded">${codeContent}</code>`
+    const cleanedCode = codeContent.replace(/^`|`$/g, "") // 🔹 Elimina las comillas invertidas alrededor del código
+    return `<code class="bg-gray-200 text-gray-900 px-1 rounded">${cleanedCode}</code>`
   })
 }
 
