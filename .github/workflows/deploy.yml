@@ -3,10 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths:
-      - "ProxMenux/web/**" 
-      - "CHANGELOG.md"
-      - "ProxMenux/guides/**"  
   workflow_dispatch:
 
 permissions:
