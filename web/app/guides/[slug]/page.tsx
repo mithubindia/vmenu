@@ -38,11 +38,15 @@ export async function generateStaticParams() {
 }
 
 function wrapCodeBlocksWithCopyable(content: string) {
-  // Expresión regular mejorada para detectar bloques de código y aplicar CopyableCode directamente
+  // Detectar bloques de código y aplicar estilos correctos
   const codeBlockRegex = /<pre><code>([\s\S]*?)<\/code><\/pre>/g
 
   return content.replace(codeBlockRegex, (match, code) => {
-    return `<CopyableCode code={\`${code.replace(/`/g, "\\`")}\`} />`
+    return `
+      <div class="bg-gray-100 text-gray-900 border border-gray-300 rounded-md p-4 overflow-auto">
+        <CopyableCode code={\`${code.replace(/`/g, "\\`")}\`} />
+      </div>
+    `
   })
 }
 
@@ -57,9 +61,8 @@ export default async function GuidePage({ params }: { params: { slug: string } }
           className="prose prose-gray max-w-none
             [&>h1]:text-gray-900 [&>h2]:text-gray-800 [&>h3]:text-gray-700
             [&>p]:text-gray-600 [&>ul>li]:text-gray-600 [&>ol>li]:text-gray-600"
-        >
-          <CopyableCode code={guideContent} />
-        </div>
+          dangerouslySetInnerHTML={{ __html: guideContent }}
+        />
       </div>
     </div>
   )
