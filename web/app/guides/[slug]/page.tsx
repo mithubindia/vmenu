@@ -7,16 +7,7 @@ async function getGuideContent(slug: string) {
   const guidePath = path.join(process.cwd(), "..", "guides", `${slug}.md`)
   const fileContents = fs.readFileSync(guidePath, "utf8")
 
-  const result = await remark()
-    .use(html, {
-      sanitize: false,
-      handlers: {
-        inlineCode(h, node) {
-          return h(node, "code", { className: "inline-code" }, [h(node.position, "text", node.value)])
-        },
-      },
-    })
-    .process(fileContents)
+  const result = await remark().use(html).process(fileContents)
   return result.toString()
 }
 
@@ -30,7 +21,7 @@ export async function generateStaticParams() {
 export default async function GuidePage({ params }: { params: { slug: string } }) {
   const guideContent = await getGuideContent(params.slug)
 
-  
+  // Función para envolver los bloques de código con CopyableCode
   const wrapCodeBlocks = (content: string) => {
     return content.replace(
       /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
@@ -48,4 +39,3 @@ export default async function GuidePage({ params }: { params: { slug: string } }
     </div>
   )
 }
-
