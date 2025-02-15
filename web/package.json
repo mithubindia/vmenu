@@ -66,6 +66,7 @@
     "remark-gfm": "^4.0.0",
     "unified": "^11.0.0",
     "remark-breaks": "3.0.0",
+    "gray-matter": "^4.0.3",
     "html-react-parser": "^3.0.0"
   },
   "devDependencies": {
