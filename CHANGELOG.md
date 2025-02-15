@@ -31,6 +31,9 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 
 ---
 
+![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png)
+
+
 ## 📌 System Requirements
 🖥 **Compatible with:**
 - Proxmox VE 8.x**
