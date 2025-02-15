@@ -12,7 +12,7 @@ const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: f
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
-// 🔹 Busca archivos Markdown dentro de subdirectorios
+// 🔹 Función para buscar archivos Markdown dentro de subdirectorios
 function findMarkdownFiles(dir: string, basePath = "") {
   let files: { slug: string; path: string }[] = []
 
@@ -24,7 +24,7 @@ function findMarkdownFiles(dir: string, basePath = "") {
       files = files.concat(findMarkdownFiles(fullPath, relativePath))
     } else if (entry.isFile() && entry.name.endsWith(".md")) {
       files.push({
-        slug: relativePath.replace(/\.md$/, "").replace(/\/index$/, ""), // 🔹 Quitamos `.md` y `index` si es necesario
+        slug: relativePath.replace(/\.md$/, ""), // 🔹 Quitamos la extensión `.md`
         path: fullPath,
       })
     }
@@ -36,17 +36,14 @@ function findMarkdownFiles(dir: string, basePath = "") {
 // 🔹 Obtiene el contenido de la guía
 async function getGuideContent(slug: string) {
   try {
+    const decodedSlug = decodeURIComponent(slug) // 🔹 Solución: Decodificamos el slug para evitar `%2F`
     const markdownFiles = findMarkdownFiles(guidesDirectory)
     
-    let guideFile = markdownFiles.find((file) => file.slug === slug)
-    
-    // 🔹 Si no se encuentra, intentamos con `index.md` dentro de la carpeta
-    if (!guideFile) {
-      guideFile = markdownFiles.find((file) => file.slug === `${slug}/index`)
-    }
+    // 🔹 Buscamos el archivo dentro de subdirectorios
+    let guideFile = markdownFiles.find((file) => file.slug === decodedSlug)
 
     if (!guideFile) {
-      console.error(`❌ No se encontró la guía: ${slug}`)
+      console.error(`❌ No se encontró la guía: ${decodedSlug}`)
       return { content: "<p class='text-red-600'>Error: No se encontró la guía solicitada.</p>", metadata: null }
     }
 
