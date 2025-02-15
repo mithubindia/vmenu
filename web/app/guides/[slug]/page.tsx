@@ -2,7 +2,9 @@ import fs from "fs"
 import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
-import GuideContent from "./GuideContent"
+import dynamic from "next/dynamic"
+
+const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
@@ -35,12 +37,35 @@ export async function generateStaticParams() {
   }
 }
 
+function wrapCodeBlocksWithCopyable(content: string) {
+  const codeBlockRegex = /<pre><code>([\s\S]*?)<\/code><\/pre>/g
+  return content.replace(codeBlockRegex, (match, code) => {
+    return `<CopyableCode code={\`${code.replace(/`/g, "\\`")}\`} />`
+  })
+}
+
 export default async function GuidePage({ params }: { params: { slug: string } }) {
-  const guideContent = await getGuideContent(params.slug)
+  let guideContent = await getGuideContent(params.slug)
+  guideContent = wrapCodeBlocksWithCopyable(guideContent)
 
   return (
     <div className="min-h-screen bg-white">
-      <GuideContent content={guideContent} />
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
+        <div
+          className="prose prose-gray max-w-none
+            [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:text-gray-900 [&>h1]:mb-6
+            [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-gray-900 [&>h2]:mt-8 [&>h2]:mb-4
+            [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-gray-900 [&>h3]:mt-6 [&>h3]:mb-3
+            [&>p]:text-gray-700 [&>p]:mb-4
+            [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4
+            [&>ul>li]:text-gray-700 [&>ul>li]:mb-2
+            [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4
+            [&>ol>li]:text-gray-700 [&>ol>li]:mb-2
+            [&>a]:text-blue-600 [&>a:hover]:underline
+            [&>strong]:font-bold [&>strong]:text-gray-900"
+          dangerouslySetInnerHTML={{ __html: guideContent }}
+        />
+      </div>
     </div>
   )
 }
