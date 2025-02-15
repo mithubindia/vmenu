@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="flex flex-col items-start mb-8 md:mb-0">
             <h4 className="text-lg font-semibold mb-4">Sponsor</h4>
             <p className="text-gray-400 mb-4 max-w-md">
-              If you would like to support the project, you can buy me a coffee on Ko-fi! Thank you! 😊
+              If you would like to support the project.
             </p>
             <a
               href="https://ko-fi.com/G2G313ECAN"
@@ -52,7 +52,7 @@ export default function Footer() {
 
         {/* Copyright - Center */}
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} ProxMenux. All rights reserved.</p>
+          <p>ProxMenux, a project by MacRimi.</p>
         </div>
       </div>
     </footer>
