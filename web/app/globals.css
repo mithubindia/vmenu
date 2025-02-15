@@ -112,6 +112,10 @@ button code {
   font-weight: 700; 
 }
 
+.prose code::before,
+.prose code::after {
+  content: "" !important; 
+}
 
 * {
   border-color: white;
