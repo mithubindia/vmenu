@@ -64,12 +64,35 @@
   color: #1f2937; /* Gris oscuro */
   padding: 1rem;
   border-radius: 0.5rem;
-  overflow-x: auto; /* Para scroll horizontal en código largo */
+  overflow-x: auto; /* Scroll horizontal si el código es muy largo */
+  font-size: 0.875rem; /* Tamaño de fuente 14px */
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace; /* Fuente monoespaciada */
+}
+
+
+.prose p code,
+.prose li code,
+.prose td code {
+  background-color: #f3f4f6; /* Gris claro */
+  color: #1f2937; /* Texto gris oscuro */
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem; /* Bordes redondeados */
+  font-size: 0.875em; /* Tamaño de fuente 14px */
+  font-weight: 600; /* Negrita ligera */
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 }
 
 
 .prose code {
   color: #1f2937;
+}
+
+
+button code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  font-weight: normal;
 }
 
 
@@ -94,15 +117,6 @@
   font-weight: 700; /* Negrita */
 }
 
-.prose code {
-  background-color: #f3f4f6;
-  color: #1f2937;
-  padding: 0.2em 0.4em;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-  font-weight: 600;
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-}
 
 * {
   border-color: white;
