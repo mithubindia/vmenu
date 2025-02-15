@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
-import gfm from "remark-gfm" // ✅ Permite imágenes y tablas en Markdown
+import * as gfm from "remark-gfm" // ✅ Asegura la correcta importación de `remark-gfm`
 import dynamic from "next/dynamic"
 import React from "react"
 import parse from "html-react-parser"
@@ -10,17 +10,47 @@ import parse from "html-react-parser"
 // 🔹 Importamos `CopyableCode` dinámicamente para evitar problemas de SSR
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
+const guidesDirectory = path.join(process.cwd(), "..", "guides")
+
 async function getGuideContent(slug: string) {
   try {
-    const guidePath = path.join(process.cwd(), "..", "guides", `${slug}.md`)
+    const guidePath = path.join(guidesDirectory, `${slug}.md`)
+
+    if (!fs.existsSync(guidePath)) {
+      console.error(`❌ Archivo ${slug}.md no encontrado en guides/`)
+      return "<p class='text-red-600'>Error: No se encontró la guía solicitada.</p>"
+    }
+
     const fileContents = fs.readFileSync(guidePath, "utf8")
 
-    // ✅ Agregamos `remark-gfm` para permitir imágenes en Markdown
-    const result = await remark().use(gfm).use(html).process(fileContents)
+    // ✅ Agregamos `remark-gfm` para permitir imágenes, tablas y otros elementos avanzados de Markdown
+    const result = await remark()
+      .use(gfm.default || gfm) // ✅ Manejo seguro de `remark-gfm`
+      .use(html)
+      .process(fileContents)
+
     return result.toString()
   } catch (error) {
-    console.error(`❌ Error al leer el archivo guía: ${slug}.md`, error)
+    console.error(`❌ Error al leer la guía ${slug}.md`, error)
     return "<p class='text-red-600'>Error: No se pudo cargar la guía.</p>"
+  }
+}
+
+// 🔹 Asegura que `generateStaticParams()` esté presente para `output: export`
+export async function generateStaticParams() {
+  try {
+    if (fs.existsSync(guidesDirectory)) {
+      const guideFiles = fs.readdirSync(guidesDirectory)
+      return guideFiles.map((file) => ({
+        slug: file.replace(/\.md$/, ""),
+      }))
+    } else {
+      console.warn("⚠ No se encontró el directorio guides/. No se generarán rutas estáticas.")
+      return []
+    }
+  } catch (error) {
+    console.error("❌ Error al generar las rutas estáticas para guides:", error)
+    return []
   }
 }
 
