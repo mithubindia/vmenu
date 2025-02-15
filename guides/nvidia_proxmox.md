@@ -4,6 +4,13 @@ This guide explains how to install and configure NVIDIA drivers on your Proxmox 
 
 ## Prerequisites
 
+---
+
+![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png)
+
+--- 
+
+
 Before you begin, ensure you have the following:
 
 * A Proxmox VE server with an NVIDIA GPU installed.
