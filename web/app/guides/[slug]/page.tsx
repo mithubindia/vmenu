@@ -2,36 +2,36 @@ import fs from "fs"
 import path from "path"
 import { remark } from "remark"
 import html from "remark-html"
+import gfm from "remark-gfm" // ✅ Permite imágenes y tablas en Markdown
 import dynamic from "next/dynamic"
 import React from "react"
 import parse from "html-react-parser"
 
-
+// 🔹 Importamos `CopyableCode` dinámicamente para evitar problemas de SSR
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
 async function getGuideContent(slug: string) {
-  const guidePath = path.join(process.cwd(), "..", "guides", `${slug}.md`)
-  const fileContents = fs.readFileSync(guidePath, "utf8")
+  try {
+    const guidePath = path.join(process.cwd(), "..", "guides", `${slug}.md`)
+    const fileContents = fs.readFileSync(guidePath, "utf8")
 
-  const result = await remark().use(html).process(fileContents)
-  return result.toString()
+    // ✅ Agregamos `remark-gfm` para permitir imágenes en Markdown
+    const result = await remark().use(gfm).use(html).process(fileContents)
+    return result.toString()
+  } catch (error) {
+    console.error(`❌ Error al leer el archivo guía: ${slug}.md`, error)
+    return "<p class='text-red-600'>Error: No se pudo cargar la guía.</p>"
+  }
 }
 
-export async function generateStaticParams() {
-  const guideFiles = fs.readdirSync(path.join(process.cwd(), "..", "guides"))
-  return guideFiles.map((file) => ({
-    slug: file.replace(/\.md$/, ""),
-  }))
-}
-
+// 🔹 Limpia las comillas invertidas en fragmentos de código en línea
 function cleanInlineCode(content: string) {
   return content.replace(/<code>(.*?)<\/code>/g, (_, codeContent) => {
-    const cleanedCode = codeContent.replace(/^`|`$/g, "") 
-    return `<code class="bg-gray-200 text-gray-900 px-1 rounded">${cleanedCode}</code>`
+    return `<code class="bg-gray-200 text-gray-900 px-1 rounded">${codeContent.replace(/^`|`$/g, "")}</code>`
   })
 }
 
-
+// 🔹 Envuelve los bloques de código en <CopyableCode />
 function wrapCodeBlocksWithCopyable(content: string) {
   return parse(content, {
     replace: (domNode: any) => {
@@ -48,13 +48,13 @@ function wrapCodeBlocksWithCopyable(content: string) {
 
 export default async function GuidePage({ params }: { params: { slug: string } }) {
   const guideContent = await getGuideContent(params.slug)
-  const cleanedInlineCode = cleanInlineCode(guideContent) 
-  const parsedContent = wrapCodeBlocksWithCopyable(cleanedInlineCode) 
+  const cleanedInlineCode = cleanInlineCode(guideContent) // 🔹 Primero limpiamos código en línea
+  const parsedContent = wrapCodeBlocksWithCopyable(cleanedInlineCode) // 🔹 Luego aplicamos JSX a bloques de código
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      <div className="container mx-auto px-4 py-16 max-w-4xl"> 
-        <div className="prose max-w-none text-[16px]">{parsedContent}</div> 
+      <div className="container mx-auto px-4 py-16" style={{ maxWidth: "980px" }}> {/* 📌 Ajuste exacto como GitHub */}
+        <div className="prose max-w-none text-[16px]">{parsedContent}</div> {/* 📌 Texto ajustado a 16px */}
       </div>
     </div>
   )
