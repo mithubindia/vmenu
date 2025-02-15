@@ -60,26 +60,22 @@
 
 
 .prose pre {
-  background-color: #f3f4f6; /* Gris claro */
-  color: #1f2937; /* Gris oscuro */
+  background-color: #f3f4f6; 
+  color: #1f2937; 
   padding: 1rem;
   border-radius: 0.5rem;
-  overflow-x: auto; /* Scroll horizontal si el código es muy largo */
-  font-size: 0.875rem; /* Tamaño de fuente 14px */
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace; /* Fuente monoespaciada */
+  overflow-x: auto; 
 }
 
 
 .prose p code,
 .prose li code,
 .prose td code {
-  background-color: #f3f4f6; /* Gris claro */
-  color: #1f2937; /* Texto gris oscuro */
+  background-color: #f3f4f6; 
+  color: #1f2937; 
   padding: 0.2em 0.4em;
-  border-radius: 0.25rem; /* Bordes redondeados */
-  font-size: 0.875em; /* Tamaño de fuente 14px */
-  font-weight: 600; /* Negrita ligera */
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  border-radius: 0.25rem; 
+  font-weight: 600; 
 }
 
 
@@ -97,7 +93,7 @@ button code {
 
 
 .prose {
-  color: #1f2937; /* text-gray-800 */
+  color: #1f2937; 
 }
 
 
@@ -107,14 +103,14 @@ button code {
 .prose h4,
 .prose h5,
 .prose h6 {
-  color: #111827; /* text-gray-900 */
+  color: #111827; 
 }
 
 
 .prose strong,
 .prose b {
-  color: #111827; /* text-gray-900 */
-  font-weight: 700; /* Negrita */
+  color: #111827; 
+  font-weight: 700; 
 }
 
 
