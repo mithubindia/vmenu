@@ -117,6 +117,16 @@ button code {
   content: "" !important; 
 }
 
+.prose a {
+  color: #0969da; 
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.prose a:hover {
+  text-decoration: underline;
+}
+
 * {
   border-color: white;
 }
