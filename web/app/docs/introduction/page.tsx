@@ -31,14 +31,14 @@ export default function IntroductionPage() {
         <br />
         For additional Proxmox-related information, including guides, official
         documentation, forums, and discussions, visit the{" "}
-        <br />
-        <br />
-        <br />
-        <br />
         <Link href="/guides" className="text-blue-500 hover:underline">
           Guides
         </Link>{" "}
         section.
+        <br />
+        <br /> 
+        <br />
+        <br />
       </p>
     </div>
   )
