@@ -21,7 +21,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png"
+              src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo.png"
               alt="ProxMenux Logo"
               width={32}
               height={32}
@@ -37,6 +37,7 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className="flex items-center space-x-2 transition-colors hover:text-primary"
+                {...(item.label === "GitHub" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {item.icon}
                 <span>{item.label}</span>
@@ -59,6 +60,7 @@ export default function Navbar() {
                 href={item.href}
                 className="flex items-center space-x-2 py-2 transition-colors hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
+                {...(item.label === "GitHub" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {item.icon}
                 <span>{item.label}</span>
