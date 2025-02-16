@@ -24,9 +24,9 @@ export default function Footer() {
               <Image
                 src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/kofi.png"
                 alt="Support me on Ko-fi"
-                width={150}
+                width={140}
                 height={40}
-                className="w-[150px] h-[40px] mr-[50px]"
+                className="w-[140px] mr-[52px]"
                 loading="lazy"
               />
             </a>
