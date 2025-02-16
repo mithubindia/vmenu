@@ -18,7 +18,10 @@ export default function InstallationPage() {
         Once installed, launch <strong>ProxMenux</strong> by running:
       </p>
       <CopyableCode code="menu" />
-
+        <br />
+        <br />
+        <br />
+        <br />
       <h2 className="text-2xl font-semibold mt-8 mb-4">Troubleshooting</h2>
       <p className="mb-4">
         If you encounter any issues during installation or usage, please check the{" "}
