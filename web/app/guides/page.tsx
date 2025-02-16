@@ -75,7 +75,7 @@ export default function GuidesPage() {
             className="block p-6 bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-colors"
           >
             <div className="flex items-center gap-3 mb-2">
-              <Code className="h-6 w-6 text-white" />
+              <Book className="h-6 w-6 text-white" />
               <h2 className="text-2xl font-semibold text-white">Community Helper-Scripts</h2>
             </div>
             <p className="text-gray-200">
@@ -94,6 +94,20 @@ export default function GuidesPage() {
             </div>
             <p className="text-gray-200">
               Comprehensive Proxmox VE documentation and administration guide available.
+            </p>
+          </a>
+          <a
+            href="https://community-scripts.github.io/ProxmoxVE/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-6 bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 transition-colors"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <Code className="h-6 w-6 text-white" />
+              <h2 className="text-2xl font-semibold text-white">Proxmox VE Helper-Scripts</h2>
+            </div>
+            <p className="text-gray-200">
+              Proxmox VE Helper-Scripts is a collection of tools to simplify the setup and management of Proxmox Virtual Environment (VE). Originally created by tteck, these scripts are now continued by the community.
             </p>
           </a>
         </div>
