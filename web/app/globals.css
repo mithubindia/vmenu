@@ -124,6 +124,7 @@ button code {
 }
 
 .prose a:hover {
+  color: #0550ae; 
   text-decoration: underline;
 }
 
