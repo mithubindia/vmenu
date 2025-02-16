@@ -9,24 +9,21 @@ export default function Footer() {
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between">
-          {/* Support Section - Left Side */}
-          <div className="flex flex-col items-start mb-8 md:mb-0">
-            <h4 className="text-lg font-semibold mb-4">Sponsor</h4>
-            <p className="text-gray-400 mb-4 max-w-md">
-              If you would like to support the project.
-            </p>
+          
+             {/* Support Section - Left Side */}
+          <div className="flex items-start mb-8 md:mb-0">
             <a
               href="https://ko-fi.com/G2G313ECAN"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:opacity-90 transition-opacity flex items-center"
+              className="hover:opacity-90 transition-opacity"
             >
               <Image
                 src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/kofi.png"
                 alt="Support me on Ko-fi"
                 width={140}
                 height={40}
-                className="w-[140px] mr-[52px]"
+                className="w-[140px]"
                 loading="lazy"
               />
             </a>
