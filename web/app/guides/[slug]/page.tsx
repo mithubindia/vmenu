@@ -7,6 +7,7 @@ import matter from "gray-matter"
 import dynamic from "next/dynamic"
 import React from "react"
 import parse from "html-react-parser"
+import Footer2 from "@/components/footer2"
 
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
@@ -96,6 +97,7 @@ export default async function GuidePage({ params }: { params: { slug: string } }
         {metadata?.description && <p className="text-lg text-gray-700 mb-8">{metadata.description}</p>}
         <div className="prose max-w-none text-[16px]">{parsedContent}</div>
       </div>
+      <Footer2 />
     </div>
   )
 }
