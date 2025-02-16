@@ -147,7 +147,7 @@ Now we can use our hard drive, use it inside the container and also share its co
 
 ![Using the USB drive](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/guides/lxc_samba/lxc_5.png)
 
-## Support the Author
+---
 
 <div style="display: flex; justify-content: center; align-items: center;">
   <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
