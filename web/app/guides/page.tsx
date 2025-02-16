@@ -3,7 +3,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import Link from "next/link"
-import Footer from "@/components/footer"
+import Footer from "@/components/footer2"
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
@@ -64,7 +64,7 @@ export default function GuidesPage() {
           ))}
         </div>
       </div>
-      <Footer />
+      <Footer2 />
     </div>
   )
 }
