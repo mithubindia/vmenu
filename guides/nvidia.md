@@ -302,3 +302,13 @@ chmod +x nvidia-docker.sh
 ```
 ./nvidia-docker.sh
 ```
+
+---
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
+    <img src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png" alt="Support me on Ko-fi" style="width:175px; margin-right:65px;"/>
+  </a>
+</div>
+
+If you found this tutorial helpful and useful, you can buy me a Ko-fi! Thank you! 😊
