@@ -72,7 +72,7 @@ When it's finished, we restart, and when it boots up, we'll have Kodi updated.
 
 We can learn more about configuring an LXC with Intel GPU on [Konpat's blog](https://blog.konpat.me/dev/2019/03/11/setting-up-lxc-for-intel-gpu-proxmox.html).
 
-## Support the Author
+
 
 <div style="display: flex; justify-content: center; align-items: center;">
   <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
