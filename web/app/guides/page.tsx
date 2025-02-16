@@ -3,7 +3,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import Link from "next/link"
-import Footer from "@/components/footer2"
+import Footer2 from "@/components/footer2"
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
 
