@@ -28,10 +28,26 @@ const sidebarItems: MenuItem[] = [
     ],
   },
   {
-    title: "Storage",
+    title: "Hard Drives, Disk Images, and Storage",
     submenu: [
       { title: "Disk Passthrough to a VM", href: "/docs/storage/disk-passthrough-vm" },
       { title: "Import Disk Image to a VM", href: "/docs/storage/import-disk-image-vm" },
+    ],
+  },
+  {
+    title: "Network",
+    submenu: [
+      { title: "Repair Network", href: "/docs/network/repair-network" },
+      { title: "Verify Network", href: "/docs/network/verify-network" },
+      { title: "Show IP Information", href: "/docs/network/show-ip-information" },
+    ],
+  },
+  {
+    title: "Settings ProxMenux",
+    submenu: [
+      { title: "Change Language", href: "/docs/settings/change-language" },
+      { title: "Show Version Information", href: "/docs/settings/show-version-information" },
+      { title: "Uninstall ProxMenux", href: "/docs/settings/uninstall-proxmenux" },
     ],
   },
 ]
