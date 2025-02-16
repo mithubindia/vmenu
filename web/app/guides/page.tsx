@@ -76,10 +76,10 @@ export default function GuidesPage() {
           >
             <div className="flex items-center gap-3 mb-2">
               <Book className="h-6 w-6 text-white" />
-              <h2 className="text-2xl font-semibold text-white">Community Helper-Scripts</h2>
+              <h2 className="text-2xl font-semibold text-white">Guides Helper-Scripts</h2>
             </div>
             <p className="text-gray-200">
-              User-submitted guides and scripts for Proxmox VE from the community.
+              User-submitted guides for Proxmox VE from the community Helper-Scripts.
             </p>
           </a>
           <a
@@ -107,7 +107,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Proxmox VE Helper-Scripts</h2>
             </div>
             <p className="text-gray-200">
-              Proxmox VE Helper-Scripts is a collection of tools to simplify the setup and management of Proxmox Virtual Environment (VE). Originally created by tteck, these scripts are now continued by the community.
+              Proxmox VE Helper-Scripts is a community-maintained toolset for simplifying Proxmox VE setup and management, originally created by tteck.
             </p>
           </a>
         </div>
