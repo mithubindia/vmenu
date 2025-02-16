@@ -36,7 +36,7 @@ export default function Footer() {
           <div className="flex flex-col items-start md:items-end">
             <h4 className="text-lg font-semibold mb-4">Connect</h4>
             <p className="text-gray-400 mb-4 max-w-md md:text-right">
-              Join our community discussions on GitHub to get help, share ideas, and contribute to the project.
+              Join the community discussions on GitHub to get help, share ideas, and contribute to the project. Every idea is welcome!
             </p>
             <Link
               href="https://github.com/MacRimi/ProxMenux/discussions"
@@ -52,7 +52,7 @@ export default function Footer() {
 
         {/* Copyright - Center */}
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>ProxMenux, a project by MacRimi.</p>
+          <p>ProxMenux, an open-source and collaborative project by MacRimi.</p>
         </div>
       </div>
     </footer>
