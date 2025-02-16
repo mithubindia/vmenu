@@ -1,11 +1,9 @@
 ---
 title: "Install Kodi in an LXC and Connect it to a Monitor/TV Using GPU Acceleration"
-description: "Learn how to install Kodi in an LXC container on Proxmox, utilize GPU acceleration, and connect it to your TV, turning your Proxmox server into an all-in-one media center."
+description: "Install Kodi in an LXC container on Proxmox, utilize GPU acceleration, and connect it to your TV, turning your Proxmox server into an all-in-one media center."
 ---
 
-# Install Kodi in an LXC and Connect it to a Monitor/TV Using GPU Acceleration
 
-In this guide, we'll see how we can easily install Kodi in an LXC container using our Proxmox resources and connect it to our television using GPU acceleration, turning our Proxmox server into an all-in-one server.
 
 We'll use the script created by user [mrrudy](https://github.com/mrrudy).
 

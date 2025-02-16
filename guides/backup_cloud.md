@@ -3,9 +3,7 @@ title: "Proxmox Backup Cloud"
 description: "Set up a simple backup service in Proxmox VE using your personal cloud storage provider (Google Drive, Mega, Dropbox, OneDrive, etc.) as an additional datastore, using rclone for secure backups without scripts."
 ---
 
-# Proxmox Backup Cloud
 
-In this tutorial, we'll set up a simple backup service in our personal cloud storage provider (Google Drive, Mega, Dropbox, OneDrive, etc.), adding it as an additional datastore using rclone. We'll store our backups securely without using any scripts.
 
 ## Preparation:
 

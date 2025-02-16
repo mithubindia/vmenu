@@ -1,9 +1,8 @@
 ---
 title: "How to Add a Hard Drive or USB Memory to an LXC for Use and Network Sharing"
-description: "Learn how to add a USB hard drive to an LXC in Proxmox, set up Samba for network sharing, and utilize the added storage for various purposes."
+description: "Add a USB hard drive to an LXC in Proxmox, set up Samba for network sharing, and utilize the added storage for various purposes."
 ---
 
-# How to Add a Hard Drive or USB Memory to an LXC for Use and Network Sharing
 
 Sometimes, it can be useful to add a hard drive or USB memory to our Proxmox setup, especially if we have a mini PC with limited expansion possibilities.
 
