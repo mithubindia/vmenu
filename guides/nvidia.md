@@ -3,7 +3,7 @@ title: "Installing NVIDIA Graphics Card Drivers on Proxmox (PVE 8)"
 description: "Install and config NVIDIA drivers on Proxmox VE host and enable GPU usage in LXC containers."
 ---
 
-# Installing NVIDIA Graphics Card Drivers on Proxmox (PVE 8 Update)
+
 
 Before we begin, I want to thank my colleague @juanlu13 for providing the [original source](https://forums.plex.tv/t/plex-hw-acceleration-in-lxc-container-anyone-with-success/219289/34?utm_source=pocket_mylist) on which this manual is based.
 
