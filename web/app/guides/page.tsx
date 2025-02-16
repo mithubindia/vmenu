@@ -79,7 +79,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Proxmox VE Helper-Scripts (Community Edition)</h2>
             </div>
             <p className="text-gray-200">
-              Explore user-submitted guides and scripts for Proxmox VE from the community.
+              User-submitted guides and scripts for Proxmox VE from the community.
             </p>
           </a>
           <a
@@ -92,7 +92,9 @@ export default function GuidesPage() {
               <Book className="h-6 w-6 text-white" />
               <h2 className="text-2xl font-semibold text-white">Official Documentation</h2>
             </div>
-            <p className="text-gray-200">Access the comprehensive Proxmox VE documentation and administration guide.</p>
+            <p className="text-gray-200">
+              Comprehensive Proxmox VE documentation and administration guide available.
+            </p>
           </a>
         </div>
 
@@ -110,7 +112,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Backup Server Docs</h2>
             </div>
             <p className="text-gray-200">
-              Learn about Proxmox Backup Server, a powerful backup solution for Proxmox VE.
+              Information about Proxmox Backup Server, a powerful backup solution for Proxmox VE.
             </p>
           </a>
         </div>
@@ -129,7 +131,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Official Video Training</h2>
             </div>
             <p className="text-gray-200">
-              Access official Proxmox video tutorials and training courses to enhance your skills.
+              Access official Proxmox video tutorials and training courses for skill development.
             </p>
           </a>
         </div>
@@ -147,7 +149,7 @@ export default function GuidesPage() {
               <MessageCircle className="h-6 w-6 text-white" />
               <h2 className="text-2xl font-semibold text-white">Proxmox Forum</h2>
             </div>
-            <p className="text-gray-200">Join the official Proxmox forum to ask questions and share experiences.</p>
+            <p className="text-gray-200">Access the official Proxmox forum for questions, troubleshooting, and shared experiences.</p>
           </a>
           <a
             href="https://www.reddit.com/r/Proxmox/"
@@ -159,7 +161,7 @@ export default function GuidesPage() {
               <Users className="h-6 w-6 text-white" />
               <h2 className="text-2xl font-semibold text-white">Proxmox Reddit</h2>
             </div>
-            <p className="text-gray-200">Join the Proxmox community on Reddit for discussions, tips, and support.</p>
+            <p className="text-gray-200">Access the Proxmox community on Reddit for discussions, tips, and technical support.</p>
           </a>
         </div>
       </div>
