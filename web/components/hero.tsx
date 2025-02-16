@@ -14,7 +14,7 @@ export default function Hero() {
         </span>
       </h1>
       <p className="text-base sm:text-lg md:text-xl mb-8 max-w-4xl mx-auto text-gray-300">
-       ProxMenu is a tool for executing shell scripts in a user-friendly way, featuring a categorized menu system for easy access to scripts hosted on GitHub. 
+       ProxMenux is a tool for executing shell scripts in a user-friendly way, featuring a categorized menu system for easy access to scripts hosted on GitHub. 
        Designed to facilitate productivity, it simplifies automation and streamlines task execution.
       </p>
       <div className="flex justify-center">
