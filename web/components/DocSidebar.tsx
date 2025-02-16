@@ -28,7 +28,7 @@ const sidebarItems: MenuItem[] = [
     ],
   },
   {
-    title: "Hard Drives, Disk Images, and Storage",
+    title: "Storage",
     submenu: [
       { title: "Disk Passthrough to a VM", href: "/docs/storage/disk-passthrough-vm" },
       { title: "Import Disk Image to a VM", href: "/docs/storage/import-disk-image-vm" },
