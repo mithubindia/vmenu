@@ -69,7 +69,7 @@ export default function GuidesPage() {
             rel="noopener noreferrer"
             className="block p-6 bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-colors"
           >
-            <h2 className="text-2xl font-semibold mb-2 text-white">Community Helper Scripts</h2>
+            <h2 className="text-2xl font-semibold mb-2 text-white">Proxmox VE Helper-Scripts (Community Edition)</h2>
             <p className="text-gray-200">
               Explore user-submitted guides and scripts for Proxmox VE from the community.
             </p>
