@@ -20,7 +20,7 @@ const sidebarItems: MenuItem[] = [
   { title: "Introduction", href: "/docs/introduction" },
   { title: "Installation", href: "/docs/installation" },
   {
-    title: "Hardware: GPUs and Coral",
+    title: "GPUs and Coral",
     submenu: [
       { title: "HW iGPU acceleration to an LXC", href: "/docs/hardware/igpu-acceleration-lxc" },
       { title: "Coral TPU to an LXC", href: "/docs/hardware/coral-tpu-lxc" },
@@ -28,7 +28,7 @@ const sidebarItems: MenuItem[] = [
     ],
   },
   {
-    title: "Hard Drives, Disk Images, and Storage",
+    title: "Storage",
     submenu: [
       { title: "Disk Passthrough to a VM", href: "/docs/storage/disk-passthrough-vm" },
       { title: "Import Disk Image to a VM", href: "/docs/storage/import-disk-image-vm" },
