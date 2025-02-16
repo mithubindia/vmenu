@@ -107,7 +107,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Proxmox VE Helper-Scripts</h2>
             </div>
             <p className="text-gray-200">
-              Proxmox VE Helper-Scripts is a community-maintained toolset for simplifying Proxmox VE setup and management, originally created by tteck.
+              Proxmox VE Helper-Scripts is a set of tools for simplifying the installation of applications and the management of Proxmox VE, maintained by the community.
             </p>
           </a>
         </div>
