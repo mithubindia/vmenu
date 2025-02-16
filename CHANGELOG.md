@@ -10,6 +10,9 @@
 
 ![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png)
 
+Before we begin, I want to thank my colleague @juanlu13 for providing the [original source](https://forums.plex.tv/t/plex-hw-acceleration-in-lxc-container-anyone-with-success/219289/34?utm_source=pocket_mylist) on which this manual is based.
+
+
 ---
 
 ## 📌 Installation
