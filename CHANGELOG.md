@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo2.png" alt="ProxMenu Logo" width="265" height="294">
+    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo.png" alt="ProxMenu Logo" width="265" height="294">
 </div>
 
 
@@ -8,7 +8,7 @@
 **ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
 
 
-![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png)
+![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo.png)
 
 Before we begin, I want to thank my colleague @juanlu13 for providing the [original source](https://forums.plex.tv/t/plex-hw-acceleration-in-lxc-container-anyone-with-success/219289/34?utm_source=pocket_mylist) on which this manual is based.
 
@@ -34,7 +34,7 @@ Then, follow the on-screen options to manage your Proxmox server efficiently.
 
 ---
 
-![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo2.png)
+![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo.png)
 
 
 ## 📌 System Requirements
