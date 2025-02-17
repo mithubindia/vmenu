@@ -141,7 +141,7 @@ return (
     </div>
 
     <nav
-      className={`fixed md:static top-[104px] left-0 w-full w-full md:w-[260px] h-[calc(100vh-104px)] md:h-auto bg-gray-100 p-4 md:p-6 transform ${
+      className={`fixed md:static top-[104px] left-0 w-full md:min-w-[260px] md:max-w-[260px] h-[calc(100vh-104px)] md:h-auto bg-gray-100 p-4 md:p-6 transform ${
         isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       } md:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
     >
