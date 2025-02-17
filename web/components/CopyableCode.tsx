@@ -25,16 +25,27 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
   }
 
   return (
-    <div className={cn("relative", className)}>
-      <pre className={`bg-gray-100 p-4 rounded-md overflow-x-auto ${language ? `language-${language}` : ""}`}>
-        <code dangerouslySetInnerHTML={{ __html: decodeURIComponent(code) }} />
+    <div className={cn("relative w-full", className)}>
+      <pre
+        className={cn(
+          "bg-gray-100 p-2 sm:p-3 md:p-4 rounded-md overflow-x-auto",
+          "text-xs sm:text-sm md:text-base lg:text-lg",
+          "max-w-full",
+          language ? `language-${language}` : "",
+        )}
+      >
+        <code className="break-words whitespace-pre-wrap">{decodeURIComponent(code)}</code>
       </pre>
       <button
         onClick={copyToClipboard}
-        className="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors"
+        className="absolute top-1 right-1 sm:top-2 sm:right-2 p-1 sm:p-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors"
         aria-label="Copy code"
       >
-        {isCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4 text-gray-500" />}
+        {isCopied ? (
+          <Check className="h-3 w-3 sm:h-4 sm:w-4 text-green-500" />
+        ) : (
+          <Copy className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500" />
+        )}
       </button>
     </div>
   )
