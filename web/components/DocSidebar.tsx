@@ -128,22 +128,24 @@ export default function DocSidebar() {
 
   return (
     <>
-      <button
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-100 rounded-md"
-        onClick={toggleMobileMenu}
-        aria-label="Toggle menu"
-      >
-        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </button>
+      <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-gray-100 border-b border-gray-200">
+        <button
+          className="w-full p-4 text-left flex items-center justify-between"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="font-semibold">Documentation</span>
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
       <nav
-        className={`fixed md:static top-0 left-0 w-full h-full md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto z-40`}
+        className={`fixed md:static top-[104px] left-0 w-full h-[calc(100vh-104px)] md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
+          isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
+        } md:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
       >
-        <h2 className="text-lg font-semibold mb-4 text-gray-900 mt-12 md:mt-0">Documentation</h2>
+        <h2 className="text-lg font-semibold mb-4 text-gray-900 md:mt-0 sr-only md:not-sr-only">Documentation</h2>
         <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
       </nav>
     </>
   )
 }
-
