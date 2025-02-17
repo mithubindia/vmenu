@@ -128,9 +128,9 @@ export default function DocSidebar() {
 
   return (
     <>
-      <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-gray-100 border-b border-gray-200">
+      <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-gray-100 border-b border-gray-200 h-12">
         <button
-          className="w-full p-4 text-left flex items-center justify-between"
+          className="w-full h-full px-4 text-left flex items-center justify-between"
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
         >
@@ -139,7 +139,7 @@ export default function DocSidebar() {
         </button>
       </div>
       <nav
-        className={`fixed md:static top-[104px] left-0 w-full h-[calc(100vh-104px)] md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
+        className={`fixed md:static top-[112px] left-0 w-full h-[calc(100vh-112px)] md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
           isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         } md:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
       >

@@ -2,6 +2,7 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import Navbar from "@/components/navbar"
 import MouseMoveEffect from "@/components/mouse-move-effect"
+import DocSidebar from "@/components/DocSidebar"
 import type React from "react"
 import type { Metadata } from "next"
 
@@ -66,7 +67,10 @@ export default function RootLayout({
       <body className={`${inter.className} bg-background text-foreground antialiased`}>
         <Navbar />
         <MouseMoveEffect />
-        <div className="pt-16 md:pt-16">{children}</div>
+        <div className="flex flex-col md:flex-row min-h-screen">
+          <DocSidebar />
+          <main className="flex-1 p-4 md:p-6 pt-32 md:pt-6">{children}</main>
+        </div>
       </body>
     </html>
   )
