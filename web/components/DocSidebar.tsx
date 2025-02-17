@@ -109,10 +109,9 @@ export default function DocSidebar() {
   }
 
   return (
-    <nav className="w-full md:w-1/4 lg:w-1/5 xl:w-1/6 max-w-xs bg-gray-100 p-4 md:p-6">
+    <nav className="w-full md:w-64 bg-gray-100 p-4 md:p-6">
       <h2 className="text-lg font-semibold mb-4 text-gray-900">Documentation</h2>
       <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
     </nav>
   )
 }
-
