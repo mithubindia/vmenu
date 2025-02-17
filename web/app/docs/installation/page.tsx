@@ -6,27 +6,24 @@ export default function InstallationPage() {
   const installationCode = `bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)"`
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-gray-900">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Installing ProxMenux</h1>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-gray-900">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6">Installing ProxMenux</h1>
 
-      <h2 className="text-lg sm:text-xl font-semibold mt-6 mb-2">Installation</h2>
-      <p className="mb-2 text-sm">
-        To install ProxMenux, simply run the following command in your Proxmox server terminal:
-      </p>
-      <div className="w-full overflow-hidden mb-4">
-        <CopyableCode code={installationCode} className="w-full" />
-      </div>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Installation</h2>
+      <p className="mb-4">To install ProxMenux, simply run the following command in your Proxmox server terminal:</p>
+      <CopyableCode code={installationCode} />
 
-      <h2 className="text-lg sm:text-xl font-semibold mt-6 mb-2">How to Use</h2>
-      <p className="mb-2 text-sm">
+      <h2 className="text-2xl font-semibold mt-8 mb-4">How to Use</h2>
+      <p className="mb-4">
         Once installed, launch <strong>ProxMenux</strong> by running:
       </p>
-      <div className="w-full overflow-hidden mb-4">
-        <CopyableCode code="menu" className="w-full" />
-      </div>
-
-      <h2 className="text-xl sm:text-2xl font-semibold mt-8 mb-4">Troubleshooting</h2>
-      <p className="mb-4 text-sm sm:text-base">
+      <CopyableCode code="menu" />
+        <br />
+        <br />
+        <br />
+        <br />
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Troubleshooting</h2>
+      <p className="mb-4">
         If you encounter any issues during installation or usage, please check the{" "}
         <a href="https://github.com/MacRimi/ProxMenux/issues" className="text-blue-600 hover:underline">
           GitHub Issues
