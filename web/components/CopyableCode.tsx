@@ -30,7 +30,7 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
         className={cn(
           "bg-gray-100 p-2 sm:p-3 md:p-4 rounded-md overflow-x-auto",
           "text-xs sm:text-sm md:text-base",
-          "w-full min-w-[150px] max-w-full",
+          "max-w-full",
           language ? `language-${language}` : "",
         )}
       >
