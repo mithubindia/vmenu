@@ -26,16 +26,19 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
 
   return (
     <div className={cn("relative w-full", className)}>
-      <pre
-        className={cn(
-          "bg-gray-100 p-2 sm:p-3 md:p-4 rounded-md overflow-x-auto",
-          "text-xs sm:text-sm md:text-base",
-          "max-w-full",
-          language ? `language-${language}` : "",
-        )}
-      >
-        <code className="whitespace-pre">{decodeURIComponent(code)}</code>
-      </pre>
+      <div className="w-full overflow-x-auto">
+        <pre
+          className={cn(
+            "w-full min-w-0 bg-gray-100 p-2 sm:p-3 md:p-4 rounded-md overflow-x-auto",
+            "text-xs sm:text-sm md:text-base",
+            "max-w-full",
+            language ? `language-${language}` : "",
+          )}
+        >
+          <code className="whitespace-pre">{decodeURIComponent(code)}</code>
+        </pre>
+      </div>
+
       <button
         onClick={copyToClipboard}
         className="absolute top-1 right-1 sm:top-2 sm:right-2 p-1 sm:p-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors"
