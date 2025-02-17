@@ -7,9 +7,45 @@ import type { Metadata } from "next"
 
 const inter = Inter({ subsets: ["latin"] })
 
+const basePath = "/ProxMenux"
+
+const description =
+  "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution."
+
 export const metadata: Metadata = {
   title: "ProxMenux",
-  description: "A menu-driven script for Proxmox VE management",
+  description,
+  generator: "Next.js",
+  applicationName: "ProxMenux",
+  referrer: "origin-when-cross-origin",
+  keywords: ["Proxmox VE", "ProxMenux", "menu-driven", "script", "management", "virtualization"],
+  authors: { name: "MacRimi" },
+  creator: "MacRimi",
+  publisher: "MacRimi",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(`https://macrimi.github.io${basePath}/`),
+  openGraph: {
+    title: "ProxMenux",
+    description,
+    url: `https://macrimi.github.io${basePath}/`,
+    images: [
+      {
+        url: `https://macrimi.github.io${basePath}/main.png`,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProxMenux",
+    description,
+    images: [`https://macrimi.github.io${basePath}/main.png`],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
