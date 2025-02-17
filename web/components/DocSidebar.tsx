@@ -2,8 +2,8 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
-import { ChevronDown, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react"
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react"
 
 interface SubMenuItem {
   title: string
@@ -55,10 +55,26 @@ const sidebarItems: MenuItem[] = [
 export default function DocSidebar() {
   const pathname = usePathname()
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({})
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleSection = (title: string) => {
     setOpenSections((prev) => ({ ...prev, [title]: !prev[title] }))
   }
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const renderMenuItem = (item: MenuItem) => {
     if (item.submenu) {
@@ -83,6 +99,7 @@ export default function DocSidebar() {
                         ? "bg-blue-500 text-white"
                         : "text-gray-700 hover:bg-gray-200 hover:text-gray-900"
                     }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {subItem.title}
                   </Link>
@@ -100,6 +117,7 @@ export default function DocSidebar() {
             className={`block p-2 rounded ${
               pathname === item.href ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-200 hover:text-gray-900"
             }`}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             {item.title}
           </Link>
@@ -109,9 +127,23 @@ export default function DocSidebar() {
   }
 
   return (
-    <nav className="w-full md:w-64 bg-gray-100 p-4 md:p-6">
-      <h2 className="text-lg font-semibold mb-4 text-gray-900">Documentation</h2>
-      <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
-    </nav>
+    <>
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-100 rounded-md"
+        onClick={toggleMobileMenu}
+        aria-label="Toggle menu"
+      >
+        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
+      <nav
+        className={`fixed md:static top-0 left-0 w-full h-full md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto z-40`}
+      >
+        <h2 className="text-lg font-semibold mb-4 text-gray-900 mt-12 md:mt-0">Documentation</h2>
+        <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
+      </nav>
+    </>
   )
 }
+
