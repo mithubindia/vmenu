@@ -29,12 +29,12 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
       <pre
         className={cn(
           "bg-gray-100 p-2 sm:p-3 md:p-4 rounded-md overflow-x-auto",
-          "text-xs sm:text-sm md:text-base lg:text-lg",
+          "text-xs sm:text-sm md:text-base",
           "max-w-full",
           language ? `language-${language}` : "",
         )}
       >
-        <code className="break-words whitespace-pre-wrap">{decodeURIComponent(code)}</code>
+        <code className="whitespace-pre">{decodeURIComponent(code)}</code>
       </pre>
       <button
         onClick={copyToClipboard}
@@ -52,4 +52,3 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
 }
 
 export default CopyableCode
-
