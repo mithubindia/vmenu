@@ -139,11 +139,11 @@ export default function DocSidebar() {
         </button>
       </div>
       <nav
-        className={`fixed md:static top-[112px] left-0 w-full h-[calc(100vh-112px)] md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
-          isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
-        } md:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
+        className={`fixed md:static top-28 left-0 w-full h-[calc(100vh-7rem)] md:h-auto md:w-64 bg-gray-100 p-4 md:p-6 transform ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
       >
-        <h2 className="text-lg font-semibold mb-4 text-gray-900 md:mt-0 sr-only md:not-sr-only">Documentation</h2>
+        <h2 className="text-lg font-semibold mb-4 text-gray-900 md:block hidden">Documentation</h2>
         <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
       </nav>
     </>
