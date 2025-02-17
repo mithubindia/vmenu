@@ -67,9 +67,9 @@ export default function RootLayout({
       <body className={`${inter.className} bg-background text-foreground antialiased`}>
         <Navbar />
         <MouseMoveEffect />
-        <div className="flex flex-col md:flex-row min-h-screen">
+        <div className="flex flex-col md:flex-row min-h-screen pt-28 md:pt-16">
           <DocSidebar />
-          <main className="flex-1 p-4 md:p-6 pt-32 md:pt-6">{children}</main>
+          <main className="flex-1 p-4 md:p-6">{children}</main>
         </div>
       </body>
     </html>
