@@ -11,17 +11,20 @@ export default function InstallationPage() {
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Installation</h2>
       <p className="mb-4">To install ProxMenux, simply run the following command in your Proxmox server terminal:</p>
-      <CopyableCode code={installationCode} />
+      
+      <div className="overflow-x-auto max-w-full">
+        <CopyableCode code={installationCode} />
+      </div>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">How to Use</h2>
       <p className="mb-4">
         Once installed, launch <strong>ProxMenux</strong> by running:
       </p>
-      <CopyableCode code="menu" />
-        <br />
-        <br />
-        <br />
-        <br />
+      
+      <div className="overflow-x-auto max-w-full">
+        <CopyableCode code="menu" />
+      </div>
+
       <h2 className="text-2xl font-semibold mt-8 mb-4">Troubleshooting</h2>
       <p className="mb-4">
         If you encounter any issues during installation or usage, please check the{" "}
@@ -33,4 +36,3 @@ export default function InstallationPage() {
     </div>
   )
 }
-
