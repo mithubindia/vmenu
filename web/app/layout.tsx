@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <head>
-        <title>{metadata.title.default}</title>
+        <title>{metadata.title?.default ?? "ProxMenux"}</title>
         <meta name="description" content={metadata.description} />
         <meta name="application-name" content={metadata.applicationName} />
         <meta name="author" content={metadata.authors?.[0]?.name} />
