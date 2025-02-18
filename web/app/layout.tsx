@@ -25,6 +25,7 @@ const description =
     authors: [{ name: "MacRimi" }],
     creator: "MacRimi",
     publisher: "MacRimi",
+    favicon: "/app/favicon.ico",
     formatDetection: {
       email: false,
       address: false,
@@ -60,7 +61,6 @@ const description =
         { url: "/icon.svg", type: "image/svg+xml" },
       ],
       apple: [{ url: "/apple-touch-icon.png" }],
-      favicon: "/app/favicon.ico", 
     }
 
 export default function RootLayout({
