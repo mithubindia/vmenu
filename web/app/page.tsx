@@ -9,6 +9,8 @@ const Footer = dynamic(() => import("@/components/footer"), { ssr: false })
 
 export const metadata: Metadata = {
   title: "ProxMenux",
+  favicon: "/favicon.ico",
+  apple: "/apple-touch-icon.png", 
   description:
     "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution.",
   openGraph: {
