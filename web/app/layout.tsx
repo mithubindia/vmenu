@@ -12,49 +12,36 @@ const basePath = "/ProxMenux"
 const description =
   "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution."
 
-export const metadata: Metadata = {
-  title: "ProxMenux",
-  description,
-  generator: "Next.js",
-  applicationName: "ProxMenux",
-  referrer: "origin-when-cross-origin",
-  keywords: ["Proxmox VE", "ProxMenux", "menu-driven", "script", "management", "virtualization"],
-  authors: { name: "MacRimi" },
-  creator: "MacRimi",
-  publisher: "MacRimi",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL(`https://macrimi.github.io${basePath}/`),
-  openGraph: {
+  export const metadata = {
     title: "ProxMenux",
+    generator: "Next.js",
+    applicationName: "ProxMenux",
+    referrer: "origin-when-cross-origin",
+    keywords: ["Proxmox VE", "VE", "ProxMenux", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
+    authors: { name: "MacRimi" },
+    creator: "MacRimi",
+    publisher: "MacRimi",
     description,
-    url: `https://macrimi.github.io${basePath}/`,
-    images: [
-      {
-        url: `https://macrimi.github.io${basePath}/main.png`,
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ProxMenux",
-    description,
-    images: [`https://macrimi.github.io${basePath}/main.png`],
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon.png", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png" }],
-  },
-}
+    favicon: "/app/favicon.ico",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    metadataBase: new URL(`https://macrimi.github.io${basePath}/`),
+    openGraph: {
+      title: "ProxMenux",
+      description,
+      url: "/main.png",
+      images: [
+        {
+          url: `https://macrimi.github.io${basePath}/main.png`,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+  }
 
 export default function RootLayout({
   children,
@@ -71,4 +58,11 @@ export default function RootLayout({
     </html>
   )
 }
+
+
+
+
+
+
+
 
