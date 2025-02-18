@@ -25,6 +25,7 @@ const description =
     authors: [{ name: "MacRimi" }],
     creator: "MacRimi",
     publisher: "MacRimi",
+    favicon: "/app/favicon.ico",
     formatDetection: {
       email: false,
       address: false,
@@ -52,7 +53,6 @@ const description =
     },
     icons: {
       icon: [
-        { url: "/app/favicon.ico", sizes: "any" },
         { url: "/icon.svg", type: "image/svg+xml" },
       ],
       apple: [{ url: "/apple-touch-icon.png" }],
