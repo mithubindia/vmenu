@@ -1,15 +1,9 @@
 "use client"
 
-import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
-export const metadata: Metadata = {
-  title: "ProxMenux",
-  description:
-    "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-}
 
 export default function Hero() {
   return (
