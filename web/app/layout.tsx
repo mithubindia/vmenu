@@ -51,13 +51,12 @@ const description =
       images: [`https://macrimi.github.io${basePath}/main.png`],
     },
     icons: {
-      icon: [
-        { url: "/favicon.ico", sizes: "any" },
-        { url: "/icon.svg", type: "image/svg+xml" },
-      ],
-      apple: [{ url: "/apple-touch-icon.png" }],
+      icon: "/favicon.ico", 
+      shortcut: "/favicon.ico", 
+      apple: "/apple-touch-icon.png",
     },
   }
+  
 
 export default function RootLayout({
   children,
