@@ -9,6 +9,7 @@ export default function DocsLayout({ children }: LayoutProps) {
       <main className="flex-1 p-4 lg:p-8 pt-24 lg:pt-8 overflow-y-auto">
         <div className="max-w-3xl mx-auto lg:mx-0 lg:mr-auto">{children}</div>
       </main>
+	  <Footer />
     </div>
   )
 }
