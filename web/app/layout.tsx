@@ -51,10 +51,10 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico", sizes: "any" },
-      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg", type: "image/svg+xml" },
+      { url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico`, sizes: "any" },
+      { url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg`, type: "image/svg+xml" },
     ],
-    apple: [{ url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public//apple-touch-icon.png" }],
+    apple: [{ url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/apple-touch-icon.png`, sizes: "180x180" } as const],
   },
 }
 
@@ -79,4 +79,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
