@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-const basePath = "/ProxMenux"
+
 
 const description = "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution."
 
@@ -22,15 +22,15 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(`https://macrimi.github.io${basePath}/`),
+  metadataBase: new URL(`https://macrimi.github.io/ProxMenux/`),
   openGraph: {
     title: "ProxMenux",
     description,
-    url: `https://macrimi.github.io${basePath}/`,
+    url: `https://macrimi.github.io/ProxMenux/`,
     siteName: "ProxMenux",
     images: [
       {
-        url: `https://macrimi.github.io${basePath}/main.png`,
+        url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`,
         width: 1363,
         height: 735,
       },
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ProxMenux",
     description,
-    images: [`https://macrimi.github.io${basePath}/main.png`],
+    images: [`https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`],
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico", sizes: "any" },
+      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/apple-touch-icon.png" }],
+    apple: [{ url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public//apple-touch-icon.png" }],
   },
 }
