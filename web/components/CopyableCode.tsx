@@ -1,5 +1,3 @@
-
-
 "use client"
 
 import type React from "react"
@@ -30,13 +28,14 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
     <div className={cn("relative w-full", className)}>
       <pre
         className={cn(
-          "bg-gray-100 p-2 rounded-md overflow-x-auto",
+          "bg-gray-100 p-2 rounded-md",
           "text-base",
-          "w-full",
+          "w-full overflow-x-auto",
+          "flex items-center",
           language ? `language-${language}` : "",
         )}
       >
-        <code className="whitespace-pre">{decodeURIComponent(code)}</code>
+        <code className="whitespace-pre flex-1 min-w-0">{decodeURIComponent(code)}</code>
       </pre>
       <button
         onClick={copyToClipboard}
@@ -50,5 +49,3 @@ const CopyableCode: React.FC<CopyableCodeProps> = ({ code, language, className }
 }
 
 export default CopyableCode
-
-
