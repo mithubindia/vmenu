@@ -1,39 +1,7 @@
-import dynamic from "next/dynamic"
-import type { Metadata } from "next"
-import { metadata as siteMetadata } from "./metadata"
-
-const Hero = dynamic(() => import("@/components/hero"), { ssr: false })
-const Resources = dynamic(() => import("@/components/resources"), { ssr: false })
-const SupportProject = dynamic(() => import("@/components/support-project"), { ssr: false })
-const Footer = dynamic(() => import("@/components/footer"), { ssr: false })
-
-export const metadata: Metadata = {
-  ...siteMetadata,
-  title: "ProxMenux ",
-  description:
-    "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-  openGraph: {
-    ...siteMetadata.openGraph,
-    title: "ProxMenux ",
-    description:
-      "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    images: [
-      {
-        url: "https://macrimi.github.io/ProxMenux/main.png",
-        width: 1363,
-        height: 735,
-        alt: "ProxMenux ",
-      },
-    ],
-  },
-  twitter: {
-    ...siteMetadata.twitter,
-    title: "ProxMenux",
-    description:
-      "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    images: [`https://macrimi.github.io/ProxMenux/main.png`],
-  },
-}
+import Hero from "@/components/hero"
+import Resources from "@/components/resources"
+import SupportProject from "@/components/support-project"
+import Footer from "@/components/footer"
 
 export default function Home() {
   return (
@@ -45,4 +13,3 @@ export default function Home() {
     </div>
   )
 }
-
