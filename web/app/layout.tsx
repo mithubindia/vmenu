@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <head>
-        <title>{metadata.title?.default}</title>
+        <title>{typeof metadata.title === "string" ? metadata.title : metadata.title?.default}</title>
         <meta name="description" content={metadata.description} />
         <meta property="og:title" content={metadata.openGraph?.title} />
         <meta property="og:description" content={metadata.openGraph?.description} />
@@ -34,5 +34,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
 
