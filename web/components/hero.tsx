@@ -1,8 +1,23 @@
 "use client"
 
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "ProxMenux",
+  description:
+    "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
+    siteName: "ProxMenux",
+    images: [
+      {
+        url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`,
+        width: 1363,
+        height: 735,
+      },
+    ],
+}
 
 export default function Hero() {
   return (
