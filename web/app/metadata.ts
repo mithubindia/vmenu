@@ -5,10 +5,8 @@ import type { Metadata } from 'next'
 const description = "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks."
 
 export const metadata: Metadata = {
-  title: {
-    default: "ProxMenux",
-    template: "%s | ProxMenux",
-  },
+
+  title: "ProxMenux",
   description,
   generator: "Next.js",
   applicationName: "ProxMenux",
