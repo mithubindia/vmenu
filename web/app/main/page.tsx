@@ -1,7 +1,7 @@
 import Hero from "@/components/hero"
 import Resources from "@/components/resources"
 import SupportProject from "@/components/support-project"
-import Footer from "@/components/footer"
+
 
 
 export default function Home() {
@@ -10,7 +10,6 @@ export default function Home() {
       <Hero />
       <Resources />
       <SupportProject />
-      <Footer />
     </div>
   )
 }
