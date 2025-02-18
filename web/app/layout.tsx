@@ -41,6 +41,10 @@ const description =
       locale: "en_US",
       type: "website",
     },
+    icons: {
+      shortcut: "/favicon.ico", 
+      apple: "/apple-touch-icon.png", 
+    },
   }
 
 export default function RootLayout({
