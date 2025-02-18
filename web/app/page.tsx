@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "ProxMenux",
     description:
      "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution.",
-    url: "https://macrimi.github.io/",
+    url: "https://macrimi.github.io/ProxMenux/",
     siteName: "ProxMenux",
     images: [
       {

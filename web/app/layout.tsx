@@ -23,6 +23,7 @@ const description =
     publisher: "MacRimi",
     description,
     favicon: "/favicon.ico",
+    apple: "/apple-touch-icon.png", 
     formatDetection: {
       email: false,
       address: false,
@@ -40,10 +41,6 @@ const description =
       ],
       locale: "en_US",
       type: "website",
-    },
-    icons: {
-      shortcut: "/favicon.ico", 
-      apple: "/apple-touch-icon.png", 
     },
   }
 
