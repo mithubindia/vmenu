@@ -7,7 +7,7 @@ import type React from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
-const basePath = "/ProxMenux"
+
 
 export const metadata = {
   title: "ProxMenux",
@@ -25,7 +25,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(`https://macrimi.github.io${basePath}/`),
+  metadataBase: new URL(`https://macrimi.github.io/ProxMenux/`),
   openGraph: {
     title: "ProxMenux",
     description:
@@ -51,10 +51,10 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico`, sizes: "any" },
-      { url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg`, type: "image/svg+xml" },
+      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico", sizes: "any" },
+      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/apple-touch-icon.png` }],
+    apple: [{ url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public//apple-touch-icon.png" }],
   },
 }
 
