@@ -25,13 +25,12 @@ const description =
     authors: [{ name: "MacRimi" }],
     creator: "MacRimi",
     publisher: "MacRimi",
-    favicon: "/app/favicon.ico",
     formatDetection: {
       email: false,
       address: false,
       telephone: false,
     },
-    metadataBase: new URL(`https://macrimi.github.io${basePath}/`), 
+    metadataBase: new URL(`https://macrimi.github.io${basePath}/`),
     openGraph: {
       title: "ProxMenux",
       description,
@@ -42,13 +41,11 @@ const description =
           url: `https://macrimi.github.io${basePath}/main.png`,
           width: 1200,
           height: 630,
-          alt: "ProxMenux Dashboard Preview", 
         },
       ],
       locale: "en_US",
       type: "website",
     },
-    
     twitter: {
       card: "summary_large_image",
       title: "ProxMenux",
@@ -57,11 +54,12 @@ const description =
     },
     icons: {
       icon: [
-        { url: "/favicon.ico", sizes: "any" },
+        { url: "/app/favicon.ico", sizes: "any" },
         { url: "/icon.svg", type: "image/svg+xml" },
       ],
       apple: [{ url: "/apple-touch-icon.png" }],
-    }
+    },
+  
 
 export default function RootLayout({
   children,
