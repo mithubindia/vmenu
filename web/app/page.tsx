@@ -1,29 +1,22 @@
 import dynamic from "next/dynamic"
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import { metadata as siteMetadata } from './metadata'
 
 const Hero = dynamic(() => import("@/components/hero"), { ssr: false })
 const Resources = dynamic(() => import("@/components/resources"), { ssr: false })
 const SupportProject = dynamic(() => import("@/components/support-project"), { ssr: false })
 const Footer = dynamic(() => import("@/components/footer"), { ssr: false })
 
-
 export const metadata: Metadata = {
-  title: "ProxMenux",
-  description:
-    "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution.",
+  ...siteMetadata,
+  title: "ProxMenux - Home",
   openGraph: {
-    title: "ProxMenux",
-    description:
-     "A menu-driven script for Proxmox VE management, designed to facilitate productivity, it simplifies automation and streamlines task execution.",
-    url: "https://macrimi.github.io/ProxMenux/",
-    siteName: "ProxMenux",
-    images: [
-      {
-        url: "https://macrimi.github.io/ProxMenux/main.png", 
-      },
-    ],
-    locale: "en_US",
-    type: "website",
+    ...siteMetadata.openGraph,
+    title: "ProxMenux - Home",
+  },
+  twitter: {
+    ...siteMetadata.twitter,
+    title: "ProxMenux - Home",
   },
 }
 
