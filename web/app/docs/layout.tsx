@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import DocSidebar from "@/components/doc-sidebar"
+import DocSidebar from "@/components/DocSidebar"
 
 interface LayoutProps {
   children: ReactNode
