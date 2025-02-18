@@ -7,8 +7,6 @@ import type React from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
-
-
 export const metadata = {
   title: "ProxMenux",
   generator: "Next.js",
@@ -30,13 +28,14 @@ export const metadata = {
     title: "ProxMenux",
     description:
       "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    url: "/main.png",
+    url: "https://macrimi.github.io/ProxMenux/",
     siteName: "ProxMenux",
     images: [
       {
-        url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`,
+        url: "https://macrimi.github.io/ProxMenux/main.png",
         width: 1363,
         height: 735,
+        alt: "ProxMenux",
       },
     ],
     locale: "en_US",
@@ -47,14 +46,14 @@ export const metadata = {
     title: "ProxMenux",
     description:
       "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    images: [`https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`],
+    images: ["https://macrimi.github.io/ProxMenux/main.png"],
   },
   icons: {
     icon: [
-      { url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico`, sizes: "any" },
-      { url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg`, type: "image/svg+xml" },
+      { url: "https://macrimi.github.io/ProxMenux/favicon.ico", sizes: "any" },
+      { url: "https://macrimi.github.io/ProxMenux/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/apple-touch-icon.png`, sizes: "180x180" } as const],
+    apple: [{ url: "https://macrimi.github.io/ProxMenux/apple-touch-icon.png", sizes: "180x180" } as const],
   },
 }
 
@@ -62,7 +61,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="description" content={metadata.description} />
+        <meta property="og:title" content={metadata.openGraph?.title} />
+        <meta property="og:description" content={metadata.openGraph?.description} />
+        <meta property="og:image" content={metadata.openGraph?.images?.[0]?.url} />
+        <meta property="og:url" content={metadata.openGraph?.url} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metadata.twitter?.title} />
+        <meta name="twitter:description" content={metadata.twitter?.description} />
+        <meta name="twitter:image" content={metadata.twitter?.images?.[0]} />
         <link rel="canonical" href={metadata.metadataBase.href} />
+
+        {/* Favicon y Apple Icons */}
         {metadata.icons.icon.map((icon, index) => (
           <link key={index} rel="icon" type={icon.type} sizes={icon.sizes} href={icon.url} />
         ))}
