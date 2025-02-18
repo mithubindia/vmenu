@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export default function DocsLayout({ children }: LayoutProps) {
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-white">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-white text-gray-900">
       <DocSidebar />
       <main className="flex-1 p-4 lg:p-8 pt-24 lg:pt-8 overflow-y-auto">
         <div className="max-w-3xl mx-auto lg:mx-0 lg:mr-auto">{children}</div>

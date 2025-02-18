@@ -67,7 +67,7 @@ export default function DocSidebar() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsMobileMenuOpen(false)
       }
     }
@@ -126,30 +126,27 @@ export default function DocSidebar() {
     }
   }
 
-return (
-  <>
-    
-    <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-gray-100 border-b border-gray-200">
-      <button
-        className="w-full p-4 text-left flex items-center justify-between"
-        onClick={toggleMobileMenu}
-        aria-label="Toggle menu"
+  return (
+    <>
+      <div className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-gray-100 border-b border-gray-200">
+        <button
+          className="w-full p-4 text-left flex items-center justify-between"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="font-semibold">Documentation</span>
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
+      <nav
+        className={`fixed lg:sticky lg:top-16 left-0 w-full lg:w-64 h-[calc(100vh-104px)] lg:h-[calc(100vh-64px)] bg-gray-100 p-4 lg:p-6 transform ${
+          isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
+        } lg:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
       >
-        <span className="font-semibold">Documentation</span>
-        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </button>
-    </div>
-
-    <nav
-      className={`fixed md:static top-[104px] left-0 w-full md:min-w-[260px] md:max-w-[260px] h-[calc(100vh-104px)] md:h-auto bg-gray-100 p-4 md:p-6 transform ${
-        isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
-      } md:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
-    >
-      <h2 className="text-lg font-semibold mb-4 text-gray-900 md:mt-0 sr-only md:not-sr-only">Documentation</h2>
-      <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
-    </nav>
-  </>
-)
+        <h2 className="text-lg font-semibold mb-4 text-gray-900 lg:mt-0 sr-only lg:not-sr-only">Documentation</h2>
+        <ul className="space-y-2">{sidebarItems.map(renderMenuItem)}</ul>
+      </nav>
+    </>
+  )
 }
-
 
