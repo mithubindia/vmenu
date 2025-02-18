@@ -39,8 +39,6 @@ const description =
       images: [
         {
           url: `https://macrimi.github.io${basePath}/main.png`,
-          width: 1200,
-          height: 630,
         },
       ],
       locale: "en_US",
@@ -59,7 +57,7 @@ const description =
       ],
       apple: [{ url: "/apple-touch-icon.png" }],
     },
-  
+  }
 
 export default function RootLayout({
   children,
