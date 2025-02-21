@@ -45,6 +45,7 @@ GN="\033[1;92m"
 RD="\033[01;31m"
 CL="\033[m"
 BL="\033[36m"
+PP="\033[38;2;59;50;106m"
 BOLD="\033[1m"
 BFR="\\r\\033[K"
 HOLD="-"
@@ -103,7 +104,8 @@ msg_info() {
 # Display info2 message
 msg_info2() {
     local msg="$1"
-    echo -e "${TAB}${BOLD}${YW}${HOLD}${msg}${CL}"
+    echo -e "${TAB}${BOLD}${PP}${HOLD}${msg}${CL}"
+    echo -e ""
 }
 
 # Display success message
@@ -114,6 +116,7 @@ msg_success() {
     printf "\e[?25h"
     local msg="$1"
     echo -e "${TAB}${BOLD}${BL}${HOLD}${msg}${CL}"
+    echo -e ""
 }
 
 
