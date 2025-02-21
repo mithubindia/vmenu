@@ -104,7 +104,6 @@ msg_info() {
 msg_info2() {
     local msg="$1"
     echo -e "${TAB}${BOLD}${YW}${HOLD}${msg}${CL}"
-    echo -e ""
 }
 
 # Display success message
