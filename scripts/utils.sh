@@ -39,6 +39,7 @@ VENV_PATH="/opt/googletrans-env"
 TRANSLATION_CONTEXT="Context: Technical message for Proxmox and IT. Translate:"
 
 # Color and style definitions
+NV="\033[38;2;200;50;255m"
 YW="\033[33m"
 YWB="\033[1;33m"
 GN="\033[1;92m"
@@ -125,7 +126,7 @@ msg_warn() {
     fi
     printf "\e[?25h"
     local msg="$1"
-    echo -e "${BFR}${TAB}${YWB}${CL} ${YWB}${msg}${CL}"
+    echo -e "${BFR}${TAB}${NV}${CL} ${YWB}${msg}${CL}"
 }
 
 
