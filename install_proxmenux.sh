@@ -84,8 +84,8 @@ show_progress() {
     local message="$3"
     
     echo -e "\n${BOLD}${BL}${TAB}Installing ProxMenu: Step $step of $total${CL}"
-    msg_info2 "$message"
     echo
+    msg_info2 "$message"
 }
 
 
