@@ -124,7 +124,6 @@ msg_title() {
     local msg="$1"
     echo -e "\n"
     echo -e "${TAB}${BOLD}${HOLD}${BOR}${msg}${BOR}${HOLD}${CL}"
-Broadcast message from systemd-journald@contructor2 (Mon 2025-02-24 19:23:41 CET):
 }
 
 # Display warning or highlighted information message
