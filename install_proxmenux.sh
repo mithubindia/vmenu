@@ -46,7 +46,7 @@ LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu"
 VENV_PATH="/opt/googletrans-env"
 
- Source utils.sh for common functions and styles
+# Source utils.sh for common functions and styles
 if ! source <(curl -sSf "$UTILS_URL"); then
     echo "Error: Could not load utils.sh from $UTILS_URL"
     exit 1
