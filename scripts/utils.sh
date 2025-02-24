@@ -39,7 +39,6 @@ VENV_PATH="/opt/googletrans-env"
 TRANSLATION_CONTEXT="Context: Technical message for Proxmox and IT. Translate:"
 
 # Color and style definitions
-NV="\033[38;2;200;50;255m"
 YW="\033[33m"
 YWB="\033[1;33m"
 GN="\033[1;92m"
@@ -49,6 +48,7 @@ BL="\033[36m"
 BOLD="\033[1m"
 BFR="\\r\\033[K"
 HOLD="-"
+BOR=" | "
 CM="${GN}✓${CL}"
 TAB="    "  
 
@@ -118,6 +118,14 @@ msg_success() {
     echo -e ""
 }
 
+
+# Display title sctip
+msg_title() {
+    local msg="$1"
+    echo -e "\n"
+    echo -e "${TAB}${BOLD}${HOLD}${BOR}${msg}${BOR}${HOLD}${CL}"
+Broadcast message from systemd-journald@contructor2 (Mon 2025-02-24 19:23:41 CET):
+}
 
 # Display warning or highlighted information message
 msg_warn() {
