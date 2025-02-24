@@ -234,7 +234,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 clear
-show_proxmenux_logo
+#show_proxmenux_logo
 
 echo -e "${BOLD}${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
