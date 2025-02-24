@@ -47,7 +47,8 @@ MENU_SCRIPT="menu"
 VENV_PATH="/opt/googletrans-env"
 
  Source utils.sh for common functions and styles
-if ! source <(curl -sSf "$UTILS_URL"); then
+#if ! source <(curl -sSf "$UTILS_URL"); then
+if ! source <(curl -sSf "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"); then
     echo "Error: Could not load utils.sh from $UTILS_URL"
     exit 1
 fi
