@@ -119,7 +119,7 @@ msg_success() {
 }
 
 
-# Display title sctip
+# Display title script
 msg_title() {
     local msg="$1"
     echo -e "\n"
