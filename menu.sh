@@ -43,7 +43,7 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 # ==========================================================
 
-show_proxmenu_logo "$YW"
+show_proxmenux_logo
 
 
 

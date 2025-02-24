@@ -214,5 +214,5 @@ show_main_menu() {
 
 
     clear
-    show_proxmenu_logo "$YW"
+    show_proxmenux_logo
     show_main_menu

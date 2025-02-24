@@ -10,7 +10,6 @@
 # Last Updated: 28/01/2025
 # ==========================================================
 # Description:
-# Description:
 # This script automates the process of importing disk images into Proxmox VE virtual machines (VMs), 
 # making it easy to attach pre-existing disk files without manual configuration.
 #
