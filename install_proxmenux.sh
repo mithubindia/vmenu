@@ -41,16 +41,16 @@ INSTALL_DIR="/usr/local/bin"
 BASE_DIR="/usr/local/share/proxmenux"
 CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
-#UTILS_FILE="$BASE_DIR/utils.sh"
+UTILS_FILE="$BASE_DIR/utils.sh"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu"
 VENV_PATH="/opt/googletrans-env"
 
-# Source utils.sh for common functions and styles
-#if ! source <(curl -sSf "$UTILS_URL"); then
-#    echo "Error: Could not load utils.sh from $UTILS_URL"
-#    exit 1
-#fi
+ Source utils.sh for common functions and styles
+if ! source <(curl -sSf "$UTILS_URL"); then
+    echo "Error: Could not load utils.sh from $UTILS_URL"
+    exit 1
+fi
 
 # ==========================================================
 
