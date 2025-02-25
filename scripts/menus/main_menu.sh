@@ -54,7 +54,7 @@ show_menu() {
 done
 }
 
-# Main flow
+show_proxmenux_logo
 if [[ "$LANGUAGE" != "en" ]]; then
     msg_lang "$(translate "Generating automatic translations...")"
 fi

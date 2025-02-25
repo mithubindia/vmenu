@@ -148,7 +148,7 @@ show_menu() {
     done
 }
 
-
+show_proxmenux_logo
 if [[ "$LANGUAGE" != "en" ]]; then
     msg_lang "$(translate "Generating automatic translations...")"
 fi
