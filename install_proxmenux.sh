@@ -43,7 +43,7 @@ CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 UTILS_FILE="$BASE_DIR/utils.sh"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
-MENU_SCRIPT="menu"
+MENU_SCRIPT="menu.sh"
 VENV_PATH="/opt/googletrans-env"
 
 # Source utils.sh for common functions and styles
@@ -221,7 +221,7 @@ echo -e "${YW}╰─────────────────────
 echo
 echo -ne "${GN}"
 type_text "To run  ProxMenu, simply execute this command in the console or terminal:"
-echo -e "${YWB}    menu${CL}"
+echo -e "${YWB}    menu.sh${CL}"
 echo
 
 
@@ -236,6 +236,7 @@ fi
 clear
 show_proxmenux_logo
 
+echo
 echo -e "${BOLD}${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
 echo -e "${TAB}- curl (if not already installed)"
