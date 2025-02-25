@@ -2358,14 +2358,13 @@ for index in "${!sorted_options[@]}"; do
   fi
     msg_success "$(translate "All changes applied. No reboot required.")"
 else
-        # Si no se seleccionaron opciones, salir sin hacer nada
         exit 0
 fi
 
 }
 
 
-# Main script execution
+
 show_proxmenux_logo
 if [[ "$LANGUAGE" != "en" ]]; then
     msg_lang "$(translate "Generating automatic translations...")"

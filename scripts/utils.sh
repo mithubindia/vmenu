@@ -314,9 +314,7 @@ echo -e
 else
 
 
-# Logo for terminal SSH
-
-     
+# Logo for terminal SSH     
 TEXT=(
     ""
     ""

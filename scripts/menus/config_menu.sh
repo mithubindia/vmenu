@@ -27,7 +27,6 @@ initialize_cache
 
 show_config_menu() {
     
-    cleanup
     while true; do
         OPTION=$(whiptail --title "$(translate "Configuration Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "Change Language")" \
@@ -62,9 +61,7 @@ change_language() {
             "fr" "$(translate "French")" \
             "de" "$(translate "German")" \
             "it" "$(translate "Italian")" \
-            "pt" "$(translate "Portuguese")" \
-            "zh-cn" "$(translate "Simplified Chinese")" \
-            "ja" "$(translate "Japanese")" 3>&1 1>&2 2>&3)
+            "pt" "$(translate "Portuguese")" 3>&1 1>&2 2>&3)
 
     if [ -z "$LANGUAGE" ]; then
         msg_error "$(translate "No language selected.")"
@@ -246,7 +243,5 @@ uninstall_proxmenu() {
 }
 
 
-if [[ "$LANGUAGE" != "en" ]]; then
-    msg_lang "$(translate "Generating automatic translations...")"
-fi
+
 show_config_menu
