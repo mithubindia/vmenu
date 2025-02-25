@@ -43,7 +43,9 @@ show_menu() {
         done
 
         menu_items+=("$(printf "%2d %-40s" "$((${#scripts[@]}+1))" "$(translate "Return to Main Menu")")" "")
-
+        
+        cleanup
+        
         script_selection=$(whiptail --title "$(translate "Post-Installation Scripts Menu")" \
                                     --menu "\n$HEADER" 20 78 $((${#scripts[@]}+1)) \
                                     "${menu_items[@]}" 3>&1 1>&2 2>&3)
@@ -66,5 +68,10 @@ show_menu() {
         fi
     done
 }
+
+
+if [[ "$LANGUAGE" != "en" ]]; then
+    msg_lang "$(translate "Generating automatic translations...")"
+fi
 
 show_menu

@@ -58,7 +58,7 @@ initialize_cache
 OS_CODENAME="$(grep "VERSION_CODENAME=" /etc/os-release | cut -d"=" -f 2 | xargs )"
 RAM_SIZE_GB=$(( $(vmstat -s | grep -i "total memory" | xargs | cut -d" " -f 1) / 1024 / 1000))
 NECESSARY_REBOOT=0
-SCRIPT_TITLE="Customizable script settings for post-installation of Proxmox"
+SCRIPT_TITLE="Customizable post-installation optimization script"
 
 # ==========================================================
 

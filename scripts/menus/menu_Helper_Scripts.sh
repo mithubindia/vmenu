@@ -95,7 +95,9 @@ show_menu() {
         done
 
         menu_items+=("$(translate "Return to Main Menu")" "")
-
+        
+        cleanup
+        
         script_selection=$(whiptail --title "$(translate "Essential Proxmox VE Helper-Scripts")" \
                                     --menu "\n$HEADER\n\n$(translate "Select a script to execute")" 25 78 16 \
                                     "${menu_items[@]}" 3>&1 1>&2 2>&3)
@@ -146,4 +148,8 @@ show_menu() {
     done
 }
 
+
+if [[ "$LANGUAGE" != "en" ]]; then
+    msg_lang "$(translate "Generating automatic translations...")"
+fi
 show_menu
