@@ -20,6 +20,23 @@ const sidebarItems: MenuItem[] = [
   { title: "Introduction", href: "/docs/introduction" },
   { title: "Installation", href: "/docs/installation" },
   {
+    title: "Post-Install Script",
+    submenu: [
+      { title: "Overview", href: "/docs/post-install" },
+      { title: "Basic Settings", href: "/docs/post-install/basic-settings" },
+      { title: "System", href: "/docs/post-install/system" },
+      { title: "Hardware", href: "/docs/post-install/hardware" },
+      { title: "Virtualization", href: "/docs/post-install/virtualization" },
+      { title: "Network", href: "/docs/post-install/network" },
+      { title: "Storage", href: "/docs/post-install/storage" },
+      { title: "Security", href: "/docs/post-install/security" },
+      { title: "Customization", href: "/docs/post-install/customization" },
+      { title: "Monitoring", href: "/docs/post-install/monitoring" },
+      { title: "Performance", href: "/docs/post-install/performance" },
+      { title: "Optional", href: "/docs/post-install/optional" },
+    ],
+  },
+  {
     title: "GPUs and Coral",
     submenu: [
       { title: "HW iGPU acceleration to an LXC", href: "/docs/hardware/igpu-acceleration-lxc" },
