@@ -31,7 +31,7 @@ BASE_DIR="/usr/local/share/proxmenux"
 CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
-MENU_SCRIPT="menu.sh"
+MENU_SCRIPT="menu"
 VENV_PATH="/opt/googletrans-env"
 
 
@@ -39,6 +39,12 @@ VENV_PATH="/opt/googletrans-env"
 TRANSLATION_CONTEXT="Context: Technical message for Proxmox and IT. Translate:"
 
 # Color and style definitions
+NEON_PURPLE_BLUE="\033[38;5;99m"
+WHITE="\033[38;5;15m" 
+RESET="\033[0m"  
+DARK_GRAY="\033[38;5;244m"
+DARK_GRAY="\033[38;5;244m"
+DARK_GRAY="\033[38;5;244m"
 YW="\033[33m"
 YWB="\033[1;33m"
 GN="\033[1;92m"
@@ -50,7 +56,7 @@ BFR="\\r\\033[K"
 HOLD="-"
 BOR=" | "
 CM="${GN}✓${CL}"
-TAB="    "  
+TAB="    "   
 
 
 # Create and display spinner
@@ -84,11 +90,23 @@ type_text() {
 
 # Stop the spinner if it is active
 cleanup() {
-    if [ -n "$spinner_pid" ]; then
-        kill $spinner_pid 2>/dev/null
+    if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
+        kill $SPINNER_PID > /dev/null
     fi
-    echo -e "\n$(translate "Operation canceled by the user.")"
-    exit 1
+    printf "\r\033[K"    
+    printf "\033[F\033[K"  
+    printf "\033[F\033[K"  
+    printf "\e[?25h"
+
+}
+
+# Display trnaslate message with spinner
+msg_lang() {
+    local msg="$1"
+    echo -e "\n"
+    echo -ne "${TAB}${YW}${HOLD}${msg}"
+    spinner &
+    SPINNER_PID=$!
 }
 
 
@@ -258,14 +276,6 @@ if [[ -z "$SSH_TTY" && -z "$(who am i | awk '{print $NF}' | grep -E '([0-9]{1,3}
 
 # Logo for terminal noVNC
 
-
-# Códigos ANSI para colores y negrita
-BOLD="\033[1m"
-NEON_PURPLE_BLUE="\033[38;5;99m"  # Azul-violeta más frío
-WHITE="\033[38;5;15m"  # Blanco ANSI
-RESET="\033[0m"  # Reiniciar color
-
-# Logo ASCII con colores ANSI
 LOGO=$(cat << "EOF"
 \e[0m\e[38;2;61;61;61m▆\e[38;2;60;60;60m▄\e[38;2;54;54;54m▂\e[0m \e[38;2;0;0;0m             \e[0m \e[38;2;54;54;54m▂\e[38;2;60;60;60m▄\e[38;2;61;61;61m▆\e[0m
 \e[38;2;59;59;59;48;2;62;62;62m▏  \e[38;2;61;61;61;48;2;37;37;37m▇\e[0m\e[38;2;60;60;60m▅\e[38;2;56;56;56m▃\e[38;2;37;37;37m▁       \e[38;2;36;36;36m▁\e[38;2;56;56;56m▃\e[38;2;60;60;60m▅\e[38;2;61;61;61;48;2;37;37;37m▇\e[48;2;62;62;62m  \e[0m\e[7m\e[38;2;60;60;60m▁\e[0m
@@ -280,7 +290,7 @@ LOGO=$(cat << "EOF"
 EOF
 )
 
-# Definir el texto que aparecerá a la derecha del logo
+
 TEXT=(
     ""
     ""
@@ -294,12 +304,11 @@ TEXT=(
     ""
 )
 
-# Convertir el logo en un array de líneas
+
 mapfile -t logo_lines <<< "$LOGO"
 
-# Imprimir cada línea con el separador en blanco y el texto alineado correctamente
 for i in {0..9}; do
-    echo -e "${logo_lines[i]}  ${WHITE}│${RESET}  ${TEXT[i]}"
+    echo -e "${TAB}${logo_lines[i]}  ${WHITE}│${RESET}  ${TEXT[i]}"
 done
 
 
@@ -308,13 +317,7 @@ else
 
 # Logo for terminal SSH
 
-DARK_GRAY="\033[38;5;244m"   
-ORANGE="\033[38;5;202m"     
-BOLD="\033[1m"              
-NEON_PURPLE_BLUE="\033[38;5;99m"  
-WHITE="\033[38;5;15m" 
-RESET="\033[0m"        
-
+     
 TEXT=(
     ""
     ""
@@ -349,7 +352,7 @@ LOGO=(
 )
 
 for i in {0..12}; do
-    echo -e "${LOGO[i]}  ${WHITE}│${RESET}  ${TEXT[i]}"
+    echo -e "${TAB}${LOGO[i]}  │${RESET}  ${TEXT[i]}"
 done
 
 fi

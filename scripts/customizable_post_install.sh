@@ -2182,6 +2182,8 @@ for option in "${sorted_options[@]}"; do
     previous_category="$category"
 done
 
+cleanup
+
 local selected_indices=$(whiptail --title "$(translate "ProxMenux Custom Script for Post-Installation")" \
                                   --checklist --separate-output \
                                   "\n$HEADER\n\n$(translate "Choose options to configure:")\n$(translate "Use [SPACE] to select/deselect and [ENTER] to confirm:")" \
@@ -2364,6 +2366,9 @@ fi
 
 
 # Main script execution
-show_proxmenux_logo "$YW"
+show_proxmenux_logo
+if [[ "$LANGUAGE" != "en" ]]; then
+    msg_lang "$(translate "Generating automatic translations...")"
+fi
 main_menu
 

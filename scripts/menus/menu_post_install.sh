@@ -58,18 +58,9 @@ show_menu() {
             index=$((selected_number - 1))
             if [ $index -ge 0 ] && [ $index -lt ${#scripts[@]} ]; then
                 IFS='|' read -r name repository command <<< "${scripts[$index]}"
-                if whiptail --title "$(translate "Confirm Execution")" \
-                            --yesno "$(translate "Are you sure you want to execute:") $name?" 10 60; then
-                    msg_info2 "$(translate "Executing script:") $name"
-                    eval "$command"
-                    msg_ok "$(translate "Script completed.")"
-                    msg_success "$(translate "Press Enter to return to the menu...")"
-                    read -r
-                else
-                    msg_info2 "$(translate "Script execution cancelled.")"
-                    sleep 2
-                fi
+                eval "$command"
             fi
+
         else
             exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
         fi
