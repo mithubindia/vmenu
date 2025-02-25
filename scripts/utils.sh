@@ -124,6 +124,7 @@ msg_title() {
     local msg="$1"
     echo -e "\n"
     echo -e "${TAB}${BOLD}${HOLD}${BOR}${msg}${BOR}${HOLD}${CL}"
+    echo -e "\n"
 }
 
 
