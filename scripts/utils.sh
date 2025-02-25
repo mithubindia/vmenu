@@ -39,7 +39,6 @@ VENV_PATH="/opt/googletrans-env"
 TRANSLATION_CONTEXT="Context: Technical message for Proxmox and IT. Translate:"
 
 # Color and style definitions
-NV="\033[38;2;200;50;255m"
 YW="\033[33m"
 YWB="\033[1;33m"
 GN="\033[1;92m"
@@ -49,6 +48,7 @@ BL="\033[36m"
 BOLD="\033[1m"
 BFR="\\r\\033[K"
 HOLD="-"
+BOR=" | "
 CM="${GN}✓${CL}"
 TAB="    "  
 
@@ -116,6 +116,14 @@ msg_success() {
     local msg="$1"
     echo -e "${TAB}${BOLD}${BL}${HOLD}${msg}${CL}"
     echo -e ""
+}
+
+
+# Display title script
+msg_title() {
+    local msg="$1"
+    echo -e "\n"
+    echo -e "${TAB}${BOLD}${HOLD}${BOR}${msg}${BOR}${HOLD}${CL}"
 }
 
 
@@ -242,21 +250,107 @@ print(translate_text('$text', '$dest_lang'))
 
 
 
-show_proxmenu_logo() {
-  local color="${1:-$GN}"  
+show_proxmenux_logo() {
+clear
 
-  clear
-  echo -e "${color}"
-  cat << 'EOF'
-██████╗ ██████╗  ██████╗ ██╗  ██╗███╗   ███╗███████╗███╗   ██╗██╗   ██╗██╗  ██╗
-██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝████╗ ████║██╔════╝████╗  ██║██║   ██║╚██╗██╔╝
-██████╔╝██████╔╝██║   ██║ ╚███╔╝ ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║ ╚███╔╝ 
-██╔═══╝ ██╔══██╗██║   ██║ ██╔██╗ ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║ ██╔██╗ 
-██║     ██║  ██║╚██████╔╝██╔╝ ██╗██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝██╔╝ ██╗
-╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝
+if [[ -z "$SSH_TTY" && -z "$(who am i | awk '{print $NF}' | grep -E '([0-9]{1,3}\.){3}[0-9]{1,3}')" ]]; then
 
-              - A menu-driven script for Proxmox VE management -
+# Logo for terminal noVNC
 
+
+# Códigos ANSI para colores y negrita
+BOLD="\033[1m"
+NEON_PURPLE_BLUE="\033[38;5;99m"  # Azul-violeta más frío
+WHITE="\033[38;5;15m"  # Blanco ANSI
+RESET="\033[0m"  # Reiniciar color
+
+# Logo ASCII con colores ANSI
+LOGO=$(cat << "EOF"
+\e[0m\e[38;2;61;61;61m▆\e[38;2;60;60;60m▄\e[38;2;54;54;54m▂\e[0m \e[38;2;0;0;0m             \e[0m \e[38;2;54;54;54m▂\e[38;2;60;60;60m▄\e[38;2;61;61;61m▆\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[38;2;61;61;61;48;2;37;37;37m▇\e[0m\e[38;2;60;60;60m▅\e[38;2;56;56;56m▃\e[38;2;37;37;37m▁       \e[38;2;36;36;36m▁\e[38;2;56;56;56m▃\e[38;2;60;60;60m▅\e[38;2;61;61;61;48;2;37;37;37m▇\e[48;2;62;62;62m  \e[0m\e[7m\e[38;2;60;60;60m▁\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[7m\e[38;2;61;61;61m▂\e[0m\e[38;2;62;62;62;48;2;61;61;61m┈\e[48;2;62;62;62m \e[48;2;61;61;61m┈\e[0m\e[38;2;60;60;60m▆\e[38;2;57;57;57m▄\e[38;2;48;48;48m▂\e[0m \e[38;2;47;47;47m▂\e[38;2;57;57;57m▄\e[38;2;60;60;60m▆\e[38;2;62;62;62;48;2;61;61;61m┈\e[48;2;62;62;62m \e[48;2;61;61;61m┈\e[0m\e[7m\e[38;2;60;60;60m▂\e[38;2;57;57;57m▄\e[38;2;47;47;47m▆\e[0m \e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[38;2;32;32;32m▏\e[7m\e[38;2;39;39;39m▇\e[38;2;57;57;57m▅\e[38;2;60;60;60m▃\e[0m\e[38;2;40;40;40;48;2;61;61;61m▁\e[48;2;62;62;62m  \e[38;2;54;54;54;48;2;61;61;61m┊\e[48;2;62;62;62m  \e[38;2;39;39;39;48;2;61;61;61m▁\e[0m\e[7m\e[38;2;60;60;60m▃\e[38;2;57;57;57m▅\e[38;2;38;38;38m▇\e[0m \e[38;2;193;60;2m▃\e[38;2;217;67;2m▅\e[38;2;225;70;2m▇\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[38;2;32;32;32m▏\e[0m \e[38;2;203;63;2m▄\e[38;2;147;45;1m▂\e[0m \e[7m\e[38;2;55;55;55m▆\e[38;2;60;60;60m▄\e[38;2;61;61;61m▂\e[38;2;60;60;60m▄\e[38;2;55;55;55m▆\e[0m \e[38;2;144;44;1m▂\e[38;2;202;62;2m▄\e[38;2;219;68;2m▆\e[38;2;231;72;3;48;2;226;70;2m┈\e[48;2;231;72;3m  \e[48;2;225;70;2m▉\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[38;2;32;32;32m▏\e[7m\e[38;2;121;37;1m▉\e[0m\e[38;2;0;0;0;48;2;231;72;3m  \e[0m\e[38;2;221;68;2m▇\e[38;2;208;64;2m▅\e[38;2;212;66;2m▂\e[38;2;123;37;0m▁\e[38;2;211;65;2m▂\e[38;2;207;64;2m▅\e[38;2;220;68;2m▇\e[48;2;231;72;3m  \e[38;2;231;72;3;48;2;225;70;2m┈\e[0m\e[7m\e[38;2;221;68;2m▂\e[0m\e[38;2;44;13;0;48;2;231;72;3m  \e[38;2;231;72;3;48;2;225;70;2m▉\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[38;2;32;32;32m▏\e[0m \e[7m\e[38;2;190;59;2m▅\e[38;2;216;67;2m▃\e[38;2;225;70;2m▁\e[0m\e[38;2;95;29;0;48;2;231;72;3m  \e[38;2;231;72;3;48;2;230;71;2m┈\e[48;2;231;72;3m  \e[0m\e[7m\e[38;2;225;70;2m▁\e[38;2;216;67;2m▃\e[38;2;191;59;2m▅\e[0m  \e[38;2;0;0;0;48;2;231;72;3m  \e[38;2;231;72;3;48;2;225;70;2m▉\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[38;2;32;32;32m▏   \e[0m \e[7m\e[38;2;172;53;1m▆\e[38;2;213;66;2m▄\e[38;2;219;68;2m▂\e[38;2;213;66;2m▄\e[38;2;174;54;2m▆\e[0m \e[38;2;0;0;0m   \e[0m \e[38;2;0;0;0;48;2;231;72;3m  \e[38;2;231;72;3;48;2;225;70;2m▉\e[0m
+\e[38;2;59;59;59;48;2;62;62;62m▏  \e[0m\e[38;2;32;32;32m▏             \e[0m \e[38;2;0;0;0;48;2;231;72;3m  \e[38;2;231;72;3;48;2;225;70;2m▉\e[0m
+\e[7m\e[38;2;52;52;52m▆\e[38;2;59;59;59m▄\e[38;2;61;61;61m▂\e[0m\e[38;2;31;31;31m▏             \e[0m \e[7m\e[38;2;228;71;2m▂\e[38;2;221;69;2m▄\e[38;2;196;60;2m▆\e[0m
 EOF
-  echo -e "${CL}"
+)
+
+# Definir el texto que aparecerá a la derecha del logo
+TEXT=(
+    ""
+    ""
+    "${BOLD}ProxMenux${RESET}"
+    ""
+    "${BOLD}${NEON_PURPLE_BLUE}A menu-driven script for${RESET}"
+    "${BOLD}${NEON_PURPLE_BLUE}Proxmox VE management${RESET}"
+    ""
+    ""
+    ""
+    ""
+)
+
+# Convertir el logo en un array de líneas
+mapfile -t logo_lines <<< "$LOGO"
+
+# Imprimir cada línea con el separador en blanco y el texto alineado correctamente
+for i in {0..9}; do
+    echo -e "${logo_lines[i]}  ${WHITE}│${RESET}  ${TEXT[i]}"
+done
+
+
+else
+
+
+# Logo for terminal SSH
+
+DARK_GRAY="\033[38;5;244m"   
+ORANGE="\033[38;5;202m"     
+BOLD="\033[1m"              
+NEON_PURPLE_BLUE="\033[38;5;99m"  
+WHITE="\033[38;5;15m" 
+RESET="\033[0m"        
+
+TEXT=(
+    ""
+    ""
+    ""
+    ""
+    "${BOLD}ProxMenux${RESET}"
+    ""
+    "${BOLD}${NEON_PURPLE_BLUE}A menu-driven script for${RESET}"
+    "${BOLD}${NEON_PURPLE_BLUE}Proxmox VE management${RESET}"
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+)
+
+LOGO=(
+    "${DARK_GRAY}░░░░                     ░░░░${RESET}"
+    "${DARK_GRAY}░░░░░░░               ░░░░░░ ${RESET}"
+    "${DARK_GRAY}░░░░░░░░░░░       ░░░░░░░    ${RESET}"
+    "${DARK_GRAY}░░░░    ░░░░░░ ░░░░░░      ${ORANGE}░░${RESET}"
+    "${DARK_GRAY}░░░░       ░░░░░░░      ${ORANGE}░░▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░         ░░░     ${ORANGE}░▒▒▒▒▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░   ${ORANGE}▒▒▒░       ░▒▒▒▒▒▒▒▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░   ${ORANGE}░▒▒▒▒▒   ▒▒▒▒▒░░  ▒▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░     ${ORANGE}░░▒▒▒▒▒▒▒░░     ▒▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░         ${ORANGE}░░░         ▒▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░                     ${ORANGE}▒▒▒▒${RESET}"
+    "${DARK_GRAY}░░░░                     ${ORANGE}▒▒▒░${RESET}"
+    "${DARK_GRAY}  ░░                     ${ORANGE}░░  ${RESET}"
+)
+
+for i in {0..12}; do
+    echo -e "${LOGO[i]}  ${WHITE}│${RESET}  ${TEXT[i]}"
+done
+
+fi
+
 }
