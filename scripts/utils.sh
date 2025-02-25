@@ -98,13 +98,8 @@ cleanup() {
         printf "\r\033[K"    
         printf "\033[F\033[K" 
         printf "\033[F\033[K" 
-    else
-        printf "\r\033[K"     
+        printf "\e[?25h"
     fi
-    
-    printf "\e[?25h" 
-
-
 }
 
 # Display trnaslate message with spinner
