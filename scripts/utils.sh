@@ -93,6 +93,7 @@ cleanup() {
     if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID > /dev/null; then 
         kill $SPINNER_PID > /dev/null
     fi
+    sleep 1
     printf "\r\033[K"    
     printf "\033[F\033[K"  
     printf "\033[F\033[K"  
