@@ -27,7 +27,7 @@ initialize_cache
 
 
 show_menu() {
-    cleanup
+
     while true; do
         OPTION=$(whiptail --title "$(translate "Main Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
             "1" "$(translate "Settings post-install Proxmox")" \
@@ -55,8 +55,5 @@ done
 }
 
 show_proxmenux_logo
-if [[ "$LANGUAGE" != "en" ]]; then
-    msg_lang "$(translate "Generating automatic translations...")"
-fi
 show_menu
 
