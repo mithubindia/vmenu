@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Server } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: System Settings",
@@ -31,7 +32,10 @@ export const metadata: Metadata = {
 export default function SystemSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">System Settings</h1>
+      <div className="flex items-center mb-6">
+        <Server className="h-8 w-8 mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold">System Settings</h1>
+      </div>
       <p className="mb-4">
         The System Settings category in the customizable_post_install.sh script focuses on core system configurations
         and optimizations for your Proxmox VE installation.
@@ -57,4 +61,5 @@ export default function SystemSettingsPage() {
     </div>
   )
 }
+
 

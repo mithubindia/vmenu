@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Settings } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Basic Settings",
@@ -31,7 +32,10 @@ export const metadata: Metadata = {
 export default function BasicSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Basic Settings</h1>
+      <div className="flex items-center mb-6">
+        <Settings className="h-8 w-8 mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold">Basic Settings</h1>
+      </div>
       <p className="mb-4">
         The Basic Settings category in the customizable_post_install.sh script covers fundamental configurations for
         your Proxmox VE installation. These settings lay the groundwork for a well-optimized system.

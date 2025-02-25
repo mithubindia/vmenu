@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Cpu } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Hardware Settings",
@@ -31,7 +32,10 @@ export const metadata: Metadata = {
 export default function HardwareSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Hardware Settings</h1>
+      <div className="flex items-center mb-6">
+        <Cpu className="h-8 w-8 mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold">Hardware Settings</h1>
+      </div>
       <p className="mb-4">
         The Hardware Settings category in the customizable_post_install.sh script focuses on optimizing Proxmox VE for
         your specific hardware configuration.
@@ -57,4 +61,3 @@ export default function HardwareSettingsPage() {
     </div>
   )
 }
-
