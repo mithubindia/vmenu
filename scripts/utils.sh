@@ -94,10 +94,16 @@ cleanup() {
         kill $SPINNER_PID > /dev/null
     fi
     sleep 1
-    printf "\r\033[K"    
-    printf "\033[F\033[K"  
-    printf "\033[F\033[K"  
-    printf "\e[?25h"
+    if [[ "$LANGUAGE" != "en" ]]; then
+        printf "\r\033[K"    
+        printf "\033[F\033[K" 
+        printf "\033[F\033[K" 
+    else
+        printf "\r\033[K"     
+    fi
+    
+    printf "\e[?25h" 
+
 
 }
 
