@@ -40,7 +40,7 @@ show_menu() {
 
 
     case $OPTION in
-        1) exec bash <(curl -s "$REPO_URL/scripts/customizable_post_install.sh") ;;
+        1) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_post_install.sh") ;;
         2) exec bash <(curl -s "$REPO_URL/scripts/menus/hw_grafics_menu.sh") ;;
         3) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
         4) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
