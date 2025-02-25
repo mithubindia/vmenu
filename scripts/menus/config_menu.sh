@@ -55,7 +55,7 @@ show_config_menu() {
 # ==========================================================
 
 change_language() {
-    LANGUAGE=$(whiptail --title "$(translate "Change Language")" --menu "$(translate "Select a new language for the menu:")" 20 60 12 \
+    LANGUAGE=$(whiptail --title "$(translate "Change Language")" --menu "$(translate "Select a new language for the menu:")" 20 70 12 \
             "en" "$(translate "English (Recommended)")" \
             "es" "$(translate "Spanish")" \
             "fr" "$(translate "French")" \
@@ -159,7 +159,7 @@ show_version_info() {
     # Display the information using whiptail
     whiptail --title "$(translate "ProxMenux Information")" \
              --scrolltext \
-             --msgbox "$info_message" 20 80
+             --msgbox "$info_message" 20 70
 }
 
 
@@ -241,7 +241,6 @@ uninstall_proxmenu() {
     echo
     exit 0
 }
-
 
 
 show_config_menu
