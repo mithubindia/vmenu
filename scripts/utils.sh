@@ -96,8 +96,6 @@ cleanup() {
     sleep 1
     if [[ "$LANGUAGE" != "en" ]]; then
         printf "\r\033[K"    
-        printf "\033[F\033[K" 
-        printf "\033[F\033[K" 
         printf "\e[?25h"
     fi
 }
@@ -105,7 +103,6 @@ cleanup() {
 # Display trnaslate message with spinner
 msg_lang() {
     local msg="$1"
-    echo -e "\n"
     echo -ne "${TAB}${YW}${HOLD}${msg}"
     spinner &
     SPINNER_PID=$!
@@ -312,7 +309,7 @@ mapfile -t logo_lines <<< "$LOGO"
 for i in {0..9}; do
     echo -e "${TAB}${logo_lines[i]}  ${WHITE}│${RESET}  ${TEXT[i]}"
 done
-
+echo -e
 
 else
 
@@ -356,7 +353,7 @@ LOGO=(
 for i in {0..12}; do
     echo -e "${TAB}${LOGO[i]}  │${RESET}  ${TEXT[i]}"
 done
-
+echo -e
 fi
 
 }
