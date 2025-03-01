@@ -205,6 +205,7 @@ EOF
 sudo sysctl -p /etc/sysctl.d/99-memory.conf
   `
 
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center mb-6">
@@ -326,6 +327,7 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
         </p>
         <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
         <CopyableCode code={memorySettingsCode} />
+      </section>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
