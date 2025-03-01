@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { HardDrive } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Storage Settings",
@@ -31,7 +32,9 @@ export const metadata: Metadata = {
 export default function StorageSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Storage Settings</h1>
+      <div className="flex items-center mb-6">
+        <HardDrive className="h-8 w-8 mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold">Storage Settings</h1>
       <p className="mb-4">
         The Storage Settings category in the customizable_post_install.sh script is dedicated to optimizing storage
         configurations and performance in your Proxmox VE environment.

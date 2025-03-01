@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Sliders } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Customization Settings",
@@ -31,7 +32,9 @@ export const metadata: Metadata = {
 export default function CustomizationSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Customization Settings</h1>
+      <div className="flex items-center mb-6">
+        <Sliders className="h-8 w-8 mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold">Customization Settings</h1>
       <p className="mb-4">
         The Customization Settings category in the customizable_post_install.sh script allows you to personalize various
         aspects of your Proxmox VE environment.

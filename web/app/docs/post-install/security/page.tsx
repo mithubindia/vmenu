@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Shield } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Security Settings",
@@ -31,7 +32,9 @@ export const metadata: Metadata = {
 export default function SecuritySettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Security Settings</h1>
+      <div className="flex items-center mb-6">
+        <Shield className="h-8 w-8 mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold">Security Settings</h1>
       <p className="mb-4">
         The Security Settings category in the customizable_post_install.sh script focuses on enhancing the security
         measures and configurations of your Proxmox VE installation.
