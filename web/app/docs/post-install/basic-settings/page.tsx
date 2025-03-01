@@ -106,13 +106,10 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
       <Steps>
-        <Steps.Step>
-          <Steps.Header>
-            <Steps.Title>Install Common System Utilities</Steps.Title>
-            <Steps.Description>
-              This optimization installs a set of common system utilities that are useful for system administration and troubleshooting.
-            </Steps.Description>
-          </Steps.Header>
+        <Steps.Step title="Install Common System Utilities">
+          <Steps.Description>
+            This optimization installs a set of common system utilities that are useful for system administration and troubleshooting.
+          </Steps.Description>
           <Steps.Content>
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
@@ -124,13 +121,10 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
           </Steps.Content>
         </Steps.Step>
 
-        <Steps.Step>
-          <Steps.Header>
-            <Steps.Title>Skip Downloading Additional Languages</Steps.Title>
-            <Steps.Description>
-              This optimization configures APT to skip downloading additional language packages, which can save disk space and speed up package operations.
-            </Steps.Description>
-          </Steps.Header>
+        <Steps.Step title="Skip Downloading Additional Languages">
+          <Steps.Description>
+            This optimization configures APT to skip downloading additional language packages, which can save disk space and speed up package operations.
+          </Steps.Description>
           <Steps.Content>
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and
@@ -142,13 +136,10 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
           </Steps.Content>
         </Steps.Step>
 
-        <Steps.Step>
-          <Steps.Header>
-            <Steps.Title>Synchronize Time Automatically</Steps.Title>
-            <Steps.Description>
-              This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
-            </Steps.Description>
-          </Steps.Header>
+        <Steps.Step title="Synchronize Time Automatically">
+          <Steps.Description>
+            This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
+          </Steps.Description>
           <Steps.Content>
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
@@ -160,13 +151,10 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
           </Steps.Content>
         </Steps.Step>
 
-        <Steps.Step>
-          <Steps.Header>
-            <Steps.Title>Update and Upgrade System</Steps.Title>
-            <Steps.Description>
-              This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox repositories.
-            </Steps.Description>
-          </Steps.Header>
+        <Steps.Step title="Update and Upgrade System">
+          <Steps.Description>
+            This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox repositories.
+          </Steps.Description>
           <Steps.Content>
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and
