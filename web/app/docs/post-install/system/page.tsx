@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Server } from 'lucide-react'
 import CopyableCode from "@/components/CopyableCode"
+import { Steps } from "@/components/ui/steps"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: System Settings",
@@ -44,74 +45,71 @@ export default function SystemSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
       
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Enable Fast Reboots</h3>
-        <p className="mb-4">
-          This optimization enables <code>kexec</code>, a mechanism that allows the system to boot directly into a new kernel from an existing running kernel, bypassing the BIOS/firmware and bootloader stages.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Fast reboots significantly reduce system downtime during maintenance or updates. In a virtualization environment where multiple VMs might be running, minimizing host downtime is crucial for maintaining high availability and reducing disruption to services.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`sudo apt-get install -y kexec-tools
+      <Steps>
+        <Steps.Step title="Enable Fast Reboots">
+          <p>
+            This optimization enables <code>kexec</code>, a mechanism that allows the system to boot directly into a new kernel from an existing running kernel, bypassing the BIOS/firmware and bootloader stages.
+          </p>
+          <p className="mt-2">
+            <strong>Why it's important:</strong> Fast reboots significantly reduce system downtime during maintenance or updates. In a virtualization environment where multiple VMs might be running, minimizing host downtime is crucial for maintaining high availability and reducing disruption to services.
+          </p>
+          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this setting manually, run:</h4>
+          <CopyableCode code={`sudo apt-get install -y kexec-tools
 sudo systemctl enable kexec-pve.service
 echo "alias reboot-quick='systemctl kexec'" >> ~/.bash_profile`} />
-      </section>
+        </Steps.Step>
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Configure Kernel Panic Behavior</h3>
-        <p className="mb-4">
-          This setting configures the system to automatically reboot after a kernel panic occurs, rather than hanging indefinitely.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Automatic reboots after kernel panics help maintain system availability. Instead of requiring manual intervention, which could lead to extended downtime, the system attempts to recover on its own. This is particularly crucial in remote or lights-out data center environments where immediate physical access might not be possible.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo "kernel.panic = 10" | sudo tee /etc/sysctl.d/99-kernelpanic.conf
+        <Steps.Step title="Configure Kernel Panic Behavior">
+          <p>
+            This setting configures the system to automatically reboot after a kernel panic occurs, rather than hanging indefinitely.
+          </p>
+          <p className="mt-2">
+            <strong>Why it's important:</strong> Automatic reboots after kernel panics help maintain system availability. Instead of requiring manual intervention, which could lead to extended downtime, the system attempts to recover on its own. This is particularly crucial in remote or lights-out data center environments where immediate physical access might not be possible.
+          </p>
+          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this setting manually, run:</h4>
+          <CopyableCode code={`echo "kernel.panic = 10" | sudo tee /etc/sysctl.d/99-kernelpanic.conf
 echo "kernel.panic_on_oops = 1" | sudo tee -a /etc/sysctl.d/99-kernelpanic.conf
 sudo sysctl -p /etc/sysctl.d/99-kernelpanic.conf`} />
-      </section>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Increase System Limits</h3>
-        <p className="mb-4">
-          This optimization increases various system limits, including the maximum number of file watches and open file descriptors.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Higher system limits allow for better resource utilization, especially in high-density virtualization environments. Increased file watch limits improve performance for applications that monitor many files (like backup systems or development environments). Higher open file limits allow more concurrent connections and file operations, which is crucial for busy servers hosting multiple VMs or containers.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo "fs.inotify.max_user_watches = 1048576" | sudo tee /etc/sysctl.d/99-maxwatches.conf
+        </Steps.Step>
+        
+        <Steps.Step title="Increase System Limits">
+          <p>
+            This optimization increases various system limits, including the maximum number of file watches and open file descriptors.
+          </p>
+          <p className="mt-2">
+            <strong>Why it's important:</strong> Higher system limits allow for better resource utilization, especially in high-density virtualization environments. Increased file watch limits improve performance for applications that monitor many files (like backup systems or development environments). Higher open file limits allow more concurrent connections and file operations, which is crucial for busy servers hosting multiple VMs or containers.
+          </p>
+          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this setting manually, run:</h4>
+          <CopyableCode code={`echo "fs.inotify.max_user_watches = 1048576" | sudo tee /etc/sysctl.d/99-maxwatches.conf
 echo "* soft nofile 1048576" | sudo tee /etc/security/limits.d/99-limits.conf
 sudo sysctl -p`} />
-      </section>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Optimize Journald</h3>
-        <p className="mb-4">
-          This setting configures systemd's journald logging service to limit its disk usage and optimize performance.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Proper log management is crucial for system health and troubleshooting. By limiting the maximum size of the journal, you prevent logs from consuming excessive disk space, which could potentially fill up the system partition. This is especially important in virtualization environments where disk space is often at a premium. Additionally, optimized logging reduces I/O operations, potentially improving overall system performance.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo "SystemMaxUse=64M" | sudo tee -a /etc/systemd/journald.conf
+        </Steps.Step>
+        
+        <Steps.Step title="Optimize Journald">
+          <p>
+            This setting configures systemd's journald logging service to limit its disk usage and optimize performance.
+          </p>
+          <p className="mt-2">
+            <strong>Why it's important:</strong> Proper log management is crucial for system health and troubleshooting. By limiting the maximum size of the journal, you prevent logs from consuming excessive disk space, which could potentially fill up the system partition. This is especially important in virtualization environments where disk space is often at a premium. Additionally, optimized logging reduces I/O operations, potentially improving overall system performance.
+          </p>
+          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this setting manually, run:</h4>
+          <CopyableCode code={`echo "SystemMaxUse=64M" | sudo tee -a /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald`} />
-      </section>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Optimize Memory Management</h3>
-        <p className="mb-4">
-          This optimization adjusts various memory-related kernel parameters to improve system performance and stability.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Proper memory management is critical in virtualization environments where multiple VMs compete for resources. These optimizations can help prevent out-of-memory situations, improve memory allocation efficiency, and enhance overall system responsiveness. This is particularly beneficial for hosts running memory-intensive workloads or a high number of VMs.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-memory.conf
+        </Steps.Step>
+        
+        <Steps.Step title="Optimize Memory Management">
+          <p>
+            This optimization adjusts various memory-related kernel parameters to improve system performance and stability.
+          </p>
+          <p className="mt-2">
+            <strong>Why it's important:</strong> Proper memory management is critical in virtualization environments where multiple VMs compete for resources. These optimizations can help prevent out-of-memory situations, improve memory allocation efficiency, and enhance overall system responsiveness. This is particularly beneficial for hosts running memory-intensive workloads or a high number of VMs.
+          </p>
+          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this setting manually, run:</h4>
+          <CopyableCode code={`echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-memory.conf
 echo "vm.vfs_cache_pressure = 50" | sudo tee -a /etc/sysctl.d/99-memory.conf
 sudo sysctl -p /etc/sysctl.d/99-memory.conf`} />
-      </section>
+        </Steps.Step>
+      </Steps>
       
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
