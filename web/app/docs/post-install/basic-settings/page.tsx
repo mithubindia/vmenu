@@ -46,6 +46,7 @@ export default function BasicSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
+      <Steps>
       <Steps.Step title="Install Common System Utilities">
           <section className="mb-8">
             <p className="mb-4">
@@ -53,7 +54,8 @@ export default function BasicSettingsPage() {
               troubleshooting.
             </p>
             </section>
-            </Steps.Step> 
+      </Steps.Step> 
+      </Steps>      
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
               Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
@@ -272,6 +274,7 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
             />
 
   
+
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
