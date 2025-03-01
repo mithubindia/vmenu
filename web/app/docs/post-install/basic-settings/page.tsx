@@ -46,7 +46,6 @@ export default function BasicSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
-      <Steps>
       <Steps.Step title="Install Common System Utilities">
           <section className="mb-8">
             <p className="mb-4">
@@ -273,7 +272,6 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
             />
 
   
-      </Steps>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
