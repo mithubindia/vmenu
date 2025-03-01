@@ -54,6 +54,7 @@ export default function BasicSettingsPage() {
               This optimization installs a set of common system utilities that are useful for system administration and
               troubleshooting.
             </p>
+            
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
               Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
@@ -167,12 +168,14 @@ sudo apt-get install -y libguestfs-tools
         
 
         <Steps.Step title="Skip Downloading Additional Languages">
-        </Steps.Step>
           <section className="mb-8">
             <p className="mb-4">
               This optimization configures APT to skip downloading additional language packages, which can save disk
               space and speed up package operations.
             </p>
+            </section>
+            </Steps.Step>
+
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage
               and improve the speed of package management operations. This is particularly useful in server environments
@@ -185,16 +188,17 @@ sudo apt-get install -y libguestfs-tools
 echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-translations
               `}
             />
-          </section>
+
 
 
         <Steps.Step title="Synchronize Time Automatically">
-        </Steps.Step>
           <section className="mb-8">
             <p className="mb-4">
               This optimization configures the system to automatically synchronize its time, ensuring accurate
               timekeeping.
             </p>
+            </section>
+            </Steps.Step>
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
               consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
@@ -209,17 +213,19 @@ TIMEZONE=$(curl -s "https://ipapi.co/$IP/timezone")
 sudo timedatectl set-timezone "$TIMEZONE"
               `}
             />
-          </section>
+
    
 
         <Steps.Step title="Update and Upgrade System">
-        </Steps.Step>
+       
           <section className="mb-8">
             <p className="mb-4">
               This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
               repositories. It also includes additional steps to properly set up Debian repositories and disable certain
               warnings.
             </p>
+            </section>
+            </Steps.Step>
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability,
               and performance. This optimization ensures you have the latest patches and features, while also
@@ -265,7 +271,7 @@ pveam update
 sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
               `}
             />
-          </section>
+
   
       </Steps>
 
