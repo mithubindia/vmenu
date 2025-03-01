@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Server } from 'lucide-react'
 import CopyableCode from "@/components/CopyableCode"
-import { Steps } from "@/components/ui/steps"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: System Settings",
@@ -45,15 +44,7 @@ export default function SystemSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
       
-      <Steps>
-        <Steps.Step title="Enable Fast Reboots" />
-        <Steps.Step title="Configure Kernel Panic Behavior" />
-        <Steps.Step title="Increase System Limits" />
-        <Steps.Step title="Optimize Journald" />
-        <Steps.Step title="Optimize Memory Management" />
-      </Steps>
-      
-      <section className="mb-8 mt-8">
+      <section className="mb-8">
         <h3 className="text-xl font-semibold mb-2">Enable Fast Reboots</h3>
         <p className="mb-4">
           This optimization enables <code>kexec</code>, a mechanism that allows the system to boot directly into a new kernel from an existing running kernel, bypassing the BIOS/firmware and bootloader stages.
@@ -117,8 +108,7 @@ sudo systemctl restart systemd-journald`} />
           <strong>Why it's important:</strong> Proper memory management is critical in virtualization environments where multiple VMs compete for resources. These optimizations can help prevent out-of-memory situations, improve memory allocation efficiency, and enhance overall system responsiveness. This is particularly beneficial for hosts running memory-intensive workloads or a high number of VMs.
         </p>
         <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo "vm.swappiness = 10" |
-sudo tee /etc/sysctl.d/99-memory.conf
+        <CopyableCode code={`echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-memory.conf
 echo "vm.vfs_cache_pressure = 50" | sudo tee -a /etc/sysctl.d/99-memory.conf
 sudo sysctl -p /etc/sysctl.d/99-memory.conf`} />
       </section>
