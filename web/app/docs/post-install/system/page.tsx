@@ -31,6 +31,7 @@ export const metadata: Metadata = {
 }
 
 export default function SystemSettingsPage() {
+  
   const fastRebootCode = `
 # Install kexec-tools
 sudo apt-get install -y kexec-tools
@@ -205,6 +206,19 @@ EOF
 sudo sysctl -p /etc/sysctl.d/99-memory.conf
   `
 
+  const timeSyncCode = `
+# Set timezone (replace 'America/New_York' with your timezone)
+sudo timedatectl set-timezone America/New_York
+
+# Enable automatic time synchronization
+sudo timedatectl set-ntp true
+
+# Note: Automatic timezone setting based on IP is commented out to avoid errors
+# To set timezone automatically based on IP, you would need to run:
+# IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+# TIMEZONE=$(curl -s "https://ipapi.co/$IP/timezone")
+# sudo timedatectl set-timezone "$TIMEZONE"
+`
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -329,6 +343,20 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
         <CopyableCode code={memorySettingsCode} />
       </section>
 
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-2">9. Synchronize Time Automatically</h3>
+        <p className="mb-4">
+          This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
+        </p>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
+          consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
+          Proxmox VE system maintains the correct time without manual intervention.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={timeSyncCode} />
+      </section>
+
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
@@ -340,4 +368,3 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
     </div>
   )
 }
-
