@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { Settings } from "lucide-react"
-import { CopyableCode } from "@/components/CopyableCode"
+import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Basic Settings",
@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     images: ["https://macrimi.github.io/ProxMenux/basic-settings-image.png"],
   },
 }
+
 
 export default function BasicSettingsPage() {
   const installUtilitiesCode = `
