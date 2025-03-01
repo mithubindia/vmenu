@@ -169,7 +169,7 @@ sudo apt-get install -y libguestfs-tools
         `}
       />
 
-      <h3 className="text-xl font-semibold mb-4 flex items-center">
+      <h3 className="text-xl font-semibold mt-8 mb-4 flex items-center">
             <StepNumber number={2} />
             Skip Downloading Additional Languages
       </h3>
@@ -191,7 +191,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
         `}
       />
 
-      <h3 className="text-xl font-semibold mb-4 flex items-center">
+      <h3 className="text-xl font-semibold mt-8 mb-4 flex items-center">
             <StepNumber number={3} />
             Synchronize Time Automatically
       </h3>
@@ -214,7 +214,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
         `}
       />
 
-      <h3 className="text-xl font-semibold mb-4 flex items-center">
+      <h3 className="text-xl font-semibold mt-8 mb-4 flex items-center">
             <StepNumber number={4} />
             Update and Upgrade System
       </h3>
