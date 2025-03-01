@@ -55,7 +55,7 @@ export default function BasicSettingsPage() {
             </p>
             </section>
       </Steps.Step> 
-      </Steps>      
+     
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
               Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
@@ -166,8 +166,7 @@ sudo apt-get install -y libguestfs-tools
               `}
             />
          
-        
-        <Steps> 
+
         <Steps.Step title="Skip Downloading Additional Languages">
           <section className="mb-8">
             <p className="mb-4">
@@ -192,7 +191,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
             />
 
 
-       <Steps> 
+
         <Steps.Step title="Synchronize Time Automatically">
           <section className="mb-8">
             <p className="mb-4">
@@ -218,7 +217,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
             />
 
    
-        <Steps> 
+
         <Steps.Step title="Update and Upgrade System">
           <section className="mb-8">
             <p className="mb-4">
