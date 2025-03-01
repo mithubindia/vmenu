@@ -5,7 +5,28 @@ export const metadata: Metadata = {
   title: "ProxMenux Post-Install: System Settings",
   description:
     "Detailed guide to the System Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
-  // ... (rest of the metadata remains the same)
+  openGraph: {
+    title: "ProxMenux Post-Install: System Settings",
+    description:
+      "Detailed guide to the System Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    type: "article",
+    url: "https://macrimi.github.io/ProxMenux/docs/post-install/system",
+    images: [
+      {
+        url: "https://macrimi.github.io/ProxMenux/system-settings-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ProxMenux Post-Install System Settings",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProxMenux Post-Install: System Settings",
+    description:
+      "Detailed guide to the System Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    images: ["https://macrimi.github.io/ProxMenux/system-settings-image.png"],
+  },
 }
 
 export default function SystemSettingsPage() {
