@@ -48,13 +48,13 @@ export default function BasicSettingsPage() {
 
       <Steps>
       <Steps.Step title="Install Common System Utilities">
-      </Steps.Step> 
           <section className="mb-8">
             <p className="mb-4">
               This optimization installs a set of common system utilities that are useful for system administration and
               troubleshooting.
             </p>
-            
+            </section>
+            </Steps.Step> 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
               Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
@@ -164,7 +164,7 @@ sudo apt-get install -y software-properties-common sshpass tmux unzip vim vim-no
 sudo apt-get install -y libguestfs-tools
               `}
             />
-          </section>
+         
         
 
         <Steps.Step title="Skip Downloading Additional Languages">
