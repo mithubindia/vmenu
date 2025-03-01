@@ -204,6 +204,19 @@ EOF
 sudo sysctl -p /etc/sysctl.d/99-memory.conf
   `
 
+  const timeSyncCode = `
+# Set timezone (replace 'America/New_York' with your timezone)
+sudo timedatectl set-timezone America/New_York
+
+# Enable automatic time synchronization
+sudo timedatectl set-ntp true
+
+# Note: Automatic timezone setting based on IP is commented out to avoid errors
+# To set timezone automatically based on IP, you would need to run:
+# IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+# TIMEZONE=$(curl -s "https://ipapi.co/$IP/timezone")
+# sudo timedatectl set-timezone "$TIMEZONE"
+`
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -230,10 +243,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           needs to be minimized. By using kexec, the system can skip the time-consuming hardware initialization process
           during a reboot, resulting in much faster restart times.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{fastRebootCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={fastRebootCode} />
       </section>
 
       <section className="mb-8">
@@ -247,10 +258,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           Instead of remaining in a crashed state, the system will attempt to recover by rebooting, potentially
           resolving the issue without manual intervention.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{kernelPanicCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={kernelPanicCode} />
       </section>
 
       <section className="mb-8">
@@ -264,10 +273,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           virtual environments, generating true randomness can be challenging, leading to potential bottlenecks. Haveged
           helps maintain a healthy entropy pool, ensuring smooth operation of cryptographic tasks.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{entropyCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={entropyCode} />
       </section>
 
       <section className="mb-8">
@@ -280,10 +287,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           virtualization environments. Increasing these limits allows for better utilization of system resources,
           accommodating more concurrent operations and larger workloads without hitting artificial bottlenecks.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{systemLimitsCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={systemLimitsCode} />
       </section>
 
       <section className="mb-8">
@@ -294,10 +299,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           required by certain software or drivers. Having them installed ensures that you can compile and use custom
           kernel modules if needed, enhancing system flexibility and compatibility.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{kernelHeadersCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={kernelHeadersCode} />
       </section>
 
       <section className="mb-8">
@@ -308,10 +311,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           limiting log sizes and adjusting logging levels, you can prevent logs from consuming excessive disk space
           while still maintaining useful system information for troubleshooting.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{journaldCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={journaldCode} />
       </section>
 
       <section className="mb-8">
@@ -322,10 +323,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           system performance. By compressing old logs and limiting their size, you prevent log files from growing
           indefinitely and potentially filling up your disk.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{logrotateCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={logrotateCode} />
       </section>
 
       <section className="mb-8">
@@ -338,10 +337,8 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
           especially in virtualized environments. They help ensure that memory is used efficiently, reduce the
           likelihood of out-of-memory errors, and improve the performance of memory-intensive applications.
         </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-          <code>{memorySettingsCode}</code>
-        </pre>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={memorySettingsCode} />
       </section>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
