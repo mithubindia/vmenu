@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 }
 
 
+
 export default function BasicSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
@@ -48,14 +49,9 @@ export default function BasicSettingsPage() {
 
       <Steps>
       <Steps.Step title="Install Common System Utilities">
-          <section className="mb-8">
-            <p className="mb-4">
-              This optimization installs a set of common system utilities that are useful for system administration and
-              troubleshooting.
-            </p>
-            </section>
-      </Steps.Step> 
-     
+          <p>This optimization installs a set of common system utilities that are useful for system administration and troubleshooting.</p>
+        </Steps.Step>
+
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
               Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
@@ -165,17 +161,12 @@ sudo apt-get install -y software-properties-common sshpass tmux unzip vim vim-no
 sudo apt-get install -y libguestfs-tools
               `}
             />
-         
+
+        
 
         <Steps.Step title="Skip Downloading Additional Languages">
-          <section className="mb-8">
-            <p className="mb-4">
-              This optimization configures APT to skip downloading additional language packages, which can save disk
-              space and speed up package operations.
-            </p>
-            </section>
+          <p>This optimization configures APT to skip downloading additional language packages, which can save disk space and speed up package operations.</p>
         </Steps.Step>
-
 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage
@@ -193,13 +184,8 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
 
 
         <Steps.Step title="Synchronize Time Automatically">
-          <section className="mb-8">
-            <p className="mb-4">
-              This optimization configures the system to automatically synchronize its time, ensuring accurate
-              timekeeping.
-            </p>
-            </section>
-      </Steps.Step>
+          <p>This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.</p>
+        </Steps.Step>
 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
@@ -219,13 +205,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
    
 
         <Steps.Step title="Update and Upgrade System">
-          <section className="mb-8">
-            <p className="mb-4">
-              This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
-              repositories. It also includes additional steps to properly set up Debian repositories and disable certain
-              warnings.
-            </p>
-            </section>
+          <p>This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox repositories.</p>
         </Steps.Step>
 
             <p className="mb-4">
@@ -275,7 +255,7 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
             />
 
   
-</Steps> 
+      </Steps>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
