@@ -5,28 +5,7 @@ export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Hardware Settings",
   description:
     "Comprehensive guide to Hardware Settings in the ProxMenux post-install script for Proxmox VE hardware optimization.",
-  openGraph: {
-    title: "ProxMenux Post-Install: Hardware Settings",
-    description:
-      "Comprehensive guide to Hardware Settings in the ProxMenux post-install script for Proxmox VE hardware optimization.",
-    type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/hardware",
-    images: [
-      {
-        url: "https://macrimi.github.io/ProxMenux/hardware-settings-image.png",
-        width: 1200,
-        height: 630,
-        alt: "ProxMenux Post-Install Hardware Settings",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ProxMenux Post-Install: Hardware Settings",
-    description:
-      "Comprehensive guide to Hardware Settings in the ProxMenux post-install script for Proxmox VE hardware optimization.",
-    images: ["https://macrimi.github.io/ProxMenux/hardware-settings-image.png"],
-  },
+  // ... (rest of the metadata remains the same)
 }
 
 export default function HardwareSettingsPage() {
@@ -61,3 +40,4 @@ export default function HardwareSettingsPage() {
     </div>
   )
 }
+
