@@ -5,7 +5,28 @@ export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Basic Settings",
   description:
     "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
-  // ... (rest of the metadata remains the same)
+  openGraph: {
+    title: "ProxMenux Post-Install: Basic Settings",
+    description:
+      "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    type: "article",
+    url: "https://macrimi.github.io/ProxMenux/docs/post-install/basic-settings",
+    images: [
+      {
+        url: "https://macrimi.github.io/ProxMenux/basic-settings-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ProxMenux Post-Install Basic Settings",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProxMenux Post-Install: Basic Settings",
+    description:
+      "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    images: ["https://macrimi.github.io/ProxMenux/basic-settings-image.png"],
+  },
 }
 
 export default function BasicSettingsPage() {
@@ -26,7 +47,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
 IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 TIMEZONE=$(curl -s "https://ipapi.co/$IP/timezone")
 sudo timedatectl set-timezone "$TIMEZONE"
-`
+  `
 
   const updateUpgradeCode = `
 # Disable enterprise repos
@@ -66,13 +87,12 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
           This optimization installs a set of common system utilities that are useful for system administration and
           troubleshooting.
         </p>
-        <h4 className="text-lg font-semibold mb-2">What it does:</h4>
-        <ul className="list-disc pl-5 mb-4">
-          <li>Installs packages like curl, htop, iftop, nano, vim, and more</li>
-          <li>Checks which packages are already installed to avoid unnecessary installations</li>
-          <li>Provides a progress bar during the installation process</li>
-        </ul>
-        <h4 className="text-lg font-semibold mb-2">Manual commands:</h4>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
+          Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
+          troubleshooting issues, enhancing your ability to maintain and optimize your virtualization environment.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
         <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
           <code>{installUtilitiesCode}</code>
         </pre>
@@ -84,11 +104,12 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
           This optimization configures APT to skip downloading additional language packages, which can save disk space
           and speed up package operations.
         </p>
-        <h4 className="text-lg font-semibold mb-2">What it does:</h4>
-        <ul className="list-disc pl-5 mb-4">
-          <li>Creates or modifies the APT configuration file to skip language downloads</li>
-        </ul>
-        <h4 className="text-lg font-semibold mb-2">Manual commands:</h4>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and
+          improve the speed of package management operations. This is particularly useful in server environments where
+          multiple language support is often not required.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
         <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
           <code>{skipLanguagesCode}</code>
         </pre>
@@ -99,12 +120,12 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
         <p className="mb-4">
           This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
         </p>
-        <h4 className="text-lg font-semibold mb-2">What it does:</h4>
-        <ul className="list-disc pl-5 mb-4">
-          <li>Attempts to set the timezone automatically based on the system's IP address</li>
-          <li>Enables automatic time synchronization using systemd's timesyncd</li>
-        </ul>
-        <h4 className="text-lg font-semibold mb-2">Manual commands:</h4>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
+          consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
+          Proxmox VE system maintains the correct time without manual intervention.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
         <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
           <code>{timeSyncCode}</code>
         </pre>
@@ -116,30 +137,25 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
           This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
           repositories.
         </p>
-        <h4 className="text-lg font-semibold mb-2">What it does:</h4>
-        <ul className="list-disc pl-5 mb-4">
-          <li>Disables enterprise Proxmox repositories</li>
-          <li>Enables free public Proxmox repository</li>
-          <li>Configures main Debian repositories</li>
-          <li>Updates package lists and performs a system upgrade</li>
-          <li>Updates PVE application manager</li>
-          <li>Installs additional Proxmox packages</li>
-        </ul>
-        <h4 className="text-lg font-semibold mb-2">Manual commands:</h4>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and
+          performance. This optimization ensures you have the latest patches and features, while also configuring the
+          correct repositories for Proxmox VE, enabling access to necessary updates and tools.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, you would run:</h4>
         <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
           <code>{updateUpgradeCode}</code>
         </pre>
       </section>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Usage</h2>
-      <p className="mb-4">
-        When running the customizable_post_install.sh script, you'll be prompted to choose which Basic Settings
-        optimizations to apply. You can select all or pick specific ones based on your needs.
-      </p>
-      <p>
-        For detailed information on each optimization and its impact, refer to the script comments or consult the
-        ProxMenux documentation.
-      </p>
+      <section className="mt-12 p-4 bg-blue-100 rounded-md">
+        <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
+        <p>
+          All of these optimizations are automatically applied when selected in the Basic Settings section of the
+          customizable_post_install.sh script. This automation ensures that these beneficial settings are applied
+          consistently and correctly.
+        </p>
+      </section>
     </div>
   )
 }
