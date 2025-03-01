@@ -116,11 +116,10 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf`} />
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
-          All of these optimizations are automatically applied when selected in the System section of the
-          <code>customizable_post_install.sh</code> script. This automation ensures that these beneficial settings are applied
-          consistently and correctly across your Proxmox VE hosts, saving time and reducing the potential for human error
-          during manual configuration. By leveraging these optimizations, you can create a more robust, efficient, and
-          high-performing virtualization environment right from the start.
+          All of these optimizations are automatically applied when selected in the Basic Settings section of the
+          customizable_post_install.sh script. This automation ensures that these beneficial settings are applied
+          consistently and correctly, saving time and reducing the potential for human error during manual
+          configuration.
         </p>
       </section>
     </div>
