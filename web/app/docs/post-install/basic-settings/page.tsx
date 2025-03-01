@@ -31,17 +31,6 @@ export const metadata: Metadata = {
   },
 }
 
-import type { Metadata } from "next"
-import { Settings } from "lucide-react"
-import CopyableCode from "@/components/CopyableCode"
-import { Steps, Step } from "@/components/ui/steps"
-
-export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Basic Settings",
-  description:
-    "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
-  // ... (rest of the metadata)
-}
 
 export default function BasicSettingsPage() {
   return (
@@ -58,8 +47,8 @@ export default function BasicSettingsPage() {
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
       <Steps>
-        <Step title="Install Common System Utilities">
-        </Step>  
+      <Steps.Step title="Install Common System Utilities">
+      </Steps.Step> 
           <section className="mb-8">
             <p className="mb-4">
               This optimization installs a set of common system utilities that are useful for system administration and
@@ -177,8 +166,8 @@ sudo apt-get install -y libguestfs-tools
           </section>
         
 
-        <Step title="Skip Downloading Additional Languages">
-        </Step> 
+        <Steps.Step title="Skip Downloading Additional Languages">
+        </Steps.Step>
           <section className="mb-8">
             <p className="mb-4">
               This optimization configures APT to skip downloading additional language packages, which can save disk
@@ -199,8 +188,8 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
           </section>
 
 
-        <Step title="Synchronize Time Automatically">
-        </Step> 
+        <Steps.Step title="Synchronize Time Automatically">
+        </Steps.Step>
           <section className="mb-8">
             <p className="mb-4">
               This optimization configures the system to automatically synchronize its time, ensuring accurate
@@ -223,8 +212,8 @@ sudo timedatectl set-timezone "$TIMEZONE"
           </section>
    
 
-        <Step title="Update and Upgrade System">
-        </Step> 
+        <Steps.Step title="Update and Upgrade System">
+        </Steps.Step>
           <section className="mb-8">
             <p className="mb-4">
               This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
