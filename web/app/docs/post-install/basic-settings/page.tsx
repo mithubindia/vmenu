@@ -22,11 +22,11 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
   `
 
   const timeSyncCode = `
-# Set timezone (replace 'America/New_York' with your timezone)
-sudo timedatectl set-timezone America/New_York
-
-# Enable automatic time synchronization
-sudo timedatectl set-ntp true
+# Set system timezone automatically based on IP
+IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+TIMEZONE=$(curl -s "https://ipapi.co/${IP}/timezone")
+timedatectl set-timezone "$TIMEZONE"
+timedatectl set-ntp true
   `
 
   const updateUpgradeCode = `
