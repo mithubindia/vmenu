@@ -38,7 +38,7 @@ export default function NetworkSettingsPage() {
         <h1 className="text-3xl font-bold">Network Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Network Settings</strong> category in the <code>customizable_post_install.sh</code> script focuses on optimizing network
+        The <strong>Network Settings</strong> category, focuses on optimizing network
         performance and configuration for your Proxmox VE installation. These settings are crucial for ensuring efficient
         network operations, which is vital in a virtualized environment where multiple VMs and containers share network resources.
       </p>
@@ -173,8 +173,7 @@ sudo sysctl -p /etc/sysctl.d/99-network-performance.conf`} />
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
-          All of these optimizations are automatically applied when selected in the Basic Settings section of the
-          customizable_post_install.sh script. This automation ensures that these beneficial settings are applied
+          All of these optimizations are automatically applied when selected in the Network section section. This automation ensures that these beneficial settings are applied
           consistently and correctly, saving time and reducing the potential for human error during manual
           configuration.
         </p>

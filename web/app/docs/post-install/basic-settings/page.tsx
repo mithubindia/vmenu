@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
-import { Settings } from "lucide-react"
+import { Settings } from 'lucide-react'
 import CopyableCode from "@/components/CopyableCode"
+import { Steps } from "@/components/ui/steps"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Basic Settings",
@@ -29,7 +30,6 @@ export const metadata: Metadata = {
     images: ["https://macrimi.github.io/ProxMenux/basic-settings-image.png"],
   },
 }
-
 
 export default function BasicSettingsPage() {
   const installUtilitiesCode = `
@@ -100,84 +100,96 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
         <h1 className="text-3xl font-bold">Basic Settings</h1>
       </div>
       <p className="mb-4">
-        The Basic Settings category in the customizable_post_install.sh script covers fundamental configurations for
-        your Proxmox VE installation. These settings lay the groundwork for a well-optimized system.
+        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Proxmox VE installation, including installing essential utilities, adding repositories, managing packages, and keeping the system up to date.
       </p>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">1. Install Common System Utilities</h3>
-        <p className="mb-4">
-          This optimization installs a set of common system utilities that are useful for system administration and
-          troubleshooting.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
-          Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
-          troubleshooting issues, enhancing your ability to maintain and optimize your virtualization environment.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
-        <CopyableCode code={installUtilitiesCode} />
-      </section>
+      <Steps>
+        <Steps.Step>
+          <Steps.Header>
+            <Steps.Title>Install Common System Utilities</Steps.Title>
+            <Steps.Description>
+              This optimization installs a set of common system utilities that are useful for system administration and troubleshooting.
+            </Steps.Description>
+          </Steps.Header>
+          <Steps.Content>
+            <p className="mb-4">
+              <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
+              Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
+              troubleshooting issues, enhancing your ability to maintain and optimize your virtualization environment.
+            </p>
+            <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+            <CopyableCode code={installUtilitiesCode} />
+          </Steps.Content>
+        </Steps.Step>
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">2. Skip Downloading Additional Languages</h3>
-        <p className="mb-4">
-          This optimization configures APT to skip downloading additional language packages, which can save disk space
-          and speed up package operations.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and
-          improve the speed of package management operations. This is particularly useful in server environments where
-          multiple language support is often not required.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run this command:</h4>
-        <CopyableCode code={skipLanguagesCode} />
-      </section>
+        <Steps.Step>
+          <Steps.Header>
+            <Steps.Title>Skip Downloading Additional Languages</Steps.Title>
+            <Steps.Description>
+              This optimization configures APT to skip downloading additional language packages, which can save disk space and speed up package operations.
+            </Steps.Description>
+          </Steps.Header>
+          <Steps.Content>
+            <p className="mb-4">
+              <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and
+              improve the speed of package management operations. This is particularly useful in server environments where
+              multiple language support is often not required.
+            </p>
+            <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run this command:</h4>
+            <CopyableCode code={skipLanguagesCode} />
+          </Steps.Content>
+        </Steps.Step>
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">3. Synchronize Time Automatically</h3>
-        <p className="mb-4">
-          This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
-          consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
-          Proxmox VE system maintains the correct time without manual intervention.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
-        <CopyableCode code={timeSyncCode} />
-      </section>
+        <Steps.Step>
+          <Steps.Header>
+            <Steps.Title>Synchronize Time Automatically</Steps.Title>
+            <Steps.Description>
+              This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
+            </Steps.Description>
+          </Steps.Header>
+          <Steps.Content>
+            <p className="mb-4">
+              <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
+              consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
+              Proxmox VE system maintains the correct time without manual intervention.
+            </p>
+            <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+            <CopyableCode code={timeSyncCode} />
+          </Steps.Content>
+        </Steps.Step>
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">4. Update and Upgrade System</h3>
-        <p className="mb-4">
-          This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
-          repositories. It also includes additional steps to properly set up Debian repositories and disable certain
-          warnings.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and
-          performance. This optimization ensures you have the latest patches and features, while also configuring the
-          correct repositories for Proxmox VE, enabling access to necessary updates and tools. The additional steps help
-          in:
-        </p>
-        <ul className="list-disc pl-5 mb-4">
-          <li>Disabling enterprise repositories to avoid conflicts</li>
-          <li>Enabling free and testing repositories for broader package access</li>
-          <li>Properly configuring Debian repositories for a stable system</li>
-          <li>Suppressing non-free firmware warnings for a cleaner update experience</li>
-        </ul>
-        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
-        <CopyableCode code={updateUpgradeCode} />
-      </section>
+        <Steps.Step>
+          <Steps.Header>
+            <Steps.Title>Update and Upgrade System</Steps.Title>
+            <Steps.Description>
+              This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox repositories.
+            </Steps.Description>
+          </Steps.Header>
+          <Steps.Content>
+            <p className="mb-4">
+              <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and
+              performance. This optimization ensures you have the latest patches and features, while also configuring the
+              correct repositories for Proxmox VE, enabling access to necessary updates and tools. The additional steps help
+              in:
+            </p>
+            <ul className="list-disc pl-5 mb-4">
+              <li>Disabling enterprise repositories to avoid conflicts</li>
+              <li>Enabling free and testing repositories for broader package access</li>
+              <li>Properly configuring Debian repositories for a stable system</li>
+              <li>Suppressing non-free firmware warnings for a cleaner update experience</li>
+            </ul>
+            <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+            <CopyableCode code={updateUpgradeCode} />
+          </Steps.Content>
+        </Steps.Step>
+      </Steps>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
-          All of these optimizations are automatically applied when selected in the Basic Settings section of the
-          customizable_post_install.sh script. This automation ensures that these beneficial settings are applied
+          All of these optimizations are automatically applied when selected in the Basic Settings section. This automation ensures that these beneficial settings are applied
           consistently and correctly, saving time and reducing the potential for human error during manual
           configuration.
         </p>
@@ -185,4 +197,3 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
     </div>
   )
 }
-

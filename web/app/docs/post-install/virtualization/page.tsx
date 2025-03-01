@@ -38,7 +38,7 @@ export default function VirtualizationSettingsPage() {
         <h1 className="text-3xl font-bold">Virtualization Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Virtualization Settings</strong> category in the <code>customizable_post_install.sh</code> script focuses on optimizing your
+        The <strong>Virtualization Settings</strong> category focuses on optimizing your
         Proxmox VE installation for enhanced virtualization performance, compatibility, and functionality. These settings
         are crucial for creating a robust and efficient virtualization environment.
       </p>
@@ -134,8 +134,7 @@ sudo mount -a`} />
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
-          All of these optimizations are automatically applied when selected in the Basic Settings section of the
-          customizable_post_install.sh script. This automation ensures that these beneficial settings are applied
+          All of these optimizations are automatically applied when selected in the Virtualization section. This automation ensures that these beneficial settings are applied
           consistently and correctly, saving time and reducing the potential for human error during manual
           configuration.
         </p>
