@@ -1,3 +1,4 @@
+import type React from "react"
 import type { Metadata } from "next"
 import { Settings } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
@@ -63,34 +64,92 @@ sudo apt-get install -y libguestfs-tools
         >
           <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
           <ul className="list-disc pl-5 mb-4 space-y-2">
-            <li><strong>axel</strong>: A light command-line download accelerator</li>
-            <li><strong>curl</strong>: A tool for transferring data using various protocols</li>
-            <li><strong>dialog</strong>: A tool for creating TUI interfaces</li>
-            <li><strong>dnsutils</strong>: DNS utilities including dig and nslookup</li>
-            <li><strong>dos2unix</strong>: Text file format converter</li>
-            <li><strong>gnupg-agent</strong>: GNU privacy guard - password agent</li>
-            <li><strong>grc</strong>: Generic colouriser for everything</li>
-            <li><strong>htop</strong>: An interactive process viewer</li>
-            <li><strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and processes</li>
-            <li><strong>iftop</strong>: A tool to display bandwidth usage on an interface</li>
-            <li><strong>iotop</strong>: A tool to display I/O usage by processes</li>
-            <li><strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks</li>
-            <li><strong>ipset</strong>: A tool to manage IP sets in the Linux kernel</li>
-            <li><strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor</li>
-            <li><strong>mlocate</strong>: A tool to find files by name quickly</li>
-            <li><strong>msr-tools</strong>: Tools for accessing CPU model-specific registers</li>
-            <li><strong>nano</strong>: A small, friendly text editor</li>
-            <li><strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system</li>
-            <li><strong>omping</strong>: An open multicast ping tool</li>
-            <li><strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories</li>
-            <li><strong>sshpass</strong>: A tool for non-interactive ssh password authentication</li>
-            <li><strong>tmux</strong>: A terminal multiplexer</li>
-            <li><strong>unzip</strong>: A tool for extracting and viewing files in .zip archives</li>
-            <li><strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor</li>
-            <li><strong>wget</strong>: A utility for non-interactive download of files from the Web</li>
-            <li><strong>whois</strong>: A client for the whois directory service</li>
-            <li><strong>zip</strong>: A compression and file packaging utility</li>
-            <li><strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images</li>
+            <li>
+              <strong>axel</strong>: A light command-line download accelerator
+            </li>
+            <li>
+              <strong>curl</strong>: A tool for transferring data using various protocols
+            </li>
+            <li>
+              <strong>dialog</strong>: A tool for creating TUI interfaces
+            </li>
+            <li>
+              <strong>dnsutils</strong>: DNS utilities including dig and nslookup
+            </li>
+            <li>
+              <strong>dos2unix</strong>: Text file format converter
+            </li>
+            <li>
+              <strong>gnupg-agent</strong>: GNU privacy guard - password agent
+            </li>
+            <li>
+              <strong>grc</strong>: Generic colouriser for everything
+            </li>
+            <li>
+              <strong>htop</strong>: An interactive process viewer
+            </li>
+            <li>
+              <strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network
+              and processes
+            </li>
+            <li>
+              <strong>iftop</strong>: A tool to display bandwidth usage on an interface
+            </li>
+            <li>
+              <strong>iotop</strong>: A tool to display I/O usage by processes
+            </li>
+            <li>
+              <strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks
+            </li>
+            <li>
+              <strong>ipset</strong>: A tool to manage IP sets in the Linux kernel
+            </li>
+            <li>
+              <strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor
+            </li>
+            <li>
+              <strong>mlocate</strong>: A tool to find files by name quickly
+            </li>
+            <li>
+              <strong>msr-tools</strong>: Tools for accessing CPU model-specific registers
+            </li>
+            <li>
+              <strong>nano</strong>: A small, friendly text editor
+            </li>
+            <li>
+              <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking
+              distribution for the Linux operating system
+            </li>
+            <li>
+              <strong>omping</strong>: An open multicast ping tool
+            </li>
+            <li>
+              <strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories
+            </li>
+            <li>
+              <strong>sshpass</strong>: A tool for non-interactive ssh password authentication
+            </li>
+            <li>
+              <strong>tmux</strong>: A terminal multiplexer
+            </li>
+            <li>
+              <strong>unzip</strong>: A tool for extracting and viewing files in .zip archives
+            </li>
+            <li>
+              <strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor
+            </li>
+            <li>
+              <strong>wget</strong>: A utility for non-interactive download of files from the Web
+            </li>
+            <li>
+              <strong>whois</strong>: A client for the whois directory service
+            </li>
+            <li>
+              <strong>zip</strong>: A compression and file packaging utility
+            </li>
+            <li>
+              <strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images
+            </li>
           </ul>
         </OptimizationStep>
 
@@ -175,7 +234,16 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
   )
 }
 
-function OptimizationStep({ number, title, description, benefits, code, children }) {
+interface OptimizationStepProps {
+  number: number
+  title: string
+  description: string
+  benefits: string
+  code: string
+  children?: React.ReactNode
+}
+
+function OptimizationStep({ number, title, description, benefits, code, children }: OptimizationStepProps) {
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
       <div className="flex items-center mb-4">
@@ -194,4 +262,3 @@ function OptimizationStep({ number, title, description, benefits, code, children
     </div>
   )
 }
-
