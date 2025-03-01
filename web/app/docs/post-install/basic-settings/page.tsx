@@ -30,6 +30,14 @@ export const metadata: Metadata = {
   },
 }
 
+function StepNumber({ number }: { number: number }) {
+  return (
+    <div className="inline-flex items-center justify-center w-8 h-8 mr-3 text-white bg-blue-500 rounded-full">
+      <span className="text-sm font-bold">{number}</span>
+    </div>
+  )
+}
+
 export default function BasicSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
@@ -44,7 +52,11 @@ export default function BasicSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
-      <h3 className="text-xl font-semibold mt-8 mb-4">1. Install Common System Utilities</h3>
+      <h3 className="text-xl font-semibold mb-4 flex items-center">
+            <StepNumber number={1} />
+            Install Common System Utilities
+          </h3>
+
       <p className="mb-4">
         This optimization installs a set of common system utilities that are useful for system administration and
         troubleshooting.
@@ -157,7 +169,11 @@ sudo apt-get install -y libguestfs-tools
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-8 mb-4">2. Skip Downloading Additional Languages</h3>
+      <h3 className="text-xl font-semibold mb-4 flex items-center">
+            <StepNumber number={2} />
+            Skip Downloading Additional Languages
+      </h3>
+
       <p className="mb-4">
         This optimization configures APT to skip downloading additional language packages, which can save disk space and
         speed up package operations.
@@ -175,7 +191,11 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-8 mb-4">3. Synchronize Time Automatically</h3>
+      <h3 className="text-xl font-semibold mb-4 flex items-center">
+            <StepNumber number={3} />
+            Synchronize Time Automatically
+      </h3>
+
       <p className="mb-4">
         This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
       </p>
@@ -194,7 +214,11 @@ sudo timedatectl set-timezone "$TIMEZONE"
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-8 mb-4">4. Update and Upgrade System</h3>
+      <h3 className="text-xl font-semibold mb-4 flex items-center">
+            <StepNumber number={4} />
+            Update and Upgrade System
+      </h3>
+
       <p className="mb-4">
         This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
         repositories. It also includes additional steps to properly set up Debian repositories and disable certain
