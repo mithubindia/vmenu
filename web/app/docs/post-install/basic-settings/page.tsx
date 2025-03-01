@@ -31,6 +31,18 @@ export const metadata: Metadata = {
   },
 }
 
+import type { Metadata } from "next"
+import { Settings } from "lucide-react"
+import CopyableCode from "@/components/CopyableCode"
+import { Steps, Step } from "@/components/ui/steps"
+
+export const metadata: Metadata = {
+  title: "ProxMenux Post-Install: Basic Settings",
+  description:
+    "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+  // ... (rest of the metadata)
+}
+
 export default function BasicSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
@@ -47,6 +59,7 @@ export default function BasicSettingsPage() {
 
       <Steps>
         <Step title="Install Common System Utilities">
+        </Step>  
           <section className="mb-8">
             <p className="mb-4">
               This optimization installs a set of common system utilities that are useful for system administration and
@@ -162,9 +175,10 @@ sudo apt-get install -y libguestfs-tools
               `}
             />
           </section>
-        </Step>
+        
 
         <Step title="Skip Downloading Additional Languages">
+        </Step> 
           <section className="mb-8">
             <p className="mb-4">
               This optimization configures APT to skip downloading additional language packages, which can save disk
@@ -183,9 +197,10 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
               `}
             />
           </section>
-        </Step>
+
 
         <Step title="Synchronize Time Automatically">
+        </Step> 
           <section className="mb-8">
             <p className="mb-4">
               This optimization configures the system to automatically synchronize its time, ensuring accurate
@@ -206,9 +221,10 @@ sudo timedatectl set-timezone "$TIMEZONE"
               `}
             />
           </section>
-        </Step>
+   
 
         <Step title="Update and Upgrade System">
+        </Step> 
           <section className="mb-8">
             <p className="mb-4">
               This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
@@ -261,7 +277,7 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
               `}
             />
           </section>
-        </Step>
+  
       </Steps>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
