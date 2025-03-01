@@ -176,7 +176,7 @@ sudo apt-get install -y libguestfs-tools
             </p>
             </section>
         </Steps.Step>
-        </Steps> 
+
 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage
@@ -201,7 +201,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
             </p>
             </section>
       </Steps.Step>
-      </Steps> 
+
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
               consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
@@ -228,7 +228,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
             </p>
             </section>
         </Steps.Step>
-        </Steps> 
+
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability,
               and performance. This optimization ensures you have the latest patches and features, while also
@@ -276,7 +276,7 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
             />
 
   
-
+</Steps> 
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
