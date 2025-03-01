@@ -205,19 +205,7 @@ EOF
 sudo sysctl -p /etc/sysctl.d/99-memory.conf
   `
 
-  const timeSyncCode = `
-# Set timezone (replace 'America/New_York' with your timezone)
-sudo timedatectl set-timezone America/New_York
 
-# Enable automatic time synchronization
-sudo timedatectl set-ntp true
-
-# Note: Automatic timezone setting based on IP is commented out to avoid errors
-# To set timezone automatically based on IP, you would need to run:
-# IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
-# TIMEZONE=$(curl -s "https://ipapi.co/$IP/timezone")
-# sudo timedatectl set-timezone "$TIMEZONE"
-`
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -341,7 +329,7 @@ sudo timedatectl set-ntp true
         <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
         <CopyableCode code={memorySettingsCode} />
       </section>
-
+      
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
