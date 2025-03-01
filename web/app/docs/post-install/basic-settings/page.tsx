@@ -52,7 +52,7 @@ export default function BasicSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
-      <h3 className="text-xl font-semibold mt-16 mb-16 flex items-center">
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
             <StepNumber number={1} />
             Install Common System Utilities
           </h3>
@@ -155,7 +155,7 @@ export default function BasicSettingsPage() {
           <strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images
         </li>
       </ul>
-      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
 # Update package lists
@@ -169,7 +169,7 @@ sudo apt-get install -y libguestfs-tools
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-16 mb-16 flex items-center">
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
             <StepNumber number={2} />
             Skip Downloading Additional Languages
       </h3>
@@ -183,7 +183,7 @@ sudo apt-get install -y libguestfs-tools
         improve the speed of package management operations. This is particularly useful in server environments where
         multiple language support is often not required.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
 # Configure APT to skip downloading additional languages
@@ -191,7 +191,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-16 mb-16 flex items-center">
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
             <StepNumber number={3} />
             Synchronize Time Automatically
       </h3>
@@ -204,7 +204,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
         consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
         Proxmox VE system maintains the correct time without manual intervention.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
 # Note: To set timezone automatically based on IP, you can use:
@@ -214,7 +214,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-16 mb-16 flex items-center">
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
             <StepNumber number={4} />
             Update and Upgrade System
       </h3>
@@ -229,7 +229,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
         performance. This optimization ensures you have the latest patches and features, while also configuring the
         correct repositories for Proxmox VE, enabling access to necessary updates and tools.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
 # Disable enterprise Proxmox repository

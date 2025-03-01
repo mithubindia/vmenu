@@ -65,7 +65,7 @@ export default function SystemSettingsPage() {
         updates. In a virtualization environment where multiple VMs might be running, minimizing host downtime is
         crucial for maintaining high availability and reducing disruption to services.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 sudo apt-get install -y kexec-tools
@@ -88,7 +88,7 @@ echo "alias reboot-quick='systemctl kexec'" >> ~/.bash_profile
         on its own. This is particularly crucial in remote or lights-out data center environments where immediate
         physical access might not be possible.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo "kernel.panic = 10" | sudo tee /etc/sysctl.d/99-kernelpanic.conf
@@ -112,7 +112,7 @@ sudo sysctl -p /etc/sysctl.d/99-kernelpanic.conf
         concurrent connections and file operations, which is crucial for busy servers hosting multiple VMs or
         containers.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo "fs.inotify.max_user_watches = 1048576" | sudo tee /etc/sysctl.d/99-maxwatches.conf
@@ -135,7 +135,7 @@ sudo sysctl -p
         space is often at a premium. Additionally, optimized logging reduces I/O operations, potentially improving
         overall system performance.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo "SystemMaxUse=64M" | sudo tee -a /etc/systemd/journald.conf
@@ -156,7 +156,7 @@ sudo systemctl restart systemd-journald
         memory allocation efficiency, and enhance overall system responsiveness. This is particularly beneficial for
         hosts running memory-intensive workloads or a high number of VMs.
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-memory.conf

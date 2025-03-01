@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Network } from 'lucide-react'
+import { Network } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
@@ -30,6 +30,14 @@ export const metadata: Metadata = {
   },
 }
 
+function StepNumber({ number }: { number: number }) {
+  return (
+    <div className="inline-flex items-center justify-center w-8 h-8 mr-3 text-white bg-blue-500 rounded-full">
+      <span className="text-sm font-bold">{number}</span>
+    </div>
+  )
+}
+
 export default function NetworkSettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
@@ -38,22 +46,29 @@ export default function NetworkSettingsPage() {
         <h1 className="text-3xl font-bold">Network Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Network Settings</strong> category, focuses on optimizing network
-        performance and configuration for your Proxmox VE installation. These settings are crucial for ensuring efficient
-        network operations, which is vital in a virtualized environment where multiple VMs and containers share network resources.
+        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration for
+        your Proxmox VE installation. These settings are crucial for ensuring efficient network operations, which is
+        vital in a virtualized environment where multiple VMs and containers share network resources.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Apply Network Optimizations</h3>
-        <p className="mb-4">
-          This optimization applies various network-related sysctl settings to improve network performance, security, and stability.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> These optimizations can significantly improve network throughput, reduce latency, and enhance security. They adjust various kernel parameters related to networking, which is crucial in a virtualization environment where network performance directly impacts the performance of VMs and containers.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`cat <<EOF | sudo tee /etc/sysctl.d/99-network-performance.conf
+
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={1} />
+        Apply Network Optimizations
+      </h3>
+      <p className="mb-4">
+        This optimization applies various network-related sysctl settings to improve network performance, security, and
+        stability.
+      </p>
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong> These optimizations can significantly improve network throughput, reduce
+        latency, and enhance security. They adjust various kernel parameters related to networking, which is crucial in
+        a virtualization environment where network performance directly impacts the performance of VMs and containers.
+      </p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <CopyableCode
+        code={`
+cat <<EOF | sudo tee /etc/sysctl.d/99-network-performance.conf
 net.core.netdev_max_backlog=8192
 net.core.optmem_max=8192
 net.core.rmem_max=16777216
@@ -100,65 +115,91 @@ net.netfilter.nf_conntrack_tcp_timeout_established = 28800
 net.unix.max_dgram_qlen = 4096
 EOF
 
-sudo sysctl -p /etc/sysctl.d/99-network-performance.conf`} />
-      </section>
+sudo sysctl -p /etc/sysctl.d/99-network-performance.conf
+      `}
+      />
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Enable TCP BBR and Fast Open</h3>
-        <p className="mb-4">
-          This optimization enables Google's TCP BBR congestion control algorithm and TCP Fast Open.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> TCP BBR can significantly improve network throughput and reduce latency, especially on long-distance or congested networks. TCP Fast Open reduces connection establishment time, improving the speed of short-lived connections. These optimizations are particularly beneficial in virtualized environments where network performance is crucial for overall system responsiveness.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo "net.core.default_qdisc = fq" | sudo tee -a /etc/sysctl.d/99-tcp-bbr.conf
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={2} />
+        Enable TCP BBR and Fast Open
+      </h3>
+      <p className="mb-4">This optimization enables Google's TCP BBR congestion control algorithm and TCP Fast Open.</p>
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong> TCP BBR can significantly improve network throughput and reduce latency,
+        especially on long-distance or congested networks. TCP Fast Open reduces connection establishment time,
+        improving the speed of short-lived connections. These optimizations are particularly beneficial in virtualized
+        environments where network performance is crucial for overall system responsiveness.
+      </p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <CopyableCode
+        code={`
+echo "net.core.default_qdisc = fq" | sudo tee -a /etc/sysctl.d/99-tcp-bbr.conf
 echo "net.ipv4.tcp_congestion_control = bbr" | sudo tee -a /etc/sysctl.d/99-tcp-bbr.conf
 echo "net.ipv4.tcp_fastopen = 3" | sudo tee -a /etc/sysctl.d/99-tcp-fastopen.conf
 
 sudo modprobe tcp_bbr
 sudo sysctl -p /etc/sysctl.d/99-tcp-bbr.conf
-sudo sysctl -p /etc/sysctl.d/99-tcp-fastopen.conf`} />
-      </section>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Force APT to Use IPv4</h3>
-        <p className="mb-4">
-          This optimization configures APT (Advanced Package Tool) to use IPv4 exclusively.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Forcing APT to use IPv4 can resolve issues in environments where IPv6 is not properly configured or is causing slowdowns. This ensures more reliable package management operations, which is crucial for maintaining and updating your Proxmox VE system. It's particularly useful in networks where IPv6 connectivity might be unreliable or not fully supported.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4`} />
-      </section>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Install Open vSwitch</h3>
-        <p className="mb-4">
-          This optimization installs Open vSwitch, a production quality, multilayer virtual switch.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Open vSwitch provides advanced networking capabilities for virtualized environments. It allows for more flexible and powerful network configurations, including support for VLAN tagging and trunking, advanced traffic shaping, and Quality of Service (QoS) capabilities. This is particularly beneficial for complex virtualization setups where fine-grained control over network traffic is required.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`sudo apt-get update
+sudo sysctl -p /etc/sysctl.d/99-tcp-fastopen.conf
+      `}
+      />
+
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={3} />
+        Force APT to Use IPv4
+      </h3>
+      <p className="mb-4">This optimization configures APT (Advanced Package Tool) to use IPv4 exclusively.</p>
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong> Forcing APT to use IPv4 can resolve issues in environments where IPv6 is
+        not properly configured or is causing slowdowns. This ensures more reliable package management operations, which
+        is crucial for maintaining and updating your Proxmox VE system. It's particularly useful in networks where IPv6
+        connectivity might be unreliable or not fully supported.
+      </p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <CopyableCode
+        code={`
+echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
+      `}
+      />
+
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={4} />
+        Install Open vSwitch
+      </h3>
+      <p className="mb-4">This optimization installs Open vSwitch, a production quality, multilayer virtual switch.</p>
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong> Open vSwitch provides advanced networking capabilities for virtualized
+        environments. It allows for more flexible and powerful network configurations, including support for VLAN
+        tagging and trunking, advanced traffic shaping, and Quality of Service (QoS) capabilities. This is particularly
+        beneficial for complex virtualization setups where fine-grained control over network traffic is required.
+      </p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <CopyableCode
+        code={`
+sudo apt-get update
 sudo apt-get install -y openvswitch-switch
 
 # Verify installation
-sudo ovs-vsctl --version`} />
-      </section>
-      
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Optimize Network Interface Settings</h3>
-        <p className="mb-4">
-          This optimization adjusts settings for network interfaces to improve performance and reliability.
-        </p>
-        <p className="mb-4">
-          <strong>Why it's important:</strong> Proper configuration of network interfaces can significantly improve network performance, reduce latency, and increase stability. This is particularly important in virtualized environments where multiple VMs and containers share network resources. Optimizations like increasing the TX queue length can help prevent packet drops under high load.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">To apply this setting manually, run:</h4>
-        <CopyableCode code={`# Replace eth0 with your actual interface name
+sudo ovs-vsctl --version
+      `}
+      />
+
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={5} />
+        Optimize Network Interface Settings
+      </h3>
+      <p className="mb-4">
+        This optimization adjusts settings for network interfaces to improve performance and reliability.
+      </p>
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong> Proper configuration of network interfaces can significantly improve
+        network performance, reduce latency, and increase stability. This is particularly important in virtualized
+        environments where multiple VMs and containers share network resources. Optimizations like increasing the TX
+        queue length can help prevent packet drops under high load.
+      </p>
+      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <CopyableCode
+        code={`
+# Replace eth0 with your actual interface name
 sudo ip link set eth0 txqueuelen 10000
 
 # Make the change persistent
@@ -167,17 +208,19 @@ echo 'ACTION=="add", SUBSYSTEM=="net", KERNEL=="eth0", RUN+="/sbin/ip link set e
 # Enable TCP timestamps
 echo 'net.ipv4.tcp_timestamps = 1' | sudo tee -a /etc/sysctl.d/99-network-performance.conf
 
-sudo sysctl -p /etc/sysctl.d/99-network-performance.conf`} />
-      </section>
-      
+sudo sysctl -p /etc/sysctl.d/99-network-performance.conf
+      `}
+      />
+
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
-          All of these optimizations are automatically applied when selected in the Network section section. This automation ensures that these beneficial settings are applied
-          consistently and correctly, saving time and reducing the potential for human error during manual
-          configuration.
+          All of these optimizations are automatically applied when selected in the Network section. This automation
+          ensures that these beneficial settings are applied consistently and correctly, saving time and reducing the
+          potential for human error during manual configuration.
         </p>
       </section>
     </div>
-  );
+  )
 }
+
