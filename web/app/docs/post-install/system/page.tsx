@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Server } from "lucide-react"
+import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: System Settings",

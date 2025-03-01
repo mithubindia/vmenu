@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { Box } from "lucide-react"
-import { CopyableCode } from "@/components/CopyableCode"
+import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
   title: "ProxMenux Post-Install: Virtualization Settings",
