@@ -100,16 +100,26 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
         <h1 className="text-3xl font-bold">Basic Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Proxmox VE installation, including installing essential utilities, adding repositories, managing packages, and keeping the system up to date.
+        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Proxmox VE
+        installation, including installing essential utilities, adding repositories, managing packages, and keeping the
+        system up to date.
       </p>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
       <Steps>
-        <Steps.Step title="Install Common System Utilities" />
-        <Steps.Step title="Skip Downloading Additional Languages" />
-        <Steps.Step title="Synchronize Time Automatically" />
-        <Steps.Step title="Update and Upgrade System" />
+        <Steps.Step title="Install Common System Utilities">
+          <CopyableCode code={installUtilitiesCode} />
+        </Steps.Step>
+        <Steps.Step title="Skip Downloading Additional Languages">
+          <CopyableCode code={skipLanguagesCode} />
+        </Steps.Step>
+        <Steps.Step title="Synchronize Time Automatically">
+          <CopyableCode code={timeSyncCode} />
+        </Steps.Step>
+        <Steps.Step title="Update and Upgrade System">
+          <CopyableCode code={updateUpgradeCode} />
+        </Steps.Step>
       </Steps>
 
       <section className="mb-8 mt-8">
@@ -125,34 +135,34 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
         </p>
         <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
         <ul className="list-disc pl-5 mb-4">
-          <li><strong>axel</strong>: A light command-line download accelerator</li>
-          <li><strong>curl</strong>: A tool for transferring data using various protocols</li>
-          <li><strong>dialog</strong>: A tool for creating TUI interfaces</li>
-          <li><strong>dnsutils</strong>: DNS utilities including dig and nslookup</li>
-          <li><strong>dos2unix</strong>: Text file format converter</li>
-          <li><strong>gnupg-agent</strong>: GNU privacy guard - password agent</li>
-          <li><strong>grc</strong>: Generic colouriser for everything</li>
-          <li><strong>htop</strong>: An interactive process viewer</li>
-          <li><strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and processes</li>
-          <li><strong>iftop</strong>: A tool to display bandwidth usage on an interface</li>
-          <li><strong>iotop</strong>: A tool to display I/O usage by processes</li>
-          <li><strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks</li>
-          <li><strong>ipset</strong>: A tool to manage IP sets in the Linux kernel</li>
-          <li><strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor</li>
-          <li><strong>mlocate</strong>: A tool to find files by name quickly</li>
-          <li><strong>msr-tools</strong>: Tools for accessing CPU model-specific registers</li>
-          <li><strong>nano</strong>: A small, friendly text editor</li>
-          <li><strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system</li>
-          <li><strong>omping</strong>: An open multicast ping tool</li>
-          <li><strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories</li>
-          <li><strong>sshpass</strong>: A tool for non-interactive ssh password authentication</li>
-          <li><strong>tmux</strong>: A terminal multiplexer</li>
-          <li><strong>unzip</strong>: A tool for extracting and viewing files in .zip archives</li>
-          <li><strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor</li>
-          <li><strong>wget</strong>: A utility for non-interactive download of files from the Web</li>
-          <li><strong>whois</strong>: A client for the whois directory service</li>
-          <li><strong>zip</strong>: A compression and file packaging utility</li>
-          <li><strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images</li>
+              <li><strong>axel</strong>: A light command-line download accelerator</li>
+              <li><strong>curl</strong>: A tool for transferring data using various protocols</li>
+              <li><strong>dialog</strong>: A tool for creating TUI interfaces</li>
+              <li><strong>dnsutils</strong>: DNS utilities including dig and nslookup</li>
+              <li><strong>dos2unix</strong>: Text file format converter</li>
+              <li><strong>gnupg-agent</strong>: GNU privacy guard - password agent</li>
+              <li><strong>grc</strong>: Generic colouriser for everything</li>
+              <li><strong>htop</strong>: An interactive process viewer</li>
+              <li><strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and processes</li>
+              <li><strong>iftop</strong>: A tool to display bandwidth usage on an interface</li>
+              <li><strong>iotop</strong>: A tool to display I/O usage by processes</li>
+              <li><strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks</li>
+              <li><strong>ipset</strong>: A tool to manage IP sets in the Linux kernel</li>
+              <li><strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor</li>
+              <li><strong>mlocate</strong>: A tool to find files by name quickly</li>
+              <li><strong>msr-tools</strong>: Tools for accessing CPU model-specific registers</li>
+              <li><strong>nano</strong>: A small, friendly text editor</li>
+              <li><strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system</li>
+              <li><strong>omping</strong>: An open multicast ping tool</li>
+              <li><strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories</li>
+              <li><strong>sshpass</strong>: A tool for non-interactive ssh password authentication</li>
+              <li><strong>tmux</strong>: A terminal multiplexer</li>
+              <li><strong>unzip</strong>: A tool for extracting and viewing files in .zip archives</li>
+              <li><strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor</li>
+              <li><strong>wget</strong>: A utility for non-interactive download of files from the Web</li>
+              <li><strong>whois</strong>: A client for the whois directory service</li>
+              <li><strong>zip</strong>: A compression and file packaging utility</li>
+              <li><strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images</li>
         </ul>
         <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
         <CopyableCode code={installUtilitiesCode} />
@@ -213,11 +223,12 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
-          All of these optimizations are automatically applied when selected in the Basic Settings section. This automation ensures that these beneficial settings are applied
-          consistently and correctly, saving time and reducing the potential for human error during manual
-          configuration.
+          All of these optimizations are automatically applied when selected in the Basic Settings section. This
+          automation ensures that these beneficial settings are applied consistently and correctly, saving time and
+          reducing the potential for human error during manual configuration.
         </p>
       </section>
     </div>
   )
 }
+
