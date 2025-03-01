@@ -106,41 +106,109 @@ sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
       <Steps>
-        <Steps.Step title="Install Common System Utilities">
-          <p>This optimization installs a set of common system utilities that are useful for system administration and troubleshooting.</p>
-          <p className="mt-2"><strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and troubleshooting issues, enhancing your ability to maintain and optimize your virtualization environment.</p>
-          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this optimization manually, run these commands:</h4>
-          <CopyableCode code={installUtilitiesCode} />
-        </Steps.Step>
-
-        <Steps.Step title="Skip Downloading Additional Languages">
-          <p>This optimization configures APT to skip downloading additional language packages, which can save disk space and speed up package operations.</p>
-          <p className="mt-2"><strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and improve the speed of package management operations. This is particularly useful in server environments where multiple language support is often not required.</p>
-          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this optimization manually, run this command:</h4>
-          <CopyableCode code={skipLanguagesCode} />
-        </Steps.Step>
-
-        <Steps.Step title="Synchronize Time Automatically">
-          <p>This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.</p>
-          <p className="mt-2"><strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your Proxmox VE system maintains the correct time without manual intervention.</p>
-          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this optimization manually, run these commands:</h4>
-          <CopyableCode code={timeSyncCode} />
-        </Steps.Step>
-
-        <Steps.Step title="Update and Upgrade System">
-          <p>This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox repositories.</p>
-          <p className="mt-2"><strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and performance. This optimization ensures you have the latest patches and features, while also configuring the correct repositories for Proxmox VE, enabling access to necessary updates and tools.</p>
-          <p className="mt-2">The additional steps help in:</p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Disabling enterprise repositories to avoid conflicts</li>
-            <li>Enabling free and testing repositories for broader package access</li>
-            <li>Properly configuring Debian repositories for a stable system</li>
-            <li>Suppressing non-free firmware warnings for a cleaner update experience</li>
-          </ul>
-          <h4 className="text-lg font-semibold mt-4 mb-2">To apply this optimization manually, run these commands:</h4>
-          <CopyableCode code={updateUpgradeCode} />
-        </Steps.Step>
+        <Steps.Step title="Install Common System Utilities" />
+        <Steps.Step title="Skip Downloading Additional Languages" />
+        <Steps.Step title="Synchronize Time Automatically" />
+        <Steps.Step title="Update and Upgrade System" />
       </Steps>
+
+      <section className="mb-8 mt-8">
+        <h3 className="text-xl font-semibold mb-2">Install Common System Utilities</h3>
+        <p className="mb-4">
+          This optimization installs a set of common system utilities that are useful for system administration and
+          troubleshooting.
+        </p>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your
+          Proxmox VE system. They provide essential tools for monitoring system performance, managing files, and
+          troubleshooting issues, enhancing your ability to maintain and optimize your virtualization environment.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
+        <ul className="list-disc pl-5 mb-4">
+          <li><strong>axel</strong>: A light command-line download accelerator</li>
+          <li><strong>curl</strong>: A tool for transferring data using various protocols</li>
+          <li><strong>dialog</strong>: A tool for creating TUI interfaces</li>
+          <li><strong>dnsutils</strong>: DNS utilities including dig and nslookup</li>
+          <li><strong>dos2unix</strong>: Text file format converter</li>
+          <li><strong>gnupg-agent</strong>: GNU privacy guard - password agent</li>
+          <li><strong>grc</strong>: Generic colouriser for everything</li>
+          <li><strong>htop</strong>: An interactive process viewer</li>
+          <li><strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and processes</li>
+          <li><strong>iftop</strong>: A tool to display bandwidth usage on an interface</li>
+          <li><strong>iotop</strong>: A tool to display I/O usage by processes</li>
+          <li><strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks</li>
+          <li><strong>ipset</strong>: A tool to manage IP sets in the Linux kernel</li>
+          <li><strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor</li>
+          <li><strong>mlocate</strong>: A tool to find files by name quickly</li>
+          <li><strong>msr-tools</strong>: Tools for accessing CPU model-specific registers</li>
+          <li><strong>nano</strong>: A small, friendly text editor</li>
+          <li><strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system</li>
+          <li><strong>omping</strong>: An open multicast ping tool</li>
+          <li><strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories</li>
+          <li><strong>sshpass</strong>: A tool for non-interactive ssh password authentication</li>
+          <li><strong>tmux</strong>: A terminal multiplexer</li>
+          <li><strong>unzip</strong>: A tool for extracting and viewing files in .zip archives</li>
+          <li><strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor</li>
+          <li><strong>wget</strong>: A utility for non-interactive download of files from the Web</li>
+          <li><strong>whois</strong>: A client for the whois directory service</li>
+          <li><strong>zip</strong>: A compression and file packaging utility</li>
+          <li><strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images</li>
+        </ul>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={installUtilitiesCode} />
+      </section>
+
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-2">Skip Downloading Additional Languages</h3>
+        <p className="mb-4">
+          This optimization configures APT to skip downloading additional language packages, which can save disk space
+          and speed up package operations.
+        </p>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and
+          improve the speed of package management operations. This is particularly useful in server environments where
+          multiple language support is often not required.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run this command:</h4>
+        <CopyableCode code={skipLanguagesCode} />
+      </section>
+
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-2">Synchronize Time Automatically</h3>
+        <p className="mb-4">
+          This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
+        </p>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
+          consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
+          Proxmox VE system maintains the correct time without manual intervention.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={timeSyncCode} />
+      </section>
+
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-2">Update and Upgrade System</h3>
+        <p className="mb-4">
+          This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
+          repositories. It also includes additional steps to properly set up Debian repositories and disable certain
+          warnings.
+        </p>
+        <p className="mb-4">
+          <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and
+          performance. This optimization ensures you have the latest patches and features, while also configuring the
+          correct repositories for Proxmox VE, enabling access to necessary updates and tools. The additional steps help
+          in:
+        </p>
+        <ul className="list-disc pl-5 mb-4">
+          <li>Disabling enterprise repositories to avoid conflicts</li>
+          <li>Enabling free and testing repositories for broader package access</li>
+          <li>Properly configuring Debian repositories for a stable system</li>
+          <li>Suppressing non-free firmware warnings for a cleaner update experience</li>
+        </ul>
+        <h4 className="text-lg font-semibold mb-2">To apply this optimization manually, run these commands:</h4>
+        <CopyableCode code={updateUpgradeCode} />
+      </section>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
