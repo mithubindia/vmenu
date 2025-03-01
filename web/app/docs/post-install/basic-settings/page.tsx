@@ -167,7 +167,7 @@ sudo apt-get install -y libguestfs-tools
             />
          
         
-
+        <Steps> 
         <Steps.Step title="Skip Downloading Additional Languages">
           <section className="mb-8">
             <p className="mb-4">
@@ -175,7 +175,8 @@ sudo apt-get install -y libguestfs-tools
               space and speed up package operations.
             </p>
             </section>
-            </Steps.Step>
+        </Steps.Step>
+        </Steps> 
 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage
@@ -191,7 +192,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
             />
 
 
-
+       <Steps> 
         <Steps.Step title="Synchronize Time Automatically">
           <section className="mb-8">
             <p className="mb-4">
@@ -199,7 +200,8 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
               timekeeping.
             </p>
             </section>
-            </Steps.Step>
+      </Steps.Step>
+      </Steps> 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
               consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
@@ -216,9 +218,8 @@ sudo timedatectl set-timezone "$TIMEZONE"
             />
 
    
-
+        <Steps> 
         <Steps.Step title="Update and Upgrade System">
-       
           <section className="mb-8">
             <p className="mb-4">
               This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
@@ -226,7 +227,8 @@ sudo timedatectl set-timezone "$TIMEZONE"
               warnings.
             </p>
             </section>
-            </Steps.Step>
+        </Steps.Step>
+        </Steps> 
             <p className="mb-4">
               <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability,
               and performance. This optimization ensures you have the latest patches and features, while also
