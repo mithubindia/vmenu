@@ -60,7 +60,8 @@ export default function NetworkSettingsPage() {
       This setting adjusts various <strong>sysctl</strong> parameters to enhance network performance, security, and stability.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Improves <strong>throughput, reduces latency</strong>, and <strong>enhances security</strong> 
+      <strong className="block">Why it's beneficial:</strong>
+        Improves <strong>throughput, reduces latency</strong>, and <strong>enhances security</strong> 
         by fine-tuning kernel network settings. These optimizations are critical in virtualization environments where network 
         efficiency directly impacts VMs and container performance.
       </p>
@@ -128,8 +129,10 @@ sudo sysctl -p /etc/sysctl.d/99-network-performance.conf
       <ul className="list-disc pl-5">
         <li><strong>TCP BBR</strong> improves network throughput and reduces latency, especially over long-distance or congested links.</li>
         <li><strong>TCP Fast Open</strong> accelerates connection establishment, benefiting short-lived connections.</li>
-        <li>These enhancements improve <strong>network responsiveness</strong> in virtualized environments where efficient communication between systems is critical.</li>
       </ul>
+     </p>
+     <p className="mb-4">These enhancements improve <strong>network responsiveness</strong> in virtualized environments 
+     where efficient communication between systems is critical.
      </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -150,7 +153,8 @@ sudo sysctl -p /etc/sysctl.d/99-tcp-fastopen.conf
       </h3>
       <p className="mb-4">This setting forces <strong>APT (Advanced Package Tool)</strong> to use <strong>IPv4</strong> exclusively.</p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Ensures <strong>reliable package management operations</strong> in environments where <strong>IPv6 </strong>
+      <strong className="block">Why it's beneficial:</strong>
+        Ensures <strong>reliable package management operations</strong> in environments where <strong>IPv6 </strong>
         is misconfigured or causes slow downloads. This is particularly useful in networks where <strong>IPv6 connectivity 
         is unstable or unsupported</strong>, reducing potential update and repository access issues.
       </p>
