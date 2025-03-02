@@ -157,11 +157,11 @@ apt_upgrade() {
     fi
 
     # Enable Proxmox testing repository
-#    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-#       msg_info "$(translate "Enabling Proxmox testing repository...")"
-#        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-#        msg_ok "$(translate "Proxmox testing repository enabled")"
-#    fi
+    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
+        msg_info "$(translate "Enabling Proxmox testing repository...")"
+        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
+        msg_ok "$(translate "Proxmox testing repository enabled")"
+    fi
 
     # Configure main Debian repositories
     if ! grep -q "${OS_CODENAME}-security" /etc/apt/sources.list; then
@@ -1246,7 +1246,7 @@ EOF
 install_fail2ban() {
     msg_info2 "$(translate "Installing and configuring Fail2Ban to protect the web interface...")"
 
-#    
+
 #    if dpkg -l | grep -qw fail2ban; then
 #        msg_info "$(translate "Removing existing Fail2Ban installation...")"
 #        apt-get remove --purge -y fail2ban >/dev/null 2>&1
@@ -1362,7 +1362,7 @@ EOF
        
     fi
 
- 
+
     msg_info "$(translate "Checking Fail2Ban socket...")"
     if [ -S /var/run/fail2ban/fail2ban.sock ]; then
         msg_ok "$(translate "Fail2Ban socket exists!")"
@@ -1370,7 +1370,7 @@ EOF
         msg_warn "$(translate "Warning: Fail2Ban socket does not exist!")"
     fi
 
-    
+
     msg_info "$(translate "Testing fail2ban-client...")"
     if fail2ban-client ping >/dev/null 2>&1; then
         msg_ok "$(translate "fail2ban-client successfully communicated with the server")"
@@ -1379,7 +1379,7 @@ EOF
        
     fi
 
-    
+
     msg_info "$(translate "Displaying Fail2Ban status...")"
     fail2ban-client status >/dev/null 2>&1
     msg_ok "$(translate "Fail2Ban status displayed")"
@@ -1976,20 +1976,47 @@ configure_fastfetch() {
     mkdir -p "$fastfetch_config_dir"
     mkdir -p "$logos_dir"
 
-    # Install Fastfetch if not already installed
-    if ! command -v fastfetch &> /dev/null; then
-        msg_info "$(translate "Downloading and installing Fastfetch...")"
-        wget -qO "$fastfetch_bin" "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64"
-        chmod +x "$fastfetch_bin"
-        msg_ok "$(translate "Fastfetch installed successfully")"
-    else
-        msg_ok "$(translate "Fastfetch is already installed")"
+    
+    if command -v fastfetch &> /dev/null; then
+        apt-get remove --purge -y fastfetch > /dev/null 2>&1
+        rm -f /usr/bin/fastfetch /usr/local/bin/fastfetch
     fi
 
-    # Create initial config file if it doesn't exist
-    if [ ! -f "$fastfetch_config" ]; then
-        echo '{"modules": []}' > "$fastfetch_config"
+    
+    msg_info "$(translate "Downloading the latest Fastfetch release...")"
+    local fastfetch_deb_url=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest |
+        jq -r '.assets[] | select(.name | test("fastfetch-linux-amd64.deb")) | .browser_download_url')
+
+    if [[ -z "$fastfetch_deb_url" ]]; then
+        msg_error "$(translate "Failed to retrieve Fastfetch download URL.")"
+        return 1
     fi
+
+    
+    wget -qO /tmp/fastfetch.deb "$fastfetch_deb_url"
+    if dpkg -i /tmp/fastfetch.deb > /dev/null 2>&1; then
+        apt-get install -f -y  > /dev/null 2>&1 
+        msg_ok "$(translate "Fastfetch installed successfully")"
+    else
+        msg_error "$(translate "Failed to install Fastfetch.")"
+        return 1
+    fi
+
+    
+    rm -f /tmp/fastfetch.deb
+
+    
+    if ! command -v fastfetch &> /dev/null; then
+        msg_error "$(translate "Fastfetch is not installed correctly.")"
+        return 1
+    fi
+
+    
+    if [ ! -f "$fastfetch_config" ]; then
+        echo '{"$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json", "modules": []}' > "$fastfetch_config"
+    fi
+
+    fastfetch --gen-config-force > /dev/null 2>&1
 
     while true; do
         # Define logo options
@@ -2091,35 +2118,27 @@ configure_fastfetch() {
         esac
     done
 
+    # Modify Fastfetch modules to display custom title
+    msg_info "$(translate "Modifying Fastfetch configuration...")"
 
-# Modify Fastfetch modules to display custom title
-msg_info "$(translate "Modifying Fastfetch configuration...")"
+    jq '.modules |= map(select(. != "title"))' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
 
-# Eliminar "title" si existe en la configuración
-jq '.modules |= map(select(. != "title"))' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
+    jq 'del(.modules[] | select(type == "object" and .type == "custom"))' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
 
-# Asegurar que solo haya una entrada "custom"
-jq 'del(.modules[] | select(type == "object" and .type == "custom"))' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
+    jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
 
-# Agregar la entrada "custom" al inicio de los módulos si no existe
-jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
+    msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
 
-msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
+    fastfetch --gen-config > /dev/null 2>&1
+    msg_ok "$(translate "Fastfetch configuration updated")"
 
-# Regenerar configuración (evita que Fastfetch sobrescriba cambios)
-fastfetch --gen-config > /dev/null 2>&1
-msg_ok "$(translate "Fastfetch configuration updated")"
+    sed -i '/fastfetch/d' ~/.bashrc ~/.profile /etc/profile
+    rm -f /etc/update-motd.d/99-fastfetch  
 
-# Eliminar instancias previas de Fastfetch en bashrc y perfiles
-sed -i '/fastfetch/d' ~/.bashrc ~/.profile /etc/profile
-rm -f /etc/update-motd.d/99-fastfetch  
+    echo "clear && fastfetch" >> ~/.bashrc
+    msg_ok "$(translate "Fastfetch will start automatically in the console")"
 
-# Agregar Fastfetch a ~/.bashrc para que se ejecute en cada inicio de sesión
-echo "clear && fastfetch" >> ~/.bashrc
-msg_ok "$(translate "Fastfetch will start automatically in the console")"
-
-msg_success "$(translate "Fastfetch installation and configuration completed")"
-
+    msg_success "$(translate "Fastfetch installation and configuration completed")"
 
 }
 
