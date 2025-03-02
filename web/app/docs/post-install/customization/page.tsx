@@ -153,5 +153,5 @@ sed -i '/^$/N;/^\n$/D' /etc/motd
       </section>
     </div>
   )
-
 }
+
