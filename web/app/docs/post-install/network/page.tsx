@@ -46,9 +46,9 @@ export default function NetworkSettingsPage() {
         <h1 className="text-3xl font-bold">Network Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration for
-        your Proxmox VE installation. These settings are crucial for ensuring efficient network operations, which is
-        vital in a virtualized environment where multiple VMs and containers share network resources.
+        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration in Proxmox VE. 
+        These settings are essential for efficient network operations in virtualized environments where multiple VMs and containers 
+        share network resources.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
@@ -57,13 +57,12 @@ export default function NetworkSettingsPage() {
         Apply Network Optimizations
       </h3>
       <p className="mb-4">
-        This optimization applies various network-related sysctl settings to improve network performance, security, and
-        stability.
+      This setting adjusts various <strong>sysctl</strong> parameters to enhance network performance, security, and stability.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> These optimizations can significantly improve network throughput, reduce
-        latency, and enhance security. They adjust various kernel parameters related to networking, which is crucial in
-        a virtualization environment where network performance directly impacts the performance of VMs and containers.
+        <strong>Why it's beneficial:</strong> Improves <strong>throughput, reduces latency</strong>, and <strong>enhances security</strong> 
+        by fine-tuning kernel network settings. These optimizations are critical in virtualization environments where network 
+        efficiency directly impacts VMs and container performance.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -123,13 +122,15 @@ sudo sysctl -p /etc/sysctl.d/99-network-performance.conf
         <StepNumber number={2} />
         Enable TCP BBR and Fast Open
       </h3>
-      <p className="mb-4">This optimization enables Google's TCP BBR congestion control algorithm and TCP Fast Open.</p>
+      <p className="mb-4">This optimization enables  <strong>TCP BBR</strong>, Google's congestion control algorithm, and  <strong>TCP Fast Open</strong>.</p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> TCP BBR can significantly improve network throughput and reduce latency,
-        especially on long-distance or congested networks. TCP Fast Open reduces connection establishment time,
-        improving the speed of short-lived connections. These optimizations are particularly beneficial in virtualized
-        environments where network performance is crucial for overall system responsiveness.
-      </p>
+      <strong>Why it's beneficial:</strong>
+      <ul className="list-disc pl-5">
+        <li><strong>TCP BBR</strong> improves network throughput and reduces latency, especially over long-distance or congested links.</li>
+        <li><strong>TCP Fast Open</strong> accelerates connection establishment, benefiting short-lived connections.</li>
+        <li>These enhancements improve <strong>network responsiveness</strong> in virtualized environments where efficient communication between systems is critical.</li>
+      </ul>
+     </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
@@ -147,12 +148,11 @@ sudo sysctl -p /etc/sysctl.d/99-tcp-fastopen.conf
         <StepNumber number={3} />
         Force APT to Use IPv4
       </h3>
-      <p className="mb-4">This optimization configures APT (Advanced Package Tool) to use IPv4 exclusively.</p>
+      <p className="mb-4">This setting forces <strong>APT (Advanced Package Tool)</strong> to use <strong>IPv4</strong> exclusively.</p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Forcing APT to use IPv4 can resolve issues in environments where IPv6 is
-        not properly configured or is causing slowdowns. This ensures more reliable package management operations, which
-        is crucial for maintaining and updating your Proxmox VE system. It's particularly useful in networks where IPv6
-        connectivity might be unreliable or not fully supported.
+        <strong>Why it's beneficial:</strong> Ensures <strong>reliable package management operations</strong> in environments where <strong>IPv6 </strong>
+        is misconfigured or causes slow downloads. This is particularly useful in networks where <strong>IPv6 connectivity 
+        is unstable or unsupported</strong>, reducing potential update and repository access issues.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -165,12 +165,12 @@ echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
         <StepNumber number={4} />
         Install Open vSwitch
       </h3>
-      <p className="mb-4">This optimization installs Open vSwitch, a production quality, multilayer virtual switch.</p>
+      <p className="mb-4">This optimization installs <strong>Open vSwitch (OVS)</strong>, a multilayer virtual switch designed for modern virtualized environments.</p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Open vSwitch provides advanced networking capabilities for virtualized
-        environments. It allows for more flexible and powerful network configurations, including support for VLAN
-        tagging and trunking, advanced traffic shaping, and Quality of Service (QoS) capabilities. This is particularly
-        beneficial for complex virtualization setups where fine-grained control over network traffic is required.
+      <strong className="block">Why it's beneficial:</strong>
+        Provides <strong>advanced networking capabilities</strong>, including <strong>VLAN tagging, trunking, 
+        traffic shaping, and Quality of Service (QoS)</strong>. OVS enables more <strong>flexible</strong> and <strong>scalable</strong> network configurations, 
+        making it ideal for complex virtualization setups requiring fine-grained traffic control.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -188,13 +188,13 @@ sudo ovs-vsctl --version
         Optimize Network Interface Settings
       </h3>
       <p className="mb-4">
-        This optimization adjusts settings for network interfaces to improve performance and reliability.
+      This setting adjusts network interface parameters to enhance performance and reliability.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Proper configuration of network interfaces can significantly improve
-        network performance, reduce latency, and increase stability. This is particularly important in virtualized
-        environments where multiple VMs and containers share network resources. Optimizations like increasing the TX
-        queue length can help prevent packet drops under high load.
+      <strong className="block">Why it's beneficial:</strong>
+        PProper <strong>NIC tuning</strong> reduces <strong>latency, packet loss</strong>, and <strong>improves stability </strong>
+        in environments with high network loads. Adjustments like <strong>increasing TX queue length</strong> prevent packet drops 
+        and enhance network responsiveness, which is essential in virtualized infrastructures with multiple VMs and containers.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode

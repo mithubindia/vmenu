@@ -46,9 +46,8 @@ export default function VirtualizationSettingsPage() {
         <h1 className="text-3xl font-bold">Virtualization Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Virtualization Settings</strong> category focuses on optimizing your Proxmox VE installation for
-        enhanced virtualization performance, compatibility, and functionality. These settings are crucial for creating a
-        robust and efficient virtualization environment.
+        The <strong>Virtualization Settings</strong> category optimizes Proxmox VE for enhanced virtualization performance, 
+        compatibility, and functionality.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
@@ -57,14 +56,13 @@ export default function VirtualizationSettingsPage() {
         Enable VFIO IOMMU Support
       </h3>
       <p className="mb-4">
-        This optimization enables IOMMU (Input-Output Memory Management Unit) and configures VFIO (Virtual Function I/O)
-        for PCI passthrough, allowing direct assignment of PCI devices to virtual machines.
+      This setting enables <strong>IOMMU</strong> (Input-Output Memory Management Unit) and configures <strong>VFIO</strong> (Virtual Function I/O) 
+      for PCI passthrough, allowing direct assignment of PCI devices to virtual machines.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> IOMMU and VFIO support enables near-native performance for PCI devices
-        (like GPUs or network cards) in virtual machines. This is crucial for high-performance virtualization scenarios,
-        such as GPU-accelerated workloads or network-intensive applications. It allows VMs to directly access hardware,
-        bypassing the hypervisor, which significantly improves performance and reduces latency.
+        <strong>Why it's beneficial:</strong> Enables near-native performance for PCI devices, such as <strong>GPUs</strong> or <strong>network cards</strong>, 
+        by allowing direct access from VMs. This is essential for <strong>GPU acceleration, low-latency networking</strong>, 
+        and <strong>high-performance workloads</strong>, reducing hypervisor overhead and improving efficiency.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -86,14 +84,12 @@ sudo update-initramfs -u -k all
         Install Relevant Guest Agent
       </h3>
       <p className="mb-4">
-        This optimization detects the virtualization environment and installs the appropriate guest agent for improved
-        integration between the host and guest systems.
+      This optimization installs the appropriate <strong>guest agent</strong> based on the virtualization environment.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Guest agents improve communication and integration between the host and
-        guest systems. They enable features like graceful shutdown of virtual machines, file sharing between host and
-        guest, better performance monitoring, and enhanced resource allocation. This leads to more efficient management
-        of VMs and improved overall system performance.
+        <strong>Why it's beneficial:</strong> Enhances host-guest integration by enabling <strong>graceful shutdown</strong>, 
+        <strong>file sharing, performance monitoring</strong>, and <strong>better resource allocation</strong>. 
+        This improves VM management and overall system efficiency.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -114,14 +110,13 @@ sudo apt-get install -y virtualbox-guest-utils
         Configure KSM (Kernel Samepage Merging)
       </h3>
       <p className="mb-4">
-        This optimization installs and configures the KSM control daemon, which helps optimize memory usage in
-        virtualized environments by sharing identical memory pages between multiple virtual machines.
+      This setting enables and configures <strong>KSM</strong> to optimize memory usage by sharing identical 
+      memory pages across multiple virtual machines.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> KSM can significantly reduce memory usage in environments with many
-        similar VMs, allowing for higher VM density on a single host. This is particularly beneficial for scenarios
-        where many VMs run similar operating systems or applications. By reducing overall memory usage, KSM can improve
-        system performance and allow for more efficient resource utilization.
+        <strong>Why it's beneficial:</strong> Reduces <strong>RAM consumption</strong> in environments with similar VMs, 
+        allowing for <strong>higher VM density</strong> on a single host. This is particularly useful for systems 
+        running multiple instances of the same OS or application, improving memory efficiency and overall performance.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
