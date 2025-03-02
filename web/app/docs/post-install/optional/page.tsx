@@ -187,8 +187,9 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
         To use a custom logo, place your ASCII art text file in: <code>/usr/local/share/fastfetch/logos/</code>
       </p>
       <p>
-        You can create custom logos using tools like <code>chafa</code>, <code>jp2a</code>, or <code>img2txt</code>. For
-        best results:
+        You can create custom logos using tools like <code>chafa</code>, <code>jp2a</code>, or <code>img2txt</code>.</p>
+      <p>
+        For best results:
       </p>
       <ul className="list-disc pl-5 mt-2">
         <li>Keep the logo height to 35 lines or less to maintain proportions and fit in the terminal</li>
@@ -248,14 +249,14 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
       </div>
     </div>
 
-    <p className="text-lg mb-2 mt-8">This adjustment automates and silently executes the following process:</p>
+    <p className="text-lg mb-2">This adjustment automates the following commands:</p>
     <CopyableCode
       code={`
-# Silently download and install the latest version of Fastfetch
+# Download and install the latest version of Fastfetch
 FASTFETCH_URL=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest | grep "browser_download_url.*fastfetch-linux-amd64.deb" | cut -d '"' -f 4)
 wget -q -O /tmp/fastfetch.deb "$FASTFETCH_URL"
-dpkg -i /tmp/fastfetch.deb > /dev/null 2>&1
-apt-get install -f -y > /dev/null 2>&1
+dpkg -i /tmp/fastfetch.deb 
+apt-get install -f -y 
 
 # Configure Fastfetch (logo selection remains interactive)
 # The configuration is done through a series of jq commands
