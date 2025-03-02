@@ -52,110 +52,6 @@ export default function PerformanceSettingsPage() {
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
-    <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-      <StepNumber number={1} />
-      Configure pigz for Faster gzip Compression
-    </h3>
-
-    <p className="mb-4">
-      This optimization configures <strong>pigz</strong> as a faster replacement for gzip compression. 
-      Pigz is a parallel implementation of gzip that utilizes multiple CPU cores, 
-      significantly improving compression speed on modern systems.
-    </p>
-
-    <p className="mb-4"><strong>Why use pigz instead of gzip?</strong></p>
-    <ul className="list-disc pl-5 mb-4">
-      <li><strong>Parallel processing:</strong> Uses all available CPU cores for faster compression.</li>
-      <li><strong>Faster vzdump backups:</strong> When used with Proxmox's vzdump, it reduces backup times.</li>
-      <li><strong>Drop-in replacement for gzip:</strong> It works exactly like gzip but is much more efficient.</li>
-    </ul>
-
-    <p className="mb-4">The following steps are performed:</p>
-    <ul className="list-disc pl-5 mb-4">
-      <li>Enables pigz in the vzdump configuration for faster backups.</li>
-      <li>Installs the pigz package if not already installed.</li>
-      <li>Creates a pigz wrapper script to replace the standard gzip command.</li>
-      <li>Replaces the system gzip command with the pigz wrapper.</li>
-    </ul>
-
-    <p className="mb-4">
-      <strong>Note:</strong> This optimization can significantly speed up compression tasks, especially on systems 
-      with multiple CPU cores.
-    </p>
-
-    <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-
-    <CopyableCode
-      code={`
-    # Enable pigz in vzdump configuration
-    sed -i "s/#pigz:.*/pigz: 1/" /etc/vzdump.conf
-
-    # Install pigz
-    apt-get -y install pigz
-
-    # Create pigz wrapper script
-    cat <<EOF > /bin/pigzwrapper
-    #!/bin/sh
-    PATH=/bin:\$PATH
-    GZIP="-1"
-    exec /usr/bin/pigz "\$@"
-    EOF
-    chmod +x /bin/pigzwrapper
-
-    # Replace gzip with pigz wrapper
-    mv -f /bin/gzip /bin/gzip.original
-    cp -f /bin/pigzwrapper /bin/gzip
-    chmod +x /bin/gzip
-      `}
-    />
-
-    <h4 className="text-lg font-semibold mt-6">How to Use pigz</h4>
-    <p className="mb-4">
-      Pigz works the same way as gzip but compresses files much faster by using multiple CPU cores.
-      Here’s how you can test its performance:
-    </p>
-
-    <CopyableCode
-      code={`
-    # Compress a file with gzip
-    time gzip largefile.img
-
-    # Compress a file with pigz (parallel gzip)
-    time pigz largefile.img
-      `}
-    />
-
-    <p className="mb-4">
-      The output will show that pigz completes the compression significantly faster than gzip.
-      To check the number of CPU cores pigz is using, run:
-    </p>
-
-    <CopyableCode
-      code={`
-    pigz -p $(nproc) largefile.img
-      `}
-    />
-
-    <h4 className="text-lg font-semibold mt-6">Verifying pigz Replacement</h4>
-    <p className="mb-4">
-      After replacing gzip with pigz, you can confirm that the system is using pigz instead of gzip:
-    </p>
-
-    <CopyableCode
-      code={`
-    which gzip
-    ls -l /bin/gzip
-      `}
-    />
-
-    <p className="mb-4">
-      The output should show that <code>/bin/gzip</code> is now linked to the pigz wrapper.
-    </p>
-
-    <p className="mt-4">
-      By enabling pigz, compression-heavy tasks like vzdump backups and log archiving 
-      will run much faster, leveraging multi-core processing.
-    </p>
 
 
     <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
@@ -164,42 +60,32 @@ export default function PerformanceSettingsPage() {
     </h3>
 
     <p className="mb-4">
-      This optimization configures <strong>pigz</strong> as a faster replacement for gzip compression. 
-      Pigz is a parallel implementation of gzip that utilizes multiple CPU cores, 
-      significantly improving compression speed on modern systems.
+      This optimization replaces the default <strong>gzip</strong> compression with 
+      <strong>pigz</strong>, a parallelized version that speeds up compression by 
+      utilizing multiple CPU cores.
     </p>
 
-    <p className="mb-4"><strong>Why use pigz instead of gzip?</strong></p>
+    <h4 className="text-lg font-semibold mt-4">What does this configuration do?</h4>
     <ul className="list-disc pl-5 mb-4">
-      <li><strong>Parallel processing:</strong> Uses all available CPU cores for faster compression.</li>
-      <li><strong>Faster vzdump backups:</strong> When used with Proxmox's vzdump, it reduces backup times.</li>
-      <li><strong>Drop-in replacement for gzip:</strong> It works exactly like gzip but is much more efficient.</li>
+      <li><strong>Forces pigz usage</strong> in vzdump backups to accelerate Proxmox VE backup compression.</li>
+      <li><strong>Ensures pigz is installed</strong> before applying optimizations.</li>
+      <li><strong>Creates a pigz wrapper script</strong> to enforce compression behavior.</li>
+      <li><strong>Replaces gzip with the pigz wrapper</strong>, making pigz the system-wide default compressor.</li>
     </ul>
 
-    <p className="mb-4">The following steps are performed:</p>
-    <ul className="list-disc pl-5 mb-4">
-      <li>Enables pigz in the vzdump configuration for faster backups.</li>
-      <li>Installs the pigz package if not already installed.</li>
-      <li>Creates a pigz wrapper script to replace the standard gzip command.</li>
-      <li>Replaces the system gzip command with the pigz wrapper.</li>
-    </ul>
+    <h4 className="text-lg font-semibold mt-4">How is pigz configured?</h4>
 
-    <p className="mb-4">
-      <strong>Note:</strong> This optimization can significantly speed up compression tasks, especially on systems 
-      with multiple CPU cores.
-    </p>
-
-    <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+    <p className="text-lg mb-2">This automation executes the following commands:</p>
 
     <CopyableCode
       code={`
-    # Enable pigz in vzdump configuration
+    # Force pigz usage in vzdump configuration (for Proxmox backups)
     sed -i "s/#pigz:.*/pigz: 1/" /etc/vzdump.conf
 
-    # Install pigz
+    # Install pigz package
     apt-get -y install pigz
 
-    # Create pigz wrapper script
+    # Create a pigz wrapper script
     cat <<EOF > /bin/pigzwrapper
     #!/bin/sh
     PATH=/bin:\$PATH
@@ -208,60 +94,57 @@ export default function PerformanceSettingsPage() {
     EOF
     chmod +x /bin/pigzwrapper
 
-    # Replace gzip with pigz wrapper
-    mv -f /bin/gzip /bin/gzip.original
-    cp -f /bin/pigzwrapper /bin/gzip
-    chmod +x /bin/gzip
+    # Replace gzip with pigz wrapper (backup original gzip binary)
+    if [ ! -f /bin/gzip.original ]; then
+        mv -f /bin/gzip /bin/gzip.original
+        cp -f /bin/pigzwrapper /bin/gzip
+        chmod +x /bin/gzip
+    fi
       `}
     />
 
-    <h4 className="text-lg font-semibold mt-6">How to Use pigz</h4>
+    <h4 className="text-lg font-semibold mt-6">How to Verify pigz is Active</h4>
+
     <p className="mb-4">
-      Pigz works the same way as gzip but compresses files much faster by using multiple CPU cores.
-      Here’s how you can test its performance:
+      You can confirm that <strong>pigz</strong> is being used by running the following command:
     </p>
 
     <CopyableCode
       code={`
-    # Compress a file with gzip
+    # Check if gzip now points to pigz
+    gzip --version
+      `}
+    />
+
+    <p className="mb-4">
+      If the output mentions <code>pigz</code>, the replacement was successful.
+    </p>
+
+    <h4 className="text-lg font-semibold mt-6">Performance Test: gzip vs. pigz</h4>
+
+    <p className="mb-4">
+      To measure the speed difference between gzip and pigz, try compressing a large file:
+    </p>
+
+    <CopyableCode
+      code={`
+    # Compress a file using gzip (single-threaded)
     time gzip largefile.img
 
-    # Compress a file with pigz (parallel gzip)
+    # Compress a file using pigz (multi-threaded)
     time pigz largefile.img
       `}
     />
 
     <p className="mb-4">
-      The output will show that pigz completes the compression significantly faster than gzip.
-      To check the number of CPU cores pigz is using, run:
-    </p>
-
-    <CopyableCode
-      code={`
-    pigz -p $(nproc) largefile.img
-      `}
-    />
-
-    <h4 className="text-lg font-semibold mt-6">Verifying pigz Replacement</h4>
-    <p className="mb-4">
-      After replacing gzip with pigz, you can confirm that the system is using pigz instead of gzip:
-    </p>
-
-    <CopyableCode
-      code={`
-    which gzip
-    ls -l /bin/gzip
-      `}
-    />
-
-    <p className="mb-4">
-      The output should show that <code>/bin/gzip</code> is now linked to the pigz wrapper.
+      Since pigz utilizes multiple CPU cores, the compression process should be significantly faster.
     </p>
 
     <p className="mt-4">
-      By enabling pigz, compression-heavy tasks like vzdump backups and log archiving 
-      will run much faster, leveraging multi-core processing.
+      With this optimization, vzdump backups and all gzip compression tasks benefit from parallel processing,
+      reducing execution time considerably.
     </p>
+
 
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
