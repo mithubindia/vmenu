@@ -157,11 +157,11 @@ apt_upgrade() {
     fi
 
     # Enable Proxmox testing repository
-    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-        msg_info "$(translate "Enabling Proxmox testing repository...")"
-        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-        msg_ok "$(translate "Proxmox testing repository enabled")"
-    fi
+#    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
+#       msg_info "$(translate "Enabling Proxmox testing repository...")"
+#        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
+#        msg_ok "$(translate "Proxmox testing repository enabled")"
+#    fi
 
     # Configure main Debian repositories
     if ! grep -q "${OS_CODENAME}-security" /etc/apt/sources.list; then
@@ -1986,6 +1986,11 @@ configure_fastfetch() {
         msg_ok "$(translate "Fastfetch is already installed")"
     fi
 
+    # Create initial config file if it doesn't exist
+    if [ ! -f "$fastfetch_config" ]; then
+        echo '{"modules": []}' > "$fastfetch_config"
+    fi
+
     while true; do
         # Define logo options
         local logo_options=("ProxMenux" "Proxmox (default)" "Comunidad Helper-Scripts" "Home-Labs-Club" "Proxmology" "Custom")
@@ -2087,33 +2092,36 @@ configure_fastfetch() {
     done
 
 
-# Modify Fastfetch modules to display custom title
-msg_info "$(translate "Modifying Fastfetch configuration...")"
+    # Modify Fastfetch modules to display custom title
+    msg_info "$(translate "Modifying Fastfetch configuration...")"
 
-# Eliminar "title" si existe en la configuración
-jq '.modules |= map(select(. != "title"))' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
+    # Use temporary files for jq operations
+    local temp_config=$(mktemp)
 
-# Asegurar que solo haya una entrada "custom"
-jq 'del(.modules[] | select(type == "object" and .type == "custom"))' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
+    # Remove "title" if it exists in the configuration
+    jq '.modules |= map(select(. != "title"))' "$fastfetch_config" > "$temp_config" && mv "$temp_config" "$fastfetch_config"
 
-# Agregar la entrada "custom" al inicio de los módulos si no existe
-jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
+    # Ensure there's only one "custom" entry
+    jq 'del(.modules[] | select(type == "object" and .type == "custom"))' "$fastfetch_config" > "$temp_config" && mv "$temp_config" "$fastfetch_config"
 
-msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
+    # Add the "custom" entry to the beginning of the modules
+    jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' "$fastfetch_config" > "$temp_config" && mv "$temp_config" "$fastfetch_config"
 
-# Regenerar configuración (evita que Fastfetch sobrescriba cambios)
-fastfetch --gen-config > /dev/null 2>&1
-msg_ok "$(translate "Fastfetch configuration updated")"
+    msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
 
-# Eliminar instancias previas de Fastfetch en bashrc y perfiles
-sed -i '/fastfetch/d' ~/.bashrc ~/.profile /etc/profile
-rm -f /etc/update-motd.d/99-fastfetch  
+    # Regenerate configuration (prevents Fastfetch from overwriting changes)
+    fastfetch --gen-config > /dev/null 2>&1
+    msg_ok "$(translate "Fastfetch configuration updated")"
 
-# Agregar Fastfetch a ~/.bashrc para que se ejecute en cada inicio de sesión
-echo "clear && fastfetch" >> ~/.bashrc
-msg_ok "$(translate "Fastfetch will start automatically in the console")"
+    # Remove previous instances of Fastfetch in bashrc and profiles
+    sed -i '/fastfetch/d' ~/.bashrc ~/.profile /etc/profile
+    rm -f /etc/update-motd.d/99-fastfetch  
 
-msg_success "$(translate "Fastfetch installation and configuration completed")"
+    # Add Fastfetch to ~/.bashrc to run on each login
+    echo "clear && fastfetch" >> ~/.bashrc
+    msg_ok "$(translate "Fastfetch will start automatically in the console")"
+
+    msg_success "$(translate "Fastfetch installation and configuration completed")"
 
 
 }

@@ -120,25 +120,6 @@ export default function PerformanceSettingsPage() {
       If the output mentions <code>pigz</code>, the replacement was successful.
     </p>
 
-    <h4 className="text-lg font-semibold mt-6">Performance Test: gzip vs. pigz</h4>
-
-    <p className="mb-4">
-      To measure the speed difference between gzip and pigz, try compressing a large file:
-    </p>
-
-    <CopyableCode
-      code={`
-    # Compress a file using gzip (single-threaded)
-    time gzip largefile.img
-
-    # Compress a file using pigz (multi-threaded)
-    time pigz largefile.img
-      `}
-    />
-
-    <p className="mb-4">
-      Since pigz utilizes multiple CPU cores, the compression process should be significantly faster.
-    </p>
 
     <p className="mt-4">
       With this optimization, vzdump backups and all gzip compression tasks benefit from parallel processing,
