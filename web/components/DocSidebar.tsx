@@ -25,7 +25,6 @@ const sidebarItems: MenuItem[] = [
       { title: "Overview", href: "/docs/post-install" },
       { title: "Basic Settings", href: "/docs/post-install/basic-settings" },
       { title: "System", href: "/docs/post-install/system" },
-      { title: "Hardware", href: "/docs/post-install/hardware" },
       { title: "Virtualization", href: "/docs/post-install/virtualization" },
       { title: "Network", href: "/docs/post-install/network" },
       { title: "Storage", href: "/docs/post-install/storage" },
