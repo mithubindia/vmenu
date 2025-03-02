@@ -2092,36 +2092,33 @@ configure_fastfetch() {
     done
 
 
-    # Modify Fastfetch modules to display custom title
-    msg_info "$(translate "Modifying Fastfetch configuration...")"
+# Modify Fastfetch modules to display custom title
+msg_info "$(translate "Modifying Fastfetch configuration...")"
 
-    # Use temporary files for jq operations
-    local temp_config=$(mktemp)
+# Eliminar "title" si existe en la configuración
+jq '.modules |= map(select(. != "title"))' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
 
-    # Remove "title" if it exists in the configuration
-    jq '.modules |= map(select(. != "title"))' "$fastfetch_config" > "$temp_config" && mv "$temp_config" "$fastfetch_config"
+# Asegurar que solo haya una entrada "custom"
+jq 'del(.modules[] | select(type == "object" and .type == "custom"))' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
 
-    # Ensure there's only one "custom" entry
-    jq 'del(.modules[] | select(type == "object" and .type == "custom"))' "$fastfetch_config" > "$temp_config" && mv "$temp_config" "$fastfetch_config"
+# Agregar la entrada "custom" al inicio de los módulos si no existe
+jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' ~/.config/fastfetch/config.jsonc > ~/.config/fastfetch/config.jsonc.tmp && mv ~/.config/fastfetch/config.jsonc.tmp ~/.config/fastfetch/config.jsonc
 
-    # Add the "custom" entry to the beginning of the modules
-    jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' "$fastfetch_config" > "$temp_config" && mv "$temp_config" "$fastfetch_config"
+msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
 
-    msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
+# Regenerar configuración (evita que Fastfetch sobrescriba cambios)
+fastfetch --gen-config > /dev/null 2>&1
+msg_ok "$(translate "Fastfetch configuration updated")"
 
-    # Regenerate configuration (prevents Fastfetch from overwriting changes)
-    fastfetch --gen-config > /dev/null 2>&1
-    msg_ok "$(translate "Fastfetch configuration updated")"
+# Eliminar instancias previas de Fastfetch en bashrc y perfiles
+sed -i '/fastfetch/d' ~/.bashrc ~/.profile /etc/profile
+rm -f /etc/update-motd.d/99-fastfetch  
 
-    # Remove previous instances of Fastfetch in bashrc and profiles
-    sed -i '/fastfetch/d' ~/.bashrc ~/.profile /etc/profile
-    rm -f /etc/update-motd.d/99-fastfetch  
+# Agregar Fastfetch a ~/.bashrc para que se ejecute en cada inicio de sesión
+echo "clear && fastfetch" >> ~/.bashrc
+msg_ok "$(translate "Fastfetch will start automatically in the console")"
 
-    # Add Fastfetch to ~/.bashrc to run on each login
-    echo "clear && fastfetch" >> ~/.bashrc
-    msg_ok "$(translate "Fastfetch will start automatically in the console")"
-
-    msg_success "$(translate "Fastfetch installation and configuration completed")"
+msg_success "$(translate "Fastfetch installation and configuration completed")"
 
 
 }
