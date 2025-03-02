@@ -132,7 +132,7 @@ lynis audit system
       <li><strong>Log Monitoring:</strong> <code>/var/log/auth.log</code> for SSH and <code>/var/log/daemon.log</code> for Proxmox</li>
     </ul>
 
-    <p className="text-lg mb-2">Install and configure Fail2Ban with the following commands:</p>
+    <p className="text-lg mb-2">This adjustment automates the following command:</p>
     <CopyableCode
       code={`
     # Install Fail2Ban
@@ -140,7 +140,7 @@ lynis audit system
       `}
     />
 
-    <p className="text-lg mt-4">Configure the Proxmox filter to detect failed logins:</p>
+    <p className="text-lg mt-4"></p>
     <CopyableCode
       code={`
     # Create the Fail2Ban filter for Proxmox
@@ -152,7 +152,7 @@ lynis audit system
       `}
     />
 
-    <p className="text-lg mt-4">Define security rules for Proxmox:</p>
+    <p className="text-lg mt-4"></p>
     <CopyableCode
       code={`
     # Create a jail configuration for Proxmox
@@ -169,7 +169,7 @@ lynis audit system
       `}
     />
 
-    <p className="text-lg mt-4">Set up global Fail2Ban policies:</p>
+    <p className="text-lg mt-4"></p>
     <CopyableCode
       code={`
     # Configure general Fail2Ban settings
@@ -192,7 +192,7 @@ lynis audit system
       `}
     />
 
-    <p className="text-lg mt-4">Enable and restart the Fail2Ban service:</p>
+    <p className="text-lg mt-4"></p>
     <CopyableCode
       code={`
     # Enable and restart Fail2Ban
@@ -227,7 +227,7 @@ lynis audit system
       `}
     />
 
-<p className="mt-4">Fail2Ban will now automatically protect your Proxmox VE and SSH access, reducing the risk of brute-force attacks.</p>
+<p className="mt-4">Fail2Ban automatically protect your Proxmox VE and SSH access, reducing the risk of brute-force attacks.</p>
 
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
