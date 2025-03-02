@@ -146,71 +146,122 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
       `}
       />
 
+
     <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
       <StepNumber number={4} />
       Install and Configure Fastfetch
     </h3>
 
     <p className="mb-4">
-      This option installs and configures Fastfetch, a system information tool that displays system specs and a custom
-      logo at login.
+      This option silently installs and configures Fastfetch, a system information tool that displays system specs and a
+      custom logo at login.
     </p>
 
-    <p className="mb-4"><strong>What it does:</strong></p>
+    <p className="mb-4">
+      <strong>What it does:</strong>
+    </p>
     <ul className="list-disc pl-5 mb-4">
-      <li>Downloads and installs Fastfetch</li>
+      <li>Silently downloads and installs the latest version of Fastfetch</li>
       <li>
-        Allows you to choose a custom logo (<strong>ProxMenux, Proxmox, Helper-Scripts, Home-Labs-Club, Proxmology</strong>, or a custom one)
+        Allows you to choose a custom logo (
+        <strong>ProxMenux, Proxmox, Helper-Scripts, Home-Labs-Club, Proxmology</strong>, or a custom one)
       </li>
-      <li>Configures Fastfetch to display <em>"System optimised by ProxMenux"</em></li>
+      <li>
+        Configures Fastfetch to display <em>"System optimised by ProxMenux"</em>
+      </li>
       <li>Sets up Fastfetch to run automatically at console login</li>
     </ul>
 
     <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
       <p className="font-semibold">Important:</p>
       <p>
-        If you connect to Proxmox via SSH, you should select the <strong>Proxmox</strong> logo or create a custom one using <code>jp2a</code> or <code>img2txt</code>. 
-        The other logos are generated using <code>chafa</code> and may not display correctly in a standard SSH session.
+        If you connect to Proxmox via SSH, you should select the <strong>Proxmox</strong> logo or create a custom one
+        using <code>jp2a</code> or <code>img2txt</code>. The other logos are generated using <code>chafa</code> and may
+        not display correctly in a standard SSH session.
       </p>
     </div>
 
-    <p className="mb-4"><strong>Example Logos:</strong></p>
+    <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+      <p className="font-semibold">Custom Logos:</p>
+      <p>
+        To use a custom logo, place your ASCII art text file in: <code>/usr/local/share/fastfetch/logos/</code>
+      </p>
+      <p>
+        You can create custom logos using tools like <code>chafa</code>, <code>jp2a</code>, or <code>img2txt</code>. For
+        best results:
+      </p>
+      <ul className="list-disc pl-5 mt-2">
+        <li>Keep the logo height to 35 lines or less to maintain proportions and fit in the terminal</li>
+        <li>
+          Use <code>chafa</code> for color logos (may not display correctly in SSH sessions)
+        </li>
+        <li>
+          Use <code>jp2a</code> or <code>img2txt</code> for SSH-compatible logos
+        </li>
+      </ul>
+    </div>
+
+    <p className="mb-4">
+      <strong>Example Logos:</strong>
+    </p>
 
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       <div>
         <p className="font-semibold text-center">ProxMenux</p>
-        <img src="https://macrimi.github.io/ProxMenux/fastfetch/proxmenux.png" alt="ProxMenux Logo" className="rounded shadow-lg" />
+        <img
+          src="https://macrimi.github.io/ProxMenux/fastfetch/proxmenux.png"
+          alt="ProxMenux Logo"
+          className="rounded shadow-lg"
+        />
       </div>
       <div>
         <p className="font-semibold text-center">Proxmox</p>
-        <img src="https://macrimi.github.io/ProxMenux/fastfetch/proxmox.png" alt="Proxmox Logo" className="rounded shadow-lg" />
+        <img
+          src="https://macrimi.github.io/ProxMenux/fastfetch/proxmox.png"
+          alt="Proxmox Logo"
+          className="rounded shadow-lg"
+        />
       </div>
       <div>
         <p className="font-semibold text-center">Helper-Scripts</p>
-        <img src="https://macrimi.github.io/ProxMenux/fastfetch/helper-scripts.png" alt="Helper-Scripts Logo" className="rounded shadow-lg" />
+        <img
+          src="https://macrimi.github.io/ProxMenux/fastfetch/helper-scripts.png"
+          alt="Helper-Scripts Logo"
+          className="rounded shadow-lg"
+        />
       </div>
       <div>
         <p className="font-semibold text-center">Home-Labs-Club</p>
-        <img src="https://macrimi.github.io/ProxMenux/fastfetch/home-labs-club.png" alt="Home-Labs-Club Logo" className="rounded shadow-lg" />
+        <img
+          src="https://macrimi.github.io/ProxMenux/fastfetch/home-labs-club.png"
+          alt="Home-Labs-Club Logo"
+          className="rounded shadow-lg"
+        />
       </div>
       <div>
         <p className="font-semibold text-center">Proxmology</p>
-        <img src="https://macrimi.github.io/ProxMenux/fastfetch/proxmology.png" alt="Proxmology Logo" className="rounded shadow-lg" />
+        <img
+          src="https://macrimi.github.io/ProxMenux/fastfetch/proxmology.png"
+          alt="Proxmology Logo"
+          className="rounded shadow-lg"
+        />
       </div>
     </div>
 
-    <p className="text-lg mb-2 mt-8">This adjustment automates the following commands:</p>
+    <p className="text-lg mb-2 mt-8">This adjustment automates and silently executes the following process:</p>
     <CopyableCode
       code={`
-    # Install Fastfetch
-    wget -qO /usr/local/bin/fastfetch "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64"
-    chmod +x /usr/local/bin/fastfetch
+# Silently download and install the latest version of Fastfetch
+FASTFETCH_URL=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest | grep "browser_download_url.*fastfetch-linux-amd64.deb" | cut -d '"' -f 4)
+wget -q -O /tmp/fastfetch.deb "$FASTFETCH_URL"
+dpkg -i /tmp/fastfetch.deb > /dev/null 2>&1
+apt-get install -f -y > /dev/null 2>&1
 
-    # Configure Fastfetch (logo selection and custom message are interactive)
-    fastfetch --gen-config
+# Configure Fastfetch (logo selection remains interactive)
+# The configuration is done through a series of jq commands
 
-    # Set Fastfetch to run at login
-    echo "clear && fastfetch" >> ~/.bashrc
+# Set Fastfetch to run at login
+echo "clear && fastfetch" >> ~/.bashrc
       `}
     />
 
