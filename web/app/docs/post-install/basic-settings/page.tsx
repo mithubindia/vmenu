@@ -65,6 +65,95 @@ export default function BasicSettingsPage() {
         VE system. They provide essential tools for monitoring system performance, managing files, and troubleshooting
         issues, enhancing your ability to maintain and optimize your virtualization environment.
       </p>
+      <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
+      <ul className="list-disc pl-5 mb-4 space-y-2">
+        <li>
+          <strong>axel</strong>: A light command-line download accelerator
+        </li>
+        <li>
+          <strong>curl</strong>: A tool for transferring data using various protocols
+        </li>
+        <li>
+          <strong>dialog</strong>: A tool for creating TUI interfaces
+        </li>
+        <li>
+          <strong>dnsutils</strong>: DNS utilities including dig and nslookup
+        </li>
+        <li>
+          <strong>dos2unix</strong>: Text file format converter
+        </li>
+        <li>
+          <strong>gnupg-agent</strong>: GNU privacy guard - password agent
+        </li>
+        <li>
+          <strong>grc</strong>: Generic colouriser for everything
+        </li>
+        <li>
+          <strong>htop</strong>: An interactive process viewer
+        </li>
+        <li>
+          <strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and
+          processes
+        </li>
+        <li>
+          <strong>iftop</strong>: A tool to display bandwidth usage on an interface
+        </li>
+        <li>
+          <strong>iotop</strong>: A tool to display I/O usage by processes
+        </li>
+        <li>
+          <strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks
+        </li>
+        <li>
+          <strong>ipset</strong>: A tool to manage IP sets in the Linux kernel
+        </li>
+        <li>
+          <strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor
+        </li>
+        <li>
+          <strong>mlocate</strong>: A tool to find files by name quickly
+        </li>
+        <li>
+          <strong>msr-tools</strong>: Tools for accessing CPU model-specific registers
+        </li>
+        <li>
+          <strong>nano</strong>: A small, friendly text editor
+        </li>
+        <li>
+          <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking
+          distribution for the Linux operating system
+        </li>
+        <li>
+          <strong>omping</strong>: An open multicast ping tool
+        </li>
+        <li>
+          <strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories
+        </li>
+        <li>
+          <strong>sshpass</strong>: A tool for non-interactive ssh password authentication
+        </li>
+        <li>
+          <strong>tmux</strong>: A terminal multiplexer
+        </li>
+        <li>
+          <strong>unzip</strong>: A tool for extracting and viewing files in .zip archives
+        </li>
+        <li>
+          <strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor
+        </li>
+        <li>
+          <strong>wget</strong>: A utility for non-interactive download of files from the Web
+        </li>
+        <li>
+          <strong>whois</strong>: A client for the whois directory service
+        </li>
+        <li>
+          <strong>zip</strong>: A compression and file packaging utility
+        </li>
+        <li>
+          <strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images
+        </li>
+      </ul>
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
@@ -136,6 +225,29 @@ sudo timedatectl set-timezone "$TIMEZONE"
         performance. This optimization ensures you have the latest patches and features, while also configuring the
         correct repositories for Proxmox VE, enabling access to necessary updates and tools.
       </p>
+      <h4 className="text-lg font-semibold mb-2">Repository changes:</h4>
+      <ul className="list-disc pl-5 mb-4 space-y-2">
+        <li>
+          <strong>Disabled:</strong> Enterprise Proxmox repository (pve-enterprise.list) - This repository is for users
+          with a paid subscription.
+        </li>
+        <li>
+          <strong>Disabled:</strong> Enterprise Proxmox Ceph repository (ceph.list) - This repository is for enterprise
+          Ceph storage solutions.
+        </li>
+        <li>
+          <strong>Added:</strong> Free public Proxmox repository (pve-public-repo.list) - This provides access to free
+          Proxmox VE updates and packages.
+        </li>
+        <li>
+          <strong>Added:</strong> Proxmox testing repository (pve-testing-repo.list) - This repository contains the
+          latest, potentially unstable updates for testing purposes.
+        </li>
+        <li>
+          <strong>Configured:</strong> Main Debian repositories - These provide access to the core Debian packages and
+          security updates.
+        </li>
+      </ul>
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`

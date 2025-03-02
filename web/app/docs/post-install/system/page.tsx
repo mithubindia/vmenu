@@ -46,9 +46,8 @@ export default function SystemSettingsPage() {
         <h1 className="text-3xl font-bold">System Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>System Settings</strong> category focuses on core system configurations and optimizations for your
-        Proxmox VE installation. These settings are crucial for improving system performance, stability, and resource
-        management, ensuring your virtualization environment operates at peak efficiency.
+        The <strong>System Settings</strong> category includes core system configurations and optimizations for Proxmox VE, 
+        focusing on performance, stability, and resource management.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
@@ -57,13 +56,12 @@ export default function SystemSettingsPage() {
         Enable Fast Reboots
       </h3>
       <p className="mb-4">
-        This optimization enables <code>kexec</code>, a mechanism that allows the system to boot directly into a new
-        kernel from an existing running kernel, bypassing the BIOS/firmware and bootloader stages.
+        This optimization enables <code>kexec</code>, allowing the system to boot directly into a new kernel 
+        without going through the BIOS/firmware and bootloader.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Fast reboots significantly reduce system downtime during maintenance or
-        updates. In a virtualization environment where multiple VMs might be running, minimizing host downtime is
-        crucial for maintaining high availability and reducing disruption to services.
+        <strong>Why it's beneficial:</strong> FFast reboots reduce system downtime during updates and maintenance. 
+        This is particularly useful in virtualization environments where minimizing host downtime helps maintain service availability.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -79,14 +77,11 @@ echo "alias reboot-quick='systemctl kexec'" >> ~/.bash_profile
         Configure Kernel Panic Behavior
       </h3>
       <p className="mb-4">
-        This setting configures the system to automatically reboot after a kernel panic occurs, rather than hanging
-        indefinitely.
+      This setting configures the system to automatically reboot after a <strong>kernel panic</strong> instead of remaining unresponsive.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Automatic reboots after kernel panics help maintain system availability.
-        Instead of requiring manual intervention, which could lead to extended downtime, the system attempts to recover
-        on its own. This is particularly crucial in remote or lights-out data center environments where immediate
-        physical access might not be possible.
+        <strong>Why it's beneficial:</strong> AAutomatic recovery reduces downtime and prevents the need for manual intervention, 
+        which is critical in remote or unattended environments where physical access is limited.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -102,15 +97,12 @@ sudo sysctl -p /etc/sysctl.d/99-kernelpanic.conf
         Increase System Limits
       </h3>
       <p className="mb-4">
-        This optimization increases various system limits, including the maximum number of file watches and open file
-        descriptors.
+      This optimization increases system resource limits, including the maximum number of <strong>file watches</strong> and <strong>open file descriptors.</strong>
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Higher system limits allow for better resource utilization, especially in
-        high-density virtualization environments. Increased file watch limits improve performance for applications that
-        monitor many files (like backup systems or development environments). Higher open file limits allow more
-        concurrent connections and file operations, which is crucial for busy servers hosting multiple VMs or
-        containers.
+        <strong>Why it's beneficial:</strong> Higher limits enhance resource utilization, improving performance for applications 
+        that monitor large numbers of files or handle high concurrent connections. This is essential 
+        for servers running multiple VMs or containers.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -126,14 +118,12 @@ sudo sysctl -p
         Optimize Journald
       </h3>
       <p className="mb-4">
-        This setting configures systemd's journald logging service to limit its disk usage and optimize performance.
+      This setting configures <strong>systemd-journald</strong> to limit disk usage and optimize logging performance.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Proper log management is crucial for system health and troubleshooting. By
-        limiting the maximum size of the journal, you prevent logs from consuming excessive disk space, which could
-        potentially fill up the system partition. This is especially important in virtualization environments where disk
-        space is often at a premium. Additionally, optimized logging reduces I/O operations, potentially improving
-        overall system performance.
+        <strong>Why it's beneficial:</strong> Restricting log size prevents excessive disk consumption, 
+        reducing the risk of system partitions filling up. Optimized logging also decreases I/O operations, 
+        improving system performance, especially in disk-constrained environments.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -148,13 +138,12 @@ sudo systemctl restart systemd-journald
         Optimize Memory Management
       </h3>
       <p className="mb-4">
-        This optimization adjusts various memory-related kernel parameters to improve system performance and stability.
+      This optimization adjusts kernel parameters to improve <strong>memory allocation</strong> and <strong>system responsiveness.</strong>
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Proper memory management is critical in virtualization environments where
-        multiple VMs compete for resources. These optimizations can help prevent out-of-memory situations, improve
-        memory allocation efficiency, and enhance overall system responsiveness. This is particularly beneficial for
-        hosts running memory-intensive workloads or a high number of VMs.
+        <strong>Why it's beneficial:</strong> Efficient memory management prevents out-of-memory (OOM) conditions, 
+        enhances stability, and optimizes resource allocation in virtualization environments. 
+        This is particularly important for hosts running memory-intensive workloads or multiple VMs.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
