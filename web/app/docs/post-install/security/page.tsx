@@ -71,53 +71,75 @@ systemctl stop rpcbind
       `}
       />
 
+     
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={2} />
         Install Lynis Security Tool
       </h3>
       <p className="mb-4">
-        This optimization installs Lynis, a powerful security auditing tool for Unix-based systems.
+        Lynis is a comprehensive security auditing tool that analyzes your system, detects vulnerabilities, and provides recommendations for improving security.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Lynis helps identify security vulnerabilities, configuration errors, and
-        provides recommendations for system hardening. Regular security audits with Lynis can significantly improve your
-        system's overall security posture.
+        <strong>How it works:</strong> Lynis scans the system and evaluates various security parameters, including:
       </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Kernel security and system settings</li>
+        <li>Authentication policies (SSH, user passwords, etc.)</li>
+        <li>Network configurations and firewall rules</li>
+        <li>File permissions and system integrity</li>
+        <li>Malware detection and system hardening suggestions</li>
+      </ul>
+      <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
 # Install Lynis
 apt-get -y install lynis
-      `}
+        `}
       />
+      <p className="text-lg mt-4">To run a system security audit, execute:</p>
+      <CopyableCode
+        code={`
+# Perform a full security audit
+lynis audit system
+        `}
+      />
+
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={3} />
-        Protect Web Interface with fail2ban
+        Protect Web Interface with Fail2Ban
       </h3>
       <p className="mb-4">
-        This optimization installs and configures fail2ban to protect the Proxmox VE web interface from brute-force
-        attacks.
+        Fail2Ban enhances security by monitoring login attempts and banning malicious IPs that attempt unauthorized access.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> fail2ban helps prevent unauthorized access attempts by temporarily banning
-        IP addresses that show malicious signs, such as too many password failures. This adds an extra layer of security
-        to your Proxmox VE web interface.
+        <strong>How it works:</strong> Fail2Ban analyzes logs, detects repeated authentication failures, and automatically bans the source IP address to prevent further attacks.
       </p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Protects the Proxmox VE web interface from brute-force attacks</li>
+        <li>Prevents unauthorized SSH access by banning repeated failed login attempts</li>
+        <li>Automatically blocks malicious IPs to reduce attack vectors</li>
+      </ul>
+
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
-# Install fail2ban
+# Install Fail2Ban
 apt-get -y install fail2ban
 
-# Configure Proxmox filter
+# Configure Proxmox filter to detect failed logins
 cat <<EOF > /etc/fail2ban/filter.d/proxmox.conf
 [Definition]
 failregex = pvedaemon\[.*authentication failure; rhost=<HOST> user=.* msg=.*
 ignoreregex =
 EOF
-
-# Configure Proxmox jail
+        `}
+      />
+      
+      <p className="text-lg mt-4">Define security rules for Proxmox:</p>
+      <CopyableCode
+        code={`
+# Create a jail configuration for Proxmox
 cat <<EOF > /etc/fail2ban/jail.d/proxmox.conf
 [proxmox]
 enabled = true
@@ -128,14 +150,20 @@ maxretry = 3
 bantime = 3600
 findtime = 600
 EOF
+        `}
+      />
 
-# Configure general fail2ban settings
+      <p className="text-lg mt-4">Set up global Fail2Ban policies:</p>
+      <CopyableCode
+        code={`
+# Configure general Fail2Ban settings
 cat <<EOF > /etc/fail2ban/jail.local
 [DEFAULT]
 ignoreip = 127.0.0.1
 bantime = 86400
 maxretry = 2
 findtime = 1800
+
 [ssh-iptables]
 enabled = true
 filter = sshd
@@ -145,11 +173,30 @@ maxretry = 2
 findtime = 3600
 bantime = 32400
 EOF
+        `}
+      />
 
-# Enable and restart fail2ban service
+      <p className="text-lg mt-4">Enable and restart the Fail2Ban service:</p>
+      <CopyableCode
+        code={`
+# Enable and restart Fail2Ban
 systemctl enable fail2ban
 systemctl restart fail2ban
-      `}
+        `}
+      />
+
+      <p className="text-lg mt-4">Check active Fail2Ban jails:</p>
+      <CopyableCode
+        code={`
+# Display Fail2Ban status
+fail2ban-client status
+
+# Check status of Proxmox protection
+fail2ban-client status proxmox
+
+# Check status of SSH protection
+fail2ban-client status ssh-iptables
+        `}
       />
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
