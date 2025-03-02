@@ -71,7 +71,7 @@ export default function CustomizationSettingsPage() {
         code={`
 # Add custom configurations to .bashrc
 echo 'export HISTTIMEFORMAT="%d/%m/%y %T "' >> /root/.bashrc
-echo 'export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "' >> /root/.bashrc
+echo 'export PS1="\\[\\e[31m\\][\\[\\e[m\\]\\[\\e[38;5;172m\\]\\u\\[\\e[m\\]@\\[\\e[38;5;153m\\]\\h\\[\\e[m\\] \\[\\e[38;5;214m\\]\\W\\[\\e[m\\]\\[\\e[31m\\]]\\[\\e[m\\]\\$ "' >> /root/.bashrc
 echo "alias l='ls -CF'" >> /root/.bashrc
 echo "alias la='ls -A'" >> /root/.bashrc
 echo "alias ll='ls -alF'" >> /root/.bashrc
@@ -111,10 +111,10 @@ EOF
 chmod 755 /etc/cron.daily/xs-pve-nosub
 
 # Create APT hook for nag removal
-echo "DPkg::Post-Invoke { \"dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ \$? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/data.status/{s/\!//;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi\"; };" > /etc/apt/apt.conf.d/xs-pve-no-nag
+echo "DPkg::Post-Invoke { \\"dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\\.js$'; if [ \\$? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/data.status/{s/\\!//;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi\\"; };" > /etc/apt/apt.conf.d/xs-pve-no-nag
 
 # Apply changes immediately
-apt --reinstall install proxmox-widget-toolkit
+apt-get --reinstall install proxmox-widget-toolkit
       `}
       />
 
@@ -138,8 +138,8 @@ apt --reinstall install proxmox-widget-toolkit
 # Add custom message to MOTD
 custom_message="This system is optimised by: ProxMenux"
 cp /etc/motd /etc/motd.bak
-echo -e "$custom_message\n\n$(cat /etc/motd)" > /etc/motd
-sed -i '/^$/N;/^\n$/D' /etc/motd
+echo -e "$custom_message\\n\\n$(cat /etc/motd)" > /etc/motd
+sed -i '/^$/N;/^\\n$/D' /etc/motd
       `}
       />
 
