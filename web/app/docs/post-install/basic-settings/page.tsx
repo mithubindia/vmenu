@@ -68,6 +68,7 @@ export default function BasicSettingsPage() {
       </p>
       <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-2">
+
       <li>
         <strong>axel</strong>: A light command-line download accelerator
         <p className="mt-2">Example usage:</p>
@@ -82,12 +83,10 @@ export default function BasicSettingsPage() {
         <strong>dialog</strong>: A tool for creating TUI interfaces
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dialog --title "Hello" --msgbox "Hello, World!" 10 20</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/dialog.png"
           alt="Dialog Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
@@ -115,49 +114,40 @@ export default function BasicSettingsPage() {
         <strong>htop</strong>: An interactive process viewer
         <p className="mt-2">To start htop, simply type:</p>
         <code className="block bg-gray-100 p-2 rounded">htop</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/htop.png"
           alt="htop Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
-        <strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and
-        processes
+        <strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and processes
         <p className="mt-2">To start btop, type:</p>
         <code className="block bg-gray-100 p-2 rounded">btop</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/btop.png"
           alt="btop Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
         <strong>iftop</strong>: A tool to display bandwidth usage on an interface
         <p className="mt-2">To start iftop (requires root):</p>
         <code className="block bg-gray-100 p-2 rounded">sudo iftop</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/iftop.png"
           alt="iftop Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
         <strong>iotop</strong>: A tool to display I/O usage by processes
         <p className="mt-2">To start iotop (requires root):</p>
         <code className="block bg-gray-100 p-2 rounded">sudo iotop</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/iotop.png"
           alt="iotop Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
@@ -176,12 +166,10 @@ export default function BasicSettingsPage() {
         <strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor
         <p className="mt-2">To start iptraf-ng:</p>
         <code className="block bg-gray-100 p-2 rounded">sudo iptraf-ng</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/iptraf-ng.png"
           alt="iptraf-ng Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
@@ -198,17 +186,14 @@ export default function BasicSettingsPage() {
         <strong>nano</strong>: A small, friendly text editor
         <p className="mt-2">To open a file with nano:</p>
         <code className="block bg-gray-100 p-2 rounded">nano filename.txt</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/nano.png"
           alt="nano Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
-        <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution
-        for the Linux operating system
+        <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system
         <p className="mt-2">Example usage (show network interfaces):</p>
         <code className="block bg-gray-100 p-2 rounded">ifconfig</code>
       </li>
@@ -219,9 +204,7 @@ export default function BasicSettingsPage() {
       </li>
       <li>
         <strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories
-        <p className="mt-2">
-          This package is typically used by other tools and doesn't have a direct command-line interface.
-        </p>
+        <p className="mt-2">This package is typically used by other tools and doesn't have a direct command-line interface.</p>
       </li>
       <li>
         <strong>sshpass</strong>: A tool for non-interactive ssh password authentication
@@ -232,12 +215,10 @@ export default function BasicSettingsPage() {
         <strong>tmux</strong>: A terminal multiplexer
         <p className="mt-2">To start a new tmux session:</p>
         <code className="block bg-gray-100 p-2 rounded">tmux</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/tmux.png"
           alt="tmux Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
@@ -249,12 +230,10 @@ export default function BasicSettingsPage() {
         <strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor
         <p className="mt-2">To open a file with vim:</p>
         <code className="block bg-gray-100 p-2 rounded">vim filename.txt</code>
-        <Image
+        <img
           src="https://macrimi.github.io/ProxMenux/basic/vim.png"
           alt="vim Example"
-          width={500}
-          height={300}
-          className="mt-2"
+          className="mt-2 rounded shadow-lg"
         />
       </li>
       <li>
@@ -277,6 +256,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">Example usage (list files in a VM disk image):</p>
         <code className="block bg-gray-100 p-2 rounded">guestfish -a disk.img -m /dev/sda1 ls /</code>
       </li>
+
       </ul>
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
