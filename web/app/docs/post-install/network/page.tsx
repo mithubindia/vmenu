@@ -169,23 +169,100 @@ echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
         <StepNumber number={4} />
         Install Open vSwitch
       </h3>
-      <p className="mb-4">This optimization installs <strong>Open vSwitch (OVS)</strong>, a multilayer virtual switch designed for modern virtualized environments.</p>
+
       <p className="mb-4">
-      <strong className="block">Why it's beneficial:</strong>
-        Provides advanced networking capabilities, including VLAN tagging, trunking, 
-        traffic shaping, and Quality of Service (QoS). OVS enables more flexible and scalable network configurations, 
-        making it ideal for complex virtualization setups requiring fine-grained traffic control.
+        This optimization installs <strong>Open vSwitch (OVS)</strong>, a multilayer virtual switch 
+        designed for modern virtualized environments. OVS enhances network management by enabling 
+        advanced features for virtualized infrastructures.
       </p>
+
+      <p className="mb-4">
+        <strong className="block">Why it's beneficial:</strong>
+        Open vSwitch provides powerful networking capabilities, including:
+      </p>
+
+      <ul className="list-disc pl-5 mb-4">
+        <li><strong>VLAN Support:</strong> Enables segmentation of virtual networks for better security and isolation.</li>
+        <li><strong>Trunking:</strong> Allows multiple VLANs on a single physical or virtual interface.</li>
+        <li><strong>Traffic Shaping:</strong> Implements bandwidth control and rate limiting per interface or flow.</li>
+        <li><strong>Quality of Service (QoS):</strong> Prioritizes network traffic for optimized performance.</li>
+        <li><strong>Integration with SDN (Software Defined Networking):</strong> Works seamlessly with OpenFlow for programmable network control.</li>
+      </ul>
+
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
+
       <CopyableCode
         code={`
-sudo apt-get update
-sudo apt-get install -y openvswitch-switch
+      # Install Open vSwitch packages
+      DEBIAN_FRONTEND=noninteractive apt-get -y install openvswitch-switch openvswitch-common
 
-# Verify installation
-sudo ovs-vsctl --version
-      `}
+      # Verify installation
+      ovs-vsctl --version
+        `}
       />
+
+      <h4 className="text-lg font-semibold mt-6">Basic Usage: Creating a Virtual Switch</h4>
+      <p className="mb-4">
+        Once installed, Open vSwitch can be used to create virtual network bridges. Below is an example of how to create a virtual switch named <code>br0</code> and add a network interface to it.
+      </p>
+
+      <CopyableCode
+        code={`
+      # Create a new OVS bridge
+      ovs-vsctl add-br br0
+
+      # Add a network interface (e.g., eth1) to the bridge
+      ovs-vsctl add-port br0 eth1
+
+      # Show the current Open vSwitch configuration
+      ovs-vsctl show
+        `}
+      />
+
+      <h4 className="text-lg font-semibold mt-6">Adding VLANs to Open vSwitch</h4>
+      <p className="mb-4">
+        Open vSwitch allows VLAN tagging to segment network traffic. Below is an example of how to add an interface to a specific VLAN.
+      </p>
+
+      <CopyableCode
+        code={`
+      # Add eth1 to br0 and assign it to VLAN 100
+      ovs-vsctl add-port br0 eth1 tag=100
+        `}
+      />
+
+      <h4 className="text-lg font-semibold mt-6">Trunking Multiple VLANs</h4>
+      <p className="mb-4">
+        If an interface needs to carry multiple VLANs (trunk mode), use the following command:
+      </p>
+
+      <CopyableCode
+        code={`
+      # Configure eth1 as a trunk port allowing VLANs 100 and 200
+      ovs-vsctl add-port br0 eth1 trunks=100,200
+        `}
+      />
+
+      <h4 className="text-lg font-semibold mt-6">Deleting a Bridge or Port</h4>
+      <p className="mb-4">
+        If you need to remove a bridge or a port from Open vSwitch, use these commands:
+      </p>
+
+      <CopyableCode
+        code={`
+      # Delete a bridge
+      ovs-vsctl del-br br0
+
+      # Remove a port from a bridge
+      ovs-vsctl del-port br0 eth1
+        `}
+      />
+
+      <p className="mt-4">
+        Open vSwitch enables advanced networking capabilities for virtual environments, allowing greater 
+        control over network traffic, security, and performance optimizations.
+      </p>
+
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={5} />
