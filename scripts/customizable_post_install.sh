@@ -1244,65 +1244,63 @@ EOF
 
 
 install_fail2ban() {
-    msg_info2 "$(translate "Installing and configuring fail2ban to protect the web interface...")"
+    msg_info2 "$(translate "Installing and configuring Fail2Ban to protect the web interface...")"
 
-    # Install fail2ban
-    if ! dpkg -s fail2ban >/dev/null 2>&1; then
-        msg_info "$(translate "Installing fail2ban...")"
-        if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install fail2ban > /dev/null 2>&1; then
-            msg_ok "$(translate "fail2ban installed successfully")"
-        else
-            msg_error "$(translate "Failed to install fail2ban")"
-            return 1
-        fi
+#    
+#    if dpkg -l | grep -qw fail2ban; then
+#        msg_info "$(translate "Removing existing Fail2Ban installation...")"
+#        apt-get remove --purge -y fail2ban >/dev/null 2>&1
+#        rm -rf /etc/fail2ban /var/lib/fail2ban /var/run/fail2ban
+#        msg_ok "$(translate "Fail2Ban removed successfully")"
+#    else
+#        msg_ok "$(translate "Fail2Ban was not installed")"
+#    fi
+
+ 
+    msg_info "$(translate "Installing Fail2Ban...")"
+    apt-get update >/dev/null 2>&1 && apt-get install -y fail2ban >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        msg_ok "$(translate "Fail2Ban installed successfully")"
     else
-        msg_ok "$(translate "fail2ban installed successfully")"
+        msg_error "$(translate "Failed to install Fail2Ban")"
+        return 1
     fi
 
-    # Configure Proxmox filter
-    msg_info "$(translate "Configuring Proxmox filter for fail2ban...")"
-    local proxmox_filter="/etc/fail2ban/filter.d/proxmox.conf"
-    if [ ! -f "$proxmox_filter" ] || ! grep -q "pvedaemon\[.*authentication failure" "$proxmox_filter"; then
-        cat <<EOF > "$proxmox_filter"
+   
+    mkdir -p /etc/fail2ban/jail.d /etc/fail2ban/filter.d
+
+   
+    msg_info "$(translate "Configuring Proxmox filter...")"
+    cat > /etc/fail2ban/filter.d/proxmox.conf << EOF
 [Definition]
 failregex = pvedaemon\[.*authentication failure; rhost=<HOST> user=.* msg=.*
 ignoreregex =
 EOF
-        msg_ok "$(translate "Proxmox filter configured")"
-    else
-        msg_ok "$(translate "Proxmox filter configured")"
-    fi
+    msg_ok "$(translate "Proxmox filter configured")"
 
-    # Configure Proxmox jail
-    msg_info "$(translate "Configuring Proxmox jail for fail2ban...")"
-    local proxmox_jail="/etc/fail2ban/jail.d/proxmox.conf"
-    if [ ! -f "$proxmox_jail" ] || ! grep -q "\[proxmox\]" "$proxmox_jail"; then
-        cat <<EOF > "$proxmox_jail"
+  
+    msg_info "$(translate "Configuring Proxmox jail...")"
+    cat > /etc/fail2ban/jail.d/proxmox.conf << EOF
 [proxmox]
 enabled = true
 port = https,http,8006,8007
 filter = proxmox
 logpath = /var/log/daemon.log
 maxretry = 3
-# 1 hour
 bantime = 3600
 findtime = 600
 EOF
-        msg_ok "$(translate "Proxmox jail configured")"
-    else
-        msg_ok "$(translate "Proxmox jail configured")"
-    fi
+    msg_ok "$(translate "Proxmox jail configured")"
 
-    # Configure general fail2ban settings
-    msg_info "$(translate "Configuring general fail2ban settings...")"
-    local jail_local="/etc/fail2ban/jail.local"
-    if [ ! -f "$jail_local" ] || ! grep -q "\[DEFAULT\]" "$jail_local"; then
-        cat <<EOF > "$jail_local"
+  
+    msg_info "$(translate "Configuring general Fail2Ban settings...")"
+    cat > /etc/fail2ban/jail.local << EOF
 [DEFAULT]
 ignoreip = 127.0.0.1
 bantime = 86400
 maxretry = 2
 findtime = 1800
+
 [ssh-iptables]
 enabled = true
 filter = sshd
@@ -1312,42 +1310,82 @@ maxretry = 2
 findtime = 3600
 bantime = 32400
 EOF
-        msg_ok "$(translate "General fail2ban settings configured")"
-    else
-        msg_ok "$(translate "General fail2ban settings configured")"
+    msg_ok "$(translate "General Fail2Ban settings configured")"
+
+    
+    msg_info "$(translate "Stopping Fail2Ban service...")"
+    systemctl stop fail2ban >/dev/null 2>&1
+    msg_ok "$(translate "Fail2Ban service stopped")"
+
+   
+    msg_info "$(translate "Ensuring authentication logs exist...")"
+    touch /var/log/auth.log /var/log/daemon.log
+    chown root:adm /var/log/auth.log /var/log/daemon.log
+    chmod 640 /var/log/auth.log /var/log/daemon.log
+    msg_ok "$(translate "Authentication logs verified")"
+
+    
+    if [[ ! -f /var/log/auth.log && -f /var/log/secure ]]; then
+        msg_warn "$(translate "Using /var/log/secure instead of /var/log/auth.log")"
+        sed -i 's|logpath = /var/log/auth.log|logpath = /var/log/secure|' /etc/fail2ban/jail.local
     fi
 
-    # Enable fail2ban service
-    msg_info "$(translate "Enabling fail2ban service...")"
-    if systemctl is-enabled fail2ban >/dev/null 2>&1; then
-        msg_ok "$(translate "fail2ban service enabled")"
+   
+    msg_info "$(translate "Ensuring Fail2Ban runtime directory exists...")"
+    mkdir -p /var/run/fail2ban
+    chown root:root /var/run/fail2ban
+    chmod 755 /var/run/fail2ban
+    msg_ok "$(translate "Fail2Ban runtime directory verified")"
+
+    
+    msg_info "$(translate "Removing old Fail2Ban database (if exists)...")"
+    rm -f /var/lib/fail2ban/fail2ban.sqlite3
+    msg_ok "$(translate "Fail2Ban database reset")"
+
+  
+    msg_info "$(translate "Reloading systemd and restarting Fail2Ban...")"
+    systemctl daemon-reload
+    systemctl enable fail2ban >/dev/null 2>&1
+    systemctl restart fail2ban >/dev/null 2>&1
+    msg_ok "$(translate "Fail2Ban service restarted")"
+
+    
+    sleep 3
+
+   
+    msg_info "$(translate "Checking Fail2Ban service status...")"
+    if systemctl is-active --quiet fail2ban; then
+        msg_ok "$(translate "Fail2Ban is running correctly")"
     else
-        if systemctl enable fail2ban > /dev/null 2>&1; then
-            msg_ok "$(translate "fail2ban service enabled")"
-        else
-            msg_error "$(translate "Failed to enable fail2ban service")"
-            return 1
-        fi
+        msg_error "$(translate "Fail2Ban is NOT running! Checking logs...")"
+        journalctl -u fail2ban --no-pager -n 20
+       
     fi
 
-    # Test fail2ban configuration
-    msg_info "$(translate "Testing fail2ban configuration...")"
-    if fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/proxmox.conf > /dev/null 2>&1; then
-        msg_ok "$(translate "fail2ban configuration test passed")"
+ 
+    msg_info "$(translate "Checking Fail2Ban socket...")"
+    if [ -S /var/run/fail2ban/fail2ban.sock ]; then
+        msg_ok "$(translate "Fail2Ban socket exists!")"
     else
-        msg_warn "$(translate "fail2ban configuration test failed. Please check the configuration manually.")"
+        msg_warn "$(translate "Warning: Fail2Ban socket does not exist!")"
     fi
 
-    # Restart fail2ban to apply changes
-    msg_info "$(translate "Restarting fail2ban service...")"
-    if systemctl restart fail2ban > /dev/null 2>&1; then
-        msg_ok "$(translate "fail2ban service restarted successfully")"
+    
+    msg_info "$(translate "Testing fail2ban-client...")"
+    if fail2ban-client ping >/dev/null 2>&1; then
+        msg_ok "$(translate "fail2ban-client successfully communicated with the server")"
     else
-        msg_error "$(translate "Failed to restart fail2ban service")"
-        return 1
+        msg_error "$(translate "fail2ban-client could not communicate with the server")"
+       
     fi
 
-    msg_success "$(translate "fail2ban installation and configuration completed")"
+    
+    msg_info "$(translate "Displaying Fail2Ban status...")"
+    fail2ban-client status >/dev/null 2>&1
+    msg_ok "$(translate "Fail2Ban status displayed")"
+
+    msg_success "$(translate "Fail2Ban installation and configuration completed successfully!")"
+    
 }
 
 
