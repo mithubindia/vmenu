@@ -136,53 +136,6 @@ sudo systemctl start ksm
       `}
       />
 
-      <h3 className="text-xl font-semibold mt-20 mb-4 flex items-center">
-        <StepNumber number={4} />
-        Optimize CPU Governor
-      </h3>
-      <p className="mb-4">
-        This setting configures the CPU governor to optimize performance for virtualization workloads.
-      </p>
-      <p className="mb-4">
-        <strong>Why it's beneficial:</strong> The CPU governor controls how the processor scales its frequency based on
-        system load. For virtualization environments, setting the governor to 'performance' ensures that the CPU always
-        runs at its maximum frequency, providing consistent performance for VMs. This is crucial for workloads that
-        require predictable and high CPU performance.
-      </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-      <CopyableCode
-        code={`
-sudo apt-get install -y cpufrequtils
-echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
-sudo systemctl restart cpufrequtils
-      `}
-      />
-
-      <h3 className="text-xl font-semibold mt-20 mb-4 flex items-center">
-        <StepNumber number={5} />
-        Enable Huge Pages Support
-      </h3>
-      <p className="mb-4">
-        This optimization enables and configures huge pages support, which can improve memory management efficiency for
-        large-memory VMs.
-      </p>
-      <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Huge pages reduce the overhead of Translation Lookaside Buffer (TLB)
-        lookups, which can significantly improve performance for memory-intensive applications running in VMs. This is
-        particularly beneficial for databases, in-memory caches, and other applications that manage large amounts of
-        memory.
-      </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-      <CopyableCode
-        code={`
-echo "vm.nr_hugepages = 1024" | sudo tee -a /etc/sysctl.conf
-sudo sysctl -p
-
-echo "hugetlbfs /dev/hugepages hugetlbfs defaults 0 0" | sudo tee -a /etc/fstab
-sudo mount -a
-      `}
-      />
-
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>

@@ -32,15 +32,14 @@ export const metadata: Metadata = {
 const categories = [
   { name: "Basic Settings", order: 1 },
   { name: "System", order: 2 },
-  { name: "Hardware", order: 3 },
-  { name: "Virtualization", order: 4 },
-  { name: "Network", order: 5 },
-  { name: "Storage", order: 6 },
-  { name: "Security", order: 7 },
-  { name: "Customization", order: 8 },
-  { name: "Monitoring", order: 9 },
-  { name: "Performance", order: 10 },
-  { name: "Optional", order: 11 },
+  { name: "Virtualization", order: 3 },
+  { name: "Network", order: 4 },
+  { name: "Storage", order: 5 },
+  { name: "Security", order: 6 },
+  { name: "Customization", order: 7 },
+  { name: "Monitoring", order: 8 },
+  { name: "Performance", order: 9 },
+  { name: "Optional", order: 10 },
 ]
 
 export default function PostInstallPage() {
