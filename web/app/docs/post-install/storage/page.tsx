@@ -64,7 +64,7 @@ export default function StorageSettingsPage() {
         operations and allow for more frequent backups, improving data protection. This is particularly important in
         environments with large amounts of data or tight backup windows.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 # Configure bandwidth limit
@@ -90,7 +90,7 @@ echo "ionice: 5" >> /etc/vzdump.conf
         point-in-time recovery, protecting against data loss or corruption. This is especially useful in virtualized
         environments where quick recovery options are crucial.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 # Install zfs-auto-snapshot
@@ -118,7 +118,7 @@ sed -i 's|--keep=[0-9]*|--keep=1|g' /etc/cron.monthly/zfs-auto-snapshot
         based on the system's resources, balancing between storage performance and leaving enough memory for other
         processes.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 # Calculate ZFS ARC sizes based on RAM

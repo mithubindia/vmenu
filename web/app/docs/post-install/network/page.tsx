@@ -65,7 +65,7 @@ export default function NetworkSettingsPage() {
         latency, and enhance security. They adjust various kernel parameters related to networking, which is crucial in
         a virtualization environment where network performance directly impacts the performance of VMs and containers.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 cat <<EOF | sudo tee /etc/sysctl.d/99-network-performance.conf
@@ -130,7 +130,7 @@ sudo sysctl -p /etc/sysctl.d/99-network-performance.conf
         improving the speed of short-lived connections. These optimizations are particularly beneficial in virtualized
         environments where network performance is crucial for overall system responsiveness.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo "net.core.default_qdisc = fq" | sudo tee -a /etc/sysctl.d/99-tcp-bbr.conf
@@ -154,7 +154,7 @@ sudo sysctl -p /etc/sysctl.d/99-tcp-fastopen.conf
         is crucial for maintaining and updating your Proxmox VE system. It's particularly useful in networks where IPv6
         connectivity might be unreliable or not fully supported.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
@@ -172,7 +172,7 @@ echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
         tagging and trunking, advanced traffic shaping, and Quality of Service (QoS) capabilities. This is particularly
         beneficial for complex virtualization setups where fine-grained control over network traffic is required.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 sudo apt-get update
@@ -196,7 +196,7 @@ sudo ovs-vsctl --version
         environments where multiple VMs and containers share network resources. Optimizations like increasing the TX
         queue length can help prevent packet drops under high load.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 # Replace eth0 with your actual interface name

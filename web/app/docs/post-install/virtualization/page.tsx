@@ -66,7 +66,7 @@ export default function VirtualizationSettingsPage() {
         such as GPU-accelerated workloads or network-intensive applications. It allows VMs to directly access hardware,
         bypassing the hypervisor, which significantly improves performance and reduces latency.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 # For Intel CPUs
@@ -123,7 +123,7 @@ sudo apt-get install -y virtualbox-guest-utils
         where many VMs run similar operating systems or applications. By reducing overall memory usage, KSM can improve
         system performance and allow for more efficient resource utilization.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 sudo apt-get install -y ksm-control-daemon
@@ -172,7 +172,7 @@ sudo systemctl restart cpufrequtils
         particularly beneficial for databases, in-memory caches, and other applications that manage large amounts of
         memory.
       </p>
-      <p className="text-lg font-semibold mb-2">This adjustment automates the following commands:</p>
+      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
         code={`
 echo "vm.nr_hugepages = 1024" | sudo tee -a /etc/sysctl.conf
