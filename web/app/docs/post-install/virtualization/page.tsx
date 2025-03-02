@@ -60,9 +60,10 @@ export default function VirtualizationSettingsPage() {
       for PCI passthrough, allowing direct assignment of PCI devices to virtual machines.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Enables near-native performance for PCI devices, such as <strong>GPUs</strong> or <strong>network cards</strong>, 
-        by allowing direct access from VMs. This is essential for <strong>GPU acceleration, low-latency networking</strong>, 
-        and <strong>high-performance workloads</strong>, reducing hypervisor overhead and improving efficiency.
+      <strong className="block">Why it's beneficial:</strong>
+        Enables near-native performance for PCI devices, such as GPUs or network cards, 
+        by allowing direct access from VMs. This is essential forGPU acceleration, low-latency networking, 
+        and high-performance workloads, reducing hypervisor overhead and improving efficiency.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -87,8 +88,9 @@ sudo update-initramfs -u -k all
       This optimization installs the appropriate <strong>guest agent</strong> based on the virtualization environment.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Enhances host-guest integration by enabling <strong>graceful shutdown</strong>, 
-        <strong>file sharing, performance monitoring</strong>, and <strong>better resource allocation</strong>. 
+      <strong className="block">Why it's beneficial:</strong>
+        Enhances host-guest integration by enabling graceful shutdown, 
+        file sharing, performance monitoring, and better resource allocation. 
         This improves VM management and overall system efficiency.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -114,8 +116,9 @@ sudo apt-get install -y virtualbox-guest-utils
       memory pages across multiple virtual machines.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Reduces <strong>RAM consumption</strong> in environments with similar VMs, 
-        allowing for <strong>higher VM density</strong> on a single host. This is particularly useful for systems 
+      <strong className="block">Why it's beneficial:</strong>
+        Reduces RAM consumption in environments with similar VMs, 
+        allowing for higher VM density on a single host. This is particularly useful for systems 
         running multiple instances of the same OS or application, improving memory efficiency and overall performance.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>

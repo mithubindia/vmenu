@@ -61,7 +61,8 @@ export default function BasicSettingsPage() {
         troubleshooting.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Having these utilities pre-installed saves time when managing your Proxmox
+      <strong className="block">Why it's beneficial:</strong>
+        Having these utilities pre-installed saves time when managing your Proxmox
         VE system. They provide essential tools for monitoring system performance, managing files, and troubleshooting
         issues, enhancing your ability to maintain and optimize your virtualization environment.
       </p>
@@ -177,7 +178,8 @@ sudo apt-get install -y libguestfs-tools
         speed up package operations.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> By skipping unnecessary language packages, you can reduce disk usage and
+      <strong className="block">Why it's beneficial:</strong>
+        By skipping unnecessary language packages, you can reduce disk usage and
         improve the speed of package management operations. This is particularly useful in server environments where
         multiple language support is often not required.
       </p>
@@ -197,7 +199,8 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
         This optimization configures the system to automatically synchronize its time, ensuring accurate timekeeping.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Accurate timekeeping is crucial for many system operations, log
+      <strong className="block">Why it's beneficial:</strong>
+        Accurate timekeeping is crucial for many system operations, log
         consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
         Proxmox VE system maintains the correct time without manual intervention.
       </p>
@@ -221,7 +224,8 @@ sudo timedatectl set-timezone "$TIMEZONE"
         warnings.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Keeping your system up-to-date is essential for security, stability, and
+      <strong className="block">Why it's beneficial:</strong>
+        Keeping your system up-to-date is essential for security, stability, and
         performance. This optimization ensures you have the latest patches and features, while also configuring the
         correct repositories for Proxmox VE, enabling access to necessary updates and tools.
       </p>

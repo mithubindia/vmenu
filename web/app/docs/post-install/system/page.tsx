@@ -60,7 +60,8 @@ export default function SystemSettingsPage() {
         without going through the BIOS/firmware and bootloader.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> FFast reboots reduce system downtime during updates and maintenance. 
+      <strong className="block">Why it's beneficial:</strong>
+        Fast reboots reduce system downtime during updates and maintenance. 
         This is particularly useful in virtualization environments where minimizing host downtime helps maintain service availability.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -80,7 +81,8 @@ echo "alias reboot-quick='systemctl kexec'" >> ~/.bash_profile
       This setting configures the system to automatically reboot after a <strong>kernel panic</strong> instead of remaining unresponsive.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> AAutomatic recovery reduces downtime and prevents the need for manual intervention, 
+      <strong className="block">Why it's beneficial:</strong>
+        Automatic recovery reduces downtime and prevents the need for manual intervention, 
         which is critical in remote or unattended environments where physical access is limited.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -100,7 +102,8 @@ sudo sysctl -p /etc/sysctl.d/99-kernelpanic.conf
       This optimization increases system resource limits, including the maximum number of <strong>file watches</strong> and <strong>open file descriptors.</strong>
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Higher limits enhance resource utilization, improving performance for applications 
+      <strong className="block">Why it's beneficial:</strong>
+        Higher limits enhance resource utilization, improving performance for applications 
         that monitor large numbers of files or handle high concurrent connections. This is essential 
         for servers running multiple VMs or containers.
       </p>
@@ -121,7 +124,8 @@ sudo sysctl -p
       This setting configures <strong>systemd-journald</strong> to limit disk usage and optimize logging performance.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Restricting log size prevents excessive disk consumption, 
+      <strong className="block">Why it's beneficial:</strong>
+        Restricting log size prevents excessive disk consumption, 
         reducing the risk of system partitions filling up. Optimized logging also decreases I/O operations, 
         improving system performance, especially in disk-constrained environments.
       </p>
@@ -141,7 +145,8 @@ sudo systemctl restart systemd-journald
       This optimization adjusts kernel parameters to improve <strong>memory allocation</strong> and <strong>system responsiveness.</strong>
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Efficient memory management prevents out-of-memory (OOM) conditions, 
+      <strong className="block">Why it's beneficial:</strong>
+        Efficient memory management prevents out-of-memory (OOM) conditions, 
         enhances stability, and optimizes resource allocation in virtualization environments. 
         This is particularly important for hosts running memory-intensive workloads or multiple VMs.
       </p>

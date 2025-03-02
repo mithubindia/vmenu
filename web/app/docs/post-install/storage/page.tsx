@@ -46,9 +46,9 @@ export default function StorageSettingsPage() {
         <h1 className="text-3xl font-bold">Storage Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Storage Settings</strong> category focuses on optimizing storage performance and configuration for
-        your Proxmox VE installation. These settings are crucial for ensuring efficient storage operations, which is
-        vital in a virtualized environment where multiple VMs and containers share storage resources.
+        The <strong>Storage Settings</strong> category optimizes storage configuration and performance in Proxmox VE. 
+        These optimizations are essential for efficient storage operations in virtualized environments where multiple VMs 
+        and containers share storage resources.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
 
@@ -57,10 +57,11 @@ export default function StorageSettingsPage() {
         Increase vzdump Backup Speed
       </h3>
       <p className="mb-4">
-        This optimization configures vzdump to improve backup speed by adjusting bandwidth limits and I/O priority.
+      This optimization configures <strong>vzdump</strong> to enhance backup speed by adjusting bandwidth limits and I/O priority.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Faster backups reduce the impact on system performance during backup
+      <strong className="block">Why it's beneficial:</strong>
+        Faster backups reduce the impact on system performance during backup
         operations and allow for more frequent backups, improving data protection. This is particularly important in
         environments with large amounts of data or tight backup windows.
       </p>
@@ -86,7 +87,8 @@ echo "ionice: 5" >> /etc/vzdump.conf
         intervals.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Automatic ZFS snapshots provide a robust and efficient method for
+      <strong className="block">Why it's beneficial:</strong>
+        Automatic ZFS snapshots provide a robust and efficient method for
         point-in-time recovery, protecting against data loss or corruption. This is especially useful in virtualized
         environments where quick recovery options are crucial.
       </p>
@@ -113,7 +115,8 @@ sed -i 's|--keep=[0-9]*|--keep=1|g' /etc/cron.monthly/zfs-auto-snapshot
         This optimization adjusts the ZFS Adaptive Replacement Cache (ARC) size based on the system's available memory.
       </p>
       <p className="mb-4">
-        <strong>Why it's beneficial:</strong> Properly tuned ZFS ARC can significantly improve storage performance by
+      <strong className="block">Why it's beneficial:</strong>
+        Properly tuned ZFS ARC can significantly improve storage performance by
         caching frequently accessed data in RAM. This optimization ensures that ZFS uses an appropriate amount of memory
         based on the system's resources, balancing between storage performance and leaving enough memory for other
         processes.

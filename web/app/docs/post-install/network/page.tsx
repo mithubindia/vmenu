@@ -61,7 +61,7 @@ export default function NetworkSettingsPage() {
       </p>
       <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-        Improves <strong>throughput, reduces latency</strong>, and <strong>enhances security</strong> 
+        Improves throughput, reduces latency, and enhances security
         by fine-tuning kernel network settings. These optimizations are critical in virtualization environments where network 
         efficiency directly impacts VMs and container performance.
       </p>
@@ -131,7 +131,7 @@ sudo sysctl -p /etc/sysctl.d/99-network-performance.conf
         <li><strong>TCP Fast Open</strong> accelerates connection establishment, benefiting short-lived connections.</li>
       </ul>
      </p>
-     <p className="mb-4">These enhancements improve <strong>network responsiveness</strong> in virtualized environments 
+     <p className="mb-4">These enhancements improve network responsiveness in virtualized environments 
      where efficient communication between systems is critical.
      </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -154,9 +154,9 @@ sudo sysctl -p /etc/sysctl.d/99-tcp-fastopen.conf
       <p className="mb-4">This setting forces <strong>APT (Advanced Package Tool)</strong> to use <strong>IPv4</strong> exclusively.</p>
       <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-        Ensures <strong>reliable package management operations</strong> in environments where <strong>IPv6 </strong>
-        is misconfigured or causes slow downloads. This is particularly useful in networks where <strong>IPv6 connectivity 
-        is unstable or unsupported</strong>, reducing potential update and repository access issues.
+        Ensures reliable package management operations in environments where IPv6
+        is misconfigured or causes slow downloads. This is particularly useful in networks where IPv6 connectivity 
+        is unstable or unsupported, reducing potential update and repository access issues.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <CopyableCode
@@ -172,8 +172,8 @@ echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
       <p className="mb-4">This optimization installs <strong>Open vSwitch (OVS)</strong>, a multilayer virtual switch designed for modern virtualized environments.</p>
       <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-        Provides <strong>advanced networking capabilities</strong>, including <strong>VLAN tagging, trunking, 
-        traffic shaping, and Quality of Service (QoS)</strong>. OVS enables more <strong>flexible</strong> and <strong>scalable</strong> network configurations, 
+        Provides advanced networking capabilities, including VLAN tagging, trunking, 
+        traffic shaping, and Quality of Service (QoS). OVS enables more flexible and scalable network configurations, 
         making it ideal for complex virtualization setups requiring fine-grained traffic control.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -196,8 +196,8 @@ sudo ovs-vsctl --version
       </p>
       <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-        PProper <strong>NIC tuning</strong> reduces <strong>latency, packet loss</strong>, and <strong>improves stability </strong>
-        in environments with high network loads. Adjustments like <strong>increasing TX queue length</strong> prevent packet drops 
+        PProper NIC tuning reduces latency, packet loss, and improves stability 
+        in environments with high network loads. Adjustments like increasing TX queue length prevent packet drops 
         and enhance network responsiveness, which is essential in virtualized infrastructures with multiple VMs and containers.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
