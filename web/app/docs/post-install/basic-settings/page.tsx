@@ -150,7 +150,7 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>>
+      <li>
         <strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks
         <p className="mt-2">Example usage (server mode):</p>
         <code className="block bg-gray-100 p-2 rounded">iperf3 -s</code>
@@ -192,7 +192,7 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-     <li>
+      <li>
         <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system
         <p className="mt-2">Example usage (show network interfaces):</p>
         <code className="block bg-gray-100 p-2 rounded">ifconfig</code>
