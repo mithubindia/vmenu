@@ -69,17 +69,17 @@ export default function BasicSettingsPage() {
       <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-2">
 
-      <li>
+      <li className="mb-8">
         <strong>axel</strong>: A light command-line download accelerator
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">axel -n 10 http://example.com/largefile.zip</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>curl</strong>: A tool for transferring data using various protocols
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">curl -O http://example.com/file.txt</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>dialog</strong>: A tool for creating TUI interfaces
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dialog --title "Hello" --msgbox "Hello, World!" 10 20</code>
@@ -89,28 +89,28 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+      <li className="mb-8">
         <strong>dnsutils</strong>: DNS utilities including dig and nslookup
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dig example.com</code>
         <code className="block bg-gray-100 p-2 rounded mt-2">nslookup example.com</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>dos2unix</strong>: Text file format converter
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dos2unix file.txt</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>gnupg-agent</strong>: GNU privacy guard - password agent
         <p className="mt-2">This runs in the background. To start it:</p>
         <code className="block bg-gray-100 p-2 rounded">gpg-agent --daemon</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>grc</strong>: Generic colouriser for everything
         <p className="mt-2">Example usage (colorize ping output):</p>
         <code className="block bg-gray-100 p-2 rounded">grc ping example.com</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>htop</strong>: An interactive process viewer
         <p className="mt-2">To start htop, simply type:</p>
         <code className="block bg-gray-100 p-2 rounded">htop</code>
@@ -120,7 +120,7 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+      <li className="mb-8">
         <strong>btop</strong>: A resource monitor that shows usage and stats for processor, memory, disks, network and processes
         <p className="mt-2">To start btop, type:</p>
         <code className="block bg-gray-100 p-2 rounded">btop</code>
@@ -130,7 +130,7 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+     <li className="mb-8">
         <strong>iftop</strong>: A tool to display bandwidth usage on an interface
         <p className="mt-2">To start iftop (requires root):</p>
         <code className="block bg-gray-100 p-2 rounded">sudo iftop</code>
@@ -140,7 +140,7 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+      <li className="mb-8">
         <strong>iotop</strong>: A tool to display I/O usage by processes
         <p className="mt-2">To start iotop (requires root):</p>
         <code className="block bg-gray-100 p-2 rounded">sudo iotop</code>
@@ -150,19 +150,19 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+      <li className="mb-8">
         <strong>iperf3</strong>: A tool for active measurements of the maximum achievable bandwidth on IP networks
         <p className="mt-2">Example usage (server mode):</p>
         <code className="block bg-gray-100 p-2 rounded">iperf3 -s</code>
         <p className="mt-2">Example usage (client mode):</p>
         <code className="block bg-gray-100 p-2 rounded">iperf3 -c server_ip</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>ipset</strong>: A tool to manage IP sets in the Linux kernel
         <p className="mt-2">Example usage (create a new set):</p>
         <code className="block bg-gray-100 p-2 rounded">ipset create myset hash:ip</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor
         <p className="mt-2">To start iptraf-ng:</p>
         <code className="block bg-gray-100 p-2 rounded">sudo iptraf-ng</code>
@@ -172,17 +172,17 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+     <li className="mb-8">
         <strong>mlocate</strong>: A tool to find files by name quickly
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">locate filename</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>msr-tools</strong>: Tools for accessing CPU model-specific registers
         <p className="mt-2">Example usage (read MSR):</p>
         <code className="block bg-gray-100 p-2 rounded">sudo rdmsr 0x1a0</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>nano</strong>: A small, friendly text editor
         <p className="mt-2">To open a file with nano:</p>
         <code className="block bg-gray-100 p-2 rounded">nano filename.txt</code>
@@ -192,26 +192,26 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+     <li className="mb-8">
         <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system
         <p className="mt-2">Example usage (show network interfaces):</p>
         <code className="block bg-gray-100 p-2 rounded">ifconfig</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>omping</strong>: An open multicast ping tool
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">omping 239.255.255.250</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories
         <p className="mt-2">This package is typically used by other tools and doesn't have a direct command-line interface.</p>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>sshpass</strong>: A tool for non-interactive ssh password authentication
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">sshpass -p 'password' ssh user@hostname</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>tmux</strong>: A terminal multiplexer
         <p className="mt-2">To start a new tmux session:</p>
         <code className="block bg-gray-100 p-2 rounded">tmux</code>
@@ -221,12 +221,12 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+      <li className="mb-8">
         <strong>unzip</strong>: A tool for extracting and viewing files in .zip archives
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">unzip file.zip</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor
         <p className="mt-2">To open a file with vim:</p>
         <code className="block bg-gray-100 p-2 rounded">vim filename.txt</code>
@@ -236,7 +236,7 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li>
+      <li className="mb-8">
         <strong>wget</strong>: A utility for non-interactive download of files from the Web
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">wget http://example.com/file.zip</code>
@@ -246,19 +246,19 @@ export default function BasicSettingsPage() {
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">whois example.com</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>zip</strong>: A compression and file packaging utility
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">zip archive.zip file1 file2 file3</code>
       </li>
-      <li>
+      <li className="mb-8">
         <strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images
         <p className="mt-2">Example usage (list files in a VM disk image):</p>
         <code className="block bg-gray-100 p-2 rounded">guestfish -a disk.img -m /dev/sda1 ls /</code>
       </li>
 
       </ul>
-      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <p className="text-lg mb-2">All these utilities are installed automatically when you run this command:</p>
       <CopyableCode
         code={`
 # Update package lists
