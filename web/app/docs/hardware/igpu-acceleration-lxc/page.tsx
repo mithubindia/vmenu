@@ -41,7 +41,6 @@ export default function IGPUAccelerationLXC() {
             <li>Grants permissions for GPU access.</li>
             <li>Configures necessary device mounts.</li>
           </ul>
-          <Image src="https://macrimi.github.io/ProxMenux/igpu/configure-container.png" alt="Modify Container Configuration" width={800} height={400} className="rounded shadow-lg" />
         </Steps.Step>
         <Steps.Step title="Install Intel GPU Drivers">
           <p>Inside the container, the following GPU-related packages will be installed:</p>
@@ -52,7 +51,6 @@ export default function IGPUAccelerationLXC() {
             <li><strong>vainfo</strong> - Tool to verify VAAPI support</li>
             <li><strong>intel-gpu-tools</strong> - Intel GPU debugging tools</li>
           </ul>
-          <Image src="https://macrimi.github.io/ProxMenux/igpu/install-drivers.png" alt="Install GPU Drivers" width={800} height={400} className="rounded shadow-lg" />
         </Steps.Step>
       </Steps>
       
