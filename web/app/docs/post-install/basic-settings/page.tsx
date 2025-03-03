@@ -69,17 +69,17 @@ export default function BasicSettingsPage() {
       <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-2">
 
-      <li className="mb-8">
+      <li className="mt-8 mb-4">
         <strong>axel</strong>: A light command-line download accelerator
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">axel -n 10 http://example.com/largefile.zip</code>
       </li>
-      <li className="mb-8">
+      <li className="mt-8 mb-4">
         <strong>curl</strong>: A tool for transferring data using various protocols
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">curl -O http://example.com/file.txt</code>
       </li>
-      <li className="mb-8">
+      <li className="mt-8 mb-4">
         <strong>dialog</strong>: A tool for creating TUI interfaces
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dialog --title "Hello" --msgbox "Hello, World!" 10 20</code>
@@ -89,18 +89,18 @@ export default function BasicSettingsPage() {
           className="mt-2 rounded shadow-lg"
         />
       </li>
-      <li className="mb-8">
+      <li className="mt-8 mb-4">
         <strong>dnsutils</strong>: DNS utilities including dig and nslookup
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dig example.com</code>
         <code className="block bg-gray-100 p-2 rounded mt-2">nslookup example.com</code>
       </li>
-      <li className="mb-8">
+      <li className="mt-8 mb-4">
         <strong>dos2unix</strong>: Text file format converter
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dos2unix file.txt</code>
       </li>
-      <li className="mb-8">
+      <li className="mt-8 mb-4">
         <strong>gnupg-agent</strong>: GNU privacy guard - password agent
         <p className="mt-2">This runs in the background. To start it:</p>
         <code className="block bg-gray-100 p-2 rounded">gpg-agent --daemon</code>
