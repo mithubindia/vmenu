@@ -327,10 +327,6 @@ sudo timedatectl set-timezone "$TIMEZONE"
           Proxmox VE updates and packages.
         </li>
         <li>
-          <strong>Added:</strong> Proxmox testing repository (pve-testing-repo.list) - This repository contains the
-          latest, potentially unstable updates for testing purposes.
-        </li>
-        <li>
           <strong>Configured:</strong> Main Debian repositories - These provide access to the core Debian packages and
           security updates.
         </li>
@@ -351,8 +347,6 @@ fi
 # Enable free public Proxmox repository
 echo "deb http://download.proxmox.com/debian/pve $(lsb_release -cs) pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-public-repo.list
 
-# Enable Proxmox testing repository
-echo "deb http://download.proxmox.com/debian/pve $(lsb_release -cs) pvetest" | sudo tee /etc/apt/sources.list.d/pve-testing-repo.list
 
 # Configure main Debian repositories
 cat <<EOF | sudo tee /etc/apt/sources.list

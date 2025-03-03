@@ -156,12 +156,12 @@ apt_upgrade() {
         msg_ok "$(translate "Free public Proxmox repository enabled")"
     fi
 
-    # Enable Proxmox testing repository
-    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-        msg_info "$(translate "Enabling Proxmox testing repository...")"
-        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-        msg_ok "$(translate "Proxmox testing repository enabled")"
-    fi
+#    # Enable Proxmox testing repository
+#    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
+#        msg_info "$(translate "Enabling Proxmox testing repository...")"
+#        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
+#        msg_ok "$(translate "Proxmox testing repository enabled")"
+#    fi
 
     # Configure main Debian repositories
     if ! grep -q "${OS_CODENAME}-security" /etc/apt/sources.list; then
@@ -2145,10 +2145,31 @@ configure_fastfetch() {
 
 
 
+# ==========================================================
+
+
+
+
+
+
+add_repo_test() {
+ msg_info2 "$(translate "Enable Proxmox testing repository...")"
+    # Enable Proxmox testing repository
+    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
+        msg_info "$(translate "Enabling Proxmox testing repository...")"
+        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
+        msg_ok "$(translate "Proxmox testing repository enabled")"
+    fi
+ msg_success "$(translate "Proxmox testing repository has been successfully enabled")"
+}
+
+
+
 
 
 
 # ==========================================================
+
 
 
 
@@ -2207,6 +2228,7 @@ local options=(
     "Performance|Use pigz for faster gzip compression|PIGZ"
     "Optional|Install and configure Fastfetch|FASTFETCH"
     "Optional|Add latest Ceph support|CEPH"
+    "Optional|Add Proxmox testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
 )
 
@@ -2383,6 +2405,9 @@ for index in "${!sorted_options[@]}"; do
                 ;;
             CEPH)
                 install_ceph
+                ;;
+            REPOTEST)
+                add_repo_test
                 ;;
             ENABLE_HA)
                 enable_ha
