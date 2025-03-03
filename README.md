@@ -48,6 +48,6 @@ If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help oth
   </a>
 </div>
 
-If you would like to support the project, you can buy me a coffee on Ko-fi! Thank you! 😊
+Support the project on Ko-fi!
 
 
