@@ -1,76 +1,80 @@
-import type { Metadata } from "next"
-import { Steps } from "@/components/ui/steps"
+"use client"
 
-export const metadata: Metadata = {
-  title: "HW iGPU Acceleration to an LXC | ProxMenux Documentation",
-  description: "Learn how to enable hardware iGPU acceleration for an LXC container in Proxmox VE using ProxMenux.",
+import { Steps } from "@/components/ui/steps"
+import CopyableCode from "@/components/CopyableCode"
+import Image from "next/image"
+
+export const metadata = {
+  title: "Enable iGPU Acceleration in LXC | ProxMenux Documentation",
+  description: "Step-by-step guide to enable Intel iGPU acceleration in an LXC container using ProxMenux.",
 }
 
 export default function IGPUAccelerationLXC() {
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">HW iGPU Acceleration to an LXC</h1>
-
+      <h1 className="text-3xl font-bold mb-6">Enable Intel iGPU Acceleration in an LXC</h1>
+      
       <p className="mb-4">
-        This guide explains how ProxMenux helps you enable Intel Integrated GPU (iGPU) acceleration for LXC containers
-        in Proxmox VE. This feature allows your containers to use the host's Intel GPU for tasks like video transcoding,
-        rendering, and accelerating graphics-intensive applications.
+        This guide explains how to configure Intel Integrated GPU (iGPU) acceleration for LXC containers in Proxmox VE
+        using <strong>ProxMenux</strong>. Enabling iGPU support allows containers to use the host’s GPU for hardware acceleration
+        in applications such as video transcoding and rendering.
       </p>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What Does This Script Do?</h2>
-      <p className="mb-4">When you run this script through ProxMenux, it performs the following actions:</p>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Overview of the Process</h2>
+      <p className="mb-4">When you run this script in ProxMenux, it performs the following steps:</p>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Presents a list of your LXC containers for you to choose from</li>
-        <li>Configures the selected container to support iGPU acceleration</li>
-        <li>Installs necessary drivers and tools inside the container</li>
+        <li>Prompts you to select an existing LXC container.</li>
+        <li>Checks if the container is privileged and adjusts its settings accordingly.</li>
+        <li>Modifies the container’s configuration to allow GPU access.</li>
+        <li>Installs the required Intel GPU drivers inside the container.</li>
       </ol>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Key Steps</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Step-by-Step Guide</h2>
       <Steps>
-        <Steps.Step title="Container Selection">
-          <p>You'll be prompted to select the LXC container you want to enable iGPU acceleration for.</p>
+        <Steps.Step title="Select an LXC Container">
+          <p>You will be presented with a list of your LXC containers to choose from.</p>
+          <Image src="https://macrimi.github.io/ProxMenux/igpu/select-container.png" alt="Select LXC Container" width={800} height={400} className="rounded shadow-lg" />
         </Steps.Step>
-        <Steps.Step title="Container Configuration">
-          <p>The script modifies the container's configuration to allow iGPU access. This includes:</p>
+        <Steps.Step title="Modify Container Configuration">
+          <p>The script applies the following changes to your container:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Ensuring the container is privileged (for necessary permissions)</li>
-            <li>Enabling nesting feature</li>
-            <li>Adding device permissions for GPU access</li>
-            <li>Setting up proper mounts for GPU devices</li>
+            <li>Switches to privileged mode if required.</li>
+            <li>Enables the nesting feature.</li>
+            <li>Grants permissions for GPU access.</li>
+            <li>Configures necessary device mounts.</li>
           </ul>
+          <Image src="https://macrimi.github.io/ProxMenux/igpu/configure-container.png" alt="Modify Container Configuration" width={800} height={400} className="rounded shadow-lg" />
         </Steps.Step>
-        <Steps.Step title="Driver Installation">
-          <p>Inside the container, the script installs required packages:</p>
+        <Steps.Step title="Install Intel GPU Drivers">
+          <p>Inside the container, the following GPU-related packages will be installed:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>GPU drivers (va-driver-all)</li>
-            <li>OpenCL libraries</li>
-            <li>Intel GPU tools</li>
+            <li><strong>va-driver-all</strong> - Video acceleration drivers</li>
+            <li><strong>ocl-icd-libopencl1</strong> - OpenCL runtime</li>
+            <li><strong>intel-opencl-icd</strong> - Intel OpenCL implementation</li>
+            <li><strong>vainfo</strong> - Tool to verify VAAPI support</li>
+            <li><strong>intel-gpu-tools</strong> - Intel GPU debugging tools</li>
           </ul>
-        </Steps.Step>
-        <Steps.Step title="Permission Setup">
-          <p>The script sets up proper permissions for GPU access within the container.</p>
+          <Image src="https://macrimi.github.io/ProxMenux/igpu/install-drivers.png" alt="Install GPU Drivers" width={800} height={400} className="rounded shadow-lg" />
         </Steps.Step>
       </Steps>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What to Expect</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Expected Outcome</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>The script will guide you through the process with clear prompts.</li>
-        <li>Your selected container will be stopped briefly during configuration.</li>
-        <li>The entire process usually takes a few minutes to complete.</li>
-        <li>After completion, your container will be ready to use the host's iGPU.</li>
+        <li>Your LXC container will be configured for Intel iGPU acceleration.</li>
+        <li>The required GPU drivers and tools will be installed inside the container.</li>
+        <li>The container will briefly stop and restart as part of the setup.</li>
+        <li>After completion, applications inside the container will be able to leverage the GPU for acceleration.</li>
       </ul>
-
+      
       <h2 className="text-2xl font-semibold mt-8 mb-4">Important Notes</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>This script is designed for Intel iGPUs. It may not work with other GPU types.</li>
-        <li>The container will be changed to privileged mode if it wasn't already.</li>
-        <li>Ensure your Proxmox host has the necessary Intel GPU drivers installed.</li>
-        <li>Some applications inside the container may require additional setup to utilize the GPU.</li>
+        <li>This script is designed specifically for Intel iGPUs.</li>
+        <li>Make sure your Proxmox host has Intel GPU drivers installed.</li>
+        <li>Some applications inside the container may need additional setup to use the GPU.</li>
       </ul>
-
+      
       <p className="mt-6 italic">
-        By using this ProxMenux script, you can easily enable iGPU acceleration in your LXC containers without needing
-        to manually edit configuration files or run complex commands.
+        By using ProxMenux, you can enable iGPU acceleration in your LXC containers easily, without manual configuration.
       </p>
     </div>
   )
