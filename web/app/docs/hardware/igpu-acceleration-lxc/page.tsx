@@ -1,5 +1,3 @@
-"use client"
-
 import { Steps } from "@/components/ui/steps"
 import CopyableCode from "@/components/CopyableCode"
 import Image from "next/image"
