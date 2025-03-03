@@ -75,11 +75,6 @@ export default function BasicSettingsPage() {
         <code className="block bg-gray-100 p-2 rounded">axel -n 10 http://example.com/largefile.zip</code>
       </li>
       <li>
-        <strong>curl</strong>: A tool for transferring data using various protocols
-        <p className="mt-2">Example usage:</p>
-        <code className="block bg-gray-100 p-2 rounded">curl -O http://example.com/file.txt</code>
-      </li>
-      <li>
         <strong>dialog</strong>: A tool for creating TUI interfaces
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dialog --title "Hello" --msgbox "Hello, World!" 10 20</code>
@@ -90,20 +85,9 @@ export default function BasicSettingsPage() {
         />
       </li>
       <li>
-        <strong>dnsutils</strong>: DNS utilities including dig and nslookup
-        <p className="mt-2">Example usage:</p>
-        <code className="block bg-gray-100 p-2 rounded">dig example.com</code>
-        <code className="block bg-gray-100 p-2 rounded mt-2">nslookup example.com</code>
-      </li>
-      <li>
-        <strong>dos2unix</strong>: Text file format converter
+        <strong>dos2unix</strong>: Text file format converter to remove Windows-style line endings.
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dos2unix file.txt</code>
-      </li>
-      <li>
-        <strong>gnupg-agent</strong>: GNU privacy guard - password agent
-        <p className="mt-2">This runs in the background. To start it:</p>
-        <code className="block bg-gray-100 p-2 rounded">gpg-agent --daemon</code>
       </li>
       <li>
         <strong>grc</strong>: Generic colouriser for everything
@@ -183,38 +167,51 @@ export default function BasicSettingsPage() {
         <code className="block bg-gray-100 p-2 rounded">sudo rdmsr 0x1a0</code>
       </li>
       <li>
-        <strong>nano</strong>: A small, friendly text editor
-        <p className="mt-2">To open a file with nano:</p>
-        <code className="block bg-gray-100 p-2 rounded">nano filename.txt</code>
-        <img
-          src="https://macrimi.github.io/ProxMenux/basic/nano.png"
-          alt="nano Example"
-          className="mt-2 rounded shadow-lg"
-        />
-      </li>
-      <li>
         <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system
         <p className="mt-2">Example usage (show network interfaces):</p>
         <code className="block bg-gray-100 p-2 rounded">ifconfig</code>
       </li>
       <li>
-        <strong>omping</strong>: An open multicast ping tool
+        <strong>omping</strong>: A tool for multicast ping testing.
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">omping 239.255.255.250</code>
       </li>
       <li>
-        <strong>software-properties-common</strong>: Provides an abstraction of the used apt repositories
-        <p className="mt-2">This package is typically used by other tools and doesn't have a direct command-line interface.</p>
-      </li>
-      <li>
-        <strong>sshpass</strong>: A tool for non-interactive ssh password authentication
+        <strong>sshpass</strong>: A tool for non-interactive SSH password authentication.
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">sshpass -p 'password' ssh user@hostname</code>
       </li>
       <li>
-        <strong>tmux</strong>: A terminal multiplexer
+        <strong>tmux</strong>: A terminal multiplexer that allows managing multiple sessions in a single terminal.
         <p className="mt-2">To start a new tmux session:</p>
         <code className="block bg-gray-100 p-2 rounded">tmux</code>
+        <p className="mt-2">In tmux, most commands are executed using <strong>Ctrl + b</strong>, followed by another key:</p>
+        <table className="table-auto border-collapse border border-gray-300 mt-2">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Action</th>
+              <th className="border border-gray-300 p-2">Shortcut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-300 p-2">Detach session (leave it running)</td>
+              <td className="border border-gray-300 p-2">Ctrl + b, then d</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">List active sessions</td>
+              <td className="border border-gray-300 p-2">tmux ls</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">Reattach a session</td>
+              <td className="border border-gray-300 p-2">tmux attach -t session_name</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-2">Exit session</td>
+              <td className="border border-gray-300 p-2">exit or Ctrl + d</td>
+            </tr>
+          </tbody>
+        </table>
         <img
           src="https://macrimi.github.io/ProxMenux/basic/tmux.png"
           alt="tmux Example"
@@ -227,21 +224,6 @@ export default function BasicSettingsPage() {
         <code className="block bg-gray-100 p-2 rounded">unzip file.zip</code>
       </li>
       <li>
-        <strong>vim</strong> and <strong>vim-nox</strong>: A highly configurable text editor
-        <p className="mt-2">To open a file with vim:</p>
-        <code className="block bg-gray-100 p-2 rounded">vim filename.txt</code>
-        <img
-          src="https://macrimi.github.io/ProxMenux/basic/vim.png"
-          alt="vim Example"
-          className="mt-2 rounded shadow-lg"
-        />
-      </li>
-      <li>
-        <strong>wget</strong>: A utility for non-interactive download of files from the Web
-        <p className="mt-2">Example usage:</p>
-        <code className="block bg-gray-100 p-2 rounded">wget http://example.com/file.zip</code>
-      </li>
-      <li>
         <strong>whois</strong>: A client for the whois directory service
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">whois example.com</code>
@@ -252,7 +234,7 @@ export default function BasicSettingsPage() {
         <code className="block bg-gray-100 p-2 rounded">zip archive.zip file1 file2 file3</code>
       </li>
       <li>
-        <strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images
+        <strong>libguestfs-tools</strong>: A set of tools for accessing and modifying virtual machine disk images.
         <p className="mt-2">Example usage (list files in a VM disk image):</p>
         <code className="block bg-gray-100 p-2 rounded">guestfish -a disk.img -m /dev/sda1 ls /</code>
       </li>
@@ -265,10 +247,8 @@ export default function BasicSettingsPage() {
 sudo apt-get update
 
 # Install common system utilities
-sudo apt-get install -y axel curl dialog dnsutils dos2unix gnupg-agent grc htop btop iftop iotop
-sudo apt-get install -y iperf3 ipset iptraf-ng mlocate msr-tools nano net-tools omping
-sudo apt-get install -y software-properties-common sshpass tmux unzip vim vim-nox wget whois zip
-sudo apt-get install -y libguestfs-tools
+sudo apt-get install -y axel dialog dos2unix grc htop btop iftop iotop iperf3 ipset iptraf-ng mlocate msr-tools net-tools omping sshpass tmux unzip zip libguestfs-tools
+
         `}
       />
 

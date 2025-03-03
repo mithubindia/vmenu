@@ -572,10 +572,9 @@ install_system_utils() {
 
     # List of packages to install
     packages=(
-        axel curl dialog dnsutils dos2unix gnupg-agent grc htop btop iftop iotop
-        iperf3 ipset iptraf-ng mlocate msr-tools nano net-tools omping
-        software-properties-common sshpass tmux unzip vim vim-nox wget whois zip
-        libguestfs-tools
+        axel dialog dos2unix grc htop btop iftop iotop
+        iperf3 ipset iptraf-ng mlocate msr-tools net-tools omping
+        sshpass tmux unzip zip libguestfs-tools
     )
 
     total_packages=${#packages[@]}
