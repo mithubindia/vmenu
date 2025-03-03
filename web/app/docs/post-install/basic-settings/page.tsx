@@ -67,7 +67,7 @@ export default function BasicSettingsPage() {
         issues, enhancing your ability to maintain and optimize your virtualization environment.
       </p>
       <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
-      <ul className="list-disc pl-5 mb-4 space-y-8">
+      <ul className="list-disc pl-5 mb-4 space-y-12">
 
       <li>
         <strong>axel</strong>: A light command-line download accelerator
@@ -258,7 +258,7 @@ export default function BasicSettingsPage() {
       </li>
 
       </ul>
-      <p className="text-lg mb-2">All these utilities are installed automatically when you run this command:</p>
+      <p className="text-lg mb-12">All these utilities are installed automatically when you run this command:</p>
       <CopyableCode
         code={`
 # Update package lists
