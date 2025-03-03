@@ -23,7 +23,7 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/
 Once installed, launch **ProxMenux** by running:
 
 ```bash
-menu.sh
+menu
 ```
 Then, follow the on-screen options to manage your Proxmox server efficiently.
 
