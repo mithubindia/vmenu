@@ -258,7 +258,7 @@ export default function BasicSettingsPage() {
       </li>
 
       </ul>
-      <p className="text-lg mb-12">All these utilities are installed automatically when you run this command:</p>
+      <p className="text-lg mt-12 mb-2">All these utilities are installed automatically when you run this command:</p>
       <CopyableCode
         code={`
 # Update package lists
