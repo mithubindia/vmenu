@@ -47,9 +47,10 @@ export default function PostInstallPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">ProxMenux Post-Install Script Documentation</h1>
       <p className="mb-4">
-        The <strong>Customizable Post-Install Script</strong> is designed to streamline the post-installation process of
-        Proxmox VE by automating system optimizations and configurations. One advantage of the modular and selectable structure is that it allows users to,
-        <strong>select specific configurations</strong> based on their requirements.
+        The <strong>Customizable Post-Install Script</strong> is a utility designed to optimize 
+        the installation of Proxmox VE by adjusting system configurations. One of the advantages of 
+        its modular and selectable structure is that it allows users to choose specific settings based on 
+        their requirements, needs, and preferences.
       </p>
       <p className="mb-6">This script includes {categories.length} main categories, each targeting a key aspect of Proxmox VE
         performance, security, and usability:</p>
