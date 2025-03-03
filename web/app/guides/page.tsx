@@ -69,7 +69,7 @@ export default function GuidesPage() {
         <h2 className="text-3xl font-bold mb-6">Additional Resources</h2>
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <a
-            href="https://github.com/community-scripts/ProxmoxVE/blob/main/USER_SUBMITTED_GUIDES.md"
+            href="https://github.com/community-scripts/ProxmoxVE/blob/main/CHANGELOG.md"
             target="_blank"
             rel="noopener noreferrer"
             className="block p-6 bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-colors"
