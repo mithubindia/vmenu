@@ -2,6 +2,7 @@
 
 import CopyableCode from "@/components/CopyableCode"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function InstallationPage() {
   const installationCode = `bash -c \"$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)\"`
@@ -36,6 +37,19 @@ export default function InstallationPage() {
       <div className="w-full mb-4">
         <CopyableCode code="menu" />
       </div>
+
+      <h2 className="text-xl font-semibold mt-6 mb-2">First Execution and Language Selection</h2>
+      <p className="mb-4">
+        On the first execution, you will be prompted to define the language for ProxMenux. The recommended language is English. Translations are generated automatically using a predefined translation package and Google Translate. Automatic translations may contain errors, so English is the preferred language for accuracy.
+      </p>
+
+      <h2 className="text-xl font-semibold mt-6 mb-2">Uninstalling ProxMenux</h2>
+      <p className="mb-4">
+        If you ever need to uninstall ProxMenux, there is a function in the Settings section designed for this purpose. For detailed instructions on how to uninstall, please refer to the{" "}
+        <Link href="/docs/settings/uninstall-proxmenux" className="text-blue-600 hover:underline">
+          uninstall documentation
+        </Link>.
+      </p>
 
       <h2 className="text-xl font-semibold mt-8 mb-4">Troubleshooting</h2>
       <p className="mb-4">

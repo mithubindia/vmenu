@@ -11,7 +11,7 @@ export default function UninstallProxMenux() {
       <h1 className="text-3xl font-bold mb-6">Uninstall ProxMenux</h1>
       
       <p className="mb-4">
-        The <strong>Uninstall ProxMenux</strong> function allows users to remove ProxMenux and its related components from their Proxmox VE system.
+        The <strong>Uninstall ProxMenux</strong> function, remove ProxMenux and its related components from their Proxmox VE system.
         The script provides an interactive option to remove dependencies as well, ensuring a clean uninstallation process.
       </p>
 
@@ -31,15 +31,8 @@ export default function UninstallProxMenux() {
       <ul className="list-disc pl-6 space-y-2 mb-6">
         <li>Removing dependencies is optional. If selected, system-wide packages used by other applications might also be removed.</li>
         <li>Once uninstalled, ProxMenux cannot be restored unless reinstalled manually.</li>
-        <li>Ensure you no longer need ProxMenux before confirming the uninstallation.</li>
       </ul>
 
-      <section className="mt-12 p-4 bg-blue-100 rounded-md">
-        <p>
-          If you are uninstalling ProxMenux due to issues or missing features, consider checking the documentation or the latest updates.
-          It may be beneficial to update rather than uninstall. If you need assistance, refer to the official repository for support or troubleshooting.
-        </p>
-      </section>
     </div>
   )
 }
