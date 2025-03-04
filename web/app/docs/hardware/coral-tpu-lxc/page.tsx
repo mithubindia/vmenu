@@ -1,87 +1,83 @@
-import type { Metadata } from "next"
-import { Steps } from "@/components/ui/steps"
+"use client"
 
-export const metadata: Metadata = {
-  title: "Coral TPU to an LXC | ProxMenux Documentation",
-  description: "Learn how to add Coral TPU support to an LXC container in Proxmox VE.",
+import { Steps } from "@/components/ui/steps"
+import CopyableCode from "@/components/CopyableCode"
+import Image from "next/image"
+
+export const metadata = {
+  title: "Enable Coral TPU in LXC | ProxMenux Documentation",
+  description: "Step-by-step guide to enable Google Coral TPU support in an LXC container using ProxMenux.",
 }
 
 export default function CoralTPULXC() {
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Coral TPU to an LXC</h1>
-
+      <h1 className="text-3xl font-bold mb-6">Enable Coral TPU in an LXC</h1>
+      
       <p className="mb-4">
-        This script automates the process of adding Google Coral TPU (Tensor Processing Unit) support to LXC containers
-        in Proxmox VE. It configures containers to leverage the power of Coral TPU for AI and machine learning tasks,
-        significantly accelerating inference operations.
+        This guide explains how to configure Google Coral TPU support for LXC containers in Proxmox VE using <strong>ProxMenux</strong>.
+        Coral TPU provides dedicated AI acceleration, improving inference performance for machine learning applications.
       </p>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What Does This Script Do?</h2>
-      <p className="mb-4">When executed, this script performs the following actions:</p>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Overview</h2>
+      <p className="mb-4">The script automates the following steps:</p>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Presents a list of available LXC containers for selection</li>
-        <li>Configures the selected container to support both Coral TPU and Intel iGPU</li>
-        <li>Installs necessary drivers and tools inside the container</li>
-        <li>Sets up proper permissions and mounts for hardware access</li>
+        <li>Allows selection of an existing LXC container.</li>
+        <li>Ensures the container is privileged for hardware access.</li>
+        <li>Configures LXC parameters for Coral TPU and Intel iGPU.</li>
+        <li>Installs required drivers and dependencies inside the container.</li>
       </ol>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Key Steps</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Implementation Steps</h2>
       <Steps>
-        <Steps.Step title="Container Selection">
-          <p>You'll be prompted to select the LXC container you want to enable Coral TPU support for.</p>
+        <Steps.Step title="Select an LXC Container">
+          <p>The script lists available LXC containers and prompts for selection.</p>
         </Steps.Step>
-        <Steps.Step title="Container Configuration">
-          <p>The script modifies the container's configuration to allow Coral TPU and iGPU access. This includes:</p>
+        <Steps.Step title="Modify Container Configuration">
+          <p>The script applies necessary changes to enable Coral TPU:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Ensuring the container is privileged (for necessary permissions)</li>
-            <li>Enabling nesting feature</li>
-            <li>Adding device permissions for TPU and GPU access</li>
-            <li>Setting up proper mounts for TPU and GPU devices</li>
+            <li>Switches the container to privileged mode if required.</li>
+            <li>Enables nesting to allow GPU and TPU usage.</li>
+            <li>Sets device permissions for TPU and iGPU.</li>
+            <li>Configures proper device mounts.</li>
           </ul>
         </Steps.Step>
-        <Steps.Step title="Driver Installation">
-          <p>Inside the container, the script installs required packages:</p>
+        <Steps.Step title="Install Required Drivers">
+          <p>The script installs the necessary components inside the container:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>GPU drivers (va-driver-all, intel-opencl-icd)</li>
-            <li>Coral TPU dependencies and drivers</li>
-            <li>Python and necessary libraries</li>
+            <li>GPU drivers (va-driver-all, intel-opencl-icd).</li>
+            <li>Coral TPU dependencies (Python, GPG keys, repository setup).</li>
+            <li>Coral TPU drivers (USB and M.2 support).</li>
           </ul>
         </Steps.Step>
-        <Steps.Step title="Coral TPU Driver Selection">
-          <p>
-            If a Coral M.2 device is detected, you'll be prompted to choose between standard and maximum performance
-            drivers.
-          </p>
+        <Steps.Step title="Select Coral TPU Driver Version">
+          <p>If a Coral M.2 device is detected, the script prompts the user to select:</p>
+          <ul className="list-disc pl-6 space-y-1 mt-2">
+            <li><strong>Standard mode</strong> - balanced performance.</li>
+            <li><strong>Maximum performance mode</strong> - higher speed, increased power usage.</li>
+          </ul>
         </Steps.Step>
       </Steps>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What to Expect</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Expected Results</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>The script will guide you through the process with clear prompts.</li>
-        <li>Your selected container will be stopped briefly during configuration.</li>
-        <li>The entire process usually takes a few minutes to complete.</li>
-        <li>After completion, your container will be ready to use both Coral TPU and the host's iGPU.</li>
+        <li>The selected container is correctly configured for TPU and iGPU usage.</li>
+        <li>Required drivers and dependencies are installed inside the container.</li>
+        <li>The container will restart as needed during the process.</li>
+        <li>After completion, applications inside the container can utilize Coral TPU acceleration.</li>
       </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Notes</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>This script supports both USB and M.2 versions of Coral TPU.</li>
-        <li>The container will be changed to privileged mode if it wasn't already.</li>
-        <li>Ensure your Proxmox host has the necessary Coral TPU and Intel GPU drivers installed.</li>
-        <li>
-          For M.2 Coral TPUs, you can choose between standard and maximum performance modes. The maximum performance
-          mode may generate more heat.
-        </li>
-        <li>Some applications inside the container may require additional setup to utilize the Coral TPU.</li>
+        <li>The script supports both USB and M.2 Coral TPU devices.</li>
+        <li>The container must be privileged to access TPU hardware.</li>
+        <li>The Proxmox host must have the required Coral TPU and Intel GPU drivers installed.</li>
+        <li>Additional application-specific configurations may be required inside the container.</li>
       </ul>
-
+      
       <p className="mt-6 italic">
-        This script simplifies the process of enabling Coral TPU and iGPU acceleration in your LXC containers without
-        the need for manual configuration file editing or running complex commands. This setup is ideal for AI and
-        machine learning workloads that can benefit from hardware acceleration.
+        By using ProxMenux, Coral TPU and iGPU support can be enabled in LXC containers efficiently, avoiding manual configuration steps.
       </p>
     </div>
   )
 }
-

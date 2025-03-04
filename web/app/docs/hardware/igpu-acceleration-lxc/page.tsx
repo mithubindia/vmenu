@@ -65,13 +65,9 @@ export default function IGPUAccelerationLXC() {
       <h2 className="text-2xl font-semibold mt-8 mb-4">Important Notes</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
         <li>This script is designed specifically for Intel iGPUs.</li>
-        <li>Make sure your Proxmox host has Intel GPU drivers installed.</li>
         <li>Some applications inside the container may need additional setup to use the GPU.</li>
       </ul>
       
-      <p className="mt-6 italic">
-        By using ProxMenux, you can enable iGPU acceleration in your LXC containers easily, without manual configuration.
-      </p>
     </div>
   )
 }

@@ -41,7 +41,7 @@ select_container() {
     fi
 
     CONTAINER_ID=$(whiptail --title "$(translate 'Select Container')" \
-        --menu "$(translate 'Select the LXC container:')" 15 60 5 $CONTAINERS 3>&1 1>&2 2>&3)
+        --menu "$(translate 'Select the LXC container:')" 15 60 8 $CONTAINERS 3>&1 1>&2 2>&3)
 
     if [ -z "$CONTAINER_ID" ]; then
         msg_error "$(translate 'No container selected. Exiting.')"
@@ -95,6 +95,15 @@ configure_lxc_for_igpu() {
         msg_ok "$(translate 'Container changed to privileged.')"
     fi
 
+
+    if grep -q "^lxc.apparmor.profile" "$CONFIG_FILE"; then
+        msg_info "$(translate 'Disabling AppArmor profile to avoid conflicts...')"
+        sed -i "/^lxc.apparmor.profile/d" "$CONFIG_FILE"
+        msg_ok "$(translate 'AppArmor profile removed.')"
+    fi
+
+
+
     # Configure iGPU
     if ! grep -q "features: nesting=1" "$CONFIG_FILE"; then
         echo "features: nesting=1" >> "$CONFIG_FILE"
@@ -128,12 +137,12 @@ install_igpu_in_container() {
     tput sc
     LOG_FILE=$(mktemp)
 
-    pct start "$CONTAINER_ID"
+    msg_info "$(translate 'Installing iGPU drivers...')"
+    pct start "$CONTAINER_ID" >/dev/null 2>&1
+
     script -q -c "pct exec \"$CONTAINER_ID\" -- bash -c '
     set -e
-    echo \"- Updating package lists...\"
-    apt-get update
-    echo \"- Installing iGPU drivers...\"
+    apt-get update >/dev/null 2>&1
     apt-get install -y va-driver-all ocl-icd-libopencl1 intel-opencl-icd vainfo intel-gpu-tools
     chgrp video /dev/dri && chmod 755 /dev/dri
     adduser root video && adduser root render
@@ -161,5 +170,5 @@ configure_lxc_for_igpu
 install_igpu_in_container
 
 
-msg_ok "$(translate 'iGPU configuration completed in container') $CONTAINER_ID."
+msg_success "$(translate 'iGPU configuration completed in container') $CONTAINER_ID."
 sleep 2
