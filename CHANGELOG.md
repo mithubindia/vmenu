@@ -1,5 +1,5 @@
 
-## [1.1.0] - 2025-03-06
+## 2025-03-06
 ### Added
 - Completed the web documentation section to expand information on updated scripts.
 
