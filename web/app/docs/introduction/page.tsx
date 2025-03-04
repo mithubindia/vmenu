@@ -14,13 +14,12 @@ export default function IntroductionPage() {
           className="mr-4"
         />
         <p className="text-lg text-gray-800">
-          ProxMenux is a management tool for Proxmox VE, designed to be accessible to all users, 
-          regardless of their experience or technical knowledge.
+        ProxMenux is a tool designed to make Proxmox VE accessible to all users, regardless of their experience and technical knowledge.
         </p>
       </div>
 
       <p className="mb-4">
-        With an interactive menu-driven interface, ProxMenux simplifies command execution for managing:
+      Designed with a menu-based interface, ProxMenux simplifies the execution of commands to perform actions on:
       </p>
       <ul className="list-disc list-inside mb-4 ml-4">
         <li>The Proxmox server</li>
@@ -43,9 +42,7 @@ export default function IntroductionPage() {
       <h2 className="text-2xl font-semibold mt-8 mb-4">Key Advantages</h2>
       <ul className="list-disc list-inside mb-6 ml-4">
         <li>Intuitive menu-driven interface</li>
-        <li>Efficient system and resource management</li>
-        <li>Reduced complexity for common tasks</li>
-        <li>Regular updates with expanding features</li>
+        <li>Simplification of management tasks</li>
       </ul>
 
       <p className="mt-6">
