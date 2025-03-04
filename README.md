@@ -8,7 +8,7 @@
 <br />
 
 <div align="center" style="margin-top: 20px;">
-    <a href="https://proxmenux.com" target="_blank">
+    <a href="https://macrimi.github.io/ProxMenux/" target="_blank">
         <img src="https://img.shields.io/badge/Website-proxmenux-blue?style=for-the-badge&logo=internet-explorer" alt="Website" />
     </a>
     <a href="https://macrimi.github.io/ProxMenux/docs/introduction" target="_blank">
