@@ -12,7 +12,7 @@ export default function ShowIPInformation() {
       <h1 className="text-3xl font-bold mb-6">Show IP Information</h1>
 
       <p className="mb-4">
-        The Show IP Information function is part of the network management script in ProxMenux. It provides a quick and
+        The Show IP Information function it provides a quick and
         easy way to view the IP configurations of all relevant network interfaces in your Proxmox VE system.
       </p>
 
@@ -25,21 +25,7 @@ export default function ShowIPInformation() {
         <li>Indicates if an interface has no IP assigned</li>
       </ol>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-4">How to Use Show IP Information</h2>
-      <Steps>
-        <Steps.Step title="Access the Network Repair Menu">
-          <p>Run the network management script and select the "Network Repair Menu" option.</p>
-        </Steps.Step>
-        <Steps.Step title="Choose Show IP Information">
-          <p>From the menu, select the "Show IP Information" option.</p>
-        </Steps.Step>
-        <Steps.Step title="Review the IP Information">
-          <p>The script will display a list of all detected interfaces and their IP addresses.</p>
-        </Steps.Step>
-        <Steps.Step title="Interpret the Results">
-          <p>Use this information to verify IP assignments or troubleshoot network issues.</p>
-        </Steps.Step>
-      </Steps>
+
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Key Features of Show IP Information</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">

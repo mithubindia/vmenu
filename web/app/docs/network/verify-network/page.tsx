@@ -26,21 +26,6 @@ export default function VerifyNetwork() {
         <li>Displays a summary of the network status.</li>
       </ol>
       
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Implementation Steps</h2>
-      <Steps>
-        <Steps.Step title="Access the Network Repair Menu">
-          <p>Launch the network management script and navigate to the "Network Repair Menu" option.</p>
-        </Steps.Step>
-        <Steps.Step title="Select Verify Network">
-          <p>Choose the "Verify Network" option from the menu.</p>
-        </Steps.Step>
-        <Steps.Step title="Review Network Details">
-          <p>The script will display detected interfaces, their IP configurations, and connectivity status.</p>
-        </Steps.Step>
-        <Steps.Step title="Analyze the Findings">
-          <p>Based on the output, determine if any corrective action is needed, such as using the "Repair Network" function.</p>
-        </Steps.Step>
-      </Steps>
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Expected Results</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
