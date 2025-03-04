@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/main.png" alt="ProxMenu Logo"  height="350">
+    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/main.png" alt="ProxMenu Logo"  height="300">
 </div>
 
 <br />
@@ -61,7 +61,7 @@ If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help oth
 
 <div style="display: flex; justify-content: center; align-items: center;">
   <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
-    <img src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png" alt="Support me on Ko-fi" style="width:175px; margin-right:65px;"/>
+    <img src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png" alt="Support me on Ko-fi" style="width:140px; margin-right:40px;"/>
   </a>
 </div>
 
