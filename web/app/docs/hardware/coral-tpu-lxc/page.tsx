@@ -14,7 +14,7 @@ export default function CoralTPULXC() {
       
       <p className="mb-4">
         This guide explains how to configure Google Coral TPU support for LXC containers in Proxmox VE using <strong>ProxMenux</strong>.
-        Coral TPU provides dedicated AI acceleration, improving inference performance for machine learning applications.
+        Coral TPU provides dedicated AI acceleration, improving inference performance for machine learning applications. It is particularly useful for video surveillance applications with real-time video analysis, such as <a href='https://frigate.video/' target='_blank' className='text-blue-600 hover:underline'>Frigate</a> or <a href='https://www.ispyconnect.com' target='_blank' className='text-blue-600 hover:underline'>Agent DVR</a> or <a href='https://blueirissoftware.com/' target='_blank' className='text-blue-600 hover:underline'>Blue Iris</a> using <a href='https://www.codeproject.com/ai/index.aspx' target='_blank' className='text-blue-600 hover:underline'>CodeProject.AI</a>.
       </p>
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Overview</h2>
@@ -68,14 +68,10 @@ export default function CoralTPULXC() {
       <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
         <li>The script supports both USB and M.2 Coral TPU devices.</li>
-        <li>The container must be privileged to access TPU hardware.</li>
         <li>The Proxmox host must have the required Coral TPU and Intel GPU drivers installed.</li>
         <li>Additional application-specific configurations may be required inside the container.</li>
       </ul>
       
-      <p className="mt-6 italic">
-        By using ProxMenux, Coral TPU and iGPU support can be enabled in LXC containers efficiently, avoiding manual configuration steps.
-      </p>
     </div>
   )
 }
