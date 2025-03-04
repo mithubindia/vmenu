@@ -1,85 +1,78 @@
-import type { Metadata } from "next"
 import { Steps } from "@/components/ui/steps"
+import CopyableCode from "@/components/CopyableCode"
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Install Coral TPU on the Host | ProxMenux Documentation",
-  description: "Learn how to install Coral TPU drivers on your Proxmox VE host.",
+  description: "Step-by-step guide to install Google Coral TPU drivers on a Proxmox VE host using ProxMenux.",
 }
 
 export default function InstallCoralTPUHost() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Install Coral TPU on the Host</h1>
-
-      <p className="mb-4">
-        This script automates the installation of Google Coral TPU (Tensor Processing Unit) drivers on your Proxmox VE
-        host. It ensures that all necessary packages are installed and compiles the Coral TPU drivers for proper
-        functionality.
+      
+      <p className=\"mb-4\"><strong>Before using Coral TPU inside an LXC container, the drivers must first be installed on the Proxmox VE host. This script automates that process, ensuring the necessary setup is completed.</strong><br/><br/>
+        This guide explains how to install and configure Google Coral TPU drivers on a Proxmox VE host using <strong>ProxMenux</strong>.
+        This setup enables hardware acceleration for AI-based applications that leverage Coral TPU.
       </p>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What Does This Script Do?</h2>
-      <p className="mb-4">When executed, this script performs the following actions:</p>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Overview</h2>
+      <p className="mb-4">The script automates the following steps:</p>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Prompts for confirmation before proceeding with the installation</li>
-        <li>Verifies and configures necessary repositories on the host</li>
-        <li>Installs required packages for driver compilation</li>
-        <li>Clones the Coral TPU driver repository</li>
-        <li>Builds and installs the Coral TPU drivers</li>
-        <li>Prompts for a system restart to apply changes</li>
+        <li>Prompts for confirmation before proceeding with installation.</li>
+        <li>Verifies and configures necessary repositories on the host.</li>
+        <li>Installs required dependencies for driver compilation.</li>
+        <li>Clones the Coral TPU driver repository and builds the drivers.</li>
+        <li>Installs the compiled Coral TPU drivers.</li>
+        <li>Prompts for a system restart to apply changes.</li>
       </ol>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Key Steps</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Implementation Steps</h2>
       <Steps>
-        <Steps.Step title="Pre-Installation Prompt">
-          <p>The script asks for confirmation before proceeding, warning that a system restart will be required.</p>
+        <Steps.Step title="Pre-Installation Confirmation">
+          <p>The script prompts the user for confirmation before proceeding, as a system restart is required after installation.</p>
         </Steps.Step>
         <Steps.Step title="Repository Configuration">
-          <p>Verifies and adds necessary repositories:</p>
+          <p>The script verifies and configures required repositories:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Adds the pve-no-subscription repository if not present</li>
-            <li>Adds non-free-firmware repositories to the sources list</li>
-            <li>Updates the package lists</li>
+            <li>Adds the <strong>pve-no-subscription</strong> repository if not present.</li>
+            <li>Adds <strong>non-free-firmware</strong> repositories for required packages.</li>
+            <li>Runs an update to fetch the latest package lists.</li>
           </ul>
         </Steps.Step>
         <Steps.Step title="Driver Installation">
-          <p>Installs Coral TPU drivers:</p>
+          <p>The script installs and compiles the required drivers:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Installs necessary packages (git, devscripts, dh-dkms, etc.)</li>
-            <li>Clones the gasket-driver repository</li>
-            <li>Builds the driver packages</li>
-            <li>Installs the compiled driver packages</li>
+            <li>Installs dependencies such as <strong>git, dkms, devscripts</strong>, and kernel headers.</li>
+            <li>Clones the <strong>gasket-driver</strong> repository from Google.</li>
+            <li>Builds the Coral TPU driver packages.</li>
+            <li>Installs the compiled drivers on the host.</li>
           </ul>
         </Steps.Step>
-        <Steps.Step title="Post-Installation Prompt">
-          <p>Prompts the user to restart the server to apply the changes.</p>
+        <Steps.Step title="Post-Installation Confirmation">
+          <p>The script prompts the user to restart the server to apply the changes.</p>
         </Steps.Step>
       </Steps>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What to Expect</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Expected Results</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>The script will guide you through the process with clear prompts.</li>
-        <li>Installation may take several minutes, depending on your system's performance.</li>
-        <li>A system restart is required after the installation to apply the changes.</li>
-        <li>After the restart, your Proxmox VE host will be ready to use Coral TPU devices.</li>
+        <li>The Coral TPU drivers are installed successfully on the Proxmox VE host.</li>
+        <li>Required repositories and dependencies are configured properly.</li>
+        <li>A system restart is performed to complete the installation.</li>
+        <li>After the restart, the host is ready to utilize Coral TPU for AI workloads.</li>
       </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Notes</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>Ensure you have a stable internet connection for downloading packages and repositories.</li>
-        <li>
-          This script modifies system repositories and installs new packages. Make sure you understand the implications.
-        </li>
-        <li>The installation requires root or sudo privileges to execute.</li>
-        <li>It's recommended to perform a system backup before running this script.</li>
-        <li>If you encounter any issues during installation, check the Proxmox VE logs for more information.</li>
+        <li>A stable internet connection is required to fetch repositories and dependencies.</li>
+        <li>This script modifies system repositories and installs new packages.</li>
+        <li>Root or sudo privileges are required to execute the script.</li>
+        <li>It's recommended to create a system backup before running the script.</li>
       </ul>
-
+      
       <p className="mt-6 italic">
-        This script simplifies the process of installing Coral TPU drivers on your Proxmox VE host, enabling you to use
-        Coral TPU devices for AI and machine learning tasks. After installation and restart, you can proceed to
-        configure individual LXC containers or VMs to use the Coral TPU.
+        By using ProxMenux, Coral TPU drivers can be installed on a Proxmox VE host efficiently, avoiding manual setup and potential configuration issues.
       </p>
     </div>
   )
 }
-
