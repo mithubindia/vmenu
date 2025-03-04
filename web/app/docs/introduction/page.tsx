@@ -5,18 +5,18 @@ export default function IntroductionPage() {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 text-gray-900">
       {/* Logo + Title Section */}
-      <div className="flex flex-col sm:flex-row items-center mb-6">
+      <div className="flex items-center mb-6">
         <Image 
           src="https://macrimi.github.io/ProxMenux/logo.png" 
           alt="ProxMenux Logo" 
-          width={100} 
-          height={100} 
-          className="mb-4 sm:mb-0 sm:mr-4"
+          width={80} 
+          height={80} 
+          className="mr-4"
         />
-        <h1 className="text-3xl font-bold text-center sm:text-left">
+        <p className="text-lg text-gray-800">
           ProxMenux is a management tool for Proxmox VE, designed to be accessible to all users, 
           regardless of their experience or technical knowledge.
-        </h1>
+        </p>
       </div>
 
       <p className="mb-4">
