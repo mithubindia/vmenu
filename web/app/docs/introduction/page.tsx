@@ -5,7 +5,7 @@ export default function IntroductionPage() {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 text-gray-900">
       {/* Logo + Title Section */}
-      <div className="flex items-center mb-6">
+      <div className="flex items-start mb-6">
         <Image 
           src="https://macrimi.github.io/ProxMenux/logo.png" 
           alt="ProxMenux Logo" 
