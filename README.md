@@ -2,20 +2,22 @@
     <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo.png" alt="ProxMenu Logo" width="265" height="294">
 </div>
 
-<div align="center">
-    <a href="https://proxmenux.com" target="_blank">
+<div align="center" style="margin-top: 20px;">
+    <a href="https://macrimi.github.io/ProxMenux/" target="_blank">
         <img src="https://img.shields.io/badge/Website-proxmenux.com-blue?style=for-the-badge&logo=internet-explorer" alt="Website" />
     </a>
-    <a href="https://docs.proxmenux.com" target="_blank">
+    <a href="https://macrimi.github.io/ProxMenux/docs/introduction" target="_blank">
         <img src="https://img.shields.io/badge/Docs-docs.proxmenux.com-blue?style=for-the-badge&logo=read-the-docs" alt="Documentation" />
     </a>
-    <a href="https://github.com/MacRimi/ProxMenux" target="_blank">
-        <img src="https://img.shields.io/badge/GitHub-ProxMenux-blue?style=for-the-badge&logo=github" alt="GitHub" />
+    <a href="https://macrimi.github.io/ProxMenux/changelog" target="_blank">
+        <img src="https://img.shields.io/badge/Changelog-View%20Changes-blue?style=for-the-badge&logo=clockify" alt="Changelog" />
     </a>
-    <a href="https://guides.proxmenux.com" target="_blank">
+    <a href="https://macrimi.github.io/ProxMenux/guides" target="_blank">
         <img src="https://img.shields.io/badge/Guides-guides.proxmenux.com-blue?style=for-the-badge&logo=bookstack" alt="Guides" />
     </a>
 </div>
+
+<br />
 
 # ProxMenux An Interactive Menu for Proxmox VE Management
 
