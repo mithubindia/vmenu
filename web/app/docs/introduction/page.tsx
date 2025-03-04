@@ -13,7 +13,7 @@ export default function IntroductionPage() {
           height={80} 
           className="mr-4"
         />
-        <p className="text-lg text-gray-800">
+        <p className="mb-4">
         ProxMenux is a tool designed to make Proxmox VE accessible to all users, regardless of their experience and technical knowledge.
         </p>
       </div>

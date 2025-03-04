@@ -2,11 +2,24 @@
     <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo.png" alt="ProxMenu Logo" width="265" height="294">
 </div>
 
+<div align="center">
+    <a href="https://proxmenux.com" target="_blank">
+        <img src="https://img.shields.io/badge/Website-proxmenux.com-blue?style=for-the-badge&logo=internet-explorer" alt="Website" />
+    </a>
+    <a href="https://docs.proxmenux.com" target="_blank">
+        <img src="https://img.shields.io/badge/Docs-docs.proxmenux.com-blue?style=for-the-badge&logo=read-the-docs" alt="Documentation" />
+    </a>
+    <a href="https://github.com/MacRimi/ProxMenux" target="_blank">
+        <img src="https://img.shields.io/badge/GitHub-ProxMenux-blue?style=for-the-badge&logo=github" alt="GitHub" />
+    </a>
+    <a href="https://guides.proxmenux.com" target="_blank">
+        <img src="https://img.shields.io/badge/Guides-guides.proxmenux.com-blue?style=for-the-badge&logo=bookstack" alt="Guides" />
+    </a>
+</div>
 
-# ProxMenux: Interactive Menu for Proxmox VE Management
+# ProxMenux An Interactive Menu for Proxmox VE Management
 
-**ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
-
+**ProxMenux** is a management tool for **Proxmox VE** that simplifies system administration through an interactive menu, allowing you to execute commands and scripts with ease.
 
 ---
 

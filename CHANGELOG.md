@@ -1,63 +1,62 @@
-<div align="center">
-    <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo.png" alt="ProxMenu Logo" width="265" height="294">
-</div>
+# Changelog
 
+## [1.1.0] - 2025-03-06
+### Added
+- Completed the web documentation section to expand information on updated scripts.
 
-# ProxMenux: Interactive Menu for Proxmox VE Management
+## [1.1.0] - 2025-03-04
+### Added
+- Created a customizable post-install script for Proxmox with 10 sections and 35 different selectable options.
 
-**ProxMenux** is an interactive menu for **Proxmox VE** that simplifies advanced task management and automation through scripts hosted on GitHub.
+## [1.0.7] - 2025-02-17
+### Added
+- Created a menu with essential scripts from the Proxmox VE Helper-Scripts community.
 
+## [1.0.6] - 2025-02-10
+### Added
+- Added real-time translation support using Google Translate.
+- Modified existing scripts to support multiple languages.
+- Updated installation script to install and configure:
+  - `jq` (for handling JSON data)
+  - Python 3 and virtual environment (required for translations)
+  - Google Translate (`googletrans`) (for multi-language support)
+- Introduced support for the following languages:
+  - English
+  - Spanish
+  - French
+  - German
+  - Italian
+  - Portuguese
+- Created a utility script for auxiliary functions that support the execution of menus and scripts.
 
-![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo.png)
+## [1.0.5] - 2025-01-31
+### Added
+- Added the **Repair Network** script, which includes:
+  - Verify Network
+  - Show IP Information
+- Created the **Network Menu** to manage network-related functions.
 
-Before we begin, I want to thank my colleague @juanlu13 for providing the [original source](https://forums.plex.tv/t/plex-hw-acceleration-in-lxc-container-anyone-with-success/219289/34?utm_source=pocket_mylist) on which this manual is based.
+## [1.0.4] - 2025-01-20
+### Added
+- Created a script to add a passthrough disk to a VM.
+- Created the **Storage Menu** to manage storage-related functions.
 
+## [1.0.3] - 2025-01-13
+### Added
+- Created a script to import disk images into a VM.
 
----
+## [1.0.2] - 2025-01-09
+### Modified
+- Updated the **Coral TPU configuration script** to:
+  - Also include Intel iGPU setup.
+  - Install GPU drivers for video surveillance applications to support VAAPI and QuickSync.
+- Added a function to **uninstall ProxMenux**.
 
-## 📌 Installation
-To install ProxMenux, simply run the following command in your Proxmox server terminal:
+## [1.0.1] - 2025-01-03
+### Added
+- Created a script to add **Coral TPU support in an LXC** for use in video surveillance programs.
 
-```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)"
-```
-
----
-
-## 📌 How to Use
-Once installed, launch **ProxMenux** by running:
-
-```bash
-menu.sh
-```
-Then, follow the on-screen options to manage your Proxmox server efficiently.
-
----
-
-![This is an image](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo.png)
-
-
-## 📌 System Requirements
-🖥 **Compatible with:**
-- Proxmox VE 8.x**
-
-📦 **Dependencies:**
-- `bash`, `curl`, `wget`, `jq`, `whiptail`, `python3-venv` (These dependencies are installed automatically during setup.)
-- **Translations are handled in a Python virtual environment using `googletrans-env`.**
-
----
-
-
-![This is an image](https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png)
-
-## ⭐ Support the Project!
-If you find **ProxMenux** useful, consider giving it a ⭐ on GitHub to help others discover it!
-
-<div style="display: flex; justify-content: center; align-items: center;">
-  <a href="https://ko-fi.com/G2G313ECAN" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
-    <img src="https://raw.githubusercontent.com/MacRimi/HWEncoderX/main/images/kofi.png" alt="Support me on Ko-fi" style="width:175px; margin-right:65px;"/>
-  </a>
-</div>
-
-If you would like to support the project, you can buy me a coffee on Ko-fi! Thank you! 😊
-
+## [1.0.0] - 2024-12-18
+### Added
+- Initial release of **ProxMenux**.
+- Created a script to add **Coral TPU drivers** to Proxmox.
