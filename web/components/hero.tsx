@@ -11,12 +11,12 @@ export default function Hero() {
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6">
         ProxMenux{" "}
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-          A menu-driven script for Proxmox VE management
+        An Interactive Menu for Proxmox VE Management
         </span>
       </h1>
       <p className="text-base sm:text-lg md:text-xl mb-8 max-w-4xl mx-auto text-gray-300">
-       ProxMenux is a tool for executing shell scripts in a user-friendly way, featuring a categorized menu system for easy access to scripts hosted on GitHub. 
-       Designed to facilitate productivity, it simplifies automation and streamlines task execution.
+      ProxMenux is a management tool for Proxmox VE that simplifies system administration 
+      through an interactive menu, allowing you to execute commands and scripts with ease.
       </p>
       <div className="flex justify-center">
         <Button size="lg" className="bg-blue-500 hover:bg-blue-600" asChild>

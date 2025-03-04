@@ -1,44 +1,64 @@
+import Image from "next/image"
 import Link from "next/link"
 
 export default function IntroductionPage() {
   return (
-    <div className="max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Introduction to ProxMenux</h1>
+    <div className="w-full max-w-4xl mx-auto px-4 py-8 text-gray-900">
+      {/* Logo + Title Section */}
+      <div className="flex flex-col sm:flex-row items-center mb-6">
+        <Image 
+          src="https://macrimi.github.io/ProxMenux/logo.png" 
+          alt="ProxMenux Logo" 
+          width={100} 
+          height={100} 
+          className="mb-4 sm:mb-0 sm:mr-4"
+        />
+        <h1 className="text-3xl font-bold text-center sm:text-left">
+          ProxMenux is a management tool for Proxmox VE, designed to be accessible to all users, 
+          regardless of their experience or technical knowledge.
+        </h1>
+      </div>
+
       <p className="mb-4">
-        ProxMenux is a tool designed to make Proxmox VE more accessible to all users, regardless of experience.
-        <br />
-        <br />
-        Through a menu-based interface, it simplifies the execution of complex commands for server configuration,
-        maintenance, and application installations without requiring manual input.
-        <br />
-        <br />
-        ProxMenux not only streamlines Proxmox VE management but also interacts with hardware and drivers, simplifying
-        tasks such as storage management, disk handling, and image imports to facilitate system administration and
-        maintenance.
+        With an interactive menu-driven interface, ProxMenux simplifies command execution for managing:
       </p>
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Key Features</h2>
-      <ul className="list-disc pl-6 space-y-2">
-        <li>Menu-based interface for easy script execution.</li>
-        <li>Organized categories for quick access to available functions.</li>
-        <li>Scripts hosted on GitHub, always accessible and up to date.</li>
-        <li>Automatic text translation using Google Translate.</li>
-        <li>Simplified Proxmox VE management, reducing the complexity of common tasks.</li>
+      <ul className="list-disc list-inside mb-4 ml-4">
+        <li>The Proxmox server</li>
+        <li>Virtual machines (VMs)</li>
+        <li>Containers (LXC)</li>
       </ul>
+
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Core Features</h2>
+      <p className="mb-4">
+        ProxMenux enables streamlined management of:
+      </p>
+      <ul className="list-disc list-inside mb-6 ml-4">
+        <li>System resources</li>
+        <li>Network and storage configurations</li>
+        <li>VM and LXC container administration</li>
+        <li>Hardware integration and optimizations</li>
+        <li>Automated server maintenance</li>
+      </ul>
+
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Key Advantages</h2>
+      <ul className="list-disc list-inside mb-6 ml-4">
+        <li>Intuitive menu-driven interface</li>
+        <li>Efficient system and resource management</li>
+        <li>Reduced complexity for common tasks</li>
+        <li>Regular updates with expanding features</li>
+      </ul>
+
       <p className="mt-6">
-        The following sections of this documentation provide instructions on how to install ProxMenux and detailed
-        explanations of each available script. 
-        <br />
-        <br />
-        For additional Proxmox-related information, including guides, official
-        documentation, forums, and discussions, visit the{" "}
+        The following sections provide detailed instructions on installing and using ProxMenux, along with comprehensive documentation on its available functionalities.
+      </p>
+
+      {/* Guides Link */}
+      <p className="mt-6">
+        For additional Proxmox-related information, including official documentation, forums, and discussions, visit the{" "}
         <Link href="/guides" className="text-blue-500 hover:underline">
           Guides
-        </Link>{" "}
+        </Link>{" "} 
         section.
-        <br />
-        <br /> 
-        <br />
-        <br />
       </p>
     </div>
   )
