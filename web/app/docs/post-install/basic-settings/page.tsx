@@ -117,7 +117,7 @@ export default function BasicSettingsPage() {
      <li>
         <strong>iftop</strong>: A tool to display bandwidth usage on an interface
         <p className="mt-2">To start iftop (requires root):</p>
-        <code className="block bg-gray-100 p-2 rounded">sudo iftop</code>
+        <code className="block bg-gray-100 p-2 rounded">iftop</code>
         <img
           src="https://macrimi.github.io/ProxMenux/basic/iftop.png"
           alt="iftop Example"
@@ -127,7 +127,7 @@ export default function BasicSettingsPage() {
       <li>
         <strong>iotop</strong>: A tool to display I/O usage by processes
         <p className="mt-2">To start iotop (requires root):</p>
-        <code className="block bg-gray-100 p-2 rounded">sudo iotop</code>
+        <code className="block bg-gray-100 p-2 rounded">siotop</code>
         <img
           src="https://macrimi.github.io/ProxMenux/basic/iotop.png"
           alt="iotop Example"
@@ -149,7 +149,7 @@ export default function BasicSettingsPage() {
       <li>
         <strong>iptraf-ng</strong>: An interactive colorful IP LAN monitor
         <p className="mt-2">To start iptraf-ng:</p>
-        <code className="block bg-gray-100 p-2 rounded">sudo iptraf-ng</code>
+        <code className="block bg-gray-100 p-2 rounded">iptraf-ng</code>
         <img
           src="https://macrimi.github.io/ProxMenux/basic/iptraf-ng.png"
           alt="iptraf-ng Example"
@@ -164,7 +164,7 @@ export default function BasicSettingsPage() {
       <li>
         <strong>msr-tools</strong>: Tools for accessing CPU model-specific registers
         <p className="mt-2">Example usage (read MSR):</p>
-        <code className="block bg-gray-100 p-2 rounded">sudo rdmsr 0x1a0</code>
+        <code className="block bg-gray-100 p-2 rounded">rdmsr 0x1a0</code>
       </li>
       <li>
         <strong>net-tools</strong>: A collection of programs that form the base set of the NET-3 networking distribution for the Linux operating system

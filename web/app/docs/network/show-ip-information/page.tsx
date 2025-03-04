@@ -49,28 +49,6 @@ export default function ShowIPInformation() {
         <li>Quick and easy access to network configuration information</li>
         <li>Non-intrusive operation (does not make any changes to the system)</li>
       </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Notes</h2>
-      <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>
-          This function requires root or sudo privileges to execute, as it needs to access system network information.
-        </li>
-        <li>
-          The Show IP Information function only displays current IP configurations; it does not modify any settings.
-        </li>
-        <li>This tool is useful for quick network diagnostics and configuration verification.</li>
-        <li>
-          If you notice unexpected IP assignments or missing addresses, consider using the "Verify Network" or "Repair
-          Network" functions.
-        </li>
-      </ul>
-
-      <p className="mt-6 italic">
-        The Show IP Information function provides a straightforward way to view your Proxmox VE system's IP
-        configurations. Use it whenever you need a quick overview of your network interfaces and their associated IP
-        addresses.
-      </p>
     </div>
   )
 }
-
