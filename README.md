@@ -2,7 +2,7 @@
     <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/main.png" 
          alt="ProxMenu Logo" 
          style="max-width: 100%; height: auto;" 
-         width="600" height="300">
+         width="600" >
 </div>
 
 <br />
