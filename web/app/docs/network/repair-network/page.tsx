@@ -13,13 +13,13 @@ export default function RepairNetwork() {
       
       <p className="mb-4">
         The <strong>Repair Network</strong> function in <strong>ProxMenux</strong> addresses issues caused by changes in network interface identifiers
-        that occur when modifying hardware components such as network adapters or GPUs. This can lead to a loss of
+        that occur when modifying hardware components such as network adapters, GPUs, or other PCI devices. This can lead to a loss of
         network connectivity because the system retains old configurations that no longer match the new interface IDs.
       </p>
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Purpose</h2>
       <p className="mb-4">
-        In many cases, when adding or removing hardware (e.g., network cards, GPUs), network interfaces may be renamed
+        In many cases, when adding or removing hardware (e.g., network cards, GPUs, storage controllers), network interfaces may be renamed
         due to changes in the system's PCI device enumeration. As a result, Proxmox VE may fail to establish a network
         connection because the <code>/etc/network/interfaces</code> file references outdated interface names.
       </p>
@@ -47,7 +47,6 @@ export default function RepairNetwork() {
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>Restarting the network service is recommended to apply the changes.</li>
         <li>This script is useful when network connectivity is lost due to hardware modifications.</li>
         <li>Having an alternative access method (such as IPMI or console) is advisable in case of unforeseen issues.</li>
       </ul>
