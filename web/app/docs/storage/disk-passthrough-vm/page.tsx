@@ -1,94 +1,69 @@
-import type { Metadata } from "next"
 import { Steps } from "@/components/ui/steps"
+import CopyableCode from "@/components/CopyableCode"
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Disk Passthrough to a VM | ProxMenux Documentation",
-  description: "Learn how to set up disk passthrough to a virtual machine in Proxmox VE.",
+  description: "Step-by-step guide to configure disk passthrough to a virtual machine in Proxmox VE using ProxMenux.",
 }
 
 export default function DiskPassthroughVM() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Disk Passthrough to a VM</h1>
-
+      
       <p className="mb-4">
-        This script automates the process of setting up disk passthrough to a virtual machine (VM) in Proxmox VE. Disk
-        passthrough allows a VM to have direct access to a physical disk or partition, which can be useful for certain
-        applications that require low-level disk access or for maximizing storage performance.
+        This guide explains how to assign physical disks to virtual machines (VMs) in <strong>Proxmox VE</strong> using <strong>ProxMenux</strong>.
+        Disk passthrough allows a VM to have direct access to a physical disk, providing improved performance and compatibility for certain applications.
       </p>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What Does This Script Do?</h2>
-      <p className="mb-4">When executed, this script performs the following actions:</p>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Overview</h2>
+      <p className="mb-4">The script automates the following steps:</p>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Lists available disks on the Proxmox host</li>
-        <li>Allows you to select a disk for passthrough</li>
-        <li>Lists available VMs</li>
-        <li>Allows you to select a VM to receive the disk passthrough</li>
-        <li>Configures the selected disk for passthrough</li>
-        <li>Adds the disk to the chosen VM's configuration</li>
+        <li>Lists available physical disks on the Proxmox host, excluding the system disk.</li>
+        <li>Displays a list of available virtual machines (VMs) for selection.</li>
+        <li>Allows the user to select multiple disks to assign to a VM.</li>
+        <li>Ensures selected disks are not already in use by another VM.</li>
+        <li>Configures the selected disks for passthrough to the chosen VM.</li>
       </ol>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Key Steps</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Implementation Steps</h2>
       <Steps>
         <Steps.Step title="Disk Selection">
-          <p>
-            The script will display a list of available disks on your Proxmox host. You'll be prompted to select the
-            disk you want to pass through to a VM.
-          </p>
+          <img src="https://macrimi.github.io/ProxMenux/disk/disk-selection.png" alt="Disk Selection Menu" className="mt-4 rounded shadow-lg" />
+          <p>The script scans the system and displays a list of available physical disks, excluding the system disk.</p>
         </Steps.Step>
         <Steps.Step title="VM Selection">
-          <p>
-            After selecting a disk, you'll be presented with a list of available VMs. Choose the VM that should receive
-            the passed-through disk.
-          </p>
+          <p>The user selects the virtual machine (VM) to which the disk(s) will be assigned.</p>
         </Steps.Step>
-        <Steps.Step title="Disk Configuration">
-          <p>The script will configure the selected disk for passthrough. This involves:</p>
+        <Steps.Step title="Disk Assignment">
+          <p>The script performs the following actions:</p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Unmounting the disk if it's currently mounted</li>
-            <li>Removing any existing partitions or logical volumes</li>
-            <li>Clearing the partition table</li>
+            <li>Ensures the selected disk is not in use by another VM.</li>
+            <li>Provides an interface choice (SATA, SCSI, VirtIO, or IDE).</li>
+            <li>Automatically configures the disk passthrough and assigns it to the VM.</li>
           </ul>
         </Steps.Step>
-        <Steps.Step title="VM Configuration">
-          <p>The script will modify the chosen VM's configuration to include the passed-through disk. This includes:</p>
-          <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>Adding the disk to the VM's configuration file</li>
-            <li>Setting up the appropriate SCSI controller if necessary</li>
-          </ul>
+        <Steps.Step title="Confirmation & Finalization">
+          <p>The script verifies the operation and confirms the successful disk passthrough.</p>
         </Steps.Step>
       </Steps>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What to Expect</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Expected Results</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>The script will guide you through the process with clear prompts.</li>
-        <li>You'll need to make selections for both the disk and the target VM.</li>
-        <li>The process is typically quick, but it may take a few moments to configure larger disks.</li>
-        <li>After completion, the selected disk will be available to the chosen VM as a raw device.</li>
-        <li>You may need to restart the VM to recognize the new disk.</li>
+        <li>The selected physical disk(s) are successfully assigned to the specified VM.</li>
+        <li>Users are provided with a confirmation of the disk assignment.</li>
+        <li>The VM is configured to recognize the disk(s) upon startup.</li>
       </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Notes</h2>
+      
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>Disk passthrough gives the VM direct access to the physical disk. Use this feature with caution.</li>
-        <li>
-          All data on the selected disk will be erased during the process. Make sure to backup any important data before
-          proceeding.
-        </li>
-        <li>
-          The disk will be exclusively used by the selected VM and will not be available to the host or other VMs.
-        </li>
-        <li>Ensure that the VM is shut down before running this script to avoid potential data corruption.</li>
-        <li>Some features like live migration may be limited or unavailable for VMs with passed-through disks.</li>
-        <li>This script requires root or sudo privileges to execute.</li>
+        <li>The script requires root privileges to execute.</li>
+        <li>Ensure the selected disk is not already in use by another VM.</li>
+        <li>VMs must be powered off before adding disks to prevent data corruption.</li>
+        <li>Using disk passthrough limits certain VM features, such as live migration.</li>
       </ul>
+      
 
-      <p className="mt-6 italic">
-        This script simplifies the process of setting up disk passthrough in Proxmox VE, allowing you to easily assign
-        physical disks to specific VMs. This can be particularly useful for applications that require direct disk access
-        or for maximizing storage performance in certain scenarios.
-      </p>
     </div>
   )
 }
-

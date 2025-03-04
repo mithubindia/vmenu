@@ -59,20 +59,9 @@ export default function InstallCoralTPUHost() {
         <li>The Coral TPU drivers are installed successfully on the Proxmox VE host.</li>
         <li>Required repositories and dependencies are configured properly.</li>
         <li>A system restart is performed to complete the installation.</li>
-        <li>After the restart, the host is ready to utilize Coral TPU for AI workloads.</li>
       </ul>
       
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
-      <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>A stable internet connection is required to fetch repositories and dependencies.</li>
-        <li>This script modifies system repositories and installs new packages.</li>
-        <li>Root or sudo privileges are required to execute the script.</li>
-        <li>It's recommended to create a system backup before running the script.</li>
-      </ul>
-      
-      <p className="mt-6 italic">
-        By using ProxMenux, Coral TPU drivers can be installed on a Proxmox VE host efficiently, avoiding manual setup and potential configuration issues.
-      </p>
+
     </div>
   )
 }
