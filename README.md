@@ -2,7 +2,7 @@
     <img src="https://github.com/MacRimi/ProxMenux/blob/main/images/logo.png" alt="ProxMenu Logo" width="265" height="294">
 </div>
 
-<div align="center" style="margin-top: 20px;">
+<div align="center" style="margin-top: 40px;">
     <a href="https://proxmenux.com" target="_blank">
         <img src="https://img.shields.io/badge/Website-proxmenux-blue?style=for-the-badge&logo=internet-explorer" alt="Website" />
     </a>
