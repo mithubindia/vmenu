@@ -37,11 +37,6 @@ export default function ChangeLanguage() {
         <li>Updates the ProxMenux configuration with the selected language.</li>
         <li>Reloads the menu to apply the new language setting.</li>
       </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
-      <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>The recommended language is English to ensure consistency and reliability.</li>
-      </ul>
     </div>
   )
 }

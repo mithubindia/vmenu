@@ -149,6 +149,40 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
 
     <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
       <StepNumber number={4} />
+      Enable Proxmox Testing Repository
+    </h3>
+    <p className="mb-4">
+      This option enables the Proxmox testing repository, allowing access to the latest, potentially unstable versions of Proxmox VE packages.
+    </p>
+    <p className="mb-4">What it does:</p>
+    <ul className="list-disc pl-5 mb-4">
+      <li>Adds the Proxmox testing repository to the system's package sources</li>
+      <li>Creates a new file in /etc/apt/sources.list.d/ for the testing repository</li>
+      <li>Updates the package lists to include packages from the new repository</li>
+    </ul>
+    <p className="mb-4">
+      How to use: After enabling this repository, you can update and upgrade your system to get the latest testing versions of Proxmox VE packages. Use with caution as these versions may be unstable.
+    </p>
+    <p className="text-lg mb-2">To manually add the Proxmox testing repository, you can use these commands:</p>
+    <CopyableCode
+      code={`
+    # Add Proxmox testing repository
+    echo "deb http://download.proxmox.com/debian/pve $(lsb_release -cs) pvetest" | sudo tee /etc/apt/sources.list.d/pve-testing-repo.list
+
+    # Update package lists
+    sudo apt update
+      `}
+    />
+    <p className="mt-4 text-sm text-gray-600">
+      Note: $(lsb_release -cs) automatically detects your Proxmox VE version codename (e.g., bullseye).
+    </p>
+    <p className="mt-4 text-yellow-600">
+      Warning: Enabling the testing repository may lead to system instability. It's recommended for testing environments only.
+    </p>
+
+
+    <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+      <StepNumber number={5} />
       Install and Configure Fastfetch
     </h3>
 
