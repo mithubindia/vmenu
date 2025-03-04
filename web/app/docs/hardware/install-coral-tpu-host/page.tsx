@@ -11,7 +11,7 @@ export default function InstallCoralTPUHost() {
     <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Install Coral TPU on the Host</h1>
       
-      <p className=\"mb-4\"><strong>Before using Coral TPU inside an LXC container, the drivers must first be installed on the Proxmox VE host. This script automates that process, ensuring the necessary setup is completed.</strong><br/><br/>
+      <p className="mb-4"><strong>Before using Coral TPU inside an LXC container, the drivers must first be installed on the Proxmox VE host. This script automates that process, ensuring the necessary setup is completed.</strong><br/><br/>
         This guide explains how to install and configure Google Coral TPU drivers on a Proxmox VE host using <strong>ProxMenux</strong>.
         This setup enables hardware acceleration for AI-based applications that leverage Coral TPU.
       </p>
