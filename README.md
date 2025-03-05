@@ -9,7 +9,7 @@
 
 <div align="center" style="margin-top: 20px;">
     <a href="https://macrimi.github.io/ProxMenux/" target="_blank">
-        <img src="https://img.shields.io/badge/Website-%23A84300?style=for-the-badge&logo=World-Wide-Web&logoColor=white" alt="Website" />
+        <img src="https://img.shields.io/badge/Website-%23E64804?style=for-the-badge&logo=World-Wide-Web&logoColor=white" alt="Website" />
     </a>
     <a href="https://macrimi.github.io/ProxMenux/docs/introduction" target="_blank">
         <img src="https://img.shields.io/badge/Docs-%232A3A5D?style=for-the-badge&logo=read-the-docs&logoColor=white" alt="Docs" />
