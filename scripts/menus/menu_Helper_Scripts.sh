@@ -61,7 +61,7 @@ scripts=(
     "Proxmox VE CPU Scaling Governor|System|$BASE_URL/scaling-governor.sh|Description:\n\nThe CPU scaling governor determines how the CPU frequency is adjusted based on the workload, with the goal of either conserving power or improving performance.\n\nBy scaling the frequency up or down, the operating system can optimize the CPU usage and conserve energy when possible. Generic Scaling Governors."
     #"Proxmox VE Cron LXC Updater|Maintenance|$BASE_URL/cron-update-lxcs.sh|Description:\n\nThis script will add/remove a crontab schedule that updates all LXCs every Sunday at midnight. To exclude LXCs from updating, edit the crontab using crontab -e and add CTID as shown in the example below:\n\n0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c \$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/misc/update-lxcs-cron.sh) -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null"
     "Proxmox VE LXC Updater|Maintenance|$BASE_URL/update-lxcs.sh|Description:\n\nThis script has been created to simplify and speed up the process of updating all LXC containers across various Linux distributions, such as Ubuntu, Debian, Devuan, Alpine Linux, CentOS-Rocky-Alma, Fedora, and ArchLinux.\n\nDesigned to automatically skip templates and specific containers during the update, enhancing its convenience and usability."
-    "Proxmox Backup Server|Security|$BASE_URL/ct/proxmox-backup-server.sh|Description:\n\nProxmox Backup Server is an enterprise backup solution, for backing up and restoring VMs, containers, and physical hosts. By supporting incremental, fully deduplicated backups, Proxmox Backup Server significantly reduces network load and saves valuable storage space.\n\n\ Set a root password if using autologin. This will be the PBS password. passwd root"
+    "Proxmox Backup Server|Security|$BASE_URL2/ct/proxmox-backup-server.sh|Description:\n\nProxmox Backup Server is an enterprise backup solution, for backing up and restoring VMs, containers, and physical hosts. By supporting incremental, fully deduplicated backups, Proxmox Backup Server significantly reduces network load and saves valuable storage space.\n\n\nSet a root password if using autologin. This will be the PBS password. passwd root"
 
 
 )
@@ -112,7 +112,7 @@ show_menu() {
 
 
                 whiptail --title "Proxmox VE Helper-Scripts" \
-                         --msgbox "$(translate "Visit the website to discover more scripts and stay up to date with the latest updates:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+                         --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
 
 
                 exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
