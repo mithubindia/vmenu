@@ -7,25 +7,25 @@ const resources = [
   {
     icon: <Book className="h-6 w-6" />,
     title: "Documentation",
-    description: "Comprehensive guides to get you started",
+    description: "System description and user guides",
     link: "/docs/introduction",
   },
   {
     icon: <FileText className="h-6 w-6" />,
     title: "Changelog",
-    description: "Stay up to date with the latest changes",
+    description: "Information on the latest updates",
     link: "/changelog",
   },
   {
     icon: <GitBranch className="h-6 w-6" />,
     title: "Guides",
-    description: "Step-by-step tutorials for common tasks",
+    description: "Step-by-step tutorials and guides for common tasks",
     link: "/guides",
   },
   {
     icon: <Github className="h-6 w-6" />,
     title: "GitHub Repository",
-    description: "Explore the source code and contribute",
+    description: "Explore the source code.",
     link: "https://github.com/MacRimi/ProxMenux",
   },
 ]
