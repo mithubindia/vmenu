@@ -7,28 +7,29 @@ const resources = [
   {
     icon: <Book className="h-6 w-6" />,
     title: "Documentation",
-    description: "System description and user guides",
+    description: <span className="min-h-[48px]">System description and user guides</span>,
     link: "/docs/introduction",
   },
   {
     icon: <FileText className="h-6 w-6" />,
     title: "Changelog",
-    description: "Information on the latest updates",
+    description: <span className="min-h-[48px]">Information on the latest updates</span>,
     link: "/changelog",
   },
   {
     icon: <GitBranch className="h-6 w-6" />,
     title: "Guides",
-    description: "Step-by-step tutorials and guides for common tasks",
+    description: <span className="min-h-[48px]">Step-by-step tutorials and guides for common tasks</span>,
     link: "/guides",
   },
   {
     icon: <Github className="h-6 w-6" />,
     title: "GitHub Repository",
-    description: "Explore the source code.",
+    description: <span className="min-h-[48px]">Explore the source code.</span>,
     link: "https://github.com/MacRimi/ProxMenux",
   },
 ]
+
 
 export default function Resources() {
   return (
