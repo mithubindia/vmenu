@@ -24,7 +24,6 @@
 
 <br />
 
-# ProxMenux An Interactive Menu for Proxmox VE Management
 
 **ProxMenux** is a management tool for **Proxmox VE** that simplifies system administration through an interactive menu, allowing you to execute commands and scripts with ease.
 
