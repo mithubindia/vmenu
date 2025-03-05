@@ -202,7 +202,7 @@ EOF
     fi
 
     # update proxmox and install system utils
-    # msg_info "$(translate "Performing system upgrade...")"
+    msg_info "$(translate "Performing system upgrade...")"
     apt-get install pv -y > /dev/null 2>&1
     total_packages=$(apt-get -s dist-upgrade | grep "^Inst" | wc -l)
 
@@ -223,7 +223,7 @@ EOF
                     progress=100
                 fi
 
-                printf "\r\033[KProgress: [%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
+                printf "${TAB}\r\033[KProgress: [%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
             fi
         done
     )
@@ -234,7 +234,7 @@ EOF
     fi
 
     # update PVE application manager
-    # msg_info "$(translate "Updating PVE application manager, patience...")"
+    msg_info "$(translate "Updating PVE application manager, patience...")"
     total_steps=$(pveam update 2>&1 | grep -E "^(Downloading|Importing)" | wc -l)
     [ $total_steps -eq 0 ] && total_steps=1
     current_step=0
@@ -244,7 +244,7 @@ EOF
             if [[ $line == "Downloading"* ]] || [[ $line == "Importing"* ]]; then
                 ((current_step++))
                 progress=$((current_step * 100 / total_steps))
-                printf "\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
+                printf "${TAB}\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
             fi
         done
     )
@@ -609,7 +609,7 @@ install_system_utils() {
                 /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1
                 ((installed_packages++))
                 progress=$((installed_packages * 100 / total_packages))
-                printf "\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
+                printf "${TAB}\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
             done
         )
 

@@ -35,6 +35,7 @@ initialize_cache
 
 # Base URL community-scripts
 BASE_URL="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc"
+BASE_URL2="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main"
 
 
 
@@ -44,7 +45,7 @@ scripts=(
     "Add Netbird to LXC|Networking|$BASE_URL/add-netbird-lxc.sh|Description:\n\nNetBird combines a configuration-free peer-to-peer private network and a centralized access control system in a single platform, making it easy to create secure private networks for your organization or home.\n\nAfter the script finishes, reboot the LXC then run netbird up in the LXC console.\n\n\The script only works in Debian/Ubuntu, not in Alpine!"
     "Add Tailscale to LXC|Networking|$BASE_URL/add-tailscale-lxc.sh|Description:\n\nTailscale is a software-defined networking solution that enables secure communication between devices over the internet.\n\nIt creates a virtual private network (VPN) that enables devices to communicate with each other as if they were on the same local network.\n\n\After the script finishes, reboot the LXC then run tailscale up in the LXC console."
     "Proxmox VE LXC Cleaner|Maintenance|$BASE_URL/clean-lxcs.sh|Description:\n\nThis script provides options to delete logs and cache, and repopulate apt lists for Ubuntu and Debian systems."
-    "Proxmox VE Host Backup|System|$BASE_URL/host-backup.sh|Description:\n\nThis script serves as a versatile backup utility, enabling users to specify both the backup path and the directory they want to work in.\n\nThis flexibility empowers users to select the specific files and directories they wish to back up, making it compatible with a wide range of hosts, not limited to Proxmox.\n\nA backup is rendered ineffective when it remains stored on the host"
+    "Proxmox VE Host Backup|Security|$BASE_URL/host-backup.sh|Description:\n\nThis script serves as a versatile backup utility, enabling users to specify both the backup path and the directory they want to work in.\n\nThis flexibility empowers users to select the specific files and directories they wish to back up, making it compatible with a wide range of hosts, not limited to Proxmox.\n\nA backup is rendered ineffective when it remains stored on the host"
     "Add hardware Acceleration LXC|Containers|$BASE_URL/hw-acceleration.sh|Description:\n\nEnables hardware acceleration IGPU for LXC containers."
     "Proxmox Clean Orphaned LVM|Maintenance|$BASE_URL/clean-orphaned-lvm.sh|Description:\n\nThis script helps Proxmox users identify and remove orphaned LVM volumes that are no longer associated with any VM or LXC container.\n\nIt scans all LVM volumes, detects unused ones, and provides an interactive prompt to delete them safely.\n\nSystem-critical volumes like root, swap, and data are excluded to prevent accidental deletion."
     "Install Crowdsec|Security|$BASE_URL/crowdsec.sh|Description:\n\nCrowdSec is a free and open-source intrusion prevention system (IPS) designed to provide network security against malicious traffic.\n\nIt is a collaborative IPS that analyzes behaviors and responses to attacks by sharing signals across a community of users."
@@ -60,6 +61,9 @@ scripts=(
     "Proxmox VE CPU Scaling Governor|System|$BASE_URL/scaling-governor.sh|Description:\n\nThe CPU scaling governor determines how the CPU frequency is adjusted based on the workload, with the goal of either conserving power or improving performance.\n\nBy scaling the frequency up or down, the operating system can optimize the CPU usage and conserve energy when possible. Generic Scaling Governors."
     #"Proxmox VE Cron LXC Updater|Maintenance|$BASE_URL/cron-update-lxcs.sh|Description:\n\nThis script will add/remove a crontab schedule that updates all LXCs every Sunday at midnight. To exclude LXCs from updating, edit the crontab using crontab -e and add CTID as shown in the example below:\n\n0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c \$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/misc/update-lxcs-cron.sh) -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null"
     "Proxmox VE LXC Updater|Maintenance|$BASE_URL/update-lxcs.sh|Description:\n\nThis script has been created to simplify and speed up the process of updating all LXC containers across various Linux distributions, such as Ubuntu, Debian, Devuan, Alpine Linux, CentOS-Rocky-Alma, Fedora, and ArchLinux.\n\nDesigned to automatically skip templates and specific containers during the update, enhancing its convenience and usability."
+    "Proxmox Backup Server|Security|$BASE_URL/ct/proxmox-backup-server.sh|Description:\n\nProxmox Backup Server is an enterprise backup solution, for backing up and restoring VMs, containers, and physical hosts. By supporting incremental, fully deduplicated backups, Proxmox Backup Server significantly reduces network load and saves valuable storage space.\n\n\ Set a root password if using autologin. This will be the PBS password. passwd root"
+
+
 )
 
 show_menu() {
