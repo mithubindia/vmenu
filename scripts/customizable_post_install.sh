@@ -112,8 +112,11 @@ EOF
     else
         msg_ok "$(translate "kexec-pve service enabled")"
     fi
-
-    # Add alias for reboot-quick
+    
+    if [ ! -f /root/.bash_profile ]; then
+    touch /root/.bash_profile
+    fi
+    
     if ! grep -q "alias reboot-quick='systemctl kexec'" /root/.bash_profile; then
         echo "alias reboot-quick='systemctl kexec'" >> /root/.bash_profile
         msg_ok "$(translate "reboot-quick alias added")"
