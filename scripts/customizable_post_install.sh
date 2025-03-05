@@ -199,21 +199,28 @@ EOF
     fi
 
     # update proxmox and install system utils
-    msg_info "$(translate "Performing system upgrade...")"
+    # msg_info "$(translate "Performing system upgrade...")"
     apt-get install pv -y > /dev/null 2>&1
     total_packages=$(apt-get -s dist-upgrade | grep "^Inst" | wc -l)
+
     if [ "$total_packages" -eq 0 ]; then
         total_packages=1  
     fi
+
     upgraded_packages=0
 
     (
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' dist-upgrade 2>&1 | \
         while IFS= read -r line; do
-            if [[ $line == "Setting up"* ]] || [[ $line == "Unpacking"* ]]; then
+            if [[ "$line" =~ ^(Setting up|Unpacking|Preparing to unpack|Processing triggers for) ]]; then
                 ((upgraded_packages++))
+
                 progress=$((upgraded_packages * 100 / total_packages))
-                printf "\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
+                if [ "$progress" -gt 100 ]; then
+                    progress=100
+                fi
+
+                printf "\r\033[KProgress: [%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
             fi
         done
     )
@@ -224,7 +231,7 @@ EOF
     fi
 
     # update PVE application manager
-    msg_info "$(translate "Updating PVE application manager, patience...")"
+    # msg_info "$(translate "Updating PVE application manager, patience...")"
     total_steps=$(pveam update 2>&1 | grep -E "^(Downloading|Importing)" | wc -l)
     [ $total_steps -eq 0 ] && total_steps=1
     current_step=0
@@ -591,9 +598,9 @@ install_system_utils() {
     done
 
     if [ ${#packages_to_install[@]} -eq 0 ]; then
-        msg_ok "$(translate "Missing system utilities installed successfully")"
+        msg_ok "$(translate "System utilities installed successfully")"
     else
-        msg_info "$(translate "Installing missing system utilities...")"
+        
         (
             for package in "${packages_to_install[@]}"; do
                 /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1
@@ -605,7 +612,7 @@ install_system_utils() {
 
         if [ $? -eq 0 ]; then
             printf "\r%-$(($(tput cols)-1))s\r" " "
-            msg_ok "$(translate "Missing system utilities installed successfully")"
+            msg_ok "$(translate "System utilities installed successfully")"
         fi
     fi
 
@@ -1596,6 +1603,7 @@ enable_vfio_iommu() {
     # Blacklist conflicting drivers (avoid duplicates)
     local blacklist_file="/etc/modprobe.d/blacklist.conf"
     msg_info "$(translate "Checking conflicting drivers blacklist...")"
+    touch "$blacklist_file"
     local blacklist_drivers=("nouveau" "lbm-nouveau" "amdgpu" "radeon" "nvidia" "nvidiafb")
 
     for driver in "${blacklist_drivers[@]}"; do
@@ -2035,7 +2043,7 @@ configure_fastfetch() {
             1)
                 msg_info "$(translate "Downloading ProxMenux logo...")"
                 local proxmenux_logo_path="$logos_dir/ProxMenux.txt"
-                if wget -qO "$proxmenux_logo_path" "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logos_txt/ProxMenux.txt"; then
+                if wget -qO "$proxmenux_logo_path" "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logos_txt/logo.txt"; then
                     jq --arg path "$proxmenux_logo_path" '. + {logo: $path}' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
                     msg_ok "$(translate "ProxMenux logo applied")"
                 else
