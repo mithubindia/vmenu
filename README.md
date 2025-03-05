@@ -6,21 +6,21 @@
 </div>
 
 <br />
-
 <div align="center" style="margin-top: 20px;">
     <a href="https://macrimi.github.io/ProxMenux/" target="_blank">
-        <img src="https://img.shields.io/badge/Website-%23141E35?style=for-the-badge&logo=World-Wide-Web&logoColor=white" alt="Website" />
+        <img src="https://img.shields.io/badge/Website-%23A855F7?style=for-the-badge&logo=World-Wide-Web&logoColor=white" alt="Website" />
     </a>
     <a href="https://macrimi.github.io/ProxMenux/docs/introduction" target="_blank">
-        <img src="https://img.shields.io/badge/Docs-%23141E35?style=for-the-badge&logo=read-the-docs&logoColor=white" alt="Docs" />
+        <img src="https://img.shields.io/badge/Docs-%23A855F7?style=for-the-badge&logo=read-the-docs&logoColor=white" alt="Docs" />
     </a>
     <a href="https://macrimi.github.io/ProxMenux/changelog" target="_blank">
-        <img src="https://img.shields.io/badge/Changelog-%23141E35?style=for-the-badge&logo=git&logoColor=white" alt="Changelog" />
+        <img src="https://img.shields.io/badge/Changelog-%23A855F7?style=for-the-badge&logo=git&logoColor=white" alt="Changelog" />
     </a>
     <a href="https://macrimi.github.io/ProxMenux/guides" target="_blank">
-        <img src="https://img.shields.io/badge/Guides-%23141E35?style=for-the-badge&logo=bookstack&logoColor=white" alt="Guides" />
+        <img src="https://img.shields.io/badge/Guides-%23A855F7?style=for-the-badge&logo=bookstack&logoColor=white" alt="Guides" />
     </a>
 </div>
+
 <br />
 
 
