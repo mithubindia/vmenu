@@ -172,11 +172,6 @@ export default function BasicSettingsPage() {
         <code className="block bg-gray-100 p-2 rounded">ifconfig</code>
       </li>
       <li>
-        <strong>omping</strong>: A tool for multicast ping testing.
-        <p className="mt-2">Example usage:</p>
-        <code className="block bg-gray-100 p-2 rounded">omping 239.255.255.250</code>
-      </li>
-      <li>
         <strong>sshpass</strong>: A tool for non-interactive SSH password authentication.
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">sshpass -p 'password' ssh user@hostname</code>

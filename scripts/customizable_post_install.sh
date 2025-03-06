@@ -300,7 +300,7 @@ EOF
     fi
 
     tput cnorm  
-    
+
 
     # Install additional Proxmox packages
     msg_info "$(translate "Installing additional Proxmox packages...")"
@@ -631,7 +631,7 @@ install_system_utils() {
 
     packages=(
         axel dialog dos2unix grc htop btop iftop iotop
-        iperf3 ipset iptraf-ng mlocate msr-tools net-tools omping
+        iperf3 ipset iptraf-ng mlocate msr-tools net-tools
         sshpass tmux unzip zip libguestfs-tools
     )
 
