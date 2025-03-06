@@ -1,4 +1,4 @@
-import Hero from "@/components/hero2"
+import Hero2 from "@/components/hero2"
 import Resources from "@/components/resources"
 import SupportProject from "@/components/support-project"
 import Footer from "@/components/footer"
