@@ -2450,6 +2450,7 @@ for index in "${!sorted_options[@]}"; do
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoclean >/dev/null 2>&1
         msg_ok "$(translate "Cleanup finished")"
         msg_info2 "$(translate "You can reboot later manually.")"
+        exit 0
     fi
 
   fi
