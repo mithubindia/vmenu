@@ -1,5 +1,35 @@
+import type { Metadata } from "next"
 import { Sliders } from "lucide-react"
-import CodeBlock from "./code-block"
+
+
+export const metadata: Metadata = {
+  title: "ProxMenux Post-Install: Customization Settings",
+  description:
+    "Guide to Customization Settings in the ProxMenux post-install script for configuring the Proxmox VE environment.",
+  openGraph: {
+    title: "ProxMenux Post-Install: Customization Settings",
+    description:
+      "Guide to Customization Settings in the ProxMenux post-install script for configuring the Proxmox VE environment.",
+    type: "article",
+    url: "https://macrimi.github.io/ProxMenux/docs/post-install/customization",
+    images: [
+      {
+        url: "https://macrimi.github.io/ProxMenux/customization-settings-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ProxMenux Customization Settings",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProxMenux Post-Install: Customization Settings",
+    description:
+      "Guide to Customization Settings in the ProxMenux post-install script for configuring the Proxmox VE environment.",
+    images: ["https://macrimi.github.io/ProxMenux/customization-settings-image.png"],
+  },
+}
+
 
 function StepNumber({ number }: { number: number }) {
   return (
@@ -43,8 +73,9 @@ export default function CustomizationSettingsPage() {
         </li>
       </ul>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-      <CodeBlock
-        code={`# Modify .bashrc for root
+      <div className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto mb-6 border border-gray-300">
+        <pre className="whitespace-pre-wrap text-sm">
+          {`# Modify .bashrc for root
 cp /root/.bashrc /root/.bashrc.bak
 sed -i '/HISTTIMEFORMAT/d' /root/.bashrc
 sed -i '/PS1/d' /root/.bashrc
@@ -54,7 +85,8 @@ echo 'export HISTTIMEFORMAT="%d/%m/%y %T "' >> /root/.bashrc
 echo 'export PS1="\\u@\\h:\\W \\\$ "' >> /root/.bashrc
 echo "alias ll='ls -alF'" >> /root/.bashrc
 source /root/.bashrc`}
-      />
+        </pre>
+      </div>
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={2} />
@@ -62,12 +94,14 @@ source /root/.bashrc`}
       </h3>
       <p className="mb-4">This option customizes the MOTD to display a ProxMenux optimization message upon login.</p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-      <CodeBlock
-        code={`# Backup original MOTD
+      <div className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto mb-6 border border-gray-300">
+        <pre className="whitespace-pre-wrap text-sm">
+          {`# Backup original MOTD
 cp /etc/motd /etc/motd.bak
 
 echo "This system is optimized by: ProxMenux" | cat - /etc/motd > temp && mv temp /etc/motd`}
-      />
+        </pre>
+      </div>
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={3} />
@@ -85,13 +119,15 @@ echo "This system is optimized by: ProxMenux" | cat - /etc/motd > temp && mv tem
         <li>Configures APT to prevent nagging messages</li>
       </ul>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-      <CodeBlock
-        code={`# Remove Proxmox subscription banner
+      <div className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto mb-6 border border-gray-300">
+        <pre className="whitespace-pre-wrap text-sm">
+          {`# Remove Proxmox subscription banner
 sed -i "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
 sed -i "s/checked_command: function(orig_cmd) {/checked_command: function() {} || function(orig_cmd) {/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
 
 echo "DPkg::Post-Invoke { \\"dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\\\\.js$'; if [ $\\? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/data.status/{s/\\!/\\!/;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi\\"; };" > /etc/apt/apt.conf.d/xs-pve-no-nag`}
-      />
+        </pre>
+      </div>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Customization Application</h2>
