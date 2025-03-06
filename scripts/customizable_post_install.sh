@@ -201,58 +201,106 @@ EOF
         msg_error "$(translate "Failed to remove conflicting utilities")"
     fi
 
+    
     # update proxmox and install system utils
-    msg_info "$(translate "Performing system upgrade...")"
+    msg_info "$(translate "Performing packages upgrade...")"
     apt-get install pv -y > /dev/null 2>&1
     total_packages=$(apt-get -s dist-upgrade | grep "^Inst" | wc -l)
-
+    
     if [ "$total_packages" -eq 0 ]; then
         total_packages=1  
     fi
+    msg_ok "$(translate "Packages upgrade successfull")"
+    tput civis  
+    tput sc     
 
-    upgraded_packages=0
-
+    
     (
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' dist-upgrade 2>&1 | \
         while IFS= read -r line; do
             if [[ "$line" =~ ^(Setting up|Unpacking|Preparing to unpack|Processing triggers for) ]]; then
-                ((upgraded_packages++))
+              
+                package_name=$(echo "$line" | sed -E 's/.*(Setting up|Unpacking|Preparing to unpack|Processing triggers for) ([^ ]+).*/\2/')
 
-                progress=$((upgraded_packages * 100 / total_packages))
-                if [ "$progress" -gt 100 ]; then
-                    progress=100
-                fi
+                
+                [ -z "$package_name" ] && package_name="$(translate "Unknown")"
 
-                printf "${TAB}\r\033[KProgress: [%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
+               
+                tput rc
+                tput ed
+
+               
+                row=$(( $(tput lines) - 6 ))
+                tput cup $row 0; echo "$(translate "Installing packages...")"
+                tput cup $((row + 1)) 0; echo "──────────────────────────────────────────────"
+                tput cup $((row + 2)) 0; echo "Package: $package_name"
+                tput cup $((row + 3)) 0; echo "Progress: [                                                  ] 0%"
+                tput cup $((row + 4)) 0; echo "──────────────────────────────────────────────"
+
+               
+                for i in $(seq 1 10); do
+                    progress=$((i * 10))
+                    tput cup $((row + 3)) 9 
+                    printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
+                    sleep 0.2  
+                done
             fi
         done
     )
 
     if [ $? -eq 0 ]; then
-        printf "\r%-$(($(tput cols)-1))s\r" " "  
+        tput rc
+        tput ed
         msg_ok "$(translate "System upgrade completed")"
     fi
 
-    # update PVE application manager
+   
     msg_info "$(translate "Updating PVE application manager, patience...")"
     total_steps=$(pveam update 2>&1 | grep -E "^(Downloading|Importing)" | wc -l)
     [ $total_steps -eq 0 ] && total_steps=1
-    current_step=0
+
+    tput sc  
 
     (
         pveam update 2>&1 | while IFS= read -r line; do
             if [[ $line == "Downloading"* ]] || [[ $line == "Importing"* ]]; then
-                ((current_step++))
-                progress=$((current_step * 100 / total_steps))
-                printf "${TAB}\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
+                
+                file_name=$(echo "$line" | sed -E 's/.* (Downloading|Importing) ([^ ]+).*/\2/')
+
+                
+                [ -z "$file_name" ] && file_name="$(translate "Unknown")"
+
+               
+                tput rc
+                tput ed
+
+               
+                row=$(( $(tput lines) - 6 ))
+                tput cup $row 0; echo "$(translate "Updating PVE application manager...")"
+                tput cup $((row + 1)) 0; echo "──────────────────────────────────────────────"
+                tput cup $((row + 2)) 0; echo "Downloading: $file_name"
+                tput cup $((row + 3)) 0; echo "Progress: [                                                  ] 0%"
+                tput cup $((row + 4)) 0; echo "──────────────────────────────────────────────"
+
+               
+                for i in $(seq 1 10); do
+                    progress=$((i * 10))
+                    tput cup $((row + 3)) 9 
+                    printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
+                    sleep 0.2 
+                done
             fi
         done
     )
 
     if [ $? -eq 0 ]; then
-        printf "\r%-$(($(tput cols)-1))s\r" " "
+        tput rc
+        tput ed
         msg_ok "$(translate "PVE application manager updated")"
     fi
+
+    tput cnorm  
+    
 
     # Install additional Proxmox packages
     msg_info "$(translate "Installing additional Proxmox packages...")"
@@ -580,43 +628,58 @@ configure_time_sync() {
 install_system_utils() {
     msg_info2 "$(translate "Installing common system utilities...")"
 
-    # List of packages to install
+
     packages=(
         axel dialog dos2unix grc htop btop iftop iotop
         iperf3 ipset iptraf-ng mlocate msr-tools net-tools omping
         sshpass tmux unzip zip libguestfs-tools
     )
 
-    total_packages=${#packages[@]}
-    installed_packages=0
     packages_to_install=()
 
-    # Check which packages need to be installed
+
     for package in "${packages[@]}"; do
         if ! dpkg -s "$package" >/dev/null 2>&1; then
             packages_to_install+=("$package")
-        else
-            ((installed_packages++))
         fi
     done
 
     if [ ${#packages_to_install[@]} -eq 0 ]; then
         msg_ok "$(translate "System utilities installed successfully")"
     else
-        
-        (
-            for package in "${packages_to_install[@]}"; do
-                /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1
-                ((installed_packages++))
-                progress=$((installed_packages * 100 / total_packages))
-                printf "${TAB}\r$(translate "Progress"): [%-50s] %3d%%" $(printf "#%.0s" $(seq 1 $((progress/2)))) $progress
-            done
-        )
+        tput civis  
+        tput sc      
 
-        if [ $? -eq 0 ]; then
-            printf "\r%-$(($(tput cols)-1))s\r" " "
-            msg_ok "$(translate "System utilities installed successfully")"
-        fi
+        for package in "${packages_to_install[@]}"; do
+           
+            tput rc
+            tput ed
+
+          
+            row=$(( $(tput lines) - 6 ))
+            tput cup $row 0; echo "$(translate "Installing system utilities...")"
+            tput cup $((row + 1)) 0; echo "──────────────────────────────────────────────"
+            tput cup $((row + 2)) 0; echo "Package: $package"
+            tput cup $((row + 3)) 0; echo "Progress: [                                                  ] 0%"
+            tput cup $((row + 4)) 0; echo "──────────────────────────────────────────────"
+
+           
+            for i in $(seq 1 10); do
+                progress=$((i * 10))
+                tput cup $((row + 3)) 9  
+                printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
+                sleep 0.2  
+            done
+
+          
+            /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1
+        done
+
+       
+        tput rc
+        tput ed
+        tput cnorm  
+        msg_ok "$(translate "System utilities installed successfully")"
     fi
 
     msg_success "$(translate "Common system utilities installation completed")"
