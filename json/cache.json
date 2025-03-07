@@ -1,5 +1,5 @@
 {
-  "Language changed to": {
+"Language changed to": {
     "es": "Idioma cambiado a",
     "fr": "Langue changée en",
     "de": "Sprache geändert zu",
@@ -28,11 +28,11 @@
     "pt": "GPUs e Coral-TPU"
   },
   "Hard Drives, Disk Images, and Storage": {
-    "es": "Discos duros, imágenes de disco y almacenamiento",
-    "fr": "Disques durs, images disque et stockage",
-    "de": "Festplatten, Festplattenabbilder und Speicherplatz",
-    "it": "Dischi rigidi, immagini del disco e archiviazione",
-    "pt": "Discos rígidos, imagens de disco e armazenamento"
+    "es": "Discos y almacenamiento",
+    "fr": "Disques et stockage",
+    "de": "Festplatten und Speicher",
+    "it": "Dischi e archiviazione",
+    "pt": "Discos e armazenamento"
   },
   "Network": {
     "es": "Red",
@@ -77,11 +77,11 @@
     "pt": "Menu de discos e armazenamento"
   },
   "Add Disk Passthrough to a VM": {
-    "es": "Añadir disco Passthrough a una VM",
-    "fr": "Ajouter un disque Passthrough à une VM",
-    "de": "Disk-Passthrough zu einer VM hinzufügen",
-    "it": "Aggiungi passthrough del disco a una VM",
-    "pt": "Adicionar passthrough de disco a uma VM"
+    "es": "Añadir disco Passthrough a VM",
+    "fr": "Ajouter disque Passthrough à VM",
+    "de": "Disk-Passthrough zu VM hinzufügen",
+    "it": "Aggiungi passthrough disco a VM",
+    "pt": "Adicionar passthrough de disco a VM"
   },
   "Network Menu": {
     "es": "Menú de red",
@@ -112,11 +112,11 @@
     "pt": "Alterar idioma"
   },
   "Show Version Information": {
-    "es": "Mostrar información de la versión",
-    "fr": "Afficher les informations de version",
-    "de": "Versionsinformationen anzeigen",
-    "it": "Mostra informazioni sulla versione",
-    "pt": "Mostrar informações da versão"
+    "es": "Mostrar versión",
+    "fr": "Afficher version",
+    "de": "Version anzeigen",
+    "it": "Mostra versione",
+    "pt": "Mostrar versão"
   },
   "Uninstall ProxMenu": {
     "es": "Desinstalar ProxMenu",
@@ -126,11 +126,11 @@
     "pt": "Desinstalar ProxMenu"
   },
   "Select a new language for the menu:": {
-    "es": "Seleccione un nuevo idioma para el menú:",
-    "fr": "Sélectionnez une nouvelle langue pour le menu :",
-    "de": "Wählen Sie eine neue Sprache für das Menü:",
-    "it": "Seleziona una nuova lingua per il menu:",
-    "pt": "Selecione um novo idioma para o menu:"
+    "es": "Seleccione idioma para el menú:",
+    "fr": "Sélectionnez langue pour le menu :",
+    "de": "Wählen Sie Sprache für das Menü:",
+    "it": "Seleziona lingua per il menu:",
+    "pt": "Selecione idioma para o menu:"
   },
   "English (Recommended)": {
     "es": "Inglés (recomendado)",
@@ -189,10 +189,661 @@
     "pt": "Japonês"
   },
   "Thank you for using ProxMenu. Goodbye!": {
-  "es": "Gracias por usar ProxMenu. ¡Hasta luego!",
-  "fr": "Merci d'avoir utilisé ProxMenu. À bientôt !",
-  "de": "Vielen Dank, dass Sie ProxMenu verwendet haben. Bis bald!",
-  "it": "Grazie per aver usato ProxMenu. A presto!",
-  "pt": "Obrigado por usar o ProxMenu. Até logo!"
+    "es": "Gracias por usar ProxMenu. ¡Adiós!",
+    "fr": "Merci d'avoir utilisé ProxMenu. Au revoir!",
+    "de": "Danke für die Nutzung von ProxMenu. Auf Wiedersehen!",
+    "it": "Grazie per aver usato ProxMenu. Arrivederci!",
+    "pt": "Obrigado por usar o ProxMenu. Adeus!"
+  },
+  "Uninstall ProxMenux": {
+    "es": "Desinstalar ProxMenux",
+    "fr": "Désinstaller ProxMenux",
+    "de": "ProxMenux deinstallieren",
+    "it": "Disinstallare ProxMenux",
+    "pt": "Desinstalar ProxMenux"
+  },
+  "Main ProxMenux": {
+    "es": "ProxMenux principal",
+    "fr": "ProxMenux principal",
+    "de": "ProxMenux Hauptmenü",
+    "it": "ProxMenux principale",
+    "pt": "ProxMenux principal"
+  },
+  "Settings post-install Proxmox": {
+    "es": "Configuración post-instalación",
+    "fr": "Paramètres post-installation",
+    "de": "Einstellungen nach Installation",
+    "it": "Impostazioni post-installazione",
+    "pt": "Configurações pós-instalação"
+  },
+  "Hardware: GPUs and Coral-TPU": {
+    "es": "Hardware: GPUs y Coral-TPU",
+    "fr": "Matériel: GPUs et Coral-TPU",
+    "de": "Hardware: GPUs und Coral-TPU",
+    "it": "Hardware: GPUs e Coral-TPU",
+    "pt": "Hardware: GPUs e Coral-TPU"
+  },
+  "Essential Proxmox VE Helper-Scripts": {
+    "es": "Esenciales Proxmox VE Helper-Scripts",
+    "fr": "Essentiels Proxmox VE Helper-Scripts",
+    "de": "Essentielle Proxmox VE Helper-Scriptse",
+    "it": "Essenziali Proxmox VE Helper-Scripts",
+    "pt": "Essenciais Proxmox VE Helper-Scripts"
+  },
+  "Generating automatic translations...": {
+    "es": "Generando traducciones...",
+    "fr": "Génération de traductions...",
+    "de": "Übersetzungen werden generiert...",
+    "it": "Generazione traduzioni...",
+    "pt": "Gerando traduções..."
+  },
+  "Name": {
+    "es": "Nombre",
+    "fr": "Nom",
+    "de": "Name",
+    "it": "Nome",
+    "pt": "Nome"
+  },
+  "Repository": {
+    "es": "Repositorio",
+    "fr": "Dépôt",
+    "de": "Repository",
+    "it": "Repository",
+    "pt": "Repositório"
+  },
+  "Customizable script post-installation": {
+    "es": "Script personalizable",
+    "fr": "Script personnalisable",
+    "de": "Anpassbares Skript",
+    "it": "Script personalizzabile",
+    "pt": "Script personalizável"
+  },
+  "Proxmox VE Post Install": {
+    "es": "Post-instalación Proxmox VE",
+    "fr": "Post-installation Proxmox VE",
+    "de": "Proxmox VE Nachinstallation",
+    "it": "Post-installazione Proxmox VE",
+    "pt": "Pós-instalação Proxmox VE"
+  },
+  "xshok-proxmox Post install": {
+    "es": "Post-instalación xshok-proxmox",
+    "fr": "Post-installation xshok-proxmox",
+    "de": "xshok-proxmox Nachinstallation",
+    "it": "Post-installazione xshok-proxmox",
+    "pt": "Pós-instalação xshok-proxmox"
+  },
+  "Post-Installation Scripts Menu": {
+    "es": "Menú de scripts post-instalación",
+    "fr": "Menu scripts post-installation",
+    "de": "Nachinstallationsskripte Menü",
+    "it": "Menu script post-installazione",
+    "pt": "Menu de scripts pós-instalação"
+  },
+  "Description": {
+    "es": "Descripción",
+    "fr": "Description",
+    "de": "Beschreibung",
+    "it": "Descrizione",
+    "pt": "Descrição"
+  },
+  "Category": {
+    "es": "Categoría",
+    "fr": "Catégorie",
+    "de": "Kategorie",
+    "it": "Categoria",
+    "pt": "Categoria"
+  },
+  "Basic Settings": {
+    "es": "Configuración básica",
+    "fr": "Paramètres de base",
+    "de": "Grundeinstellungen",
+    "it": "Impostazioni di base",
+    "pt": "Configurações básicas"
+  },
+  "Install common system utilities": {
+    "es": "Instalar utilidades del sistema",
+    "fr": "Installer utilitaires système",
+    "de": "Systemdienstprogramme installieren",
+    "it": "Installare utilità di sistema",
+    "pt": "Instalar utilitários do sistema"
+  },
+  "Skip downloading additional languages": {
+    "es": "Omitir descarga de idiomas",
+    "fr": "Ignorer téléchargement langues",
+    "de": "Sprachendownload überspringen",
+    "it": "Saltare download lingue",
+    "pt": "Ignorar download de idiomas"
+  },
+  "Synchronize time automatically": {
+    "es": "Sincronizar hora automáticamente",
+    "fr": "Synchroniser l'heure auto",
+    "de": "Zeit automatisch synchronisieren",
+    "it": "Sincronizzare ora automaticamente",
+    "pt": "Sincronizar hora automaticamente"
+  },
+  "Update and upgrade system": {
+    "es": "Actualizar sistema",
+    "fr": "Mettre à jour système",
+    "de": "System aktualisieren",
+    "it": "Aggiornare sistema",
+    "pt": "Atualizar sistema"
+  },
+  "System": {
+    "es": "Sistema",
+    "fr": "Système",
+    "de": "System",
+    "it": "Sistema",
+    "pt": "Sistema"
+  },
+  "Enable fast reboots": {
+    "es": "Activar reinicios rápidos",
+    "fr": "Activer redémarrages rapides",
+    "de": "Schnelle Neustarts aktivieren",
+    "it": "Attivare riavvii rapidi",
+    "pt": "Ativar reinícios rápidos"
+  },
+  "Enable restart on kernel panic": {
+    "es": "Reiniciar en pánico del kernel",
+    "fr": "Redémarrer sur panique kernel",
+    "de": "Neustart bei Kernel-Panik",
+    "it": "Riavviare su kernel panic",
+    "pt": "Reiniciar em pânico do kernel"
+  },
+  "Ensure entropy pools are populated": {
+    "es": "Asegurar pools de entropía",
+    "fr": "Assurer pools d'entropie",
+    "de": "Entropiepools sicherstellen",
+    "it": "Garantire pool di entropia",
+    "pt": "Garantir pools de entropia"
+  },
+  "Increase various system limits": {
+    "es": "Aumentar límites del sistema",
+    "fr": "Augmenter limites système",
+    "de": "Systemgrenzen erhöhen",
+    "it": "Aumentare limiti di sistema",
+    "pt": "Aumentar limites do sistema"
+  },
+  "Install kernel headers": {
+    "es": "Instalar headers del kernel",
+    "fr": "Installer en-têtes kernel",
+    "de": "Kernel-Header installieren",
+    "it": "Installare header kernel",
+    "pt": "Instalar headers do kernel"
+  },
+  "Optimize journald": {
+    "es": "Optimizar journald",
+    "fr": "Optimiser journald",
+    "de": "Journald optimieren",
+    "it": "Ottimizzare journald",
+    "pt": "Otimizar journald"
+  },
+  "Optimize logrotate": {
+    "es": "Optimizar logrotate",
+    "fr": "Optimiser logrotate",
+    "de": "Logrotate optimieren",
+    "it": "Ottimizzare logrotate",
+    "pt": "Otimizar logrotate"
+  },
+  "Virtualization": {
+    "es": "Virtualización",
+    "fr": "Virtualisation",
+    "de": "Virtualisierung",
+    "it": "Virtualizzazione",
+    "pt": "Virtualização"
+  },
+  "Enable VFIO IOMMU support": {
+    "es": "Activar soporte VFIO IOMMU",
+    "fr": "Activer support VFIO IOMMU",
+    "de": "VFIO IOMMU-Unterstützung",
+    "it": "Attivare supporto VFIO IOMMU",
+    "pt": "Ativar suporte VFIO IOMMU"
+  },
+  "Install relevant guest agent": {
+    "es": "Instalar agente invitado",
+    "fr": "Installer agent invité",
+    "de": "Gast-Agent installieren",
+    "it": "Installare agente guest",
+    "pt": "Instalar agente convidado"
+  },
+  "KSM control daemon": {
+    "es": "Daemon de control KSM",
+    "fr": "Démon de contrôle KSM",
+    "de": "KSM-Kontrolldaemon",
+    "it": "Daemon di controllo KSM",
+    "pt": "Daemon de controle KSM"
+  },
+  "Apply network optimizations": {
+    "es": "Optimizar red",
+    "fr": "Optimiser réseau",
+    "de": "Netzwerk optimieren",
+    "it": "Ottimizzare rete",
+    "pt": "Otimizar rede"
+  },
+  "Enable TCP BBR/Fast Open control": {
+    "es": "Activar TCP BBR/Fast Open",
+    "fr": "Activer TCP BBR/Fast Open",
+    "de": "TCP BBR/Fast Open aktivieren",
+    "it": "Attivare TCP BBR/Fast Open",
+    "pt": "Ativar TCP BBR/Fast Open"
+  },
+  "Force APT to use IPv4": {
+    "es": "Forzar APT a usar IPv4",
+    "fr": "Forcer APT à utiliser IPv4",
+    "de": "APT zur IPv4-Nutzung zwingen",
+    "it": "Forzare APT a usare IPv4",
+    "pt": "Forçar APT a usar IPv4"
+  },
+  "Install Open vSwitch": {
+    "es": "Instalar Open vSwitch",
+    "fr": "Installer Open vSwitch",
+    "de": "Open vSwitch installieren",
+    "it": "Installare Open vSwitch",
+    "pt": "Instalar Open vSwitch"
+  },
+  "Storage": {
+    "es": "Almacenamiento",
+    "fr": "Stockage",
+    "de": "Speicher",
+    "it": "Archiviazione",
+    "pt": "Armazenamento"
+  },
+  "Increase vzdump backup speed": {
+    "es": "Aumentar velocidad de backup",
+    "fr": "Augmenter vitesse sauvegarde",
+    "de": "Backup-Geschwindigkeit erhöhen",
+    "it": "Aumentare velocità backup",
+    "pt": "Aumentar velocidade de backup"
+  },
+  "Install ZFS auto-snapshot": {
+    "es": "Instalar ZFS auto-snapshot",
+    "fr": "Installer ZFS auto-snapshot",
+    "de": "ZFS Auto-Snapshot installieren",
+    "it": "Installare ZFS auto-snapshot",
+    "pt": "Instalar ZFS auto-snapshot"
+  },
+  "Optimize ZFS ARC size": {
+    "es": "Optimizar tamaño ZFS ARC",
+    "fr": "Optimiser taille ZFS ARC",
+    "de": "ZFS ARC-Größe optimieren",
+    "it": "Ottimizzare dimensione ZFS ARC",
+    "pt": "Otimizar tamanho ZFS ARC"
+  },
+  "Security": {
+    "es": "Seguridad",
+    "fr": "Sécurité",
+    "de": "Sicherheit",
+    "it": "Sicurezza",
+    "pt": "Segurança"
+  },
+  "Disable portmapper/rpcbind": {
+    "es": "Desactivar portmapper/rpcbind",
+    "fr": "Désactiver portmapper/rpcbind",
+    "de": "Portmapper/rpcbind deaktivieren",
+    "it": "Disattivare portmapper/rpcbind",
+    "pt": "Desativar portmapper/rpcbind"
+  },
+  "Install Lynis security tool": {
+    "es": "Instalar herramienta Lynis",
+    "fr": "Installer outil Lynis",
+    "de": "Lynis-Sicherheitstool installieren",
+    "it": "Installare strumento Lynis",
+    "pt": "Instalar ferramenta Lynis"
+  },
+  "Protect web interface with fail2ban": {
+    "es": "Proteger interfaz con fail2ban",
+    "fr": "Protéger interface avec fail2ban",
+    "de": "Weboberfläche mit fail2ban schützen",
+    "it": "Proteggere interfaccia con fail2ban",
+    "pt": "Proteger interface com fail2ban"
+  },
+  "Customization": {
+    "es": "Personalización",
+    "fr": "Personnalisation",
+    "de": "Anpassung",
+    "it": "Personalizzazione",
+    "pt": "Personalização"
+  },
+  "Customize bashrc": {
+    "es": "Personalizar bashrc",
+    "fr": "Personnaliser bashrc",
+    "de": "Bashrc anpassen",
+    "it": "Personalizzare bashrc",
+    "pt": "Personalizar bashrc"
+  },
+  "Remove subscription banner": {
+    "es": "Eliminar banner de suscripción",
+    "fr": "Supprimer bannière abonnement",
+    "de": "Abonnement-Banner entfernen",
+    "it": "Rimuovere banner abbonamento",
+    "pt": "Remover banner de assinatura"
+  },
+  "Set up custom MOTD banner": {
+    "es": "Configurar banner MOTD",
+    "fr": "Configurer bannière MOTD",
+    "de": "MOTD-Banner einrichten",
+    "it": "Configurare banner MOTD",
+    "pt": "Configurar banner MOTD"
+  },
+  "Monitoring": {
+    "es": "Monitoreo",
+    "fr": "Surveillance",
+    "de": "Überwachung",
+    "it": "Monitoraggio",
+    "pt": "Monitoramento"
+  },
+  "Install OVH Real Time Monitoring": {
+    "es": "Instalar monitoreo OVH",
+    "fr": "Installer surveillance OVH",
+    "de": "OVH-Echtzeitüberwachung installieren",
+    "it": "Installare monitoraggio OVH",
+    "pt": "Instalar monitoramento OVH"
+  },
+  "Performance": {
+    "es": "Rendimiento",
+    "fr": "Performance",
+    "de": "Leistung",
+    "it": "Prestazioni",
+    "pt": "Desempenho"
+  },
+  "Use pigz for faster gzip compression": {
+    "es": "Usar pigz para compresión",
+    "fr": "Utiliser pigz pour compression",
+    "de": "Pigz für schnellere Komprimierung",
+    "it": "Usare pigz per compressione",
+    "pt": "Usar pigz para compressão"
+  },
+  "Optional": {
+    "es": "Opcional",
+    "fr": "Optionnel",
+    "de": "Optional",
+    "it": "Opzionale",
+    "pt": "Opcional"
+  },
+  "Add latest Ceph support": {
+    "es": "Añadir soporte Ceph",
+    "fr": "Ajouter support Ceph",
+    "de": "Ceph-Unterstützung hinzufügen",
+    "it": "Aggiungere supporto Ceph",
+    "pt": "Adicionar suporte Ceph"
+  },
+  "Add Proxmox testing repository": {
+    "es": "Añadir repositorio de pruebas",
+    "fr": "Ajouter dépôt de test",
+    "de": "Proxmox-Testrepository hinzufügen",
+    "it": "Aggiungere repository di test",
+    "pt": "Adicionar repositório de teste"
+  },
+  "Apply AMD CPU fixes": {
+    "es": "Aplicar fixes para CPU AMD",
+    "fr": "Appliquer correctifs CPU AMD",
+    "de": "AMD-CPU-Fixes anwenden",
+    "it": "Applicare fix CPU AMD",
+    "pt": "Aplicar correções CPU AMD"
+  },
+  "Enable High Availability services": {
+    "es": "Activar Alta Disponibilidad",
+    "fr": "Activer Haute Disponibilité",
+    "de": "Hochverfügbarkeitsdienste aktivieren",
+    "it": "Attivare Alta Disponibilità",
+    "pt": "Ativar Alta Disponibilidade"
+  },
+  "Install and configure Fastfetch": {
+    "es": "Instalar y configurar Fastfetch",
+    "fr": "Installer et configurer Fastfetch",
+    "de": "Fastfetch installieren und konfigurieren",
+    "it": "Installare e configurare Fastfetch",
+    "pt": "Instalar e configurar Fastfetch"
+  },
+  "ProxMenux Custom Script for Post-Installation": {
+    "es": "Script personalizado post-instalación",
+    "fr": "Script personnalisé post-installation",
+    "de": "Benutzerdefiniertes Nachinstallationsskript",
+    "it": "Script personalizzato post-installazione",
+    "pt": "Script personalizado pós-instalação"
+  },
+  "Choose options to configure:": {
+    "es": "Elija opciones a configurar:",
+    "fr": "Choisir options à configurer:",
+    "de": "Optionen zum Konfigurieren wählen:",
+    "it": "Scegliere opzioni da configurare:",
+    "pt": "Escolher opções para configurar:"
+  },
+  "Use [SPACE] to select/deselect and [ENTER] to confirm:": {
+    "es": "Use [ESPACIO] para seleccionar y [ENTER] para confirmar:",
+    "fr": "Utilisez [ESPACE] pour sélectionner et [ENTRÉE] pour confirmer:",
+    "de": "Benutzen Sie [LEERTASTE] zum Auswählen und [ENTER] zum Bestätigen:",
+    "it": "Usa [SPAZIO] per selezionare e [INVIO] per confermare:",
+    "pt": "Use [ESPAÇO] para selecionar e [ENTER] para confirmar:"
+  },
+  "Installing common system utilities...": {
+    "es": "Instalando utilidades del sistema...",
+    "fr": "Installation des utilitaires système...",
+    "de": "Systemdienstprogramme werden installiert...",
+    "it": "Installazione utilità di sistema...",
+    "pt": "Instalando utilitários do sistema..."
+  },
+  "System utilities installed successfully": {
+    "es": "Utilidades instaladas correctamente",
+    "fr": "Utilitaires installés avec succès",
+    "de": "Systemdienstprogramme erfolgreich installiert",
+    "it": "Utilità installate con successo",
+    "pt": "Utilitários instalados com sucesso"
+  },
+  "Common system utilities installation completed": {
+    "es": "Instalación de utilidades completada",
+    "fr": "Installation des utilitaires terminée",
+    "de": "Installation der Systemdienstprogramme abgeschlossen",
+    "it": "Installazione utilità completata",
+    "pt": "Instalação de utilitários concluída"
+  },
+  "Configuring APT to skip downloading additional languages": {
+    "es": "Configurando APT para omitir idiomas",
+    "fr": "Configuration d'APT pour ignorer langues",
+    "de": "APT wird konfiguriert, um Sprachen zu überspringen",
+    "it": "Configurazione APT per saltare lingue",
+    "pt": "Configurando APT para ignorar idiomas"
+  },
+  "Setting APT language configuration...": {
+    "es": "Configurando idioma de APT...",
+    "fr": "Configuration langue APT...",
+    "de": "APT-Sprachkonfiguration wird eingestellt...",
+    "it": "Configurazione lingua APT...",
+    "pt": "Configurando idioma APT..."
+  },
+  "APT language configuration updated": {
+    "es": "Configuración de idioma APT actualizada",
+    "fr": "Configuration langue APT mise à jour",
+    "de": "APT-Sprachkonfiguration aktualisiert",
+    "it": "Configurazione lingua APT aggiornata",
+    "pt": "Configuração de idioma APT atualizada"
+  },
+  "APT configured to skip downloading additional languages": {
+    "es": "APT configurado para omitir idiomas",
+    "fr": "APT configuré pour ignorer langues",
+    "de": "APT konfiguriert, um Sprachen zu überspringen",
+    "it": "APT configurato per saltare lingue",
+    "pt": "APT configurado para ignorar idiomas"
+  },
+  "GPUs and Coral-TPU Menu": {
+    "es": "Menú GPUs y Coral-TPU",
+    "fr": "Menu GPUs et Coral-TPU",
+    "de": "GPUs und Coral-TPU Menü",
+    "it": "Menu GPUs e Coral-TPU",
+    "pt": "Menu GPUs e Coral-TPU"
+  },
+  "Add HW iGPU acceleration to an LXC": {
+    "es": "Añadir aceleración iGPU a LXC",
+    "fr": "Ajouter accélération iGPU à LXC",
+    "de": "iGPU-Beschleunigung zu LXC hinzufügen",
+    "it": "Aggiungere accelerazione iGPU a LXC",
+    "pt": "Adicionar aceleração iGPU a LXC"
+  },
+  "Add Coral TPU to an LXC": {
+    "es": "Añadir Coral TPU a LXC",
+    "fr": "Ajouter Coral TPU à LXC",
+    "de": "Coral TPU zu LXC hinzufügen",
+    "it": "Aggiungere Coral TPU a LXC",
+    "pt": "Adicionar Coral TPU a LXC"
+  },
+  "Install/Update Coral TPU on the Host": {
+    "es": "Instalar/Actualizar Coral TPU",
+    "fr": "Installer/Mettre à jour Coral TPU",
+    "de": "Coral TPU installieren/aktualisieren",
+    "it": "Installare/Aggiornare Coral TPU",
+    "pt": "Instalar/Atualizar Coral TPU"
+  },
+  "Import Disk Image to a VM": {
+    "es": "Importar imagen a VM",
+    "fr": "Importer image à VM",
+    "de": "Festplattenabbild zu VM importieren",
+    "it": "Importare immagine a VM",
+    "pt": "Importar imagem para VM"
+  },
+  "Maintenance": {
+    "es": "Mantenimiento",
+    "fr": "Maintenance",
+    "de": "Wartung",
+    "it": "Manutenzione",
+    "pt": "Manutenção"
+  },
+  "Containers": {
+    "es": "Contenedores",
+    "fr": "Conteneurs",
+    "de": "Container",
+    "it": "Container",
+    "pt": "Contêineres"
+  },
+  "Applications": {
+    "es": "Aplicaciones",
+    "fr": "Applications",
+    "de": "Anwendungen",
+    "it": "Applicazioni",
+    "pt": "Aplicações"
+  },
+  "Networking": {
+    "es": "Redes",
+    "fr": "Réseau",
+    "de": "Netzwerk",
+    "it": "Rete",
+    "pt": "Redes"
+  },
+  "Select a script to execute": {
+    "es": "Seleccione script a ejecutar",
+    "fr": "Sélectionner script à exécuter",
+    "de": "Skript zum Ausführen auswählen",
+    "it": "Selezionare script da eseguire",
+    "pt": "Selecionar script para executar"
+  },
+  "Network Repair Menu": {
+    "es": "Menú reparación de red",
+    "fr": "Menu réparation réseau",
+    "de": "Netzwerkreparatur-Menü",
+    "it": "Menu riparazione rete",
+    "pt": "Menu reparação de rede"
+  },
+  "Choose an option:": {
+    "es": "Elija una opción:",
+    "fr": "Choisissez une option:",
+    "de": "Wählen Sie eine Option:",
+    "it": "Scegli un'opzione:",
+    "pt": "Escolha uma opção:"
+  },
+  "Show IP Information": {
+    "es": "Mostrar información IP",
+    "fr": "Afficher information IP",
+    "de": "IP-Informationen anzeigen",
+    "it": "Mostrare informazioni IP",
+    "pt": "Mostrar informação IP"
+  },
+  "Current ProxMenux version:": {
+    "es": "Versión actual de ProxMenux:",
+    "fr": "Version actuelle de ProxMenux:",
+    "de": "Aktuelle ProxMenux-Version:",
+    "it": "Versione attuale di ProxMenux:",
+    "pt": "Versão atual do ProxMenux:"
+  },
+  "Installed components:": {
+    "es": "Componentes instalados:",
+    "fr": "Composants installés:",
+    "de": "Installierte Komponenten:",
+    "it": "Componenti installati:",
+    "pt": "Componentes instalados:"
+  },
+  "already_installed": {
+    "es": "ya instalado",
+    "fr": "déjà installé",
+    "de": "bereits installiert",
+    "it": "già installato",
+    "pt": "já instalado"
+  },
+  "already_exists": {
+    "es": "ya existe",
+    "fr": "existe déjà",
+    "de": "existiert bereits",
+    "it": "esiste già",
+    "pt": "já existe"
+  },
+  "upgraded": {
+    "es": "actualizado",
+    "fr": "mis à jour",
+    "de": "aktualisiert",
+    "it": "aggiornato",
+    "pt": "atualizado"
+  },
+  "installed": {
+    "es": "instalado",
+    "fr": "installé",
+    "de": "installiert",
+    "it": "installato",
+    "pt": "instalado"
+  },
+  "ProxMenu files:": {
+    "es": "Archivos ProxMenu:",
+    "fr": "Fichiers ProxMenu:",
+    "de": "ProxMenu-Dateien:",
+    "it": "File ProxMenu:",
+    "pt": "Arquivos ProxMenu:"
+  },
+  "Virtual Environment:": {
+    "es": "Entorno virtual:",
+    "fr": "Environnement virtuel:",
+    "de": "Virtuelle Umgebung:",
+    "it": "Ambiente virtuale:",
+    "pt": "Ambiente virtual:"
+  },
+  "Installed": {
+    "es": "Instalado",
+    "fr": "Installé",
+    "de": "Installiert",
+    "it": "Installato",
+    "pt": "Instalado"
+  },
+  "Current language:": {
+    "es": "Idioma actual:",
+    "fr": "Langue actuelle:",
+    "de": "Aktuelle Sprache:",
+    "it": "Lingua attuale:",
+    "pt": "Idioma atual:"
+  },
+  "ProxMenux Information": {
+    "es": "Información ProxMenux",
+    "fr": "Information ProxMenux",
+    "de": "ProxMenux-Information",
+    "it": "Informazioni ProxMenux",
+    "pt": "Informação ProxMenux"
+  },
+  "Optimize Memory": {
+    "es": "Optimizar memoria",
+    "fr": "Optimiser mémoire",
+    "de": "Speicher optimieren",
+    "it": "Ottimizzare memoria",
+    "pt": "Otimizar memória"
+  },
+  "Verify Network": {
+    "es": "Verificar red",
+    "fr": "Vérifier réseau",
+    "de": "Netzwerk überprüfen",
+    "it": "Verificare rete",
+    "pt": "Verificar rede"
   }
 }
