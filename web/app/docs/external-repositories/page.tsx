@@ -52,12 +52,12 @@ export default function ExternalRepositoriesPage() {
       {/* Introduction */}
       <p className="mb-4">
         ProxMenux integrates with selected external repositories to provide alternative scripts for 
-        various functionalities. These scripts come from **trusted sources** and serve as additional 
+        various functionalities. These scripts come from <strong>trusted sources</strong> and serve as additional 
         options in some menu sections.
       </p>
       <p className="mb-4">
-        When an external script is available as an alternative, **ProxMenux will clearly indicate that it 
-        originates from an external repository and specify which one.**
+        When an external script is available as an alternative, ProxMenux will clearly indicate that it 
+        originates from an external repository and specify which one.
       </p>
 
       {/* 1️⃣ Example of External Repository */}
@@ -88,11 +88,11 @@ export default function ExternalRepositoriesPage() {
       {/* 3️⃣ Reporting Issues with External Scripts */}
       <SectionHeader number={3} title="Reporting Issues with External Scripts" />
       <p className="mb-4">
-        If you encounter an issue with an external script, **please report it directly to the original 
-        repository** instead of opening an issue in the ProxMenux repository.
+        If you encounter an issue with an external script, <strong>please report it directly to the original 
+        repository</strong> instead of opening an issue in the ProxMenux repository.
       </p>
       <p className="mb-4">
-        **ProxMenux does not modify external scripts**; it simply provides a link to the original source.  
+      <strong>ProxMenux does not modify external scripts</strong>; it simply provides a link to the original source.  
         Therefore, any problems related to functionality should be reported to the respective developers.
       </p>
 

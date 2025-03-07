@@ -43,15 +43,19 @@ export default function FaqPage() {
         <h1 className="text-3xl font-bold">Frequently Asked Questions (FAQ)</h1>
       </div>
 
-      {/* 1️⃣ What is ProxMenux? */}
+        {/* 1️⃣ What is ProxMenux? */}
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={1} />
         What is ProxMenux, and what is it used for?
       </h3>
       <p className="mb-4">
-        <strong>ProxMenux</strong> is an interactive menu-driven tool designed to make <strong>Proxmox VE</strong> accessible to 
-        all users, regardless of their technical experience. It allows users to execute commands and manage Proxmox VE 
-        without requiring advanced Linux knowledge.
+        <strong>ProxMenux</strong> is an interactive menu-driven tool designed to make <strong>Proxmox VE</strong> more accessible  
+        to all users, regardless of their technical experience. It simplifies command execution, allowing users to perform  
+        actions on their system without requiring advanced Linux knowledge.
+      </p>
+      <p className="mb-4">
+        For less experienced users, <strong>ProxMenux</strong> provides an intuitive way to run commands through a structured  
+        menu interface, reducing the need for manual terminal input.
       </p>
       <p className="mb-4">
         Proxmox VE is widely used for:
@@ -84,72 +88,67 @@ export default function FaqPage() {
       </pre>
 
       {/* 3️⃣ Compatibility */}
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={3} />
-        Is ProxMenux compatible with all Proxmox versions?
-      </h3>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">3️⃣ Is ProxMenux compatible with all Proxmox versions?</h2>
       <p className="mb-4">
         No, <strong>ProxMenux is only compatible with Proxmox VE 8 and later versions.</strong>
       </p>
 
       {/* 4️⃣ Customization */}
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={4} />
-        Can I customize ProxMenux?
-      </h3>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">4️⃣ Can I customize ProxMenux?</h2>
       <p className="mb-4">
-        The core scripts cannot be modified directly as they are hosted on GitHub, but you can personalize the 
-        <strong> console logo </strong> using the <strong> FastFetch </strong> tool in the Post-Install options.
+        The core scripts cannot be modified directly as they are hosted on GitHub, but you can personalize 
+        the <strong>console logo</strong> using the <strong>FastFetch</strong> tool in the <strong>Post-Install options</strong>.
       </p>
 
       {/* 5️⃣ Updates */}
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={5} />
-        How do I update ProxMenux?
-      </h3>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">5️⃣ How do I update ProxMenux?</h2>
       <p className="mb-4">
-        When a new version is available, ProxMenux will automatically detect it upon launch and ask if you want to update. 
-        The update process will replace utility files and configurations.
+        When a new version is available, ProxMenux will automatically detect it upon launch and ask 
+        if you want to update. The update process will replace utility files and configurations.
       </p>
 
       {/* 6️⃣ Reporting Issues */}
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={6} />
-        Where can I report issues?
-      </h3>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">6️⃣ Where can I report issues?</h2>
       <p className="mb-4">
         If you encounter bugs or errors, report them in the{" "}
-        <Link href="https://github.com/MacRimi/ProxMenux/issues" className="text-blue-500 hover:underline">
-          Issues section
-        </Link>.
+        <Link href="https://github.com/MacRimi/ProxMenux/issues" className="text-blue-500 hover:underline">Issues section</Link>.
       </p>
 
       {/* 7️⃣ Contributing */}
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={7} />
-        Can I contribute to ProxMenux?
-      </h3>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">7️⃣ Can I contribute to ProxMenux?</h2>
       <p className="mb-4">
         Yes! ProxMenux is an open-source project, and contributions are welcome.  
         You can share ideas or discuss improvements in the{" "}
-        <Link href="https://github.com/MacRimi/ProxMenux/discussions" className="text-blue-500 hover:underline">
-          Discussions section
-        </Link>.  
+        <Link href="https://github.com/MacRimi/ProxMenux/discussions" className="text-blue-500 hover:underline">Discussions section</Link>.  
         Make sure to check the{" "}
-        <Link href="https://github.com/MacRimi/ProxMenux/blob/main/CODE_OF_CONDUCT.md" className="text-blue-500 hover:underline">
-          Code of Conduct & Best Practices
-        </Link>.
+        <Link href="https://github.com/MacRimi/ProxMenux/blob/main/CODE_OF_CONDUCT.md" className="text-blue-500 hover:underline">Code of Conduct & Best Practices</Link>.
       </p>
 
-      {/* 8️⃣ System Modifications */}
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={8} />
-        Does ProxMenux modify critical system files?
-      </h3>
+      {/* 8️⃣ Modifying System Files */}
+      <h2 className="text-2xl font-semibold mt-8 mb-4">8️⃣ Does ProxMenux modify critical system files?</h2>
       <p className="mb-4">
         No, <strong>ProxMenux does not modify critical Proxmox system files.</strong>  
-        It only installs dependencies and downloads its scripts into{" "}
-        <code className="bg-gray-200 px-1 rounded">/usr/local/share/proxmenux/</code>.
+        It installs dependencies (whiptail, curl, jq, Python3), sets up a virtual environment for translations, and downloads its scripts into 
+        <code className="bg-gray-200 px-1 rounded">/usr/local/share/proxmenux/ and the executable menu into /usr/local/bin/</code>.  
+        It does not interfere with Proxmox's core operations.
+      </p>
+
+      {/* 9️⃣ Production Use */}
+      <h2 className="text-2xl font-semibold mt-8 mb-4">9️⃣ Is it safe to use ProxMenux in production?</h2>
+      <p className="mb-4">
+        Yes, ProxMenux is <strong>safe for production</strong>.  
+        Since it does not modify core Proxmox files, it can be used in production environments.  
+        However, it is always recommended to test it in a controlled environment first.
+      </p>
+
+      {/* 🔟 Uninstallation */}
+      <h2 className="text-2xl font-semibold mt-8 mb-4">🔟 How do I uninstall ProxMenux?</h2>
+      <p className="mb-4">
+        You can uninstall ProxMenux from the **Settings menu** using the **Uninstall ProxMenux** option.  
+        Detailed steps can be found in the{" "}
+        <Link href="https://macrimi.github.io/ProxMenux/docs/settings/uninstall-proxmenux" className="text-blue-500 hover:underline">
+          Uninstall Guide
+        </Link>.
       </p>
     </div>
   );
