@@ -11,7 +11,7 @@ This document defines the principles and guidelines for using and contributing t
 ### ✅ Example of proper attribution in code:
 
 ```bash
-Script based on the work of [Author] at [Repository Link]
+# Script based on the work of [Author] at [Repository Link]
 ```
 
 
