@@ -17,24 +17,23 @@ This document defines the **principles and guidelines** for the use of **ProxMen
 
 ## 🔒 2. Security & Code Responsibility
 
-- All code in this repository follows secure development best practices.
-- Contributions introducing intentional vulnerabilities or unsafe practices are not allowed.
-- Scripts should never compromise system security or user data.
-- Before implementation, contributions should be reviewed to ensure security and stability.
+- All code in this repository follows **secure development best practices**.  
+- Contributions introducing **intentional vulnerabilities** or unsafe practices are **not allowed**.  
+- Scripts should never compromise **system security or user data**.  
+- Before implementation, contributions should be **reviewed** to ensure security and stability.  
 
-### ⚠️ Responsible Disclosure of Vulnerabilities
+### ⚠️ Responsible Disclosure of Vulnerabilities  
 
-If you discover a security vulnerability, DO NOT report it in public Issues or forums.
+If you discover a **security vulnerability**, **DO NOT** report it in public *Issues* or forums.  
 
-Instead, please report it privately via email:
+Instead, please report it **privately** via email:  
+📧 **proxmenux@macrimi.pro**  
 
-📧 proxmenux@macrimi.pro
+🔹 **Once received:**  
+- The issue will be **investigated and addressed**.  
+- If it is a **critical vulnerability**, a fix will be implemented **before** any public disclosure.  
+- Proper **credit will be given** to the reporter if desired.  
 
-#### 🔹 Once received:
-
-- The issue will be investigated and addressed.
-- If it is a critical vulnerability, a fix will be implemented before any public disclosure.
-- Proper credit will be given to the reporter if desired.
 
 ## 🤝 3. Community Guidelines
 
