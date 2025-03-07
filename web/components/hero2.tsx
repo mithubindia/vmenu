@@ -7,8 +7,8 @@ import Image from "next/image"
 
 export default function Hero() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-      <section className="py-20 px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
         <div className="flex items-center justify-center mb-8">
           <div className="flex items-center">
             <Image
