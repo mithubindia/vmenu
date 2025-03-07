@@ -66,6 +66,14 @@ const sidebarItems: MenuItem[] = [
       { title: "Uninstall ProxMenux", href: "/docs/settings/uninstall-proxmenux" },
     ],
   },
+  {
+    title: "About",
+    submenu: [
+      { title: "Code of Conduct", href: "/docs/about/code-of-conduct" },
+      { title: "FAQ", href: "/docs/about/faq" }, 
+    ],
+  },
+  { title: "External Repositories", href: "/docs/external-repositories" },
 ]
 
 export default function DocSidebar() {
