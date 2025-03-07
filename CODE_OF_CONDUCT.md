@@ -1,12 +1,12 @@
 # 📝 Code of Conduct & Best Practices
 
-This document defines the principles and guidelines for using and contributing to ProxMenux, aiming to foster respect, collaboration, and security in development.
+This document defines the **principles and guidelines** for the use of **ProxMenux**, aiming to foster **respect, collaboration, and security** in development.
 
 ## 📌 1. Code Attribution & Recognition
 
-- If you use scripts, code snippets, or ideas from other repositories or developers, always credit the original author.
-- It is recommended to add a comment in the code or documentation mentioning the source and linking to the original repository if possible.
-- If reusing code with a specific license, ensure that its terms are respected.
+- If **scripts, code snippets, or ideas** from other repositories or developers are used, the original author will always be credited.  
+- A comment will be added in the code or documentation mentioning the source and linking to the original repository if possible.  
+- When using code with a specific **license**, its terms must be respected.  
 
 ### ✅ Example of proper attribution in code:
 
