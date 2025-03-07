@@ -41,6 +41,11 @@ To maintain a respectful and professional environment, all users must follow the
 - ✅ Provide feedback professionally, avoiding personal attacks.
 - ❌ Violating these guidelines may result in warnings or bans, depending on severity.
 
+
+---
+
 With this document, we promote ethical code use, security awareness, and a respectful community.
 
-## 📢 Let's build something great, together!
+📢 Let's build something great, together!
+
+---
