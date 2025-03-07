@@ -24,6 +24,7 @@ This document defines the principles and guidelines for using and contributing t
 If you discover a security vulnerability, DO NOT report it in public Issues or forums.
 
 Instead, please report it privately via email:
+
 📧 proxmenux@macrimi.pro
 
 #### 🔹 Once received:
