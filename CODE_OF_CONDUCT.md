@@ -10,7 +10,10 @@ This document defines the principles and guidelines for using and contributing t
 
 ### ✅ Example of proper attribution in code:
 
-# Script based on the work of [Author] at [Repository Link]
+```bash
+Script based on the work of [Author] at [Repository Link]
+```
+
 
 ## 🔒 2. Security & Code Responsibility
 
