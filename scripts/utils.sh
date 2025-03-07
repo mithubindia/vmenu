@@ -22,6 +22,15 @@
 #
 # These utilities ensure a streamlined and uniform user experience
 # across different ProxMenux scripts.
+#
+# This script incorporates elements from the 
+# Proxmox VE Post Install script from Proxmox VE Helper-Scripts.
+#
+# Copyright (c) Proxmox VE Helper-Scripts Community
+# Script updates can be found at: https://github.com/community-scripts/ProxmoxVE
+#
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+#
 # ==========================================================
 
 # Repository and directory structure

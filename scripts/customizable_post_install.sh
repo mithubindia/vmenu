@@ -26,6 +26,14 @@
 #
 # License: BSD (Berkeley Software Distribution)
 #
+# Additionally, this script incorporates elements from the 
+# Proxmox VE Post Install script from Proxmox VE Helper-Scripts.
+#
+# Copyright (c) Proxmox VE Helper-Scripts Community
+# Script updates can be found at: https://github.com/community-scripts/ProxmoxVE
+#
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+#
 # Key features:
 # - Configures system memory and kernel settings for better performance.
 # - Enables IOMMU and VFIO for PCI passthrough and virtualization optimizations.
