@@ -143,15 +143,27 @@ export default function FaqPage() {
         Can I contribute to ProxMenux?
       </h3>
       <p className="mb-4">
-        Yes! ProxMenux is an open-source project, and contributions are welcome.  
-        You can share ideas or discuss improvements in the{" "}
+      <strong>Absolutely!</strong>
+      </p>
+      <p className="mb-4">
+        ProxMenux is an open-source and collaborative project where you can contribute by developing  
+        new features, opening discussions, or sharing ideas and improvements.
+      </p>
+      <p className="mb-4">
+        Join the{" "}
         <Link href="https://github.com/MacRimi/ProxMenux/discussions" className="text-blue-500 hover:underline">
           Discussions section
-        </Link>.  
+        </Link>{" "}
+        to share ideas and propose enhancements.
+      </p>
+      <p className="mb-4">
         Make sure to review the{" "}
         <Link href="https://github.com/MacRimi/ProxMenux/blob/main/CODE_OF_CONDUCT.md" className="text-blue-500 hover:underline">
           Code of Conduct & Best Practices
         </Link>.
+      </p>
+      <p className="mb-4">
+        <strong>All ideas are welcome!</strong>
       </p>
 
       {/* 8️⃣ Modifying System Files */}
