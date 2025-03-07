@@ -46,4 +46,3 @@ With this document, we promote ethical code use, security awareness, and a respe
 
 📢 Let's build something great, together!
 
-##
