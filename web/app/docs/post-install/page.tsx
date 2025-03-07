@@ -52,6 +52,16 @@ export default function PostInstallPage() {
         its modular and selectable structure is that it allows users to choose specific settings based on 
         their requirements, needs, and preferences.
       </p>
+      <p className="mb-4">
+      This script is primarily based on the work of{" "}
+      <Link href="https://github.com/extremeshok/xshok-proxmox" className="text-blue-500 hover:underline">
+        extremeshok – Scripts for working with and optimizing Proxmox
+      </Link>{" "}
+      and the{" "}
+      <Link href="https://github.com/community-scripts/ProxmoxVE" className="text-blue-500 hover:underline">
+        Proxmox VE Post Install script from Proxmox VE Helper-Scripts
+      </Link>.  
+      </p>
       <p className="mb-6">This script includes {categories.length} main categories, each targeting a key aspect of Proxmox VE
         performance, security, and usability:</p>
       <ul className="list-disc pl-5 mb-6">
