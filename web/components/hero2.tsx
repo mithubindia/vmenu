@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       {/* Mobile version (visible only on small screens) */}
-      <section className="md:hidden py-18 px-4 sm:px-6 text-center">
+      <section className="md:hidden py-20 px-4 sm:px-6 text-center">
         <h1 className="text-4xl sm:text-5xl font-extrabold mb-6">
           ProxMenux{" "}
           <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-bold">
@@ -31,7 +31,7 @@ export default function Hero() {
       </section>
 
       {/* Desktop version (visible only on medium and large screens) */}
-      <section className="hidden md:flex py-18 px-4 sm:px-6 lg:px-8 flex-col justify-center">
+      <section className="hidden md:flex py-20 px-4 sm:px-6 lg:px-8 flex-col justify-center">
         <div className="flex items-center justify-center mb-8">
           <div className="flex items-center">
             <div className="w-40 h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 relative">
