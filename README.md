@@ -37,10 +37,6 @@ To install ProxMenux, simply run the following command in your Proxmox server te
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)"
 ```
 
-```plaintext
-install_proxmenux.sh)"
-```
-
 <br>
 
 ⚠️ Be careful when copying scripts from the internet. Always remember to check the source!
