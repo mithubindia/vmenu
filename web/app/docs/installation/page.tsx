@@ -3,6 +3,7 @@
 import CopyableCode from "@/components/CopyableCode"
 import Image from "next/image"
 import Link from "next/link"
+import { AlertTriangle, FileCode, Shield } from "lucide-react"
 
 export default function InstallationPage() {
   const installationCode = `bash -c \"$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/install_proxmenux.sh)\"`
