@@ -318,6 +318,49 @@ EOF
         msg_error "$(translate "Failed to install additional Proxmox packages")"
     fi
 
+
+    # Check and fix LVM PV headers if needed
+    msg_info "$(translate "Checking LVM headers...")"
+
+    if command -v pvs &>/dev/null && command -v vgexport &>/dev/null; then
+        vg_list=$(vgs --noheadings -o vg_name 2>/dev/null)
+
+        if [[ -n "$vg_list" ]]; then
+            for vg in $vg_list; do
+
+                if vgs "$vg" 2>&1 | grep -q "old PV header"; then
+                    msg_warning "$(translate "Old PV header detected in VG: $vg")"
+
+
+                    if lvs --noheadings "$vg" 2>/dev/null | grep -q "active"; then
+                        msg_warning "$(translate "VG $vg is active. Trying to update headers without deactivation...")"
+
+                        if pvck --updatemeta "/dev/md2"; then
+                            msg_ok "$(translate "Updated PV header for /dev/md2 using pvck")"
+                        else
+                            msg_warning "$(translate "pvck failed. Trying pvchange...")"
+                            if pvchange --uuid "/dev/md2"; then
+                                msg_ok "$(translate "Updated PV header for /dev/md2 using pvchange")"
+                            else
+                                msg_error "$(translate "Failed to update PV header for /dev/md2")"
+                            fi
+                        fi
+                    else
+
+                        msg_info "$(translate "Deactivating and re-importing VG $vg...")"
+                        vgchange -an "$vg" > /dev/null 2>&1
+                        vgexport "$vg" > /dev/null 2>&1
+                        vgimport "$vg" > /dev/null 2>&1
+                        vgchange -ay "$vg" > /dev/null 2>&1
+                        msg_ok "$(translate "Successfully updated VG headers for $vg")"
+                    fi
+                fi
+            done
+        fi
+
+    fi
+    msg_ok "$(translate "Successfully updated VG headers for $vg")"
+
     msg_success "$(translate "Proxmox repository configuration completed")"
 
 }
@@ -1637,29 +1680,42 @@ enable_vfio_iommu() {
 
     if [[ "$cpu_info" == *"GenuineIntel"* ]]; then
         msg_info "$(translate "Detected Intel CPU")"
-        iommu_param="intel_iommu=on iommu=pt"
+        iommu_param="intel_iommu=on"
     elif [[ "$cpu_info" == *"AuthenticAMD"* ]]; then
         msg_info "$(translate "Detected AMD CPU")"
-        iommu_param="amd_iommu=on iommu=pt"
+        iommu_param="amd_iommu=on"
     else
         msg_warning "$(translate "Unknown CPU type. IOMMU might not be properly enabled.")"
         return 1
     fi
 
     if [[ "$uses_zfs" == true ]]; then
-        if grep -q "$iommu_param" "$cmdline_file" && grep -q "$additional_params" "$cmdline_file"; then
-            msg_ok "$(translate "IOMMU and additional parameters already configured for ZFS")"
+        if grep -q "$iommu_param" "$cmdline_file"; then
+            if ! grep -q "iommu=pt" "$cmdline_file"; then
+                cp "$cmdline_file" "${cmdline_file}.bak"
+                sed -i "/^.*root=ZFS=/ s|$| iommu=pt|" "$cmdline_file"
+                msg_ok "$(translate "Added missing iommu=pt to ZFS configuration")"
+            else
+                msg_ok "$(translate "IOMMU and additional parameters already configured for ZFS")"
+            fi
         else
             cp "$cmdline_file" "${cmdline_file}.bak"
-            sed -i "/^.*root=ZFS=/ s|$| $iommu_param $additional_params|" "$cmdline_file"
+            sed -i "/^.*root=ZFS=/ s|$| $iommu_param iommu=pt|" "$cmdline_file"
             msg_ok "$(translate "IOMMU and additional parameters added for ZFS")"
         fi
     else
+
         if grep -q "$iommu_param" "$grub_file"; then
-            msg_ok "$(translate "IOMMU enabled in GRUB configuration")"
+            if ! grep -q "iommu=pt" "$grub_file"; then
+                cp "$grub_file" "${grub_file}.bak"
+                sed -i "/GRUB_CMDLINE_LINUX_DEFAULT=/ s|\"$| iommu=pt\"|" "$grub_file"
+                msg_ok "$(translate "Added missing iommu=pt to GRUB configuration")"
+            else
+                msg_ok "$(translate "IOMMU already enabled in GRUB configuration")"
+            fi
         else
             cp "$grub_file" "${grub_file}.bak"
-            sed -i "/GRUB_CMDLINE_LINUX_DEFAULT=/ s|\"$| $iommu_param\"|" "$grub_file"
+            sed -i "/GRUB_CMDLINE_LINUX_DEFAULT=/ s|\"$| $iommu_param iommu=pt\"|" "$grub_file"
             msg_ok "$(translate "IOMMU enabled in GRUB configuration")"
         fi
     fi
