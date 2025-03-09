@@ -60,15 +60,17 @@ export default function IntroductionPage() {
       </p>
 
       {/* Security Notice */}
-      <div className="bg-white border rounded-lg shadow-sm p-4 my-4">
+      <div className="bg-white rounded-lg shadow-sm p-4 my-4">
         <h3 className="text-lg font-medium mb-2 flex items-center">
           <AlertTriangle className="h-5 w-5 text-yellow-500 mr-2" />
           Security Information
         </h3>
-        <p className="mb-3">Be careful when copying scripts from the internet. Always remember to check the source!</p>
+        <p className="mb-3">
+          Be careful when copying scripts from the internet. Always remember to check the source!
+        </p>
         <div className="flex flex-wrap gap-2">
-          <a 
-            href="https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh" 
+          <a
+            href="https://github.com/MacRimi/ProxMenux/tree/main/scripts" 
             className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-blue-600 hover:bg-blue-700 text-white"
             target="_blank"
             rel="noopener noreferrer"
@@ -76,7 +78,7 @@ export default function IntroductionPage() {
             <FileCode className="h-4 w-4 mr-2" />
             View Source Code
           </a>
-          <a 
+          <a
             href="https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility" 
             className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-green-600 hover:bg-green-700 text-white"
             target="_blank"

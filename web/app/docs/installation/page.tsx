@@ -18,26 +18,22 @@ export default function InstallationPage() {
         <CopyableCode code={installationCode} />
       </div>
 
-            {/* Security Notice */}
-      <div className="bg-white border rounded-lg shadow-sm p-4 my-4">  
-       <div className="bg-gray-100 px-4 py-2 border-b flex">      
-          <div className="my-4 text-sm">
-            <p className="flex items-center mb-2">
-              <AlertTriangle className="h-4 w-4 text-yellow-500 mr-2 flex-shrink-0" />
-              <span>Be careful when copying scripts from the internet. Always remember to check the source!</span>
-            </p>
-            <p className="flex items-center mb-2">
-              <FileCode className="h-4 w-4 text-blue-500 mr-2 flex-shrink-0" />
-              <span>You can <a href="https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">review the source code</a> before execution.</span>
-            </p>
-            <p className="flex items-center">
-              <Shield className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-              <span>All executable links follow our <a href="https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Code of Conduct</a>.</span>
-            </p>
-          </div>
+        {/* Security Notice */}
+        <div className="my-4 text-sm">
+          <p className="flex items-center mb-2">
+            <AlertTriangle className="h-4 w-4 text-yellow-500 mr-2 flex-shrink-0" />
+            <span>Be careful when copying scripts from the internet. Always remember to check the source!</span>
+          </p>
+          <p className="flex items-center mb-2">
+            <FileCode className="h-4 w-4 text-blue-500 mr-2 flex-shrink-0" />
+            <span>You can <a href="https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">review the source code</a> before execution.</span>
+          </p>
+          <p className="flex items-center">
+            <Shield className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+            <span>All executable links follow our <a href="https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Code of Conduct</a>.</span>
+          </p>
         </div>
-      </div>
-
+   
       <p className="mb-4">During installation, ProxMenux will automatically install and configure the following dependencies:</p>
       <ul className="list-disc list-inside mb-4">
         <li>whiptail - for interactive menus</li>
