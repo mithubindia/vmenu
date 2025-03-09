@@ -67,6 +67,7 @@ export default function IntroductionPage() {
           </h3>
           <p className="mb-3">
             Be careful when running scripts from the Internet. Always remember to check the source!
+            All executable links follow our Code of Conduct.
           </p>
           <div className="flex flex-wrap gap-2">
             <a
