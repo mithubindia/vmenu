@@ -40,6 +40,7 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/
 ```plaintext
 install_proxmenux.sh)"
 ```
+
 <br>
 
 ⚠️ Be careful when copying scripts from the internet. Always remember to check the source!
