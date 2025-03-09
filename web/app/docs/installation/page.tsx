@@ -34,7 +34,7 @@ export default function InstallationPage() {
           </p>
         </div>
    
-      <p className="mb-4">During installation, ProxMenux will automatically install and configure the following dependencies:</p>
+      <p className="mt-8 mb-4">During installation, ProxMenux will automatically install and configure the following dependencies:</p>
       <ul className="list-disc list-inside mb-4">
         <li>whiptail - for interactive menus</li>
         <li>curl - for downloading remote files</li>
