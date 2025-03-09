@@ -2378,6 +2378,37 @@ IFS=$'\n' sorted_options=($(for option in "${options[@]}"; do
 done | sort -n | cut -d'|' -f2-))
 unset IFS
 
+local max_desc_width=0
+local max_cat_width=0
+
+for option in "${sorted_options[@]}"; do
+    IFS='|' read -r category description function_name <<< "$option"
+    translated_category=$(translate "$category")
+    
+    cat_length=${#translated_category}
+    if [ "$cat_length" -gt "$max_cat_width" ]; then
+        max_cat_width="$cat_length"
+    fi
+done
+
+local total_width=65
+
+for option in "${sorted_options[@]}"; do
+    IFS='|' read -r category description function_name <<< "$option"
+    translated_description=$(translate "$description")
+    
+    desc_length=${#translated_description}
+    if [ "$desc_length" -gt "$max_desc_width" ]; then
+        max_desc_width="$desc_length"
+    fi
+done
+
+if [ "$max_desc_width" -gt 50 ]; then
+    max_desc_width=50
+fi
+
+local category_position=$((total_width - max_cat_width))
+
 local menu_items=()
 local i=1
 local previous_category=""
@@ -2386,6 +2417,12 @@ for option in "${sorted_options[@]}"; do
     IFS='|' read -r category description function_name <<< "$option"
     translated_category=$(translate "$category")
     translated_description=$(translate "$description")
+
+
+    local max_allowed_desc=$((category_position - 2))
+    if [ ${#translated_description} -gt "$max_allowed_desc" ]; then
+        translated_description="${translated_description:0:$((max_allowed_desc-3))}..."
+    fi
 
     # Set ON for all categories except Optional
     state="ON"
@@ -2398,12 +2435,26 @@ for option in "${sorted_options[@]}"; do
         menu_items+=("" "================================================================" "")
     fi
 
-    menu_items+=("$i" "$(printf "%-50s %s" "$translated_description" "$translated_category")" "$state")
+    local line=""
+    line+="$translated_description"
+
+    local current_length=${#line}
+    local spaces_needed=$((category_position - current_length))
+    
+    for ((j=0; j<spaces_needed; j++)); do
+        line+=" "
+    done
+    
+    line+="$translated_category"
+    
+    menu_items+=("$i" "$line" "$state")
     i=$((i+1))
     previous_category="$category"
 done
 
+
 cleanup
+
 
 local selected_indices=$(whiptail --title "$(translate "ProxMenux Custom Script for Post-Installation")" \
                                   --checklist --separate-output \
