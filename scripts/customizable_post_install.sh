@@ -6,8 +6,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 24/02/2025
+# Version     : 1.1
+# Last Updated: 09/03/2025
 # ==========================================================
 # Description:
 # This script automates post-installation configurations and optimizations
