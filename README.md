@@ -41,12 +41,13 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/
 install_proxmenux.sh)"
 ```
 
+<small>
+⚠️ Be careful when copying scripts from the internet. Always remember to check the source!  
 
-⚠️ Be careful when copying scripts from the internet. Always remember to check the source!**
+📄 You can [review the source code](https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh) before execution.  
 
-📄 You can [review the source code](https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh) before execution.
-
-🛡️ All executable links follow our [Code of Conduct](https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility).
+🛡️ All executable links follow our [Code of Conduct](https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility).  
+</small>
 
 ---
 
