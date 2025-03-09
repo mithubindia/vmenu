@@ -61,7 +61,7 @@ export default function IntroductionPage() {
 
       {/* Security Notice */}
       <div>
-          <h3 className="text-lg font-medium mb-2 flex items-center">
+          <h3 className="text-2xl font-semibold mt-8 mb-2 flex items-center">
             <AlertTriangle className="h-5 w-5 text-yellow-500 mr-2" />
             Security Information
           </h3>
