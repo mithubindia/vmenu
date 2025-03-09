@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { AlertTriangle, FileCode, Shield } from 'lucide-react';
+import { AlertTriangle, FileCode, Shield } from "lucide-react"
 
 export default function IntroductionPage() {
   return (
@@ -58,36 +58,36 @@ export default function IntroductionPage() {
         </Link>{" "} 
         section.
       </p>
-    </div>
 
-    {/* Security Notice */}
-    <div className="bg-white border rounded-lg shadow-sm p-4 my-4">
-    <h3 className="text-lg font-medium mb-2 flex items-center">
-      <AlertTriangle className="h-5 w-5 text-yellow-500 mr-2" />
-      Security Information
-    </h3>
-    <p className="mb-3">Be careful when copying scripts from the internet. Always remember to check the source!</p>
-    <div className="flex flex-wrap gap-2">
-      <a 
-        href="https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh" 
-        className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-blue-600 hover:bg-blue-700 text-white"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FileCode className="h-4 w-4 mr-2" />
-        View Source Code
-      </a>
-      <a 
-        href="https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility" 
-        className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-green-600 hover:bg-green-700 text-white"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Shield className="h-4 w-4 mr-2" />
-        Code of Conduct
-      </a>
-    </div>
-  </div>
+      {/* Security Notice */}
+      <div className="bg-white border rounded-lg shadow-sm p-4 my-4">
+        <h3 className="text-lg font-medium mb-2 flex items-center">
+          <AlertTriangle className="h-5 w-5 text-yellow-500 mr-2" />
+          Security Information
+        </h3>
+        <p className="mb-3">Be careful when copying scripts from the internet. Always remember to check the source!</p>
+        <div className="flex flex-wrap gap-2">
+          <a 
+            href="https://github.com/MacRimi/ProxMenux/blob/main/install_proxmenux.sh" 
+            className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-blue-600 hover:bg-blue-700 text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FileCode className="h-4 w-4 mr-2" />
+            View Source Code
+          </a>
+          <a 
+            href="https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility" 
+            className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-green-600 hover:bg-green-700 text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Shield className="h-4 w-4 mr-2" />
+            Code of Conduct
+          </a>
+        </div>
+      </div>
 
+    </div>
   )
 }
