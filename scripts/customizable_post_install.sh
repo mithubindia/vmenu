@@ -174,29 +174,44 @@ apt_upgrade() {
 #        msg_ok "$(translate "Proxmox testing repository enabled")"
 #    fi
 
+# ======================================================
+# Configure main Debian repositories
+# ======================================================
 
-    # Configure main Debian repositories
-    if ! grep -q "${OS_CODENAME}-security" /etc/apt/sources.list; then
-        msg_info "$(translate "Configuring main Debian repositories...")"
+sources_file="/etc/apt/sources.list"
+need_update=false
 
-        # Array of repository lines to add
-        declare -a repos=(
-            "deb http://deb.debian.org/debian ${OS_CODENAME} main contrib non-free non-free-firmware"
-            "deb http://deb.debian.org/debian ${OS_CODENAME}-updates main contrib non-free non-free-firmware"
-            "deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware"
-        )
+# Reemplazar ftp.es.debian.org por deb.debian.org si existe
+sed -i 's|ftp.es.debian.org|deb.debian.org|g' "$sources_file"
 
-        # Add each repository line if it doesn't exist
-        for repo in "${repos[@]}"; do
-            if ! grep -qF "$repo" /etc/apt/sources.list; then
-                echo "$repo" >> /etc/apt/sources.list
-            fi
-        done
+# Reemplazar línea incompleta de seguridad por la completa
+if grep -q "^deb http://security.debian.org ${OS_CODENAME}-security main contrib" "$sources_file"; then
+    sed -i "s|^deb http://security.debian.org ${OS_CODENAME}-security main contrib|deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-f>
+    msg_ok "$(translate "Replaced security repository with full version")"
+    need_update=true
+fi
 
-        msg_ok "$(translate "Main Debian repositories configured")"
-    else
-        msg_ok "$(translate "Main Debian repositories already configured")"
-    fi
+# Check and add security repository (completa)
+if ! grep -q "deb http://security.debian.org/debian-security ${OS_CODENAME}-security" "$sources_file"; then
+    echo "deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware" >> "$sources_file"
+    need_update=true
+fi
+
+# Check and add main repository
+if ! grep -q "deb http://deb.debian.org/debian ${OS_CODENAME} " "$sources_file"; then
+    echo "deb http://deb.debian.org/debian ${OS_CODENAME} main contrib non-free non-free-firmware" >> "$sources_file"
+    need_update=true
+fi
+
+# Check and add updates repository
+if ! grep -q "deb http://deb.debian.org/debian ${OS_CODENAME}-updates" "$sources_file"; then
+    echo "deb http://deb.debian.org/debian ${OS_CODENAME}-updates main contrib non-free non-free-firmware" >> "$sources_file"
+    need_update=true
+fi
+
+    msg_ok "$(translate "Debian repositories configured correctly")"
+
+# ===================================================
 
     # Disable non-free firmware warnings
     if [ ! -f /etc/apt/apt.conf.d/no-bookworm-firmware.conf ]; then
