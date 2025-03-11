@@ -174,15 +174,28 @@ apt_upgrade() {
 #        msg_ok "$(translate "Proxmox testing repository enabled")"
 #    fi
 
+
     # Configure main Debian repositories
     if ! grep -q "${OS_CODENAME}-security" /etc/apt/sources.list; then
         msg_info "$(translate "Configuring main Debian repositories...")"
-        cat <<EOF > /etc/apt/sources.list
-deb http://deb.debian.org/debian ${OS_CODENAME} main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian ${OS_CODENAME}-updates main contrib non-free non-free-firmware
-deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware
-EOF
+
+        # Array of repository lines to add
+        declare -a repos=(
+            "deb http://deb.debian.org/debian ${OS_CODENAME} main contrib non-free non-free-firmware"
+            "deb http://deb.debian.org/debian ${OS_CODENAME}-updates main contrib non-free non-free-firmware"
+            "deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware"
+        )
+
+        # Add each repository line if it doesn't exist
+        for repo in "${repos[@]}"; do
+            if ! grep -qF "$repo" /etc/apt/sources.list; then
+                echo "$repo" >> /etc/apt/sources.list
+            fi
+        done
+
         msg_ok "$(translate "Main Debian repositories configured")"
+    else
+        msg_ok "$(translate "Main Debian repositories already configured")"
     fi
 
     # Disable non-free firmware warnings
@@ -319,47 +332,7 @@ EOF
     fi
 
 
-    # Check and fix LVM PV headers if needed
-    msg_info "$(translate "Checking LVM headers...")"
-
-    if command -v pvs &>/dev/null && command -v vgexport &>/dev/null; then
-        vg_list=$(vgs --noheadings -o vg_name 2>/dev/null)
-
-        if [[ -n "$vg_list" ]]; then
-            for vg in $vg_list; do
-
-                if vgs "$vg" 2>&1 | grep -q "old PV header"; then
-                    msg_warning "$(translate "Old PV header detected in VG: $vg")"
-
-
-                    if lvs --noheadings "$vg" 2>/dev/null | grep -q "active"; then
-                        msg_warning "$(translate "VG $vg is active. Trying to update headers without deactivation...")"
-
-                        if pvck --updatemeta "/dev/md2"; then
-                            msg_ok "$(translate "Updated PV header for /dev/md2 using pvck")"
-                        else
-                            msg_warning "$(translate "pvck failed. Trying pvchange...")"
-                            if pvchange --uuid "/dev/md2"; then
-                                msg_ok "$(translate "Updated PV header for /dev/md2 using pvchange")"
-                            else
-                                msg_error "$(translate "Failed to update PV header for /dev/md2")"
-                            fi
-                        fi
-                    else
-
-                        msg_info "$(translate "Deactivating and re-importing VG $vg...")"
-                        vgchange -an "$vg" > /dev/null 2>&1
-                        vgexport "$vg" > /dev/null 2>&1
-                        vgimport "$vg" > /dev/null 2>&1
-                        vgchange -ay "$vg" > /dev/null 2>&1
-                        msg_ok "$(translate "Successfully updated VG headers for $vg")"
-                    fi
-                fi
-            done
-        fi
-
-    fi
-    msg_ok "$(translate "Successfully updated VG headers for $vg")"
+    cleanup_duplicate_repos
 
     msg_success "$(translate "Proxmox repository configuration completed")"
 
@@ -2280,6 +2253,77 @@ configure_fastfetch() {
 }
 
 
+
+cleanup_duplicate_repos() {
+
+    local sources_file="/etc/apt/sources.list"
+    local temp_file=$(mktemp)
+    local cleaned_count=0
+    declare -A seen_repos
+
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Mantener comentarios y líneas vacías
+        if [[ "$line" =~ ^[[:space:]]*# ]] || [[ -z "$line" ]]; then
+            echo "$line" >> "$temp_file"
+            continue
+        fi
+
+        # Procesar solo líneas que comienzan con "deb"
+        if [[ "$line" =~ ^deb ]]; then
+            # Extraer URL, distribución y componentes
+            read -r _ url dist components <<< "$line"
+            # Crear una clave única
+            local key="${url}_${dist}"
+
+            if [[ -v "seen_repos[$key]" ]]; then
+                # Es un duplicado, comentarlo
+                echo "# $line" >> "$temp_file"
+                cleaned_count=$((cleaned_count + 1))
+            else
+                # No es un duplicado, mantenerlo y marcarlo como visto
+                echo "$line" >> "$temp_file"
+                seen_repos[$key]="$components"
+            fi
+        else
+            # Líneas que no comienzan con "deb", mantenerlas sin cambios
+            echo "$line" >> "$temp_file"
+        fi
+    done < "$sources_file"
+
+    # Reemplazar el archivo original con la versión limpia
+    mv "$temp_file" "$sources_file"
+    chmod 644 "$sources_file"
+
+    # Manejar los archivos de Proxmox
+    local pve_files=(/etc/apt/sources.list.d/*proxmox*.list /etc/apt/sources.list.d/*pve*.list)
+    local pve_content="deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription"
+    local pve_public_repo="/etc/apt/sources.list.d/pve-public-repo.list"
+    local pve_public_repo_exists=false
+    local pve_repo_count=0
+
+    # Primero, verificar si pve-public-repo.list existe y contiene pve-no-subscription
+    if [ -f "$pve_public_repo" ] && grep -q "^deb.*pve-no-subscription" "$pve_public_repo"; then
+        pve_public_repo_exists=true
+        pve_repo_count=1
+    fi
+
+    for file in "${pve_files[@]}"; do
+        if [ -f "$file" ] && grep -q "^deb.*pve-no-subscription" "$file"; then
+            if ! $pve_public_repo_exists && [[ "$file" == "$pve_public_repo" ]]; then
+                # Activar pve-public-repo.list si no estaba activo
+                sed -i 's/^# *deb/deb/' "$file"
+                pve_public_repo_exists=true
+                pve_repo_count=1
+            elif [[ "$file" != "$pve_public_repo" ]]; then
+                # Comentar los repositorios pve-no-subscription que no sean pve-public-repo.list
+                sed -i 's/^deb/# deb/' "$file"
+                cleaned_count=$((cleaned_count + 1))
+            fi
+        fi
+    done
+
+apt update
+}
 
 
 
