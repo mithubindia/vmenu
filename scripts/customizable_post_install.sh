@@ -178,38 +178,38 @@ apt_upgrade() {
 # Configure main Debian repositories
 # ======================================================
 
-sources_file="/etc/apt/sources.list"
-need_update=false
+    sources_file="/etc/apt/sources.list"
+    need_update=false
 
-# Reemplazar ftp.es.debian.org por deb.debian.org si existe
-sed -i 's|ftp.es.debian.org|deb.debian.org|g' "$sources_file"
+    # Reemplazar ftp.es.debian.org por deb.debian.org si existe
+    sed -i 's|ftp.es.debian.org|deb.debian.org|g' "$sources_file"
 
-# Reemplazar línea incompleta de seguridad por la completa
-if grep -q "^deb http://security.debian.org ${OS_CODENAME}-security main contrib" "$sources_file"; then
-    sed -i "s|^deb http://security.debian.org ${OS_CODENAME}-security main contrib|deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-f>
-    msg_ok "$(translate "Replaced security repository with full version")"
-    need_update=true
-fi
+    # Reemplazar línea incompleta de seguridad por la completa
+    if grep -q "^deb http://security.debian.org ${OS_CODENAME}-security main contrib" "$sources_file"; then
+        sed -i "s|^deb http://security.debian.org ${OS_CODENAME}-security main contrib|deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware|" "$sources_file"
+        msg_ok "$(translate "Replaced security repository with full version")"
+        need_update=true
+    fi
 
-# Check and add security repository (completa)
-if ! grep -q "deb http://security.debian.org/debian-security ${OS_CODENAME}-security" "$sources_file"; then
-    echo "deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware" >> "$sources_file"
-    need_update=true
-fi
+    # Check and add security repository (completa)
+    if ! grep -q "deb http://security.debian.org/debian-security ${OS_CODENAME}-security" "$sources_file"; then
+        echo "deb http://security.debian.org/debian-security ${OS_CODENAME}-security main contrib non-free non-free-firmware" >> "$sources_file"
+        need_update=true
+    fi
 
-# Check and add main repository
-if ! grep -q "deb http://deb.debian.org/debian ${OS_CODENAME} " "$sources_file"; then
-    echo "deb http://deb.debian.org/debian ${OS_CODENAME} main contrib non-free non-free-firmware" >> "$sources_file"
-    need_update=true
-fi
+    # Check and add main repository
+    if ! grep -q "deb http://deb.debian.org/debian ${OS_CODENAME} " "$sources_file"; then
+        echo "deb http://deb.debian.org/debian ${OS_CODENAME} main contrib non-free non-free-firmware" >> "$sources_file"
+        need_update=true
+    fi
 
-# Check and add updates repository
-if ! grep -q "deb http://deb.debian.org/debian ${OS_CODENAME}-updates" "$sources_file"; then
-    echo "deb http://deb.debian.org/debian ${OS_CODENAME}-updates main contrib non-free non-free-firmware" >> "$sources_file"
-    need_update=true
-fi
+    # Check and add updates repository
+    if ! grep -q "deb http://deb.debian.org/debian ${OS_CODENAME}-updates" "$sources_file"; then
+        echo "deb http://deb.debian.org/debian ${OS_CODENAME}-updates main contrib non-free non-free-firmware" >> "$sources_file"
+        need_update=true
+    fi
 
-    msg_ok "$(translate "Debian repositories configured correctly")"
+        msg_ok "$(translate "Debian repositories configured correctly")"
 
 # ===================================================
 
