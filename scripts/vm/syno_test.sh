@@ -1047,7 +1047,7 @@ else
   echo -e "${TAB}2. Open the VM console and wait for the loader to boot"
   echo -e "${TAB}3. In the loader interface, follow the instructions to select your Synology model"
   echo -e "${TAB}4. Complete the DSM installation wizard"
-  echo -e "${TAB}5. Find your device using: https://find.synology.com"
+  echo -e "${TAB}5. Find your device using: https://finds.synology.com"
   echo -e
 fi
   
