@@ -71,6 +71,7 @@ const sidebarItems: MenuItem[] = [
     submenu: [
       { title: "Code of Conduct", href: "/docs/about/code-of-conduct" },
       { title: "FAQ", href: "/docs/about/faq" }, 
+      { title: "Contributors", href: "/docs/about/contributors" },
     ],
   },
   { title: "External Repositories", href: "/docs/external-repositories" },
