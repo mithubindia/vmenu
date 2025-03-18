@@ -901,15 +901,18 @@ function create_vm() {
 
     # Configure the loader disk as scsi0
     DISK_NAME="vm-${VMID}-disk-0"
-    result=$(qm set "$VMID" -scsi0 "${LOADER_STORAGE}:${DISK_NAME}" 2>&1 > /dev/null)
+  #  result=$(qm set "$VMID" -scsi0 "${LOADER_STORAGE}:${DISK_NAME}" 2>&1 > /dev/null)
+    result=$(qm set "$VMID" -ide0 "${LOADER_STORAGE}:${DISK_NAME}" 2>&1 > /dev/null)
     if [[ $? -eq 0 ]]; then
-          msg_ok "Configured loader disk as scsi0"
+    #      msg_ok "Configured loader disk as scsi0"
+          msg_ok "Configured loader disk as ide0"
       else
           ERROR_FLAG=true
     fi
 
     # Set boot order to scsi0
-    result=$(qm set "$VMID" -boot order=scsi0 2>&1)
+  #  result=$(qm set "$VMID" -boot order=scsi0 2>&1)
+    result=$(qm set "$VMID" -boot order=ide0 2>&1)
     if [[ $? -eq 0 ]]; then
           msg_ok "Loader configured as boot device."
       else
