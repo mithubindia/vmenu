@@ -1,5 +1,30 @@
 import { Users, FlaskRound } from 'lucide-react';
 
+export const metadata = {
+  title: "ProxMenux Contributors – Meet the Team Behind ProxMenux",
+  description: "Meet the contributors who make ProxMenux possible. Learn more about the developers, testers, and designers who have contributed to the project.",
+  openGraph: {
+    title: "ProxMenux Contributors – Meet the Team Behind ProxMenux",
+    description: "Meet the contributors who make ProxMenux possible. Learn more about the developers, testers, and designers who have contributed to the project.",
+    type: "article",
+    url: "https://macrimi.github.io/ProxMenux/docs/about/contributors",
+    images: [
+      {
+        url: "https://macrimi.github.io/ProxMenux/contributors-image.png", 
+        width: 1200,
+        height: 630,
+        alt: "ProxMenux Contributors",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProxMenux Contributors – Meet the Team Behind ProxMenux",
+    description: "Meet the contributors who make ProxMenux possible. Learn more about the developers, testers, and designers who have contributed to the project.",
+    images: ["https://macrimi.github.io/ProxMenux/contributors-image.png"],
+  },
+};
+
 const contributors = [
   {
     name: 'MALOW',
@@ -21,13 +46,12 @@ const contributors = [
 export default function Contributors() {
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* 🔹 Icon + Title */}
-      <div className="flex items-center justify-center mb-6">
+      <div className="flex items-center mb-6">
         <Users className="h-8 w-8 mr-2 text-blue-500" />
-        <h1 className="text-3xl font-bold text-black">Contributors</h1>
+        <h1 className="text-3xl font-bold">Contributors</h1>
       </div>
 
-      {/* 🔹 Description */}
+
       <p className="text-lg text-black mb-4 text-left">
         The ProxMenux project grows and thrives thanks to the contribution of its collaborators.
       </p>
@@ -35,7 +59,7 @@ export default function Contributors() {
         This is the well-deserved recognition of their work:
       </p>
 
-      {/* 🔹 Contributors List */}
+
       <div className="flex justify-center gap-6 flex-wrap">
         {contributors.map((contributor) => (
           <div key={contributor.name} className="text-center">
@@ -55,7 +79,7 @@ export default function Contributors() {
         ))}
       </div>
 
-      {/* 🔹 Call to Action */}
+
       <p className="mt-20 text-base text-black text-left">
         Would you like to contribute? You can collaborate as a <strong>tester</strong>, <strong>developer</strong>, <strong>designer</strong>, or by sharing <strong>ideas and suggestions</strong>. Any contribution is welcome!
       </p>
