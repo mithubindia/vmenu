@@ -1,4 +1,4 @@
-"use client"
+import type React from "react"
 
 import Image from "next/image"
 import { Wrench, Target, CheckCircle } from "lucide-react"
@@ -507,7 +507,15 @@ export default function Page() {
   )
 }
 
-function TabGroup({ tabs }) {
+// Añadir esta interfaz antes de la función TabGroup
+interface Tab {
+  id: string
+  label: string
+  content: React.ReactNode
+}
+
+// Modificar la definición de la función TabGroup para incluir el tipo
+function TabGroup({ tabs }: { tabs: Tab[] }) {
   const [activeTab, setActiveTab] = useState(tabs[0].id)
 
   return (
