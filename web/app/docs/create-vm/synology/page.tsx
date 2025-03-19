@@ -177,8 +177,7 @@ export default function Page() {
           Select DSM Version
         </h2>
         <p className="mb-4">
-          After selecting the model, you need to choose the DSM version you want to install. In some loaders (such as
-          arc), you may encounter additional options at this stage.
+          After selecting the model, you need to choose the DSM version you want to install.
         </p>
 
         <TabGroup
@@ -470,7 +469,7 @@ export default function Page() {
         </h2>
         <p className="mb-4">Once the loader is booted, you can find your Synology device using:</p>
         <div className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm mb-4">
-          <code>https://find.synology.com</code>
+          <code>https://finds.synology.com</code>
         </div>
         <p className="mb-6">Follow the on-screen steps to complete the DSM installation.</p>
         <div className="flex flex-col space-y-8">
@@ -509,14 +508,13 @@ export default function Page() {
   )
 }
 
-// Añadir esta interfaz antes de la función TabGroup
+
 interface Tab {
   id: string
   label: string
   content: React.ReactNode
 }
 
-// Modificar la definición de la función TabGroup para incluir el tipo
 function TabGroup({ tabs }: { tabs: Tab[] }) {
   const [activeTab, setActiveTab] = useState(tabs[0].id)
 
