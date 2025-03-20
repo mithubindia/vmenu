@@ -292,7 +292,7 @@ export default function Page() {
 
 
         {/* Selector de loader global */}
-        <div className="bg-blue-50 p-4 rounded-lg mt-12 mb-6">
+        <div className="bg-blue-50 p-4 rounded-lg mb-6">
           <h3 className="text-lg font-semibold mb-2">Select your loader type:</h3>
           <div className="flex space-x-4">
             <button
@@ -335,52 +335,94 @@ export default function Page() {
           Start the VM and Access the Main Menu
         </h2>
         <p className="mb-4">
-          Once the VM is created, start it. The first time you boot the VM, you'll access the loader's main menu to
-          select and configure the DSM model you want to build. Once the loader is created, this step will be skipped
-          unless you manually force a reconfiguration from the boot monitor.
+        Once the VM is created, start it. The first time you boot the VM, you'll access the loader's main menu to select 
+        and configure the DSM model you want to build. Once the loader is created, this step will be skipped unless you 
+        manually force a reconfiguration from the boot monitor. All loaders also have the option to configure the loader 
+        via a web interface.
         </p>
 
         <div className="mt-6">
           {activeLoader === "arc" && (
             <div className="flex flex-col space-y-8">
+
+              <p className="mt-16 mb-2">
+                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
+                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.32.
+                </p>
+
+              <ImageWithCaption
+                src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_0_1.png"
+                alt="Arc Loader Web Interface"
+                caption="Arc Loader Web Interface"
+              />
+
+            <p className="mt-16 mb-2">
+                  <strong>Terminal interface</strong>, Access it directly from the VM's console output.
+                </p>
+
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_1_1.png"
-                alt="Arc Loader Interface"
-                caption="Arc Loader Interface"
+                alt="Arc Loader Terminal Interface"
+                caption="Arc Loader Terminal Interface"
               />
             </div>
           )}
 
           {activeLoader === "rr" && (
             <div className="flex flex-col space-y-8">
-              <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                <p className="mb-2">
-                  <strong>In the case of RR</strong>, you'll need to manually enter the following command to open the
-                  menu:
+              
+              <p className="mt-16 mb-2">
+                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
+                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.33.
                 </p>
-                <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                  <code>./menu.sh</code>
-                </pre>
-              </div>
+
+              <ImageWithCaption
+                src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_0_2.png"
+                alt="RR Command Example"
+                caption="RR Loader Web Interface"
+              />
+
+              <p className="mt-16 mb-2">
+                  <strong>Terminal interface</strong>, Access it directly from the VM's console output by typing <strong>menu.sh</strong> on the screen
+                </p>
+
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_0_1.png"
-                alt="RR Command Example"
-                caption="RR Command Example: ./menu.sh"
+                alt="RR Loader Interface"
+                caption="RR Loader Terminal Interface"
               />
+
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_1_1.png"
                 alt="RR Loader Interface"
-                caption="RR Loader Interface"
-              />
+                caption="RR Loader Terminal Interface"
+              />     
             </div>
           )}
 
           {activeLoader === "tinycore" && (
             <div className="flex flex-col space-y-8">
+
+                <p className="mt-16 mb-2">
+                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
+                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.35.
+                </p>
+
+              <ImageWithCaption
+                src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_0_1.png"
+                alt="TinyCore Loader Interface"
+                caption="TinyCore Loader Web Interface"
+              />
+
+               <p className="mt-16 mb-2">
+                <strong>Terminal interface</strong>, Access it directly from the VM's console output. Keep an eye on 
+                the screen, as at some point it may prompt you to press a key to continue or ask if you want to change the language.
+                </p>
+
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_1_1.png"
                 alt="TinyCore Loader Interface"
-                caption="TinyCore Loader Interface"
+                caption="TinyCore Loader Terminal Interface"
               />
             </div>
           )}
@@ -437,13 +479,12 @@ export default function Page() {
           Select DSM Version
         </h2>
         <p className="mb-4">
-          After selecting the model, you need to choose the DSM version you want to install. In some loaders (such as
-          arc), you may encounter additional options at this stage.
+          After selecting the model, you need to choose the DSM version you want to install.
         </p>
 
         <div className="mt-6">
           {activeLoader === "arc" && (
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-16">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_3_1.png"
                 alt="Arc Version Selection - Step 1"
@@ -458,7 +499,7 @@ export default function Page() {
           )}
 
           {activeLoader === "rr" && (
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-16">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_3_1.png"
                 alt="RR Version Selection - Step 1"
@@ -478,7 +519,7 @@ export default function Page() {
           )}
 
           {activeLoader === "tinycore" && (
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-16">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_3_1.png"
                 alt="TinyCore Version Selection - Step 1"
@@ -503,9 +544,11 @@ export default function Page() {
 
         <div className="mt-6">
           {activeLoader === "arc" && (
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-16">
               <p className="mb-2">
-                <strong>Arc</strong> gives you the option to configure automatically or manually adjust the settings.
+                <strong>Arc</strong> gives you the option to configure automatically or manually adjust the settings. 
+                If automatic configuration is selected, the loader will start applying the necessary settings and will 
+                automatically reboot once the process is complete.
               </p>
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_4_1.png"
@@ -673,8 +716,7 @@ export default function Page() {
         </div>
       </section>
 
-
-  {/* STARTING DSM INSTALLATION */}
+      {/* STARTING DSM INSTALLATION */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center">
           <CheckCircle className="h-6 w-6 mr-3 text-green-500" />
@@ -764,7 +806,6 @@ export default function Page() {
     </div>
   )
 }
-
 
 
 
