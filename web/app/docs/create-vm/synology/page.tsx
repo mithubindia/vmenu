@@ -1,7 +1,19 @@
 "use client"
 
 import Image from "next/image"
-import { Wrench, Target, CheckCircle, Github } from "lucide-react"
+import {
+    Wrench,
+    Target,
+    CheckCircle,
+    Github,
+    Server,
+    HardDrive,
+    Download,
+    Settings,
+    Cpu,
+    Zap,
+    Sliders,
+  } from "lucide-react"
 import { useState } from "react"
 
 export default function Page() {
@@ -9,16 +21,18 @@ export default function Page() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Create VM Synology DSM</h1>
+      <h1 className="text-3xl font-bold mb-6">ProxMenuX Synology VM Creator Script</h1>
 
       <section className="mb-10">
-        <h2 className="text-2xl font-semibold mb-4 flex items-center">Introduction</h2>
+        <h2 className="text-2xl font-semibold mb-4 flex items-center">
+          <Server className="h-6 w-6 mr-2 text-blue-500" />
+          Introduction
+        </h2>
         <p className="mb-4">
-          ProxMenux provides an automated script that creates and configures a VM to install Synology DSM (DiskStation
-          Manager). This script simplifies the process by downloading and adding one of the available loaders to the VM
-          boot, giving you the option between three different choices:
+          ProxMenux provides an automated script that creates and configures a virtual machine (VM) to install Synology
+          DSM (DiskStation Manager) on Proxmox VE. This script simplifies the process by downloading and adding one of
+          the available loaders to the VM boot, giving you the option between four different choices:
         </p>
-
         <ul className="list-disc pl-5 mb-4">
           <li>
             <a
@@ -53,31 +67,232 @@ export default function Page() {
             </a>{" "}
             (referred to as "tinycore")
           </li>
+          <li>
+            Custom Loader – option to use a custom loader if you prefer to modify or create your own configuration
+          </li>
         </ul>
 
-        <p className="mb-4">
-          You also have the option to add a custom loader if you prefer to modify or create your own configuration.
-        </p>
-        <p className="mb-4">
-          All loaders are similar although each has its own structure and configuration methods. This guide describes
-          the 6 basic steps involved in setting up a Synology DSM loader. The exact steps may vary depending on the
-          loader and/or changes introduced by the developer, so <strong>understanding the basic steps</strong> similar in all of them
-          will <strong>help you know how to build the loader</strong> of your choice for the proper functioning of Synology DSM.
-        </p>
+        <p className="mb-4">The script simplifies the VM creation process by offering the following options:</p>
+        <ul className="list-disc pl-5 mb-4">
+          <li>Selection of default or advanced configuration</li>
+          <li>Configuration of CPU, RAM, BIOS, and machine type</li>
+          <li>Choice between virtual disk or physical disk passthrough</li>
+          <li>Automatic VM startup and configuration for Synology DSM</li>
+        </ul>
+
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <Settings className="h-5 w-5 mr-2 text-blue-500" />
+            Default and Advanced Configuration
+          </h3>
+          <p className="mb-3">The script offers two configuration modes:</p>
+
+          <h4 className="text-lg font-medium mt-12 mb-2 flex items-center">
+            <Zap className="h-5 w-5 mr-2 text-green-500" />
+            Default Configuration
+          </h4>
+          <p className="mb-3">
+            If you select default configuration, the script will automatically apply the following values:
+          </p>
+
+          <div className="overflow-x-auto mb-4">
+            <table className="min-w-full bg-white border border-gray-200">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Parameter</th>
+                  <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Default Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Machine Type</td>
+                  <td className="py-2 px-4 border-b border-gray-200">q35</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">BIOS Type</td>
+                  <td className="py-2 px-4 border-b border-gray-200">OVMF (UEFI)</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">CPU Type</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Host</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Core Count</td>
+                  <td className="py-2 px-4 border-b border-gray-200">2</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">RAM Size</td>
+                  <td className="py-2 px-4 border-b border-gray-200">4096 MB</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Bridge</td>
+                  <td className="py-2 px-4 border-b border-gray-200">vmbr0</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">MAC Address</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Automatically generated</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Start VM on Completion</td>
+                  <td className="py-2 px-4 border-b border-gray-200">No</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mb-4">
+            If you want to customize the configuration, select the Advanced Settings option in the menu.
+          </p>
+
+          <h4 className="text-lg font-medium mt-12 mb-2 flex items-center">
+            <Sliders className="h-5 w-5 mr-2 text-orange-500" />
+            Advanced Configuration
+          </h4>
+          <p className="mb-3">
+            If you select advanced configuration, the script will allow you to customize each parameter:
+          </p>
+
+          <div className="overflow-x-auto mb-4">
+            <table className="min-w-full bg-white border border-gray-200">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Parameter</th>
+                  <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Machine Type</td>
+                  <td className="py-2 px-4 border-b border-gray-200">q35 or i440fx</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">BIOS Type</td>
+                  <td className="py-2 px-4 border-b border-gray-200">OVMF (UEFI) or SeaBIOS (Legacy)</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">CPU Type</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Host or KVM64</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Core Count</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Number of CPU cores</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">RAM Size</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Amount of memory allocated to the VM</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Bridge</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Network bridge for connection</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">MAC Address</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Custom MAC address</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">VLAN</td>
+                  <td className="py-2 px-4 border-b border-gray-200">VLAN tag (if used)</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">MTU</td>
+                  <td className="py-2 px-4 border-b border-gray-200">Maximum Transmission Unit size</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <HardDrive className="h-5 w-5 mr-2 text-blue-500" />
+            Disk Selection
+          </h3>
+          <p className="mb-3">
+            Once the machine is configured, the script allows you to choose between two types of disks:
+          </p>
+
+          <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
+          <ul className="list-disc pl-5 mb-4">
+            <li>The script lists the storage options available in Proxmox</li>
+            <li>The user selects the disk type and size in GB</li>
+            <li>
+              The script automatically assigns the disk to the VM if more disks are added (e.g., sata0, sata1, etc.)
+            </li>
+          </ul>
+
+          <h4 className="text-lg font-medium mt-4 mb-2">Physical Disk Passthrough</h4>
+          <ul className="list-disc pl-5 mb-4">
+            <li>The script detects all available physical disks (not mounted on the system)</li>
+            <li>The user selects the physical disk they want to use</li>
+            <li>The physical disk is directly assigned to the VM via passthrough</li>
+          </ul>
+        </div>
+
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <Download className="h-5 w-5 mr-2 text-blue-500" />
+            Loader Installation
+          </h3>
+          <p className="mb-3">The script automatically downloads the loader from the developer's repository:</p>
+          <ul className="list-disc pl-5 mb-4">
+            <li>
+              <strong>AuxXxilium Arc:</strong> Automatically downloaded and extracted. If the download fails, the script
+              will display an error message.
+            </li>
+            <li>
+              <strong>RedPill rr:</strong> Automatically downloaded and extracted. If the download fails, the script
+              will display an error message.
+            </li>
+            <li>
+              <strong>TinyCore RedPill M-shell:</strong> Automatically downloaded and extracted. If the download fails,
+              the script will display an error message.
+            </li>
+            <li>
+              <strong>Custom Loader:</strong> The script looks for compatible files in /var/lib/vz/template/iso. If
+              there are multiple files, the user must select the desired file.
+            </li>
+          </ul>
+        </div>
+
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <Cpu className="h-5 w-5 mr-2 text-blue-500" />
+            VM Creation
+          </h3>
+          <p className="mb-3">Once the loader is downloaded, the script creates the VM using the following commands:</p>
+          <ul className="list-disc pl-5 mb-4">
+            <li>
+              <code>qm create</code> – Creates the virtual machine with the configured parameters
+            </li>
+            <li>
+              <code>qm importdisk</code> – Imports the loader file to the VM. For greater compatibility and to prevent
+              loaders from adding the boot to DSM, the loader is imported as an IDE disk
+            </li>
+            <li>
+              <code>qm set</code> – Assigns configuration values such as CPU, RAM, and storage
+            </li>
+            <li>
+              <code>qm set -boot</code> – Configures the boot order
+            </li>
+          </ul>
+        </div>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-2xl font-semibold mb-4 flex items-center">
+        <h2 className="text-2xl font-semibold mt-24 mb-4 flex items-center">
           <Wrench className="h-6 w-6 mr-2 text-blue-500" />
-          Step-by-Step Guide
+          Step-by-Step Boot Loader Configuration Guide
         </h2>
-        <p className="mb-6">
-          This guide will walk you through the process of configuring the loader. Select your
-          loader type below to see the steps for that loader.
+        <p className="mb-4">
+        While all loaders share similarities, each one has its own structure and configuration methods. 
+        This section provides a basic guide covering the 6 steps involved in setting up a Synology DSM loader. 
+        The exact steps may vary depending on the loader and any changes introduced by the developer. 
+        Therefore, understanding these common basic steps is crucial to correctly building and configuring 
+        the loader of your choice for proper Synology DSM functionality.
         </p>
 
+
         {/* Selector de loader global */}
-        <div className="bg-blue-50 p-4 rounded-lg mb-6">
+        <div className="bg-blue-50 p-4 rounded-lg mt-12 mb-6">
           <h3 className="text-lg font-semibold mb-2">Select your loader type:</h3>
           <div className="flex space-x-4">
             <button
@@ -120,94 +335,52 @@ export default function Page() {
           Start the VM and Access the Main Menu
         </h2>
         <p className="mb-4">
-        Once the VM is created, start it. The first time you boot the VM, you'll access the loader's main menu to select 
-        and configure the DSM model you want to build. Once the loader is created, this step will be skipped unless you 
-        manually force a reconfiguration from the boot monitor. All loaders also have the option to configure the loader 
-        via a web interface.
+          Once the VM is created, start it. The first time you boot the VM, you'll access the loader's main menu to
+          select and configure the DSM model you want to build. Once the loader is created, this step will be skipped
+          unless you manually force a reconfiguration from the boot monitor.
         </p>
 
         <div className="mt-6">
           {activeLoader === "arc" && (
             <div className="flex flex-col space-y-8">
-
-              <p className="mt-16 mb-2">
-                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
-                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.32.
-                </p>
-
-              <ImageWithCaption
-                src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_0_1.png"
-                alt="Arc Loader Web Interface"
-                caption="Arc Loader Web Interface"
-              />
-
-            <p className="mt-16 mb-2">
-                  <strong>Terminal interface</strong>, Access it directly from the VM's console output.
-                </p>
-
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_1_1.png"
-                alt="Arc Loader Terminal Interface"
-                caption="Arc Loader Terminal Interface"
+                alt="Arc Loader Interface"
+                caption="Arc Loader Interface"
               />
             </div>
           )}
 
           {activeLoader === "rr" && (
             <div className="flex flex-col space-y-8">
-              
-              <p className="mt-16 mb-2">
-                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
-                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.33.
+              <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                <p className="mb-2">
+                  <strong>In the case of RR</strong>, you'll need to manually enter the following command to open the
+                  menu:
                 </p>
-
-              <ImageWithCaption
-                src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_0_2.png"
-                alt="RR Command Example"
-                caption="RR Loader Web Interface"
-              />
-
-              <p className="mt-16 mb-2">
-                  <strong>Terminal interface</strong>, Access it directly from the VM's console output by typing <strong>menu.sh</strong> on the screen
-                </p>
-
+                <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm">
+                  <code>./menu.sh</code>
+                </pre>
+              </div>
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_0_1.png"
-                alt="RR Loader Interface"
-                caption="RR Loader Terminal Interface"
+                alt="RR Command Example"
+                caption="RR Command Example: ./menu.sh"
               />
-
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_1_1.png"
                 alt="RR Loader Interface"
-                caption="RR Loader Terminal Interface"
-              />     
+                caption="RR Loader Interface"
+              />
             </div>
           )}
 
           {activeLoader === "tinycore" && (
             <div className="flex flex-col space-y-8">
-
-                <p className="mt-16 mb-2">
-                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
-                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.35.
-                </p>
-
-              <ImageWithCaption
-                src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_0_1.png"
-                alt="TinyCore Loader Interface"
-                caption="TinyCore Loader Web Interface"
-              />
-
-               <p className="mt-16 mb-2">
-                <strong>Terminal interface</strong>, Access it directly from the VM's console output. Keep an eye on 
-                the screen, as at some point it may prompt you to press a key to continue or ask if you want to change the language.
-                </p>
-
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_1_1.png"
                 alt="TinyCore Loader Interface"
-                caption="TinyCore Loader Terminal Interface"
+                caption="TinyCore Loader Interface"
               />
             </div>
           )}
@@ -264,12 +437,13 @@ export default function Page() {
           Select DSM Version
         </h2>
         <p className="mb-4">
-          After selecting the model, you need to choose the DSM version you want to install.
+          After selecting the model, you need to choose the DSM version you want to install. In some loaders (such as
+          arc), you may encounter additional options at this stage.
         </p>
 
         <div className="mt-6">
           {activeLoader === "arc" && (
-            <div className="flex flex-col space-y-16">
+            <div className="flex flex-col space-y-8">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_3_1.png"
                 alt="Arc Version Selection - Step 1"
@@ -284,7 +458,7 @@ export default function Page() {
           )}
 
           {activeLoader === "rr" && (
-            <div className="flex flex-col space-y-16">
+            <div className="flex flex-col space-y-8">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_3_1.png"
                 alt="RR Version Selection - Step 1"
@@ -304,7 +478,7 @@ export default function Page() {
           )}
 
           {activeLoader === "tinycore" && (
-            <div className="flex flex-col space-y-16">
+            <div className="flex flex-col space-y-8">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_3_1.png"
                 alt="TinyCore Version Selection - Step 1"
@@ -329,11 +503,9 @@ export default function Page() {
 
         <div className="mt-6">
           {activeLoader === "arc" && (
-            <div className="flex flex-col space-y-16">
+            <div className="flex flex-col space-y-8">
               <p className="mb-2">
-                <strong>Arc</strong> gives you the option to configure automatically or manually adjust the settings. 
-                If automatic configuration is selected, the loader will start applying the necessary settings and will 
-                automatically reboot once the process is complete.
+                <strong>Arc</strong> gives you the option to configure automatically or manually adjust the settings.
               </p>
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_4_1.png"
@@ -501,7 +673,8 @@ export default function Page() {
         </div>
       </section>
 
-      {/* STARTING DSM INSTALLATION */}
+
+  {/* STARTING DSM INSTALLATION */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center">
           <CheckCircle className="h-6 w-6 mr-3 text-green-500" />
@@ -591,6 +764,9 @@ export default function Page() {
     </div>
   )
 }
+
+
+
 
 function ImageWithCaption({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
