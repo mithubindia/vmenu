@@ -238,15 +238,15 @@ export default function Page() {
             For <strong>Custom Loader</strong>, the script searches for files in <code>/var/lib/vz/template/iso</code>. 
             If multiple files are found, you will be prompted to select the desired file.  
         </p>   
-        <p>You can upload custom loaders from the local storage options:</p>
         
-            <div className="flex justify-center mt-4">
-            <img 
+        <p className="mt-12 mb-4"></p>
+        <p>You can upload custom loaders from the local storage options:</p>
+
+        <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/add_loader.png" 
                 alt="Add Custom Loader" 
-                className="w-64 rounded-md border"
-            />
-            </div>
+                caption="RR Loader Web Interface"
+              />
         </div>
 
 
