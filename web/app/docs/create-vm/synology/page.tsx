@@ -43,7 +43,6 @@ export default function Page() {
             >
               AuxXxilium Arc
             </a>{" "}
-            (referred to as "arc")
           </li>
           <li>
             <a
@@ -52,9 +51,8 @@ export default function Page() {
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
             >
-              RedPill rr
+              RedPill RR
             </a>{" "}
-            (referred to as "rr")
           </li>
           <li>
             <a
@@ -65,7 +63,6 @@ export default function Page() {
             >
               TinyCore RedPill M-shell
             </a>{" "}
-            (referred to as "tinycore")
           </li>
           <li>
             Custom Loader – option to use a custom loader if you prefer to modify or create your own configuration
@@ -213,47 +210,47 @@ export default function Page() {
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
             <li>The script lists the storage options available in Proxmox</li>
-            <li>The user selects the disk type and size in GB</li>
-            <li>
-              The script automatically assigns the disk to the VM if more disks are added (e.g., sata0, sata1, etc.)
-            </li>
+            <li>The user selects the disk and size in GB</li>
+            <li>The virtual disk is automatically assigned to the VM. If more disks are configured, they will be added as <strong>SATA</strong> (e.g., sata0, sata1, etc.), up to a maximum of 6 virtual disks.</li>
           </ul>
 
           <h4 className="text-lg font-medium mt-4 mb-2">Physical Disk Passthrough</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script detects all available physical disks (not mounted on the system)</li>
-            <li>The user selects the physical disk they want to use</li>
-            <li>The physical disk is directly assigned to the VM via passthrough</li>
+            <li>The script detects all available physical disks</li>
+            <li>The user selects the physical disk or disks they want to use.</li>
+            <li>The physical disk is directly assigned to the VM via passthrough. If more disks are configured, they will be added as <strong>SATA</strong> (e.g., sata0, sata1, etc.), up to a maximum of 6 physical disks.</li>
           </ul>
         </div>
 
         <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-3 flex items-center">
+        <h3 className="text-xl font-semibold mb-3 flex items-center">
             <Download className="h-5 w-5 mr-2 text-blue-500" />
             Loader Installation
-          </h3>
-          <p className="mb-3">The script automatically downloads the loader from the developer's repository:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li>
-              <strong>AuxXxilium Arc:</strong> Automatically downloaded and extracted. If the download fails, the script
-              will display an error message.
-            </li>
-            <li>
-              <strong>RedPill rr:</strong> Automatically downloaded and extracted. If the download fails, the script
-              will display an error message.
-            </li>
-            <li>
-              <strong>TinyCore RedPill M-shell:</strong> Automatically downloaded and extracted. If the download fails,
-              the script will display an error message.
-            </li>
-            <li>
-              <strong>Custom Loader:</strong> The script looks for compatible files in /var/lib/vz/template/iso. If
-              there are multiple files, the user must select the desired file.
-            </li>
-          </ul>
+        </h3>
+        <p className="mb-3">
+            The script automatically downloads and extracts the loader from the developer's repository. If the download fails, the script will display an error message.
+        </p>
+        <p className="mb-4">
+            <strong>AuxXxilium Arc</strong>, <strong>RedPill rr</strong>, and <strong>TinyCore RedPill M-shell</strong>.  
+            <span className="block mt-1">Downloads and extracts automatically.</span>
+        </p>
+        <p className="mb-4">
+            For <strong>Custom Loader</strong>, the script searches for files in <code>/var/lib/vz/template/iso</code>. 
+            If multiple files are found, you will be prompted to select the desired file.  
+        </p>   
+        <p>You can upload custom loaders from the local storage options:</p>
+        
+            <div className="flex justify-center mt-4">
+            <img 
+                src="https://macrimi.github.io/ProxMenux/vm/synology/add_loader.png" 
+                alt="Add Custom Loader" 
+                className="w-64 rounded-md border"
+            />
+            </div>
         </div>
 
-        <div className="mt-8">
+
+        <div className="mt-16">
           <h3 className="text-xl font-semibold mb-3 flex items-center">
             <Cpu className="h-5 w-5 mr-2 text-blue-500" />
             VM Creation
@@ -264,8 +261,7 @@ export default function Page() {
               <code>qm create</code> – Creates the virtual machine with the configured parameters
             </li>
             <li>
-              <code>qm importdisk</code> – Imports the loader file to the VM. For greater compatibility and to prevent
-              loaders from adding the boot to DSM, the loader is imported as an IDE disk
+              <code>qm importdisk</code> – Imports the loader file to the VM. For greater compatibility the loader is imported as an IDE disk
             </li>
             <li>
               <code>qm set</code> – Assigns configuration values such as CPU, RAM, and storage
@@ -372,9 +368,10 @@ export default function Page() {
             <div className="flex flex-col space-y-8">
               
               <p className="mt-16 mb-2">
-                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
-                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.33.
-                </p>
+                <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
+                the IP address shown in the VM's console output, followed by port <strong>7681</strong>.  
+                For example, in our case: <code>http://192.169.0.33:7681</code>.
+              </p>
 
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_0_2.png"
@@ -387,12 +384,6 @@ export default function Page() {
                 </p>
 
               <ImageWithCaption
-                src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_0_1.png"
-                alt="RR Loader Interface"
-                caption="RR Loader Terminal Interface"
-              />
-
-              <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_1_1.png"
                 alt="RR Loader Interface"
                 caption="RR Loader Terminal Interface"
@@ -403,10 +394,11 @@ export default function Page() {
           {activeLoader === "tinycore" && (
             <div className="flex flex-col space-y-8">
 
-                <p className="mt-16 mb-2">
-                  <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
-                  the IP address shown in the VM's console output. For example, in our case: http://192.169.0.35.
-                </p>
+<p className="mt-16 mb-2">
+                <strong>Web interface</strong>, To access the web interface, simply open a web browser and enter 
+                the IP address shown in the VM's console output, followed by port <strong>7681</strong>.  
+                For example, in our case: <code>http://192.169.0.35:7681</code>.
+              </p>
 
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/tinycore/tinycore_3_0_1.png"
@@ -724,7 +716,7 @@ export default function Page() {
         </h2>
         <p className="mb-4">Once the loader is booted, you can find your Synology device using:</p>
         <div className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm mb-4">
-          <code>https://finds.synology.com</code>
+          <code>https://find.synology.com</code>
         </div>
         <p className="mb-6">Follow the on-screen steps to complete the DSM installation.</p>
         <div className="flex flex-col space-y-8">
