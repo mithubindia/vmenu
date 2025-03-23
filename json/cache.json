@@ -845,5 +845,41 @@
     "de": "Netzwerk überprüfen",
     "it": "Verificare rete",
     "pt": "Verificar rede"
+  },  
+    "Next Steps:": {
+    "es": "Próximos pasos:",
+    "fr": "Étapes suivantes :",
+    "de": "Nächste Schritte:",
+    "it": "Prossimi passaggi:"
+  },
+  "Start the VM": {
+    "es": "Iniciar la VM",
+    "fr": "Démarrer la machine virtuelle",
+    "de": "Die VM starten",
+    "it": "Avvia la VM"
+  },
+  "Open the VM console and wait for the loader to boot": {
+    "es": "Abre la consola de la VM y espera a que cargue el cargador",
+    "fr": "Ouvrez la console de la VM et attendez que le chargeur démarre",
+    "de": "Öffnen Sie die VM-Konsole und warten Sie, bis der Loader startet",
+    "it": "Apri la console della VM e attendi l'avvio del caricatore"
+  },
+  "In the loader interface, follow the instructions to select your Synology model": {
+    "es": "En la interfaz del cargador, sigue las instrucciones para seleccionar tu modelo de Synology DSM",
+    "fr": "Dans l'interface du chargeur, suivez les instructions pour sélectionner votre modèle Synology DSM",
+    "de": "In der Ladeoberfläche folgen Sie den Anweisungen, um Ihr Synology DSM-Modell auszuwählen",
+    "it": "Nell'interfaccia del caricatore, segui le istruzioni per selezionare il modello di Synology DSM"
+  },
+  "Complete the DSM installation wizard": {
+    "es": "Completa el asistente de instalación de DSM",
+    "fr": "Complétez l'assistant d'installation de DSM",
+    "de": "Vervollständigen Sie den DSM-Installationsassistenten",
+    "it": "Completa la procedura guidata di installazione DSM"
+  },
+  "Find your device using https://finds.synology.com": {
+    "es": "Encuentra tu dispositivo en https://finds.synology.com",
+    "fr": "Trouvez votre appareil en utilisant https://finds.synology.com",
+    "de": "Finden Sie Ihr Gerät unter https://finds.synology.com",
+    "it": "Trova il tuo dispositivo usando https://finds.synology.com"
   }
 }
