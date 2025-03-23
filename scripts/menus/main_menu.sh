@@ -29,13 +29,13 @@ initialize_cache
 show_menu() {
 
 while true; do
-        OPTION=$(whiptail --title "$(translate "Main ProxMenux")" --menu "$(translate "Select an option:")" 20 70 9 \
+        OPTION=$(whiptail --title "$(translate "Main ProxMenux")" --menu "$(translate "Select an option:")" 18 70 10 \
             "1" "$(translate "Settings post-install Proxmox")" \
             "2" "$(translate "Hardware: GPUs and Coral-TPU")" \
-            "3" "$(translate "Hard Drives, Disk Images, and Storage")" \
-            "4" "$(translate "Essential Proxmox VE Helper-Scripts")" \
-            "5" "$(translate "Network")" \
-            "6" "$(translate "Create VM from template or script")" \
+            "3" "$(translate "Create VM from template or script")" \
+            "4" "$(translate "Hard Drives, Disk Images, and Storage")" \
+            "5" "$(translate "Essential Proxmox VE Helper-Scripts")" \
+            "6" "$(translate "Network")" \
             "7" "$(translate "Settings")" \
             "8" "$(translate "Exit")" 3>&1 1>&2 2>&3)
 
@@ -44,10 +44,10 @@ while true; do
     case $OPTION in
         1) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_post_install.sh") ;;
         2) exec bash <(curl -s "$REPO_URL/scripts/menus/hw_grafics_menu.sh") ;;
-        3) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
-        4) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
-        5) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
-        6) exec bash <(curl -s "$REPO_URL/scripts/menus/create_vm_menu.sh") ;;
+        3) exec bash <(curl -s "$REPO_URL/scripts/menus/create_vm_menu.sh") ;;
+        4) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
+        5) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
+        6) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
         7) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
         8) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
         *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
