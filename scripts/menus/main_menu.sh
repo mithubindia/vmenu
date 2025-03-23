@@ -29,7 +29,7 @@ initialize_cache
 show_menu() {
 
 while true; do
-        OPTION=$(whiptail --title "$(translate "Main ProxMenux")" --menu "$(translate "Select an option:")" 22 70 9 \
+        OPTION=$(whiptail --title "$(translate "Main ProxMenux")" --menu "$(translate "Select an option:")" 20 70 9 \
             "1" "$(translate "Settings post-install Proxmox")" \
             "2" "$(translate "Hardware: GPUs and Coral-TPU")" \
             "3" "$(translate "Hard Drives, Disk Images, and Storage")" \
