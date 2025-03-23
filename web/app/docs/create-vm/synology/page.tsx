@@ -21,7 +21,7 @@ export default function Page() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">ProxMenuX Synology VM Creator Script</h1>
+      <h1 className="text-3xl font-bold mb-6">Synology VM Creator Script</h1>
 
       <section className="mb-10">
         <h2 className="text-2xl font-semibold mb-4 flex items-center">
@@ -74,7 +74,6 @@ export default function Page() {
           <li>Selection of default or advanced configuration</li>
           <li>Configuration of CPU, RAM, BIOS, and machine type</li>
           <li>Choice between virtual disk or physical disk passthrough</li>
-          <li>Automatic VM startup and configuration for Synology DSM</li>
         </ul>
 
         <div className="mt-8">
@@ -231,21 +230,20 @@ export default function Page() {
             The script automatically downloads and extracts the loader from the developer's repository. If the download fails, the script will display an error message.
         </p>
         <p className="mb-4">
-            <strong>AuxXxilium Arc</strong>, <strong>RedPill rr</strong>, and <strong>TinyCore RedPill M-shell</strong>.  
+            <strong>AuxXxilium Arc</strong>, <strong>RedPill RR</strong>, and <strong>TinyCore RedPill M-shell</strong>.  
             <span className="block mt-1">Downloads and extracts automatically.</span>
         </p>
         <p className="mb-4">
             For <strong>Custom Loader</strong>, the script searches for files in <code>/var/lib/vz/template/iso</code>. 
             If multiple files are found, you will be prompted to select the desired file.  
         </p>   
-        
         <p className="mt-12 mb-4"></p>
         <p>You can upload custom loaders from the local storage options:</p>
 
         <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/add_loader.png" 
                 alt="Add Custom Loader" 
-                caption="RR Loader Web Interface"
+                caption="Add Custom Loader"
               />
         </div>
 
@@ -261,7 +259,7 @@ export default function Page() {
               <code>qm create</code> – Creates the virtual machine with the configured parameters
             </li>
             <li>
-              <code>qm importdisk</code> – Imports the loader file to the VM. For greater compatibility the loader is imported as an IDE disk
+              <code>qm importdisk</code> – Imports the boot loader disk to the VM. For greater compatibility the loader is imported as an IDE disk
             </li>
             <li>
               <code>qm set</code> – Assigns configuration values such as CPU, RAM, and storage
@@ -530,7 +528,7 @@ export default function Page() {
       <section className="mb-12 border-b pb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center" id="step4">
           <StepNumber number={4} />
-          Select Add-Ons
+          Select Addons
         </h2>
         <p className="mb-4">This step allows you to add additional features or custom configurations to the loader.</p>
 
@@ -568,8 +566,8 @@ export default function Page() {
               />
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/arc/arc_1_4_5.png"
-                alt="Arc Add-Ons Selection"
-                caption="Arc Add-Ons Selection"
+                alt="Arc Addons Selection"
+                caption="Arc Addons Selection"
               />
             </div>
           )}
@@ -578,18 +576,18 @@ export default function Page() {
             <div className="flex flex-col space-y-8">
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_4_1.png"
-                alt="RR Add-On Step 1"
-                caption="RR Add-On Step 1"
+                alt="RR Addon Step 1"
+                caption="RR Addon Step 1"
               />
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_4_2.png"
-                alt="RR Add-On Step 2"
-                caption="RR Add-On Step 2 - Press to add add-ons"
+                alt="RR Addon Step 2"
+                caption="RR Addon Step 2 - Press to add addons"
               />
               <ImageWithCaption
                 src="https://macrimi.github.io/ProxMenux/vm/synology/rr/rr_2_4_3.png"
-                alt="RR Add-On Step 3"
-                caption="RR Add-On Step 3 - Select the one you want by clicking on it. If you want to add more, repeat the process from images 2.4.2 and 2.4.3"
+                alt="RR Addon Step 3"
+                caption="RR Addon Step 3 - Select the one you want by clicking on it. If you want to add more, repeat the process from images 2.4.2 and 2.4.3"
               />
             </div>
           )}
@@ -627,7 +625,7 @@ export default function Page() {
           Build the Loader
         </h2>
         <p className="mb-4">
-          Once you have selected the model, DSM version, and add-ons, proceed to build the loader. This process might
+          Once you have selected the model, DSM version, and addons, proceed to build the loader. This process might
           take a few minutes depending on the loader and the selected configuration. To start, select the "Build the
           Loader" option.
         </p>
@@ -716,7 +714,7 @@ export default function Page() {
         </h2>
         <p className="mb-4">Once the loader is booted, you can find your Synology device using:</p>
         <div className="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm mb-4">
-          <code>https://find.synology.com</code>
+          <code>https://finds.synology.com</code>
         </div>
         <p className="mb-6">Follow the on-screen steps to complete the DSM installation.</p>
         <div className="flex flex-col space-y-8">
@@ -725,6 +723,11 @@ export default function Page() {
             alt="DSM Setup"
             caption="DSM Setup Screen"
           />
+          <p className="mt-8 mb-8">
+          Please be patient – The process may take a few minutes to complete. The progress percentage will 
+          update automatically as the setup progresses. A countdown will start once the installation 
+          is nearing completion.
+        </p>
           <ImageWithCaption
             src="https://macrimi.github.io/ProxMenux/vm/synology/finish_install_DSM.png"
             alt="Installation Complete"

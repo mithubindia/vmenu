@@ -44,6 +44,12 @@ const sidebarItems: MenuItem[] = [
     ],
   },
   {
+    title: "Create VM",
+    submenu: [
+      { title: "Synology VM", href: "/docs/create-vm/syno2" },
+    ],
+  },
+  {
     title: "Storage",
     submenu: [
       { title: "Disk Passthrough to a VM", href: "/docs/storage/disk-passthrough-vm" },
@@ -70,8 +76,8 @@ const sidebarItems: MenuItem[] = [
     title: "About",
     submenu: [
       { title: "Code of Conduct", href: "/docs/about/code-of-conduct" },
-      { title: "FAQ", href: "/docs/about/faq" }, 
-      { title: "Contributors", href: "/docs/about/contributors" },
+      { title: "FAQ", href: "/docs/about/faq" },
+      { title: "Contributors", href: "/docs/about/contributors" }, 
     ],
   },
   { title: "External Repositories", href: "/docs/external-repositories" },
@@ -164,7 +170,7 @@ export default function DocSidebar() {
         </button>
       </div>
       <nav
-        className={`fixed lg:static top-[104px] left-0 w-full lg:w-64 h-[calc(100vh-104px)] lg:h-[calc(100vh-64px)] bg-gray-100 p-4 lg:p-6 pt-16 lg:pt-6 transform ${
+        className={`fixed lg:static top-[104px] left-0 w-full lg:w-72 h-[calc(100vh-104px)] lg:h-[calc(100vh-64px)] bg-gray-100 p-4 lg:p-6 pt-16 lg:pt-6 transform ${
           isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         } lg:translate-y-0 transition-transform duration-300 ease-in-out overflow-y-auto z-30`}
       >

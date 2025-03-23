@@ -80,6 +80,24 @@ export default function PostInstallPage() {
         Each category includes selectable options, ensuring that users can tailor the system adjustments to their
         specific needs without applying unnecessary modifications. Click on a category to explore available settings.
       </p>
+
+      <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-16 mb-4">
+        <p className="font-semibold">Important: Avoid Running Multiple Post-Install Scripts</p>
+        <p>
+          It is not recommended to use different post-installation scripts, as this can cause conflicts by overwriting or duplicating files and settings.
+        </p>
+        <ul className="list-disc pl-5">
+          <li>
+            The <strong>ProxMenux Post-Install Script</strong> is designed to avoid overwriting existing configurations where possible.
+          </li>
+          <li>
+            If you have already run the <strong>eXtremeSHOK Post-Install Script</strong>, there is no need to run the ProxMenux Post-Install Script again, except for <strong>Option 35</strong> (console customization).
+          </li>
+          <li>
+            If you have used the <strong>Helper-Scripts Post-Install Script</strong>, you can run all ProxMenux options <strong>except for options 4 and 27</strong>, as they will already be configured.
+          </li>
+        </ul>
+      </div>
     </div>
   )
 }

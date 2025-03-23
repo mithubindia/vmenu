@@ -1,3 +1,18 @@
+## [1.1.1] - 2025-03-21
+### Improved
+- Improved the logic of the post-install script to prevent overwriting or adding duplicate settings if similar settings are already configured by the user.
+- Added a warning note to the documentation explaining that using different post-installation scripts is not recommended to avoid conflicts and duplicated settings.
+
+### Added
+- **Create Synology DSM VM**:  
+  A new script that creates a VM to install Synology DSM. The script automates the process of downloading three different loaders with the option to use a custom loader provided by the user from the local storage options.  
+  Additionally, it allows the use of both virtual and physical disks, which are automatically assigned by the script.  
+
+- **New VM Creation Menu**:  
+  A new menu has been created to enable VM creation from templates or custom scripts.
+
+- **Main Menu Update**:  
+  Added a new entry to the main menu for accessing the VM creation menu from templates or scripts.
 
 ## 2025-03-06
 ### Added
