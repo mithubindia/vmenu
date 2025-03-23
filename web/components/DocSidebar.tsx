@@ -46,7 +46,7 @@ const sidebarItems: MenuItem[] = [
   {
     title: "Create VM",
     submenu: [
-      { title: "Synology VM", href: "/docs/create-vm/syno2" },
+      { title: "Synology VM", href: "/docs/create-vm/synology" },
     ],
   },
   {
