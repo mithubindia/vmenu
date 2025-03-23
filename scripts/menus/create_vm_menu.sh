@@ -27,8 +27,8 @@ initialize_cache
 show_proxmenux_logo
 
 while true; do
-    OPTION=$(whiptail --title "$(translate "Create VM Menu")" --menu "$(translate "Select a VM template to create:")" 18 70 5 \
-        "1" "$(translate "Synology DSM Virtual Machine")" \
+    OPTION=$(whiptail --title "$(translate "Create VM Menu")" --menu "$(translate "Select a VM to create:")" 18 70 5 \
+        "1" "$(translate "Synology DSM VM")" \
         "2" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
     case $OPTION in
