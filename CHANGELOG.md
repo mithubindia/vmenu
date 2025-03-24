@@ -37,6 +37,8 @@ done < <(lsblk -dn -e 7,11 -o PATH)
   A new script that creates a VM to install Synology DSM. The script automates the process of downloading three different loaders with the option to use a custom loader provided by the user from the local storage options.  
   Additionally, it allows the use of both virtual and physical disks, which are automatically assigned by the script.  
 
+  ![VM description](https://macrimi.github.io/ProxMenux/vm/synology/dsm_desc.png)
+
 - **New VM Creation Menu**:  
   A new menu has been created to enable VM creation from templates or custom scripts.
 
