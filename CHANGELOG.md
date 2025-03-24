@@ -1,7 +1,6 @@
 ## 2025-03-24  
 ### Improved  
 - Improved the logic for detecting physical disks in the **Disk Passthrough to a VM** script. Previously, the script would display disks that were already mounted in the system on some setups. This update ensures that only unmounted disks are shown in Proxmox, preventing confusion and potential conflicts.  
-
 ```bash
 get_disk_info() {
     local disk=$1
@@ -10,9 +9,8 @@ get_disk_info() {
     echo "$MODEL" "$SIZE"
 }
 
-USED_DISKS=$(lsblk -n -o PKNAME,TYPE | grep 'lvm' | awk '{print "/dev/" $1}')
-MOUNTED_DISKS=$(mount | grep -o '/dev/[a-z]*' | sort | uniq)
-FREE_DISKS=()
+
+FREE_DISKS=() 
 
 while read -r DISK; do
     if ! echo "$USED_DISKS" | grep -q "$DISK" && \
@@ -23,13 +21,10 @@ while read -r DISK; do
         MODEL="${INFO[@]::${#INFO[@]}-1}"
         SIZE="${INFO[-1]}"
         
-        DESCRIPTION=$(printf "%-40s %10s" "$MODEL" "$SIZE")
-        
-        FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
 done < <(lsblk -dn -e 7,11 -o PATH)
-```
 
+```
 - This improvement ensures that disks already mounted or assigned to other VMs are excluded from the list of available disks, providing a more accurate and reliable selection process.
 
 ## [1.1.1] - 2025-03-21
