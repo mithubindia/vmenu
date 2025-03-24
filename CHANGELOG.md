@@ -38,6 +38,8 @@ done < <(lsblk -dn -e 7,11 -o PATH)
   Additionally, it allows the use of both virtual and physical disks, which are automatically assigned by the script.  
 
   ![VM description](https://macrimi.github.io/ProxMenux/vm/synology/dsm_desc.png)
+  
+  *Figure 1: Synology DSM VM setup overview.*
 
 - **New VM Creation Menu**:  
   A new menu has been created to enable VM creation from templates or custom scripts.
