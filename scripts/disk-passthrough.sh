@@ -41,38 +41,18 @@ initialize_cache
 # ==========================================================
 
 
-# Function to identify the physical disk where Proxmox is installed
-get_physical_disk() {
-    local lv_path=$1
-    local pv_name
-    pv_name=$(pvs --noheadings -o pv_name 2>/dev/null | grep -v "/dev/mapper" | head -n1 | tr -d ' ') || true
-    if [ -z "$pv_name" ]; then
-        echo "$(translate "Could not determine the physical disk. Is LVM installed?")" >&2
-        return 1
-    fi
-    echo "$pv_name" | sed 's/[0-9]*$//'
-}
+
 
 # Function to get detailed disk information
 get_disk_info() {
     local disk=$1
-    lsblk -ndo NAME,MODEL,SIZE "$disk" | awk '{print $1 " " $2 " " $3}'
+    MODEL=$(lsblk -dn -o MODEL "$disk" | xargs)
+    SIZE=$(lsblk -dn -o SIZE "$disk" | xargs)
+    echo "$MODEL" "$SIZE"
 }
 
-# Detect the root partition and associated physical disk
-root_device=$(findmnt -n -o SOURCE / 2>/dev/null) || { echo "$(translate "Could not determine the root device.")" >&2; exit 1; }
-if [[ $root_device == /dev/mapper/* ]]; then
-    physical_disk=$(get_physical_disk "$root_device")
-else
-    physical_disk=$(echo "$root_device" | sed 's/[0-9]*$//')
-fi
 
-if [ -z "$physical_disk" ]; then
-    echo "$(translate "Could not determine the physical disk.")" >&2
-    exit 1
-fi
 
-msg_ok "$(translate "System physical disk identified"): $physical_disk. $(translate "This disk will not be shown.")"
 
 # Display list of available VMs
 VM_LIST=$(qm list | awk 'NR>1 {print $1, $2}')
@@ -91,33 +71,46 @@ fi
 
 VMID=$(echo "$VMID" | tr -d '"')
 
-# Verify that VMID is a number
-if ! [[ "$VMID" =~ ^[0-9]+$ ]]; then
-    whiptail --title "$(translate "Error")" --msgbox "$(translate "The selected VM ID is not valid.")" 8 40
-    exit 1
-fi
+
 
 clear
 msg_ok "$(translate "VM selected successfully.")"
 
-# Check if the VM is powered on
+
 VM_STATUS=$(qm status "$VMID" | awk '{print $2}')
 if [ "$VM_STATUS" == "running" ]; then
     whiptail --title "$(translate "Warning")" --msgbox "$(translate "The VM is powered on. Turn it off before adding disks.")" 12 60
     exit 1
 fi
 
+
 msg_info "$(translate "Detecting available disks...")"
+
+
+  USED_DISKS=$(lsblk -n -o PKNAME,TYPE | grep 'lvm' | awk '{print "/dev/" $1}')
+  MOUNTED_DISKS=$(mount | grep -o '/dev/[a-z]*' | sort | uniq)
+  
+
 
 # Detect free disks, excluding the system disk and those already assigned to the selected VM
 FREE_DISKS=()
-while read -r LINE; do
-    DISK=$(echo "$LINE" | awk '{print $1}')
-    if [[ "/dev/$DISK" != "$physical_disk" ]] && ! qm config "$VMID" | grep -q "/dev/$DISK"; then
-        DESCRIPTION=$(echo "$LINE" | awk '{$1=""; print $0}' | xargs)
-        FREE_DISKS+=("/dev/$DISK" "$DESCRIPTION" "OFF")
+while read -r DISK; do
+
+    if ! echo "$USED_DISKS" | grep -q "$DISK" && \
+       ! echo "$MOUNTED_DISKS" | grep -q "$DISK" && \
+       ! qm config "$VMID" | grep -q "$DISK"; then
+        
+        INFO=($(get_disk_info "$DISK"))
+        MODEL="${INFO[@]::${#INFO[@]}-1}"
+        SIZE="${INFO[-1]}"
+        
+        DESCRIPTION=$(printf "%-40s %10s" "$MODEL" "$SIZE")
+        
+        FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
-done < <(lsblk -d -n -e 7,11 -o NAME,MODEL,SIZE)
+done < <(lsblk -dn -e 7,11 -o PATH)
+
+
 
 msg_ok "$(translate "Available disks detected.")"
 
@@ -127,20 +120,18 @@ if [ "${#FREE_DISKS[@]}" -eq 0 ]; then
     exit 1
 fi
 
-# Calculate maximum content length
-MAX_WIDTH=$(printf "%s\n" "${FREE_DISKS[@]}" | awk '{print length}' | sort -nr | head -n1)
-TOTAL_WIDTH=$((MAX_WIDTH + 20)) # Add additional margin
 
-# Set a reasonable minimum width
+MAX_WIDTH=$(printf "%s\n" "${FREE_DISKS[@]}" | awk '{print length}' | sort -nr | head -n1)
+TOTAL_WIDTH=$((MAX_WIDTH + 20))
+
 if [ $TOTAL_WIDTH -lt 70 ]; then
     TOTAL_WIDTH=70
 fi
 
-# Display menu to select free disks with dynamically calculated width
+
 SELECTED=$(whiptail --title "$(translate "Select Disks")" --checklist \
     "$(translate "Select the disks you want to add:")" 20 $TOTAL_WIDTH 10 "${FREE_DISKS[@]}" 3>&1 1>&2 2>&3)
 
-# Check if disks were selected
 if [ -z "$SELECTED" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks were selected.")" 10 $TOTAL_WIDTH
     clear
@@ -164,7 +155,6 @@ fi
 
 msg_ok "$(translate "Interface type selected: $INTERFACE")"
 
-# Verify selected disks
 DISKS_ADDED=0
 ERROR_MESSAGES=""
 SUCCESS_MESSAGES=""
@@ -204,14 +194,13 @@ for DISK in $SELECTED; do
             ((INDEX++))
         done
 
-        # Perform the assignment
         RESULT=$(qm set "$VMID" -${INTERFACE}${INDEX} "$DISK" 2>&1)
 
         if [ $? -eq 0 ]; then
             MESSAGE="$(translate "The disk") $DISK_INFO $(translate "has been successfully added to VM") $VMID."
             if [ -n "$ASSIGNED_TO" ]; then
                 MESSAGE+="\n$(translate "WARNING: This disk is also assigned to the following VM(s):")\n$ASSIGNED_TO"
-                MESSAGE+="$(translate "Make sure not to power on VMs that share this disk simultaneously to avoid data corruption.")\n"
+                MESSAGE+="$(translate "Make sure not to start VMs that share this disk at the same time to avoid data corruption.")\n"
             fi
             SUCCESS_MESSAGES+="$MESSAGE\\n\\n"
             ((DISKS_ADDED++))
@@ -223,31 +212,18 @@ done
 
 msg_ok "$(translate "Disk processing completed.")"
 
-# Display success messages
 if [ -n "$SUCCESS_MESSAGES" ]; then
 
 
 MSG_LINES=$(echo "$SUCCESS_MESSAGES" | wc -l)
 
-
-
- whiptail --title "$(translate "Successful Operations")" --scrolltext --msgbox "$SUCCESS_MESSAGES" 20 70
-
-
+ whiptail --title "$(translate "Successful Operations")" --msgbox "$SUCCESS_MESSAGES" 16 70
 
 fi
 
-# Display error or warning messages if any
 if [ -n "$ERROR_MESSAGES" ]; then
-    whiptail --title "$(translate "Warnings and Errors")" --scrolltext --msgbox "$ERROR_MESSAGES" 20 70
+    whiptail --title "$(translate "Warnings and Errors")" --msgbox "$ERROR_MESSAGES" 16 70
 fi
 
-# Operation completed message
-if [ $DISKS_ADDED -gt 0 ]; then
-    whiptail --title "$(translate "Operation Completed")" --msgbox "$(translate "$DISKS_ADDED disk(s) were successfully added to VM") $VMID." 8 60
-else
-    whiptail --title "$(translate "Information")" --msgbox "$(translate "No disks were added to VM") $VMID." 8 60
-fi
 
-clear
 exit 0
