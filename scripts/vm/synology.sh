@@ -317,13 +317,13 @@ function advanced_settings() {
   # Confirmation
   if (whiptail --backtitle "ProxMenuX" --title "$(translate "ADVANCED SETTINGS COMPLETE")" --yesno "Ready to create a $NAME?" --no-button Do-Over 10 58); then
     echo -e
-    echo -e "$(translate "${CUS}Creating a $NAME using the above advanced settings${CL}")"
+    echo -e "${CUS}Creating a $NAME using the above advanced settings${CL}"
     sleep 1
     select_disk_type
   else
    header_info
    sleep 1
-   echo -e "$(translate "${CUS}Using Advanced Settings${CL}")"
+   echo -e "${CUS}Using Advanced Settings${CL}"
    advanced_settings
   fi
 }
