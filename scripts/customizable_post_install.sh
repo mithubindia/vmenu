@@ -2469,7 +2469,7 @@ fi
 local category_position=$((total_width - max_cat_width))
 
 local menu_items=()
-local i=0
+local i=1
 local previous_category=""
 
 for option in "${sorted_options[@]}"; do
@@ -2483,11 +2483,10 @@ for option in "${sorted_options[@]}"; do
         translated_description="${translated_description:0:$((max_allowed_desc-3))}..."
     fi
 
-    # Set ON for all categories except Optional
-    state="ON"
-    if [ "$category" = "Optional" ]; then
-        state="OFF"
-    fi
+
+    # Set OFF for todas las opciones
+    state="OFF"
+
 
     # Add a separator before Optional category, but only once
     if [ "$category" != "$previous_category" ] && [ "$category" = "Optional" ] && [ "$previous_category" != "" ]; then
