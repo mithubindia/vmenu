@@ -17,6 +17,7 @@ initialize_cache
 
 CONFIG_FILE="/etc/proxmox-telegram.conf"
 PID_DIR="/var/run/proxmox-telegram"
+WRAPPER_PATH="/usr/local/bin/telegram-notifier-wrapper.sh"
 
 
 # Crear archivo de configuración si no existe
