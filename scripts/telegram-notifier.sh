@@ -633,10 +633,15 @@ remove_systemd_service() {
     fi
 }
 
+
+
+
+
+
 # Función para instalar el servicio como un servicio systemd
 install_systemd_service() {
-    SCRIPT_PATH=$(readlink -f "$0")
     mkdir -p "$PID_DIR"
+
     cat > /etc/systemd/system/proxmox-telegram.service <<EOF
 [Unit]
 Description=Proxmox Telegram Notification Service
@@ -644,8 +649,8 @@ After=network.target pve-cluster.service
 
 [Service]
 Type=simple
-ExecStart=$SCRIPT_PATH start_silent
-ExecStop=$SCRIPT_PATH stop_silent
+ExecStart=/bin/bash -c 'bash <(curl -fsSL https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/telegram-notifier.sh) start_silent'
+ExecStop=/bin/bash -c 'bash <(curl -fsSL https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/telegram-notifier.sh) stop_silent'
 Restart=on-failure
 PIDFile=$PID_DIR/service.pid
 
@@ -653,48 +658,28 @@ PIDFile=$PID_DIR/service.pid
 WantedBy=multi-user.target
 EOF
 
-    systemctl daemon-reload
+    systemctl daemon-reexec
     systemctl enable proxmox-telegram.service
     systemctl start proxmox-telegram.service
 }
-
-# Funciones de ejemplo requeridas por systemd
-start_silent() {
-    capture_journal_events > /dev/null 2>&1 & echo $! > "$PID_DIR/journal.pid"
-    capture_direct_events > /dev/null 2>&1 & echo $! > "$PID_DIR/direct.pid"
-    echo $$ > "$PID_DIR/service.pid"
-}
-
-stop_silent() {
-    kill $(cat "$PID_DIR/journal.pid" 2>/dev/null) 2>/dev/null
-    kill $(cat "$PID_DIR/direct.pid" 2>/dev/null) 2>/dev/null
-    kill $(cat "$PID_DIR/service.pid" 2>/dev/null) 2>/dev/null
-    rm -f "$PID_DIR"/*.pid
-}
-
-
-
-
-
 
 # Menú principal
 main_menu() {
     local extra_option=""
     if [[ -f /etc/systemd/system/proxmox-telegram.service ]]; then
-        extra_option="8 \"$(translate \"Eliminar Servicio de Notificaciones\")\""
+        extra_option="8 \"\$(translate \"Eliminar Servicio de Notificaciones\")\""
     fi
 
     while true; do
-        OPTION=$(whiptail --title "$(translate 'Configuración de Notificaciones de Proxmox')" \
-            --menu "$(translate 'Elige una opción:')" 20 70 10 \
-            "1" "$(translate 'Configurar Telegram')" \
-            "2" "$(translate 'Configurar Notificaciones')" \
-            "3" "$(translate 'Iniciar Servicio de Notificaciones')" \
-            "4" "$(translate 'Detener Servicio de Notificaciones')" \
-            "5" "$(translate 'Verificar Estado del Servicio')" \
-            "7" "$(translate 'Salir')" \
+        OPTION=$(eval whiptail --title "\"\$(translate \"Configuración de Notificaciones de Proxmox\")\"" \
+            --menu "\"\$(translate \"Elige una opción:\")\"" 20 70 10 \
+            "1" "\"\$(translate \"Configurar Telegram\")\"" \
+            "2" "\"\$(translate \"Configurar Notificaciones\")\"" \
+            "3" "\"\$(translate \"Iniciar Servicio de Notificaciones\")\"" \
+            "4" "\"\$(translate \"Detener Servicio de Notificaciones\")\"" \
+            "5" "\"\$(translate \"Verificar Estado del Servicio\")\"" \
+            "7" "\"\$(translate \"Salir\")\"" \
             $extra_option 3>&1 1>&2 2>&3)
-
 
         if [[ $? -ne 0 ]]; then exit 0; fi
 
