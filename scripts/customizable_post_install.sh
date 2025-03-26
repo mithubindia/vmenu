@@ -2469,7 +2469,7 @@ fi
 local category_position=$((total_width - max_cat_width))
 
 local menu_items=()
-local i=1
+local i=0
 local previous_category=""
 
 for option in "${sorted_options[@]}"; do
