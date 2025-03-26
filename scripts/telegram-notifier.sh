@@ -695,5 +695,8 @@ main_menu() {
     done
 }
 
-# Ejecutar el menú principal
-main_menu
+case "$1" in
+  start_silent) start_silent ;;
+  stop_silent) stop_silent ;;
+  *) main_menu ;;
+esac
