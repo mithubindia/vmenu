@@ -690,34 +690,50 @@ EOF
     systemctl start proxmox-telegram.service
 }
 
+
+
 # Menú principal
 main_menu() {
-    local extra_option=""
-    if [[ -f /etc/systemd/system/proxmox-telegram.service ]]; then
-        extra_option="8 \"\$(translate \"Eliminar Servicio de Notificaciones\")\""
-    fi
-
     while true; do
-        OPTION=$(eval whiptail --title "\"\$(translate \"Configuración de Notificaciones de Proxmox\")\"" \
-            --menu "\"\$(translate \"Elige una opción:\")\"" 20 70 10 \
-            "1" "\"\$(translate \"Configurar Telegram\")\"" \
-            "2" "\"\$(translate \"Configurar Notificaciones\")\"" \
-            "3" "\"\$(translate \"Iniciar Servicio de Notificaciones\")\"" \
-            "4" "\"\$(translate \"Detener Servicio de Notificaciones\")\"" \
-            "5" "\"\$(translate \"Verificar Estado del Servicio\")\"" \
-            "7" "\"\$(translate \"Salir\")\"" \
-            $extra_option 3>&1 1>&2 2>&3)
-
-        if [[ $? -ne 0 ]]; then exit 0; fi
-
+        # Preparar las opciones del menú
+        local menu_options=(
+            "1" "$(translate "Configurar Telegram")"
+            "2" "$(translate "Configurar Notificaciones")"
+            "3" "$(translate "Iniciar Servicio de Notificaciones")"
+            "4" "$(translate "Detener Servicio de Notificaciones")"
+            "5" "$(translate "Verificar Estado del Servicio")"
+        )
+        
+        # Añadir la opción de eliminar servicio solo si está instalado
+        if [[ -f /etc/systemd/system/proxmox-telegram.service ]]; then
+            menu_options+=(
+                "6" "$(translate "Eliminar Servicio de Notificaciones")"
+            )
+        fi
+        
+        # Añadir siempre la opción de salir al final
+        menu_options+=(
+            "7" "$(translate "Salir")"
+        )
+        
+        # Mostrar el menú con las opciones preparadas
+        OPTION=$(whiptail --title "$(translate "Configuración de Notificaciones de Proxmox")" \
+                         --menu "$(translate "Elige una opción:")" 20 70 10 \
+                         "${menu_options[@]}" \
+                         3>&1 1>&2 2>&3)
+        
+        if [[ $? -ne 0 ]]; then 
+            exit 0
+        fi
+        
         case "$OPTION" in
             1) configure_telegram ;;
             2) configure_notifications ;;
             3) start_notification_service ;;
             4) stop_notification_service ;;
             5) check_service_status ;;
+            6) remove_systemd_service ;;
             7) exit 0 ;;
-            8) remove_systemd_service ;;
         esac
     done
 }
