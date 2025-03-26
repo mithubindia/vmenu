@@ -2679,6 +2679,8 @@ for index in "${!sorted_options[@]}"; do
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoremove >/dev/null 2>&1
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoclean >/dev/null 2>&1
         msg_ok "$(translate "Cleanup finished")"
+        msg_success "$(translate "Press Enter to continue...")"
+        read -r
         msg_warn  "$(translate "Rebooting the system...")"
         reboot
     else
@@ -2687,11 +2689,16 @@ for index in "${!sorted_options[@]}"; do
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoclean >/dev/null 2>&1
         msg_ok "$(translate "Cleanup finished")"
         msg_info2 "$(translate "You can reboot later manually.")"
+        msg_success "$(translate "Press Enter to continue...")"
+        read -r
         exit 0
     fi
 
   fi
     msg_success "$(translate "All changes applied. No reboot required.")"
+    msg_success "$(translate "Press Enter to return to menu...")"
+    read -r
+
 else
         exit 0
 fi
