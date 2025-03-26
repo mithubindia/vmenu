@@ -638,9 +638,21 @@ remove_systemd_service() {
 # Funciones requeridas por systemd
 start_silent() {
     mkdir -p "$PID_DIR"
-    capture_journal_events > /dev/null 2>&1 & echo $! > "$PID_DIR/journal.pid"
-    capture_direct_events > /dev/null 2>&1 & echo $! > "$PID_DIR/direct.pid"
+
+    capture_journal_events > /dev/null 2>&1 &
+    echo $! > "$PID_DIR/journal.pid"
+    journal_pid=$!
+
+    capture_direct_events > /dev/null 2>&1 &
+    echo $! > "$PID_DIR/direct.pid"
+    direct_pid=$!
+
     echo $$ > "$PID_DIR/service.pid"
+
+    # Esperar que ambos procesos finalicen (mantiene vivo el servicio systemd)
+    wait $journal_pid
+    wait $direct_pid
+
 }
 
 stop_silent() {
