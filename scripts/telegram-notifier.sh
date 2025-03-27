@@ -1488,8 +1488,6 @@ capture_direct_events() {
                     update_msg="$update_msg ($(translate "including") $security_updates $(translate "security updates"))"
                 fi
                 
-                # Add package list
-                update_msg="$update_msg. $(translate "Packages:") $package_list"
                 
                 # If there's a new Proxmox version, highlight it
                 if [[ -n "$new_pve_version" ]]; then
