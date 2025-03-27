@@ -1170,6 +1170,9 @@ capture_journal_events() {
                 event_processed=true
             fi
 
+}
+
+
 
 # Function: capture direct system events
 capture_direct_events() {
