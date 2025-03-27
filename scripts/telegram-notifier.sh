@@ -1646,7 +1646,7 @@ capture_direct_events() {
             
             # Format memory values for display
             ram_info="${ram_usage}% (${used_ram}MB/${total_ram}MB)"
-            ram_info_detailed="$(translate "Used:") ${used_ram}MB, $(translate "Free:") ${free_ram}MB, $(translate "Cache:") ${cache_ram}MB, $(translate "Available:") ${available_ram}MB"
+            ram_info_detailed="Used: ${used_ram}MB, Free: ${free_ram}MB, Cache: ${cache_ram}MB, Available: ${available_ram}MB"
             
             # Get top memory consuming processes
             process_info=""
