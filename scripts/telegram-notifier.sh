@@ -1307,16 +1307,61 @@ capture_direct_events() {
             fi
             
             # Check for inode usage (sometimes disks can be full of inodes but not space)
-            full_inodes=$(df -i | awk '$5 >= "95%" {print $1 " (" $5 " inodes used)"}')
-            if [[ -n "$full_inodes" && "$inode_full_detected" = false ]]; then
-                # Format the output for better readability
-                formatted_full_inodes=$(echo "$full_inodes" | tr '\n' ', ' | sed 's/,$//' | sed 's/,/, /g')
+            full_inodes=""
+            while read -r filesystem inodes_used inodes_total iuse_percent mounted_on; do
+                # Skip if the line doesn't have a valid percentage
+                if ! [[ "$iuse_percent" =~ ^[0-9]+%$ ]]; then
+                    continue
+                fi
                 
-                send_notification "⚠️ $(translate "WARNING: Inode usage critical:") $formatted_full_inodes"
+                # Extract percentage number without the % sign
+                percent_num=${iuse_percent/\%/}
+                
+                # Skip if percentage is less than 95
+                if [[ $percent_num -lt 95 ]]; then
+                    continue
+                fi
+                
+                # Skip certain Proxmox-specific filesystems that normally show high inode usage
+                # but don't represent a real problem
+                if [[ "$filesystem" =~ ^/dev/mapper/pve- || 
+                    "$filesystem" =~ ^/dev/pve/ || 
+                    "$mounted_on" =~ ^/var/lib/vz/root/ || 
+                    "$mounted_on" =~ ^/etc/pve/ || 
+                    "$mounted_on" == "/var/lib/vz" && "$percent_num" -lt 98 ]]; then
+                    continue
+                fi
+                
+                # Skip tmpfs and devtmpfs filesystems
+                if [[ "$filesystem" == "tmpfs" || "$filesystem" == "devtmpfs" ]]; then
+                    continue
+                fi
+                
+                # Skip if the filesystem has very few total inodes (less than 1000)
+                # This helps avoid alerts on small or special filesystems
+                if [[ $inodes_total -lt 1000 ]]; then
+                    continue
+                fi
+                
+                # Get a more user-friendly name for the filesystem
+                fs_name="$filesystem"
+                if [[ "$mounted_on" != "/" ]]; then
+                    fs_name="$mounted_on ($filesystem)"
+                fi
+                
+                # Add to our list of filesystems with high inode usage
+                full_inodes+="$fs_name ($iuse_percent inodos usados, $inodes_used/$inodes_total), "
+            done < <(df -i | grep -v "Filesystem" | awk '{print $1, $3, $2, $5, $6}')
+
+            # Remove trailing comma and space if any
+            full_inodes=${full_inodes%, }
+
+            if [[ -n "$full_inodes" && "$inode_full_detected" = false ]]; then
+                send_notification "⚠️ $(translate "WARNING: Inode usage critical:") $full_inodes"
                 inode_full_detected=true
                 
                 # Log the event
-                logger -t proxmox-notify "WARNING: Inode usage critical: $formatted_full_inodes"
+                logger -t proxmox-notify "WARNING: Inode usage critical: $full_inodes"
             elif [[ -z "$full_inodes" ]]; then
                 inode_full_detected=false
             fi
