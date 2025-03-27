@@ -1,10 +1,4 @@
 #!/bin/bash
-#set -x
-
-
-
-
-
 
 
 # Configuration ============================================
@@ -1170,8 +1164,87 @@ capture_journal_events() {
                 event_processed=true
             fi
 
-}
 
+
+            # System update completed (NON-CRITICAL but immediate)
+            if [[ "$update_complete" -eq 1 ]] && [[ "$event_processed" = false ]]; then
+                # Match various patterns that indicate a completed update
+                if [[ "$line" =~ "update" && ("$line" =~ "complete" || "$line" =~ "finished" || "$line" =~ "done" || "$line" =~ "success") && 
+                    ! "$line" =~ "error" && ! "$line" =~ "fail" && ! "$line" =~ "unable" ]]; then
+                    
+                    # Try to determine what was updated
+                    update_type="system"
+                    if [[ "$line" =~ "proxmox" || "$line" =~ "pve" ]]; then
+                        update_type="Proxmox VE"
+                    elif [[ "$line" =~ "kernel" ]]; then
+                        update_type="kernel"
+                    elif [[ "$line" =~ "package" ]]; then
+                        update_type="package"
+                    fi
+                    
+                    # Try to extract version information if available
+                    version_info=""
+                    if [[ "$line" =~ "version" ]]; then
+                        version=$(echo "$line" | grep -oP 'version \K[0-9.]+' || 
+                                echo "$line" | grep -oP 'to \K[0-9.]+' || echo "")
+                        if [[ -n "$version" ]]; then
+                            version_info=" ($(translate "version") $version)"
+                        fi
+                    fi
+                    
+                    # Try to extract package count if available
+                    package_count=""
+                    if [[ "$line" =~ "package" ]]; then
+                        count=$(echo "$line" | grep -oP '([0-9]+) package' || echo "")
+                        if [[ -n "$count" ]]; then
+                            package_count=" ($count $(translate "packages"))"
+                        fi
+                    fi
+                    
+                    # Try to get a list of updated packages if available
+                    package_list=""
+                    if [[ -f /var/log/apt/history.log ]]; then
+                        # Get the most recent upgrade entry
+                        recent_upgrade=$(tac /var/log/apt/history.log | grep -m 1 -A 20 "Upgrade:" | grep -v "End-Date:" | grep "Upgrade:")
+                        if [[ -n "$recent_upgrade" ]]; then
+                            # Extract package names and versions
+                            packages=$(echo "$recent_upgrade" | grep -oP '[a-zA-Z0-9.-]+:[a-zA-Z0-9]+ $$[^)]+$$' | head -n 5)
+                            if [[ -n "$packages" ]]; then
+                                package_list="
+                                $(translate "Updated packages:") $(echo "$packages" | tr '\n' ', ' | sed 's/,$//')"
+                                
+                                # If there are more packages, indicate this
+                                total_packages=$(echo "$recent_upgrade" | grep -oP '[a-zA-Z0-9.-]+:[a-zA-Z0-9]+ $$[^)]+$$' | wc -l)
+                                if [[ $total_packages -gt 5 ]]; then
+                                    package_list="$package_list, ... ($(translate "and") $((total_packages-5)) $(translate "more"))"
+                                fi
+                            fi
+                        fi
+                    fi
+                    
+                    # Check if a reboot is required
+                    reboot_required=""
+                    if [[ -f /var/run/reboot-required ]]; then
+                        reboot_required="
+                      ⚠️ $(translate "System restart required to complete the update")"
+                    fi
+                    
+                    # Format the notification message
+                    send_notification "✅ $(translate "${update_type} update completed")${version_info}${package_count}${package_list}${reboot_required}"
+                    
+                    event_processed=true
+                    
+                    # Log the event
+                    logger -t proxmox-notify "${update_type} update completed"
+                fi
+            fi
+
+        done
+
+        # Si llegamos aquí, es porque tail -F terminó inesperadamente
+        sleep 5
+    done
+}
 
 
 # Function: capture direct system events
