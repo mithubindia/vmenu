@@ -897,22 +897,14 @@ capture_journal_events() {
 
             # System shutdown (NON-CRITICAL - with interval)
             if [[ "$system_shutdown" -eq 1 ]] && (( current_time - last_shutdown_notification > resource_interval )); then
-                if [[ "$line" =~ "systemd" && ( "$line" =~ "Shutting down" || "$line" =~ "Powering off" || "$line" =~ "Rebooting" || "$line" =~ "Reached target Shutdown" || "$line" =~ "Stopping User Manager" ) ]]; then
+                if [[ "$line" =~ "systemd-journald" && "$line" =~ "Journal stopped" ]]; then
                     
-                    # Try to detect shutdown reason (if message includes it)
-                    reason=""
-                    if [[ "$line" =~ "Rebooting" ]]; then
-                        reason=" ($(translate "System is rebooting"))"
-                    elif [[ "$line" =~ "Powering off" ]]; then
-                        reason=" ($(translate "System is powering off"))"
-                    fi
-
-                    # Format and send the notification
-                    send_notification "⚠️ $(translate "System is shutting down")$reason"
+                    # No hay razón específica, pero podemos indicar que se detuvo el journal (lo último antes del apagado)
+                    send_notification "⚠️ $(translate "System is shutting down")"
                     last_shutdown_notification=$current_time
 
                     # Log the event
-                    logger -t proxmox-notify "System is shutting down$reason"
+                    logger -t proxmox-notify "System is shutting down (journal stopped)"
                     
                     event_processed=true
                 fi
