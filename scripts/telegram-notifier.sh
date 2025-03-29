@@ -469,14 +469,22 @@ capture_journal_events() {
 
             # Snapshot failed (CRITICAL)
             if [[ "$line" =~ "snapshot" ]] && [[ "$snapshot_fail" -eq 1 ]] && [[ "$line" =~ "error" || "$line" =~ "fail" || "$line" =~ "unable to" || "$line" =~ "cannot" ]] && [[ "$event_processed" = false ]]; then
-                # Extract VM/CT ID with improved pattern matching
-                VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+' || 
-                        echo "$line" | grep -oP 'VM \K[0-9]+' || 
-                        echo "$line" | grep -oP 'CT \K[0-9]+' || echo "")
-                
-                # Try to extract snapshot name/ID if available
-                SNAPSHOT_ID=$(echo "$line" | grep -oP 'snapshot \K[a-zA-Z0-9_-]+' || 
-                            echo "$line" | grep -oP 'snap\K[a-zA-Z0-9_-]+' || echo "")
+               
+                # Extract VM/CT ID
+                VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+')
+                if [[ -z "$VM_ID" ]]; then
+                    VM_ID=$(echo "$line" | grep -oP 'VM \K[0-9]+')
+                fi
+                if [[ -z "$VM_ID" ]]; then
+                    VM_ID=$(echo "$line" | grep -oP 'CT \K[0-9]+')
+                fi
+
+                # Extract snapshot ID
+                SNAPSHOT_ID=$(echo "$line" | grep -oP 'snapshot \K[a-zA-Z0-9_-]+')
+                if [[ -z "$SNAPSHOT_ID" ]]; then
+                    SNAPSHOT_ID=$(echo "$line" | grep -oP 'snap\K[a-zA-Z0-9_-]+')
+                fi
+
                 
                 # Try to determine error reason
                 ERROR_REASON=""
@@ -519,14 +527,22 @@ capture_journal_events() {
             if [[ "$backup_fail" -eq 1 ]] && [[ "$event_processed" = false ]]; then
                 # Expanded pattern matching for backup failures
                 if [[ "$line" =~ "backup" && ("$line" =~ "error" || "$line" =~ "fail" || "$line" =~ "unable to" || "$line" =~ "cannot" || "$line" =~ "abort") ]]; then
-                    # Extract VM/CT ID with improved pattern matching
-                    VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+' || 
-                            echo "$line" | grep -oP 'VM \K[0-9]+' || 
-                            echo "$line" | grep -oP 'CT \K[0-9]+' || echo "")
-                    
-                    # Try to extract backup storage/target if available
-                    BACKUP_TARGET=$(echo "$line" | grep -oP 'to ["\047]?\K[a-zA-Z0-9_-]+' || 
-                                    echo "$line" | grep -oP 'storage ["\047]?\K[a-zA-Z0-9_-]+' || echo "")
+
+                    # Extract VM/CT ID
+                    VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+')
+                    if [[ -z "$VM_ID" ]]; then
+                        VM_ID=$(echo "$line" | grep -oP 'VM \K[0-9]+')
+                    fi
+                    if [[ -z "$VM_ID" ]]; then
+                        VM_ID=$(echo "$line" | grep -oP 'CT \K[0-9]+')
+                    fi
+
+                    # Extract backup target
+                    BACKUP_TARGET=$(echo "$line" | grep -oP 'to ["\047]?\K[a-zA-Z0-9_-]+')
+                    if [[ -z "$BACKUP_TARGET" ]]; then
+                        BACKUP_TARGET=$(echo "$line" | grep -oP 'storage ["\047]?\K[a-zA-Z0-9_-]+')
+                    fi
+
                     
                     # Try to determine error reason
                     ERROR_REASON=""
@@ -574,22 +590,41 @@ capture_journal_events() {
             if [[ "$auth_fail" -eq 1 ]] && [[ "$event_processed" = false ]]; then
                 if [[ "$line" =~ "authentication failure" || "$line" =~ "auth fail" || "$line" =~ "login failed" || 
                     "$line" =~ "Failed password" || "$line" =~ "Invalid user" || "$line" =~ "failed login" || 
-                    "$line" =~ "authentication error" || "$line" =~ "unauthorized" && "$line" =~ "access" ]]; then
+                    "$line" =~ "authentication error" || ( "$line" =~ "unauthorized" && "$line" =~ "access" ) ]]; then
                     
-                    # Extract username with improved pattern matching
-                    USER=$(echo "$line" | grep -oP 'user=\K[^ ]+' || 
-                        echo "$line" | grep -oP 'user \K[^ ]+' || 
-                        echo "$line" | grep -oP 'for user \K[^ ]+' || 
-                        echo "$line" | grep -oP 'for invalid user \K[^ ]+' || 
-                        echo "$line" | grep -oP 'for \K[^ ]+' | grep -v "invalid" || 
-                        echo "unknown")
-                    
-                    # Extract IP address with improved pattern matching
-                    IP=$(echo "$line" | grep -oP 'rhost=\K[^ ]+' || 
-                        echo "$line" | grep -oP 'from \K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' || 
-                        echo "$line" | grep -oP 'from \K[0-9a-f:]+' || 
-                        echo "$line" | grep -oP 'IP: \K[^ ]+' || 
-                        echo "unknown")
+                    # Extract username
+                    USER=$(echo "$line" | grep -oP 'user=\K[^ ]+')
+                    if [[ -z "$USER" ]]; then
+                        USER=$(echo "$line" | grep -oP 'user \K[^ ]+')
+                    fi
+                    if [[ -z "$USER" ]]; then
+                        USER=$(echo "$line" | grep -oP 'for user \K[^ ]+')
+                    fi
+                    if [[ -z "$USER" ]]; then
+                        USER=$(echo "$line" | grep -oP 'for invalid user \K[^ ]+')
+                    fi
+                    if [[ -z "$USER" ]]; then
+                        USER=$(echo "$line" | grep -oP 'for \K[^ ]+' | grep -v "invalid")
+                    fi
+                    if [[ -z "$USER" ]]; then
+                        USER="unknown"
+                    fi
+
+                    # Extract IP address
+                    IP=$(echo "$line" | grep -oP 'rhost=\K[^ ]+')
+                    if [[ -z "$IP" ]]; then
+                        IP=$(echo "$line" | grep -oP 'from \K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+                    fi
+                    if [[ -z "$IP" ]]; then
+                        IP=$(echo "$line" | grep -oP 'from \K[0-9a-f:]+')
+                    fi
+                    if [[ -z "$IP" ]]; then
+                        IP=$(echo "$line" | grep -oP 'IP: \K[^ ]+')
+                    fi
+                    if [[ -z "$IP" ]]; then
+                        IP="unknown"
+                    fi
+
                     
                     # Try to determine authentication service
                     SERVICE="system"
@@ -639,8 +674,11 @@ capture_journal_events() {
 
 
             # Firewall issue (CRITICAL)
-            if [[ "$line" =~ "firewall" ]] && [[ "$firewall_issue" -eq 1 ]] && [[ "$line" =~ "error" || "$line" =~ "block" || "$line" =~ "reject" || 
-                "$line" =~ "drop" || "$line" =~ "denied" || "$line" =~ "fail" || "$line" =~ "invalid" ]] && [[ "$event_processed" = false ]]; then
+            if [[ "$line" =~ "firewall" && "$firewall_issue" -eq 1 && 
+                ( "$line" =~ "error" || "$line" =~ "block" || "$line" =~ "reject" || 
+                    "$line" =~ "drop" || "$line" =~ "denied" || "$line" =~ "fail" || "$line" =~ "invalid" ) && 
+                "$event_processed" = false ]]; then
+
                 
                 # Try to determine the type of firewall issue
                 ISSUE_TYPE="issue"
@@ -656,15 +694,24 @@ capture_journal_events() {
                     ISSUE_TYPE="invalid rule"
                 fi
                 
-                # Try to extract source IP if available
-                SRC_IP=$(echo "$line" | grep -oP 'SRC=\K[0-9.]+' || 
-                        echo "$line" | grep -oP 'from \K[0-9.]+' || 
-                        echo "$line" | grep -oP 'source \K[0-9.]+' || echo "")
-                
-                # Try to extract destination IP if available
-                DST_IP=$(echo "$line" | grep -oP 'DST=\K[0-9.]+' || 
-                        echo "$line" | grep -oP 'to \K[0-9.]+' || 
-                        echo "$line" | grep -oP 'destination \K[0-9.]+' || echo "")
+                # Extract source IP
+                SRC_IP=$(echo "$line" | grep -oP 'SRC=\K[0-9.]+')
+                if [[ -z "$SRC_IP" ]]; then
+                    SRC_IP=$(echo "$line" | grep -oP 'from \K[0-9.]+')
+                fi
+                if [[ -z "$SRC_IP" ]]; then
+                    SRC_IP=$(echo "$line" | grep -oP 'source \K[0-9.]+')
+                fi
+
+                # Extract destination IP
+                DST_IP=$(echo "$line" | grep -oP 'DST=\K[0-9.]+')
+                if [[ -z "$DST_IP" ]]; then
+                    DST_IP=$(echo "$line" | grep -oP 'to \K[0-9.]+')
+                fi
+                if [[ -z "$DST_IP" ]]; then
+                    DST_IP=$(echo "$line" | grep -oP 'destination \K[0-9.]+')
+                fi
+
                 
                 # Try to extract port information if available
                 PORT_INFO=""
@@ -754,17 +801,18 @@ capture_journal_events() {
             if [[ "$split_brain" -eq 1 ]] && [[ "$event_processed" = false ]]; then
                 # Expanded pattern matching for split-brain detection
                 if [[ "$line" =~ "Split-Brain" || "$line" =~ "split brain" || "$line" =~ "split-brain" || 
-                    "$line" =~ "fencing" && "$line" =~ "required" || 
-                    "$line" =~ "cluster" && "$line" =~ "partition" ]]; then
+                    ( "$line" =~ "fencing" && "$line" =~ "required" ) || 
+                    ( "$line" =~ "cluster" && "$line" =~ "partition" ) ]]; then
+
                     
-                    # Try to extract affected nodes if available
-                    NODES=$(echo "$line" | grep -oP 'nodes: \K[^.]+' || 
-                            echo "$line" | grep -oP 'between \K[^.]+' || echo "")
-                    
+                    NODES=$(echo "$line" | grep -oP 'nodes: \K[^.]+')
+                    if [[ -z "$NODES" ]]; then
+                        NODES=$(echo "$line" | grep -oP 'between \K[^.]+')
+                    fi
                     if [[ -n "$NODES" ]]; then
                         NODES=" (Affected nodes: $NODES)"
                     fi
-                    
+
                     # Try to extract fence status if available
                     FENCE_INFO=""
                     if [[ "$line" =~ "fencing" ]]; then
@@ -788,16 +836,26 @@ capture_journal_events() {
 
             # Node disconnected from cluster (CRITICAL)
             if [[ "$node_disconnect" -eq 1 ]] && [[ "$event_processed" = false ]]; then
+
                 # Expanded pattern matching for node disconnection
-                if [[ ("$line" =~ "quorum" && "$line" =~ "lost") || 
-                    ("$line" =~ "node" && "$line" =~ "left") || 
-                    ("$line" =~ "node" && "$line" =~ "offline") || 
-                    ("$line" =~ "connection" && "$line" =~ "lost" && "$line" =~ "node") ]]; then
+                if [[ ( "$line" =~ "quorum" && "$line" =~ "lost" ) || 
+                    ( "$line" =~ "node" && "$line" =~ "left" ) || 
+                    ( "$line" =~ "node" && "$line" =~ "offline" ) || 
+                    ( "$line" =~ "connection" && "$line" =~ "lost" && "$line" =~ "node" ) ]]; then
+
                     
                     # Extract node name with improved pattern matching
-                    NODE=$(echo "$line" | grep -oP 'node \K[^ ,.]+' || 
-                        echo "$line" | grep -oP 'Node \K[^ ,.]+' || 
-                        echo "$line" | grep -oP 'from \K[^ ,.]+' || echo "unknown")
+                    NODE=$(echo "$line" | grep -oP 'node \K[^ ,.]+')
+                    if [[ -z "$NODE" ]]; then
+                        NODE=$(echo "$line" | grep -oP 'Node \K[^ ,.]+')
+                    fi
+                    if [[ -z "$NODE" ]]; then
+                        NODE=$(echo "$line" | grep -oP 'from \K[^ ,.]+')
+                    fi
+                    if [[ -z "$NODE" ]]; then
+                        NODE="unknown"
+                    fi
+
                     
                     # Try to determine if quorum is still valid
                     QUORUM_STATUS=""
@@ -810,12 +868,14 @@ capture_journal_events() {
                     fi
                     
                     # Try to extract remaining nodes count if available
-                    REMAINING=""
-                    REMAINING_COUNT=$(echo "$line" | grep -oP 'remaining nodes: \K[0-9]+' || 
-                                    echo "$line" | grep -oP 'nodes left: \K[0-9]+' || echo "")
+                    REMAINING_COUNT=$(echo "$line" | grep -oP 'remaining nodes: \K[0-9]+')
+                    if [[ -z "$REMAINING_COUNT" ]]; then
+                        REMAINING_COUNT=$(echo "$line" | grep -oP 'nodes left: \K[0-9]+')
+                    fi
                     if [[ -n "$REMAINING_COUNT" ]]; then
                         REMAINING=" ($REMAINING_COUNT nodes remaining)"
                     fi
+
                     
                     # Try to determine if this is expected or unexpected
                     EXPECTED=""
@@ -832,6 +892,145 @@ capture_journal_events() {
                 fi
             fi
 
+
+
+
+            # System shutdown (NON-CRITICAL - with interval)
+            if [[ "$system_shutdown" -eq 1 ]] && (( current_time - last_shutdown_notification > resource_interval )); then
+                if [[ "$line" =~ "systemd" && ( "$line" =~ "Shutting down" || "$line" =~ "Powering off" || "$line" =~ "Rebooting" || "$line" =~ "Reached target Shutdown" || "$line" =~ "Stopping User Manager" ) ]]; then
+                    
+                    # Try to detect shutdown reason (if message includes it)
+                    reason=""
+                    if [[ "$line" =~ "Rebooting" ]]; then
+                        reason=" ($(translate "System is rebooting"))"
+                    elif [[ "$line" =~ "Powering off" ]]; then
+                        reason=" ($(translate "System is powering off"))"
+                    fi
+
+                    # Format and send the notification
+                    send_notification "⚠️ $(translate "System is shutting down")$reason"
+                    last_shutdown_notification=$current_time
+
+                    # Log the event
+                    logger -t proxmox-notify "System is shutting down$reason"
+                    
+                    event_processed=true
+                fi
+            fi
+
+
+
+            # System problem (CRITICAL)
+            if [[ "$system_problem" -eq 1 ]] && [[ "$event_processed" = false ]]; then
+                if [[ "$line" =~ "kernel panic" || "$line" =~ "segfault" || "$line" =~ "Out of memory" || 
+                    "$line" =~ "BUG:" || "$line" =~ "Call Trace:" || 
+                    "$line" =~ "Failed to start" || "$line" =~ "Unit .* failed" || 
+                    "$line" =~ "Service .* exited with" ]]; then
+                    
+                    # Extract possible service name or component if available
+                    COMPONENT=$(echo "$line" | grep -oP 'Failed to start \K[^:]+' || 
+                                echo "$line" | grep -oP 'Unit \K[^ ]+' || 
+                                echo "$line" | grep -oP 'Service \K[^ ]+' || echo "unknown")
+
+                    # Format and send the notification
+                    send_notification "🚨 $(translate "CRITICAL: System problem detected") ($COMPONENT)"
+                    logger -t proxmox-notify "CRITICAL: System problem detected ($COMPONENT)"
+
+                    event_processed=true
+                fi
+            fi
+
+
+
+            # User permission change (NON-CRITICAL - with interval)
+            if [[ "$user_permission_change" -eq 1 ]] && (( current_time - last_user_permission_notification > resource_interval )); then
+                if [[ "$line" =~ "set permissions" || "$line" =~ "user added to group" || "$line" =~ "user removed from group" || 
+                    "$line" =~ "ACL updated" || "$line" =~ "Role assigned" || "$line" =~ "Changed user permissions" ]]; then
+                    
+                    # Try to extract username
+                    USER=$(echo "$line" | grep -oP 'user \K[^ ]+' || 
+                        echo "$line" | grep -oP 'for user \K[^ ]+' || 
+                        echo "$line" | grep -oP 'User \K[^ ]+' || echo "unknown")
+
+                    # Try to detect change type
+                    ACTION="Permission change"
+                    if [[ "$line" =~ "added to group" ]]; then
+                        ACTION="Added to group"
+                    elif [[ "$line" =~ "removed from group" ]]; then
+                        ACTION="Removed from group"
+                    elif [[ "$line" =~ "Role assigned" ]]; then
+                        ACTION="Role assigned"
+                    elif [[ "$line" =~ "ACL updated" ]]; then
+                        ACTION="ACL updated"
+                    fi
+
+                    send_notification "🔐 $(translate "User permission changed:") $USER ($ACTION)"
+                    logger -t proxmox-notify "User permission changed: $USER ($ACTION)"
+                    last_user_permission_notification=$current_time
+                    event_processed=true
+                fi
+            fi
+
+
+
+            # Network saturation (NON-CRITICAL - with interval)
+            if [[ "$network_saturation" -eq 1 ]] && (( current_time - last_network_saturation_notification > resource_interval )); then
+                if command -v ip &>/dev/null; then
+                    saturated_ifaces=""
+                    
+                    # Loop over interfaces and look for rx/tx errors/drops
+                    while read -r line; do
+                        iface=$(echo "$line" | awk -F: '{print $2}' | xargs)
+                        stats=$(ip -s link show "$iface" | awk '/RX:|TX:/ {getline; print}')
+                        
+                        rx_errors=$(echo "$stats" | awk 'NR==1 {print $3}')
+                        tx_errors=$(echo "$stats" | awk 'NR==2 {print $3}')
+                        rx_dropped=$(echo "$stats" | awk 'NR==1 {print $4}')
+                        tx_dropped=$(echo "$stats" | awk 'NR==2 {print $4}')
+                        
+                        if (( rx_errors > 100 || tx_errors > 100 || rx_dropped > 100 || tx_dropped > 100 )); then
+                            saturated_ifaces+="$iface (RX errors: $rx_errors, TX errors: $tx_errors, RX dropped: $rx_dropped, TX dropped: $tx_dropped), "
+                        fi
+                    done < <(ip -o link show | awk -F': ' '{print $2}')
+
+                    # Clean and notify
+                    if [[ -n "$saturated_ifaces" ]]; then
+                        saturated_ifaces="${saturated_ifaces%, }"
+                        send_notification "⚠️ $(translate "WARNING: Network saturation or errors detected on:") $saturated_ifaces"
+                        logger -t proxmox-notify "WARNING: Network saturation on: $saturated_ifaces"
+                        last_network_saturation_notification=$current_time
+                    fi
+                fi
+            fi
+
+
+
+            # Automatic IP blocks (NON-CRITICAL - with interval)
+            if [[ "$ip_block" -eq 1 ]] && (( current_time - last_ip_block_notification > resource_interval )); then
+                if [[ "$line" =~ "fail2ban" || "$line" =~ "Banned IP" || "$line" =~ "Blocking IP" || 
+                    "$line" =~ "DROP" && "$line" =~ "SRC=" || 
+                    "$line" =~ "REJECT" && "$line" =~ "SRC=" ]]; then
+                    
+                    # Try to extract IP address
+                    IP=$(echo "$line" | grep -oP 'SRC=\K[0-9.]+' || 
+                        echo "$line" | grep -oP 'from \K[0-9.]+' || 
+                        echo "$line" | grep -oP 'Banned IP \K[0-9.]+' || 
+                        echo "$line" | grep -oP 'Blocking IP \K[0-9.]+' || echo "unknown")
+
+                    # Detect source (Fail2ban, Firewall, etc.)
+                    SOURCE="Firewall"
+                    if [[ "$line" =~ "fail2ban" ]]; then
+                        SOURCE="Fail2ban"
+                    elif [[ "$line" =~ "pve-firewall" ]]; then
+                        SOURCE="PVE Firewall"
+                    fi
+
+                    send_notification "🔒 $(translate "Automatic IP block detected") ($IP - $SOURCE)"
+                    logger -t proxmox-notify "IP block detected: $IP ($SOURCE)"
+                    last_ip_block_notification=$current_time
+                    event_processed=true
+                fi
+            fi
 
             
             
@@ -1006,13 +1205,19 @@ capture_journal_events() {
             
             # Snapshot completed (NON-CRITICAL but immediate)
             if [[ "$line" =~ "snapshot" ]] && [[ "$snapshot_complete" -eq 1 ]] && [[ ! "$line" =~ "error" ]] && [[ "$event_processed" = false ]]; then
+
                 # Additional pattern matching for completed snapshots
                 if [[ "$line" =~ "complete" || "$line" =~ "finished" || "$line" =~ "success" || ! "$line" =~ "fail" && ! "$line" =~ "unable" ]]; then
                     
                     # Extract VM/CT ID with improved pattern matching
-                    VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+' || 
-                            echo "$line" | grep -oP 'VM \K[0-9]+' || 
-                            echo "$line" | grep -oP 'CT \K[0-9]+' || echo "")
+                    VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+')
+                    if [[ -z "$VM_ID" ]]; then
+                        VM_ID=$(echo "$line" | grep -oP 'VM \K[0-9]+')
+                    fi
+                    if [[ -z "$VM_ID" ]]; then
+                        VM_ID=$(echo "$line" | grep -oP 'CT \K[0-9]+')
+                    fi
+
                     
                     # Try to extract snapshot name/ID if available
                     SNAPSHOT_NAME=$(echo "$line" | grep -oP 'snapshot \K[a-zA-Z0-9_-]+' || 
@@ -1083,16 +1288,29 @@ capture_journal_events() {
 
 
             # Backup completed (NON-CRITICAL but immediate)
-            if [[ "$line" =~ "backup" ]] && [[ "$backup_complete" -eq 1 ]] && [[ "$line" =~ "successful" || "$line" =~ "complete" || "$line" =~ "finished" || "$line" =~ "success" ]] && [[ ! "$line" =~ "error" ]] && [[ ! "$line" =~ "fail" ]] && [[ "$event_processed" = false ]]; then
-                # Extract VM/CT ID with improved pattern matching
-                VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+' || 
-                        echo "$line" | grep -oP 'VM \K[0-9]+' || 
-                        echo "$line" | grep -oP 'CT \K[0-9]+' || echo "")
-                
-                # Try to extract backup target/storage if available
-                BACKUP_TARGET=$(echo "$line" | grep -oP 'to ["\047]?\K[a-zA-Z0-9_-]+' || 
-                                echo "$line" | grep -oP 'storage ["\047]?\K[a-zA-Z0-9_-]+' || 
-                                echo "$line" | grep -oP 'target ["\047]?\K[a-zA-Z0-9_-]+' || echo "")
+            if [[ "$line" =~ "backup" && "$backup_complete" -eq 1 &&
+                ( "$line" =~ "successful" || "$line" =~ "complete" || "$line" =~ "finished" || "$line" =~ "success" ) &&
+                ! "$line" =~ "error" && ! "$line" =~ "fail" &&
+                "$event_processed" = false ]]; then
+
+                # Extract VM/CT ID
+                VM_ID=$(echo "$line" | grep -oP 'TASK \K[0-9]+')
+                if [[ -z "$VM_ID" ]]; then
+                    VM_ID=$(echo "$line" | grep -oP 'VM \K[0-9]+')
+                fi
+                if [[ -z "$VM_ID" ]]; then
+                    VM_ID=$(echo "$line" | grep -oP 'CT \K[0-9]+')
+                fi
+
+                # Extract backup target
+                BACKUP_TARGET=$(echo "$line" | grep -oP 'to ["\047]?\K[a-zA-Z0-9_-]+')
+                if [[ -z "$BACKUP_TARGET" ]]; then
+                    BACKUP_TARGET=$(echo "$line" | grep -oP 'storage ["\047]?\K[a-zA-Z0-9_-]+')
+                fi
+                if [[ -z "$BACKUP_TARGET" ]]; then
+                    BACKUP_TARGET=$(echo "$line" | grep -oP 'target ["\047]?\K[a-zA-Z0-9_-]+')
+                fi
+
                 
                 # Try to extract backup size if available
                 BACKUP_SIZE=$(echo "$line" | grep -oP 'size: \K[0-9.]+[KMGT]B' || 
@@ -1690,7 +1908,7 @@ capture_direct_events() {
             # Format memory values for display
             ram_info="${ram_usage}% (${used_ram}MB/${total_ram}MB)"
             ram_info_detailed="Used: ${used_ram}MB, Free: ${free_ram}MB, Cache: ${cache_ram}MB, Available: ${available_ram}MB"
-            
+
             # Get top memory consuming processes
             process_info=""
             if command -v ps &>/dev/null; then
