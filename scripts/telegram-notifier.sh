@@ -2216,6 +2216,9 @@ start_silent() {
 }
 
 stop_silent() {
+    
+    send_notification "⚠️ $(translate "System is shutting down on") $(hostname) at $(date)"
+
     kill $(cat "$PID_DIR/journal.pid" 2>/dev/null) 2>/dev/null
     kill $(cat "$PID_DIR/direct.pid" 2>/dev/null) 2>/dev/null
     kill $(cat "$PID_DIR/service.pid" 2>/dev/null) 2>/dev/null
