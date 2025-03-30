@@ -652,14 +652,14 @@ function download_loader() {
   case $LOADER_TYPE in
     arc)
       curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest \
-      | grep "browser_download_url.*evo.img.zip" \
+      | grep "browser_download_url.*arc-.*\.img\.zip" \
       | cut -d '"' -f 4 \
-      | xargs  wget -q --show-progress -O "$IMAGES_DIR/evo.img.zip"
+      | xargs wget -q --show-progress -O "$IMAGES_DIR/arc.img.zip"
       
-      if [ -f "$IMAGES_DIR/evo.img.zip" ]; then
+      if [ -f "$IMAGES_DIR/arc.img.zip" ]; then
         cd "$IMAGES_DIR"
-        unzip -q evo.img.zip
-        rm evo.img.zip
+        unzip -q arc.img.zip
+        rm arc.img.zip
         FILE="arc.img"
         LOADER_FILE="$IMAGES_DIR/$FILE"
         cd - > /dev/null
