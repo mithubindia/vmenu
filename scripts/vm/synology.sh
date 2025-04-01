@@ -648,6 +648,17 @@ function select_custom_image() {
 function download_loader() {
 
   echo -e "${DGN}${TAB}Retrieving the URL for the ${BGN}$LOADER_NAME loader${CL}"
+
+  if [[ "$LOADER_TYPE" == "arc" || "$LOADER_TYPE" == "redpill" ]] && ! command -v unzip &> /dev/null; then
+    msg_info "Installing unzip..."
+    apt-get update -qq && apt-get install -y unzip -qq
+    if ! command -v unzip &> /dev/null; then
+      msg_error "Failed to install unzip"
+      sleep 2
+      return 1
+    fi
+    msg_ok "Installed unzip successfully."
+  fi
   
   case $LOADER_TYPE in
     arc)
