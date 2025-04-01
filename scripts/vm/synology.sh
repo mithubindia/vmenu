@@ -651,7 +651,7 @@ function download_loader() {
 
   if [[ "$LOADER_TYPE" == "arc" || "$LOADER_TYPE" == "redpill" ]] && ! command -v unzip &> /dev/null; then
     msg_info "Installing unzip..."
-    apt-get update -qq && apt-get install -y unzip -qq
+    apt-get update -qq && apt-get install -y unzip -qq >/dev/null 2>&1
     if ! command -v unzip &> /dev/null; then
       msg_error "Failed to install unzip"
       sleep 2
