@@ -652,7 +652,7 @@ function download_loader() {
   case $LOADER_TYPE in
     arc)
       curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest \
-      | grep "browser_download_url.*arc-.*\.img\.zip" \
+      | grep "browser_download_url.*\.img\.zip" \
       | cut -d '"' -f 4 \
       | xargs wget -q --show-progress -O "$IMAGES_DIR/arc.img.zip"
       
