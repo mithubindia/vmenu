@@ -73,7 +73,7 @@ VMID=$(echo "$VMID" | tr -d '"')
 
 
 
-clear
+#clear
 msg_ok "$(translate "VM selected successfully.")"
 
 
@@ -88,18 +88,15 @@ fi
 
 msg_info "$(translate "Detecting available disks...")"
 
-# Discos usados por LVM
 USED_DISKS=$(lsblk -n -o PKNAME,TYPE | grep 'lvm' | awk '{print "/dev/" $1}')
 
-# Particiones montadas
 MOUNTED_DISKS=$(lsblk -ln -o NAME,MOUNTPOINT | awk '$2!="" {print "/dev/" $1}')
 
-# Detectar discos usados por ZFS (desde wwn/ata/by-id)
 ZFS_DISKS=""
 ZFS_RAW=$(zpool list -v -H 2>/dev/null | awk '{print $1}' | grep -v '^NAME$' | grep -v '^-' | grep -v '^mirror')
 
 for entry in $ZFS_RAW; do
-    # Intentar resolver a /dev/NAME si es wwn o ata
+
     path=""
     if [[ "$entry" == wwn-* || "$entry" == ata-* ]]; then
         if [ -e "/dev/disk/by-id/$entry" ]; then
@@ -109,7 +106,7 @@ for entry in $ZFS_RAW; do
         path="$entry"
     fi
 
-    # Obtener el disco base físico
+
     if [ -n "$path" ]; then
         base_disk=$(lsblk -no PKNAME "$path" 2>/dev/null)
         if [ -n "$base_disk" ]; then
@@ -120,11 +117,11 @@ done
 
 ZFS_DISKS=$(echo "$ZFS_DISKS" | sort -u)
 
-# Función para descartar discos en uso
+
 is_disk_in_use() {
     local disk="$1"
 
-    # Verificar si alguna partición está montada o es zfs/raid
+
     while read -r part fstype; do
         case "$fstype" in
             zfs_member|linux_raid_member)
@@ -136,7 +133,7 @@ is_disk_in_use() {
         fi
     done < <(lsblk -ln -o NAME,FSTYPE "$disk" | tail -n +2)
 
-    # Verificar si está en LVM o ZFS
+
     if echo "$USED_DISKS" | grep -q "$disk" || echo "$ZFS_DISKS" | grep -q "$disk"; then
         return 0
     fi
@@ -145,27 +142,87 @@ is_disk_in_use() {
 }
 
 
-# Detectar discos libres
-FREE_DISKS=()
-while read -r DISK; do
-    [[ "$DISK" =~ /dev/zd ]] && continue
 
-    if ! is_disk_in_use "$DISK" && ! qm config "$VMID" | grep -q "$DISK"; then
-        INFO=($(get_disk_info "$DISK"))
-        MODEL="${INFO[@]::${#INFO[@]}-1}"
-        SIZE="${INFO[-1]}"
-        DESCRIPTION=$(printf "%-40s %10s" "$MODEL" "$SIZE")
-        FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
+FREE_DISKS=()
+ACTIVE_MD_DEVICES=$(awk '/^md/ {for (i=4; i<=NF; i++) print $i}' /proc/mdstat)
+LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sed 's/ *$//' | sort -u)
+
+while read -r DISK; do
+
+    if echo "$LVM_DEVICES" | grep -Fxq "$DISK"; then
+        continue
     fi
+
+    if qm config "$VMID" | grep -q "$DISK"; then
+        continue
+    fi
+
+    IS_MOUNTED=false
+    IS_RAID=false
+    IS_RAID_ACTIVE=false
+    IS_ZFS=false
+    TAG=""
+
+
+    while read -r part fstype; do
+        full_path="/dev/$part"
+        real_path=$(readlink -f "$full_path")
+
+
+        if echo "$MOUNTED_DISKS" | grep -q "$full_path"; then
+            IS_MOUNTED=true
+        fi
+
+   
+        if echo "$LVM_DEVICES" | grep -Fxq "$real_path"; then
+            IS_MOUNTED=true
+        fi
+
+        case "$fstype" in
+            linux_raid_member)
+                IS_RAID=true
+                if echo "$ACTIVE_MD_DEVICES" | grep -q "$part"; then
+                    IS_RAID_ACTIVE=true
+                fi
+                ;;
+            zfs_member)
+                IS_ZFS=true
+                ;;
+        esac
+    done < <(lsblk -ln -o NAME,FSTYPE "$DISK" | tail -n +2)
+
+
+    if $IS_MOUNTED; then
+        continue
+    fi
+
+
+    INFO=($(get_disk_info "$DISK"))
+    MODEL="${INFO[@]::${#INFO[@]}-1}"
+    SIZE="${INFO[-1]}"
+
+
+    if $IS_RAID; then
+        TAG=" ⚠ RAID"
+        $IS_RAID_ACTIVE && TAG=" ⚠ with partitions"
+    elif $IS_ZFS; then
+        TAG=" ⚠ ZFS"
+    fi
+
+    DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$TAG")
+    FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
 done < <(lsblk -dn -e 7,11 -o PATH)
 
-msg_ok "$(translate "Available disks detected.")"
+
+
 
 if [ "${#FREE_DISKS[@]}" -eq 0 ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks available for this VM.")" 8 40
     clear
     exit 1
 fi
+
+msg_ok "$(translate "Available disks detected.")"
 
 
 
@@ -193,7 +250,7 @@ fi
 
 msg_ok "$(translate "Disks selected successfully.")"
 
-# Select interface type once for all disks
+
 INTERFACE=$(whiptail --title "$(translate "Interface Type")" --menu "$(translate "Select the interface type for all disks:")" 15 40 4 \
     "sata" "$(translate "Add as SATA")" \
     "scsi" "$(translate "Add as SCSI")" \
@@ -212,69 +269,73 @@ DISKS_ADDED=0
 ERROR_MESSAGES=""
 SUCCESS_MESSAGES=""
 
+
+
+
+
+
 msg_info "$(translate "Processing selected disks...")"
 
 for DISK in $SELECTED; do
     DISK=$(echo "$DISK" | tr -d '"')
     DISK_INFO=$(get_disk_info "$DISK")
-    REAL_DISK=$(readlink -f "$DISK")
 
-    # Verificar si el disco ya está asignado a otra VM
     ASSIGNED_TO=""
+    RUNNING_VMS=""
+
     while read -r VM_ID VM_NAME; do
-        [[ "$VM_ID" =~ ^[0-9]+$ ]] || continue
-
-        while read -r line; do
-            # Limpiar parámetros adicionales después de la coma
-            raw_path=$(echo "$line" | awk -F ': ' '{print $2}' | awk '{print $1}' | cut -d',' -f1)
-            [ -z "$raw_path" ] && continue
-
-            path_real=$(readlink -f "$raw_path" 2>/dev/null)
-            if [ "$path_real" = "$REAL_DISK" ]; then
-                ASSIGNED_TO+="$VM_ID $VM_NAME\n"
-                break
-            fi
-        done < <(qm config "$VM_ID" | grep -E '^(scsi|sata|virtio|ide)[0-9]+:')
-    done < <(qm list | awk 'NR>1 {print $1, $2}')
-
-    CONTINUE=true
-    if [ -n "$ASSIGNED_TO" ]; then
-        RUNNING_VMS=""
-        while read -r VM_ID VM_NAME; do
-            if [[ "$VM_ID" =~ ^[0-9]+$ ]] && [ "$(qm status "$VM_ID" | awk '{print $2}')" == "running" ]; then
+        if [[ "$VM_ID" =~ ^[0-9]+$ ]] && qm config "$VM_ID" | grep -q "$DISK"; then
+            ASSIGNED_TO+="$VM_ID $VM_NAME\n"
+            VM_STATUS=$(qm status "$VM_ID" | awk '{print $2}')
+            if [ "$VM_STATUS" == "running" ]; then
                 RUNNING_VMS+="$VM_ID $VM_NAME\n"
             fi
-        done < <(echo -e "$ASSIGNED_TO")
+        fi
+    done < <(qm list | awk 'NR>1 {print $1, $2}')
 
-        if [ -n "$RUNNING_VMS" ]; then
-            ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running VM(s):")\\n$RUNNING_VMS\\n\\n"
-            CONTINUE=false
+    if [ -n "$RUNNING_VMS" ]; then
+        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running VM(s):")\\n$RUNNING_VMS\\n\\n"
+        continue
+    fi
+
+
+    if [ -n "$ASSIGNED_TO" ]; then
+        cleanup
+        whiptail --title "$(translate "Disk Already Assigned")" --yesno "$(translate "The disk") $DISK_INFO $(translate "is already assigned to the following VM(s):")\\n$ASSIGNED_TO\\n\\n$(translate "Do you want to continue anyway?")" 15 70
+        if [ $? -ne 0 ]; then
+            sleep 1
+            exec "$0"
         fi
     fi
 
-    if $CONTINUE; then
-        INDEX=0
-        while qm config "$VMID" | grep -q "${INTERFACE}${INDEX}"; do
-            ((INDEX++))
-        done
 
-        RESULT=$(qm set "$VMID" -${INTERFACE}${INDEX} "$DISK" 2>&1)
+    INDEX=0
+    while qm config "$VMID" | grep -q "${INTERFACE}${INDEX}"; do
+        ((INDEX++))
+    done
 
-        if [ $? -eq 0 ]; then
-            MESSAGE="$(translate "The disk") $DISK_INFO $(translate "has been successfully added to VM") $VMID."
-            if [ -n "$ASSIGNED_TO" ]; then
-                MESSAGE+="\n$(translate "WARNING: This disk is also assigned to the following VM(s):")\n$ASSIGNED_TO"
-                MESSAGE+="$(translate "Make sure not to start VMs that share this disk at the same time to avoid data corruption.")\n"
-            fi
-            SUCCESS_MESSAGES+="$MESSAGE\\n\\n"
-            ((DISKS_ADDED++))
-        else
-            ERROR_MESSAGES+="$(translate "Could not add disk") $DISK_INFO $(translate "to VM") $VMID.\\n$(translate "Error:") $RESULT\\n\\n"
+    RESULT=$(qm set "$VMID" -${INTERFACE}${INDEX} "$DISK" 2>&1)
+
+    if [ $? -eq 0 ]; then
+        MESSAGE="$(translate "The disk") $DISK_INFO $(translate "has been successfully added to VM") $VMID."
+        if [ -n "$ASSIGNED_TO" ]; then
+            MESSAGE+="\\n\\n$(translate "WARNING: This disk is also assigned to the following VM(s):")\\n$ASSIGNED_TO"
+            MESSAGE+="\\n$(translate "Make sure not to start VMs that share this disk at the same time to avoid data corruption.")"
         fi
+        SUCCESS_MESSAGES+="$MESSAGE\\n\\n"
+        ((DISKS_ADDED++))
+    else
+        ERROR_MESSAGES+="$(translate "Could not add disk") $DISK_INFO $(translate "to VM") $VMID.\\n$(translate "Error:") $RESULT\\n\\n"
     fi
 done
 
 msg_ok "$(translate "Disk processing completed.")"
+
+
+
+
+
+
 
 if [ -n "$SUCCESS_MESSAGES" ]; then
     MSG_LINES=$(echo "$SUCCESS_MESSAGES" | wc -l)
