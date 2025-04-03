@@ -148,12 +148,8 @@ ACTIVE_MD_DEVICES=$(awk '/^md/ {for (i=4; i<=NF; i++) print $i}' /proc/mdstat)
 LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sed 's/ *$//' | sort -u)
 
 while read -r DISK; do
-
+    # Ocultar discos virtuales (como ZVOLs) y LVM completos
     if echo "$LVM_DEVICES" | grep -Fxq "$DISK"; then
-        continue
-    fi
-
-    if qm config "$VMID" | grep -q "$DISK"; then
         continue
     fi
 
@@ -163,17 +159,21 @@ while read -r DISK; do
     IS_ZFS=false
     TAG=""
 
+    # Verificar si ya está en la VM seleccionada
+    if qm config "$VMID" | grep -q "$DISK"; then
+        continue
+    fi
 
     while read -r part fstype; do
         full_path="/dev/$part"
         real_path=$(readlink -f "$full_path")
 
-
+        # Si está montado
         if echo "$MOUNTED_DISKS" | grep -q "$full_path"; then
             IS_MOUNTED=true
         fi
 
-   
+        # Si está en LVM (volumen lógico)
         if echo "$LVM_DEVICES" | grep -Fxq "$real_path"; then
             IS_MOUNTED=true
         fi
@@ -191,27 +191,28 @@ while read -r DISK; do
         esac
     done < <(lsblk -ln -o NAME,FSTYPE "$DISK" | tail -n +2)
 
-
+    # Si está montado, lo descartamos
     if $IS_MOUNTED; then
         continue
     fi
 
-
+    # Obtener info para mostrar en el menú
     INFO=($(get_disk_info "$DISK"))
     MODEL="${INFO[@]::${#INFO[@]}-1}"
     SIZE="${INFO[-1]}"
 
-
+    # Etiqueta RAID/ZFS
     if $IS_RAID; then
         TAG=" ⚠ RAID"
-        $IS_RAID_ACTIVE && TAG=" ⚠ with partitions"
+        $IS_RAID_ACTIVE && TAG=" ⚠ RAID (activo)"
     elif $IS_ZFS; then
         TAG=" ⚠ ZFS"
     fi
 
     DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$TAG")
     FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
-done < <(lsblk -dn -e 7,11 -o PATH)
+done < <(lsblk -dn -o PATH,TYPE | awk '$2 == "disk" {print $1}')
+
 
 
 
