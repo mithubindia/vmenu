@@ -218,6 +218,7 @@ done < <(lsblk -dn -o PATH,TYPE | awk '$2 == "disk" {print $1}')
 
 
 if [ "${#FREE_DISKS[@]}" -eq 0 ]; then
+    cleanup
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks available for this VM.")" 8 40
     clear
     exit 1
