@@ -152,10 +152,10 @@ MOUNTED_DISKS=$(mount | grep /dev/sd | awk '{print $1}' | sort -u)
 while read -r DISK; do
     BASENAME=$(basename "$DISK")
 
-    # ❌ Excluir si es un ZVOL (zd*)
+    # ❌ Excluir ZVOL directamente
     [[ "$BASENAME" == zd* ]] && continue
 
-    # ❌ Excluir si el disco completo está en LVM
+    # ❌ Excluir si disco completo está en LVM
     if echo "$LVM_DEVICES" | grep -Fxq "$DISK"; then
         continue
     fi
@@ -170,7 +170,6 @@ while read -r DISK; do
     IS_RAID_ACTIVE=false
     IS_ZFS=false
 
-    # Analizar particiones del disco
     while read -r part fstype; do
         [[ -z "$part" ]] && continue
         full_path="/dev/$part"
@@ -199,23 +198,20 @@ while read -r DISK; do
         esac
     done < <(lsblk -ln -o NAME,FSTYPE "$DISK" | tail -n +2)
 
-    # ❌ ZFS detectado
-    $IS_ZFS && continue
-
-    # ❌ RAID activo o pasivo
-    $IS_RAID && continue
-
-    # ❌ Montado en el sistema
+    # ❌ Excluir si montado o ZFS o RAID activo
     $IS_MOUNTED && continue
+    $IS_ZFS && continue
+    $IS_RAID_ACTIVE && continue
 
-    # 🧠 Información del disco
-    INFO=($(get_disk_info "$DISK"))
-    MODEL="${INFO[@]::${#INFO[@]}-1}"
-    SIZE="${INFO[-1]}"
-    DESCRIPTION=$(printf "%-30s %10s" "$MODEL" "$SIZE")
+    # 🧠 Mostrar advertencias si RAID pasivo o zd
+    EXTRA=""
+    $IS_RAID && EXTRA="⚠ RAID (pasivo)"
+    [[ "$BASENAME" == zd* ]] && EXTRA="⚠ ZVOL"
+    DESCRIPTION=$(printf "%-40s %10s %s" "$(lsblk -dn -o MODEL "$DISK" | xargs)" "$(lsblk -dn -o SIZE "$DISK" | xargs)" "$EXTRA")
 
     FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
 done < <(lsblk -dn -o PATH,TYPE | awk '$2 == "disk" {print $1}')
+
 
 
 
