@@ -201,7 +201,7 @@ while read -r DISK; do
     fi
 
     if $SHOW_DISK; then
-        [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ RAID (pasivo)"
+        [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ with partitions"
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
 
