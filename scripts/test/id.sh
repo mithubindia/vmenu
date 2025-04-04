@@ -143,13 +143,25 @@ is_disk_in_use() {
 
 
 
+
 FREE_DISKS=()
 ACTIVE_MD_DEVICES=$(awk '/^md/ {for (i=4; i<=NF; i++) print $i}' /proc/mdstat)
-LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sed 's/ *$//' | sort -u)
+LVM_DEVICES=$(pvs --noheadings -o pv_name 2>/dev/null | xargs -n1 readlink -f | sed 's/ *$//' | sort -u)
+MOUNTED_DISKS=$(mount | grep /dev/sd | awk '{print $1}' | sort -u)
 
 while read -r DISK; do
-    # Ocultar discos virtuales (como ZVOLs) y LVM completos
+    BASENAME=$(basename "$DISK")
+
+    # ❌ Excluir si es un ZVOL (zd*)
+    [[ "$BASENAME" == zd* ]] && continue
+
+    # ❌ Excluir si el disco completo está en LVM
     if echo "$LVM_DEVICES" | grep -Fxq "$DISK"; then
+        continue
+    fi
+
+    # ❌ Excluir si ya está en la VM seleccionada
+    if qm config "$VMID" | grep -q "$DISK"; then
         continue
     fi
 
@@ -157,61 +169,55 @@ while read -r DISK; do
     IS_RAID=false
     IS_RAID_ACTIVE=false
     IS_ZFS=false
-    TAG=""
 
-    # Verificar si ya está en la VM seleccionada
-    if qm config "$VMID" | grep -q "$DISK"; then
-        continue
-    fi
-
+    # Analizar particiones del disco
     while read -r part fstype; do
+        [[ -z "$part" ]] && continue
         full_path="/dev/$part"
         real_path=$(readlink -f "$full_path")
 
-        # Si está montado
+        # Verificar si está montado
         if echo "$MOUNTED_DISKS" | grep -q "$full_path"; then
             IS_MOUNTED=true
         fi
 
-        # Si está en LVM (volumen lógico)
+        # Verificar si alguna partición está en LVM
         if echo "$LVM_DEVICES" | grep -Fxq "$real_path"; then
             IS_MOUNTED=true
         fi
 
         case "$fstype" in
+            zfs_member)
+                IS_ZFS=true
+                ;;
             linux_raid_member)
                 IS_RAID=true
                 if echo "$ACTIVE_MD_DEVICES" | grep -q "$part"; then
                     IS_RAID_ACTIVE=true
                 fi
                 ;;
-            zfs_member)
-                IS_ZFS=true
-                ;;
         esac
     done < <(lsblk -ln -o NAME,FSTYPE "$DISK" | tail -n +2)
 
-    # Si está montado, lo descartamos
-    if $IS_MOUNTED; then
-        continue
-    fi
+    # ❌ ZFS detectado
+    $IS_ZFS && continue
 
-    # Obtener info para mostrar en el menú
+    # ❌ RAID activo o pasivo
+    $IS_RAID && continue
+
+    # ❌ Montado en el sistema
+    $IS_MOUNTED && continue
+
+    # 🧠 Información del disco
     INFO=($(get_disk_info "$DISK"))
     MODEL="${INFO[@]::${#INFO[@]}-1}"
     SIZE="${INFO[-1]}"
+    DESCRIPTION=$(printf "%-40s %10s" "$MODEL" "$SIZE")
 
-    # Etiqueta RAID/ZFS
-    if $IS_RAID; then
-        TAG=" ⚠ RAID"
-        $IS_RAID_ACTIVE && TAG=" ⚠ RAID (activo)"
-    elif $IS_ZFS; then
-        TAG=" ⚠ ZFS"
-    fi
-
-    DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$TAG")
     FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
 done < <(lsblk -dn -o PATH,TYPE | awk '$2 == "disk" {print $1}')
+
+
 
 
 
