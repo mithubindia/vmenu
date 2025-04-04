@@ -212,7 +212,7 @@ while read -r DISK; do
     INFO=($(get_disk_info "$DISK"))
     MODEL="${INFO[@]::${#INFO[@]}-1}"
     SIZE="${INFO[-1]}"
-    DESCRIPTION=$(printf "%-40s %10s" "$MODEL" "$SIZE")
+    DESCRIPTION=$(printf "%-30s %10s" "$MODEL" "$SIZE")
 
     FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
 done < <(lsblk -dn -o PATH,TYPE | awk '$2 == "disk" {print $1}')
