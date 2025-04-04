@@ -205,9 +205,9 @@ while read -r DISK; do
 
     # 🧠 Mostrar advertencias si RAID pasivo o zd
     EXTRA=""
-    $IS_RAID && EXTRA="⚠ RAID (pasivo)"
+    $IS_RAID && EXTRA="⚠ with partitions"
     [[ "$BASENAME" == zd* ]] && EXTRA="⚠ ZVOL"
-    DESCRIPTION=$(printf "%-40s %10s %s" "$(lsblk -dn -o MODEL "$DISK" | xargs)" "$(lsblk -dn -o SIZE "$DISK" | xargs)" "$EXTRA")
+    DESCRIPTION=$(printf "%-30s %10s %s" "$(lsblk -dn -o MODEL "$DISK" | xargs)" "$(lsblk -dn -o SIZE "$DISK" | xargs)" "$EXTRA")
 
     FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
 done < <(lsblk -dn -o PATH,TYPE | awk '$2 == "disk" {print $1}')
