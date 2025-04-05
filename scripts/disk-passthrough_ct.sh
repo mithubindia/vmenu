@@ -122,7 +122,7 @@ is_disk_in_use() {
 
 FREE_DISKS=()
 
-LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sort -u)
+LVM_DEVICES=$(pvs --noheadings -o pv_name 2> >(grep -v 'File descriptor .* leaked') | xargs -n1 readlink -f | sort -u)
 RAID_ACTIVE=$(grep -Po 'md\d+\s*:\s*active\s+raid[0-9]+' /proc/mdstat | awk '{print $1}' | sort -u)
 
 while read -r DISK; do
@@ -280,7 +280,7 @@ for DISK in $SELECTED; do
 
 
     if lsblk "$DISK" | grep -q "raid" || grep -q "${DISK##*/}" /proc/mdstat; then
-        whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "is part of a RAID array and cannot be added.")\\n\\n$(translate "To use this disk, you must first stop the RAID array with:")\\n\\nmdadm --stop /dev/mdX\\nmdadm --zero-superblock $DISK\\n\\n$(translate "After removing the RAID metadata, run this script again to add the disk.")" 15 70
+        whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "appears to be part of a RAID array, and for safety reasons, the system cannot format it.")\\n\\n$(translate "If you are sure you want to use this disk, remove the RAID metadata or format it externally.")\\n\\n$(translate "After that, run this script again to add the disk.")" 18 74
         
         continue
     fi
