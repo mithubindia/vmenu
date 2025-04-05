@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # ==========================================================
-# ProxMenu CT - A menu-driven script for Proxmox CT management
+# ProxMenu - A menu-driven script for Proxmox VE management
 # ==========================================================
-# Based on ProxMenu by MacRimi
-# Modified for Proxmox Containers
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 28/01/2025
 # ==========================================================
 # Description:
 # This script allows users to assign physical disks to existing
