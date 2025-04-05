@@ -514,9 +514,6 @@ function select_passthrough_disk() {
   done
 
   ZFS_DISKS=$(echo "$ZFS_DISKS" | sort -u)
-  for fd in {3..63}; do
-    eval "exec ${fd}>&-" 2>/dev/null
-  done
   LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sort -u)
   RAID_ACTIVE=$(grep -Po 'md\d+\s*:\s*active\s+raid[0-9]+' /proc/mdstat | awk '{print $1}' | sort -u)
 
