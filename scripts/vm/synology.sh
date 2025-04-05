@@ -514,7 +514,9 @@ function select_passthrough_disk() {
   done
 
   ZFS_DISKS=$(echo "$ZFS_DISKS" | sort -u)
-  LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sort -u)
+  #LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sort -u)
+  LVM_DEVICES=$(pvs --noheadings -o pv_name 2> >(grep -v 'File descriptor .* leaked') | xargs -n1 readlink -f | sort -u)
+
   RAID_ACTIVE=$(grep -Po 'md\d+\s*:\s*active\s+raid[0-9]+' /proc/mdstat | awk '{print $1}' | sort -u)
 
   while read -r DISK; do
