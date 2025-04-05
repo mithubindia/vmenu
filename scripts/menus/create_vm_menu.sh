@@ -34,9 +34,6 @@ while true; do
     case $OPTION in
         1)
             msg_info2 "$(translate "Running script:") $(translate "Synology DSM VM Creator")..."
-            for fd in {3..63}; do
-                eval "exec ${fd}>&-"
-            done
             bash <(curl -s "$REPO_URL/scripts/vm/synology.sh")
             if [ $? -ne 0 ]; then
                 msg_warn "$(translate "Operation cancelled or failed.")"
