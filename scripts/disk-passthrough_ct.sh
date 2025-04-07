@@ -62,13 +62,59 @@ CTID=$(echo "$CTID" | tr -d '"')
 
 msg_ok "$(translate "CT selected successfully.")"
 
+
+
+
 CT_STATUS=$(pct status "$CTID" | awk '{print $2}')
-if [ "$CT_STATUS" == "running" ]; then
-    whiptail --title "$(translate "Warning")" --msgbox "$(translate "The CT is powered on. Turn it off before adding disks.")" 12 60
-    exit 1
+if [ "$CT_STATUS" != "running" ]; then
+    msg_info "$(translate "Starting CT") $CTID..."
+    pct start "$CTID"
+    sleep 2
+    if [ "$(pct status "$CTID" | awk '{print $2}')" != "running" ]; then
+        msg_error "$(translate "Failed to start the CT.")"
+        exit 1
+    fi
+    msg_ok "$(translate "CT started successfully.")"
 fi
 
+
+
+
+CONF_FILE="/etc/pve/lxc/$CTID.conf"
+
+if grep -q '^unprivileged: 1' "$CONF_FILE"; then
+    if whiptail --title "$(translate "Privileged Container")" \
+        --yesno "$(translate "The selected container is unprivileged. Direct device passthrough may not work. Do you want to convert it to a privileged container?")" 12 70; then
+
+        CT_STATUS=$(pct status "$CTID" | awk '{print $2}')
+        if [ "$CT_STATUS" == "running" ]; then
+            whiptail --title "$(translate "Warning")" \
+                --msgbox "$(translate "The container must be stopped before converting it to privileged. Please shut it down and try again.")" 10 60
+            exit 1
+        fi
+
+        cp "$CONF_FILE" "$CONF_FILE.bak"
+
+        sed -i '/^unprivileged: 1/d' "$CONF_FILE"
+        echo "unprivileged: 0" >> "$CONF_FILE"
+
+        msg_ok "$(translate "Container successfully converted to privileged.")"
+
+    else
+        whiptail --title "$(translate "Aborted")" \
+            --msgbox "$(translate "Operation cancelled. Cannot continue with unprivileged container.")" 10 60
+        exit 1
+    fi
+fi
+
+
+
+
 ##########################################
+
+
+
+
 
 msg_info "$(translate "Detecting available disks...")"
 
@@ -190,7 +236,15 @@ fi
 
 msg_ok "$(translate "Available disks detected.")"
 
+
+
+
+
 ######################################################
+
+
+
+
 
 MAX_WIDTH=$(printf "%s\n" "${FREE_DISKS[@]}" | awk '{print length}' | sort -nr | head -n1)
 TOTAL_WIDTH=$((MAX_WIDTH + 20))
@@ -249,6 +303,17 @@ for DISK in $SELECTED; do
     
     cleanup
 
+
+
+
+    if lsblk "$DISK" | grep -q "raid" || grep -q "${DISK##*/}" /proc/mdstat; then
+        whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "appears to be part of a") RAID. $(translate "For safety reasons, the system will not format it automatically.")\\n\\n$(translate "If you are sure you want to use this disk, please remove the") RAID metadata $(translate "or format it manually using external tools.")\\n\\n$(translate "After that, run this script again to add the disk.")" 18 70
+        exit
+    fi
+
+
+
+
     MOUNT_POINT=$(whiptail --title "$(translate "Mount Point")" --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/disk_passthrough):")" 10 60 "/mnt/disk_passthrough" 3>&1 1>&2 2>&3)
 
     if [ -z "$MOUNT_POINT" ]; then
@@ -259,107 +324,131 @@ for DISK in $SELECTED; do
     msg_ok "$(translate "Mount point specified: $MOUNT_POINT")"
 
 
-    whiptail --title "$(translate "Format Required")" --msgbox "$(translate "To use the disk with a mount point, it needs to be formatted.")" 8 70
-
-    FORMAT_TYPE=$(whiptail --title "$(translate "Select Format Type")" --menu "$(translate "Select the filesystem type for") $DISK_INFO:" 15 60 6 \
-        "ext4" "$(translate "Extended Filesystem 4 (recommended)")" \
-        "xfs" "$(translate "XFS Filesystem")" \
-        "btrfs" "$(translate "Btrfs Filesystem")" 3>&1 1>&2 2>&3)
-    
-    if [ -z "$FORMAT_TYPE" ]; then
-        whiptail --title "$(translate "Format Cancelled")" --msgbox "$(translate "Format operation cancelled. The disk will not be added.")" 8 60
-        continue
-    fi
-    
-    whiptail --title "$(translate "WARNING")" --yesno "$(translate "WARNING: This operation will FORMAT the disk") $DISK_INFO $(translate "with") $FORMAT_TYPE.\\n\\n$(translate "ALL DATA ON THIS DISK WILL BE PERMANENTLY LOST!")\\n\\n$(translate "Are you sure you want to continue?")" 15 70
-    if [ $? -ne 0 ]; then
-        whiptail --title "$(translate "Format Cancelled")" --msgbox "$(translate "Format operation cancelled. The disk will not be added.")" 8 60
-        continue
-    fi
 
 
 
-    if lsblk "$DISK" | grep -q "raid" || grep -q "${DISK##*/}" /proc/mdstat; then
-        whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "appears to be part of a RAID array, and for safety reasons, the system cannot format it.")\\n\\n$(translate "If you are sure you want to use this disk, remove the RAID metadata or format it externally.")\\n\\n$(translate "After that, run this script again to add the disk.")" 18 74
-        
-        continue
-    fi
 
-    MOUNTED_PARTITIONS=$(lsblk -n -o NAME,MOUNTPOINT "$DISK" | awk '$2 != "" {print $1}')
-    if [ -n "$MOUNTED_PARTITIONS" ]; then
-        UNMOUNT_FAILED=false
-        
-        if mount | grep -q "$DISK "; then
-            umount -f "$DISK" 2>/dev/null
+    PARTITION=$(lsblk -rno NAME "$DISK" | awk -v disk="$(basename "$DISK")" '$1 != disk {print $1; exit}')
+    SKIP_FORMAT=false
+
+    if [ -n "$PARTITION" ]; then
+        PARTITION="/dev/$PARTITION"
+        CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
+
+        if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
+            SKIP_FORMAT=true
+            msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION. $(translate "Adding directly without formatting.")"
+        else
+            whiptail --title "$(translate "Unsupported Filesystem")" --yesno "$(translate "The partition") $PARTITION $(translate "has an unsupported filesystem ($CURRENT_FS).\\nDo you want to format it?")" 10 70
             if [ $? -ne 0 ]; then
-                umount -f -l "$DISK" 2>/dev/null
-                if [ $? -ne 0 ]; then
-                    UNMOUNT_FAILED=true
-                fi
+                continue
             fi
         fi
-        
-        for PART in $MOUNTED_PARTITIONS; do
-
-            if [[ "$PART" == "${DISK##*/}"* ]]; then
-                PART_PATH="/dev/$PART"
-            else
-                PART_PATH="/dev/$PART"
-            fi
-            
-            umount -f "$PART_PATH" 2>/dev/null
-            if [ $? -ne 0 ]; then
-                umount -f -l "$PART_PATH" 2>/dev/null
-                if [ $? -ne 0 ]; then
-                    UNMOUNT_FAILED=true
-                fi
-            fi
-        done
-        
-        if [ "$UNMOUNT_FAILED" = true ]; then
-            whiptail --title "$(translate "Unmount Failed")" --msgbox "$(translate "Failed to unmount") $DISK $(translate "or its partitions. Cannot format.")\\n\\n$(translate "The disk may be in use by the system or other processes.")" 12 70
-            continue
-        fi
-    fi
-
-
-
-    echo -e "$(translate "Removing partition table to ensure clean formatting...")"
-    dd if=/dev/zero of="$DISK" bs=512 count=1 conv=notrunc
-    partprobe "$DISK"
-    sleep 2 
-
-    echo -e "$(translate "Formatting disk") $DISK_INFO $(translate "with") $FORMAT_TYPE..."
-    
-    case "$FORMAT_TYPE" in
-        "ext4")
-            mkfs.ext4 -F "$DISK" ;;
-        "xfs")
-            mkfs.xfs -f "$DISK" ;;
-        "btrfs")
-            mkfs.btrfs -f "$DISK" ;;
-    esac
-
-    if [ $? -ne 0 ]; then
-        whiptail --title "$(translate "Format Failed")" --msgbox "$(translate "Failed to format disk") $DISK_INFO $(translate "with") $FORMAT_TYPE.\\n\\n$(translate "The disk may be in use by the system or have hardware issues.")" 12 70
-        continue
     else
-        msg_ok "$(translate "Disk") $DISK_INFO $(translate "successfully formatted with") $FORMAT_TYPE."
 
-        partprobe "$DISK"
-        sleep 2
+        CURRENT_FS=$(lsblk -no FSTYPE "$DISK" | xargs)
+
+        if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
+            SKIP_FORMAT=true
+            PARTITION="$DISK"
+            msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $DISK. $(translate "Proceeding without partition.")"
+        else
+
+            whiptail --title "$(translate "No Valid Partitions")" --yesno "$(translate "The disk has no partitions and no valid filesystem. Do you want to create a new partition and format it?")" 10 70
+            if [ $? -ne 0 ]; then
+                continue
+            fi
+
+            echo -e "$(translate "Creating partition table and partition...")"
+            parted -s "$DISK" mklabel gpt
+            parted -s "$DISK" mkpart primary 0% 100%
+            sleep 2
+            partprobe "$DISK"
+            sleep 2
+
+            PARTITION=$(lsblk -rno NAME "$DISK" | awk -v disk="$(basename "$DISK")" '$1 != disk {print $1; exit}')
+            if [ -n "$PARTITION" ]; then
+                PARTITION="/dev/$PARTITION"
+            else
+                whiptail --title "$(translate "Partition Error")" --msgbox "$(translate "Failed to create partition on disk") $DISK_INFO." 8 70
+                continue
+            fi
+        fi
     fi
+
+
+
+
+
+    if [ "$SKIP_FORMAT" != true ]; then
+        CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
+        if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
+            SKIP_FORMAT=true
+            msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION. $(translate "Skipping format.")"
+        else
+
+            FORMAT_TYPE=$(whiptail --title "$(translate "Select Format Type")" --menu "$(translate "Select the filesystem type for") $DISK_INFO:" 15 60 6 \
+                "ext4" "$(translate "Extended Filesystem 4 (recommended)")" \
+                "xfs" "$(translate "XFS Filesystem")" \
+                "btrfs" "$(translate "Btrfs Filesystem")" 3>&1 1>&2 2>&3)
+
+            if [ -z "$FORMAT_TYPE" ]; then
+                whiptail --title "$(translate "Format Cancelled")" --msgbox "$(translate "Format operation cancelled. The disk will not be added.")" 8 60
+                continue
+            fi
+
+            whiptail --title "$(translate "WARNING")" --yesno "$(translate "WARNING: This operation will FORMAT the disk") $DISK_INFO $(translate "with") $FORMAT_TYPE.\\n\\n$(translate "ALL DATA ON THIS DISK WILL BE PERMANENTLY LOST!")\\n\\n$(translate "Are you sure you want to continue")" 15 70
+            if [ $? -ne 0 ]; then
+                whiptail --title "$(translate "Format Cancelled")" --msgbox "$(translate "Format operation cancelled. The disk will not be added.")" 8 60
+                continue
+            fi
+        fi
+    fi
+
+
+
+
+
+    if [ "$SKIP_FORMAT" != true ]; then
+        echo -e "$(translate "Formatting partition") $PARTITION $(translate "with") $FORMAT_TYPE..."
+
+        case "$FORMAT_TYPE" in
+            "ext4") mkfs.ext4 -F "$PARTITION" ;;
+            "xfs") mkfs.xfs -f "$PARTITION" ;;
+            "btrfs") mkfs.btrfs -f "$PARTITION" ;;
+        esac
+
+        if [ $? -ne 0 ]; then
+            whiptail --title "$(translate "Format Failed")" --msgbox "$(translate "Failed to format partition") $PARTITION $(translate "with") $FORMAT_TYPE.\\n\\n$(translate "The disk may be in use by the system or have hardware issues.")" 12 70
+            continue
+        else
+            msg_ok "$(translate "Partition") $PARTITION $(translate "successfully formatted with") $FORMAT_TYPE."
+            partprobe "$DISK"
+            sleep 2
+        fi
+    fi
+
+
+
 
     INDEX=0
     while pct config "$CTID" | grep -q "mp${INDEX}:"; do
         ((INDEX++))
     done
 
-##############################################################################
 
-    RESULT=$(pct set "$CTID" -mp${INDEX} "$DISK,mp=$MOUNT_POINT,backup=0" 2>&1)
 
-##############################################################################
+
+    ##############################################################################
+
+    RESULT=$(pct set "$CTID" -mp${INDEX} "$PARTITION,mp=$MOUNT_POINT,backup=0,ro=0,acl=1" 2>&1)
+
+    pct exec "$CTID" -- chmod -R 775 "$MOUNT_POINT"
+
+    ##############################################################################
+
+
+
 
     if [ $? -eq 0 ]; then
         MESSAGE="$(translate "The disk") $DISK_INFO $(translate "has been successfully added to CT") $CTID $(translate "as a mount point at") $MOUNT_POINT."
@@ -373,6 +462,8 @@ for DISK in $SELECTED; do
         ERROR_MESSAGES+="$(translate "Could not add disk") $DISK_INFO $(translate "to CT") $CTID.\\n$(translate "Error:") $RESULT\\n\\n"
     fi
 done
+
+
 
 msg_ok "$(translate "Disk processing completed.")"
 
