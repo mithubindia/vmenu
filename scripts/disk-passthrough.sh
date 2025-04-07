@@ -42,8 +42,6 @@ initialize_cache
 
 
 
-
-# Function to get detailed disk information
 get_disk_info() {
     local disk=$1
     MODEL=$(lsblk -dn -o MODEL "$disk" | xargs)
@@ -52,16 +50,13 @@ get_disk_info() {
 }
 
 
-
-
-# Display list of available VMs
 VM_LIST=$(qm list | awk 'NR>1 {print $1, $2}')
 if [ -z "$VM_LIST" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No VMs available in the system.")" 8 40
     exit 1
 fi
 
-# Select VM
+
 VMID=$(whiptail --title "$(translate "Select VM")" --menu "$(translate "Select the VM to which you want to add disks:")" 15 60 8 $VM_LIST 3>&1 1>&2 2>&3)
 
 if [ -z "$VMID" ]; then
@@ -72,8 +67,6 @@ fi
 VMID=$(echo "$VMID" | tr -d '"')
 
 
-
-#clear
 msg_ok "$(translate "VM selected successfully.")"
 
 
@@ -89,7 +82,6 @@ fi
 msg_info "$(translate "Detecting available disks...")"
 
 USED_DISKS=$(lsblk -n -o PKNAME,TYPE | grep 'lvm' | awk '{print "/dev/" $1}')
-
 MOUNTED_DISKS=$(lsblk -ln -o NAME,MOUNTPOINT | awk '$2!="" {print "/dev/" $1}')
 
 ZFS_DISKS=""
@@ -146,11 +138,11 @@ is_disk_in_use() {
 
 FREE_DISKS=()
 
-LVM_DEVICES=$(pvs --noheadings -o pv_name | xargs -n1 readlink -f | sort -u)
+LVM_DEVICES=$(pvs --noheadings -o pv_name 2> >(grep -v 'File descriptor .* leaked') | xargs -n1 readlink -f | sort -u)
 RAID_ACTIVE=$(grep -Po 'md\d+\s*:\s*active\s+raid[0-9]+' /proc/mdstat | awk '{print $1}' | sort -u)
 
 while read -r DISK; do
-    # Saltar ZVOLs
+
     [[ "$DISK" =~ /dev/zd ]] && continue
 
     INFO=($(get_disk_info "$DISK"))
@@ -178,24 +170,24 @@ while read -r DISK; do
         IS_MOUNTED=true
     fi
 
-    # RAID activo → no mostrar
+
     if $IS_RAID && grep -q "$DISK" <<< "$(cat /proc/mdstat)"; then
         if grep -q "active raid" /proc/mdstat; then
             SHOW_DISK=false
         fi
     fi
 
-    # ZFS no mostrar nunca
+
     if $IS_ZFS; then
         SHOW_DISK=false
     fi
 
-    # Si está montado → ocultar
+
     if $IS_MOUNTED; then
         SHOW_DISK=false
     fi
 
-    # Ya asignado a la VM actual
+
     if qm config "$VMID" | grep -q "$DISK"; then
         SHOW_DISK=false
     fi
@@ -209,13 +201,6 @@ while read -r DISK; do
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
 done < <(lsblk -dn -e 7,11 -o PATH)
-
-
-
-
-
-
-
 
 
 
@@ -275,9 +260,6 @@ SUCCESS_MESSAGES=""
 
 
 
-
-
-
 msg_info "$(translate "Processing selected disks...")"
 
 for DISK in $SELECTED; do
@@ -334,10 +316,6 @@ for DISK in $SELECTED; do
 done
 
 msg_ok "$(translate "Disk processing completed.")"
-
-
-
-
 
 
 
