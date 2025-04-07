@@ -171,6 +171,24 @@ while read -r DISK; do
     fi
 
 
+
+
+    USED_BY=""
+    while read -r ID NAME STATUS; do
+        if [[ "$ID" =~ ^[0-9]+$ ]]; then
+            if qm config "$ID" 2>/dev/null | grep -q "$DISK"; then
+                USED_BY="vm $ID"
+                break
+            elif pct config "$ID" 2>/dev/null | grep -q "$DISK"; then
+                USED_BY="ct $ID"
+                break
+            fi
+        fi
+    done < <(pvesh get /nodes/$(hostname)/qemu --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"' ; \
+             pvesh get /nodes/$(hostname)/lxc --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"')
+
+
+
     if $IS_RAID && grep -q "$DISK" <<< "$(cat /proc/mdstat)"; then
         if grep -q "active raid" /proc/mdstat; then
             SHOW_DISK=false
@@ -196,6 +214,7 @@ while read -r DISK; do
         [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ with partitions"
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
+        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
 
         DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
@@ -268,26 +287,38 @@ for DISK in $SELECTED; do
 
     ASSIGNED_TO=""
     RUNNING_VMS=""
+    RUNNING_CTS=""
 
+  
     while read -r VM_ID VM_NAME; do
         if [[ "$VM_ID" =~ ^[0-9]+$ ]] && qm config "$VM_ID" | grep -q "$DISK"; then
-            ASSIGNED_TO+="$VM_ID $VM_NAME\n"
+            ASSIGNED_TO+="VM $VM_ID $VM_NAME\n"
             VM_STATUS=$(qm status "$VM_ID" | awk '{print $2}')
             if [ "$VM_STATUS" == "running" ]; then
-                RUNNING_VMS+="$VM_ID $VM_NAME\n"
+                RUNNING_VMS+="VM $VM_ID $VM_NAME\n"
             fi
         fi
     done < <(qm list | awk 'NR>1 {print $1, $2}')
 
-    if [ -n "$RUNNING_VMS" ]; then
-        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running VM(s):")\\n$RUNNING_VMS\\n\\n"
+
+    while read -r CT_ID CT_NAME; do
+        if [[ "$CT_ID" =~ ^[0-9]+$ ]] && pct config "$CT_ID" | grep -q "$DISK"; then
+            ASSIGNED_TO+="CT $CT_ID $CT_NAME\n"
+            CT_STATUS=$(pct status "$CT_ID" | awk '{print $2}')
+            if [ "$CT_STATUS" == "running" ]; then
+                RUNNING_CTS+="CT $CT_ID $CT_NAME\n"
+            fi
+        fi
+    done < <(pct list | awk 'NR>1 {print $1, $2}')
+
+    if [ -n "$RUNNING_VMS" ] || [ -n "$RUNNING_CTS" ]; then
+        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running VM(s) or CT(s):")\\n$RUNNING_VMS$RUNNING_CTS\\n\\n"
         continue
     fi
 
-
     if [ -n "$ASSIGNED_TO" ]; then
         cleanup
-        whiptail --title "$(translate "Disk Already Assigned")" --yesno "$(translate "The disk") $DISK_INFO $(translate "is already assigned to the following VM(s):")\\n$ASSIGNED_TO\\n\\n$(translate "Do you want to continue anyway?")" 15 70
+        whiptail --title "$(translate "Disk Already Assigned")" --yesno "$(translate "The disk") $DISK_INFO $(translate "is already assigned to the following VM(s) or CT(s):")\\n$ASSIGNED_TO\\n\\n$(translate "Do you want to continue anyway?")" 15 70
         if [ $? -ne 0 ]; then
             sleep 1
             exec "$0"

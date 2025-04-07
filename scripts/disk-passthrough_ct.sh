@@ -84,28 +84,46 @@ CONF_FILE="/etc/pve/lxc/$CTID.conf"
 
 if grep -q '^unprivileged: 1' "$CONF_FILE"; then
     if whiptail --title "$(translate "Privileged Container")" \
-        --yesno "$(translate "The selected container is unprivileged. Direct device passthrough may not work. Do you want to convert it to a privileged container?")" 12 70; then
+        --yesno "$(translate "The selected container is unprivileged. A privileged container is required for direct device passthrough.")\\n\\n$(translate "Do you want to convert it to a privileged container now?")" 12 70; then
 
-        CT_STATUS=$(pct status "$CTID" | awk '{print $2}')
-        if [ "$CT_STATUS" == "running" ]; then
-            whiptail --title "$(translate "Warning")" \
-                --msgbox "$(translate "The container must be stopped before converting it to privileged. Please shut it down and try again.")" 10 60
+        msg_info "$(translate "Stopping container") $CTID..."
+        pct shutdown "$CTID" &
+        for i in {1..10}; do
+            sleep 1
+            if [ "$(pct status "$CTID" | awk '{print $2}')" != "running" ]; then
+                break
+            fi
+        done
+
+        if [ "$(pct status "$CTID" | awk '{print $2}')" == "running" ]; then
+            msg_error "$(translate "Failed to stop the container.")"
             exit 1
         fi
 
-        cp "$CONF_FILE" "$CONF_FILE.bak"
+        msg_ok "$(translate "Container stopped.")"
 
+        cp "$CONF_FILE" "$CONF_FILE.bak"
         sed -i '/^unprivileged: 1/d' "$CONF_FILE"
         echo "unprivileged: 0" >> "$CONF_FILE"
 
         msg_ok "$(translate "Container successfully converted to privileged.")"
 
+        msg_info "$(translate "Starting container") $CTID..."
+        pct start "$CTID"
+        sleep 2
+        if [ "$(pct status "$CTID" | awk '{print $2}')" != "running" ]; then
+            msg_error "$(translate "Failed to start the container.")"
+            exit 1
+        fi
+        msg_ok "$(translate "Container started successfully.")"
+
     else
         whiptail --title "$(translate "Aborted")" \
-            --msgbox "$(translate "Operation cancelled. Cannot continue with unprivileged container.")" 10 60
+            --msgbox "$(translate "Operation cancelled. Cannot continue with an unprivileged container.")" 10 60
         exit 1
     fi
 fi
+
 
 
 
@@ -199,6 +217,23 @@ while read -r DISK; do
         IS_MOUNTED=true
     fi
 
+
+        USED_BY=""
+    while read -r ID NAME STATUS; do
+        if [[ "$ID" =~ ^[0-9]+$ ]]; then
+            if qm config "$ID" 2>/dev/null | grep -q "$DISK"; then
+                USED_BY="vm $ID"
+                break
+            elif pct config "$ID" 2>/dev/null | grep -q "$DISK"; then
+                USED_BY="ct $ID"
+                break
+            fi
+        fi
+    done < <(pvesh get /nodes/$(hostname)/qemu --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"' ; \
+             pvesh get /nodes/$(hostname)/lxc --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"')
+
+
+
     if $IS_RAID && grep -q "$DISK" <<< "$(cat /proc/mdstat)"; then
         if grep -q "active raid" /proc/mdstat; then
             SHOW_DISK=false
@@ -221,6 +256,7 @@ while read -r DISK; do
         [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ with partitions"
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
+        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
 
         DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
@@ -257,7 +293,7 @@ SELECTED=$(whiptail --title "$(translate "Select Disks")" --radiolist \
     "$(translate "Select the disks you want to add:")" 20 $TOTAL_WIDTH 10 "${FREE_DISKS[@]}" 3>&1 1>&2 2>&3)
 
 if [ -z "$SELECTED" ]; then
-    whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks were selected.")" 10 $TOTAL_WIDTH
+    whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks were selected.")" 10 64
     clear
     exit 1
 fi
@@ -276,25 +312,38 @@ for DISK in $SELECTED; do
 
     ASSIGNED_TO=""
     RUNNING_CTS=""
+    RUNNING_VMS=""
 
+    # Comprobar CTs
     while read -r CT_ID CT_NAME; do
         if [[ "$CT_ID" =~ ^[0-9]+$ ]] && pct config "$CT_ID" | grep -q "$DISK"; then
-            ASSIGNED_TO+="$CT_ID $CT_NAME\n"
+            ASSIGNED_TO+="CT $CT_ID $CT_NAME\n"
             CT_STATUS=$(pct status "$CT_ID" | awk '{print $2}')
             if [ "$CT_STATUS" == "running" ]; then
-                RUNNING_CTS+="$CT_ID $CT_NAME\n"
+                RUNNING_CTS+="CT $CT_ID $CT_NAME\n"
             fi
         fi
     done < <(pct list | awk 'NR>1 {print $1, $3}')
 
-    if [ -n "$RUNNING_CTS" ]; then
-        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running CT(s):")\\n$RUNNING_CTS\\n\\n"
+    # Comprobar VMs
+    while read -r VM_ID VM_NAME; do
+        if [[ "$VM_ID" =~ ^[0-9]+$ ]] && qm config "$VM_ID" | grep -q "$DISK"; then
+            ASSIGNED_TO+="VM $VM_ID $VM_NAME\n"
+            VM_STATUS=$(qm status "$VM_ID" | awk '{print $2}')
+            if [ "$VM_STATUS" == "running" ]; then
+                RUNNING_VMS+="VM $VM_ID $VM_NAME\n"
+            fi
+        fi
+    done < <(qm list | awk 'NR>1 {print $1, $2}')
+
+    if [ -n "$RUNNING_CTS" ] || [ -n "$RUNNING_VMS" ]; then
+        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running VM(s) or CT(s):")\\n$RUNNING_CTS$RUNNING_VMS\\n\\n"
         continue
     fi
 
     if [ -n "$ASSIGNED_TO" ]; then
         cleanup
-        whiptail --title "$(translate "Disk Already Assigned")" --yesno "$(translate "The disk") $DISK_INFO $(translate "is already assigned to the following CT(s):")\\n$ASSIGNED_TO\\n\\n$(translate "Do you want to continue anyway?")" 15 70
+        whiptail --title "$(translate "Disk Already Assigned")" --yesno "$(translate "The disk") $DISK_INFO $(translate "is already assigned to the following VM(s) or CT(s):")\\n$ASSIGNED_TO\\n\\n$(translate "Do you want to continue anyway?")" 15 70
         if [ $? -ne 0 ]; then
             sleep 1
             exec "$0"
@@ -307,7 +356,7 @@ for DISK in $SELECTED; do
 
 
     if lsblk "$DISK" | grep -q "raid" || grep -q "${DISK##*/}" /proc/mdstat; then
-        whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "appears to be part of a") RAID. $(translate "For safety reasons, the system will not format it automatically.")\\n\\n$(translate "If you are sure you want to use this disk, please remove the") RAID metadata $(translate "or format it manually using external tools.")\\n\\n$(translate "After that, run this script again to add the disk.")" 18 70
+        whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "appears to be part of a") RAID. $(translate "For security reasons, the system cannot format it.")\\n\\n$(translate "If you are sure you want to use it, please remove the") RAID metadata $(translate "or format it manually using external tools.")\\n\\n$(translate "After that, run this script again to add it.")" 18 70
         exit
     fi
 
@@ -337,7 +386,7 @@ for DISK in $SELECTED; do
 
         if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
             SKIP_FORMAT=true
-            msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION. $(translate "Adding directly without formatting.")"
+            msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION."
         else
             whiptail --title "$(translate "Unsupported Filesystem")" --yesno "$(translate "The partition") $PARTITION $(translate "has an unsupported filesystem ($CURRENT_FS).\\nDo you want to format it?")" 10 70
             if [ $? -ne 0 ]; then
