@@ -232,7 +232,7 @@ SELECTED=$(whiptail --title "$(translate "Select Disks")" --checklist \
     "$(translate "Select the disks you want to add:")" 20 $TOTAL_WIDTH 10 "${FREE_DISKS[@]}" 3>&1 1>&2 2>&3)
 
 if [ -z "$SELECTED" ]; then
-    whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks were selected.")" 10 70
+    whiptail --title "$(translate "Error")" --msgbox "$(translate "No disks were selected.")" 10 64
     clear
     exit 1
 fi
