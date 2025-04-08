@@ -546,6 +546,23 @@ function select_passthrough_disk() {
           IS_MOUNTED=true
       fi
 
+      USED_BY=""
+      REAL_PATH=$(readlink -f "$DISK")
+      CONFIG_DATA=$(cat /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
+
+      if grep -Fq "$REAL_PATH" <<< "$CONFIG_DATA"; then
+          USED_BY="⚠ $(translate "In use")"
+      else
+          for SYMLINK in /dev/disk/by-id/*; do
+              if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
+                  if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
+                      USED_BY="⚠ $(translate "In use")"
+                      break
+                  fi
+              fi
+          done
+      fi
+
       if $IS_RAID && grep -q "$DISK" <<< "$(cat /proc/mdstat)" && grep -q "active raid" /proc/mdstat; then
           SHOW_DISK=false
       fi
@@ -555,9 +572,10 @@ function select_passthrough_disk() {
       fi
 
       if $SHOW_DISK; then
-          [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ with partitions"
-          [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
-          [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
+        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
+        [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ RAID"
+        [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
+        [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
           DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
           FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
       fi

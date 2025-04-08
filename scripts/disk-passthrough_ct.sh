@@ -221,15 +221,19 @@ while read -r DISK; do
     USED_BY=""
     REAL_PATH=$(readlink -f "$DISK")
     CONFIG_DATA=$(cat /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
-    
-    for SYMLINK in /dev/disk/by-id/*; do
-        if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
-            if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
-                USED_BY="$(translate "in use ct or vm")"
-                break
+
+    if grep -Fq "$REAL_PATH" <<< "$CONFIG_DATA"; then
+        USED_BY="⚠ $(translate "In use")"
+    else
+        for SYMLINK in /dev/disk/by-id/*; do
+            if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
+                if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
+                    USED_BY="⚠ $(translate "In use")"
+                    break
+                fi
             fi
-        fi
-    done
+        done
+    fi
 
 
 
@@ -257,7 +261,7 @@ while read -r DISK; do
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
 
-        DESCRIPTION=$(printf "%-24s %10s%s" "$MODEL" "$SIZE" "$LABEL")
+        DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
 done < <(lsblk -dn -e 7,11 -o PATH)
@@ -399,7 +403,7 @@ for DISK in $SELECTED; do
         if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
             SKIP_FORMAT=true
             PARTITION="$DISK"
-            msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $DISK. $(translate "Proceeding without partition.")"
+            msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $DISK.)"
         else
 
             whiptail --title "$(translate "No Valid Partitions")" --yesno "$(translate "The disk has no partitions and no valid filesystem. Do you want to create a new partition and format it?")" 10 70

@@ -175,15 +175,19 @@ while read -r DISK; do
     USED_BY=""
     REAL_PATH=$(readlink -f "$DISK")
     CONFIG_DATA=$(cat /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
-    
-    for SYMLINK in /dev/disk/by-id/*; do
-        if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
-            if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
-                USED_BY="$(translate "in use ct or vm")"
-                break
+
+    if grep -Fq "$REAL_PATH" <<< "$CONFIG_DATA"; then
+        USED_BY="⚠ $(translate "In use")"
+    else
+        for SYMLINK in /dev/disk/by-id/*; do
+            if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
+                if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
+                    USED_BY="⚠ $(translate "In use")"
+                    break
+                fi
             fi
-        fi
-    done
+        done
+    fi
 
 
 
@@ -215,7 +219,7 @@ while read -r DISK; do
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
 
-        DESCRIPTION=$(printf "%-24s %10s%s" "$MODEL" "$SIZE" "$LABEL")
+        DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
 done < <(lsblk -dn -e 7,11 -o PATH)
@@ -311,7 +315,7 @@ for DISK in $SELECTED; do
     done < <(pct list | awk 'NR>1 {print $1, $2}')
 
     if [ -n "$RUNNING_VMS" ] || [ -n "$RUNNING_CTS" ]; then
-        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is in use by the following running VM(s) or CT(s):")\\n$RUNNING_VMS$RUNNING_CTS\\n\\n"
+        ERROR_MESSAGES+="$(translate "The disk") $DISK_INFO $(translate "is currently in use by the following running VM(s) or CT(s):")\\n$RUNNING_VMS$RUNNING_CTS\\n\\n$(translate "You cannot add this disk while the VM or CT is running.")\\n$(translate "Please shut it down first and run this script again to add the disk.")\\n\\n"
         continue
     fi
 
