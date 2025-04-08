@@ -218,19 +218,18 @@ while read -r DISK; do
     fi
 
 
-        USED_BY=""
-    while read -r ID NAME STATUS; do
-        if [[ "$ID" =~ ^[0-9]+$ ]]; then
-            if qm config "$ID" 2>/dev/null | grep -q "$DISK"; then
-                USED_BY="vm $ID"
-                break
-            elif pct config "$ID" 2>/dev/null | grep -q "$DISK"; then
-                USED_BY="ct $ID"
+    USED_BY=""
+    REAL_PATH=$(readlink -f "$DISK")
+    CONFIG_DATA=$(cat /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
+    
+    for SYMLINK in /dev/disk/by-id/*; do
+        if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
+            if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
+                USED_BY="$(translate "in use ct or vm")"
                 break
             fi
         fi
-    done < <(pvesh get /nodes/$(hostname)/qemu --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"' ; \
-             pvesh get /nodes/$(hostname)/lxc --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"')
+    done
 
 
 
@@ -253,10 +252,10 @@ while read -r DISK; do
     fi
 
     if $SHOW_DISK; then
-        [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ with partitions"
+        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
+        [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ RAID"
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
-        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
 
         DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
