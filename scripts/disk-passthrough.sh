@@ -179,7 +179,7 @@ while read -r DISK; do
     for SYMLINK in /dev/disk/by-id/*; do
         if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
             if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
-                USED_BY="[in use ct or vm]"
+                USED_BY="$(translate "in use ct or vm")"
                 break
             fi
         fi
