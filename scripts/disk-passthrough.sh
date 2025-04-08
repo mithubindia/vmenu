@@ -209,7 +209,7 @@ while read -r DISK; do
     fi
 
 
-    if qm config "$VMID" | grep -q "$DISK"; then
+    if qm config "$VMID" | grep -vE '^\s*#|^description:' | grep -q "$DISK"; then
         SHOW_DISK=false
     fi
 
