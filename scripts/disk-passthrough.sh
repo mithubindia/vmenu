@@ -173,19 +173,10 @@ while read -r DISK; do
 
 
 
-    USED_BY=""
-    while read -r ID NAME STATUS; do
-        if [[ "$ID" =~ ^[0-9]+$ ]]; then
-            if qm config "$ID" 2>/dev/null | grep -q "$DISK"; then
-                USED_BY="vm $ID"
-                break
-            elif pct config "$ID" 2>/dev/null | grep -q "$DISK"; then
-                USED_BY="ct $ID"
-                break
-            fi
-        fi
-    done < <(pvesh get /nodes/$(hostname)/qemu --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"' ; \
-             pvesh get /nodes/$(hostname)/lxc --output-format=json | jq -r '.[] | "\(.vmid) \(.name) running"')
+	USED_BY=""
+	if grep -q "$DISK" <(find /etc/pve/qemu-server /etc/pve/lxc -type f -exec cat {} +); then
+		USED_BY="[in use ct or vm]"
+	fi
 
 
 
