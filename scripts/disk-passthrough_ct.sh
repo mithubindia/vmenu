@@ -288,8 +288,8 @@ msg_ok "$(translate "Available disks detected.")"
 MAX_WIDTH=$(printf "%s\n" "${FREE_DISKS[@]}" | awk '{print length}' | sort -nr | head -n1)
 TOTAL_WIDTH=$((MAX_WIDTH + 20))
 
-if [ $TOTAL_WIDTH -lt 70 ]; then
-    TOTAL_WIDTH=70
+if [ $TOTAL_WIDTH -lt 50 ]; then
+    TOTAL_WIDTH=50
 fi
 
 SELECTED=$(whiptail --title "$(translate "Select Disks")" --radiolist \

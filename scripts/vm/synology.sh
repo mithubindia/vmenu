@@ -591,7 +591,7 @@ function select_passthrough_disk() {
 
   MAX_WIDTH=$(printf "%s\n" "${FREE_DISKS[@]}" | awk '{print length}' | sort -nr | head -n1)
   TOTAL_WIDTH=$((MAX_WIDTH + 20)) 
-  [ $TOTAL_WIDTH -lt 70 ] && TOTAL_WIDTH=70
+  [ $TOTAL_WIDTH -lt 50 ] && TOTAL_WIDTH=50
   cleanup
   SELECTED_DISKS=$(whiptail --title "Select Disks" --checklist \
     "$(translate "Select the disks you want to use (use spacebar to select):")" 20 $TOTAL_WIDTH 10 \
