@@ -222,7 +222,6 @@ while read -r DISK; do
     REAL_PATH=$(readlink -f "$DISK")
     CONFIG_DATA=$(grep -vE '^\s*#' /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
 
-
     if grep -Fq "$REAL_PATH" <<< "$CONFIG_DATA"; then
         USED_BY="⚠ $(translate "In use")"
     else
@@ -252,7 +251,7 @@ while read -r DISK; do
         SHOW_DISK=false
     fi
 
-    if pct config "$CTID" | grep -q "$DISK"; then
+    if pct config "$CTID" | grep -vE '^\s*#|^description:' | grep -q "$DISK"; then
         SHOW_DISK=false
     fi
 
