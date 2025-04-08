@@ -210,10 +210,10 @@ while read -r DISK; do
     fi
 
     if $SHOW_DISK; then
+        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
         [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ RAID"
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
-        [[ -n "$USED_BY" ]] && LABEL+=" [$USED_BY]"
 
         DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
