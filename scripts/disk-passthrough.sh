@@ -173,11 +173,17 @@ while read -r DISK; do
 
 
     USED_BY=""
+    REAL_PATH=$(readlink -f "$DISK")
     CONFIG_DATA=$(cat /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
     
-    if grep -Fq "$DISK" <<< "$CONFIG_DATA"; then
-        USED_BY="[in use ct or vm]"
-    fi
+    for SYMLINK in /dev/disk/by-id/*; do
+        if [[ "$(readlink -f "$SYMLINK")" == "$REAL_PATH" ]]; then
+            if grep -Fq "$SYMLINK" <<< "$CONFIG_DATA"; then
+                USED_BY="[in use ct or vm]"
+                break
+            fi
+        fi
+    done
 
 
 
