@@ -172,11 +172,17 @@ while read -r DISK; do
 
 
 
+USED_BY=""
+REAL_PATH=$(readlink -f "$DISK")
 
-	USED_BY=""
-	if grep -q "$DISK" <(find /etc/pve/qemu-server /etc/pve/lxc -type f -exec cat {} +); then
-		USED_BY="[in use ct or vm]"
-	fi
+# Buscar el disco por su ruta real y por su symlink /by-id (si lo tiene)
+DISK_BYID=$(find /dev/disk/by-id/ -xtype l -exec bash -c 'readlink -f "$1"' _ {} \; | grep -F "$REAL_PATH" | head -n1)
+
+CONFIG_DUMP=$(find /etc/pve/qemu-server /etc/pve/lxc -type f -exec cat {} + 2>/dev/null)
+
+if grep -qF "$REAL_PATH" <<< "$CONFIG_DUMP" || [[ -n "$DISK_BYID" && "$CONFIG_DUMP" == *"$DISK_BYID"* ]]; then
+    USED_BY="[en uso]"
+fi
 
 
 
