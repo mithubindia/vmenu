@@ -174,7 +174,7 @@ while read -r DISK; do
 
     USED_BY=""
     REAL_PATH=$(readlink -f "$DISK")
-    CONFIG_DATA=$(cat /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
+    CONFIG_DATA=$(grep -vE '^\s*#' /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
 
     if grep -Fq "$REAL_PATH" <<< "$CONFIG_DATA"; then
         USED_BY="⚠ $(translate "In use")"
