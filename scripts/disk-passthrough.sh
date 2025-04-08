@@ -215,7 +215,7 @@ while read -r DISK; do
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
 
-        DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
+        DESCRIPTION=$(printf "%-24s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
 done < <(lsblk -dn -e 7,11 -o PATH)
