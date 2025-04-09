@@ -87,7 +87,7 @@ if grep -q '^unprivileged: 1' "$CONF_FILE"; then
         --yesno "$(translate "The selected container is unprivileged. A privileged container is required for direct device passthrough.")\\n\\n$(translate "Do you want to convert it to a privileged container now?")" 12 70; then
 
         msg_info "$(translate "Stopping container") $CTID..."
-        pct shutdown "$CTID" &
+        pct shutdown "$CTID" &>/dev/null
         for i in {1..10}; do
             sleep 1
             if [ "$(pct status "$CTID" | awk '{print $2}')" != "running" ]; then
@@ -109,7 +109,7 @@ if grep -q '^unprivileged: 1' "$CONF_FILE"; then
         msg_ok "$(translate "Container successfully converted to privileged.")"
 
         msg_info "$(translate "Starting container") $CTID..."
-        pct start "$CTID"
+        pct start "$CTID" &>/dev/null
         sleep 2
         if [ "$(pct status "$CTID" | awk '{print $2}')" != "running" ]; then
             msg_error "$(translate "Failed to start the container.")"
@@ -403,7 +403,7 @@ for DISK in $SELECTED; do
         if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
             SKIP_FORMAT=true
             PARTITION="$DISK"
-            msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $DISK.)"
+            msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $DISK."
         else
 
             whiptail --title "$(translate "No Valid Partitions")" --yesno "$(translate "The disk has no partitions and no valid filesystem. Do you want to create a new partition and format it?")" 10 70
