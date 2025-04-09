@@ -39,11 +39,11 @@ while true; do
     case $OPTION in
         1)
             msg_info2 "$(translate "Running script: Add Disk Passthrough to a VM")..."
-            bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough-vm.sh")
+            bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough.sh")
             ;;
         2)
             msg_info2 "$(translate "Running script: Add Disk Passthrough to a CT")..."
-            bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough.sh")
+            bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough_ct.sh")
             ;;
         3)
             msg_info2 "$(translate "Running script: Import Disk Image to a VM")..."
