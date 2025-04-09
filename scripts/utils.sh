@@ -68,7 +68,7 @@ BOLD="\033[1m"
 BFR="\\r\\033[K"
 HOLD="-"
 BOR=" | "
-CM="${GN}✓${CL}"
+CM="${GN}✓ ${CL}"
 TAB="    "   
 
 

@@ -51,7 +51,7 @@ if [ -z "$CT_LIST" ]; then
 fi
 
 
-CTID=$(whiptail --title "$(translate "Select CT")" --menu "$(translate "Select the CT to which you want to add disks:")" 15 60 8 $CT_LIST 3>&1 1>&2 2>&3)
+CTID=$(whiptail --title "$(translate "Select CT for destination disk")" --menu "$(translate "Select the CT to which you want to add disks:")" 15 60 8 $CT_LIST 3>&1 1>&2 2>&3)
 
 if [ -z "$CTID" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No CT was selected.")" 8 40
