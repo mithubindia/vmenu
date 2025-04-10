@@ -73,7 +73,7 @@ select_origin_path() {
                 [[ -d "$dir" ]] && OPTIONS+=("$dir" "")
             done
 
-            ORIGIN=$(whiptail --title "$(translate "Select Folder")" --menu "$(translate "Select the folder to mount:")" 20 60 10 "${OPTIONS[@]}" 3>&1 1>&2 2>&3)
+            ORIGIN=$(whiptail --title "$(translate "Select Host Folder")" --menu "$(translate "Select the folder to mount:")" 20 60 10 "${OPTIONS[@]}" 3>&1 1>&2 2>&3)
             [[ -z "$ORIGIN" ]] && return 1
             ;;
 
@@ -102,7 +102,7 @@ select_origin_path || exit 0
 CT_NAME=$(pct config "$CTID" | awk -F: '/hostname/ {print $2}' | xargs)
 DEFAULT_MOUNT_POINT="/mnt/host_share"
 
-MOUNT_POINT=$(whiptail --title "$(translate "Mount Point")" \
+MOUNT_POINT=$(whiptail --title "$(translate "Mount Point to CT")" \
 --inputbox "$(translate "Enter the mount point inside the CT (e.g., /mnt/host_share):")" \
 10 70 "$DEFAULT_MOUNT_POINT" 3>&1 1>&2 2>&3)
 
