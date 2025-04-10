@@ -124,6 +124,8 @@ while read -r DISK; do
 
 done < <(lsblk -dn -e 7,11 -o PATH)
 
+cleanup
+
 if [ ${#FREE_DISKS[@]} -eq 0 ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No available disks found on the host.")" 8 50
     clear
