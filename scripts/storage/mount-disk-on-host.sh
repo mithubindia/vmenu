@@ -335,7 +335,11 @@ if [ $? -eq 0 ]; then
     chmod 775 "$MOUNT_POINT"
     whiptail --title "$(translate "Success")" --msgbox "$(translate "The disk has been successfully mounted at") $MOUNT_POINT" 8 60
     msg_ok "$(translate "Disk mounted at") $MOUNT_POINT"
+    msg_success "$(translate "Press Enter to return to menu...")"
+    read -r
 else
     whiptail --title "$(translate "Mount Error")" --msgbox "$(translate "Failed to mount the disk at") $MOUNT_POINT" 8 60
+    msg_success "$(translate "Press Enter to return to menu...")"
+    read -r
     exit 1
 fi
