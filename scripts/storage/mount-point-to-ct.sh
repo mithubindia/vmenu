@@ -142,4 +142,7 @@ else
     exit 1
 fi
 
+msg_success "$(translate "Press Enter to return to menu...")"
+read -r
+
 exit 0
