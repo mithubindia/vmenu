@@ -331,8 +331,16 @@ mount "$MOUNT_POINT" 2> >(grep -v "systemd still uses")
 
 
 if [ $? -eq 0 ]; then
-    chown root:root "$MOUNT_POINT"
-    chmod 775 "$MOUNT_POINT"
+    if ! getent group sharedfiles >/dev/null; then
+        groupadd sharedfiles
+        msg_ok "$(translate "Group 'sharedfiles' created")"
+    else
+        msg_ok "$(translate "Group 'sharedfiles' already exists")"
+    fi
+
+    chown root:sharedfiles "$MOUNT_POINT"
+    chmod 2775 "$MOUNT_POINT"
+
     whiptail --title "$(translate "Success")" --msgbox "$(translate "The disk has been successfully mounted at") $MOUNT_POINT" 8 60
     msg_ok "$(translate "Disk mounted at") $MOUNT_POINT"
     msg_success "$(translate "Press Enter to return to menu...")"
