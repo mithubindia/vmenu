@@ -27,10 +27,6 @@ if [[ ${#CT_LIST[@]} -eq 0 ]]; then
     exit 0
 fi
 
-
-
-
-
 CT_OPTIONS=()
 for entry in "${CT_LIST[@]}"; do
     ID="${entry%%:*}"
@@ -40,9 +36,6 @@ done
 
 CTID=$(whiptail --title "$(translate "Select CT")" --menu "$(translate "Select the container:")" 20 60 10 "${CT_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 [[ -z "$CTID" ]] && exit 0
-
-
-
 
 CT_STATUS=$(pct status "$CTID" | awk '{print $2}')
 if [ "$CT_STATUS" != "running" ]; then
@@ -56,9 +49,7 @@ if [ "$CT_STATUS" != "running" ]; then
     msg_ok "$(translate "CT started successfully.")"
 fi
 
-
 #######################################################
-
 
 select_origin_path() {
     METHOD=$(whiptail --title "$(translate "Select Host Folder")" --menu "$(translate "How do you want to select the host folder to mount?")" 15 60 5 \
@@ -88,16 +79,28 @@ select_origin_path() {
         return 1
     fi
 
+    # Preparar permisos en el host para uso compartido
+    SHARE_GID=999
+    if ! getent group sharedfiles >/dev/null; then
+        groupadd -g "$SHARE_GID" sharedfiles
+        msg_ok "$(translate "Group 'sharedfiles' created in the host with GID $SHARE_GID")"
+    else
+        msg_ok "$(translate "Group 'sharedfiles' already exists in the host")"
+    fi
+
+    chown root:sharedfiles "$ORIGIN"
+    chmod 2775 "$ORIGIN"
+    setfacl -d -m g:sharedfiles:rwx "$ORIGIN"
+    setfacl -m g:sharedfiles:rwx "$ORIGIN"
+
+    msg_ok "$(translate "Host folder prepared with shared group and permissions.")"
+
     return 0
 }
 
 select_origin_path || exit 0
 
-
-
 #######################################################
-
-
 
 CT_NAME=$(pct config "$CTID" | awk -F: '/hostname/ {print $2}' | xargs)
 DEFAULT_MOUNT_POINT="/mnt/host_share"
@@ -111,7 +114,6 @@ if [[ -z "$MOUNT_POINT" ]]; then
     exit 1
 fi
 
-
 if ! pct exec "$CTID" -- test -d "$MOUNT_POINT"; then
     if whiptail --yesno "$(translate "Directory does not exist in the CT.")\n\n$MOUNT_POINT\n\n$(translate "Do you want to create it?")" 12 70 --title "$(translate "Create Directory")"; then
         pct exec "$CTID" -- mkdir -p "$MOUNT_POINT"
@@ -122,15 +124,11 @@ if ! pct exec "$CTID" -- test -d "$MOUNT_POINT"; then
     fi
 fi
 
-
 INDEX=0
 while pct config "$CTID" | grep -q "mp${INDEX}:"; do
     ((INDEX++))
-
-
     [[ $INDEX -ge 100 ]] && msg_error "Too many mount points." && exit 1
 done
-
 
 msg_info "$(translate "Mounting folder from host to CT...")"
 RESULT=$(pct set "$CTID" -mp${INDEX} "$ORIGIN,mp=$MOUNT_POINT,backup=0,ro=0,acl=1" 2>&1)
