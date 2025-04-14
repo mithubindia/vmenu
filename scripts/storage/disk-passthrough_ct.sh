@@ -317,7 +317,7 @@ for DISK in $SELECTED; do
     RUNNING_CTS=""
     RUNNING_VMS=""
 
-    # Comprobar CTs
+
     while read -r CT_ID CT_NAME; do
         if [[ "$CT_ID" =~ ^[0-9]+$ ]] && pct config "$CT_ID" | grep -q "$DISK"; then
             ASSIGNED_TO+="CT $CT_ID $CT_NAME\n"
@@ -328,7 +328,7 @@ for DISK in $SELECTED; do
         fi
     done < <(pct list | awk 'NR>1 {print $1, $3}')
 
-    # Comprobar VMs
+
     while read -r VM_ID VM_NAME; do
         if [[ "$VM_ID" =~ ^[0-9]+$ ]] && qm config "$VM_ID" | grep -q "$DISK"; then
             ASSIGNED_TO+="VM $VM_ID $VM_NAME\n"
@@ -495,7 +495,7 @@ for DISK in $SELECTED; do
 
     RESULT=$(pct set "$CTID" -mp${INDEX} "$PARTITION,mp=$MOUNT_POINT,backup=0,ro=0,acl=1" 2>&1)
 
-    pct exec "$CTID" -- chmod -R 775 "$MOUNT_POINT"
+    pct exec "$CTID" -- chmod -R 777 "$MOUNT_POINT"
 
     ##############################################################################
 
