@@ -8,18 +8,26 @@
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.0
 # Last Updated: 28/01/2025
-# Description : Select and format unused physical disks
+# ==========================================================
+# Description : Select and format physical disks
 # ==========================================================
 
+
+# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
+VENV_PATH="/opt/googletrans-env"
 
 if [[ -f "$UTILS_FILE" ]]; then
     source "$UTILS_FILE"
 fi
 load_language
 initialize_cache
+# ==========================================================
+
+
+
 
 get_disk_info() {
     local disk=$1
