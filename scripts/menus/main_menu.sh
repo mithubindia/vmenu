@@ -33,7 +33,7 @@ while true; do
             "1" "$(translate "Settings post-install Proxmox")" \
             "2" "$(translate "Hardware: GPUs and Coral-TPU")" \
             "3" "$(translate "Create VM from template or script")" \
-            "4" "$(translate "Hard Drives, Disk Images, and Storage")" \
+            "4" "$(translate "Disk and Storage Manager")" \
             "5" "$(translate "Essential Proxmox VE Helper-Scripts")" \
             "6" "$(translate "Network")" \
             "7" "$(translate "Settings")" \
