@@ -6,8 +6,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
+# Version     : 1.1
+# Last Updated: 15/04/2025
 # ==========================================================
 
 
@@ -25,31 +25,32 @@ initialize_cache
 # ==========================================================
 
 
-    while true; do
-        OPTION=$(whiptail --title "$(translate "Disk and Storage Menu")" --menu "$(translate "Select an option:")" 20 70 8 \
-            "1" "$(translate "Add Disk Passthrough to a VM")" \
-            "2" "$(translate "Import Disk Image to a VM")" \
-            "3" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
+while true; do
+    OPTION=$(whiptail --title "$(translate "Disk and Storage Manager Menu")" --menu "$(translate "Select an option:")" 20 70 10 \
+        "1" "$(translate "Add Disk Passthrough to a VM")" \
+        "2" "$(translate "Add Disk") Passthrough $(translate "to a CT")" \
+        "3" "$(translate "Import Disk Image to a VM")" \
+        "4" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
-        case $OPTION in
-            1)
-                msg_info2 "$(translate "Running script:") $(translate "Disk") Passthrough..."
-                bash <(curl -s "$REPO_URL/scripts/disk-passthrough.sh")
-                if [ $? -ne 0 ]; then
-                    msg_warn "$(translate "Operation cancelled.")"
-                    sleep 2
-                fi
-                ;;
-            2)
-                msg_info2 "$(translate "Running script:") $(translate "Import Disk Image")..."
-                bash <(curl -s "$REPO_URL/scripts/import-disk-image.sh")
-                if [ $? -ne 0 ]; then
-                    msg_warn "$(translate "Operation cancelled.")"
-                    sleep 2
-                fi
-                ;;
-                
-            3) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
-            *) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
-        esac
-    done
+    case $OPTION in
+        1)
+            msg_info2 "$(translate "Running script: Add Disk Passthrough to a VM")..."
+            bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough.sh")
+            ;;
+        2)
+            msg_info2 "$(translate "Running script: Add Disk Passthrough to a CT")..."
+            bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough_ct.sh")
+            ;;
+        3)
+            msg_info2 "$(translate "Running script: Import Disk Image to a VM")..."
+            bash <(curl -s "$REPO_URL/scripts/storage/import-disk-image.sh")
+            ;;
+        4)
+            exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
+            ;;
+        *)
+            exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
+            ;;
+    esac
+done
+

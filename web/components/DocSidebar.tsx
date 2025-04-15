@@ -53,6 +53,7 @@ const sidebarItems: MenuItem[] = [
     title: "Storage",
     submenu: [
       { title: "Disk Passthrough to a VM", href: "/docs/storage/disk-passthrough-vm" },
+      { title: "Disk Passthrough to a CT", href: "/docs/storage/disk-passthrough-ct" },
       { title: "Import Disk Image to a VM", href: "/docs/storage/import-disk-image-vm" },
     ],
   },
