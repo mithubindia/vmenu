@@ -528,4 +528,7 @@ if [ -n "$ERROR_MESSAGES" ]; then
     whiptail --title "$(translate "Warnings and Errors")" --msgbox "$ERROR_MESSAGES" 16 70
 fi
 
+msg_success "$(translate "Press Enter to return to menu...")"
+read -r
+
 exit 0
