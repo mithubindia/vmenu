@@ -49,8 +49,18 @@ export default function Footer() {
 
         {/* Copyright - Center */}
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-        <p>ProxMenux, an open-source and collaborative project by MacRimi.</p>
-        </div>
+        <p>
+          ProxMenux, an open-source and collaborative project by{' '}
+          <a
+            href="https://github.com/MacRimi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:underline"
+          >
+            MacRimi
+          </a>.
+        </p>
+      </div>
       </div>
     </footer>
   )
