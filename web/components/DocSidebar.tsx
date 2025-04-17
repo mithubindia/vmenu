@@ -16,7 +16,7 @@ interface MenuItem {
   submenu?: SubMenuItem[]
 }
 
-const sidebarItems: MenuItem[] = [
+export const sidebarItems: MenuItem[] = [
   { title: "Introduction", href: "/docs/introduction" },
   { title: "Installation", href: "/docs/installation" },
   {
