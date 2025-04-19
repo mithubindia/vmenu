@@ -55,7 +55,7 @@ export default function Footer() {
         <p>
           ProxMenux, an open-source and collaborative project by{' '}
           <a
-            href="https://github.com/MacRimi"
+            href="https://macrimi.pro"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:underline"
