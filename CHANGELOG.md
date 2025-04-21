@@ -1,30 +1,20 @@
+## 2025-04-14
+
+### Added
+- **New Script: Disk Passthrough to a CT**
+Introduced a new script that enables assigning a dedicated physical disk to a container (CT) in Proxmox VE.
+This utility lists available physical disks (excluding system and mounted disks), allows the user to select a container and one disk, and then formats or reuses the disk before mounting it inside the CT at a specified path.
+It supports detection of existing filesystems and ensures permissions are properly configured. Ideal for use cases such as Samba, Nextcloud, or video surveillance containers.
+
+### Improved  
+- Visual Identification of Disks for Passthrough to VMs
+Enhanced the disk detection logic in the Disk Passthrough to a VM script by including visual indicators and metadata.
+Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it easier to recognize their current status at a glance. This helps prevent selection mistakes and improves clarity for the user.
+
 ## 2025-03-24  
 ### Improved  
 - Improved the logic for detecting physical disks in the **Disk Passthrough to a VM** script. Previously, the script would display disks that were already mounted in the system on some setups. This update ensures that only unmounted disks are shown in Proxmox, preventing confusion and potential conflicts.  
-```bash
-get_disk_info() {
-    local disk=$1
-    MODEL=$(lsblk -dn -o MODEL "$disk" | xargs)
-    SIZE=$(lsblk -dn -o SIZE "$disk" | xargs)
-    echo "$MODEL" "$SIZE"
-}
 
-
-FREE_DISKS=() 
-
-while read -r DISK; do
-    if ! echo "$USED_DISKS" | grep -q "$DISK" && \
-       ! echo "$MOUNTED_DISKS" | grep -q "$DISK" && \
-       ! qm config "$VMID" | grep -q "$DISK"; then
-        
-        INFO=($(get_disk_info "$DISK"))
-        MODEL="${INFO[@]::${#INFO[@]}-1}"
-        SIZE="${INFO[-1]}"
-        
-    fi
-done < <(lsblk -dn -e 7,11 -o PATH)
-
-```
 - This improvement ensures that disks already mounted or assigned to other VMs are excluded from the list of available disks, providing a more accurate and reliable selection process.
 
 ## [1.1.1] - 2025-03-21
