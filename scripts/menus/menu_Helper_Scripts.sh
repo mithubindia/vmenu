@@ -37,6 +37,30 @@ initialize_cache
 BASE_URL="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc"
 BASE_URL2="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main"
 
+download_script() {
+    local url="$1"
+    local fallback_pve="${url/misc/tools\/pve}"
+    local fallback_addon="${url/misc/tools\/addon}"
+    local fallback_copydata="${url/misc/tools\/copy-data}"
+
+    if curl --silent --head --fail "$url" >/dev/null; then
+        bash <(curl -s "$url")
+    elif curl --silent --head --fail "$fallback_pve" >/dev/null; then
+        bash <(curl -s "$fallback_pve")
+    elif curl --silent --head --fail "$fallback_addon" >/dev/null; then
+        bash <(curl -s "$fallback_addon")
+    elif curl --silent --head --fail "$fallback_copydata" >/dev/null; then
+        bash <(curl -s "$fallback_copydata")
+    else
+        msg_error "$(translate 'Error: Failed to download the script.')\033[0m"
+        msg_error "\n$(translate 'Tried URLs:')\n- $url\n- $fallback_pve\n- $fallback_addons\n- $fallback_copydata\n"
+
+        msg_success "$(translate "Press Enter to return to menu...")"
+        read -r
+    fi
+}
+
+
 
 
 # Array with script names, URLs, categories, and descriptions
@@ -134,7 +158,7 @@ show_menu() {
                             --yesno "$selected_description" 20 78; then
                     msg_info2 "$(translate "Executing script:") $script_selection"
                     sleep 2
-                    bash <(curl -s "$selected_url")
+                    download_script "$selected_url"
                     msg_ok "$(translate "Script completed.")"
                     msg_success "$(translate "Press Enter to return to the main menu...")"
                     read -r
