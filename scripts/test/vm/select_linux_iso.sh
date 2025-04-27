@@ -1,20 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# ==============================================================
+# ProxMenux - Linux ISO Selector (No download yet)
+# ==============================================================
+
+BASE_DIR="/usr/local/share/proxmenux"
+UTILS_FILE="$BASE_DIR/utils.sh"
+VENV_PATH="/opt/googletrans-env"
+
+if [[ -f "$UTILS_FILE" ]]; then
+    source "$UTILS_FILE"
+fi
+
+load_language
+initialize_cache
+
+
+
+function select_linux_iso() {
 
 ISO_DIR="/var/lib/vz/template/iso"
 mkdir -p "$ISO_DIR"
 
-# Comprobar dependencias necesarias
-REQUIRED_PACKAGES=(curl wget whiptail)
-MISSING=""
-for pkg in "${REQUIRED_PACKAGES[@]}"; do
-    dpkg -s $pkg &>/dev/null || MISSING+="$pkg "
-done
-if [ -n "$MISSING" ]; then
-    echo "Instalando dependencias necesarias: $MISSING"
-    apt update && apt install -y $MISSING
-fi
 
-# Menú combinado único con fuente de origen
 DISTROS=(
   "Ubuntu 22.04 LTS Desktop|Desktop|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.4-desktop-amd64.iso"
   "Ubuntu 20.04 LTS Desktop|Desktop|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-desktop-amd64.iso"
@@ -42,44 +50,37 @@ DISTROS=(
   "Ubuntu 24.10 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2410-vm.sh"
 )
 
-# Construir menú con alineación perfecta usando printf
 MENU_OPTIONS=()
 INDEX=0
 for entry in "${DISTROS[@]}"; do
   IFS='|' read -r NAME TYPE SOURCE URL <<< "$entry"
-  LINE=$(printf "%-35s │ %-12s │ %s" "$NAME" "$TYPE" "$SOURCE")
+  LINE=$(printf "%-35s │ %-10s │ %s" "$NAME" "$TYPE" "$SOURCE")
   MENU_OPTIONS+=("$INDEX" "$LINE")
   URLS[$INDEX]="$entry"
   ((INDEX++))
 done
 
-HEADER="%-41s │ %-12s │ %s"
+HEADER="%-41s │ %-10s │ %s"
 HEADER_TEXT=$(printf "$HEADER" "     Versión" "Tipo" "Fuente")
 
-CHOICE=$(whiptail --title "Instalación Linux" \
-  --menu "Selecciona la distribución que deseas instalar o descargar:
-
-$HEADER_TEXT" 20 80 10 \
+CHOICE=$(whiptail --title "ProxMenux - Linux ISO" \
+  --menu "$(translate "Select the Linux distribution to install"):\n\n$HEADER_TEXT" 20 80 10 \
   "${MENU_OPTIONS[@]}" \
   3>&1 1>&2 2>&3)
 
-[ $? -ne 0 ] && echo "Cancelado." && exit 1
+[[ $? -ne 0 ]] && echo "Cancelled" && exit 1
 
 SELECTED="${URLS[$CHOICE]}"
-IFS='|' read -r NAME TYPE SOURCE URL <<< "$SELECTED"
+IFS='|' read -r ISO_NAME ISO_TYPE SOURCE ISO_URL <<< "$SELECTED"
+ISO_FILE=$(basename "$ISO_URL")
+ISO_PATH="$ISO_DIR/$ISO_FILE"
 
-if [[ "$TYPE" == "Automatizado" ]]; then
-  echo "Ejecutando script remoto para: $NAME"
-  bash -c "$(curl -fsSL $URL)"
-else
-  FILENAME=$(basename "$URL")
-  if [ -f "$ISO_DIR/$FILENAME" ]; then
-    echo "ℹ️ La imagen ya existe: $ISO_DIR/$FILENAME"
-  else
-    echo "⬇️ Descargando $NAME..."
- #   wget -O "$ISO_DIR/$FILENAME" "$URL"
-     wget -q --show-progress -O "$ISO_DIR/$FILENAME" "$URL"
- 
-  fi
-  echo "✅ Imagen lista: $ISO_DIR/$FILENAME"
-fi
+# Exportar para que los use el script principal
+export ISO_NAME
+export ISO_TYPE
+export ISO_URL
+export ISO_FILE
+export ISO_PATH
+
+
+}
