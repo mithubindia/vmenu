@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+
+# ==============================================================
+# ProxMenux - Linux Installer Entry
+# ==============================================================
+
+# Configuración base y entorno
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+BASE_DIR="/usr/local/share/proxmenux"
+UTILS_FILE="$BASE_DIR/utils.sh"
+VENV_PATH="/opt/googletrans-env"
+ISO_DIR="/var/lib/vz/template/iso"
+
+[[ -f "$UTILS_FILE" ]] && source "$UTILS_FILE"
+load_language
+initialize_cache
+
+# ==============================================================
+# FUNCIONES PRINCIPALES
+# ==============================================================
+
+function select_linux_iso() {
+  local EXIT_FLAG="no"
+
+  while [[ "$EXIT_FLAG" != "yes" ]]; do
+    CHOICE=$(dialog --backtitle "ProxMenux" \
+      --title "$(translate "Linux Installation Options")" \
+      --menu "$(translate "Select the type of Linux installation:")" 15 70 6 \
+      1 "$(translate "Install from ISO (Ubuntu, Debian, Fedora...)")" \
+      2 "$(translate "Install with Cloud-Init script (Automated)")" \
+      3 "$(translate "Use custom ISO from storage")" \
+      4 "$(translate "Back to Main Menu")" \
+      3>&1 1>&2 2>&3)
+
+    if [[ $? -ne 0 ]] || [[ "$CHOICE" == "4" ]]; then
+      unset ISO_NAME ISO_TYPE ISO_URL ISO_FILE ISO_PATH HN
+      return 1
+    fi
+
+    case "$CHOICE" in
+      1)
+        select_linux_iso_official && EXIT_FLAG="yes"
+        ;;
+      2)
+        select_linux_cloudinit
+        ;;
+      3)
+        select_linux_custom_iso && EXIT_FLAG="yes"
+        ;;
+      4)
+        return 1
+        ;;
+    esac
+  done
+
+  return 0
+}
+
+
+
+
+function select_linux_iso_official() {
+  DISTROS=(
+    "Ubuntu 22.04|Desktop|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-desktop-amd64.iso"
+    "Ubuntu 20.04|Desktop|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-desktop-amd64.iso"
+    "Ubuntu 22.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso"
+    "Ubuntu 20.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
+    "Debian 12|Desktop|ProxMenux|https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso"
+    "Debian 11|Desktop|ProxMenux|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-dvd/debian-11.11.0-amd64-DVD-1.iso"
+    "Debian 12 Netinst|CLI|ProxMenux|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.10.0-amd64-netinst.iso"
+    "Debian 11 Netinst|CLI|ProxMenux|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso"
+    "Fedora Workstation 42|Desktop|ProxMenux|https://download.fedoraproject.org/pub/fedora/linux/releases/42/Workstation/x86_64/iso/Fedora-Workstation-Live-42-1.1.x86_64.iso"
+    "Rocky Linux 9.5|Desktop|ProxMenux|https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.5-x86_64-dvd.iso"
+    "Linux Mint 22.1|Desktop|ProxMenux|https://mirrors.edge.kernel.org/linuxmint/stable/22.1/linuxmint-22.1-cinnamon-64bit.iso"
+    "openSUSE Leap 15.6|Desktop|ProxMenux|https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso"
+    "Alpine Linux 3.21|Desktop|ProxMenux|https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.3-x86_64.iso"
+    "Kali Linux 2025.1|Desktop|ProxMenux|https://cdimage.kali.org/kali-2025.1c/kali-linux-2025.1c-qemu-amd64.7z"
+    "Manjaro 25.0|Desktop|ProxMenux|https://download.manjaro.org/gnome/25.0.0/manjaro-gnome-25.0.0-250414-linux612.iso"
+  )
+
+  MENU_OPTIONS=()
+  INDEX=0
+  for entry in "${DISTROS[@]}"; do
+    IFS='|' read -r NAME TYPE SOURCE URL <<< "$entry"
+    LINE=$(printf "%-40s │ %-10s │ %s" "$NAME" "$TYPE" "$SOURCE")
+    MENU_OPTIONS+=("$INDEX" "$LINE")
+    URLS[$INDEX]="$entry"
+    ((INDEX++))
+  done
+
+  HEADER="%-42s │ %-10s │ %s"
+  HEADER_TEXT=$(printf "$HEADER" "Distribution" "Type" "Source")
+
+  CHOICE=$(dialog --backtitle "ProxMenux" \
+    --title "$(translate "Official Linux Distributions")" \
+    --menu "$(translate "Select the Linux distribution to install:")\n\n$HEADER_TEXT" 20 90 12 \
+    "${MENU_OPTIONS[@]}" \
+    3>&1 1>&2 2>&3)
+
+  [[ $? -ne 0 ]] && return 1
+
+  SELECTED="${URLS[$CHOICE]}"
+  IFS='|' read -r ISO_NAME ISO_TYPE SOURCE ISO_URL <<< "$SELECTED"
+  ISO_FILE=$(basename "$ISO_URL")
+  ISO_PATH="$ISO_DIR/$ISO_FILE"
+
+  HN=$(echo "$ISO_NAME" | \
+    sed 's/ (.*)//' | \
+    tr -cs '[:alnum:]' '-' | \
+    sed 's/^-*//' | \
+    sed 's/-*$//' | \
+    cut -c1-63)
+              
+  export ISO_NAME ISO_TYPE ISO_URL ISO_FILE ISO_PATH HN
+  return 0
+}
+
+
+function select_linux_cloudinit() {
+  local CLOUDINIT_OPTIONS=(
+    "1" "Arch Linux   (Cloud-Init automated) │ Helper Scripts"
+    "2" "Debian 12    (Cloud-Init automated) │ Helper Scripts"
+    "3" "Ubuntu 22.04 (Cloud-Init automated) │ Helper Scripts"
+    "4" "Ubuntu 24.04 (Cloud-Init automated) │ Helper Scripts"
+    "5" "Ubuntu 24.10 (Cloud-Init automated) │ Helper Scripts"
+    "6" "$(translate "Return to Main Menu")"
+  )
+
+  local script_selection
+  script_selection=$(dialog --backtitle "ProxMenux" --title "$(translate "Cloud-Init Automated Installers")" \
+    --menu "$(translate "Select a pre-configured Linux VM script to execute:")" 20 78 10 \
+    "${CLOUDINIT_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+  [[ $? -ne 0 ]] && return
+
+  case "$script_selection" in
+    1)
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/archlinux-vm.sh")
+      ;;
+    2)
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/debian-vm.sh")
+      ;;
+    3)
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2204-vm.sh")
+      ;;
+    4)
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2404-vm.sh")
+      ;;
+    5)
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2410-vm.sh")
+      ;;
+    6)
+      return
+      ;;
+  esac
+
+  msg_success "$(translate "Press Enter to return to menu...")"
+  read -r
+
+  whiptail --title "Proxmox VE Helper-Scripts" \
+           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+
+  exec bash <(curl -s "$REPO_URL/scripts/vm/create_vm.sh")
+}
+
+
+function select_linux_custom_iso() {
+  ISO_LIST=()
+  while read -r line; do
+    FILENAME=$(basename "$line")
+    SIZE=$(du -h "$line" | cut -f1)
+    ISO_LIST+=("$FILENAME" "$SIZE")
+  done < <(find "$ISO_DIR" -type f -iname "*.iso" | sort)
+
+  if [[ ${#ISO_LIST[@]} -eq 0 ]]; then
+    msg_error "$(translate "No ISO images found in $ISO_DIR.")"
+    sleep 2
+    return 1
+  fi
+
+  ISO_FILE=$(dialog --backtitle "ProxMenux" --title "$(translate "Available ISO Images")" \
+    --menu "$(translate "Select a custom ISO to use:")" 20 70 10 \
+    "${ISO_LIST[@]}" 3>&1 1>&2 2>&3)
+
+  if [[ -z "$ISO_FILE" ]]; then
+    msg_warn "$(translate "No ISO selected.")"
+    return 1
+  fi
+
+  ISO_PATH="$ISO_DIR/$ISO_FILE"
+  ISO_NAME="$ISO_FILE"             
+
+  export ISO_PATH ISO_FILE ISO_NAME
+  return 0
+}
+
+function select_linux_other_scripts() {
+  local OTHER_OPTIONS=(
+    "1" "Home Assistant OS VM (HAOS)       │ Helper Scripts"
+    "2" "Docker VM (Debian + SSH + Docker) │ Helper Scripts"
+    "3" "$(translate "Return to Main Menu")"
+  )
+
+  local choice
+  choice=$(dialog --backtitle "ProxMenux" \
+    --title "$(translate "Other Prebuilt Linux VMs")" \
+    --menu "$(translate "Select one of the ready-to-run Linux VMs:")" 18 78 10 \
+    "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+  [[ $? -ne 0 ]] && return
+
+  case "$choice" in
+    1)
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/haos-vm.sh)"
+      ;;
+    2)
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
+      
+      # Mostrar credenciales
+      whiptail --title "Docker VM Info" \
+        --msgbox "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")" 12 50
+      ;;
+    3)
+      return
+      ;;
+  esac
+
+  msg_success "$(translate "Press Enter to return to menu...")"
+  read -r
+
+  whiptail --title "Proxmox VE Helper-Scripts" \
+           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+
+  exec bash <(curl -s "$REPO_URL/scripts/vm/create_vm.sh")
+}
+
+
+
+
