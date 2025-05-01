@@ -30,15 +30,6 @@ fi
 load_language
 initialize_cache
 
-# Load modules
-[[ -f "$UTILS_FILE" ]] && source "$UTILS_FILE"
-[[ -f "$VM_CONFIG" ]] && source "$VM_CONFIG"
-[[ -f "$DISK_SELECTOR" ]] && source "$DISK_SELECTOR"
-[[ -f "$VM_CREATOR" ]] && source "$VM_CREATOR"
-[[ -f "$LINUX_ISO" ]] && source "$LINUX_ISO"
-[[ -f "$GUEST_AGENT" ]] && source "$GUEST_AGENT"
-
-
 
 
 function header_info() {
