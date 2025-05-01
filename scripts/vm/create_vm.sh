@@ -8,6 +8,7 @@
 
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 VM_REPO="$REPO_URL/scripts/vm"
+ISO_REPO="$REPO_URL/scripts/vm"
 MENU_REPO="$REPO_URL/scripts/menus"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
