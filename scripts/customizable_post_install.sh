@@ -146,7 +146,7 @@ apt_upgrade() {
 
     msg_info2 "$(translate "Configuring Proxmox repositories")"
     NECESSARY_REBOOT=1 
-    
+
     # Disable enterprise proxmox repo
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
         msg_info "$(translate "Disabling enterprise Proxmox repository...")"
@@ -666,64 +666,94 @@ configure_time_sync() {
 
 
 install_system_utils() {
+
     msg_info2 "$(translate "Installing common system utilities...")"
-
-
-    packages=(
-        axel dialog dos2unix grc htop btop iftop iotop
-        iperf3 ipset iptraf-ng mlocate msr-tools net-tools
-        sshpass tmux unzip zip libguestfs-tools
-    )
-
-    packages_to_install=()
-
-
-    for package in "${packages[@]}"; do
-        if ! dpkg -s "$package" >/dev/null 2>&1; then
-            packages_to_install+=("$package")
-        fi
-    done
-
-    if [ ${#packages_to_install[@]} -eq 0 ]; then
-        msg_ok "$(translate "System utilities installed successfully")"
-    else
-        tput civis  
-        tput sc      
-
-        for package in "${packages_to_install[@]}"; do
-           
-            tput rc
-            tput ed
-
-          
-            row=$(( $(tput lines) - 6 ))
-            tput cup $row 0; echo "$(translate "Installing system utilities...")"
-            tput cup $((row + 1)) 0; echo "──────────────────────────────────────────────"
-            tput cup $((row + 2)) 0; echo "Package: $package"
-            tput cup $((row + 3)) 0; echo "Progress: [                                                  ] 0%"
-            tput cup $((row + 4)) 0; echo "──────────────────────────────────────────────"
-
-           
-            for i in $(seq 1 10); do
-                progress=$((i * 10))
-                tput cup $((row + 3)) 9  
-                printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
-                sleep 0.2  
-            done
-
-          
-            /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1
-        done
-
-       
-        tput rc
-        tput ed
-        tput cnorm  
-        msg_ok "$(translate "System utilities installed successfully")"
+    
+    if [[ "$LANGUAGE" != "en" ]]; then
+    msg_lang "$(translate "Generating automatic translations...")"
     fi
 
+packages_list=(
+    axel "$(translate "Download accelerator")" OFF
+    dialog "$(translate "Console GUI dialogs")" OFF
+    dos2unix "$(translate "Convert DOS/Unix text files")" OFF
+    grc "$(translate "Generic log/command colorizer")" OFF
+    htop "$(translate "Interactive process viewer")" OFF
+    btop "$(translate "Modern resource monitor")" OFF
+    iftop "$(translate "Real-time network usage")" OFF
+    iotop "$(translate "Monitor disk I/O usage")" OFF
+    iperf3 "$(translate "Network performance testing")" OFF
+    ipset "$(translate "Manage IP sets")" OFF
+    iptraf-ng "$(translate "Network monitoring tool")" OFF
+    mlocate "$(translate "Locate files quickly")" OFF
+    msr-tools "$(translate "Access CPU MSRs")" OFF
+    net-tools "$(translate "Legacy networking tools")" OFF
+    sshpass "$(translate "Non-interactive SSH login")" OFF
+    tmux "$(translate "Terminal multiplexer")" OFF
+    unzip "$(translate "Extract ZIP files")" OFF
+    zip "$(translate "Create ZIP files")" OFF
+    libguestfs-tools "$(translate "VM disk utilities")" OFF
+    aria2c "$(translate "Multi-source downloader")" OFF
+    cabextract "$(translate "Extract CAB files")" OFF
+    wimlib-imagex "$(translate "Manage WIM images")" OFF
+    genisoimage "$(translate "Create ISO images")" OFF
+    chntpw "$(translate "Edit Windows registry/passwords")" OFF
+)
+
+
+    cleanup
+
+    choices=$(whiptail --title "System Utilities" \
+        --checklist "$(translate "Select the system utilities to install:")" 20 70 12 \
+        "${packages_list[@]}" 3>&1 1>&2 2>&3)
+
+    if [ $? -ne 0 ]; then
+        msg_warn "$(translate "Installation cancelled by user")"
+        return
+    fi
+
+    selected_packages=($choices)
+
+    if [ ${#selected_packages[@]} -eq 0 ]; then
+        msg_warn "$(translate "No packages selected for installation")"
+        return
+    fi
+
+    tput civis
+    tput sc
+
+    for package in "${selected_packages[@]}"; do
+        if dpkg -s "$package" >/dev/null 2>&1; then
+            continue
+        fi
+
+        tput rc
+        tput ed
+
+        row=$(( $(tput lines) - 6 ))
+        tput cup $row 0; echo "$(translate "Installing system utilities...")"
+        tput cup $((row + 1)) 0; echo "──────────────────────────────────────────────"
+        tput cup $((row + 2)) 0; echo "Package: $package"
+        tput cup $((row + 3)) 0; echo "Progress: [                                                  ] 0%"
+        tput cup $((row + 4)) 0; echo "──────────────────────────────────────────────"
+
+        for i in $(seq 1 10); do
+            progress=$((i * 10))
+            tput cup $((row + 3)) 9
+            printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
+            sleep 0.2
+        done
+
+        /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1
+    done
+
+    tput rc
+    tput ed
+    tput cnorm
+    msg_ok "$(translate "System utilities installed successfully")"
     msg_success "$(translate "Common system utilities installation completed")"
 }
+
 
 
 
