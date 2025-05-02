@@ -74,6 +74,10 @@ function select_nas_iso() {
       HN="Rockstor"
       ;;
     6)
+      HN="ZimaOS-VM"
+      if ! confirm_vm_creation; then
+        return 1
+      fi
       bash -c "$(wget -qLO - https://raw.githubusercontent.com/R0GGER/proxmox-zimaos/refs/heads/main/zimaos_zimacube.sh)"
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r
