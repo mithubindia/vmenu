@@ -146,6 +146,7 @@ apt_upgrade() {
 
     msg_info2 "$(translate "Configuring Proxmox repositories")"
     NECESSARY_REBOOT=1 
+    
     # Disable enterprise proxmox repo
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
         msg_info "$(translate "Disabling enterprise Proxmox repository...")"
@@ -153,7 +154,7 @@ apt_upgrade() {
         msg_ok "$(translate "Enterprise Proxmox repository disabled")"
     fi
 
-    # Disable enterprise proxmox ceph repo
+    # Disable enterprise Proxmox Ceph repo
     if [ -f /etc/apt/sources.list.d/ceph.list ] && grep -q "^deb" /etc/apt/sources.list.d/ceph.list; then
         msg_info "$(translate "Disabling enterprise Proxmox Ceph repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/ceph.list
@@ -163,7 +164,7 @@ apt_upgrade() {
     # Enable free public proxmox repo
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
         msg_info "$(translate "Enabling free public Proxmox repository...")"
-        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription\\n" > /etc/apt/sources.list.d/pve-public-repo.list
+        echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
         msg_ok "$(translate "Free public Proxmox repository enabled")"
     fi
 
