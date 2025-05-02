@@ -140,7 +140,8 @@ if [[ -f "$ISO_FILE" ]]; then
 
   msg_ok "$(translate "Cleaning temporary files...")"
   rm -rf "$TMP_DIR" "$CONVERTER"
-
+    
+  export OS_TYPE="windows"
   export LANGUAGE=C
   export LANG=C
   export LC_ALL=C
@@ -160,6 +161,7 @@ else
 
   msg_success "$(translate "Press Enter to return to menu...")"
   read -r
+  return 1
 fi
 
 }
