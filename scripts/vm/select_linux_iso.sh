@@ -112,6 +112,7 @@ function select_linux_iso_official() {
     cut -c1-63)
               
   export ISO_NAME ISO_TYPE ISO_URL ISO_FILE ISO_PATH HN
+  export OS_TYPE="linux"
   return 0
 }
 
@@ -193,6 +194,7 @@ function select_linux_custom_iso() {
   ISO_NAME="$ISO_FILE"             
 
   export ISO_PATH ISO_FILE ISO_NAME
+  export OS_TYPE="linux"
   return 0
 }
 

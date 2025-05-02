@@ -100,6 +100,30 @@ function select_efi_storage() {
 
 
 # ==========================================================
+# Guest Agent Configurator 
+# ==========================================================
+function configure_guest_agent() {
+  if [[ -z "$VMID" ]]; then
+    msg_error "$(translate "No VMID defined. Cannot apply guest agent config.")"
+    return 1
+  fi
+
+  msg_info "$(translate "Adding QEMU Guest Agent support...")"
+
+  # Habilitar el agente en la VM
+  qm set "$VMID" -agent enabled=1 >/dev/null 2>&1
+
+  # Añadir canal de comunicación virtio
+  qm set "$VMID" -chardev socket,id=qga0,path=/var/run/qemu-server/$VMID.qga,server=on,wait=off >/dev/null 2>&1
+  qm set "$VMID" -device virtio-serial-pci -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 >/dev/null 2>&1
+
+  msg_ok "$(translate "Guest Agent configuration applied")"
+
+}
+
+
+
+# ==========================================================
 # Función principal para crear la VM
 # ==========================================================
 function create_vm() {
@@ -334,7 +358,7 @@ select_interface_type
   fi
 
 
-  # Configurar el orden de arranque (primer disco, luego CD)
+
   local BOOT_FINAL="$BOOT_ORDER"
   [[ -f "$ISO_PATH" ]] && BOOT_FINAL="$BOOT_ORDER;ide2"
   qm set "$VMID" -boot order="$BOOT_FINAL" >/dev/null
@@ -345,13 +369,37 @@ select_interface_type
   qm set "$VMID" -description "$DESC" >/dev/null
   msg_ok "$(translate "VM description configured")"
 
-  # Arrancar la VM si corresponde
+  
   if [[ "$START_VM" == "yes" ]]; then
     qm start "$VMID"
     msg_ok "$(translate "VM started")"
   fi
   configure_guest_agent
   msg_success "$(translate "VM creation completed")"
+
+
+if [[ "$OS_TYPE" == "windows" ]]; then
+  echo -e "${TAB}${GN}$(translate "Next Steps:")${CL}"
+  echo -e "${TAB}1. $(translate "Start the VM to begin Windows installation from the mounted ISO.")"
+  echo -e "${TAB}2. $(translate "When asked to select a disk, click Load Driver and load the VirtIO drivers.")"
+  echo -e "${TAB}   $(translate "Required if using a VirtIO or SCSI disk.")"
+  echo -e "${TAB}3. $(translate "Also install the VirtIO network driver during setup to enable network access.")"
+  echo -e "${TAB}4. $(translate "Continue the Windows installation as usual.")"
+  echo -e "${TAB}5. $(translate "Once installed, open the VirtIO ISO and run the installer to complete driver setup.")"
+  echo -e "${TAB}6. $(translate "Reboot the VM to complete the driver installation.")"
+  echo -e
+elif [[ "$OS_TYPE" == "linux" ]]; then
+  echo -e "${TAB}${GN}$(translate "Recommended: Install the QEMU Guest Agent in the VM")${CL}"
+  echo -e "${TAB}$(translate "Run the following inside the VM:")"
+  echo -e "${TAB}${CY}apt install qemu-guest-agent -y && systemctl enable --now qemu-guest-agent${CL}"
+  echo -e
+fi
+
+
+msg_success "$(translate "Press Enter to return to the main menu...")"
+read -r
+
+
 }
 
 

@@ -20,7 +20,7 @@ VENV_PATH="/opt/googletrans-env"
 source <(curl -s "$VM_REPO/vm_configurator.sh")
 source <(curl -s "$VM_REPO/disk_selector.sh")
 source <(curl -s "$VM_REPO/vm_creator.sh")
-source <(curl -s "$VM_REPO/guest_agent_config.sh")
+
 
 
 if [[ -f "$UTILS_FILE" ]]; then
