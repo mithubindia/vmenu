@@ -28,6 +28,8 @@ scripts=(
     "Customizable script post-installation|ProxMenux|bash <(curl -s $REPO_URL/scripts/customizable_post_install.sh)"
     "Proxmox VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/misc/post-pve-install.sh)\""
     "xshok-proxmox Post install|fork xshok-proxmox|wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh"
+    "Uninstall Tools|ProxMenux|bash <(curl -s $REPO_URL/scripts/uninstall-tools.sh)"
+
 )
 
 show_menu() {
