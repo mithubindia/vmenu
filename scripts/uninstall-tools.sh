@@ -14,8 +14,9 @@
 # installed through ProxMenux on Proxmox Virtual Environment (VE). 
 # ==========================================================
 
-# Configuration
+# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+RETURN_SCRIPT="$REPO_URL/scripts/menus/menu_post_install.sh"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
@@ -23,7 +24,6 @@ VENV_PATH="/opt/googletrans-env"
 if [[ -f "$UTILS_FILE" ]]; then
     source "$UTILS_FILE"
 fi
-
 load_language
 initialize_cache
 # ==========================================================
@@ -52,26 +52,40 @@ uninstall_fastfetch() {
 show_uninstall_menu() {
     local options=()
     
-    # Fastfetch
     if command -v fastfetch &>/dev/null; then
         options+=("1" "$(translate "Uninstall Fastfetch")")
     fi
 
     if [ ${#options[@]} -eq 0 ]; then
         whiptail --title "ProxMenux" --msgbox "$(translate "No uninstallable tools detected.")" 10 60
-        exec bash <(curl -s "$REPO_URL/scripts/menus/postinstall_menu.sh")
+        return_to_menu
     fi
 
-    local choice=$(whiptail --title "$(translate "Uninstall Tools")" \
-                             --menu "$(translate "Select a tool to uninstall:")" 15 60 6 \
-                             "${options[@]}" 3>&1 1>&2 2>&3)
+    local choice
+    choice=$(whiptail --title "$(translate "Uninstall Tools")" \
+                      --menu "$(translate "Select a tool to uninstall:")" 15 60 6 \
+                      "${options[@]}" 3>&1 1>&2 2>&3)
 
     case "$choice" in
         1) uninstall_fastfetch ;;
     esac
 
-
-    exec bash <(curl -s "$REPO_URL/scripts/menus/postinstall_menu.sh")
+    return_to_menu
 }
+
+return_to_menu() {
+    # Descargar temporalmente el script
+    TEMP_SCRIPT=$(mktemp)
+    if curl --fail -s -o "$TEMP_SCRIPT" "$RETURN_SCRIPT"; then
+        bash "$TEMP_SCRIPT"
+        rm -f "$TEMP_SCRIPT"
+    else
+        msg_error "$(translate "Error: Could not return to menu. URL returned 404.")"
+        msg_info2 "$(translate "Please check the menu URL in the script.")"
+        read -r
+        exit 1
+    fi
+}
+
 
 show_uninstall_menu
