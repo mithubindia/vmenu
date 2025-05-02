@@ -49,12 +49,15 @@ cd "$TMP_DIR" || exit 1
 
 
 UUP_URL=$(whiptail --inputbox "$(translate "Paste the UUP Dump URL here")" 10 90 3>&1 1>&2 2>&3)
-[[ $? -ne 0 ]] && msg_error "$(translate "Cancelled by user.")" && exit 1
-
+if [[ $? -ne 0 || -z "$UUP_URL" ]]; then
+  msg_warn "$(translate "Cancelled by user or empty URL.")"
+  return 1  
+fi
 
 if [[ ! "$UUP_URL" =~ id=.+\&pack=.+\&edition=.+ ]]; then
   msg_error "$(translate "The URL does not contain the required parameters (id, pack, edition).")"
-  exit 1
+  sleep 2
+  return 1 
 fi
 
 
