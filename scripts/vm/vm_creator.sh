@@ -68,28 +68,29 @@ function select_interface_type() {
 
 
 # ==========================================================
-# Función select_efi_storage (no cambia)
+# Función reutilizable para seleccionar almacenamiento EFI/TPM
 # ==========================================================
-function select_efi_storage() {
-  local vmid=$1
+function select_storage_target() {
+  local PURPOSE="$1"
+  local vmid="$2"
   local STORAGE=""
+  local STORAGE_MENU=()
 
-  STORAGE_MENU=()
   while read -r line; do
     TAG=$(echo "$line" | awk '{print $1}')
     TYPE=$(echo "$line" | awk '{printf "%-10s", $2}')
     FREE=$(echo "$line" | numfmt --field 4-6 --from-unit=K --to=iec --format "%.2f" | awk '{printf("%9sB", $6)}')
-    STORAGE_MENU+=("$TAG" "Type: $TYPE Free: $FREE" "OFF")
+    STORAGE_MENU+=("$TAG" "$(translate "Type:") $TYPE $(translate "Free:") $FREE" "OFF")
   done < <(pvesm status -content images | awk 'NR>1')
 
-  if [ ${#STORAGE_MENU[@]} -eq 0 ]; then
-    msg_error "$(translate "Unable to detect a valid storage location for EFI disk.")"
+  if [[ ${#STORAGE_MENU[@]} -eq 0 ]]; then
+    msg_error "$(translate "Unable to detect a valid storage location for $PURPOSE disk.")"
     exit 1
-  elif [ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]; then
-    STORAGE=${STORAGE_MENU[0]}
+  elif [[ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]]; then
+    STORAGE="${STORAGE_MENU[0]}"
   else
-    STORAGE=$(whiptail --backtitle "ProxMenux" --title "$(translate "EFI Disk Storage")" --radiolist \
-      "$(translate "Choose the storage volume for the EFI disk (4MB):")" 16 70 6 \
+    STORAGE=$(whiptail --backtitle "ProxMenux" --title "$(translate "$PURPOSE Disk Storage")" --radiolist \
+      "$(translate "Choose the storage volume for the $PURPOSE disk (4MB):\n\nUse Spacebar to select.")" 16 70 6 \
       "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3) || exit 1
   fi
 
@@ -120,6 +121,7 @@ function configure_guest_agent() {
   msg_ok "$(translate "Guest Agent configuration applied")"
 
 }
+
 
 
 
@@ -168,7 +170,7 @@ function create_vm() {
   # Crear disco EFI si corresponde
   if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
     msg_info "$(translate "Configuring EFI disk")"
-    EFI_STORAGE=$(select_efi_storage "$VMID")
+    EFI_STORAGE=$(select_storage_target "EFI" "$VMID")
     EFI_DISK_NAME="vm-${VMID}-disk-efivars"
 
     STORAGE_TYPE=$(pvesm status -storage "$EFI_STORAGE" | awk 'NR>1 {print $2}')
@@ -183,9 +185,10 @@ function create_vm() {
         ;;
     esac
 
+    EFI_KEYS="0"
+    [[ "$OS_TYPE" == "2" ]] && EFI_KEYS="1"
+
     if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME$EFI_DISK_EXT" 4M >/dev/null 2>&1; then
-      EFI_KEYS="0"
-      [[ "$OS_TYPE" == "2" ]] && EFI_KEYS="1"
       if qm set "$VMID" -efidisk0 "$EFI_STORAGE:${EFI_DISK_REF}$EFI_DISK_NAME$EFI_DISK_EXT,pre-enrolled-keys=$EFI_KEYS" >/dev/null 2>&1; then
         msg_ok "$(translate "EFI disk created and configured on") $EFI_STORAGE"
       else
@@ -203,7 +206,7 @@ function create_vm() {
   # Añadir TPM si es Windows
   if [[ "$OS_TYPE" == "2" ]]; then
     msg_info "$(translate "Configuring TPM device")"
-    TPM_STORAGE=$(select_efi_storage "$VMID")
+    TPM_STORAGE=$(select_storage_target "TPM" "$VMID")
     TPM_NAME="vm-${VMID}-tpmstate"
 
     STORAGE_TYPE=$(pvesm status -storage "$TPM_STORAGE" | awk 'NR>1 {print $2}')
@@ -218,14 +221,23 @@ function create_vm() {
         ;;
     esac
 
-    if pvesm alloc "$TPM_STORAGE" "$VMID" "$TPM_NAME$TPM_EXT" 4M >/dev/null 2>&1; then
-      qm set "$VMID" -tpmstate0 "$TPM_STORAGE:${TPM_REF}${TPM_NAME}${TPM_EXT},version=2.0" >/dev/null 2>&1
-      qm set "$VMID" -tpmdev "tpm-tis" >/dev/null 2>&1
-      msg_ok "$(translate "TPM device added to VM")"
+    TPM_FULL_NAME="${TPM_NAME}${TPM_EXT}"
+
+    if pvesm alloc "$TPM_STORAGE" "$VMID" "$TPM_FULL_NAME" 4M >/dev/null 2>&1; then
+      TPM_PATH="$TPM_STORAGE:${TPM_REF}${TPM_FULL_NAME},size=4M,version=v2.0"
+      if qm set "$VMID" -tpmstate0 "$TPM_PATH" >/dev/null 2>&1; then
+        msg_ok "$(translate "TPM device added to VM")"
+      else
+        msg_error "$(translate "Failed to configure TPM device in VM") → $TPM_PATH"
+      fi
     else
-      msg_warn "$(translate "Failed to add TPM device.")"
+      msg_error "$(translate "Failed to create TPM state disk")"
     fi
   fi
+
+
+
+
 
 
 
@@ -360,7 +372,7 @@ select_interface_type
   fi
 
 
-
+  # Configurar el orden de arranque (primer disco, luego CD)
   local BOOT_FINAL="$BOOT_ORDER"
   [[ -f "$ISO_PATH" ]] && BOOT_FINAL="$BOOT_ORDER;ide2"
   qm set "$VMID" -boot order="$BOOT_FINAL" >/dev/null
@@ -371,14 +383,13 @@ select_interface_type
   qm set "$VMID" -description "$DESC" >/dev/null
   msg_ok "$(translate "VM description configured")"
 
-  
+  # Arrancar la VM si corresponde
   if [[ "$START_VM" == "yes" ]]; then
     qm start "$VMID"
     msg_ok "$(translate "VM started")"
   fi
   configure_guest_agent
   msg_success "$(translate "VM creation completed")"
-
 
 if [[ "$OS_TYPE" == "2" ]]; then
   echo -e "${TAB}${GN}$(translate "Next Steps:")${CL}"
@@ -401,8 +412,4 @@ fi
 msg_success "$(translate "Press Enter to return to the main menu...")"
 read -r
 
-
 }
-
-
-
