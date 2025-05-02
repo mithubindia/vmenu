@@ -199,7 +199,7 @@ function create_vm() {
 
 
   # Añadir TPM si es Windows
-  if [[ "$OS_TYPE" == "windows" ]]; then
+  if [[ "$OS_TYPE" == "2" ]]; then
     msg_info "$(translate "Configuring TPM device")"
     TPM_STORAGE=$(select_efi_storage "$VMID")
     TPM_NAME="vm-${VMID}-tpmstate"
@@ -287,7 +287,7 @@ select_interface_type
   fi
 
   # Para Windows, preguntar y montar ISO VirtIO
-  if [[ "$OS_TYPE" == "windows" ]]; then
+  if [[ "$OS_TYPE" == "2" ]]; then
     local VIRTIO_DIR="/var/lib/vz/template/iso"
     local VIRTIO_SELECTED=""
     local VIRTIO_DOWNLOAD_URL="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
@@ -378,7 +378,7 @@ select_interface_type
   msg_success "$(translate "VM creation completed")"
 
 
-if [[ "$OS_TYPE" == "windows" ]]; then
+if [[ "$OS_TYPE" == "2" ]]; then
   echo -e "${TAB}${GN}$(translate "Next Steps:")${CL}"
   echo -e "${TAB}1. $(translate "Start the VM to begin Windows installation from the mounted ISO.")"
   echo -e "${TAB}2. $(translate "When asked to select a disk, click Load Driver and load the VirtIO drivers.")"
@@ -388,7 +388,7 @@ if [[ "$OS_TYPE" == "windows" ]]; then
   echo -e "${TAB}5. $(translate "Once installed, open the VirtIO ISO and run the installer to complete driver setup.")"
   echo -e "${TAB}6. $(translate "Reboot the VM to complete the driver installation.")"
   echo -e
-elif [[ "$OS_TYPE" == "linux" ]]; then
+elif [[ "$OS_TYPE" == "3" ]]; then
   echo -e "${TAB}${GN}$(translate "Recommended: Install the QEMU Guest Agent in the VM")${CL}"
   echo -e "${TAB}$(translate "Run the following inside the VM:")"
   echo -e "${TAB}${CY}apt install qemu-guest-agent -y && systemctl enable --now qemu-guest-agent${CL}"
