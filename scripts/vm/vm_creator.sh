@@ -184,7 +184,9 @@ function create_vm() {
     esac
 
     if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME$EFI_DISK_EXT" 4M >/dev/null 2>&1; then
-      if qm set "$VMID" -efidisk0 "$EFI_STORAGE:${EFI_DISK_REF}$EFI_DISK_NAME$EFI_DISK_EXT,pre-enrolled-keys=0" >/dev/null 2>&1; then
+      EFI_KEYS="0"
+      [[ "$OS_TYPE" == "2" ]] && EFI_KEYS="1"
+      if qm set "$VMID" -efidisk0 "$EFI_STORAGE:${EFI_DISK_REF}$EFI_DISK_NAME$EFI_DISK_EXT,pre-enrolled-keys=$EFI_KEYS" >/dev/null 2>&1; then
         msg_ok "$(translate "EFI disk created and configured on") $EFI_STORAGE"
       else
         msg_error "$(translate "Failed to configure EFI disk")"
