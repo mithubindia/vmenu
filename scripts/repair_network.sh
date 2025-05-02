@@ -190,22 +190,18 @@ verify_network() {
 show_main_menu() {
     while true; do
         OPTION=$(whiptail --title "$(translate 'Network Repair Menu')" --menu "$(translate 'Choose an option:')" 15 60 4 \
-        "1" "$(translate 'Repair Network')" \
-        "2" "$(translate 'Verify Network')" \
-        "3" "$(translate 'Show IP Information')" \
-        "4" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
+        "1" "$(translate 'Verify Network')" \
+        "2" "$(translate 'Show IP Information')" \
+        "3" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
         case $OPTION in
             1)
-                repair_network
-                ;;
-            2)
                 verify_network
                 ;;
-            3)
+            2)
                 show_ip_info
                 ;;
-            4) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
+            3) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
             *) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
             
         esac
