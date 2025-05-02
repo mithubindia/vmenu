@@ -59,7 +59,7 @@ show_uninstall_menu() {
 
     if [ ${#options[@]} -eq 0 ]; then
         whiptail --title "ProxMenux" --msgbox "$(translate "No uninstallable tools detected.")" 10 60
-        exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
+        exec bash <(curl -s "$REPO_URL/scripts/menus/postinstall_menu.sh")
     fi
 
     local choice=$(whiptail --title "$(translate "Uninstall Tools")" \
