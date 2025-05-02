@@ -173,6 +173,37 @@ function create_vm() {
 
 
 
+
+  # Añadir TPM si es Windows
+  if [[ "$OS_TYPE" == "windows" ]]; then
+    msg_info "$(translate "Configuring TPM device")"
+    TPM_STORAGE=$(select_efi_storage "$VMID")
+    TPM_NAME="vm-${VMID}-tpmstate"
+
+    STORAGE_TYPE=$(pvesm status -storage "$TPM_STORAGE" | awk 'NR>1 {print $2}')
+    case "$STORAGE_TYPE" in
+      nfs | dir)
+        TPM_EXT=".raw"
+        TPM_REF="$VMID/"
+        ;;
+      *)
+        TPM_EXT=""
+        TPM_REF=""
+        ;;
+    esac
+
+    if pvesm alloc "$TPM_STORAGE" "$VMID" "$TPM_NAME$TPM_EXT" 4M >/dev/null 2>&1; then
+      qm set "$VMID" -tpmstate0 "$TPM_STORAGE:${TPM_REF}${TPM_NAME}${TPM_EXT},version=2.0" >/dev/null 2>&1
+      qm set "$VMID" -tpmdev "tpm-tis" >/dev/null 2>&1
+      msg_ok "$(translate "TPM device added to VM")"
+    else
+      msg_warn "$(translate "Failed to add TPM device.")"
+    fi
+  fi
+
+
+
+
 # ==========================================================
 # Crear discos virtuales o físicos con interfaz seleccionada
 # ==========================================================

@@ -70,6 +70,8 @@ function select_existing_iso() {
   ISO_NAME="$ISO_FILE"
 
   export ISO_PATH ISO_FILE ISO_NAME
+  export OS_TYPE="windows"
+  
   return 0
 }
 
@@ -86,5 +88,7 @@ function detect_latest_iso_created() {
   ISO_PATH="$ISO_FILE"
 
   export ISO_PATH ISO_FILE ISO_NAME
+  export OS_TYPE="windows"
+
   return 0
 }

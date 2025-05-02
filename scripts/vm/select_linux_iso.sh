@@ -173,6 +173,7 @@ function select_linux_custom_iso() {
   done < <(find "$ISO_DIR" -type f -iname "*.iso" | sort)
 
   if [[ ${#ISO_LIST[@]} -eq 0 ]]; then
+    header_info
     msg_error "$(translate "No ISO images found in $ISO_DIR.")"
     sleep 2
     return 1
@@ -183,6 +184,7 @@ function select_linux_custom_iso() {
     "${ISO_LIST[@]}" 3>&1 1>&2 2>&3)
 
   if [[ -z "$ISO_FILE" ]]; then
+    header_info
     msg_warn "$(translate "No ISO selected.")"
     return 1
   fi
