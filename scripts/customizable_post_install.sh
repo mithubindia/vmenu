@@ -2374,24 +2374,23 @@ add_repo_test() {
 
 # Main menu function
 main_menu() {
-local HEADER=$(printf " %-56s %10s" "$(translate "Description")" "$(translate "Category")")
+  local HEADER=$(printf " %-56s %10s" "$(translate "Description")" "Category")
 
-# Define category order
-declare -A category_order
-category_order["Basic Settings"]=1
-category_order["System"]=2
-category_order["Hardware"]=3
-category_order["Virtualization"]=4
-category_order["Network"]=5
-category_order["Storage"]=6
-category_order["Security"]=7
-category_order["Customization"]=8
-category_order["Monitoring"]=9
-category_order["Performance"]=10
-category_order["Optional"]=11
+  declare -A category_order=(
+    ["Basic Settings"]=1
+    ["System"]=2
+    ["Hardware"]=3
+    ["Virtualization"]=4
+    ["Network"]=5
+    ["Storage"]=6
+    ["Security"]=7
+    ["Customization"]=8
+    ["Monitoring"]=9
+    ["Performance"]=10
+    ["Optional"]=11
+  )
 
-# Define options with categories
-local options=(
+  local options=(
     "Basic Settings|Update and upgrade system|APTUPGRADE"
     "Basic Settings|Synchronize time automatically|TIMESYNC"
     "Basic Settings|Skip downloading additional languages|NOAPTLANG"
@@ -2427,244 +2426,129 @@ local options=(
     "Optional|Add latest Ceph support|CEPH"
     "Optional|Add Proxmox testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
-)
+  )
 
-
-# Sort options based on category order
-IFS=$'\n' sorted_options=($(for option in "${options[@]}"; do
+  IFS=$'\n' sorted_options=($(for option in "${options[@]}"; do
     IFS='|' read -r category description function_name <<< "$option"
     printf "%d|%s|%s|%s\n" "${category_order[$category]:-999}" "$category" "$description" "$function_name"
-done | sort -n | cut -d'|' -f2-))
-unset IFS
+  done | sort -n | cut -d'|' -f2-))
+  unset IFS
 
-local max_desc_width=0
-local max_cat_width=0
+  local total_width=65
+  local max_desc_width=50
+  local category_width=15
+  local category_position=$((total_width - category_width))
 
-for option in "${sorted_options[@]}"; do
+  local menu_items=()
+  local i=1
+  local previous_category=""
+
+  for option in "${sorted_options[@]}"; do
     IFS='|' read -r category description function_name <<< "$option"
-    translated_category=$(translate "$category")
-    
-    cat_length=${#translated_category}
-    if [ "$cat_length" -gt "$max_cat_width" ]; then
-        max_cat_width="$cat_length"
-    fi
-done
+    translated_description="$(translate "$description")"
 
-local total_width=65
-
-for option in "${sorted_options[@]}"; do
-    IFS='|' read -r category description function_name <<< "$option"
-    translated_description=$(translate "$description")
-    
-    desc_length=${#translated_description}
-    if [ "$desc_length" -gt "$max_desc_width" ]; then
-        max_desc_width="$desc_length"
-    fi
-done
-
-if [ "$max_desc_width" -gt 50 ]; then
-    max_desc_width=50
-fi
-
-local category_position=$((total_width - max_cat_width))
-
-local menu_items=()
-local i=1
-local previous_category=""
-
-for option in "${sorted_options[@]}"; do
-    IFS='|' read -r category description function_name <<< "$option"
-    translated_category=$(translate "$category")
-    translated_description=$(translate "$description")
-
-
-    local max_allowed_desc=$((category_position - 2))
-    if [ ${#translated_description} -gt "$max_allowed_desc" ]; then
-        translated_description="${translated_description:0:$((max_allowed_desc-3))}..."
+    # Cortar descripción si es muy larga
+    local max_cut=$((category_position - 3))
+    [[ "$max_cut" -lt 10 ]] && max_cut=10
+    if [[ ${#translated_description} -gt $max_cut ]]; then
+      translated_description="${translated_description:0:$((max_cut - 3))}..."
     fi
 
-
-    # Set OFF for todas las opciones
-    state="OFF"
-
-
-    # Add a separator before Optional category, but only once
-    if [ "$category" != "$previous_category" ] && [ "$category" = "Optional" ] && [ "$previous_category" != "" ]; then
-        menu_items+=("" "================================================================" "")
+    # Añadir separador si cambia de categoría y es la "Optional"
+    if [[ "$category" != "$previous_category" && "$category" == "Optional" && -n "$previous_category" ]]; then
+      menu_items+=("" "================================================================" "")
     fi
 
-    local line=""
-    line+="$translated_description"
-
-    local current_length=${#line}
-    local spaces_needed=$((category_position - current_length))
-    
-    for ((j=0; j<spaces_needed; j++)); do
-        line+=" "
+    # Construir línea alineada
+    local line="$translated_description"
+    local spaces_needed=$((category_position - ${#translated_description}))
+    for ((j = 0; j < spaces_needed; j++)); do
+      line+=" "
     done
-    
-    line+="$translated_category"
-    
-    menu_items+=("$i" "$line" "$state")
-    i=$((i+1))
+    line+="$category"
+
+    menu_items+=("$i" "$line" "OFF")
+    i=$((i + 1))
     previous_category="$category"
-done
+  done
 
+  cleanup
 
-cleanup
+  local selected_indices=$(whiptail --title "$(translate "ProxMenux Custom Script for Post-Installation")" \
+    --checklist --separate-output \
+    "\n$HEADER\n\n$(translate "Choose options to configure:")\n$(translate "Use [SPACE] to select/deselect and [ENTER] to confirm:")" \
+    20 82 12 \
+    "${menu_items[@]}" \
+    3>&1 1>&2 2>&3)
 
+  # Permitir salir con ESC o cancelar
+  if [ $? -ne 0 ]; then
+    echo "User cancelled. Exiting."
+    exit 0
+  fi
 
-local selected_indices=$(whiptail --title "$(translate "ProxMenux Custom Script for Post-Installation")" \
-                                  --checklist --separate-output \
-                                  "\n$HEADER\n\n$(translate "Choose options to configure:")\n$(translate "Use [SPACE] to select/deselect and [ENTER] to confirm:")" \
-                                  20 82 12 \
-                                  "${menu_items[@]}" \
-                                  3>&1 1>&2 2>&3)
-    if [ $? -ne 0 ]; then
-        echo "User cancelled. Exiting."
-        exit 0
-    fi
+  # Continuar si hay selección
+  IFS=$'\n' read -d '' -r -a selected_options <<< "$selected_indices"
+  declare -A selected_functions
 
+  if [ -n "$selected_indices" ]; then
+    msg_title "$SCRIPT_TITLE"
 
-# Convert selected_indices to an array
-IFS=$'\n' read -d '' -r -a selected_options <<< "$selected_indices"
+    for index in "${selected_options[@]}"; do
+      option=${sorted_options[$((index - 1))]}
+      IFS='|' read -r category description function_name <<< "$option"
+      selected_functions[$function_name]=1
 
-declare -A selected_functions
-
-
-if [ -n "$selected_indices" ]; then
-        msg_title "$SCRIPT_TITLE"
-
-
-# Mark selected options and apply exclusion logic
-for index in "${selected_options[@]}"; do
-    option=${sorted_options[$((index-1))]}
-    IFS='|' read -r category description function_name <<< "$option"
-    selected_functions[$function_name]=1
-
-    # If FASTFETCH is selected, unmark MOTD
-    if [[ "$function_name" == "FASTFETCH" ]]; then
-        selected_functions[MOTD]=0
-    fi
-done
-
-# Process selected options
-for index in "${!sorted_options[@]}"; do
-    option=${sorted_options[$index]}
-    IFS='|' read -r category description function_name <<< "$option"
-    if [[ ${selected_functions[$function_name]} -eq 1 ]]; then
-        case $function_name in
-            APTUPGRADE)
-                apt_upgrade
-                ;;
-            TIMESYNC)
-                configure_time_sync
-                ;;
-            NOAPTLANG)
-                skip_apt_languages
-                ;;
-            UTILS)
-                install_system_utils
-                ;;
-            JOURNALD)
-                optimize_journald
-                ;;
-            LOGROTATE)
-                optimize_logrotate
-                ;;
-            LIMITS)
-                increase_system_limits
-                ;;
-            ENTROPY)
-                configure_entropy
-                ;;
-            MEMORYFIXES)
-                optimize_memory_settings
-                ;;
-            KEXEC)
-                enable_kexec
-                ;;
-            KERNELPANIC)
-                configure_kernel_panic
-                ;;
-            KERNELHEADERS)
-                install_kernel_headers
-                ;;
-            AMDFIXES)
-                apply_amd_fixes
-                ;;
-            GUESTAGENT)
-                install_guest_agent
-                ;;
-            VFIO_IOMMU)
-                enable_vfio_iommu
-                ;;
-            KSMTUNED)
-                configure_ksmtuned
-                ;;
-            APTIPV4)
-                force_apt_ipv4
-                ;;
-            NET)
-                apply_network_optimizations
-                ;;
-            OPENVSWITCH)
-                install_openvswitch
-                ;;
-            TCPFASTOPEN)
-                enable_tcp_fast_open
-                ;;
-            ZFSARC)
-                optimize_zfs_arc
-                ;;
-            ZFSAUTOSNAPSHOT)
-                install_zfs_auto_snapshot
-                ;;
-            VZDUMP)
-                optimize_vzdump
-                ;;
-            DISABLERPC)
-                disable_rpc
-                ;;
-            FAIL2BAN)
-                install_fail2ban
-                ;;
-            LYNIS)
-                install_lynis
-                ;;
-            BASHRC)
-                customize_bashrc
-                ;;
-            MOTD)
-                setup_motd
-                ;;
-            NOSUBBANNER)
-                remove_subscription_banner
-                ;;
-            OVHRTM)
-                install_ovh_rtm
-                ;;
-            PIGZ)
-                configure_pigz
-                ;;
-            FASTFETCH)
-                configure_fastfetch
-                ;;
-            CEPH)
-                install_ceph
-                ;;
-            REPOTEST)
-                add_repo_test
-                ;;
-            ENABLE_HA)
-                enable_ha
-                ;;
-            *)
-                echo "Option $function_name not implemented yet"
-                ;;
-        esac
-     fi
+      # Lógica de exclusión
+      [[ "$function_name" == "FASTFETCH" ]] && selected_functions[MOTD]=0
     done
+
+    for index in "${!sorted_options[@]}"; do
+      option=${sorted_options[$index]}
+      IFS='|' read -r category description function_name <<< "$option"
+      if [[ ${selected_functions[$function_name]} -eq 1 ]]; then
+        case $function_name in
+          APTUPGRADE) apt_upgrade ;;
+          TIMESYNC) configure_time_sync ;;
+          NOAPTLANG) skip_apt_languages ;;
+          UTILS) install_system_utils ;;
+          JOURNALD) optimize_journald ;;
+          LOGROTATE) optimize_logrotate ;;
+          LIMITS) increase_system_limits ;;
+          ENTROPY) configure_entropy ;;
+          MEMORYFIXES) optimize_memory_settings ;;
+          KEXEC) enable_kexec ;;
+          KERNELPANIC) configure_kernel_panic ;;
+          KERNELHEADERS) install_kernel_headers ;;
+          AMDFIXES) apply_amd_fixes ;;
+          GUESTAGENT) install_guest_agent ;;
+          VFIO_IOMMU) enable_vfio_iommu ;;
+          KSMTUNED) configure_ksmtuned ;;
+          APTIPV4) force_apt_ipv4 ;;
+          NET) apply_network_optimizations ;;
+          OPENVSWITCH) install_openvswitch ;;
+          TCPFASTOPEN) enable_tcp_fast_open ;;
+          ZFSARC) optimize_zfs_arc ;;
+          ZFSAUTOSNAPSHOT) install_zfs_auto_snapshot ;;
+          VZDUMP) optimize_vzdump ;;
+          DISABLERPC) disable_rpc ;;
+          FAIL2BAN) install_fail2ban ;;
+          LYNIS) install_lynis ;;
+          BASHRC) customize_bashrc ;;
+          MOTD) setup_motd ;;
+          NOSUBBANNER) remove_subscription_banner ;;
+          OVHRTM) install_ovh_rtm ;;
+          PIGZ) configure_pigz ;;
+          FASTFETCH) configure_fastfetch ;;
+          CEPH) install_ceph ;;
+          REPOTEST) add_repo_test ;;
+          ENABLE_HA) enable_ha ;;
+          *) echo "Option $function_name not implemented yet" ;;
+        esac
+      fi
+    done
+
+
 
 
 
