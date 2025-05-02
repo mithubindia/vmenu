@@ -22,7 +22,7 @@ show_proxmenux_logo
 
 
 
-DEPS=(curl aria2 cabextract wimtools genisoimage gettext)
+DEPS=(curl aria2 cabextract wimtools genisoimage)
 NEEDED=()
 
 for pkg in "${DEPS[@]}"; do
@@ -32,7 +32,7 @@ for pkg in "${DEPS[@]}"; do
 done
 
 if [[ ${#NEEDED[@]} -gt 0 ]]; then
-    msg_info "Installing dependencies for create image ISO from UUP Dump..."
+    msg_info "Installing dependencies: ${NEEDED[*]}"
     apt-get update -qq >/dev/null
     DEBIAN_FRONTEND=noninteractive apt-get install -y "${NEEDED[@]}" >/dev/null 2>&1
     msg_ok "Dependencies successfully installed."
