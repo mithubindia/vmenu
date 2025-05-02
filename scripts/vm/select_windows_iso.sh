@@ -4,6 +4,8 @@
 # ProxMenux - Windows ISO Selector (Dialog Edition)
 # ==============================================================
 
+REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+UUP_REPO="$REPO_URL/scripts/vm"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
