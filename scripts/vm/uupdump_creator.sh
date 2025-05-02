@@ -22,7 +22,7 @@ show_proxmenux_logo
 
 
 
-DEPS=(curl aria2 cabextract wimtools genisoimage chntpw)
+DEPS=(curl aria2c cabextract wimlib-imagex genisoimage chntpw)
 NEEDED=()
 
 for pkg in "${DEPS[@]}"; do
