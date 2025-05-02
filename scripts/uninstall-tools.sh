@@ -71,7 +71,7 @@ show_uninstall_menu() {
     esac
 
 
-    exec bash <(curl -s "$REPO_URL/scripts/menus/uninstall-menu.sh")
+    exec bash <(curl -s "$REPO_URL/scripts/menus/postinstall_menu.sh")
 }
 
 show_uninstall_menu
