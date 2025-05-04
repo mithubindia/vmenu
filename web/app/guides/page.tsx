@@ -110,6 +110,20 @@ export default function GuidesPage() {
               Proxmox VE Helper-Scripts is a set of tools for simplifying the installation of applications and the management of Proxmox VE, maintained by the community.
             </p>
           </a>
+          
+          <Link
+            href="/guides/linux-resources"
+            className="block p-6 bg-teal-600 rounded-lg shadow-md hover:bg-teal-700 transition-colors"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <BookOpen className="h-6 w-6 text-white" />
+              <h2 className="text-2xl font-semibold text-white">Linux Resources</h2>
+            </div>
+            <p className="text-gray-200">
+              A collection of useful resources for learning Linux commands, security practices, monitoring tools, and
+              more.
+            </p>
+          </Link>
         </div>
 
         {/* PBS Documentation */}

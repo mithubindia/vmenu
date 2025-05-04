@@ -36,6 +36,21 @@ export const sidebarItems: MenuItem[] = [
     ],
   },
   {
+    title: "Help and Info",
+    submenu: [
+      { title: "Overview", href: "/docs/help-info" },
+      { title: "Useful System Commands", href: "/docs/help-info/system-commands" },
+      { title: "VM and CT Management", href: "/docs/help-info/vm-ct-commands" },
+      { title: "Storage and Disks", href: "/docs/help-info/storage-commands" },
+      { title: "Network Commands", href: "/docs/help-info/network-commands" },
+      { title: "Updates and Packages", href: "/docs/help-info/update-commands" },
+      { title: "GPU Passthrough", href: "/docs/help-info/gpu-commands" },
+      { title: "ZFS Management", href: "/docs/help-info/zfs-commands" },
+      { title: "Backup and Restore", href: "/docs/help-info/backup-commands" },
+      { title: "System CLI Tools", href: "/docs/help-info/tools-commands" },
+    ],
+  },
+  {
     title: "GPUs and Coral",
     submenu: [
       { title: "HW iGPU acceleration to an LXC", href: "/docs/hardware/igpu-acceleration-lxc" },
