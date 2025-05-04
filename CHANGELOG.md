@@ -1,3 +1,30 @@
+## 2025-05-04
+
+### Added
+- **Interactive Help & Info Menu**  
+  Added a new script called `Help and Info`, which provides an interactive command reference menu for Proxmox VE through a dialog-based interface.  
+  This tool offers users a quick way to browse and copy useful commands for managing and maintaining their Proxmox server, all in one centralized location.
+
+  ![Help and Info Menu](https://macrimi.github.io/ProxMenux/help/help-info-menu.png)
+
+  *Figure 1: Help and Info interactive command reference menu.*
+
+- **Uninstaller for Post-Install Utilities**  
+  A new script has been added to the **Post-Installation** menu, allowing users to uninstall utilities or packages that were previously installed through the post-install script.
+
+### Improved
+- **Utility Selection Menu in Post-Installation Script**  
+  The `Install Common System Utilities` section now includes a menu where users can choose which utilities to install, instead of installing all by default. This gives more control over what gets added to the system.
+
+- **Old PV Header Detection and Auto-Fix**  
+  After updating the system, the post-update script now includes a security check for physical disks with outdated LVM PV (Physical Volume) headers.  
+  This issue can occur when virtual machines have passthrough access to disks and unintentionally modify volume metadata. The script now detects and automatically updates these headers.  
+  If any error occurs during the process, a warning is shown to the user.
+
+- **Faster Translations in Menus**  
+  Several post-installation menus with auto-translations have been optimized to reduce loading times and improve user experience.
+
+
 ## 2025-04-14
 
 ### Added

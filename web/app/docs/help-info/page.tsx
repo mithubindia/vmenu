@@ -16,6 +16,36 @@ import {
   Book,
 } from "lucide-react"
 
+
+export const metadata: Metadata = {
+  title: "ProxMenux Documentation: Help and Info",
+  description:
+    "Comprehensive collection of useful commands and references for Proxmox VE, organized by category for easy access and quick reference.",
+  openGraph: {
+    title: "ProxMenux Documentation: Help and Info",
+    description:
+      "Comprehensive collection of useful commands and references for Proxmox VE, organized by category for easy access and quick reference.",
+    type: "article",
+    url: "https://macrimi.github.io/ProxMenux/docs/help-info",
+    images: [
+      {
+        url: "https://macrimi.github.io/ProxMenux/help/help-info-menu.png",
+        width: 1200,
+        height: 630,
+        alt: "ProxMenux Help and Info Menu",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProxMenux Documentation: Help and Info",
+    description:
+      "Comprehensive collection of useful commands and references for Proxmox VE, organized by category for easy access and quick reference.",
+    images: ["https://macrimi.github.io/ProxMenux/help/help-info-menu.png"],
+  },
+}
+
+
 interface ImageWithCaptionProps {
   src: string
   alt: string

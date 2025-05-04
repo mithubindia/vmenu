@@ -54,19 +54,23 @@ export default function BasicSettingsPage() {
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={1} />
-        Install Common System Utilities
+        Select and Install System Utilities
       </h3>
       <p className="mb-4">
-        This optimization installs a set of common system utilities that are useful for system administration and
-        troubleshooting.
+        This option presents a menu where you can select which system utilities to install based on your needs.
       </p>
-      <p className="mb-4">
-      <strong className="block">Why it's beneficial:</strong>
-        Having these utilities pre-installed saves time when managing your Proxmox
-        VE system. They provide essential tools for monitoring system performance, managing files, and troubleshooting
-        issues, enhancing your ability to maintain and optimize your virtualization environment.
-      </p>
-      <h4 className="text-lg font-semibold mb-2">Utilities installed:</h4>
+
+      
+      <div className="mb-6">
+        <img
+          src="https://macrimi.github.io/ProxMenux/basic/menu_utilities.png"
+          alt="System Utilities Selection Menu"
+          className="rounded shadow-lg border border-gray-200"
+        />
+        <p className="text-sm text-gray-600 mt-2 text-center">The utilities selection menu allows you to choose which tools to install</p>
+      </div>
+      
+      <h4 className="text-lg font-semibold mb-2">Available utilities:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-12">
 
       <li>
@@ -292,20 +296,20 @@ sudo timedatectl set-timezone "$TIMEZONE"
         `}
       />
 
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+<h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={4} />
         Update and Upgrade System
       </h3>
       <p className="mb-4">
         This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
-        repositories. It also includes additional steps to properly set up Debian repositories and disable certain
-        warnings.
+        repositories. It also includes additional steps to properly set up Debian repositories, disable certain
+        warnings, and perform safety checks after the update process.
       </p>
       <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
         Keeping your system up-to-date is essential for security, stability, and
         performance. This optimization ensures you have the latest patches and features, while also configuring the
-        correct repositories for Proxmox VE, enabling access to necessary updates and tools.
+        correct repositories for Proxmox VE, enabling access to necessary updates and tools. The disk metadata check helps prevent potential issues with storage devices that may have been modified by virtual machines.
       </p>
       <h4 className="text-lg font-semibold mb-2">Repository changes:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-2">
@@ -362,17 +366,20 @@ pveam update
 
 # Install additional packages
 sudo apt-get install -y zfsutils-linux proxmox-backup-restore-image chrony
-        `}
-      />
-
-      <section className="mt-12 p-4 bg-blue-100 rounded-md">
-        <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
-        <p>
-          All of these optimizations are automatically applied when selected in the Basic Settings section. This
-          automation ensures that these beneficial settings are applied consistently and correctly, saving time and
-          reducing the potential for human error during manual configuration.
+  `}
+/>
+<div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-md">
+        <h4 className="text-lg font-semibold mb-2 text-black">Post-Update Safety Check</h4>
+        <p className="text-gray-700 mb-2">
+          After updating the system, the script performs an important safety check to detect disks with old PV (Physical Volume) headers that might have been modified by virtual machines.
         </p>
-      </section>
+        <p className="text-gray-700 mb-2">
+          <strong>Why this matters:</strong> When VMs have direct access to disks through passthrough, they can sometimes modify the disk metadata. This can cause issues with storage management on the host system, potentially leading to data access problems or errors when using LVM (Logical Volume Manager).
+        </p>
+        <p className="text-gray-700">
+          If any issues are detected, the script will display a warning message and suggest running the <code className="bg-gray-100 px-1 py-0.5 rounded text-black">pvs</code> command to identify the affected disks. This early detection helps prevent potential storage problems before they impact your system.
+        </p>
+      </div>
     </div>
   )
 }

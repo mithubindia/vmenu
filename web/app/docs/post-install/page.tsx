@@ -47,23 +47,25 @@ export default function PostInstallPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">ProxMenux Post-Install Script Documentation</h1>
       <p className="mb-4">
-        The <strong>Customizable Post-Install Script</strong> is a utility designed to optimize 
-        the installation of Proxmox VE by adjusting system configurations. One of the advantages of 
-        its modular and selectable structure is that it allows users to choose specific settings based on 
-        their requirements, needs, and preferences.
+        The <strong>Customizable Post-Install Script</strong> is a utility designed to optimize the installation of
+        Proxmox VE by adjusting system configurations. One of the advantages of its modular and selectable structure is
+        that it allows users to choose specific settings based on their requirements, needs, and preferences.
       </p>
       <p className="mb-4">
-      This script is primarily based on the work of{" "}
-      <Link href="https://github.com/extremeshok/xshok-proxmox" className="text-blue-500 hover:underline">
-        extremeshok – Scripts for working with and optimizing Proxmox
-      </Link>{" "}
-      and the{" "}
-      <Link href="https://github.com/community-scripts/ProxmoxVE" className="text-blue-500 hover:underline">
-        Proxmox VE Post Install script from Proxmox VE Helper-Scripts
-      </Link>.  
+        This script is primarily based on the work of{" "}
+        <Link href="https://github.com/extremeshok/xshok-proxmox" className="text-blue-500 hover:underline">
+          extremeshok – Scripts for working with and optimizing Proxmox
+        </Link>{" "}
+        and the{" "}
+        <Link href="https://github.com/community-scripts/ProxmoxVE" className="text-blue-500 hover:underline">
+          Proxmox VE Post Install script from Proxmox VE Helper-Scripts
+        </Link>
+        .
       </p>
-      <p className="mb-6">This script includes {categories.length} main categories, each targeting a key aspect of Proxmox VE
-        performance, security, and usability:</p>
+      <p className="mb-6">
+        This script includes {categories.length} main categories, each targeting a key aspect of Proxmox VE performance,
+        security, and usability:
+      </p>
       <ul className="list-disc pl-5 mb-6">
         {categories.map((category) => (
           <li key={category.order} className="mb-2">
@@ -76,29 +78,43 @@ export default function PostInstallPage() {
           </li>
         ))}
       </ul>
-      <p>
+      <p className="mb-6">
         Each category includes selectable options, ensuring that users can tailor the system adjustments to their
         specific needs without applying unnecessary modifications. Click on a category to explore available settings.
       </p>
 
-      <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-16 mb-4">
+      <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 mb-6">
+        <p className="font-semibold mb-2">Uninstall Option</p>
+        <p className="mb-2">
+          The Post-Install Menu Script now includes an option to uninstall packages and utilities that were previously
+          installed by the script. This feature allows you to:
+        </p>
+        <ul className="list-disc pl-5">
+          <li>Remove specific utilities that are no longer needed</li>
+        </ul>
+      </div>
+
+      <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
         <p className="font-semibold">Important: Avoid Running Multiple Post-Install Scripts</p>
         <p>
-          It is not recommended to use different post-installation scripts, as this can cause conflicts by overwriting or duplicating files and settings.
+          It is not recommended to use different post-installation scripts, as this can cause conflicts by overwriting
+          or duplicating files and settings.
         </p>
         <ul className="list-disc pl-5">
           <li>
-            The <strong>ProxMenux Post-Install Script</strong> is designed to avoid overwriting existing configurations where possible.
+            The <strong>ProxMenux Post-Install Script</strong> is designed to avoid overwriting existing configurations
+            where possible.
           </li>
           <li>
-            If you have already run the <strong>eXtremeSHOK Post-Install Script</strong>, there is no need to run the ProxMenux Post-Install Script again, except for <strong>Option 35</strong> (console customization).
+            If you have already run the <strong>eXtremeSHOK Post-Install Script</strong>, there is no need to run the
+            ProxMenux Post-Install Script again, except for <strong>Option 35</strong> (console customization).
           </li>
           <li>
-            If you have used the <strong>Helper-Scripts Post-Install Script</strong>, you can run all ProxMenux options <strong>except for options 4 and 27</strong>, as they will already be configured.
+            If you have used the <strong>Helper-Scripts Post-Install Script</strong>, you can run all ProxMenux options{" "}
+            <strong>except for options 4 and 27</strong>, as they will already be configured.
           </li>
         </ul>
       </div>
     </div>
   )
 }
-
