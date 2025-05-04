@@ -71,5 +71,5 @@ show_menu() {
 }
 
 
-show_proxmenux_logo
+
 show_menu
