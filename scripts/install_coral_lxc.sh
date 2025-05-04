@@ -35,6 +35,7 @@ fi
 
 load_language
 initialize_cache
+show_proxmenux_logo
 # ==========================================================
 
 

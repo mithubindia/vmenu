@@ -31,6 +31,7 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 load_language
 initialize_cache
+show_proxmenux_logo
 # ==========================================================
 
 
