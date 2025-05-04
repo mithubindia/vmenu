@@ -347,6 +347,7 @@ apt_upgrade() {
         msg_error "$(translate "Failed to install additional Proxmox packages")"
     fi
 
+    lvm_repair_check
 
     cleanup_duplicate_repos
 
@@ -2300,77 +2301,6 @@ configure_fastfetch() {
 
 
 
-cleanup_duplicate_repos() {
-
-    local sources_file="/etc/apt/sources.list"
-    local temp_file=$(mktemp)
-    local cleaned_count=0
-    declare -A seen_repos
-
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        # Mantener comentarios y líneas vacías
-        if [[ "$line" =~ ^[[:space:]]*# ]] || [[ -z "$line" ]]; then
-            echo "$line" >> "$temp_file"
-            continue
-        fi
-
-        # Procesar solo líneas que comienzan con "deb"
-        if [[ "$line" =~ ^deb ]]; then
-            # Extraer URL, distribución y componentes
-            read -r _ url dist components <<< "$line"
-            # Crear una clave única
-            local key="${url}_${dist}"
-
-            if [[ -v "seen_repos[$key]" ]]; then
-                # Es un duplicado, comentarlo
-                echo "# $line" >> "$temp_file"
-                cleaned_count=$((cleaned_count + 1))
-            else
-                # No es un duplicado, mantenerlo y marcarlo como visto
-                echo "$line" >> "$temp_file"
-                seen_repos[$key]="$components"
-            fi
-        else
-            # Líneas que no comienzan con "deb", mantenerlas sin cambios
-            echo "$line" >> "$temp_file"
-        fi
-    done < "$sources_file"
-
-    # Reemplazar el archivo original con la versión limpia
-    mv "$temp_file" "$sources_file"
-    chmod 644 "$sources_file"
-
-    # Manejar los archivos de Proxmox
-    local pve_files=(/etc/apt/sources.list.d/*proxmox*.list /etc/apt/sources.list.d/*pve*.list)
-    local pve_content="deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription"
-    local pve_public_repo="/etc/apt/sources.list.d/pve-public-repo.list"
-    local pve_public_repo_exists=false
-    local pve_repo_count=0
-
-    # Primero, verificar si pve-public-repo.list existe y contiene pve-no-subscription
-    if [ -f "$pve_public_repo" ] && grep -q "^deb.*pve-no-subscription" "$pve_public_repo"; then
-        pve_public_repo_exists=true
-        pve_repo_count=1
-    fi
-
-    for file in "${pve_files[@]}"; do
-        if [ -f "$file" ] && grep -q "^deb.*pve-no-subscription" "$file"; then
-            if ! $pve_public_repo_exists && [[ "$file" == "$pve_public_repo" ]]; then
-                # Activar pve-public-repo.list si no estaba activo
-                sed -i 's/^# *deb/deb/' "$file"
-                pve_public_repo_exists=true
-                pve_repo_count=1
-            elif [[ "$file" != "$pve_public_repo" ]]; then
-                # Comentar los repositorios pve-no-subscription que no sean pve-public-repo.list
-                sed -i 's/^deb/# deb/' "$file"
-                cleaned_count=$((cleaned_count + 1))
-            fi
-        fi
-    done
-
-apt update
-}
-
 
 
 # ==========================================================
@@ -2397,6 +2327,135 @@ add_repo_test() {
 
 
 # ==========================================================
+
+
+
+
+
+# ==========================================================
+#        Auxiliary help functions
+# ==========================================================
+
+cleanup_duplicate_repos() {
+
+    local sources_file="/etc/apt/sources.list"
+    local temp_file=$(mktemp)
+    local cleaned_count=0
+    declare -A seen_repos
+
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        
+        if [[ "$line" =~ ^[[:space:]]*# ]] || [[ -z "$line" ]]; then
+            echo "$line" >> "$temp_file"
+            continue
+        fi
+
+    
+        if [[ "$line" =~ ^deb ]]; then
+         
+            read -r _ url dist components <<< "$line"
+      
+            local key="${url}_${dist}"
+
+            if [[ -v "seen_repos[$key]" ]]; then
+      
+                echo "# $line" >> "$temp_file"
+                cleaned_count=$((cleaned_count + 1))
+            else
+ 
+                echo "$line" >> "$temp_file"
+                seen_repos[$key]="$components"
+            fi
+        else
+
+            echo "$line" >> "$temp_file"
+        fi
+    done < "$sources_file"
+
+ 
+    mv "$temp_file" "$sources_file"
+    chmod 644 "$sources_file"
+
+
+    local pve_files=(/etc/apt/sources.list.d/*proxmox*.list /etc/apt/sources.list.d/*pve*.list)
+    local pve_content="deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription"
+    local pve_public_repo="/etc/apt/sources.list.d/pve-public-repo.list"
+    local pve_public_repo_exists=false
+    local pve_repo_count=0
+
+
+    if [ -f "$pve_public_repo" ] && grep -q "^deb.*pve-no-subscription" "$pve_public_repo"; then
+        pve_public_repo_exists=true
+        pve_repo_count=1
+    fi
+
+    for file in "${pve_files[@]}"; do
+        if [ -f "$file" ] && grep -q "^deb.*pve-no-subscription" "$file"; then
+            if ! $pve_public_repo_exists && [[ "$file" == "$pve_public_repo" ]]; then
+
+                sed -i 's/^# *deb/deb/' "$file"
+                pve_public_repo_exists=true
+                pve_repo_count=1
+            elif [[ "$file" != "$pve_public_repo" ]]; then
+
+                sed -i 's/^deb/# deb/' "$file"
+                cleaned_count=$((cleaned_count + 1))
+            fi
+        fi
+    done
+
+apt update
+}
+
+
+
+
+
+
+
+
+lvm_repair_check() {
+    msg_info "$(translate "Checking and repairing old LVM PV headers (if needed)...")"
+
+    pvs_output=$(LC_ALL=C pvs -v 2>&1 | grep "old PV header")
+
+    if [ -z "$pvs_output" ]; then
+        msg_ok "$(translate "No PVs with old headers found.")"
+        return
+    fi
+
+    declare -A vg_map
+    while read -r line; do
+        pv=$(echo "$line" | grep -o '/dev/[^ ]*')
+        vg=$(pvs -o vg_name --noheadings "$pv" | awk '{print $1}')
+        if [ -n "$vg" ]; then
+            vg_map["$vg"]=1
+        fi
+    done <<< "$pvs_output"
+
+    for vg in "${!vg_map[@]}"; do
+        msg_warn "$(translate "Old PV header(s) found in VG $vg. Updating metadata...")"
+        vgck --updatemetadata "$vg"
+        vgchange -ay "$vg"
+        if [ $? -ne 0 ]; then
+            msg_warn "$(translate "Metadata update failed for VG $vg. Review manually.")"
+        else
+            msg_ok "$(translate "Metadata updated successfully for VG $vg")"
+        fi
+    done
+
+}
+
+
+
+
+
+
+
+
+# ==========================================================
+
+
 
 
 
