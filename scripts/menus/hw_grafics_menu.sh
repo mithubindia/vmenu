@@ -33,6 +33,7 @@ initialize_cache
 
         case $OPTION in
             1)
+                show_proxmenux_logo
                 msg_info2 "$(translate "Running script:") $(translate " HW iGPU acceleration LXC")..."
                 bash <(curl -s "$REPO_URL/scripts/configure_igpu_lxc.sh")
                 if [ $? -ne 0 ]; then
@@ -41,8 +42,8 @@ initialize_cache
                 fi
                 ;;
             2)
+               show_proxmenux_logo
                 msg_info2 "$(translate "Running script:") Coral TPU LXC..."
-
                 bash <(curl -s "$REPO_URL/scripts/install_coral_lxc.sh")
                 if [ $? -ne 0 ]; then
                     msg_warn "$(translate "Operation cancelled.")"
@@ -50,6 +51,7 @@ initialize_cache
                 fi
                 ;;
             3)
+                show_proxmenux_logo
                 msg_info2 "$(translate "Running script:") $(translate "Install/Update") Coral..."
                 bash <(curl -s "$REPO_URL/scripts/install_coral_pve.sh")
                 if [ $? -ne 0 ]; then
