@@ -6,10 +6,9 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
+# Version     : 2.0
+# Last Updated: 04/04/2025
 # ==========================================================
-
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
@@ -25,37 +24,52 @@ load_language
 initialize_cache
 # ==========================================================
 
-
 show_menu() {
+    local TEMP_FILE
+    TEMP_FILE=$(mktemp)
 
-while true; do
-        OPTION=$(whiptail --title "$(translate "Main ProxMenux")" --menu "$(translate "Select an option:")" 18 70 10 \
-            "1" "$(translate "Settings post-install Proxmox")" \
-            "2" "$(translate "Hardware: GPUs and Coral-TPU")" \
-            "3" "$(translate "Create VM from template or script")" \
-            "4" "$(translate "Disk and Storage Manager")" \
-            "5" "$(translate "Essential Proxmox VE Helper-Scripts")" \
-            "6" "$(translate "Network")" \
-            "7" "$(translate "Settings")" \
-            "8" "$(translate "Exit")" 3>&1 1>&2 2>&3)
+    while true; do
+        dialog --clear \
+            --backtitle "ProxMenux" \
+            --title "$(translate "Main ProxMenux")" \
+            --menu "$(translate "Select an option:")" 18 70 10 \
+            1 "$(translate "Settings post-install Proxmox")" \
+            2 "$(translate "Help and Info Commands")" \
+            3 "$(translate "Hardware: GPUs and Coral-TPU")" \
+            4 "$(translate "Create VM from template or script")" \
+            5 "$(translate "Disk and Storage Manager")" \
+            6 "$(translate "Essential Proxmox VE Helper-Scripts")" \
+            7 "$(translate "Network")" \
+            8 "$(translate "Settings")" \
+            9 "$(translate "Exit")" 2>"$TEMP_FILE"
 
+        local EXIT_STATUS=$?
 
+        if [[ $EXIT_STATUS -ne 0 ]]; then
+            # ESC pressed or Cancel
+            clear
+            msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"
+            rm -f "$TEMP_FILE"
+            exit 0
+        fi
 
-    case $OPTION in
-        1) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_post_install.sh") ;;
-        2) exec bash <(curl -s "$REPO_URL/scripts/menus/hw_grafics_menu.sh") ;;
-        3) exec bash <(curl -s "$REPO_URL/scripts/menus/create_vm_menu.sh") ;;
-        4) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
-        5) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
-        6) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
-        7) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
-        8) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; exit 0 ;;
-        *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
-    esac
-    
-done
+        OPTION=$(<"$TEMP_FILE")
+
+        case $OPTION in
+            1) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_post_install.sh") ;;
+            2) exec bash <(curl -s "$REPO_URL/scripts/help_info_menu.sh") ;;
+            3) exec bash <(curl -s "$REPO_URL/scripts/menus/hw_grafics_menu.sh") ;;
+            4) exec bash <(curl -s "$REPO_URL/scripts/menus/create_vm_menu.sh") ;;
+            5) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
+            6) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
+            7) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
+            8) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
+            9) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
+            *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
+        esac
+    done
 }
+
 
 show_proxmenux_logo
 show_menu
-

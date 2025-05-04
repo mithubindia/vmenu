@@ -6,8 +6,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.1
-# Last Updated: 06/02/2025
+# Version     : 1.2
+# Last Updated: 04/04/2025
 # ==========================================================
 # Description:
 # This script installs and configures ProxMenux, a menu-driven
@@ -117,7 +117,7 @@ install_proxmenu() {
    fi
 
 
-   DEPS=("whiptail" "curl" "python3" "python3-venv" "python3-pip")
+   DEPS=("whiptail" "dialog" "curl" "python3" "python3-venv" "python3-pip")
    for pkg in "${DEPS[@]}"; do
        if ! dpkg -l | grep -qw "$pkg"; then
            msg_info "Installing $pkg..."

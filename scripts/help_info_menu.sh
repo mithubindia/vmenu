@@ -51,63 +51,79 @@ show_system_commands() {
         clear
         echo -e "${YELLOW}$(translate 'Useful System Commands')${NC}"
         echo "----------------------------------------"
-        echo -e " 1) ${GREEN}pveversion${NC}                            - $(translate 'Show Proxmox version')"
-        echo -e " 2) ${GREEN}pveversion -v${NC}                         - $(translate 'Detailed Proxmox version info')"
-        echo -e " 3) ${GREEN}systemctl status pveproxy${NC}             - $(translate 'Check Proxmox Web UI status')"
-        echo -e " 4) ${GREEN}systemctl restart pveproxy${NC}            - $(translate 'Restart Web UI proxy')"
-        echo -e " 5) ${GREEN}journalctl -xe${NC}                        - $(translate 'System errors and logs')"
-        echo -e " 6) ${GREEN}uptime${NC}                                - $(translate 'System uptime')"
-        echo -e " 7) ${GREEN}hostnamectl${NC}                           - $(translate 'System hostname and kernel info')"
-        echo -e " 8) ${GREEN}free -h${NC}                               - $(translate 'RAM and swap usage')"
-        echo -e " 9) ${GREEN}uptime -p${NC}                             - $(translate 'Pretty uptime format')"
-        echo -e "10) ${GREEN}who -b${NC}                                - $(translate 'Last system boot time')"
-        echo -e "11) ${GREEN}last -x | grep shutdown${NC}               - $(translate 'Previous shutdowns')"
-        echo -e "12) ${GREEN}dmesg -T | tail -n 50${NC}                 - $(translate 'Last 50 kernel log lines')"
-        echo -e "13) ${GREEN}cat /etc/os-release${NC}                   - $(translate 'OS release details')"
-        echo -e "14) ${GREEN}uname -a${NC}                              - $(translate 'Kernel and architecture info')"
-        echo -e "15) ${GREEN}uptime && w${NC}                           - $(translate 'Uptime and who is logged in')"
-        echo -e "16) ${GREEN}whoami${NC}                                - $(translate 'Current user')"
-        echo -e "17) ${GREEN}id${NC}                                    - $(translate 'Current user UID, GID and groups')"
-        echo -e "18) ${GREEN}who${NC}                                   - $(translate 'Logged-in users')"
-        echo -e "19) ${GREEN}w${NC}                                     - $(translate 'User activity and uptime')"
-        echo -e "20) ${GREEN}cut -d: -f1,3,4 /etc/passwd${NC}           - $(translate 'All users with UID and GID')"
-        echo -e "21) ${GREEN}getent passwd | column -t -s :${NC}        - $(translate 'Readable user table (UID, shell, etc.)')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " 1) ${GREEN}pveversion${NC}                         - $(translate 'Show Proxmox version')"
+        echo -e " 2) ${GREEN}pveversion -v${NC}                      - $(translate 'Detailed Proxmox version info')"
+        echo -e " 3) ${GREEN}systemctl status pveproxy${NC}          - $(translate 'Check Proxmox Web UI status')"
+        echo -e " 4) ${GREEN}systemctl restart pveproxy${NC}         - $(translate 'Restart Web UI proxy')"
+        echo -e " 5) ${GREEN}journalctl -xe${NC}                     - $(translate 'System errors and logs')"
+        echo -e " 6) ${GREEN}uptime${NC}                             - $(translate 'System uptime')"
+        echo -e " 7) ${GREEN}hostnamectl${NC}                        - $(translate 'System hostname and kernel info')"
+        echo -e " 8) ${GREEN}free -h${NC}                            - $(translate 'RAM and swap usage')"
+        echo -e " 9) ${GREEN}uptime -p${NC}                          - $(translate 'Pretty uptime format')"
+        echo -e "10) ${GREEN}who -b${NC}                             - $(translate 'Last system boot time')"
+        echo -e "11) ${GREEN}last -x | grep shutdown${NC}            - $(translate 'Previous shutdowns')"
+        echo -e "12) ${GREEN}dmesg -T | tail -n 50${NC}              - $(translate 'Last 50 kernel log lines')"
+        echo -e "13) ${GREEN}cat /etc/os-release${NC}                - $(translate 'OS release details')"
+        echo -e "14) ${GREEN}uname -a${NC}                           - $(translate 'Kernel and architecture info')"
+        echo -e "15) ${GREEN}uptime && w${NC}                        - $(translate 'Uptime and who is logged in')"
+        echo -e "16) ${GREEN}whoami${NC}                             - $(translate 'Current user')"
+        echo -e "17) ${GREEN}id${NC}                                 - $(translate 'Current user UID, GID and groups')"
+        echo -e "18) ${GREEN}who${NC}                                - $(translate 'Logged-in users')"
+        echo -e "19) ${GREEN}w${NC}                                  - $(translate 'User activity and uptime')"
+        echo -e "20) ${GREEN}cut -d: -f1,3,4 /etc/passwd${NC}        - $(translate 'All users with UID and GID')"
+        echo -e "21) ${GREEN}getent passwd | column -t -s :${NC}     - $(translate 'Readable user table (UID, shell, etc.)')"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
 
-        case "$user_input" in
-            1) cmd="pveversion" ;;
-            2) cmd="pveversion -v" ;;
-            3) cmd="systemctl status pveproxy" ;;
-            4) cmd="systemctl restart pveproxy" ;;
-            5) cmd="journalctl -xe" ;;
-            6) cmd="uptime" ;;
-            7) cmd="hostnamectl" ;;
-            8) cmd="free -h" ;;
-            9) cmd="uptime -p" ;;
-            10) cmd="who -b" ;;
-            11) cmd="last -x | grep shutdown" ;;
-            12) cmd="dmesg -T | tail -n 50" ;;
-            13) cmd="cat /etc/os-release" ;;
-            14) cmd="uname -a" ;;
-            15) cmd="uptime && w" ;;
-            16) cmd="whoami" ;;
-            17) cmd="id" ;;
-            18) cmd="who" ;;
-            19) cmd="w" ;;
-            20) cmd="cut -d: -f1,3,4 /etc/passwd" ;;
-            21) cmd="getent passwd | column -t -s :" ;;
-            0) break ;;
-            *) cmd="$user_input" ;;
-        esac
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
-        echo -e "\n${GREEN}> $cmd${NC}\n"
-        bash -c "$cmd"
-        echo
-        msg_success "$(translate 'Press ENTER to continue...')"
-        read -r tmp
+        case "$user_input" in
+            0) break ;;
+            [1-9]|1[0-9]|2[0-1])
+                case "$user_input" in
+                    1) cmd="pveversion" ;;
+                    2) cmd="pveversion -v" ;;
+                    3) cmd="systemctl status pveproxy" ;;
+                    4) cmd="systemctl restart pveproxy" ;;
+                    5) cmd="journalctl -xe" ;;
+                    6) cmd="uptime" ;;
+                    7) cmd="hostnamectl" ;;
+                    8) cmd="free -h" ;;
+                    9) cmd="uptime -p" ;;
+                    10) cmd="who -b" ;;
+                    11) cmd="last -x | grep shutdown" ;;
+                    12) cmd="dmesg -T | tail -n 50" ;;
+                    13) cmd="cat /etc/os-release" ;;
+                    14) cmd="uname -a" ;;
+                    15) cmd="uptime && w" ;;
+                    16) cmd="whoami" ;;
+                    17) cmd="id" ;;
+                    18) cmd="who" ;;
+                    19) cmd="w" ;;
+                    20) cmd="cut -d: -f1,3,4 /etc/passwd" ;;
+                    21) cmd="getent passwd | column -t -s :" ;;
+                esac
+                echo -e "\n${GREEN}> $cmd${NC}\n"
+                bash -c "$cmd"
+                echo
+                msg_success "$(translate 'Press ENTER to continue...')"
+                read -r tmp
+                ;;
+            *)
+                if [[ -n "$user_input" ]]; then
+                    echo -e "\n${GREEN}> $user_input${NC}\n"
+                    bash -c "$user_input"
+                    echo
+                    msg_success "$(translate 'Press ENTER to continue...')"
+                    read -r tmp
+                fi
+                ;;
+        esac
     done
 }
 
@@ -133,10 +149,15 @@ show_vm_ct_commands() {
         echo -e "11) ${GN}[Only with menu] Show CT users for permission mapping${NC} - $(translate 'root and real users only')"
         echo -e "12) ${GREEN}pct exec <ctid> -- getent passwd | column -t -s :${NC}     - $(translate 'Show CT users in table format')"
         echo -e "13) ${GREEN}pct exec <ctid> -- ps aux --sort=-%mem | head${NC}         - $(translate 'Top memory processes in CT')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="qm list" ;;
@@ -199,6 +220,7 @@ show_vm_ct_commands() {
 }
 
 
+
 # ===============================================================
 # 03 Storage and Disks Commands
 # ===============================================================
@@ -207,17 +229,27 @@ show_storage_commands() {
         clear
         echo -e "${YELLOW}$(translate 'Storage and Disks Commands')${NC}"
         echo "--------------------------------------------------"
-        echo -e " 1) ${GREEN}lsblk${NC}                     - $(translate 'List block devices and partitions')"
-        echo -e " 2) ${GREEN}fdisk -l${NC}                  - $(translate 'List disks with detailed info')"
-        echo -e " 3) ${GREEN}df -h${NC}                     - $(translate 'Show disk usage by mount point')"
-        echo -e " 4) ${GREEN}pvdisplay${NC}                 - $(translate 'Display physical volumes (LVM)')"
-        echo -e " 5) ${GREEN}vgdisplay${NC}                 - $(translate 'Display volume groups (LVM)')"
-        echo -e " 6) ${GREEN}lvdisplay${NC}                 - $(translate 'Display logical volumes (LVM)')"
-        echo -e " 7) ${GREEN}cat /etc/pve/storage.cfg${NC}  - $(translate 'Show Proxmox storage configuration')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " 1) ${GREEN}lsblk${NC}                       - $(translate 'List block devices and partitions')"
+        echo -e " 2) ${GREEN}fdisk -l${NC}                    - $(translate 'List disks with detailed info')"
+        echo -e " 3) ${GREEN}df -h${NC}                       - $(translate 'Show disk usage by mount point')"
+        echo -e " 4) ${GREEN}pvdisplay${NC}                   - $(translate 'Display physical volumes (LVM)')"
+        echo -e " 5) ${GREEN}vgdisplay${NC}                   - $(translate 'Display volume groups (LVM)')"
+        echo -e " 6) ${GREEN}lvdisplay${NC}                   - $(translate 'Display logical volumes (LVM)')"
+        echo -e " 7) ${GREEN}cat /etc/pve/storage.cfg${NC}    - $(translate 'Show Proxmox storage configuration')"
+        echo -e " 8) ${GREEN}blkid${NC}                       - $(translate 'Show UUID and filesystem type of block devices')"
+        echo -e " 9) ${GREEN}ls -lh /dev/disk/by-id/${NC}     - $(translate 'List disk persistent identifiers')"
+        echo -e "10) ${GREEN}parted -l${NC}                   - $(translate 'Detailed partition layout with GPT info')"
+        echo -e "11) ${GREEN}mount | grep ^/dev${NC}          - $(translate 'Show mounted storage devices')"
+        echo -e "12) ${GREEN}cat /proc/mounts${NC}            - $(translate 'Show all active mounts from the kernel')"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="lsblk" ;;
@@ -227,6 +259,11 @@ show_storage_commands() {
             5) cmd="vgdisplay" ;;
             6) cmd="lvdisplay" ;;
             7) cmd="cat /etc/pve/storage.cfg" ;;
+            8) cmd="blkid" ;;
+            9) cmd="ls -lh /dev/disk/by-id/" ;;
+            10) cmd="parted -l" ;;
+            11) cmd="mount | grep ^/dev" ;;
+            12) cmd="cat /proc/mounts" ;;
             0) break ;;
             *) cmd="$user_input" ;;
         esac
@@ -240,6 +277,7 @@ show_storage_commands() {
 }
 
 
+
 # ===============================================================
 # 04 Network Commands
 # ===============================================================
@@ -248,16 +286,30 @@ show_network_commands() {
         clear
         echo -e "${YELLOW}$(translate 'Network Commands')${NC}"
         echo "------------------------------------------"
-        echo -e " 1) ${GREEN}ip a${NC}                         - $(translate 'Show network interfaces and IPs')"
-        echo -e " 2) ${GREEN}ip r${NC}                         - $(translate 'Show routing table')"
-        echo -e " 3) ${GREEN}ping <host>${NC}                  - $(translate 'Check connectivity with another host')"
-        echo -e " 4) ${GREEN}brctl show${NC}                   - $(translate 'Show configured network bridges')"
-        echo -e " 5) ${GREEN}ifreload -a${NC}                  - $(translate 'Reload network configuration (ifupdown2)')"
-        echo -e " 6) ${GREEN}cat /etc/network/interfaces${NC}  - $(translate 'Show raw network configuration')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " 1) ${GREEN}ip a${NC}                           - $(translate 'Show network interfaces and IPs')"
+        echo -e " 2) ${GREEN}ip r${NC}                           - $(translate 'Show routing table')"
+        echo -e " 3) ${GREEN}ping <host>${NC}                    - $(translate 'Check connectivity with another host')"
+        echo -e " 4) ${GREEN}brctl show${NC}                     - $(translate 'Show configured network bridges')"
+        echo -e " 5) ${GREEN}ifreload -a${NC}                    - $(translate 'Reload network configuration (ifupdown2)')"
+        echo -e " 6) ${GREEN}cat /etc/network/interfaces${NC}    - $(translate 'Show raw network configuration')"
+        echo -e " 7) ${GREEN}ip -s link${NC}                     - $(translate 'Show traffic statistics per interface')"
+        echo -e " 8) ${GREEN}ethtool <iface>${NC}                - $(translate 'Show Ethernet device info')"
+        echo -e " 9) ${GREEN}resolvectl status${NC}              - $(translate 'Show DNS resolution status')"
+        echo -e "10) ${GREEN}dig <domain>${NC}                   - $(translate 'DNS lookup for a domain')"
+        echo -e "11) ${GREEN}ss -tuln${NC}                       - $(translate 'Show listening ports (TCP/UDP)')"
+        echo -e "12) ${GREEN}iptables -L -n -v${NC}              - $(translate 'Show active firewall rules (iptables)')"
+        echo -e "13) ${GREEN}nft list ruleset${NC}               - $(translate 'Show nftables rules')"
+        echo -e "14) ${GREEN}pve-firewall status${NC}            - $(translate 'Check Proxmox firewall status')"
+        echo -e "15) ${GREEN}pve-firewall compile${NC}           - $(translate 'Compile firewall rules for all nodes')"
+        echo -e "16) ${GREEN}pve-firewall reload${NC}            - $(translate 'Reload Proxmox firewall rules')"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="ip a" ;;
@@ -270,6 +322,28 @@ show_network_commands() {
             4) cmd="brctl show" ;;
             5) cmd="ifreload -a" ;;
             6) cmd="cat /etc/network/interfaces" ;;
+            7) cmd="ip -s link" ;;
+            8)
+                echo -e "\n${YELLOW}$(translate 'Available network interfaces:')${NC}"
+                ip -o link show | awk -F': ' '{print " - " $2}' | grep -v '^ - lo' | sort
+                echo
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter interface name (e.g. eth0): ')${CL}"
+                read -r iface
+                cmd="ethtool $iface"
+                ;;
+
+            9) cmd="resolvectl status" ;;
+            10)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter domain name: ')${CL}"
+                read -r domain
+                cmd="dig $domain"
+                ;;
+            11) cmd="ss -tuln" ;;
+            12) cmd="iptables -L -n -v" ;;
+            13) cmd="nft list ruleset" ;;
+            14) cmd="pve-firewall status" ;;
+            15) cmd="pve-firewall compile" ;;
+            16) cmd="pve-firewall reload" ;;
             0) break ;;
             *) cmd="$user_input" ;;
         esac
@@ -281,6 +355,7 @@ show_network_commands() {
         read -r tmp
     done
 }
+
 
 
 
@@ -297,10 +372,15 @@ show_update_commands() {
         echo -e " 3) ${GREEN}pveupdate${NC}                      - $(translate 'Update Proxmox package lists')"
         echo -e " 4) ${GREEN}pveupgrade${NC}                     - $(translate 'Show available Proxmox upgrades')"
         echo -e " 5) ${GREEN}apt autoremove --purge${NC}         - $(translate 'Remove unused packages and their config')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="apt update && apt upgrade -y" ;;
@@ -336,10 +416,15 @@ show_gpu_commands() {
         echo -e " 5) ${GREEN}update-initramfs -u${NC}              - $(translate 'Apply initramfs changes (VFIO)')"
         echo -e " 6) ${GREEN}cat /etc/default/grub${NC}            - $(translate 'Review GRUB options for IOMMU')"
         echo -e " 7) ${GREEN}update-grub${NC}                      - $(translate 'Apply GRUB changes')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="lspci -nn | grep -i nvidia" ;;
@@ -371,16 +456,29 @@ show_zfs_commands() {
         clear
         echo -e "${YELLOW}$(translate 'ZFS Management Commands')${NC}"
         echo "------------------------------------------------"
-        echo -e " 1) ${GREEN}zpool status${NC}                  - $(translate 'Show ZFS pool status')"
-        echo -e " 2) ${GREEN}zpool list${NC}                    - $(translate 'List all ZFS pools')"
-        echo -e " 3) ${GREEN}zfs list${NC}                      - $(translate 'List ZFS datasets and snapshots')"
-        echo -e " 4) ${GREEN}zpool scrub <pool>${NC}            - $(translate 'Start scrub for a ZFS pool')"
-        echo -e " 5) ${GREEN}zfs create <pool>/dataset${NC}     - $(translate 'Create a new dataset in a ZFS pool')"
-        echo -e " 6) ${GREEN}zfs destroy <pool>/dataset${NC}    - $(translate 'Destroy a ZFS dataset (irreversible)')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " 1) ${GREEN}zpool status${NC}                   - $(translate 'Show ZFS pool status')"
+        echo -e " 2) ${GREEN}zpool list${NC}                     - $(translate 'List all ZFS pools')"
+        echo -e " 3) ${GREEN}zfs list${NC}                       - $(translate 'List ZFS datasets and snapshots')"
+        echo -e " 4) ${GREEN}zpool scrub <pool>${NC}             - $(translate 'Start scrub for a ZFS pool')"
+        echo -e " 5) ${GREEN}zfs create <pool>/dataset${NC}      - $(translate 'Create a new dataset in a ZFS pool')"
+        echo -e " 6) ${GREEN}zfs destroy <pool>/dataset${NC}     - $(translate 'Destroy a ZFS dataset (irreversible)')"
+        echo -e " 7) ${GREEN}zpool import${NC}                   - $(translate 'List importable ZFS pools')"
+        echo -e " 8) ${GREEN}zpool import <pool>${NC}            - $(translate 'Import a ZFS pool')"
+        echo -e " 9) ${GREEN}zpool export <pool>${NC}            - $(translate 'Export a ZFS pool')"
+        echo -e "10) ${GREEN}zfs mount -a${NC}                   - $(translate 'Mount all datasets')"
+        echo -e "11) ${GREEN}zfs mount <pool/dataset>${NC}       - $(translate 'Mount specific dataset')"
+        echo -e "12) ${GREEN}zpool status -v${NC}                - $(translate 'Verbose pool status')"
+        echo -e "13) ${GREEN}zpool history${NC}                  - $(translate 'ZFS command history')"
+        echo -e "14) ${GREEN}zpool clear <pool>${NC}             - $(translate 'Clear pool error state')"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Detect ESC
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="zpool status" ;;
@@ -401,6 +499,30 @@ show_zfs_commands() {
                 read -r dataset
                 cmd="zfs destroy $dataset"
                 ;;
+            7) cmd="zpool import" ;;
+            8)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter pool name to import: ')${CL}"
+                read -r pool
+                cmd="zpool import $pool"
+                ;;
+            9)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter pool name to export: ')${CL}"
+                read -r pool
+                cmd="zpool export $pool"
+                ;;
+            10) cmd="zfs mount -a" ;;
+            11)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter pool/dataset to mount: ')${CL}"
+                read -r dataset
+                cmd="zfs mount $dataset"
+                ;;
+            12) cmd="zpool status -v" ;;
+            13) cmd="zpool history" ;;
+            14)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter pool name to clear errors: ')${CL}"
+                read -r pool
+                cmd="zpool clear $pool"
+                ;;
             0) break ;;
             *) cmd="$user_input" ;;
         esac
@@ -412,6 +534,7 @@ show_zfs_commands() {
         read -r tmp
     done
 }
+
 
 
 
@@ -428,10 +551,20 @@ show_backup_commands() {
         echo -e " 3) ${GREEN}vzdump --all${NC}                             - $(translate 'Backup all VMs and CTs')"
         echo -e " 4) ${GREEN}qmrestore /path/backup.vma.zst <vmid>${NC}    - $(translate 'Restore a VM from backup')"
         echo -e " 5) ${GREEN}pct restore <vmid> /path/backup.tar.zst${NC}  - $(translate 'Restore a CT from backup')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " 6) ${GREEN}ls /var/lib/vz/dump${NC}                      - $(translate 'List local backups')"
+        echo -e " 7) ${GREEN}pvesm list <storage>${NC}                     - $(translate 'List backups in a specific storage')"
+        echo -e " 8) ${GREEN}cat /etc/vzdump.conf${NC}                     - $(translate 'Show vzdump backup configuration')"
+        echo -e " 9) ${GREEN}zstd -d <backup>.zst${NC}                     - $(translate 'Decompress backup manually')"
+        echo -e "10) ${GREEN}vzdump --stdexcludes${NC}                     - $(translate 'Show standard exclude patterns')"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1)
@@ -461,6 +594,19 @@ show_backup_commands() {
                 read -r id
                 cmd="pct restore $id $backup"
                 ;;
+            6) cmd="ls /var/lib/vz/dump" ;;
+            7)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter storage name: ')${CL}"
+                read -r storage
+                cmd="pvesm list $storage"
+                ;;
+            8) cmd="cat /etc/vzdump.conf" ;;
+            9)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter backup file (.zst): ')${CL}"
+                read -r file
+                cmd="zstd -d $file"
+                ;;
+            10) cmd="vzdump --stdexcludes" ;;
             0) break ;;
             *) cmd="$user_input" ;;
         esac
@@ -472,6 +618,7 @@ show_backup_commands() {
         read -r tmp
     done
 }
+
 
 
 
@@ -494,10 +641,15 @@ show_tools_commands() {
         echo -e " 9) ${GREEN}net-tools${NC}         - $(translate 'Legacy network tools (e.g., ifconfig)')"
         echo -e "10) ${GREEN}whois${NC}             - $(translate 'Lookup domain registration info')"
         echo -e "11) ${GREEN}libguestfs-tools${NC}  - $(translate 'Manage and inspect VM disk images')"
-        echo -e " ${DEF}0)$(translate ' Back to previous menu')${CL}"
+        echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
-        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command.: ') ${CL}"
+        echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
+
+        # Check for Esc key press
+        if [[ "$user_input" == $'\x1b' ]]; then
+            break
+        fi
 
         case "$user_input" in
             1) cmd="htop" ;;
@@ -572,7 +724,7 @@ show_tools_commands() {
 while true; do
 OPTION=$(dialog --stdout \
     --title "$(translate 'Help and Info')" \
-    --menu "$(translate 'Select a category of useful commands:')" 20 70 12 \
+    --menu "\n$(translate 'Select a category of useful commands:')" 20 70 9 \
     1 "$(translate 'Useful System Commands')" \
     2 "$(translate 'VM and CT Management Commands')" \
     3 "$(translate 'Storage and Disks Commands')" \
@@ -583,41 +735,28 @@ OPTION=$(dialog --stdout \
     8 "$(translate 'Backup and Restore Commands')" \
     9 "$(translate 'System CLI Tools')" \
     0 "$(translate 'Exit')")
+
+
+    if [[ -z "$OPTION" ]]; then
+        clear
+        break
+    fi
+
     case $OPTION in
-        1)
-            show_system_commands
-            ;;
-        2)
-            show_vm_ct_commands
-            ;;
-        3)
-            show_storage_commands
-            ;;
-        4)
-            show_network_commands
-            ;;
-        5)
-            show_update_commands
-            ;;
-        6)
-            show_gpu_commands
-            ;;
-        7)
-            show_zfs_commands
-            ;;
-        8)
-            show_backup_commands
-            ;;
-        9)
-            show_tools_commands
-            ;;
-        0)  clear
-            break
-            ;;
-    
+        1) show_system_commands ;;
+        2) show_vm_ct_commands ;;
+        3) show_storage_commands ;;
+        4) show_network_commands ;;
+        5) show_update_commands ;;
+        6) show_gpu_commands ;;
+        7) show_zfs_commands ;;
+        8) show_backup_commands ;;
+        9) show_tools_commands ;;
+        0) clear; break ;;
         *) 
             msg_info2 "$(translate 'Invalid option, please try again.')"
             read -r
             ;;
     esac
 done
+
