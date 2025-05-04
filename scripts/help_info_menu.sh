@@ -719,27 +719,28 @@ show_tools_commands() {
 
 
 # ===============================================================
-# Main Menu
+# Help and Info Menu
 # ===============================================================
 while true; do
-OPTION=$(dialog --stdout \
-    --title "$(translate 'Help and Info')" \
-    --menu "\n$(translate 'Select a category of useful commands:')" 20 70 9 \
-    1 "$(translate 'Useful System Commands')" \
-    2 "$(translate 'VM and CT Management Commands')" \
-    3 "$(translate 'Storage and Disks Commands')" \
-    4 "$(translate 'Network Commands')" \
-    5 "$(translate 'Updates and Packages Commands')" \
-    6 "$(translate 'GPU Passthrough Commands')" \
-    7 "$(translate 'ZFS Management Commands')" \
-    8 "$(translate 'Backup and Restore Commands')" \
-    9 "$(translate 'System CLI Tools')" \
-    0 "$(translate 'Exit')")
+    OPTION=$(dialog --stdout \
+        --title "$(translate 'Help and Info')" \
+        --menu "\n$(translate 'Select a category of useful commands:')" 20 70 9 \
+        1 "$(translate 'Useful System Commands')" \
+        2 "$(translate 'VM and CT Management Commands')" \
+        3 "$(translate 'Storage and Disks Commands')" \
+        4 "$(translate 'Network Commands')" \
+        5 "$(translate 'Updates and Packages Commands')" \
+        6 "$(translate 'GPU Passthrough Commands')" \
+        7 "$(translate 'ZFS Management Commands')" \
+        8 "$(translate 'Backup and Restore Commands')" \
+        9 "$(translate 'System CLI Tools')" \
+        0 "$(translate 'Exit')")
 
+    EXIT_STATUS=$?
 
-    if [[ -z "$OPTION" ]]; then
-        clear
-        break
+    if [[ $EXIT_STATUS -ne 0 ]]; then
+        
+        continue
     fi
 
     case $OPTION in
@@ -752,11 +753,12 @@ OPTION=$(dialog --stdout \
         7) show_zfs_commands ;;
         8) show_backup_commands ;;
         9) show_tools_commands ;;
-        0) clear; break ;;
-        *) 
+        0) clear; break ;;  
+        *)
             msg_info2 "$(translate 'Invalid option, please try again.')"
             read -r
             ;;
     esac
 done
+
 
