@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import Link from "next/link"
-import { Play, MessageCircle, Users, Book, Database, Code } from "lucide-react"
+import { Play, MessageCircle, Users, Book, Database, Code, BookOpen } from "lucide-react"
 import Footer2 from "@/components/footer2"
 
 const guidesDirectory = path.join(process.cwd(), "..", "guides")
