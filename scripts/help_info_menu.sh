@@ -739,8 +739,8 @@ while true; do
     EXIT_STATUS=$?
 
     if [[ $EXIT_STATUS -ne 0 ]]; then
-        
-        continue
+
+        break
     fi
 
     case $OPTION in
