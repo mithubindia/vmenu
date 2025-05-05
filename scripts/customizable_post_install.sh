@@ -1539,7 +1539,7 @@ EOF
 
 
 
-install_lynis() {
+install_lynis_() {
     msg_info2 "$(translate "Installing Lynis security scan tool...")"
 
     # Install Lynis directly from Debian repositories
@@ -1563,6 +1563,36 @@ install_lynis() {
     fi
 
     # Verify installation
+    if command -v lynis >/dev/null 2>&1; then
+        msg_success "$(translate "Lynis is ready to use")"
+    else
+        msg_warn "$(translate "Lynis installation could not be verified")"
+    fi
+}
+
+
+install_lynis() {
+    msg_info2 "$(translate "Installing latest Lynis security scan tool...")"
+
+ 
+    if ! command -v git >/dev/null 2>&1; then
+        msg_info "$(translate "Installing Git as a prerequisite...")"
+        apt-get update
+        apt-get install -y git
+    fi
+
+  
+    msg_info "$(translate "Cloning Lynis from GitHub...")"
+    if git clone https://github.com/CISOfy/lynis.git /opt/lynis 2>/dev/null; then
+        ln -sf /opt/lynis/lynis /usr/local/bin/lynis
+        chmod +x /usr/local/bin/lynis
+        msg_ok "$(translate "Lynis installed successfully from GitHub")"
+    else
+        msg_warn "$(translate "Failed to clone Lynis from GitHub")"
+        return 1
+    fi
+
+ 
     if command -v lynis >/dev/null 2>&1; then
         msg_success "$(translate "Lynis is ready to use")"
     else
