@@ -174,7 +174,7 @@ export default function HelpAndInfoPage() {
         </div>
 
         <p className="text-lg mb-6 text-black">
-          Check out our guides section for additional resources, tutorials, and documentation to help you get the most
+          Check out the guides section for additional resources, tutorials, and documentation to help you get the most
           out of Proxmox VE and ProxMenu.
         </p>
 
