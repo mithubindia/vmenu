@@ -86,7 +86,7 @@ show_system_commands() {
 
         case "$user_input" in
             0) break ;;
-            [1-9]|1[0-9]|2[0-1])
+            [1-9]|1[0-9]|2[0-3])
                 case "$user_input" in
                     1) cmd="pveversion" ;;
                     2) cmd="pveversion -v" ;;
