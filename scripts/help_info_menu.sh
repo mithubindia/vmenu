@@ -72,6 +72,8 @@ show_system_commands() {
         echo -e "19) ${GREEN}w${NC}                                  - $(translate 'User activity and uptime')"
         echo -e "20) ${GREEN}cut -d: -f1,3,4 /etc/passwd${NC}        - $(translate 'All users with UID and GID')"
         echo -e "21) ${GREEN}getent passwd | column -t -s :${NC}     - $(translate 'Readable user table (UID, shell, etc.)')"
+		echo -e "22) ${GREEN}lynis audit system${NC}                 - $(translate 'Run a full security audit')"
+		echo -e "23) ${GREEN}fastfetch${NC}                          - $(translate 'Display system summary in ASCII format')"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
         echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
@@ -107,6 +109,25 @@ show_system_commands() {
                     19) cmd="w" ;;
                     20) cmd="cut -d: -f1,3,4 /etc/passwd" ;;
                     21) cmd="getent passwd | column -t -s :" ;;
+					22)
+						if ! command -v lynis &>/dev/null; then
+							echo -e "\n${RED}$(translate 'Lynis is not installed. Run: apt install lynis')${NC}\n"
+							msg_success "$(translate 'Press ENTER to continue...')"
+							read -r tmp
+							continue
+						fi
+						cmd="lynis audit system"
+						;;
+					23)
+						if ! command -v fastfetch &>/dev/null; then
+							echo -e "\n${RED}$(translate 'Fastfetch is not installed. Run: apt install fastfetch')${NC}\n"
+							msg_success "$(translate 'Press ENTER to continue...')"
+							read -r tmp
+							continue
+						fi
+						cmd="fastfetch"
+						;;
+
                 esac
                 echo -e "\n${GREEN}> $cmd${NC}\n"
                 bash -c "$cmd"
