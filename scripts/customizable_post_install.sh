@@ -1574,7 +1574,6 @@ install_lynis_() {
 install_lynis() {
     msg_info2 "$(translate "Installing latest Lynis security scan tool...")"
 
-    # Instalar Git si no está presente
     if ! command -v git >/dev/null 2>&1; then
         msg_info "$(translate "Installing Git as a prerequisite...")"
         apt-get update -qq >/dev/null 2>&1
@@ -1582,7 +1581,10 @@ install_lynis() {
         msg_ok "$(translate "Git installed")"
     fi
 
-    # Clonar Lynis desde GitHub (oculto)
+    if [ -d /opt/lynis ]; then
+        rm -rf /opt/lynis >/dev/null 2>&1
+    fi
+
     msg_info "$(translate "Cloning Lynis from GitHub...")"
     if git clone --quiet https://github.com/CISOfy/lynis.git /opt/lynis >/dev/null 2>&1; then
         ln -sf /opt/lynis/lynis /usr/local/bin/lynis >/dev/null 2>&1
@@ -1593,14 +1595,12 @@ install_lynis() {
         return 1
     fi
 
-    # Verificación
     if command -v lynis >/dev/null 2>&1; then
         msg_success "$(translate "Lynis is ready to use")"
     else
         msg_warn "$(translate "Lynis installation could not be verified")"
     fi
 }
-
 
 
 
