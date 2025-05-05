@@ -60,7 +60,7 @@ update_config() {
     local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
     # List of components we want to track
-    local tracked_components=("whiptail" "curl" "jq" "python3" "python3-venv" "python3-pip" "virtual_environment" "pip" "googletrans")
+    local tracked_components=("whiptail" "dialog" "curl" "jq" "python3" "python3-venv" "python3-pip" "virtual_environment" "pip" "googletrans")
     
     # Check if the component is in the list of tracked components
     if [[ " ${tracked_components[@]} " =~ " ${component} " ]]; then
