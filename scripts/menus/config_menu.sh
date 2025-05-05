@@ -93,28 +93,21 @@ change_language() {
 # ==========================================================
 
 show_version_info() {
-
-    local version
+    local version info_message temp_file
     version=$(<"$LOCAL_VERSION_FILE")
 
-    # Prepare the information message
-    local info_message="$(translate "Current ProxMenux version:") $version\n\n"
+    info_message+="$(translate "Current ProxMenux version:") $version\n\n"
     info_message+="$(translate "Installed components:")\n"
-    
-    # Check and add information about installed components
+
     if [ -f "$CONFIG_FILE" ]; then
         while IFS=': ' read -r component value; do
-            if [ "$component" = "language" ]; then
-                continue
-            fi
-            
+            [ "$component" = "language" ] && continue
             local status
             if echo "$value" | jq -e '.status' >/dev/null 2>&1; then
                 status=$(echo "$value" | jq -r '.status')
             else
                 status="$value"
             fi
-            
             local translated_status=$(translate "$status")
             case "$status" in
                 "installed"|"already_installed"|"created"|"already_exists"|"upgraded")
@@ -128,38 +121,34 @@ show_version_info() {
     else
         info_message+="$(translate "No installation information available.")\n"
     fi
-    
-    # Add information about ProxMenu files with paths
+
     info_message+="\n$(translate "ProxMenu files:")\n"
     [ -f "$INSTALL_DIR/$MENU_SCRIPT" ] && info_message+="✓ $MENU_SCRIPT → $INSTALL_DIR/$MENU_SCRIPT\n" || info_message+="✗ $MENU_SCRIPT\n"
     [ -f "$CACHE_FILE" ] && info_message+="✓ cache.json → $CACHE_FILE\n" || info_message+="✗ cache.json\n"
     [ -f "$UTILS_FILE" ] && info_message+="✓ utils.sh → $UTILS_FILE\n" || info_message+="✗ utils.sh\n"
     [ -f "$CONFIG_FILE" ] && info_message+="✓ config.json → $CONFIG_FILE\n" || info_message+="✗ config.json\n"
     [ -f "$LOCAL_VERSION_FILE" ] && info_message+="✓ version.txt → $LOCAL_VERSION_FILE\n" || info_message+="✗ version.txt\n"
-    
-    # Add information about the virtual environment with path
+
     info_message+="\n$(translate "Virtual Environment:")\n"
     if [ -d "$VENV_PATH" ] && [ -f "$VENV_PATH/bin/activate" ]; then
         info_message+="✓ $(translate "Installed") → $VENV_PATH\n"
-        if [ -f "$VENV_PATH/bin/pip" ]; then
-            info_message+="✓ pip: $(translate "Installed") → $VENV_PATH/bin/pip\n"
-        else
-            info_message+="✗ pip: $(translate "Not installed")\n"
-        fi
+        [ -f "$VENV_PATH/bin/pip" ] && info_message+="✓ pip: $(translate "Installed") → $VENV_PATH/bin/pip\n" || info_message+="✗ pip: $(translate "Not installed")\n"
     else
         info_message+="✗ $(translate "Virtual Environment"): $(translate "Not installed")\n"
         info_message+="✗ pip: $(translate "Not installed")\n"
     fi
-    
-    # Display the current language (without path)
-    local current_language=$(jq -r '.language // "en"' "$CONFIG_FILE")
-    info_message+="\n$(translate "Current language:")\n"
-    info_message+="$current_language\n"
-    
-    # Display the information using whiptail
-    whiptail --title "$(translate "ProxMenux Information")" \
-             --scrolltext \
-             --msgbox "$info_message" 20 70
+
+    current_language=$(jq -r '.language // "en"' "$CONFIG_FILE")
+    info_message+="\n$(translate "Current language:")\n$current_language\n"
+
+    # Mostrar con dialog usando un archivo temporal
+    if command -v dialog >/dev/null 2>&1; then
+        tmpfile=$(mktemp)
+        echo -e "$info_message" > "$tmpfile"
+        dialog --title "$(translate "ProxMenux Information")" --clear --textbox "$tmpfile" 20 70
+        rm -f "$tmpfile"
+    fi
+	show_proxmenux_logo
 }
 
 
