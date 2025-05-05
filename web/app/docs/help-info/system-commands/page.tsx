@@ -53,6 +53,13 @@ export default function SystemCommandsPage() {
         { command: "getent passwd | column -t -s :", description: "Readable user table (UID, shell, etc.)" },
       ],
     },
+		{
+	  title: "Auditing & Summary Tools",
+	  commands: [
+		{ command: "lynis audit system", description: "Run a full system security audit" },
+		{ command: "fastfetch", description: "Display system summary in ASCII format" },
+	  ],
+	},
   ]
 
   return (
