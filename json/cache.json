@@ -1,5 +1,5 @@
 {
-"Language changed to": {
+  "Language changed to": {
     "es": "Idioma cambiado a",
     "fr": "Langue changée en",
     "de": "Sprache geändert zu",
@@ -845,8 +845,8 @@
     "de": "Netzwerk überprüfen",
     "it": "Verificare rete",
     "pt": "Verificar rede"
-  },  
-    "Next Steps:": {
+  },
+  "Next Steps:": {
     "es": "Próximos pasos:",
     "fr": "Étapes suivantes :",
     "de": "Nächste Schritte:",
@@ -881,5 +881,470 @@
     "fr": "Trouvez votre appareil en utilisant https://finds.synology.com",
     "de": "Finden Sie Ihr Gerät unter https://finds.synology.com",
     "it": "Trova il tuo dispositivo usando https://finds.synology.com"
+  },
+  "Help and Info Commands": {
+    "es": "Comandos de ayuda e información"
+  },
+  "Create VM from template or script": {
+    "es": "Crear VM a partir de plantilla o script"
+  },
+  "Disk and Storage Manager": {
+    "es": "Administrador de disco y almacenamiento"
+  },
+  "Uninstall Tools": {
+    "es": "Desinstalar herramientas"
+  },
+  "Uninstall Fastfetch": {
+    "es": "Desinstalar FastFetch"
+  },
+  "Select a tool to uninstall:": {
+    "es": "Seleccione una herramienta para desinstalar:"
+  },
+  "Download accelerator": {
+    "es": "Acelerador de descargas"
+  },
+  "Console GUI dialogs": {
+    "es": "Diálogos GUI de consola"
+  },
+  "Convert DOS/Unix text files": {
+    "es": "Convertir archivos de texto DOS/UNIX"
+  },
+  "Generic log/command colorizer": {
+    "es": "Colorizador genérico de registros/comandos"
+  },
+  "Interactive process viewer": {
+    "es": "Visor interactivo de procesos"
+  },
+  "Modern resource monitor": {
+    "es": "Monitor moderno de recursos"
+  },
+  "Real-time network usage": {
+    "es": "Uso de red en tiempo real"
+  },
+  "Monitor disk I/O usage": {
+    "es": "Monitor de uso de E/S de disco"
+  },
+  "Network performance testing": {
+    "es": "Pruebas de rendimiento de red"
+  },
+  "Manage IP sets": {
+    "es": "Administrar conjuntos de IP"
+  },
+  "Network monitoring tool": {
+    "es": "Herramienta de monitoreo de red"
+  },
+  "Locate files quickly": {
+    "es": "Localizar archivos rápidamente"
+  },
+  "Access CPU MSRs": {
+    "es": "Acceder a MSRs de CPU"
+  },
+  "Legacy networking tools": {
+    "es": "Herramientas de red heredadas"
+  },
+  "Non-interactive SSH login": {
+    "es": "Inicio de sesión SSH no interactivo"
+  },
+  "Terminal multiplexer": {
+    "es": "Multiplexor de terminal"
+  },
+  "Extract ZIP files": {
+    "es": "Extraer archivos ZIP"
+  },
+  "Create ZIP files": {
+    "es": "Crear archivos ZIP"
+  },
+  "VM disk utilities": {
+    "es": "Utilidades de disco para VM"
+  },
+  "Multi-source downloader": {
+    "es": "Descargador de múltiples fuentes"
+  },
+  "Extract CAB files": {
+    "es": "Extraer archivos CAB"
+  },
+  "Manage WIM images": {
+    "es": "Administrar imágenes WIM"
+  },
+  "Create ISO images": {
+    "es": "Crear imágenes ISO"
+  },
+  "Edit Windows registry/passwords": {
+    "es": "Editar registro/contraseñas de Windows"
+  },
+  "Select the system utilities to install:": {
+    "es": "Seleccione las utilidades del sistema para instalar:"
+  },
+  "Installation cancelled by user": {
+    "es": "Instalación cancelada por el usuario"
+  },
+  "All changes applied. No reboot required.": {
+    "es": "Todos los cambios aplicados. No se requiere reinicio."
+  },
+  "Press Enter to return to menu...": {
+    "es": "Presione Enter para volver al menú..."
+  },
+  "Help and Info": {
+    "es": "Ayuda e información"
+  },
+  "Select a category of useful commands:": {
+    "es": "Seleccione una categoría de comandos útiles:"
+  },
+  "Useful System Commands": {
+    "es": "Comandos útiles del sistema"
+  },
+  "VM and CT Management Commands": {
+    "es": "Comandos de gestión de VM y CT"
+  },
+  "Storage and Disks Commands": {
+    "es": "Comandos de almacenamiento y discos"
+  },
+  "Network Commands": {
+    "es": "Comandos de red"
+  },
+  "Updates and Packages Commands": {
+    "es": "Comandos de actualizaciones y paquetes"
+  },
+  "GPU Passthrough Commands": {
+    "es": "Comandos de passthrough de GPU"
+  },
+  "ZFS Management Commands": {
+    "es": "Comandos de gestión de ZFS"
+  },
+  "Backup and Restore Commands": {
+    "es": "Comandos de copia de seguridad y restauración"
+  },
+  "System CLI Tools": {
+    "es": "Herramientas CLI del sistema"
+  },
+  "Show Proxmox version": {
+    "es": "Mostrar versión de Proxmox"
+  },
+  "Detailed Proxmox version info": {
+    "es": "Información detallada de la versión de Proxmox"
+  },
+  "Check Proxmox Web UI status": {
+    "es": "Verificar el estado de la interfaz web de Proxmox"
+  },
+  "Restart Web UI proxy": {
+    "es": "Reiniciar el proxy de la interfaz web"
+  },
+  "System errors and logs": {
+    "es": "Errores y registros del sistema"
+  },
+  "System uptime": {
+    "es": "Tiempo de actividad del sistema"
+  },
+  "System hostname and kernel info": {
+    "es": "Nombre de host del sistema e información del kernel"
+  },
+  "RAM and swap usage": {
+    "es": "Uso de RAM y swap"
+  },
+  "Pretty uptime format": {
+    "es": "Formato elegante de tiempo de actividad"
+  },
+  "Last system boot time": {
+    "es": "Último tiempo de arranque del sistema"
+  },
+  "Previous shutdowns": {
+    "es": "Apagados anteriores"
+  },
+  "Last 50 kernel log lines": {
+    "es": "Últimas 50 líneas de registro del kernel"
+  },
+  "OS release details": {
+    "es": "Detalles de la versión del sistema operativo"
+  },
+  "Kernel and architecture info": {
+    "es": "Información del kernel y arquitectura"
+  },
+  "Uptime and who is logged in": {
+    "es": "Tiempo de actividad y quién está conectado"
+  },
+  "Current user": {
+    "es": "Usuario actual"
+  },
+  "Current user UID, GID and groups": {
+    "es": "UID, GID y grupos del usuario actual"
+  },
+  "Logged-in users": {
+    "es": "Usuarios conectados"
+  },
+  "User activity and uptime": {
+    "es": "Actividad del usuario y tiempo de actividad"
+  },
+  "All users with UID and GID": {
+    "es": "Todos los usuarios con UID y GID"
+  },
+  "Readable user table (UID, shell, etc.)": {
+    "es": "Tabla legible de usuarios (UID, shell, etc.)"
+  },
+  " Back to previous menu or Esc + Enter": {
+    "es": "Volver al menú anterior o ESC + Enter"
+  },
+  "Enter a number, or write or paste a command: ": {
+    "es": "Ingrese un número, o escriba o pegue un comando:"
+  },
+  "List all virtual machines": {
+    "es": "Listar todas las máquinas virtuales"
+  },
+  "List all LXC containers": {
+    "es": "Listar todos los contenedores LXC"
+  },
+  "Start a virtual machine. Use the correct <vmid>": {
+    "es": "Iniciar una máquina virtual. Use el <vmid> correcto"
+  },
+  "Start a container. Use the correct <ctid>": {
+    "es": "Iniciar un contenedor. Use el <ctid> correcto"
+  },
+  "Force stop a virtual machine. Use the correct <vmid>": {
+    "es": "Forzar detención de una máquina virtual. Use el <vmid> correcto"
+  },
+  "Force stop a container. Use the correct <ctid>": {
+    "es": "Forzar detención de un contenedor. Use el <ctid> correcto"
+  },
+  "Show VM configuration. Use the correct <vmid>": {
+    "es": "Mostrar configuración de VM. Use el <vmid> correcto"
+  },
+  "Show container configuration. Use the correct <ctid>": {
+    "es": "Mostrar la configuración del contenedor. Use el <ctid> correcto"
+  },
+  "Delete a VM (irreversible). Use the correct <vmid>": {
+    "es": "Eliminar una VM (irreversible). Use el <vmid> correcto"
+  },
+  "Delete a CT (irreversible). Use the correct <ctid>": {
+    "es": "Eliminar un CT (irreversible). Use el <ctid> correcto"
+  },
+  "root and real users only": {
+    "es": "Solo usuarios root y reales"
+  },
+  "Show CT users in table format": {
+    "es": "Mostrar usuarios de CT en formato de tabla"
+  },
+  "Top memory processes in CT": {
+    "es": "Procesos con mayor uso de memoria en CT"
+  },
+  "List block devices and partitions": {
+    "es": "Listar dispositivos de bloque y particiones"
+  },
+  "List disks with detailed info": {
+    "es": "Listar discos con información detallada"
+  },
+  "Show disk usage by mount point": {
+    "es": "Mostrar uso de disco por punto de montaje"
+  },
+  "Display physical volumes (LVM)": {
+    "es": "Mostrar volúmenes físicos (LVM)"
+  },
+  "Display volume groups (LVM)": {
+    "es": "Mostrar grupos de volumen (LVM)"
+  },
+  "Display logical volumes (LVM)": {
+    "es": "Mostrar volúmenes lógicos (LVM)"
+  },
+  "Show Proxmox storage configuration": {
+    "es": "Mostrar configuración de almacenamiento de Proxmox"
+  },
+  "Show UUID and filesystem type of block devices": {
+    "es": "Mostrar UUID y tipo de sistema de archivos de dispositivos de bloque"
+  },
+  "List disk persistent identifiers": {
+    "es": "Listar identificadores persistentes de disco"
+  },
+  "Detailed partition layout with GPT info": {
+    "es": "Diseño detallado de particiones con información GPT"
+  },
+  "Show mounted storage devices": {
+    "es": "Mostrar dispositivos de almacenamiento montados"
+  },
+  "Show all active mounts from the kernel": {
+    "es": "Mostrar todos los montajes activos desde el kernel"
+  },
+  "Show network interfaces and IPs": {
+    "es": "Mostrar interfaces de red e IPs"
+  },
+  "Show routing table": {
+    "es": "Mostrar tabla de enrutamiento"
+  },
+  "Check connectivity with another host": {
+    "es": "Verificar conectividad con otro host"
+  },
+  "Show configured network bridges": {
+    "es": "Mostrar puentes de red configurados"
+  },
+  "Reload network configuration (ifupdown2)": {
+    "es": "Recargar configuración de red (ifupdown2)"
+  },
+  "Show raw network configuration": {
+    "es": "Mostrar configuración de red sin procesar"
+  },
+  "Show traffic statistics per interface": {
+    "es": "Mostrar estadísticas de tráfico por interfaz"
+  },
+  "Show Ethernet device info": {
+    "es": "Mostrar información de dispositivos Ethernet"
+  },
+  "Show DNS resolution status": {
+    "es": "Mostrar estado de resolución DNS"
+  },
+  "DNS lookup for a domain": {
+    "es": "Búsqueda DNS para un dominio"
+  },
+  "Show listening ports (TCP/UDP)": {
+    "es": "Mostrar puertos en escucha (TCP/UDP)"
+  },
+  "Show active firewall rules (iptables)": {
+    "es": "Mostrar reglas activas de firewall (iptables)"
+  },
+  "Show nftables rules": {
+    "es": "Mostrar reglas de nftables"
+  },
+  "Check Proxmox firewall status": {
+    "es": "Verificar estado del firewall de Proxmox"
+  },
+  "Compile firewall rules for all nodes": {
+    "es": "Compilar reglas de firewall para todos los nodos"
+  },
+  "Reload Proxmox firewall rules": {
+    "es": "Recargar reglas de firewall de Proxmox"
+  },
+  "Update and upgrade all system packages": {
+    "es": "Actualizar todos los paquetes del sistema"
+  },
+  "Full system upgrade, including dependencies": {
+    "es": "Actualización completa del sistema, incluyendo dependencias"
+  },
+  "Update Proxmox package lists": {
+    "es": "Actualizar listas de paquetes de Proxmox"
+  },
+  "Show available Proxmox upgrades": {
+    "es": "Mostrar actualizaciones disponibles de Proxmox"
+  },
+  "Remove unused packages and their config": {
+    "es": "Eliminar paquetes no utilizados y su configuración"
+  },
+  "List NVIDIA PCI devices": {
+    "es": "Listar dispositivos PCI de NVIDIA"
+  },
+  "List all VGA compatible devices": {
+    "es": "Listar todos los dispositivos compatibles con VGA"
+  },
+  "Check VFIO module messages": {
+    "es": "Verificar mensajes del módulo VFIO"
+  },
+  "Review VFIO passthrough configuration": {
+    "es": "Revisar configuración de passthrough VFIO"
+  },
+  "Apply initramfs changes (VFIO)": {
+    "es": "Aplicar cambios de initramfs (VFIO)"
+  },
+  "Review GRUB options for IOMMU": {
+    "es": "Revisar opciones de GRUB para IOMMU"
+  },
+  "Apply GRUB changes": {
+    "es": "Aplicar cambios de GRUB"
+  },
+  "Show ZFS pool status": {
+    "es": "Mostrar estado del pool ZFS"
+  },
+  "List all ZFS pools": {
+    "es": "Listar todos los pools ZFS"
+  },
+  "List ZFS datasets and snapshots": {
+    "es": "Listar datasets e instantáneas ZFS"
+  },
+  "Start scrub for a ZFS pool": {
+    "es": "Iniciar scrub para un pool ZFS"
+  },
+  "Create a new dataset in a ZFS pool": {
+    "es": "Crear un nuevo dataset en un pool ZFS"
+  },
+  "Destroy a ZFS dataset (irreversible)": {
+    "es": "Destruir un dataset ZFS (irreversible)"
+  },
+  "List importable ZFS pools": {
+    "es": "Listar pools ZFS importables"
+  },
+  "Import a ZFS pool": {
+    "es": "Importar un pool ZFS"
+  },
+  "Export a ZFS pool": {
+    "es": "Exportar un pool ZFS"
+  },
+  "Mount all datasets": {
+    "es": "Montar todos los datasets"
+  },
+  "Mount specific dataset": {
+    "es": "Montar dataset específico"
+  },
+  "Verbose pool status": {
+    "es": "Estado detallado del pool"
+  },
+  "ZFS command history": {
+    "es": "Historial de comandos ZFS"
+  },
+  "Clear pool error state": {
+    "es": "Limpiar estado de error del pool"
+  },
+  "Backup to a specific directory": {
+    "es": "Hacer copia de seguridad a un directorio específico"
+  },
+  "Backup all VMs and CTs": {
+    "es": "Hacer copia de seguridad de todas las VMs y CTs"
+  },
+  "Restore a VM from backup": {
+    "es": "Restaurar una VM desde copia de seguridad"
+  },
+  "Restore a CT from backup": {
+    "es": "Restaurar un CT desde copia de seguridad"
+  },
+  "List local backups": {
+    "es": "Listar copias de seguridad locales"
+  },
+  "List backups in a specific storage": {
+    "es": "Listar copias de seguridad en un almacenamiento específico"
+  },
+  "Show vzdump backup configuration": {
+    "es": "Mostrar configuración de copia de seguridad vzdump"
+  },
+  "Decompress backup manually": {
+    "es": "Descomprimir copia de seguridad manualmente"
+  },
+  "Show standard exclude patterns": {
+    "es": "Mostrar patrones de exclusión estándar"
+  },
+  "Interactive process viewer (press q to exit)": {
+    "es": "Visor interactivo de procesos (presione q para salir)"
+  },
+  "Modern resource monitor (press q to exit)": {
+    "es": "Monitor moderno de recursos (presione q para salir)"
+  },
+  "Real-time bandwidth usage (press q to exit)": {
+    "es": "Uso de ancho de banda en tiempo real (presione q para salir)"
+  },
+  "Monitor disk I/O usage (press q to exit)": {
+    "es": "Monitor de uso de E/S de disco (presione q para salir)"
+  },
+  "Terminal multiplexer (Ctrl+b then d to detach, or type exit)": {
+    "es": "Multiplexor de terminal (Ctrl+b luego d para desacoplar, o escriba exit)"
+  },
+  "Network throughput test (client/server)": {
+    "es": "Prueba de rendimiento de red (cliente/servidor)"
+  },
+  "Real-time network monitoring (press q to exit)": {
+    "es": "Monitoreo de red en tiempo real (presione q para salir)"
+  },
+  "Read/write CPU model-specific registers": {
+    "es": "Leer/escribir registros específicos del modelo de CPU"
+  },
+  "Legacy network tools (e.g., ifconfig)": {
+    "es": "Herramientas de red heredadas (p. ej., ifconfig)"
+  },
+  "Lookup domain registration info": {
+    "es": "Buscar información de registro de dominio"
+  },
+  "Manage and inspect VM disk images": {
+    "es": "Administrar e inspeccionar imágenes de disco de VM"
   }
 }
