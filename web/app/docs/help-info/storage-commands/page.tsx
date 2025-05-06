@@ -52,6 +52,14 @@ export default function StorageCommandsPage() {
         { command: "pvesm scan <storage>", description: "Scan storage for new content" },
       ],
     },
+    {
+      title: "Disk Actions",
+      commands: [
+        { command: "qm importdisk <vmid> <image_path> <storage>", description: "Attach disk image to VM" },
+        { command: "qm set <vmid> -<bus><index> <disk_path>", description: "Assign physical disk to VM (passthrough mode)" },
+        { command: "qemu-img convert -O <format> <input> <output>", description: "Convert disk image format)" },
+      ],
+    },
   ]
 
   return (
@@ -184,8 +192,18 @@ export default function StorageCommandsPage() {
             <code className="bg-gray-100 px-1 py-0.5 rounded text-black">/path</code> with the directory you want to
             check
           </li>
+          <li>
+            Replace placeholders like <code className="bg-gray-100 px-1 py-0.5 rounded text-black">&lt;vmid&gt;</code>,{" "}
+            <code className="bg-gray-100 px-1 py-0.5 rounded text-black">&lt;bus&gt;&lt;index&gt;</code>,{" "}
+            <code className="bg-gray-100 px-1 py-0.5 rounded text-black">&lt;disk&gt;</code>,{" "}
+            <code className="bg-gray-100 px-1 py-0.5 rounded text-black">&lt;format&gt;</code>,{" "}
+            <code className="bg-gray-100 px-1 py-0.5 rounded text-black">&lt;input&gt;</code> and{" "}
+            <code className="bg-gray-100 px-1 py-0.5 rounded text-black">&lt;output&gt;</code> with the actual values you
+            intend to use.
+          </li>
         </ul>
       </div>
+
     </div>
   )
 }

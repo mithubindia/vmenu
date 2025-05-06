@@ -89,7 +89,7 @@ export default function HelpAndInfoPage() {
 
 
           <p className="text-black">
-            Each category contains carefully selected commands with descriptions, making it easier to find exactly what
+            Each category contains commands with descriptions, making it easier to find exactly what
             you need when you need it. This eliminates the need to remember complex command syntax or search through
             documentation when performing administrative tasks.
           </p>

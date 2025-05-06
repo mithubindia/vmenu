@@ -272,6 +272,7 @@ show_storage_commands() {
         echo -e "20) ${GREEN}pvesm scan <storage>${NC}        - $(translate 'Scan storage for new content')"
         echo -e "21) ${GREEN}qm importdisk <vmid> <img> <storage>${NC}  - $(translate 'Import disk image to VM')"
         echo -e "22) ${GREEN}qm set <vmid> -<bus><index> <disk>${NC}    - $(translate 'Add physical disk to VM via') passthrough"
+        echo -e "23) ${GREEN}qemu-img convert -O <format> <input> <output>${NC} - $(translate 'Convert disk image format')"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
         echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
@@ -315,84 +316,146 @@ show_storage_commands() {
                 read -r store
                 cmd="pvesm scan $store"
                 ;;
-			21)
-				echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
-				read -r vmid
+            21)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
+                read -r vmid
 
-				echo -e "\n${YELLOW}$(translate 'Available images in /var/lib/vz/images/:')${NC}"
-				images=$(find /var/lib/vz/images/ -type f \( -iname "*.img" -o -iname "*.qcow2" -o -iname "*.vmdk" -o -iname "*.raw" \))
+                echo -e "\n${YELLOW}$(translate 'Available images in /var/lib/vz/images/:')${NC}"
+                images=$(find /var/lib/vz/images/ -type f \( -iname "*.img" -o -iname "*.qcow2" -o -iname "*.vmdk" -o -iname "*.raw" \))
 
-				if [[ -z "$images" ]]; then
-					echo -e "${RED}$(translate 'No disk images found in /var/lib/vz/images/. Please add an image first.')${NC}"
-					echo
-					msg_success "$(translate 'Press ENTER to return to the menu...')"
-					read -r
-					continue
-				else
-					echo "$images"
-				fi
+                if [[ -z "$images" ]]; then
+                    echo -e "${RED}$(translate 'No disk images found in /var/lib/vz/images/. Please add an image first.')${NC}"
+                    echo
+                    msg_success "$(translate 'Press ENTER to return to the menu...')"
+                    read -r
+                    continue
+                else
+                    echo "$images"
+                fi
 
-				echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full path to the disk image (e.g., /var/lib/vz/images/xyz.img): ')${CL}"
-				read -r image_path
+                echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full path to the disk image (e.g., /var/lib/vz/images/xyz.img): ')${CL}"
+                read -r image_path
 
-				echo -e "\n${YELLOW}$(translate 'Available storage volumes:')${NC}"
-				pvesm status | awk 'NR>1 {print " - "$1}'
+                echo -e "\n${YELLOW}$(translate 'Available storage volumes:')${NC}"
+                pvesm status | awk 'NR>1 {print " - "$1}'
 
-				echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter target storage name (e.g., local-lvm): ')${CL}"
-				read -r storage
+                echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter target storage name (e.g., local-lvm): ')${CL}"
+                read -r storage
 
-				cmd="qm importdisk $vmid $image_path $storage"
-				;;
-			22)
-				echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
-				read -r vmid
+                cmd1="qm importdisk $vmid $image_path $storage"
+                bash -c "$cmd1"
+                echo
 
-				echo -e "\n${YELLOW}$(translate 'Scanning available physical disks...')${NC}"
-				sleep 1
+                disk_name=$(basename "$image_path")
+                imported_volume="${storage}:vm-${vmid}-disk-0"
 
-			echo -e "\n${YELLOW}$(translate 'Available physical disks for passthrough:')${NC}"
-			printf "\n"
+                echo -e "\n${YELLOW}$(translate 'Select disk interface type:')${NC}"
+                echo " 1) sata"
+                echo " 2) scsi"
+                echo " 3) virtio"
+                echo " 4) ide"
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter the number or type the interface name: ')${CL}"
+                read -r iface_type
 
-			lsblk -dno NAME,SIZE,MODEL | grep -vE 'boot|rpmb|loop|dm-|zd' | while read -r name size model; do
-				disk_path="/dev/$name"
-				by_id=$(find /dev/disk/by-id/ -lname "*$name" | grep -vE 'part[0-9]+$' | head -n1)
-				if [[ -n "$by_id" ]]; then
-					printf "  %-60s (%s %s)\n" "$by_id" "$size" "$model"
-				fi
-			done
+                case "$iface_type" in
+                    1) iface="sata" ;;
+                    2) iface="scsi" ;;
+                    3) iface="virtio" ;;
+                    4) iface="ide" ;;
+                    *) iface="sata" ;;
+                esac
 
-				echo
-				echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full disk path as shown above (starting with /dev/disk/by-id/xxx...): ')${CL}"
-				read -r disk_path
+                index=$(qm config "$vmid" | grep -oP "$iface\d+" | awk -F"$iface" '{print $2}' | sort -n | tail -n1)
+                index=$((index + 1))
 
-				echo -e "\n${YELLOW}$(translate 'Select disk interface type:')${NC}"
-				echo " 1) sata"
-				echo " 2) scsi"
-				echo " 3) virtio"
-				echo " 4) ide"
-			echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter the number or type the interface name: ')${CL}"
-				read -r iface_type
+                echo -e "\n${YELLOW}$(translate 'Assigning imported disk to VM using the generated command')${NC}"
+                sleep 1
+                echo
+                echo -e "\n${GREEN}> $cmd1${NC}\n"
+                cmd="qm set $vmid -$iface$index $imported_volume"    
+                ;;
+            22)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
+                read -r vmid
 
-				case "$iface_type" in
-					1) iface="sata" ;;
-					2) iface="scsi" ;;
-					3) iface="virtio" ;;
-					4) iface="ide" ;;
-					*) iface="sata" ;;
-				esac
+                echo -e "\n${YELLOW}$(translate 'Scanning available physical disks...')${NC}"
+                sleep 1
 
-				index=$(qm config "$vmid" | grep -oP "$iface\d+" | awk -F"$iface" '{print $2}' | sort -n | tail -n1)
-				index=$((index + 1))
+                echo -e "\n${YELLOW}$(translate 'Available physical disks for passthrough:')${NC}"
+                printf "\n"
 
-			echo -e "\n${YELLOW}$(translate 'Adding disk using the generated command to the selected VM')${NC}"
-			sleep 1
+                lsblk -dno NAME,SIZE,MODEL | grep -vE 'boot|rpmb|loop|dm-|zd' | while read -r name size model; do
+                disk_path="/dev/$name"
+                by_id=$(find /dev/disk/by-id/ -lname "*$name" | grep -vE 'part[0-9]+$' | head -n1)
+                if [[ -n "$by_id" ]]; then
+                        printf "  %-60s (%s %s)\n" "$by_id" "$size" "$model"
+                fi
+                done
 
-			cmd="qm set $vmid -$iface$index $disk_path"
-			echo -e "\n${GREEN}> $cmd${NC}\n"
-			bash -c "$cmd"
+                echo
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full disk path as shown above (starting with /dev/disk/by-id/xxx...): ')${CL}"
+                read -r disk_path
 
-			unset cmd  
-				;;
+                echo -e "\n${YELLOW}$(translate 'Select disk interface type:')${NC}"
+                echo " 1) sata"
+                echo " 2) scsi"
+                echo " 3) virtio"
+                echo " 4) ide"
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter the number or type the interface name: ')${CL}"
+                read -r iface_type
+
+                case "$iface_type" in
+                        1) iface="sata" ;;
+                        2) iface="scsi" ;;
+                        3) iface="virtio" ;;
+                        4) iface="ide" ;;
+                        *) iface="sata" ;;
+                esac
+
+                index=$(qm config "$vmid" | grep -oP "$iface\d+" | awk -F"$iface" '{print $2}' | sort -n | tail -n1)
+                                index=$((index + 1))
+
+                echo -e "\n${YELLOW}$(translate 'Adding disk using the generated command to the selected VM')${NC}"
+                sleep 1
+
+                cmd="qm set $vmid -$iface$index $disk_path"
+               ;;
+            23)
+                echo -e "\n${YELLOW}$(translate 'Convert disk image format using QEMU-IMG')${NC}"
+                sleep 1
+
+                echo -e "\n${YELLOW}$(translate 'Available images in /var/lib/vz/images/:')${NC}"
+                images=$(find /var/lib/vz/images/ -type f \( -iname "*.img" -o -iname "*.qcow2" -o -iname "*.vmdk" -o -iname "*.raw" -o -iname "*.vdi" -o -iname "*.vpc" -o -iname "*.qed" \))
+
+                if [[ -z "$images" ]]; then
+                    echo -e "${RED}$(translate 'No disk images found in /var/lib/vz/images/. Please add an image first.')${NC}"
+                    echo
+                    msg_success "$(translate 'Press ENTER to return to the menu...')"
+                    read -r
+                    continue
+                else
+                    echo "$images"
+                fi
+
+                echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full path to the input image (e.g., /var/lib/vz/images/disk.vmdk): ')${CL}"
+                read -r input_image
+
+                echo -e "\n${YELLOW}$(translate 'Available output formats include:')${NC} qcow2, raw, qed"
+
+                echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter the full path to the output image (e.g., /var/lib/vz/images/output.qcow2): ')${CL}"
+                read -r output_image
+                valid_formats=("qcow2" "raw" "qed")
+                output_format=$(echo "$output_image" | awk -F. '{print tolower($NF)}')
+
+                if ! [[ " ${valid_formats[*]} " =~ " ${output_format} " ]]; then
+                    echo -e "\n${RED}$(translate 'Unsupported output format:') .$output_format${NC}"
+                    msg_success "$(translate 'Press ENTER to return...')"
+                    read -r
+                    continue
+                fi
+                echo -e "\n${YELLOW}$(translate 'Converting image using command:')${NC}"
+                cmd="qemu-img convert -O $output_format $input_image $output_image"
+               ;;
             0) break ;;
             *) cmd="$user_input" ;;
         esac
