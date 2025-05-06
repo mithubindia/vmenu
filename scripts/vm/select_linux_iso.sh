@@ -20,9 +20,15 @@ initialize_cache
 # ==============================================================
 
 function select_linux_iso() {
-  local EXIT_FLAG="no"
-  local header
-  header=$(printf "%-43s│ %s" "       $(translate "Description")" "$(translate "Source")")
+
+	local EXIT_FLAG="no"
+	local header
+	if [[ "$LANGUAGE" == "es" ]]; then
+	  header=$(printf "%-43s│ %s" "       Descripción" "Fuente")
+	else
+	  header=$(printf "%-42s│ %s" "       $(translate "Description")" "$(translate "Source")")
+	fi
+
 
   while [[ "$EXIT_FLAG" != "yes" ]]; do
 
