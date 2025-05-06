@@ -271,7 +271,7 @@ show_storage_commands() {
         echo -e "19) ${GREEN}pvesm list <storage>${NC}        - $(translate 'List content of specific storage')"
         echo -e "20) ${GREEN}pvesm scan <storage>${NC}        - $(translate 'Scan storage for new content')"
         echo -e "21) ${GREEN}qm importdisk <vmid> <img> <storage>${NC}  - $(translate 'Import disk image to VM')"
-        echo -e "22) ${GREEN}qm set <vmid> -<bus><index> <disk>${NC}    - $(translate 'Attach physical disk to VM via passthrough')"
+        echo -e "22) ${GREEN}qm set <vmid> -<bus><index> <disk>${NC}    - $(translate 'Add physical disk to VM via') passthrough"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
         echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
