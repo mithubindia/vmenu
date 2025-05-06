@@ -156,12 +156,17 @@ function create_vm() {
     fi
   fi
 
+  if [[ "$OS_TYPE" == "2" ]]; then
+	  GUEST_OS_TYPE="win10"
+    else
+	  GUEST_OS_TYPE="l26"
+  fi
 
 
   # Crear la VM base primero (mínima)
   qm create "$VMID" -agent 1${MACHINE} -tablet 0 -localtime 1${BIOS_TYPE}${CPU_TYPE} \
     -cores "$CORE_COUNT" -memory "$RAM_SIZE" -name "$HN" -tags proxmenux \
-    -net0 "virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU" -ostype l26 \
+    -net0 "virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU" -ostype "$GUEST_OS_TYPE" \
     -scsihw virtio-scsi-pci \
     $( [[ -n "$SERIAL_PORT" ]] && echo "-serial0 $SERIAL_PORT" )
 
