@@ -21,39 +21,53 @@ initialize_cache
 
 function select_linux_iso() {
   local EXIT_FLAG="no"
+  local header
+  header=$(printf "%-43s│ %s" "       $(translate "Description")" "$(translate "Source")")
 
   while [[ "$EXIT_FLAG" != "yes" ]]; do
-    CHOICE=$(dialog --backtitle "ProxMenux" \
-      --title "$(translate "Linux Installation Options")" \
-      --menu "$(translate "Select the type of Linux installation:")" 15 70 6 \
-      1 "$(translate "Install from ISO (Ubuntu, Debian, Fedora...)")" \
-      2 "$(translate "Install with Cloud-Init script (Automated)")" \
-      3 "$(translate "Use custom ISO from storage")" \
-      4 "$(translate "Back to Main Menu")" \
-      3>&1 1>&2 2>&3)
 
-    if [[ $? -ne 0 ]] || [[ "$CHOICE" == "4" ]]; then
+    if [[ "$LANGUAGE" == "es" ]]; then
+      # Menú en español formateado manualmente
+                CHOICE=$(dialog --clear \
+                  --backtitle "ProxMenux" \
+                  --title "Opciones de instalación de Linux" \
+                  --menu "\nSeleccione el tipo de instalación de Linux:\n\n$header" \
+                  18 72 10 \
+                  1 "$(printf '%-35s│ %s' 'Instalar con metodo tradicional' 'Desde ISO oficial')" \
+                  2 "$(printf '%-35s│ %s' 'Instalar con script Cloud-Init' 'Helper Scripts')" \
+                  3 "$(printf '%-35s│ %s' 'Instalar con ISO personal' 'Almacenamiento local')" \
+                  4 "Volver al menú principal" \
+                  3>&1 1>&2 2>&3)
+                        else
+                          # Menú multilingüe con traducción
+                local desc1 desc2 desc3 back
+                desc1="$(translate "Install with traditional method")"
+                desc2="$(translate "Install with Cloud-Init script")"
+                desc3="$(translate "Install with personal ISO")"
+                back="$(translate "Return to main menu")"
+                          CHOICE=$(dialog --clear \
+        --backtitle "ProxMenux" \
+        --title "$(translate "Linux Installation Options")" \
+        --menu "\n$(translate "Select the type of Linux installation:")\n\n$header" \
+        18 70 10 \
+        1 "$(printf '%-35s│ %s' "$desc1" "From official ISO")" \
+        2 "$(printf '%-35s│ %s' "$desc2" "Helper Scripts")" \
+        3 "$(printf '%-35s│ %s' "$desc3" "Local Storage")" \
+        4 "$back" \
+        3>&1 1>&2 2>&3)
+    fi
+
+    if [[ $? -ne 0 || "$CHOICE" == "4" ]]; then
       unset ISO_NAME ISO_TYPE ISO_URL ISO_FILE ISO_PATH HN
       return 1
     fi
 
     case "$CHOICE" in
-      1)
-        select_linux_iso_official && EXIT_FLAG="yes"
-        ;;
-      2)
-        select_linux_cloudinit
-        ;;
-      3)
-        select_linux_custom_iso && EXIT_FLAG="yes"
-        ;;
-      4)
-        return 1
-        ;;
+      1) select_linux_iso_official && EXIT_FLAG="yes" ;;
+      2) select_linux_cloudinit ;;
+      3) select_linux_custom_iso && EXIT_FLAG="yes" ;;
     esac
   done
-
-  return 0
 }
 
 
