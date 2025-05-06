@@ -252,22 +252,32 @@ show_storage_commands() {
         echo "--------------------------------------------------"
         echo -e " 1) ${GREEN}lsblk${NC}                       - $(translate 'List block devices and partitions')"
         echo -e " 2) ${GREEN}fdisk -l${NC}                    - $(translate 'List disks with detailed info')"
-        echo -e " 3) ${GREEN}df -h${NC}                       - $(translate 'Show disk usage by mount point')"
-        echo -e " 4) ${GREEN}pvdisplay${NC}                   - $(translate 'Display physical volumes (LVM)')"
-        echo -e " 5) ${GREEN}vgdisplay${NC}                   - $(translate 'Display volume groups (LVM)')"
-        echo -e " 6) ${GREEN}lvdisplay${NC}                   - $(translate 'Display logical volumes (LVM)')"
-        echo -e " 7) ${GREEN}cat /etc/pve/storage.cfg${NC}    - $(translate 'Show Proxmox storage configuration')"
-        echo -e " 8) ${GREEN}blkid${NC}                       - $(translate 'Show UUID and filesystem type of block devices')"
-        echo -e " 9) ${GREEN}ls -lh /dev/disk/by-id/${NC}     - $(translate 'List disk persistent identifiers')"
-        echo -e "10) ${GREEN}parted -l${NC}                   - $(translate 'Detailed partition layout with GPT info')"
-        echo -e "11) ${GREEN}mount | grep ^/dev${NC}          - $(translate 'Show mounted storage devices')"
-        echo -e "12) ${GREEN}cat /proc/mounts${NC}            - $(translate 'Show all active mounts from the kernel')"
+        echo -e " 3) ${GREEN}blkid${NC}                       - $(translate 'Show UUID and filesystem type of block devices')"
+        echo -e " 4) ${GREEN}ls -lh /dev/disk/by-id/${NC}     - $(translate 'List disk persistent identifiers')"
+        echo -e " 5) ${GREEN}parted -l${NC}                   - $(translate 'Detailed partition layout with GPT info')"
+        echo -e " 6) ${GREEN}df -h${NC}                       - $(translate 'Show disk usage by mount point')"
+        echo -e " 7) ${GREEN}du -sh /path${NC}                - $(translate 'Show size of a directory')"
+        echo -e " 8) ${GREEN}mount | grep ^/dev${NC}          - $(translate 'Show mounted storage devices')"
+        echo -e " 9) ${GREEN}cat /proc/mounts${NC}            - $(translate 'Show all active mounts from the kernel')"
+        echo -e "10) ${GREEN}pvdisplay${NC}                   - $(translate 'Display physical volumes (LVM)')"
+        echo -e "11) ${GREEN}vgdisplay${NC}                   - $(translate 'Display volume groups (LVM)')"
+        echo -e "12) ${GREEN}lvdisplay${NC}                   - $(translate 'Display logical volumes (LVM)')"
+        echo -e "13) ${GREEN}pvs${NC}                         - $(translate 'Concise output of physical volumes')"
+        echo -e "14) ${GREEN}vgs${NC}                         - $(translate 'Concise output of volume groups')"
+        echo -e "15) ${GREEN}lvs${NC}                         - $(translate 'Concise output of logical volumes')"
+        echo -e "16) ${GREEN}cat /etc/pve/storage.cfg${NC}    - $(translate 'Show Proxmox storage configuration')"
+        echo -e "17) ${GREEN}pvesm status${NC}                - $(translate 'Show status of all storage pools')"
+        echo -e "18) ${GREEN}pvesm list${NC}                  - $(translate 'List all available storage')"
+        echo -e "19) ${GREEN}pvesm list <storage>${NC}        - $(translate 'List content of specific storage')"
+        echo -e "20) ${GREEN}pvesm scan <storage>${NC}        - $(translate 'Scan storage for new content')"
+        echo -e "21) ${GREEN}qm importdisk <vmid> <img> <storage>${NC}  - $(translate 'Import disk image to VM')"
+        echo -e "22) ${GREEN}qm set <vmid> -<bus><index> <disk>${NC}    - $(translate 'Attach physical disk to VM via passthrough')"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
         echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
         read -r user_input
 
-        # Check for Esc key press
+        # Esc key exit
         if [[ "$user_input" == $'\x1b' ]]; then
             break
         fi
@@ -275,16 +285,114 @@ show_storage_commands() {
         case "$user_input" in
             1) cmd="lsblk" ;;
             2) cmd="fdisk -l" ;;
-            3) cmd="df -h" ;;
-            4) cmd="pvdisplay" ;;
-            5) cmd="vgdisplay" ;;
-            6) cmd="lvdisplay" ;;
-            7) cmd="cat /etc/pve/storage.cfg" ;;
-            8) cmd="blkid" ;;
-            9) cmd="ls -lh /dev/disk/by-id/" ;;
-            10) cmd="parted -l" ;;
-            11) cmd="mount | grep ^/dev" ;;
-            12) cmd="cat /proc/mounts" ;;
+            3) cmd="blkid" ;;
+            4) cmd="ls -lh /dev/disk/by-id/" ;;
+            5) cmd="parted -l" ;;
+            6) cmd="df -h" ;;
+            7)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter path to analyze: ')${CL}"
+                read -r path
+                cmd="du -sh $path"
+                ;;
+            8) cmd="mount | grep ^/dev" ;;
+            9) cmd="cat /proc/mounts" ;;
+            10) cmd="pvdisplay" ;;
+            11) cmd="vgdisplay" ;;
+            12) cmd="lvdisplay" ;;
+            13) cmd="pvs" ;;
+            14) cmd="vgs" ;;
+            15) cmd="lvs" ;;
+            16) cmd="cat /etc/pve/storage.cfg" ;;
+            17) cmd="pvesm status" ;;
+            18) cmd="pvesm list" ;;
+            19)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter storage ID: ')${CL}"
+                read -r store
+                cmd="pvesm list $store"
+                ;;
+            20)
+                echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter storage ID: ')${CL}"
+                read -r store
+                cmd="pvesm scan $store"
+                ;;
+			21)
+				echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
+				read -r vmid
+
+				echo -e "\n${YELLOW}$(translate 'Available images in /var/lib/vz/images/:')${NC}"
+				images=$(find /var/lib/vz/images/ -type f \( -iname "*.img" -o -iname "*.qcow2" -o -iname "*.vmdk" -o -iname "*.raw" \))
+
+				if [[ -z "$images" ]]; then
+					echo -e "${RED}$(translate 'No disk images found in /var/lib/vz/images/. Please add an image first.')${NC}"
+					echo
+					msg_success "$(translate 'Press ENTER to return to the menu...')"
+					read -r
+					continue
+				else
+					echo "$images"
+				fi
+
+				echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full path to the disk image (e.g., /var/lib/vz/images/xyz.img): ')${CL}"
+				read -r image_path
+
+				echo -e "\n${YELLOW}$(translate 'Available storage volumes:')${NC}"
+				pvesm status | awk 'NR>1 {print " - "$1}'
+
+				echo -en "\n${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter target storage name (e.g., local-lvm): ')${CL}"
+				read -r storage
+
+				cmd="qm importdisk $vmid $image_path $storage"
+				;;
+			22)
+				echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
+				read -r vmid
+
+				echo -e "\n${YELLOW}$(translate 'Scanning available physical disks...')${NC}"
+				sleep 1
+
+			echo -e "\n${YELLOW}$(translate 'Available physical disks for passthrough:')${NC}"
+			printf "\n"
+
+			lsblk -dno NAME,SIZE,MODEL | grep -vE 'boot|rpmb|loop|dm-|zd' | while read -r name size model; do
+				disk_path="/dev/$name"
+				by_id=$(find /dev/disk/by-id/ -lname "*$name" | grep -vE 'part[0-9]+$' | head -n1)
+				if [[ -n "$by_id" ]]; then
+					printf "  %-60s (%s %s)\n" "$by_id" "$size" "$model"
+				fi
+			done
+
+				echo
+				echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter full disk path as shown above (starting with /dev/disk/by-id/xxx...): ')${CL}"
+				read -r disk_path
+
+				echo -e "\n${YELLOW}$(translate 'Select disk interface type:')${NC}"
+				echo " 1) sata"
+				echo " 2) scsi"
+				echo " 3) virtio"
+				echo " 4) ide"
+			echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter the number or type the interface name: ')${CL}"
+				read -r iface_type
+
+				case "$iface_type" in
+					1) iface="sata" ;;
+					2) iface="scsi" ;;
+					3) iface="virtio" ;;
+					4) iface="ide" ;;
+					*) iface="sata" ;;
+				esac
+
+				index=$(qm config "$vmid" | grep -oP "$iface\d+" | awk -F"$iface" '{print $2}' | sort -n | tail -n1)
+				index=$((index + 1))
+
+			echo -e "\n${YELLOW}$(translate 'Adding disk using the generated command to the selected VM')${NC}"
+			sleep 1
+
+			cmd="qm set $vmid -$iface$index $disk_path"
+			echo -e "\n${GREEN}> $cmd${NC}\n"
+			bash -c "$cmd"
+
+			unset cmd  
+				;;
             0) break ;;
             *) cmd="$user_input" ;;
         esac
