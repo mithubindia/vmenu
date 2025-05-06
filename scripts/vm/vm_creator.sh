@@ -89,6 +89,7 @@ function select_storage_target() {
   elif [[ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]]; then
     STORAGE="${STORAGE_MENU[0]}"
   else
+    cleanup
     STORAGE=$(whiptail --backtitle "ProxMenux" --title "$(translate "$PURPOSE Disk Storage")" --radiolist \
       "$(translate "Choose the storage volume for the $PURPOSE disk (4MB):\n\nUse Spacebar to select.")" 16 70 6 \
       "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3) || exit 1
