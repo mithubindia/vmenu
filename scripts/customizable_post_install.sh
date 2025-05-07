@@ -2668,19 +2668,19 @@ main_menu() {
     IFS='|' read -r category description function_name <<< "$option"
     translated_description="$(translate "$description")"
 
-    # Cortar descripción si es muy larga
+   
     local max_cut=$((category_position - 3))
     [[ "$max_cut" -lt 10 ]] && max_cut=10
     if [[ ${#translated_description} -gt $max_cut ]]; then
       translated_description="${translated_description:0:$((max_cut - 3))}..."
     fi
 
-    # Añadir separador si cambia de categoría y es la "Optional"
+  
     if [[ "$category" != "$previous_category" && "$category" == "Optional" && -n "$previous_category" ]]; then
       menu_items+=("" "================================================================" "")
     fi
 
-    # Construir línea alineada
+
     local line="$translated_description"
     local spaces_needed=$((category_position - ${#translated_description}))
     for ((j = 0; j < spaces_needed; j++)); do
@@ -2702,13 +2702,13 @@ main_menu() {
     "${menu_items[@]}" \
     3>&1 1>&2 2>&3)
 
-  # Permitir salir con ESC o cancelar
+
   if [ $? -ne 0 ]; then
     echo "User cancelled. Exiting."
     exit 0
   fi
 
-  # Continuar si hay selección
+
   IFS=$'\n' read -d '' -r -a selected_options <<< "$selected_indices"
   declare -A selected_functions
 
@@ -2720,7 +2720,7 @@ main_menu() {
       IFS='|' read -r category description function_name <<< "$option"
       selected_functions[$function_name]=1
 
-      # Lógica de exclusión
+
       [[ "$function_name" == "FASTFETCH" ]] && selected_functions[MOTD]=0
     done
 
