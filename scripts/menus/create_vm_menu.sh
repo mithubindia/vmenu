@@ -69,7 +69,7 @@ function header_info() {
 
 header_info
 echo -e "\n Loading..."
-sleep 1
+#sleep 1
 
 
 
