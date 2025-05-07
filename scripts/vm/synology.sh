@@ -1175,7 +1175,7 @@ fi
 # Main execution
 # ==========================================================
 header_info
-echo -e "\n Loading..."
+#echo -e "\n Loading..."
 sleep 1
 
 # Start script
