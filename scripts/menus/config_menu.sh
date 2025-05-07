@@ -186,8 +186,10 @@ uninstall_proxmenu() {
     # Remove selected dependencies
     if [ -n "$DEPS_TO_REMOVE" ]; then
         echo "Removing selected dependencies..."
+
         # Remove quotes and process each package
-        for dep in $(echo "$DEPS_TO_REMOVE" | tr -d '"'); do
+        read -r -a DEPS_ARRAY <<< "$(echo "$DEPS_TO_REMOVE" | tr -d '"')"
+        for dep in "${DEPS_ARRAY[@]}"; do
             echo "Removing $dep..."
             
             # Mark package as auto-installed
