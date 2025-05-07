@@ -254,7 +254,7 @@ function select_linux_other_scripts() {
     "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
   if [[ $? -ne 0 || "$choice" == "3" ]]; then
-    return
+    return 1  
   fi
 
   case "$choice" in
@@ -273,7 +273,10 @@ function select_linux_other_scripts() {
 
   whiptail --title "Proxmox VE Helper-Scripts" \
     --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+
+  return 1  
 }
+
 
 
 
