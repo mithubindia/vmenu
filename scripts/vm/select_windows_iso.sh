@@ -86,7 +86,8 @@ function select_existing_iso() {
   done < <(find "$ISO_DIR" -type f -iname "*.iso" ! -iname "virtio*" | sort)
 
   if [[ ${#ISO_LIST[@]} -eq 0 ]]; then
-    msg_error "$(translate "No ISO images found in $ISO_DIR.")"
+    header_info
+    msg_error "$(translate "No ISO images found in") $ISO_DIR."
     sleep 2
     return 1
   fi

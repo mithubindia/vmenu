@@ -195,7 +195,7 @@ function select_linux_custom_iso() {
 
   if [[ ${#ISO_LIST[@]} -eq 0 ]]; then
     header_info
-    msg_error "$(translate "No ISO images found in $ISO_DIR.")"
+    msg_error "$(translate "No ISO images found in") $ISO_DIR."
     sleep 2
     return 1
   fi
