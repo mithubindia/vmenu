@@ -74,18 +74,21 @@ uninstall_figurine() {
 
 show_uninstall_menu() {
     local options=()
-    
+    local index=1
+    declare -A uninstall_map
+
     if command -v fastfetch >/dev/null 2>&1; then
         options+=("$index" "$(translate "Uninstall") Fastfetch")
-        local fastfetch_option="$index"
+        uninstall_map[$index]="uninstall_fastfetch"
         index=$((index + 1))
     fi
 
     if command -v figurine >/dev/null 2>&1; then
         options+=("$index" "$(translate "Uninstall") Figurine")
-        local figurine_option="$index"
+        uninstall_map[$index]="uninstall_figurine"
         index=$((index + 1))
     fi
+
 
     if [ ${#options[@]} -eq 0 ]; then
         whiptail --title "ProxMenux" --msgbox "$(translate "No uninstallable tools detected.")" 10 60
@@ -97,10 +100,12 @@ show_uninstall_menu() {
                       --menu "$(translate "Select a tool to uninstall:")" 15 60 6 \
                       "${options[@]}" 3>&1 1>&2 2>&3)
 
-    case "$choice" in
-        "$fastfetch_option") uninstall_fastfetch ;;
-        "$figurine_option") uninstall_figurine ;;
-    esac
+    [ -z "$choice" ] && return_to_menu
+
+    local func="${uninstall_map[$choice]}"
+    if [[ -n "$func" ]]; then
+        "$func"
+    fi
 
     return_to_menu
 }
