@@ -75,14 +75,14 @@ uninstall_figurine() {
 show_uninstall_menu() {
     local options=()
     
-    if command -v fastfetch &>/dev/null; then
-        options+=("$index" "$(translate "Uninstall Fastfetch")")
+    if command -v fastfetch >/dev/null 2>&1; then
+        options+=("$index" "$(translate "Uninstall") Fastfetch")
         local fastfetch_option="$index"
         index=$((index + 1))
     fi
 
-    if command -v figurine &>/dev/null; then
-        options+=("$index" "$(translate "Uninstall Figurine")")
+    if command -v figurine >/dev/null 2>&1; then
+        options+=("$index" "$(translate "Uninstall") Figurine")
         local figurine_option="$index"
         index=$((index + 1))
     fi
