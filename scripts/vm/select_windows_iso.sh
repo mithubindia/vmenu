@@ -22,7 +22,7 @@ function select_windows_iso() {
   if [[ "$LANGUAGE" == "es" ]]; then
     header=$(printf "%-41s│ %s" "      Descripción" "Fuente")
   else
-    header=$(printf "%-42s│ %s" "       $(translate "Description")" "$(translate "Source")")
+    header=$(printf "%-43s│ %s" "        $(translate "Description")" "$(translate "Source")")
   fi
 
   while [[ "$EXIT_FLAG" != "yes" ]]; do
@@ -31,7 +31,7 @@ function select_windows_iso() {
         --backtitle "ProxMenux" \
         --title "Opciones de instalación de Windows" \
         --menu "\nSeleccione el tipo de instalación de Windows:\n\n$header" \
-        18 70 10 \
+        20 70 10 \
         1 "$(printf '%-34s│ %s' 'Instalar con ISO UUP Dump' 'UUP Dump ISO creator')" \
         2 "$(printf '%-34s│ %s' 'Instalar con ISO personal' 'Almacenamiento local')" \
         3 "Volver al menú principal" \
