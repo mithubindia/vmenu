@@ -110,7 +110,7 @@ function apply_default_vm_config() {
 function configure_vm_advanced() {
   header_info
 
-  # Obtener el siguiente ID libre
+
   NEXTID=$(pvesh get /cluster/nextid 2>/dev/null || echo "100")
   [[ -z "$MAC" ]] && MAC=$(generate_mac)
 

@@ -78,7 +78,7 @@ function start_vm_configuration() {
 while true; do
   OS_TYPE=$(dialog --backtitle "ProxMenux" \
     --title "$(translate "Select System Type")" \
-    --menu "$(translate "Choose the type of virtual system to install:")" 18 70 8 \
+    --menu "\n$(translate "Choose the type of virtual system to install:")" 18 70 8 \
     1 "$(translate "Create") VM System NAS" \
     2 "$(translate "Create") VM System Windows" \
     3 "$(translate "Create") VM System Linux" \

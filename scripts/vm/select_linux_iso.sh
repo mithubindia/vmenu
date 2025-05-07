@@ -33,7 +33,7 @@ function select_linux_iso() {
   while [[ "$EXIT_FLAG" != "yes" ]]; do
 
     if [[ "$LANGUAGE" == "es" ]]; then
-      # Menú en español formateado manualmente
+
                 CHOICE=$(dialog --clear \
                   --backtitle "ProxMenux" \
                   --title "Opciones de instalación de Linux" \
@@ -45,7 +45,7 @@ function select_linux_iso() {
                   4 "Volver al menú principal" \
                   3>&1 1>&2 2>&3)
                         else
-                          # Menú multilingüe con traducción
+ 
                 local desc1 desc2 desc3 back
                 desc1="$(translate "Install with traditional method")"
                 desc2="$(translate "Install with Cloud-Init script")"
@@ -240,7 +240,7 @@ function select_linux_other_scripts() {
     2)
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
       
-      # Mostrar credenciales
+
       whiptail --title "Docker VM Info" \
         --msgbox "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")" 12 50
       ;;

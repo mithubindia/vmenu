@@ -41,13 +41,13 @@ function select_virtual_disk() {
 
   VIRTUAL_DISKS=()      
 
-  # Loop to add multiple disks
+
   local add_more_disks=true
   while $add_more_disks; do
 
   msg_info "Detecting available storage volumes..."
 
-    # Get list of available storage
+
     STORAGE_MENU=()
     while read -r line; do
       TAG=$(echo $line | awk '{print $1}')
@@ -57,7 +57,7 @@ function select_virtual_disk() {
       STORAGE_MENU+=("$TAG" "$ITEM" "OFF")
     done < <(pvesm status -content images | awk 'NR>1')
 
-    # Check that storage is available
+ 
     VALID=$(pvesm status -content images | awk 'NR>1')
     if [ -z "$VALID" ]; then
       msg_error "Unable to detect a valid storage location."
@@ -66,7 +66,7 @@ function select_virtual_disk() {
     fi
 
     
-    # Select storage
+
     if [ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]; then
       STORAGE=${STORAGE_MENU[0]}
       msg_ok "Using ${CL}${BL}$STORAGE${CL} ${GN}for Storage Location."
@@ -90,7 +90,7 @@ function select_virtual_disk() {
 
     fi
 
-    # Request disk size
+
     DISK_SIZE=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
     
     if [ $? -ne 0 ]; then
@@ -109,18 +109,18 @@ function select_virtual_disk() {
       DISK_SIZE="32"
     fi
 
-    # Store the configuration in the disk list
+
     VIRTUAL_DISKS+=("${STORAGE}:${DISK_SIZE}")
 
 
-    # Ask if you want to create another disk
+
     if ! whiptail --backtitle "ProxMenuX" --title "$(translate "Add Another Disk")" \
       --yesno "$(translate "Do you want to add another virtual disk?")" 8 58; then
       add_more_disks=false
     fi
   done
 
-  # Show summary of the created disks
+
   if [ ${#VIRTUAL_DISKS[@]} -gt 0 ]; then
 
     msg_ok "Virtual Disks Created:"

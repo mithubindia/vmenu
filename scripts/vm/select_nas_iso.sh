@@ -4,7 +4,7 @@
 # ProxMenux - NAS ISO Selector (Dialog Edition)
 # ==============================================================
 
-# Configuración Base
+
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
@@ -35,7 +35,7 @@ function select_nas_iso() {
     --menu "\n$(translate "Select the NAS system to install:")" 18 70 10 \
     "${NAS_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
-  # Si se pulsa ESC o Cancelar
+
   [[ $? -ne 0 ]] && return 1
 
   case "$NAS_TYPE" in

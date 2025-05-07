@@ -84,7 +84,7 @@ if [[ ! -f "$CONVERTER/convert.sh" ]]; then
   cd "$TMP_DIR" || exit 1
 fi
 
-# Crear script de descarga uup_download_linux.sh
+
 cat > uup_download_linux.sh <<EOF
 #!/bin/bash
 mkdir -p files
