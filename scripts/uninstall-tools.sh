@@ -98,7 +98,8 @@ show_uninstall_menu() {
                       "${options[@]}" 3>&1 1>&2 2>&3)
 
     case "$choice" in
-        1) uninstall_fastfetch ;;
+        "$fastfetch_option") uninstall_fastfetch ;;
+        "$figurine_option") uninstall_figurine ;;
     esac
 
     return_to_menu
