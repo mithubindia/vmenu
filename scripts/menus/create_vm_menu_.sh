@@ -146,7 +146,6 @@ done
 
 
 
-
 function start_vm_configuration() {
 
   if (whiptail --title "ProxMenux" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
