@@ -17,34 +17,65 @@ initialize_cache
 mkdir -p "$ISO_DIR"
 
 function select_windows_iso() {
-  local CHOICE
-  CHOICE=$(dialog --backtitle "ProxMenux" --title "$(translate "Windows ISO")" \
-    --menu "$(translate "Select how to provide the Windows ISO:")" 15 60 5 \
-    1 "$(translate "Use existing ISO from storage")" \
-    2 "$(translate "Download ISO using UUP Dump")" \
-    3 "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
+  local EXIT_FLAG="no"
+  local header
+  if [[ "$LANGUAGE" == "es" ]]; then
+    header=$(printf "%-41s│ %s" "      Descripción" "Fuente")
+  else
+    header=$(printf "%-42s│ %s" "       $(translate "Description")" "$(translate "Source")")
+  fi
 
-  [[ $? -ne 0 ]] && return 1  # ESC o cancelar
+  while [[ "$EXIT_FLAG" != "yes" ]]; do
+    if [[ "$LANGUAGE" == "es" ]]; then
+      CHOICE=$(dialog --clear \
+        --backtitle "ProxMenux" \
+        --title "Opciones de instalación de Windows" \
+        --menu "\nSeleccione el tipo de instalación de Windows:\n\n$header" \
+        18 70 10 \
+        1 "$(printf '%-34s│ %s' 'Instalar con ISO UUP Dump' 'UUP Dump ISO creator')" \
+        2 "$(printf '%-34s│ %s' 'Instalar con ISO personal' 'Almacenamiento local')" \
+        3 "Volver al menú principal" \
+        3>&1 1>&2 2>&3)
+    else
+      local desc1 desc2 back
+      desc1="$(translate "Install with ISO from UUP Dump")"
+      desc2="$(translate "Install with personal ISO")"
+      back="$(translate "Return to main menu")"
+      CHOICE=$(dialog --clear \
+        --backtitle "ProxMenux" \
+        --title "$(translate "Windows Installation Options")" \
+        --menu "\n$(translate "Select the type of Windows installation:")\n\n$header" \
+        16 70 10 \
+        1 "$(printf '%-35s│ %s' "$desc1" "UUP Dump creator")" \
+        2 "$(printf '%-35s│ %s' "$desc2" "Local Storage")" \
+        3 "$back" \
+        3>&1 1>&2 2>&3)
+    fi
 
-  case "$CHOICE" in
-    1)
-      select_existing_iso || return 1
-      ;;
-    2)
-      if source <(curl -fsSL "$UUP_REPO/uupdump_creator.sh"); then
+    if [[ $? -ne 0 || "$CHOICE" == "3" ]]; then
+      unset ISO_NAME ISO_TYPE ISO_URL ISO_FILE ISO_PATH HN
+      return 1
+    fi
+
+    case "$CHOICE" in
+      1)
+        if source <(curl -fsSL "$UUP_REPO/uupdump_creator.sh"); then
           run_uupdump_creator || return 1
           detect_latest_iso_created || return 1
-      else
-        msg_error "$(translate "UUP Dump script not found.")"
-        return 1
-      fi
-      ;;
-    3)
-      return 1
-      ;;
-  esac
-  return 0
+          EXIT_FLAG="yes"
+        else
+          msg_error "$(translate "UUP Dump script not found.")"
+          return 1
+        fi
+        ;;
+      2)
+        select_existing_iso || return 1
+        EXIT_FLAG="yes"
+        ;;
+    esac
+  done
 }
+
 
 function select_existing_iso() {
   ISO_LIST=()

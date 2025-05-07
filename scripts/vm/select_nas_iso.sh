@@ -20,19 +20,19 @@ mkdir -p "$ISO_DIR"
 function select_nas_iso() {
 
   local NAS_OPTIONS=(
-    "1" "Synology DSM   VM"
-    "2" "TrueNAS SCALE  VM   (Fangtooth)"
-    "3" "TrueNAS CORE   VM   (FreeBSD based)"
-    "4" "OpenMediaVault VM   (Debian based)"
-    "5" "Rockstor       VM   (openSUSE based)"
-    "6" "ZimaOS         VM   (R0GGER proxmox-zimaos)"
+    "1" "Synology DSM   VM    (Loader Linux-based)"
+    "2" "TrueNAS SCALE  VM    (Dragonfish)"
+    "3" "TrueNAS CORE   VM    (FreeBSD based)"
+    "4" "OpenMediaVault VM    (Debian based)"
+    "5" "Rockstor       VM    (openSUSE based)"
+    "6" "ZimaOS         VM    (R0GGER proxmox-zimaos)"
     "7" "$(translate "Return to Main Menu")"
   )
 
   local NAS_TYPE
   NAS_TYPE=$(dialog --backtitle "ProxMenux" \
     --title "$(translate "NAS Systems")" \
-    --menu "$(translate "Select the NAS system to install:")" 18 64 10 \
+    --menu "\n$(translate "Select the NAS system to install:")" 18 70 10 \
     "${NAS_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
   # Si se pulsa ESC o Cancelar
