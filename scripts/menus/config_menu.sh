@@ -218,7 +218,7 @@ uninstall_proxmenu() {
     fi
 
     # Remove ProxMenu files
-    rm -f "/usr/local/bin/menu.sh"
+    rm -f "/usr/local/bin/menu"
     rm -rf "$BASE_DIR"
 
     echo "ProxMenu has been uninstalled."
