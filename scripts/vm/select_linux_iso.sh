@@ -218,6 +218,8 @@ function select_linux_custom_iso() {
   return 0
 }
 
+
+
 function select_linux_other_scripts() {
   local OTHER_OPTIONS=(
     "1" "Home Assistant OS VM (HAOS)       │ Helper Scripts"
@@ -228,10 +230,12 @@ function select_linux_other_scripts() {
   local choice
   choice=$(dialog --backtitle "ProxMenux" \
     --title "$(translate "Other Prebuilt Linux VMs")" \
-    --menu "\n$(translate "Select one of the ready-to-run Linux VMs:")" 18 78 10 \
+    --menu "\n$(translate "Select one of the ready-to-run Linux VMs:")" 18 70 10 \
     "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
-  [[ $? -ne 0 ]] && return
+  if [[ $? -ne 0 || "$choice" == "3" ]]; then
+    return
+  fi
 
   case "$choice" in
     1)
@@ -239,13 +243,8 @@ function select_linux_other_scripts() {
       ;;
     2)
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
-      
-
       whiptail --title "Docker VM Info" \
         --msgbox "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")" 12 50
-      ;;
-    3)
-      return
       ;;
   esac
 
@@ -253,10 +252,9 @@ function select_linux_other_scripts() {
   read -r
 
   whiptail --title "Proxmox VE Helper-Scripts" \
-           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
-
-  exec bash <(curl -s "$REPO_URL/scripts/vm/create_vm.sh")
+    --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
 }
+
 
 
 
