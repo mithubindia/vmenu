@@ -3,8 +3,6 @@
 # ==========================================================
 # VM Creator Module - ProxMenux
 # ==========================================================
-# Este módulo recibe las variables globales y crea la VM
-# con su configuración, discos y descripción.
 # ==========================================================
 
 BASE_DIR="/usr/local/share/proxmenux"
@@ -19,7 +17,7 @@ load_language
 initialize_cache
 
 # ==========================================================
-# Función para montar ISOs
+# Mont ISOs
 # ==========================================================
 function mount_iso_to_vm() {
   local vmid="$1"
@@ -68,7 +66,7 @@ function select_interface_type() {
 
 
 # ==========================================================
-# Función reutilizable para seleccionar almacenamiento EFI/TPM
+# EFI/TPM
 # ==========================================================
 function select_storage_target() {
   local PURPOSE="$1"
@@ -127,7 +125,7 @@ function configure_guest_agent() {
 
 
 # ==========================================================
-# Función principal para crear la VM
+# Create VM
 # ==========================================================
 function create_vm() {
   local BOOT_ORDER=""
@@ -136,18 +134,18 @@ function create_vm() {
   local ISO_DIR="/var/lib/vz/template/iso"
 
 
-  # Descargar ISO si es necesario
+
   if [[ -n "$ISO_PATH" && -n "$ISO_URL" && ! -f "$ISO_PATH" ]]; then
-    # Detectar si es una URL de SourceForge
+  
     if [[ "$ISO_URL" == *"sourceforge.net"* ]]; then
-      # SourceForge necesita --content-disposition para descargar correctamente
+   
       wget --content-disposition --show-progress -O "$ISO_PATH" "$ISO_URL"
     else
-      # Normal para el resto
+  
       wget --no-verbose --show-progress -O "$ISO_PATH" "$ISO_URL"
     fi
 
-    # Verificar si se descargó bien
+  
     if [[ -f "$ISO_PATH" ]]; then
       msg_ok "$(translate "ISO image downloaded")"
     else
@@ -163,17 +161,17 @@ function create_vm() {
   fi
 
 
-  # Crear la VM base primero (mínima)
+
   qm create "$VMID" -agent 1${MACHINE} -tablet 0 -localtime 1${BIOS_TYPE}${CPU_TYPE} \
     -cores "$CORE_COUNT" -memory "$RAM_SIZE" -name "$HN" -tags proxmenux \
     -net0 "virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU" -ostype "$GUEST_OS_TYPE" \
     -scsihw virtio-scsi-pci \
-    $( [[ -n "$SERIAL_PORT" ]] && echo "-serial0 $SERIAL_PORT" )
+    $( [[ -n "$SERIAL_PORT" ]] && echo "-serial0 $SERIAL_PORT" ) >/dev/null 2>&1
 
   msg_ok "$(translate "Base VM created with ID") $VMID"
 
 
-  # Crear disco EFI si corresponde
+
   if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
     msg_info "$(translate "Configuring EFI disk")"
     EFI_STORAGE=$(select_storage_target "EFI" "$VMID")
@@ -209,7 +207,7 @@ function create_vm() {
 
 
 
-  # Añadir TPM si es Windows
+
   if [[ "$OS_TYPE" == "2" ]]; then
     msg_info "$(translate "Configuring TPM device")"
     TPM_STORAGE=$(select_storage_target "TPM" "$VMID")
@@ -249,10 +247,10 @@ function create_vm() {
 
 
 # ==========================================================
-# Crear discos virtuales o físicos con interfaz seleccionada
+# Create Diks
 # ==========================================================
 
-# Primero seleccionar la interfaz
+
 select_interface_type
 
   if [[ "$DISK_TYPE" == "virtual" && ${#VIRTUAL_DISKS[@]} -gt 0 ]]; then
@@ -301,12 +299,12 @@ select_interface_type
 
 
 
-  # Ahora montamos las ISOs
+
   if [[ -f "$ISO_PATH" ]]; then
     mount_iso_to_vm "$VMID" "$ISO_PATH" "ide2"
   fi
 
-  # Para Windows, preguntar y montar ISO VirtIO
+  
   if [[ "$OS_TYPE" == "2" ]]; then
     local VIRTIO_DIR="/var/lib/vz/template/iso"
     local VIRTIO_SELECTED=""
@@ -353,7 +351,7 @@ select_interface_type
 
           if [[ ${#VIRTIO_LIST[@]} -eq 0 ]]; then
             msg_warn "$(translate "No VirtIO ISO found. Please download one.")"
-            continue  # Volver a preguntar
+            continue  
           fi
 
           VIRTIO_FILE=$(whiptail --title "ProxMenux - VirtIO ISOs" --menu "$(translate "Select a VirtIO ISO to use:")" 20 70 10 "${VIRTIO_LIST[@]}" 3>&1 1>&2 2>&3)
@@ -378,16 +376,11 @@ select_interface_type
   fi
 
 
-  # Configurar el orden de arranque (primer disco, luego CD)
   local BOOT_FINAL="$BOOT_ORDER"
   [[ -f "$ISO_PATH" ]] && BOOT_FINAL="$BOOT_ORDER;ide2"
   qm set "$VMID" -boot order="$BOOT_FINAL" >/dev/null
   msg_ok "$(translate "Boot order set to") $BOOT_FINAL"
 
-  # Crear descripción
- # local DESC="<div align='center'><h1>$HN</h1><p>Created with ProxMenux</p>$DISK_INFO</div>"
- # qm set "$VMID" -description "$DESC" >/dev/null
- # msg_ok "$(translate "VM description configured")"
 
 
 
@@ -398,7 +391,7 @@ select_interface_type
 <img src='https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo_desc.png' alt='ProxMenux Logo' style='height: 100px;'>
 </td>
 <td style='vertical-align: middle;'>
-<h1 style='margin: 0;'>$HN</h1>
+<h1 style='margin: 0;'>$HN VM</h1>
 <p style='margin: 0;'>Created with ProxMenux</p>
 </td>
 </tr>
@@ -422,7 +415,7 @@ else
     msg_ok "$(translate "VM description configured")"
 fi
 
-  # Arrancar la VM si corresponde
+
   if [[ "$START_VM" == "yes" ]]; then
     qm start "$VMID"
     msg_ok "$(translate "VM started")"
