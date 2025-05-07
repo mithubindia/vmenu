@@ -137,6 +137,7 @@ install_proxmenu() {
 
    ((current_step++))
 
+
     # Step 2: Set up virtual environment
 
     show_progress $current_step $total_steps "Setting up virtual environment for translate"
@@ -198,6 +199,7 @@ install_proxmenu() {
     for file in "${FILES[@]}"; do
         IFS=" " read -r dest url <<< "$file"
         msg_info "Downloading ${dest##*/}..."
+        sleep 2
         if wget -qO "$dest" "$url"; then
             msg_ok "${dest##*/} downloaded successfully."
         else
