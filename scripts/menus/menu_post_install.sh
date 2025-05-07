@@ -24,11 +24,31 @@ initialize_cache
 show_proxmenux_logo
 # ==========================================================
 
+
+confirm_and_run() {
+    local name="$1"
+    local command="$2"
+
+    if whiptail --title "$(translate "Confirmation")" \
+                --yesno "$(translate "Do you want to run the post-installation script from") $name?" \
+                10 70; then
+        eval "$command"
+        echo ""
+        msg_success "$(translate 'Press ENTER to continue...')"
+        read -r _
+    else
+        msg_warn "$(translate "Cancelled by user.")"
+        sleep 1
+    fi
+}
+
+
+
 # Define scripts array
 scripts=(
     "Customizable script post-installation|ProxMenux|bash <(curl -s $REPO_URL/scripts/customizable_post_install.sh)"
-    "Proxmox VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)\""
-    "xshok-proxmox Post install|fork xshok-proxmox|wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh"
+    "Proxmox VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
+    "xshok-proxmox Post install|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
     "Uninstall Tools|ProxMenux|bash <(curl -s $REPO_URL/scripts/uninstall-tools.sh)"
 
 )
