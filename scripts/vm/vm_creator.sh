@@ -385,9 +385,42 @@ select_interface_type
   msg_ok "$(translate "Boot order set to") $BOOT_FINAL"
 
   # Crear descripción
-  local DESC="<div align='center'><h1>$HN</h1><p>Created with ProxMenux</p>$DISK_INFO</div>"
-  qm set "$VMID" -description "$DESC" >/dev/null
-  msg_ok "$(translate "VM description configured")"
+ # local DESC="<div align='center'><h1>$HN</h1><p>Created with ProxMenux</p>$DISK_INFO</div>"
+ # qm set "$VMID" -description "$DESC" >/dev/null
+ # msg_ok "$(translate "VM description configured")"
+
+
+
+  HTML_DESC="<div align='center'>
+<table style='width: 100%; border-collapse: collapse;'>
+<tr>
+<td style='width: 100px; vertical-align: middle;'>
+<img src='https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo_desc.png' alt='ProxMenux Logo' style='height: 100px;'>
+</td>
+<td style='vertical-align: middle;'>
+<h1 style='margin: 0;'>$HN</h1>
+<p style='margin: 0;'>Created with ProxMenux</p>
+</td>
+</tr>
+</table>
+
+<p>
+<a href='https://macrimi.github.io/ProxMenux/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
+<a href='https://github.com/MacRimi/ProxMenux/blob/main/scripts/vm/create_vm.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
+<a href='https://ko-fi.com/macrimi' target='_blank'><img src='https://img.shields.io/badge/☕_Ko--fi-red' alt='Ko-fi'></a>
+</p>
+
+<div>
+${DISK_INFO}
+</div>
+</div>"
+
+msg_info "$(translate "Setting VM description")"
+if ! qm set "$VMID" -description "$HTML_DESC" >/dev/null 2>&1; then
+    msg_error "$(translate "Failed to set VM description")"
+else
+    msg_ok "$(translate "VM description configured")"
+fi
 
   # Arrancar la VM si corresponde
   if [[ "$START_VM" == "yes" ]]; then
