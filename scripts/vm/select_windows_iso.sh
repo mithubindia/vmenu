@@ -31,7 +31,7 @@ function select_windows_iso() {
         --backtitle "ProxMenux" \
         --title "Opciones de instalación de Windows" \
         --menu "\nSeleccione el tipo de instalación de Windows:\n\n$header" \
-        20 70 10 \
+        18 70 10 \
         1 "$(printf '%-34s│ %s' 'Instalar con ISO UUP Dump' 'UUP Dump ISO creator')" \
         2 "$(printf '%-34s│ %s' 'Instalar con ISO personal' 'Almacenamiento local')" \
         3 "Volver al menú principal" \
@@ -45,7 +45,7 @@ function select_windows_iso() {
         --backtitle "ProxMenux" \
         --title "$(translate "Windows Installation Options")" \
         --menu "\n$(translate "Select the type of Windows installation:")\n\n$header" \
-        16 70 10 \
+        18 70 10 \
         1 "$(printf '%-35s│ %s' "$desc1" "UUP Dump creator")" \
         2 "$(printf '%-35s│ %s' "$desc2" "Local Storage")" \
         3 "$back" \

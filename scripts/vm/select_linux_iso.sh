@@ -102,18 +102,18 @@ function select_linux_iso_official() {
   INDEX=0
   for entry in "${DISTROS[@]}"; do
     IFS='|' read -r NAME TYPE SOURCE URL <<< "$entry"
-    LINE=$(printf "%-40s │ %-10s │ %s" "$NAME" "$TYPE" "$SOURCE")
+    LINE=$(printf "%-30s │ %-10s │ %s" "$NAME" "$TYPE" "$SOURCE")
     MENU_OPTIONS+=("$INDEX" "$LINE")
     URLS[$INDEX]="$entry"
     ((INDEX++))
   done
 
   HEADER="%-42s │ %-10s │ %s"
-  HEADER_TEXT=$(printf "$HEADER" "Distribution" "Type" "Source")
+  HEADER_TEXT=$(printf "$HEADER" "            Distribution" "Type" "Source")
 
   CHOICE=$(dialog --backtitle "ProxMenux" \
     --title "$(translate "Official Linux Distributions")" \
-    --menu "$(translate "Select the Linux distribution to install:")\n\n$HEADER_TEXT" 20 90 12 \
+    --menu "$(translate "Select the Linux distribution to install:")\n\n$HEADER_TEXT" 20 80 12 \
     "${MENU_OPTIONS[@]}" \
     3>&1 1>&2 2>&3)
 
@@ -139,17 +139,17 @@ function select_linux_iso_official() {
 
 function select_linux_cloudinit() {
   local CLOUDINIT_OPTIONS=(
-    "1" "Arch Linux   (Cloud-Init automated) │ Helper Scripts"
-    "2" "Debian 12    (Cloud-Init automated) │ Helper Scripts"
-    "3" "Ubuntu 22.04 (Cloud-Init automated) │ Helper Scripts"
-    "4" "Ubuntu 24.04 (Cloud-Init automated) │ Helper Scripts"
-    "5" "Ubuntu 24.10 (Cloud-Init automated) │ Helper Scripts"
+    "1" "Arch Linux   (Cloud-Init automated)   │ Helper Scripts"
+    "2" "Debian 12    (Cloud-Init automated)   │ Helper Scripts"
+    "3" "Ubuntu 22.04 (Cloud-Init automated)   │ Helper Scripts"
+    "4" "Ubuntu 24.04 (Cloud-Init automated)   │ Helper Scripts"
+    "5" "Ubuntu 24.10 (Cloud-Init automated)   │ Helper Scripts"
     "6" "$(translate "Return to Main Menu")"
   )
 
   local script_selection
   script_selection=$(dialog --backtitle "ProxMenux" --title "$(translate "Cloud-Init Automated Installers")" \
-    --menu "$(translate "Select a pre-configured Linux VM script to execute:")" 20 78 10 \
+    --menu "\n$(translate "Select a pre-configured Linux VM script to execute:")" 20 78 10 \
     "${CLOUDINIT_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
   [[ $? -ne 0 ]] && return
@@ -228,7 +228,7 @@ function select_linux_other_scripts() {
   local choice
   choice=$(dialog --backtitle "ProxMenux" \
     --title "$(translate "Other Prebuilt Linux VMs")" \
-    --menu "$(translate "Select one of the ready-to-run Linux VMs:")" 18 78 10 \
+    --menu "\n$(translate "Select one of the ready-to-run Linux VMs:")" 18 78 10 \
     "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
   [[ $? -ne 0 ]] && return
