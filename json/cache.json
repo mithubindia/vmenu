@@ -1347,6 +1347,9 @@
   "Lookup domain registration info": {
     "es": "Buscar información de registro de dominio"
   },
+  "Do you want to run the post-installation script from": {
+    "es": "¿Quieres ejecutar el script post-instalación desde"
+  },
   "Manage and inspect VM disk images": {
     "es": "Administrar e inspeccionar imágenes de disco de VM"
   }
