@@ -161,17 +161,17 @@ uninstall_proxmenu() {
 
     # Show checklist for dependencies
     DEPS_TO_REMOVE=$(whiptail --title "Remove Dependencies" --checklist \
-        "Select dependencies to remove:" 15 60 3 \
+        "$(translate "Select dependencies to remove:")" 15 60 3 \
         "python3-venv" "Python virtual environment" OFF \
         "python3-pip"  "Python package installer" OFF \
         "jq"          "JSON processor" OFF \
         3>&1 1>&2 2>&3)
-    
-    echo "Uninstalling ProxMenu..."
+
+    echo "$(translate "Uninstalling ProxMenu...")"
 
     # Remove googletrans if virtual environment exists
     if [ -f "$VENV_PATH/bin/activate" ]; then
-        echo "Removing googletrans..."
+        echo "$(translate "Removing googletrans...")"
         source "$VENV_PATH/bin/activate"
         pip uninstall -y googletrans >/dev/null 2>&1
         deactivate
@@ -179,56 +179,59 @@ uninstall_proxmenu() {
 
     # Remove virtual environment
     if [ -d "$VENV_PATH" ]; then
-        echo "Removing virtual environment..."
+        echo "$(translate "Removing virtual environment...")"
         rm -rf "$VENV_PATH"
     fi
 
     # Remove selected dependencies
     if [ -n "$DEPS_TO_REMOVE" ]; then
-        echo "Removing selected dependencies..."
-
-        # Remove quotes and process each package
+        echo "$(translate "Removing selected dependencies...")"
         read -r -a DEPS_ARRAY <<< "$(echo "$DEPS_TO_REMOVE" | tr -d '"')"
         for dep in "${DEPS_ARRAY[@]}"; do
-            echo "Removing $dep..."
-            
-            # Mark package as auto-installed
+            echo "$(translate "Removing") $dep..."
             apt-mark auto "$dep" >/dev/null 2>&1
-            
-            # Try to remove with apt-get
             if ! apt-get -y --purge autoremove "$dep" >/dev/null 2>&1; then
-                echo "Failed to remove $dep with apt-get. Trying with dpkg..."
+                echo "$(translate "Failed to remove") $dep $(translate "with apt-get. Trying with dpkg...")"
                 if ! dpkg --purge "$dep" >/dev/null 2>&1; then
-                    echo "Failed to remove $dep with dpkg. Trying to force removal..."
+                    echo "$(translate "Failed to remove") $dep $(translate "with dpkg. Trying to force removal...")"
                     dpkg --force-all --purge "$dep" >/dev/null 2>&1
                 fi
             fi
-            
-            # Verify if the package was actually removed
             if dpkg -l "$dep" 2>/dev/null | grep -q '^ii'; then
-                echo "Warning: Failed to completely remove $dep. You may need to remove it manually."
+                echo "$(translate "Warning: Failed to completely remove") $dep. $(translate "You may need to remove it manually.")"
             else
-                echo "$dep successfully removed."
+                echo "$dep $(translate "successfully removed.")"
             fi
         done
-        
-        # Run autoremove to clean up any leftover dependencies
-        echo "Cleaning up unnecessary packages..."
+        echo "$(translate "Cleaning up unnecessary packages...")"
         apt-get autoremove -y --purge >/dev/null 2>&1
+    fi
+
+    # Restore original .bashrc if backup exists
+    if [ -f /root/.bashrc.bak ]; then
+        echo "$(translate "Restoring original .bashrc...")"
+        mv /root/.bashrc.bak /root/.bashrc
+    fi
+
+    # Restore original MOTD if backup exists
+    if [ -f /etc/motd.bak ]; then
+        echo "$(translate "Restoring original MOTD...")"
+        mv /etc/motd.bak /etc/motd
+    else
+        # Remove custom MOTD line if present
+        sed -i '/This system is optimised by: ProxMenux/d' /etc/motd
     fi
 
     # Remove ProxMenu files
     rm -f "/usr/local/bin/menu"
     rm -rf "$BASE_DIR"
 
-    echo "ProxMenu has been uninstalled."
-    
+    echo "$(translate "ProxMenu has been uninstalled.")"
     if [ -n "$DEPS_TO_REMOVE" ]; then
-        echo "The following dependencies have been removed successfully: $DEPS_TO_REMOVE"
+        echo "$(translate "The following dependencies have been removed successfully:") $DEPS_TO_REMOVE"
     fi
-    
     echo
-    echo "ProxMenux uninstallation complete. Thank you for using it!"
+    echo "$(translate "ProxMenux uninstallation complete. Thank you for using it!")"
     echo
     exit 0
 }

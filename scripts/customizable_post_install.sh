@@ -1873,7 +1873,7 @@ setup_motd() {
     msg_info2 "$(translate "Configuring MOTD (Message of the Day) banner...")"
 
     local motd_file="/etc/motd"
-    local custom_message="This system is optimised by: ProxMenux"
+    local custom_message="    This system is optimised by: ProxMenux"
     local changes_made=false
 
     msg_info "$(translate "Checking MOTD configuration...")"
