@@ -24,6 +24,11 @@ load_language
 initialize_cache
 # ==========================================================
 
+if ! command -v dialog &>/dev/null; then
+    apt update -qq >/dev/null 2>&1
+    apt install -y dialog >/dev/null 2>&1
+fi
+
 show_menu() {
     local TEMP_FILE
     TEMP_FILE=$(mktemp)
