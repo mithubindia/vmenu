@@ -2180,6 +2180,7 @@ configure_fastfetch() {
         msg_error "$(translate "Failed to retrieve Fastfetch download URL.")"
         return 1
     fi
+   msg_ok "$(translate "Fastfetch download URL retrieved successfully.")"
 
     
     wget -qO /tmp/fastfetch.deb "$fastfetch_deb_url"
