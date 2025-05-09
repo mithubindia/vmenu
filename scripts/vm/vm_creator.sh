@@ -269,27 +269,28 @@ fi
 
 select_interface_type
 
-    if [[ "$DISK_TYPE" == "virtual" && ${#VIRTUAL_DISKS[@]} -gt 0 ]]; then
-      for i in "${!VIRTUAL_DISKS[@]}"; do
-        DISK_INDEX=$((i+1))
-        IFS=':' read -r STORAGE SIZE <<< "${VIRTUAL_DISKS[$i]}"
-        SLOT_NAME="${INTERFACE_TYPE}${i}"
-        STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
+  if [[ "$DISK_TYPE" == "virtual" && ${#VIRTUAL_DISKS[@]} -gt 0 ]]; then
+    for i in "${!VIRTUAL_DISKS[@]}"; do
+      DISK_INDEX=$((i+1))
+      IFS=':' read -r STORAGE SIZE <<< "${VIRTUAL_DISKS[$i]}"
+      DISK_NAME="vm-${VMID}-disk-${DISK_INDEX}"
+      SLOT_NAME="${INTERFACE_TYPE}${i}"
 
-        if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-    
-          if qm set "$VMID" -$SLOT_NAME "$STORAGE:${SIZE},format=raw${DISCARD_OPTS}" >/dev/null 2>&1; then
-            msg_ok "$(translate "Virtual disk") $DISK_INDEX ${SIZE}GB - $STORAGE ($SLOT_NAME)"
-            DISK_INFO+="<p>Virtual Disk $DISK_INDEX: ${SIZE}GB ($STORAGE / $SLOT_NAME)</p>"
-            [[ -z "$BOOT_ORDER" ]] && BOOT_ORDER="$SLOT_NAME"
-          else
-            msg_error "$(translate "Failed to assign virtual disk") $DISK_INDEX"
-          fi
-        else
-  
-          DISK_NAME="vm-${VMID}-disk-${DISK_INDEX}"
-          if pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "${SIZE}G" >/dev/null 2>&1; then
-            if qm set "$VMID" -$SLOT_NAME "$STORAGE:$VMID/$DISK_NAME${DISCARD_OPTS}" >/dev/null 2>&1; then
+      STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
+      case "$STORAGE_TYPE" in
+        dir|nfs|btrfs)
+          DISK_EXT=".raw"
+          DISK_REF="$VMID/"
+          ;;
+        *)
+          DISK_EXT=""
+          DISK_REF=""
+          ;;
+      esac
+
+      if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
+ 
+            if qm set "$VMID" -$SLOT_NAME "$STORAGE:${SIZE},format=raw${DISCARD_OPTS}" >/dev/null 2>&1; then
               msg_ok "$(translate "Virtual disk") $DISK_INDEX ${SIZE}GB - $STORAGE ($SLOT_NAME)"
               DISK_INFO+="<p>Virtual Disk $DISK_INDEX: ${SIZE}GB ($STORAGE / $SLOT_NAME)</p>"
               [[ -z "$BOOT_ORDER" ]] && BOOT_ORDER="$SLOT_NAME"
@@ -297,11 +298,20 @@ select_interface_type
               msg_error "$(translate "Failed to assign virtual disk") $DISK_INDEX"
             fi
           else
-            msg_error "$(translate "Failed to allocate virtual disk") $DISK_INDEX"
+
+            #DISK_NAME="vm-${VMID}-disk-${DISK_INDEX}"
+
+            if pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME$DISK_EXT" "$SIZE"G >/dev/null 2>&1; then
+              qm set "$VMID" -$SLOT_NAME "$STORAGE:${DISK_REF}${DISK_NAME}${DISK_EXT}${DISCARD_OPTS}" >/dev/null
+              msg_ok "$(translate "Virtual disk") $DISK_INDEX ${SIZE}GB - $STORAGE ($SLOT_NAME)"
+              DISK_INFO+="<p>Virtual Disk $DISK_INDEX: ${SIZE}GB ($STORAGE / $SLOT_NAME)</p>"
+              [[ -z "$BOOT_ORDER" ]] && BOOT_ORDER="$SLOT_NAME"
+            else
+              msg_error "$(translate "Failed to create disk") $DISK_INDEX"
+            fi
           fi
-        fi
-      done
-    fi
+    done
+  fi
 
 
 
