@@ -267,12 +267,11 @@ show_storage_commands() {
         echo -e "15) ${GREEN}lvs${NC}                         - $(translate 'Concise output of logical volumes')"
         echo -e "16) ${GREEN}cat /etc/pve/storage.cfg${NC}    - $(translate 'Show Proxmox storage configuration')"
         echo -e "17) ${GREEN}pvesm status${NC}                - $(translate 'Show status of all storage pools')"
-        echo -e "18) ${GREEN}pvesm list${NC}                  - $(translate 'List all available storage')"
-        echo -e "19) ${GREEN}pvesm list <storage>${NC}        - $(translate 'List content of specific storage')"
-        echo -e "20) ${GREEN}pvesm scan <storage>${NC}        - $(translate 'Scan storage for new content')"
-        echo -e "21) ${GREEN}qm importdisk <vmid> <img> <storage>${NC}  - $(translate 'Import disk image to VM')"
-        echo -e "22) ${GREEN}qm set <vmid> -<bus><index> <disk>${NC}    - $(translate 'Add physical disk to VM via') passthrough"
-        echo -e "23) ${GREEN}qemu-img convert -O <format> <input> <output>${NC} - $(translate 'Convert disk image format')"
+        echo -e "18) ${GREEN}pvesm list <storage>${NC}        - $(translate 'List content of specific storage')"
+        echo -e "19) ${GREEN}pvesm scan <storage>${NC}        - $(translate 'Scan storage for new content')"
+        echo -e "20) ${GREEN}qm importdisk <vmid> <img> <storage>${NC}  - $(translate 'Import disk image to VM')"
+        echo -e "21) ${GREEN}qm set <vmid> -<bus><index> <disk>${NC}    - $(translate 'Add physical disk to VM via') passthrough"
+        echo -e "22) ${GREEN}qemu-img convert -O <format> <input> <output>${NC} - $(translate 'Convert disk image format')"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
         echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
@@ -305,18 +304,17 @@ show_storage_commands() {
             15) cmd="lvs" ;;
             16) cmd="cat /etc/pve/storage.cfg" ;;
             17) cmd="pvesm status" ;;
-            18) cmd="pvesm list" ;;
             19)
                 echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter storage ID: ')${CL}"
                 read -r store
                 cmd="pvesm list $store"
                 ;;
-            20)
+            19)
                 echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter storage ID: ')${CL}"
                 read -r store
                 cmd="pvesm scan $store"
                 ;;
-            21)
+            20)
                 echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
                 read -r vmid
 
@@ -374,7 +372,7 @@ show_storage_commands() {
                 echo -e "\n${GREEN}> $cmd1${NC}\n"
                 cmd="qm set $vmid -$iface$index $imported_volume"    
                 ;;
-            22)
+            21)
                 echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter VM ID: ')${CL}"
                 read -r vmid
 
@@ -420,7 +418,7 @@ show_storage_commands() {
 
                 cmd="qm set $vmid -$iface$index $disk_path"
                ;;
-            23)
+            22)
                 echo -e "\n${YELLOW}$(translate 'Convert disk image format using QEMU-IMG')${NC}"
                 sleep 1
 
