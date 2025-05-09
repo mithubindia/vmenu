@@ -1078,12 +1078,12 @@ if [ "$DISK_TYPE" = "virtual" ]; then
 
         
         # Create virtual disk
-		STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
+		#STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
 		SATA_ID="sata$i"
 		DISK_NUM=$((i+1))
 
 		if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-			# Método alternativo para BTRFS o similares → usa format=raw directamente
+
 			msg_info "Creating virtual disk (format=raw) for $STORAGE_TYPE..."
 			if ! qm set "$VMID" -$SATA_ID "$STORAGE:$SIZE,format=raw" >/dev/null 2>&1; then
 				msg_error "Failed to assign disk $DISK_NUM ($SATA_ID) on $STORAGE"
@@ -1091,7 +1091,7 @@ if [ "$DISK_TYPE" = "virtual" ]; then
 				continue
 			fi
 		else
-			# Método estándar para LVM/ZFS
+
 			msg_info "Allocating virtual disk for $STORAGE_TYPE..."
 			if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "$SIZE"G >/dev/null 2>&1; then
 				msg_error "Failed to allocate virtual disk $DISK_NUM"
