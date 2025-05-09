@@ -1587,19 +1587,24 @@ install_lynis() {
 
     msg_info "$(translate "Cloning Lynis from GitHub...")"
     if git clone --quiet https://github.com/CISOfy/lynis.git /opt/lynis >/dev/null 2>&1; then
-        ln -sf /opt/lynis/lynis /usr/local/bin/lynis >/dev/null 2>&1
-        chmod +x /usr/local/bin/lynis >/dev/null 2>&1
+        # Create wrapper script instead of symbolic link
+        cat << 'EOF' > /usr/local/bin/lynis
+#!/bin/bash
+cd /opt/lynis && ./lynis "$@"
+EOF
+        chmod +x /usr/local/bin/lynis
         msg_ok "$(translate "Lynis installed successfully from GitHub")"
     else
         msg_warn "$(translate "Failed to clone Lynis from GitHub")"
         return 1
     fi
 
-    if command -v lynis >/dev/null 2>&1; then
+    if /usr/local/bin/lynis show version >/dev/null 2>&1; then
         msg_success "$(translate "Lynis is ready to use")"
     else
         msg_warn "$(translate "Lynis installation could not be verified")"
     fi
+}
 }
 
 
