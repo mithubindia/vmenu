@@ -1220,8 +1220,8 @@ echo -e "${TAB}4. $(translate "Complete the DSM installation wizard")"
 echo -e "${TAB}5. $(translate "Find your device using https://finds.synology.com")"
 echo -e
 
-msg_success "$(translate "Press Enter to return to the main menu...")"
-read -r
+#msg_success "$(translate "Press Enter to return to the main menu...")"
+#read -r
 
 fi
   
