@@ -1605,7 +1605,7 @@ EOF
         msg_warn "$(translate "Lynis installation could not be verified")"
     fi
 }
-}
+
 
 
 
