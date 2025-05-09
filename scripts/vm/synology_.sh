@@ -125,19 +125,19 @@ function default_settings() {
   SERIAL_PORT="socket"
   START_VM="no"
   
-  echo -e " ${TAB}${DGN}Using Virtual Machine ID: ${BGN}${VMID}${CL}"
-  echo -e " ${TAB}${DGN}Using Machine Type: ${BGN}q35${CL}"
-  echo -e " ${TAB}${DGN}Using BIOS Type: ${BGN}OVMF (UEFI)${CL}"
-  echo -e " ${TAB}${DGN}Using Hostname: ${BGN}${HN}${CL}"
-  echo -e " ${TAB}${DGN}Using CPU Model: ${BGN}Host${CL}"
-  echo -e " ${TAB}${DGN}Allocated Cores: ${BGN}${CORE_COUNT}${CL}"
-  echo -e " ${TAB}${DGN}Allocated RAM: ${BGN}${RAM_SIZE}${CL}"
-  echo -e " ${TAB}${DGN}Using Bridge: ${BGN}${BRG}${CL}"
-  echo -e " ${TAB}${DGN}Using MAC Address: ${BGN}${MAC}${CL}"
-  echo -e " ${TAB}${DGN}Using VLAN: ${BGN}Default${CL}"
-  echo -e " ${TAB}${DGN}Using Interface MTU Size: ${BGN}Default${CL}"
-  echo -e " ${TAB}${DGN}Configuring Serial Port: ${BGN}${SERIAL_PORT}${CL}"
-  echo -e " ${TAB}${DGN}Start VM when completed: ${BGN}${START_VM}${CL}"
+  echo -e "${DGN}Using Virtual Machine ID: ${BGN}${VMID}${CL}"
+  echo -e "${DGN}Using Machine Type: ${BGN}q35${CL}"
+  echo -e "${DGN}Using BIOS Type: ${BGN}OVMF (UEFI)${CL}"
+  echo -e "${DGN}Using Hostname: ${BGN}${HN}${CL}"
+  echo -e "${DGN}Using CPU Model: ${BGN}Host${CL}"
+  echo -e "${DGN}Allocated Cores: ${BGN}${CORE_COUNT}${CL}"
+  echo -e "${DGN}Allocated RAM: ${BGN}${RAM_SIZE}${CL}"
+  echo -e "${DGN}Using Bridge: ${BGN}${BRG}${CL}"
+  echo -e "${DGN}Using MAC Address: ${BGN}${MAC}${CL}"
+  echo -e "${DGN}Using VLAN: ${BGN}Default${CL}"
+  echo -e "${DGN}Using Interface MTU Size: ${BGN}Default${CL}"
+  echo -e "${DGN}Configuring Serial Port: ${BGN}${SERIAL_PORT}${CL}"
+  echo -e "${DGN}Start VM when completed: ${BGN}${START_VM}${CL}"
   echo -e
   echo -e "${DEF}Creating a $NAME using the above default settings${CL}"
  
@@ -937,36 +937,17 @@ function create_vm() {
         ;;
     esac
     
-    STORAGE_TYPE=$(pvesm status -storage "$EFI_STORAGE" | awk 'NR>1 {print $2}')
-    EFI_DISK_ID="efidisk0"
-
-    if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-
-        if qm set "$VMID" -$EFI_DISK_ID "$EFI_STORAGE:4,efitype=4m,format=raw,pre-enrolled-keys=0" >/dev/null 2>&1; then
-            msg_ok "EFI disk created (raw) and configured on ${CL}${BL}$EFI_STORAGE${GN}${CL}"
+    if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME$EFI_DISK_EXT" 4M >/dev/null 2>&1; then
+        if qm set "$VMID" -efidisk0 "$EFI_STORAGE:${EFI_DISK_REF}$EFI_DISK_NAME$EFI_DISK_EXT,pre-enrolled-keys=0" >/dev/null 2>&1; then
+            msg_ok "EFI disk created and configured on ${CL}${BL}$EFI_STORAGE${GN}${CL}"
         else
             msg_error "Failed to configure EFI disk"
             ERROR_FLAG=true
         fi
     else
- 
-        EFI_DISK_NAME="vm-${VMID}-disk-efivars"
-        EFI_DISK_EXT=""
-        EFI_DISK_REF=""
-
-        if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME" 4M >/dev/null 2>&1; then
-            if qm set "$VMID" -$EFI_DISK_ID "$EFI_STORAGE:${EFI_DISK_NAME},pre-enrolled-keys=0" >/dev/null 2>&1; then
-                msg_ok "EFI disk created and configured on ${CL}${BL}$EFI_STORAGE${GN}${CL}"
-            else
-                msg_error "Failed to configure EFI disk"
-                ERROR_FLAG=true
-            fi
-        else
-            msg_error "Failed to create EFI disk"
-            ERROR_FLAG=true
-        fi
+        msg_error "Failed to create EFI disk"
+        ERROR_FLAG=true
     fi
-
 
   fi
 # ==========================================================
@@ -1001,44 +982,15 @@ function create_vm() {
           msg_ok "Loader imported successfully to ${CL}${BL}$LOADER_STORAGE${GN}${CL}"
     fi
 
+    # Configure the loader disk as scsi0
+    DISK_NAME="vm-${VMID}-disk-0"
 
-
-
- 
-    STORAGE_TYPE=$(pvesm status -storage "$LOADER_STORAGE" | awk 'NR>1 {print $2}')
-
-    if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-
-        UNUSED_LINE=$(qm config "$VMID" | grep -E '^unused[0-9]+:')
-        IMPORTED_ID=$(echo "$UNUSED_LINE" | cut -d: -f1)
-        IMPORTED_REF=$(echo "$UNUSED_LINE" | cut -d: -f2- | xargs)
-
-        if [[ -n "$IMPORTED_REF" && -n "$IMPORTED_ID" ]]; then
-            if qm set "$VMID" -ide0 "$IMPORTED_REF" >/dev/null 2>&1; then
-                msg_ok "Configured loader disk as ide0"
-                qm set "$VMID" -delete "$IMPORTED_ID" >/dev/null 2>&1
-            else
-                msg_error "Failed to assign loader disk to ide0"
-                ERROR_FLAG=true
-            fi
-        else
-            msg_error "Loader import failed. No disk detected in config."
-            ERROR_FLAG=true
-        fi
-    else
-
-        DISK_NAME="vm-${VMID}-disk-0"
-        if qm set "$VMID" -ide0 "$LOADER_STORAGE:${DISK_NAME}" >/dev/null 2>&1; then
-            msg_ok "Configured loader disk as ide0"
-        else
-            msg_error "Failed to assign loader disk"
-            ERROR_FLAG=true
-        fi
+    result=$(qm set "$VMID" -ide0 "${LOADER_STORAGE}:${DISK_NAME}" 2>&1 > /dev/null)
+    if [[ $? -eq 0 ]]; then
+          msg_ok "Configured loader disk as ide0"
+      else
+          ERROR_FLAG=true
     fi
-
-
-
-
     result=$(qm set "$VMID" -boot order=ide0 2>&1)
     if [[ $? -eq 0 ]]; then
           msg_ok "Loader configured as boot device."
@@ -1075,34 +1027,22 @@ if [ "$DISK_TYPE" = "virtual" ]; then
 
         DISK_NUM=$((i+1))
         DISK_NAME="vm-${VMID}-disk-${DISK_NUM}${DISK_EXT}"
-        SATA_ID="sata$i"
+
         
         # Create virtual disk
-        if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-        
-          msg_info "Creating virtual disk (format=raw) for $STORAGE_TYPE..."
-          if ! qm set "$VMID" -$SATA_ID "$STORAGE:$SIZE,format=raw" >/dev/null 2>&1; then
-            msg_error "Failed to assign disk $DISK_NUM ($SATA_ID) on $STORAGE"
-            ERROR_FLAG=true
-            continue
-          fi
-        else
-
-          msg_info "Allocating virtual disk for $STORAGE_TYPE..."
-          if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "$SIZE"G >/dev/null 2>&1; then
+        msg_info "Creating virtual disk..."
+        if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "$SIZE"G >/dev/null 2>&1; then
             msg_error "Failed to allocate virtual disk $DISK_NUM"
-            ERROR_FLAG=true
-            continue
-          fi
-          if ! qm set "$VMID" -$SATA_ID "$STORAGE:${DISK_REF}$DISK_NAME" >/dev/null 2>&1; then
-            msg_error "Failed to configure virtual disk as $SATA_ID"
-            ERROR_FLAG=true
-            continue
-          fi
+
         fi
+        
+        # Configure disk in the VM (sata0, sata1, etc.)
+        SATA_ID="sata$i"
+        if ! qm set "$VMID" -$SATA_ID "$STORAGE:${DISK_REF}$DISK_NAME" >/dev/null 2>&1; then
+            msg_error "Failed to configure virtual disk as $SATA_ID"
 
+        fi
         msg_ok "Configured virtual disk as $SATA_ID, ${SIZE}GB on ${CL}${BL}$STORAGE${CL} ${GN}"
-
         
         # Add information to the description
         DISK_INFO="${DISK_INFO}<p>Virtual Disk $DISK_NUM: ${SIZE}GB on ${STORAGE}</p>"
