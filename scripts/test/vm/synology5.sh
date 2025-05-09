@@ -918,27 +918,12 @@ function create_vm() {
 
  
 # Check if UEFI (OVMF) is being used ===================
-  if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
-
+if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
     msg_info "Configuring EFI disk"
-    EFI_STORAGE=$(select_efi_storage $VMID)
-    EFI_DISK_NAME="vm-${VMID}-disk-efivars"
-    
-    # Determine storage type and extension
-    STORAGE_TYPE=$(pvesm status -storage $EFI_STORAGE | awk 'NR>1 {print $2}')
-    case $STORAGE_TYPE in
-      nfs | dir)
-        EFI_DISK_EXT=".raw"
-        EFI_DISK_REF="$VMID/"
-        ;;
-      *)
-        EFI_DISK_EXT=""
-        EFI_DISK_REF=""
-        ;;
-    esac
-    
-    STORAGE_TYPE=$(pvesm status -storage "$EFI_STORAGE" | awk 'NR>1 {print $2}')
+
+    EFI_STORAGE=$(select_efi_storage "$VMID")
     EFI_DISK_ID="efidisk0"
+    STORAGE_TYPE=$(pvesm status -storage "$EFI_STORAGE" | awk 'NR>1 {print $2}')
 
     if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
 
@@ -949,11 +934,8 @@ function create_vm() {
             ERROR_FLAG=true
         fi
     else
- 
-        EFI_DISK_NAME="vm-${VMID}-disk-efivars"
-        EFI_DISK_EXT=""
-        EFI_DISK_REF=""
 
+        EFI_DISK_NAME="vm-${VMID}-disk-efivars"
         if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME" 4M >/dev/null 2>&1; then
             if qm set "$VMID" -$EFI_DISK_ID "$EFI_STORAGE:${EFI_DISK_NAME},pre-enrolled-keys=0" >/dev/null 2>&1; then
                 msg_ok "EFI disk created and configured on ${CL}${BL}$EFI_STORAGE${GN}${CL}"
@@ -966,9 +948,8 @@ function create_vm() {
             ERROR_FLAG=true
         fi
     fi
+fi
 
-
-  fi
 # ==========================================================
 
 
@@ -1059,59 +1040,43 @@ if [ "$DISK_TYPE" = "virtual" ]; then
 
     for i in "${!VIRTUAL_DISKS[@]}"; do
         IFS=':' read -r STORAGE SIZE <<< "${VIRTUAL_DISKS[$i]}"
+        STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
         
-        STORAGE_TYPE=$(pvesm status -storage $STORAGE | awk 'NR>1 {print $2}')
-        case $STORAGE_TYPE in
-            nfs | dir)
-                DISK_EXT=".raw"
-                DISK_REF="$VMID/"
-                ;;
-            *)
-                DISK_EXT=""
-                DISK_REF=""
-                ;;
-        esac
-        
-
         DISK_NUM=$((i+1))
-        DISK_NAME="vm-${VMID}-disk-${DISK_NUM}${DISK_EXT}"
+        SATA_ID="sata$i"
 
-        
-        # Create virtual disk
-		#STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
-		SATA_ID="sata$i"
-		DISK_NUM=$((i+1))
+        if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
+         
+            msg_info "Creating virtual disk (format=raw) for $STORAGE_TYPE..."
+            if ! qm set "$VMID" -$SATA_ID "$STORAGE:$SIZE,format=raw" >/dev/null 2>&1; then
+                msg_error "Failed to assign disk $DISK_NUM ($SATA_ID) on $STORAGE"
+                ERROR_FLAG=true
+                continue
+            fi
+        else
+      
+            DISK_NAME="vm-${VMID}-disk-${DISK_NUM}"
+            msg_info "Allocating virtual disk for $STORAGE_TYPE..."
+            if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "${SIZE}G" >/dev/null 2>&1; then
+                msg_error "Failed to allocate virtual disk $DISK_NUM"
+                ERROR_FLAG=true
+                continue
+            fi
+            if ! qm set "$VMID" -$SATA_ID "$STORAGE:$VMID/$DISK_NAME" >/dev/null 2>&1; then
+                msg_error "Failed to configure virtual disk as $SATA_ID"
+                ERROR_FLAG=true
+                continue
+            fi
+        fi
 
-		if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
+        msg_ok "Configured virtual disk as $SATA_ID, ${SIZE}GB on ${CL}${BL}$STORAGE${CL} ${GN}"
 
-			msg_info "Creating virtual disk (format=raw) for $STORAGE_TYPE..."
-			if ! qm set "$VMID" -$SATA_ID "$STORAGE:$SIZE,format=raw" >/dev/null 2>&1; then
-				msg_error "Failed to assign disk $DISK_NUM ($SATA_ID) on $STORAGE"
-				ERROR_FLAG=true
-				continue
-			fi
-		else
-
-			msg_info "Allocating virtual disk for $STORAGE_TYPE..."
-			if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "$SIZE"G >/dev/null 2>&1; then
-				msg_error "Failed to allocate virtual disk $DISK_NUM"
-				ERROR_FLAG=true
-				continue
-			fi
-			if ! qm set "$VMID" -$SATA_ID "$STORAGE:${DISK_REF}$DISK_NAME" >/dev/null 2>&1; then
-				msg_error "Failed to configure virtual disk as $SATA_ID"
-				ERROR_FLAG=true
-				continue
-			fi
-		fi
-
-		msg_ok "Configured virtual disk as $SATA_ID, ${SIZE}GB on ${CL}${BL}$STORAGE${CL} ${GN}"
-
-        
-        # Add information to the description
-        DISK_INFO="${DISK_INFO}<p>Virtual Disk $DISK_NUM: ${SIZE}GB on ${STORAGE}</p>"
-        CONSOLE_DISK_INFO="${CONSOLE_DISK_INFO}- Virtual Disk $DISK_NUM: ${SIZE}GB on ${STORAGE} ($SATA_ID)\n"
+     
+        DISK_INFO+="<p>Virtual Disk $DISK_NUM: ${SIZE}GB on ${STORAGE}</p>"
+        CONSOLE_DISK_INFO+="- Virtual Disk $DISK_NUM: ${SIZE}GB on ${STORAGE} ($SATA_ID)\n"
     done
+
+
     
 
     
