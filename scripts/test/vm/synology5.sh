@@ -1075,37 +1075,33 @@ if [ "$DISK_TYPE" = "virtual" ]; then
 
         DISK_NUM=$((i+1))
         DISK_NAME="vm-${VMID}-disk-${DISK_NUM}${DISK_EXT}"
-
+        SATA_ID="sata$i"
         
         # Create virtual disk
-		#STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
-		SATA_ID="sata$i"
-		DISK_NUM=$((i+1))
+        if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
+        
+          msg_info "Creating virtual disk (format=raw) for $STORAGE_TYPE..."
+          if ! qm set "$VMID" -$SATA_ID "$STORAGE:$SIZE,format=raw" >/dev/null 2>&1; then
+            msg_error "Failed to assign disk $DISK_NUM ($SATA_ID) on $STORAGE"
+            ERROR_FLAG=true
+            continue
+          fi
+        else
 
-		if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-		
-			msg_info "Creating virtual disk (format=raw) for $STORAGE_TYPE..."
-			if ! qm set "$VMID" -$SATA_ID "$STORAGE:$SIZE,format=raw" >/dev/null 2>&1; then
-				msg_error "Failed to assign disk $DISK_NUM ($SATA_ID) on $STORAGE"
-				ERROR_FLAG=true
-				continue
-			fi
-		else
+          msg_info "Allocating virtual disk for $STORAGE_TYPE..."
+          if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "$SIZE"G >/dev/null 2>&1; then
+            msg_error "Failed to allocate virtual disk $DISK_NUM"
+            ERROR_FLAG=true
+            continue
+          fi
+          if ! qm set "$VMID" -$SATA_ID "$STORAGE:${DISK_REF}$DISK_NAME" >/dev/null 2>&1; then
+            msg_error "Failed to configure virtual disk as $SATA_ID"
+            ERROR_FLAG=true
+            continue
+          fi
+        fi
 
-			msg_info "Allocating virtual disk for $STORAGE_TYPE..."
-			if ! pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "$SIZE"G >/dev/null 2>&1; then
-				msg_error "Failed to allocate virtual disk $DISK_NUM"
-				ERROR_FLAG=true
-				continue
-			fi
-			if ! qm set "$VMID" -$SATA_ID "$STORAGE:${DISK_REF}$DISK_NAME" >/dev/null 2>&1; then
-				msg_error "Failed to configure virtual disk as $SATA_ID"
-				ERROR_FLAG=true
-				continue
-			fi
-		fi
-
-		msg_ok "Configured virtual disk as $SATA_ID, ${SIZE}GB on ${CL}${BL}$STORAGE${CL} ${GN}"
+        msg_ok "Configured virtual disk as $SATA_ID, ${SIZE}GB on ${CL}${BL}$STORAGE${CL} ${GN}"
 
         
         # Add information to the description
