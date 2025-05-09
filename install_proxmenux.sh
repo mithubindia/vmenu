@@ -190,6 +190,8 @@ install_proxmenu() {
 
     show_progress $current_step $total_steps "Downloading necessary files"
     mkdir -p "$BASE_DIR"
+    mkdir -p "$INSTALL_DIR"
+    
     FILES=(
         "$CACHE_FILE $REPO_URL/json/cache.json"
         "$UTILS_FILE $REPO_URL/scripts/utils.sh"
