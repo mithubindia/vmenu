@@ -191,28 +191,28 @@ function create_vm() {
 
 
 
-
-if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
-  msg_info "$(translate "Configuring EFI disk")"
-  EFI_STORAGE=$(select_storage_target "EFI" "$VMID")
-  STORAGE_TYPE=$(pvesm status -storage "$EFI_STORAGE" | awk 'NR>1 {print $2}')
-  EFI_DISK_ID="efidisk0"
-  EFI_KEYS="0"
-
-  [[ "$OS_TYPE" == "2" ]] && EFI_KEYS="1"
-
-  if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
- 
-    if qm set "$VMID" -$EFI_DISK_ID "$EFI_STORAGE:4,efitype=4m,format=raw,pre-enrolled-keys=$EFI_KEYS" >/dev/null 2>&1; then
-      msg_ok "$(translate "EFI disk created and configured on") $EFI_STORAGE"
-    else
-      msg_error "$(translate "Failed to configure EFI disk")"
-    fi
-  else
-
+  if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
+    msg_info "$(translate "Configuring EFI disk")"
+    EFI_STORAGE=$(select_storage_target "EFI" "$VMID")
     EFI_DISK_NAME="vm-${VMID}-disk-efivars"
-    if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME" 4M >/dev/null 2>&1; then
-      if qm set "$VMID" -$EFI_DISK_ID "$EFI_STORAGE:$EFI_DISK_NAME,pre-enrolled-keys=$EFI_KEYS" >/dev/null 2>&1; then
+
+    STORAGE_TYPE=$(pvesm status -storage "$EFI_STORAGE" | awk 'NR>1 {print $2}')
+    case "$STORAGE_TYPE" in
+      nfs | dir)
+        EFI_DISK_EXT=".raw"
+        EFI_DISK_REF="$VMID/"
+        ;;
+      *)
+        EFI_DISK_EXT=""
+        EFI_DISK_REF=""
+        ;;
+    esac
+
+    EFI_KEYS="0"
+    [[ "$OS_TYPE" == "2" ]] && EFI_KEYS="1"
+
+    if pvesm alloc "$EFI_STORAGE" "$VMID" "$EFI_DISK_NAME$EFI_DISK_EXT" 4M >/dev/null 2>&1; then
+      if qm set "$VMID" -efidisk0 "$EFI_STORAGE:${EFI_DISK_REF}$EFI_DISK_NAME$EFI_DISK_EXT,pre-enrolled-keys=$EFI_KEYS" >/dev/null 2>&1; then
         msg_ok "$(translate "EFI disk created and configured on") $EFI_STORAGE"
       else
         msg_error "$(translate "Failed to configure EFI disk")"
@@ -221,40 +221,43 @@ if [[ "$BIOS_TYPE" == *"ovmf"* ]]; then
       msg_error "$(translate "Failed to create EFI disk")"
     fi
   fi
-fi
 
 
 
 
 
 
-if [[ "$OS_TYPE" == "2" ]]; then
-  msg_info "$(translate "Configuring TPM device")"
-  TPM_STORAGE=$(select_storage_target "TPM" "$VMID")
-  STORAGE_TYPE=$(pvesm status -storage "$TPM_STORAGE" | awk 'NR>1 {print $2}')
-  TPM_ID="tpmstate0"
-
-  if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-
-    if qm set "$VMID" -$TPM_ID "$TPM_STORAGE:4,version=v2.0,format=raw" >/dev/null 2>&1; then
-      msg_ok "$(translate "TPM device added to VM")"
-    else
-      msg_error "$(translate "Failed to configure TPM device in VM")"
-    fi
-  else
-
+  if [[ "$OS_TYPE" == "2" ]]; then
+    msg_info "$(translate "Configuring TPM device")"
+    TPM_STORAGE=$(select_storage_target "TPM" "$VMID")
     TPM_NAME="vm-${VMID}-tpmstate"
-    if pvesm alloc "$TPM_STORAGE" "$VMID" "$TPM_NAME" 4M >/dev/null 2>&1; then
-      if qm set "$VMID" -$TPM_ID "$TPM_STORAGE:$TPM_NAME,size=4M,version=v2.0" >/dev/null 2>&1; then
+
+    STORAGE_TYPE=$(pvesm status -storage "$TPM_STORAGE" | awk 'NR>1 {print $2}')
+    case "$STORAGE_TYPE" in
+      nfs | dir)
+        TPM_EXT=".raw"
+        TPM_REF="$VMID/"
+        ;;
+      *)
+        TPM_EXT=""
+        TPM_REF=""
+        ;;
+    esac
+
+    TPM_FULL_NAME="${TPM_NAME}${TPM_EXT}"
+
+    if pvesm alloc "$TPM_STORAGE" "$VMID" "$TPM_FULL_NAME" 4M >/dev/null 2>&1; then
+      TPM_PATH="$TPM_STORAGE:${TPM_REF}${TPM_FULL_NAME},size=4M,version=v2.0"
+      if qm set "$VMID" -tpmstate0 "$TPM_PATH" >/dev/null 2>&1; then
         msg_ok "$(translate "TPM device added to VM")"
       else
-        msg_error "$(translate "Failed to configure TPM device in VM")"
+        msg_error "$(translate "Failed to configure TPM device in VM") → $TPM_PATH"
       fi
     else
       msg_error "$(translate "Failed to create TPM state disk")"
     fi
   fi
-fi
+
 
 
 
@@ -269,41 +272,35 @@ fi
 
 select_interface_type
 
-    if [[ "$DISK_TYPE" == "virtual" && ${#VIRTUAL_DISKS[@]} -gt 0 ]]; then
-      for i in "${!VIRTUAL_DISKS[@]}"; do
-        DISK_INDEX=$((i+1))
-        IFS=':' read -r STORAGE SIZE <<< "${VIRTUAL_DISKS[$i]}"
-        SLOT_NAME="${INTERFACE_TYPE}${i}"
-        STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
+  if [[ "$DISK_TYPE" == "virtual" && ${#VIRTUAL_DISKS[@]} -gt 0 ]]; then
+    for i in "${!VIRTUAL_DISKS[@]}"; do
+      DISK_INDEX=$((i+1))
+      IFS=':' read -r STORAGE SIZE <<< "${VIRTUAL_DISKS[$i]}"
+      DISK_NAME="vm-${VMID}-disk-${DISK_INDEX}"
+      SLOT_NAME="${INTERFACE_TYPE}${i}"
 
-        if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
-    
-          if qm set "$VMID" -$SLOT_NAME "$STORAGE:${SIZE},format=raw${DISCARD_OPTS}" >/dev/null 2>&1; then
-            msg_ok "$(translate "Virtual disk") $DISK_INDEX ${SIZE}GB - $STORAGE ($SLOT_NAME)"
-            DISK_INFO+="<p>Virtual Disk $DISK_INDEX: ${SIZE}GB ($STORAGE / $SLOT_NAME)</p>"
-            [[ -z "$BOOT_ORDER" ]] && BOOT_ORDER="$SLOT_NAME"
-          else
-            msg_error "$(translate "Failed to assign virtual disk") $DISK_INDEX"
-          fi
-        else
-  
-          DISK_NAME="vm-${VMID}-disk-${DISK_INDEX}"
-          if pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME" "${SIZE}G" >/dev/null 2>&1; then
-            if qm set "$VMID" -$SLOT_NAME "$STORAGE:$VMID/$DISK_NAME${DISCARD_OPTS}" >/dev/null 2>&1; then
-              msg_ok "$(translate "Virtual disk") $DISK_INDEX ${SIZE}GB - $STORAGE ($SLOT_NAME)"
-              DISK_INFO+="<p>Virtual Disk $DISK_INDEX: ${SIZE}GB ($STORAGE / $SLOT_NAME)</p>"
-              [[ -z "$BOOT_ORDER" ]] && BOOT_ORDER="$SLOT_NAME"
-            else
-              msg_error "$(translate "Failed to assign virtual disk") $DISK_INDEX"
-            fi
-          else
-            msg_error "$(translate "Failed to allocate virtual disk") $DISK_INDEX"
-          fi
-        fi
-      done
-    fi
+      STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
+      case "$STORAGE_TYPE" in
+        dir|nfs)
+          DISK_EXT=".raw"
+          DISK_REF="$VMID/"
+          ;;
+        *)
+          DISK_EXT=""
+          DISK_REF=""
+          ;;
+      esac
 
-
+      if pvesm alloc "$STORAGE" "$VMID" "$DISK_NAME$DISK_EXT" "$SIZE"G >/dev/null 2>&1; then
+        qm set "$VMID" -$SLOT_NAME "$STORAGE:${DISK_REF}${DISK_NAME}${DISK_EXT}${DISCARD_OPTS}" >/dev/null
+        msg_ok "$(translate "Virtual disk") $DISK_INDEX ${SIZE}GB - $STORAGE ($SLOT_NAME)"
+        DISK_INFO+="<p>Virtual Disk $DISK_INDEX: ${SIZE}GB ($STORAGE / $SLOT_NAME)</p>"
+        [[ -z "$BOOT_ORDER" ]] && BOOT_ORDER="$SLOT_NAME"
+      else
+        msg_error "$(translate "Failed to create disk") $DISK_INDEX"
+      fi
+    done
+  fi
 
   if [[ "$DISK_TYPE" == "passthrough" && ${#PASSTHROUGH_DISKS[@]} -gt 0 ]]; then
     for i in "${!PASSTHROUGH_DISKS[@]}"; do
