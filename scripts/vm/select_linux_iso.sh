@@ -129,7 +129,7 @@ function select_linux_iso_official() {
   done
 
   HEADER="%-42s │ %-10s │ %s"
-  HEADER_TEXT=$(printf "$HEADER" "            Distribution" "Type" "Source")
+  HEADER_TEXT=$(printf "$HEADER" "            Distribution" "Type" "Script Install")
 
   CHOICE=$(dialog --backtitle "ProxMenux" \
     --title "$(translate "Official Linux Distributions")" \
