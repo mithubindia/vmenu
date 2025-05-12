@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import { Link2 } from "lucide-react";
-import Link from "next/link";
+import type { Metadata } from "next"
+import { Link2 } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "ProxMenux - External Repositories",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
       "Learn about the external repositories used in ProxMenux, how they are selected, and how to report issues or suggest new integrations.",
     images: ["https://macrimi.github.io/ProxMenux/external-repos-image.png"],
   },
-};
+}
 
 function SectionHeader({ number, title }: { number: number; title: string }) {
   return (
@@ -38,7 +38,7 @@ function SectionHeader({ number, title }: { number: number; title: string }) {
       </div>
       {title}
     </h3>
-  );
+  )
 }
 
 export default function ExternalRepositoriesPage() {
@@ -51,20 +51,18 @@ export default function ExternalRepositoriesPage() {
 
       {/* Introduction */}
       <p className="mb-4">
-        ProxMenux integrates with selected external repositories to provide alternative scripts for 
-        various functionalities. These scripts come from <strong>trusted sources</strong> and serve as additional 
-        options in some menu sections.
+        ProxMenux integrates with selected external repositories to provide alternative scripts for various
+        functionalities. These scripts come from <strong>trusted sources</strong> and serve as additional options in
+        some menu sections.
       </p>
       <p className="mb-4">
-        When an external script is available as an alternative, ProxMenux will clearly indicate that it 
-        originates from an external repository and specify which one.
+        When an external script is available as an alternative, ProxMenux will clearly indicate that it originates from
+        an external repository and specify which one.
       </p>
 
       {/* 1️⃣ Example of External Repository */}
-      <SectionHeader number={1} title="Example of an External Repository" />
-      <p className="mb-4">
-        One essential repository for Proxmox VE users is:
-      </p>
+      <SectionHeader number={1} title="Example of External Repositories" />
+      <p className="mb-4">Essential repositories for Proxmox VE users include:</p>
       <p className="mb-4">
         <Link
           href="https://community-scripts.github.io/ProxmoxVE/"
@@ -73,8 +71,14 @@ export default function ExternalRepositoriesPage() {
         >
           Proxmox VE Helper-Scripts
         </Link>{" "}
-        - A highly recommended repository that provides additional tools and utilities for 
-        managing Proxmox VE more efficiently.
+        - A highly recommended repository that provides additional tools and utilities for managing Proxmox VE more
+        efficiently.
+      </p>
+      <p className="mb-4">
+        <Link href="https://github.com/R0GGER/proxmox-zimaos" className="text-blue-500 hover:underline" target="_blank">
+          Proxmox ZimaOS
+        </Link>{" "}
+        - Script para instalar una VM del sistema NAS ZimaOS en menos de 5 minutos.
       </p>
 
       {/* 2️⃣ Attribution & Recognition */}
@@ -88,19 +92,20 @@ export default function ExternalRepositoriesPage() {
       {/* 3️⃣ Reporting Issues with External Scripts */}
       <SectionHeader number={3} title="Reporting Issues with External Scripts" />
       <p className="mb-4">
-        If you encounter an issue with an external script, <strong>please report it directly to the original 
-        repository</strong> instead of opening an issue in the ProxMenux repository.
+        If you encounter an issue with an external script,{" "}
+        <strong>please report it directly to the original repository</strong> instead of opening an issue in the
+        ProxMenux repository.
       </p>
       <p className="mb-4">
-      <strong>ProxMenux does not modify external scripts</strong>; it simply provides a link to the original source.  
+        <strong>ProxMenux does not modify external scripts</strong>; it simply provides a link to the original source.
         Therefore, any problems related to functionality should be reported to the respective developers.
       </p>
 
       {/* 4️⃣ Suggesting New External Repositories */}
       <SectionHeader number={4} title="Suggesting New External Repositories" />
       <p className="mb-4">
-        If you know of a script or repository that could enhance ProxMenux, feel free to suggest it by 
-        opening a discussion or issue in our GitHub repository.
+        If you know of a script or repository that could enhance ProxMenux, feel free to suggest it by opening a
+        discussion or issue in our GitHub repository.
       </p>
       <p className="mb-4">
         🔗{" "}
@@ -121,5 +126,5 @@ export default function ExternalRepositoriesPage() {
         </Link>
       </p>
     </div>
-  );
+  )
 }
