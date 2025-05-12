@@ -160,7 +160,7 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
       />
 
 
-<h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+<   h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={6} />
         Improve Entropy Generation with Haveged
       </h3>
@@ -205,9 +205,107 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
 
       <p className="mt-4">
         Once applied, your system will maintain sufficient entropy levels at all times—leading to better performance, stability, and responsiveness.
+     </p>
+
+
+
+
+     <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={7} />
+        Install Kernel Headers
+      </h3>
+
+      <p className="mb-4">
+        <strong>What are kernel headers?</strong> Kernel headers are essential files that allow software and modules to interface directly with the Linux kernel. They are required when compiling or installing drivers, DKMS modules, or virtualization tools that integrate at a low system level.
       </p>
 
-      
+      <p className="mb-4">
+        This optimization automatically detects the current kernel version and installs the appropriate <code>linux-headers</code> package.
+      </p>
+
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong>
+      </p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Enables the installation of kernel modules such as GPU or ZFS drivers</li>
+        <li>Essential for software that compiles components at runtime (e.g., DKMS)</li>
+        <li>Improves compatibility with hardware acceleration and advanced features</li>
+      </ul>
+
+      <p className="text-lg mb-2">This adjustment automates the following logic:</p>
+      <CopyableCode
+        code={`
+      # Detect current kernel version
+      KERNEL_VERSION=$(uname -r)
+      PACKAGE="linux-headers-\${KERNEL_VERSION}"
+
+      # Install headers if not present
+      if ! dpkg -s "\$PACKAGE" >/dev/null 2>&1; then
+        apt-get install -y "\$PACKAGE"
+      fi
+        `}
+     />
+
+      <p className="mt-4">
+        After installation, some modules may require a system reboot to activate properly. ProxMenux will notify you if a reboot is recommended.
+      </p>
+
+
+
+    <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={8} />
+        Optimize Logrotate Configuration
+      </h3>
+
+      <p className="mb-4">
+        <strong>What is logrotate?</strong> Logrotate is a utility that manages the automatic rotation and compression of log files to prevent them from consuming excessive disk space.
+      </p>
+
+      <p className="mb-4">
+        This optimization replaces the default configuration with a cleaner and more efficient policy that rotates logs daily, compresses them, and limits their size.
+      </p>
+
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong>
+      </p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Prevents system logs from consuming disk space over time</li>
+        <li>Improves system performance by reducing log clutter</li>
+        <li>Ensures clean, consistent log management across reboots and services</li>
+      </ul>
+
+      <p className="text-lg mb-2">This adjustment automates the following logic:</p>
+      <CopyableCode
+        code={`
+      # Backup current config
+      cp /etc/logrotate.conf /etc/logrotate.conf.bak
+
+      # Apply optimized configuration
+      cat <<EOF > /etc/logrotate.conf
+      # ProxMenux optimized configuration
+      daily
+      su root adm
+      rotate 7
+      create
+      compress
+      size=10M
+      delaycompress
+      copytruncate
+
+      include /etc/logrotate.d
+      EOF
+
+      # Restart service
+      systemctl restart logrotate
+        `}
+     />
+
+      <p className="mt-4">
+        After applying this optimization, your system will automatically rotate and compress logs based on usage and file size, keeping your disk clean and performance stable.
+      </p>
+
+
+ 
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
