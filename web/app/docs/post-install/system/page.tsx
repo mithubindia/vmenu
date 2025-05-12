@@ -159,6 +159,56 @@ sudo sysctl -p /etc/sysctl.d/99-memory.conf
       `}
       />
 
+
+<h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={6} />
+        Improve Entropy Generation with Haveged
+      </h3>
+
+      <p className="mb-4">
+        <strong>What is entropy?</strong> In computing, entropy is a measure of randomness used by the system for cryptographic operations, secure connections, and random number generation.
+      </p>
+
+      <p className="mb-4">
+        On Proxmox VE and other virtualized or headless environments, entropy can become insufficient—causing delays or even freezes during operations like generating SSH keys or starting services that rely on encryption.
+      </p>
+
+      <p className="mb-4">
+        This optimization installs and configures <code>haveged</code>, a daemon that generates high-quality entropy using CPU timing variations to ensure the system always has enough randomness available.
+      </p>
+
+      <p className="mb-4">
+        <strong>Why it's beneficial:</strong>
+      </p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Prevents system slowdowns during cryptographic operations</li>
+        <li>Improves reliability of secure services and key generation</li>
+        <li>Essential for virtual machines and servers without input peripherals</li>
+      </ul>
+
+      <p className="text-lg mb-2">This adjustment automates the following steps:</p>
+      <CopyableCode
+        code={`
+      # Install haveged
+      apt-get install -y haveged
+
+      # Configure daemon with low-entropy threshold
+      cat <<EOF > /etc/default/haveged
+      DAEMON_ARGS="-w 1024"
+      EOF
+
+      # Enable haveged to run at startup
+      systemctl daemon-reload
+      systemctl enable haveged
+        `}
+      />
+
+      <p className="mt-4">
+        Once applied, your system will maintain sufficient entropy levels at all times—leading to better performance, stability, and responsiveness.
+      </p>
+
+      
+
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
         <p>
