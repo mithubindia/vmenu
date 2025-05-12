@@ -225,7 +225,7 @@ echo
 msg_title "ProxMenux has been installed successfull"
 echo
 echo -ne "${GN}"
-type_text "To run  ProxMenu, simply execute this command in the console or terminal:"
+type_text "To run  ProxMenux, simply execute this command in the console or terminal:"
 echo -e "${YWB}    menu${CL}"
 echo
 
@@ -242,13 +242,13 @@ clear
 show_proxmenux_logo
 
 echo
-echo -e "${BOLD}${YW}To function correctly, ProxMenu needs to install the following components:${CL}"
+echo -e "${BOLD}${YW}To function correctly, ProxMenux needs to install the following components:${CL}"
 echo -e "${TAB}- whiptail (if not already installed)"
 echo -e "${TAB}- curl (if not already installed)"
 echo -e "${TAB}- jq (if not already installed)"
 echo -e "${TAB}- Python 3 (if not already installed)"
 echo -e "${TAB}- Virtual environment for Google Translate"
-echo -e "${TAB}- ProxMenu scripts and configuration files"
+echo -e "${TAB}- ProxMenux scripts and configuration files"
 echo
 read -p "Do you want to proceed with the installation? (y/n) " -n 1 -r
 echo
