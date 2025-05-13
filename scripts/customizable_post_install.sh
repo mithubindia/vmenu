@@ -2033,30 +2033,38 @@ optimize_memory_settings() {
 
     local sysctl_conf="/etc/sysctl.d/99-memory.conf"
 
-    # Check if the configuration file already exists and has the correct content
-    if [ -f "$sysctl_conf" ] && \
-       grep -q "Memory Optimising" "$sysctl_conf" && \
-       grep -q "vm.min_free_kbytes = 1048576" "$sysctl_conf" && \
-       grep -q "vm.nr_hugepages = 2000" "$sysctl_conf" && \
-       grep -q "vm.max_map_count = 1048576" "$sysctl_conf" && \
-       grep -q "vm.overcommit_memory = 1" "$sysctl_conf"; then
-        msg_ok "$(translate "Memory settings already optimized")"
+
+    if [ -f "$sysctl_conf" ] && grep -q "Memory Optimising" "$sysctl_conf"; then
+        msg_info "$(translate "Old memory configuration detected. Replacing with balanced optimization...")"
     else
-        msg_info "$(translate "Applying memory optimization settings...")"
-        # Create or update the configuration file
-        cat <<EOF > "$sysctl_conf"
-# Memory Optimising
-## Bugfix: reserve 1024MB memory for system
-vm.min_free_kbytes = 1048576
-vm.nr_hugepages = 2000
-# (Redis/MongoDB)
-vm.max_map_count = 1048576
-vm.overcommit_memory = 1
-EOF
-        msg_ok "$(translate "Memory settings optimized successfully")"
+        msg_info "$(translate "Applying balanced memory optimization settings...")"
     fi
 
-    msg_success "$(translate "Memory optimization completed")"
+    cat <<EOF > "$sysctl_conf"
+# Balanced Memory Optimization
+# Improve responsiveness without excessive memory reservation
+
+# Avoid unnecessary swapping
+vm.swappiness = 10
+
+# Lower dirty memory thresholds to free memory faster
+vm.dirty_ratio = 15
+vm.dirty_background_ratio = 5
+
+# Allow memory overcommit to reduce allocation issues
+vm.overcommit_memory = 1
+
+# Avoid excessive virtual memory areas (safe for most applications)
+vm.max_map_count = 65530
+EOF
+
+    if [ -f /proc/sys/vm/compaction_proactiveness ]; then
+        echo "vm.compaction_proactiveness = 20" >> "$sysctl_conf"
+        msg_ok "$(translate "Enabled memory compaction proactiveness")"
+    fi
+
+    msg_ok "$(translate "Memory settings optimized successfully")"
+    msg_success "$(translate "Memory optimization completed.")"
 }
 
 
