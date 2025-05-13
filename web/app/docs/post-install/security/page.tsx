@@ -71,13 +71,13 @@ systemctl stop rpcbind
       `}
       />
 
-     
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={2} />
         Install Lynis Security Tool
       </h3>
       <p className="mb-4">
-        Lynis is a comprehensive security auditing tool that analyzes your system, detects vulnerabilities, and provides recommendations for improving security.
+        Lynis is a comprehensive security auditing tool that analyzes your system, detects vulnerabilities, and provides
+        recommendations for improving security.
       </p>
       <p className="mb-4">
         <strong>How it works:</strong> Lynis scans the system and evaluates various security parameters, including:
@@ -89,11 +89,26 @@ systemctl stop rpcbind
         <li>File permissions and system integrity</li>
         <li>Malware detection and system hardening suggestions</li>
       </ul>
-      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <p className="mb-4">
+        <strong>Installation method:</strong> ProxMenux now installs the latest version of Lynis directly from the
+        official GitHub repository to ensure you have the most up-to-date security scanning capabilities.
+      </p>
+      <p className="text-lg mb-2">This adjustment automates the following process:</p>
       <CopyableCode
         code={`
-# Install Lynis
-apt-get -y install lynis
+# Install Git (if not already installed)
+apt-get update -qq
+apt-get install -y git
+
+# Clone Lynis from GitHub
+git clone https://github.com/CISOfy/lynis.git /opt/lynis
+
+# Create wrapper script for easy execution
+cat << 'EOF' > /usr/local/bin/lynis
+#!/bin/bash
+cd /opt/lynis && ./lynis "$@"
+EOF
+chmod +x /usr/local/bin/lynis
         `}
       />
       <p className="text-lg mt-4">To run a system security audit, execute:</p>
@@ -103,46 +118,61 @@ apt-get -y install lynis
 lynis audit system
         `}
       />
+      <p className="text-lg mt-4">To check the installed Lynis version:</p>
+      <CopyableCode
+        code={`
+# Display Lynis version
+lynis show version
+        `}
+      />
 
+      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={3} />
+        Protect Web Interface with Fail2Ban
+      </h3>
+      <p className="mb-4">
+        Fail2Ban enhances security by monitoring login attempts and banning malicious IPs that attempt unauthorized
+        access.
+      </p>
+      <p className="mb-4">
+        <strong>How it works:</strong> Fail2Ban analyzes logs, detects repeated authentication failures, and
+        automatically bans the source IP address to prevent further attacks.
+      </p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Protects the Proxmox VE web interface from brute-force attacks</li>
+        <li>Prevents unauthorized SSH access by banning repeated failed login attempts</li>
+        <li>Automatically blocks malicious IPs to reduce attack vectors</li>
+      </ul>
 
-    <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-      <StepNumber number={3} />
-      Protect Web Interface with Fail2Ban
-    </h3>
-    <p className="mb-4">
-      Fail2Ban enhances security by monitoring login attempts and banning malicious IPs that attempt unauthorized access.
-    </p>
-    <p className="mb-4">
-      <strong>How it works:</strong> Fail2Ban analyzes logs, detects repeated authentication failures, and automatically bans the source IP address to prevent further attacks.
-    </p>
-    <ul className="list-disc pl-5 mb-4">
-      <li>Protects the Proxmox VE web interface from brute-force attacks</li>
-      <li>Prevents unauthorized SSH access by banning repeated failed login attempts</li>
-      <li>Automatically blocks malicious IPs to reduce attack vectors</li>
-    </ul>
+      <h4 className="text-lg font-semibold mt-4">Fail2Ban Configuration Overview</h4>
+      <p className="mb-4">Fail2Ban is configured with the following security policies:</p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>
+          <strong>Ban Duration:</strong> 24 hours for SSH and 1 hour for Proxmox
+        </li>
+        <li>
+          <strong>Max Retries:</strong> 2 failed attempts for SSH, 3 for Proxmox
+        </li>
+        <li>
+          <strong>Find Time:</strong> 30 minutes for SSH, 10 minutes for Proxmox
+        </li>
+        <li>
+          <strong>Log Monitoring:</strong> <code>/var/log/auth.log</code> for SSH and <code>/var/log/daemon.log</code>{" "}
+          for Proxmox
+        </li>
+      </ul>
 
-    <h4 className="text-lg font-semibold mt-4">Fail2Ban Configuration Overview</h4>
-    <p className="mb-4">
-      Fail2Ban is configured with the following security policies:
-    </p>
-    <ul className="list-disc pl-5 mb-4">
-      <li><strong>Ban Duration:</strong> 24 hours for SSH and 1 hour for Proxmox</li>
-      <li><strong>Max Retries:</strong> 2 failed attempts for SSH, 3 for Proxmox</li>
-      <li><strong>Find Time:</strong> 30 minutes for SSH, 10 minutes for Proxmox</li>
-      <li><strong>Log Monitoring:</strong> <code>/var/log/auth.log</code> for SSH and <code>/var/log/daemon.log</code> for Proxmox</li>
-    </ul>
-
-    <p className="text-lg mb-2">This adjustment automates the following command:</p>
-    <CopyableCode
-      code={`
+      <p className="text-lg mb-2">This adjustment automates the following command:</p>
+      <CopyableCode
+        code={`
     # Install Fail2Ban
     apt-get -y install fail2ban
       `}
-    />
+      />
 
-    <p className="text-lg mt-4"></p>
-    <CopyableCode
-      code={`
+      <p className="text-lg mt-4"></p>
+      <CopyableCode
+        code={`
     # Create the Fail2Ban filter for Proxmox
     cat <<EOF > /etc/fail2ban/filter.d/proxmox.conf
     [Definition]
@@ -150,11 +180,11 @@ lynis audit system
     ignoreregex =
     EOF
       `}
-    />
+      />
 
-    <p className="text-lg mt-4"></p>
-    <CopyableCode
-      code={`
+      <p className="text-lg mt-4"></p>
+      <CopyableCode
+        code={`
     # Create a jail configuration for Proxmox
     cat <<EOF > /etc/fail2ban/jail.d/proxmox.conf
     [proxmox]
@@ -167,11 +197,11 @@ lynis audit system
     findtime = 600
     EOF
       `}
-    />
+      />
 
-    <p className="text-lg mt-4"></p>
-    <CopyableCode
-      code={`
+      <p className="text-lg mt-4"></p>
+      <CopyableCode
+        code={`
     # Configure general Fail2Ban settings
     cat <<EOF > /etc/fail2ban/jail.local
     [DEFAULT]
@@ -190,20 +220,20 @@ lynis audit system
     bantime = 32400
     EOF
       `}
-    />
+      />
 
-    <p className="text-lg mt-4"></p>
-    <CopyableCode
-      code={`
+      <p className="text-lg mt-4"></p>
+      <CopyableCode
+        code={`
     # Enable and restart Fail2Ban
     systemctl enable fail2ban
     systemctl restart fail2ban
       `}
-    />
+      />
 
-    <p className="text-lg mt-4">Check active Fail2Ban jails:</p>
-    <CopyableCode
-      code={`
+      <p className="text-lg mt-4">Check active Fail2Ban jails:</p>
+      <CopyableCode
+        code={`
     # Display Fail2Ban status
     fail2ban-client status
 
@@ -213,22 +243,23 @@ lynis audit system
     # Check status of SSH protection
     fail2ban-client status ssh-iptables
       `}
-    />
+      />
 
-    <h4 className="text-lg font-semibold mt-4">Managing Fail2Ban</h4>
-    <p className="mb-4">You can manually unban an IP if needed:</p>
-    <CopyableCode
-      code={`
+      <h4 className="text-lg font-semibold mt-4">Managing Fail2Ban</h4>
+      <p className="mb-4">You can manually unban an IP if needed:</p>
+      <CopyableCode
+        code={`
     # Unban an IP from SSH protection
     fail2ban-client set ssh-iptables unbanip <IP_ADDRESS>
 
     # Unban an IP from Proxmox protection
     fail2ban-client set proxmox unbanip <IP_ADDRESS>
       `}
-    />
+      />
 
-<p className="mt-4">Fail2Ban automatically protect your Proxmox VE and SSH access, reducing the risk of brute-force attacks.</p>
-
+      <p className="mt-4">
+        Fail2Ban automatically protect your Proxmox VE and SSH access, reducing the risk of brute-force attacks.
+      </p>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
@@ -241,4 +272,3 @@ lynis audit system
     </div>
   )
 }
-
