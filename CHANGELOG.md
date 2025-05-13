@@ -4,7 +4,7 @@
 
 - **Startup Fix on Newer Proxmox Versions**\
   Fixed an issue where some recent Proxmox installations lacked the `/usr/local/bin` directory, causing errors when installing the execution menu. The script now creates the directory if it does not exist before downloading the main menu.\
-  🙏 Thanks to **@danielmateos** for detecting and reporting this issue.
+  Thanks to **@danielmateos** for detecting and reporting this issue.
 
 ### Improved
 
@@ -15,7 +15,7 @@
   ```
   The installation process now ensures the latest version is always fetched and linked properly within the system path.
 
-  🙏 Thanks to **@Kamunhas** for reporting this enhancement opportunity.
+  Thanks to **@Kamunhas** for reporting this enhancement opportunity.
 
 - **Balanced Memory Optimization for Low-Memory Systems**  
   Improved the default memory settings to better support systems with limited RAM. The previous configuration could prevent low-spec servers from booting. Now, a more balanced set of kernel parameters is used, and memory compaction is enabled if supported by the system.
@@ -41,7 +41,7 @@
 
   These values help maintain responsiveness and system stability even under constrained memory conditions.
 
-  🙏 Thanks to **@chesspeto** for pointing out this issue and helping refine the optimization.
+  Thanks to **@chesspeto** for pointing out this issue and helping refine the optimization.
 
 
 ## 2025-05-04
