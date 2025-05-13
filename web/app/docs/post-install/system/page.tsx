@@ -137,27 +137,46 @@ sudo systemctl restart systemd-journald
       `}
       />
 
-      <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
-        <StepNumber number={5} />
-        Optimize Memory Management
-      </h3>
-      <p className="mb-4">
-      This optimization adjusts kernel parameters to improve <strong>memory allocation</strong> and <strong>system responsiveness.</strong>
-      </p>
-      <p className="mb-4">
+    <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+      <StepNumber number={5} />
+      Optimize Memory Management
+    </h3>
+
+    <p className="mb-4">
+      This memory optimization configures low-level kernel parameters to improve <strong>system responsiveness</strong> and <strong>RAM availability</strong>, especially on hosts with limited memory.
+    </p>
+
+    <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-        Efficient memory management prevents out-of-memory (OOM) conditions, 
-        enhances stability, and optimizes resource allocation in virtualization environments. 
-        This is particularly important for hosts running memory-intensive workloads or multiple VMs.
-      </p>
-      <p className="text-lg mb-2">This adjustment automates the following commands:</p>
-      <CopyableCode
-        code={`
-echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-memory.conf
-echo "vm.vfs_cache_pressure = 50" | sudo tee -a /etc/sysctl.d/99-memory.conf
-sudo sysctl -p /etc/sysctl.d/99-memory.conf
+      By tuning how Linux handles dirty memory pages, swap usage, and virtual memory mappings, this adjustment helps the system free memory more proactively and avoid sudden out-of-memory (OOM) errors — particularly valuable on Proxmox nodes with 1–4 GB of RAM.
+    </p>
+
+    <p className="mb-4">
+      It also enables safe overcommit behavior and, if supported, proactive memory compaction to make memory use more efficient across multiple processes and containers.
+    </p>
+
+    <p className="text-lg mb-2">This optimization applies the following configuration:</p>
+
+    <CopyableCode
+      code={`
+    cat <<EOF | sudo tee /etc/sysctl.d/99-memory.conf
+    # Balanced Memory Optimization
+    vm.swappiness = 10
+    vm.dirty_ratio = 15
+    vm.dirty_background_ratio = 5
+    vm.overcommit_memory = 1
+    vm.max_map_count = 65530
+    EOF
+
+    # Enable memory compaction if supported by the system
+    if [ -f /proc/sys/vm/compaction_proactiveness ]; then
+      echo "vm.compaction_proactiveness = 20" | sudo tee -a /etc/sysctl.d/99-memory.conf
+    fi
+
+    # Apply settings
+    sudo sysctl -p /etc/sysctl.d/99-memory.conf
       `}
-      />
+    />
 
 
 <   h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">

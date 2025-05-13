@@ -1,3 +1,49 @@
+## 2025-05-13
+
+### Fixed
+
+- **Startup Fix on Newer Proxmox Versions**\
+  Fixed an issue where some recent Proxmox installations lacked the `/usr/local/bin` directory, causing errors when installing the execution menu. The script now creates the directory if it does not exist before downloading the main menu.\
+  🙏 Thanks to **@danielmateos** for detecting and reporting this issue.
+
+### Improved
+
+- **Updated Lynis Installation Logic in Post-Install Settings**\
+  The `install_lynis()` function was improved to always install the **latest version** of Lynis by cloning the official GitHub repository:
+  ```
+  https://github.com/CISOfy/lynis.git
+  ```
+  The installation process now ensures the latest version is always fetched and linked properly within the system path.
+
+  🙏 Thanks to **@Kamunhas** for reporting this enhancement opportunity.
+
+- **Balanced Memory Optimization for Low-Memory Systems**  
+  Improved the default memory settings to better support systems with limited RAM. The previous configuration could prevent low-spec servers from booting. Now, a more balanced set of kernel parameters is used, and memory compaction is enabled if supported by the system.
+
+  ```bash
+  cat <<EOF | sudo tee /etc/sysctl.d/99-memory.conf
+  # Balanced Memory Optimization
+  vm.swappiness = 10
+  vm.dirty_ratio = 15
+  vm.dirty_background_ratio = 5
+  vm.overcommit_memory = 1
+  vm.max_map_count = 65530
+  EOF
+
+  # Enable memory compaction if supported by the system
+  if [ -f /proc/sys/vm/compaction_proactiveness ]; then
+    echo "vm.compaction_proactiveness = 20" | sudo tee -a /etc/sysctl.d/99-memory.conf
+  fi
+
+  # Apply settings
+  sudo sysctl -p /etc/sysctl.d/99-memory.conf
+  ```
+
+  These values help maintain responsiveness and system stability even under constrained memory conditions.
+
+  🙏 Thanks to **@chesspeto** for pointing out this issue and helping refine the optimization.
+
+
 ## 2025-05-04
 
 ### Added
