@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ==========================================================
-# ProxMenuX - Virtual Machine Creator Script
+# ProxMenux - UUP Dump ISO Creator
 # ==========================================================
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
@@ -10,18 +10,19 @@
 # Last Updated: 07/05/2025
 # ==========================================================
 # Description:
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
-# configurations, streamlining the deployment of Linux, Windows, and other systems.
+# This script is part of the ProxMenux tools for Proxmox VE.
+# It allows downloading and converting official Windows ISO images 
+# from UUP Dump using a shared link (with ID, pack, and edition).
 #
 # Key features:
-# - Supports both virtual disk creation and physical disk passthrough.
-# - Automates CPU, RAM, BIOS, network and storage configuration.
-# - Provides a user-friendly menu to select OS type, ISO image and disk interface.
-# - Automatically generates a detailed and styled HTML description for each VM.
+# - Automatically installs and verifies required dependencies (aria2c, cabextract, wimlib-imagex…)
+# - Downloads the selected Windows edition from UUP Dump using aria2
+# - Converts the downloaded files into a bootable ISO
+# - Stores the resulting ISO in the default template path (/var/lib/vz/template/iso)
+# - Provides a graphical prompt via whiptail for user-friendly usage
 #
-# All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# This tool simplifies the creation of official Windows ISOs
+# for use in virtual machines within Proxmox VE.
 # ==========================================================
 
 BASE_DIR="/usr/local/share/proxmenux"
@@ -35,12 +36,12 @@ fi
 load_language
 initialize_cache
 
-function run_uupdump_creator() {
-
 clear
 show_proxmenux_logo
 
+# ==========================================================
 
+function run_uupdump_creator() {
 
 
     local DEPS=(curl aria2 cabextract wimtools genisoimage chntpw)
@@ -75,8 +76,6 @@ show_proxmenux_logo
         msg_error "$(translate "Missing commands after installation: ${FAILED[*]}")"
         exit 1
     fi
-
-
 
 
 
