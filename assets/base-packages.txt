@@ -1,5 +1,5 @@
-# base-packages.txt - Generated on 2025-05-15 19:20:56
-# Proxmox Version: pve-manager/8.4.0/ec58e45e1bcdf2ac (running kernel: 6.8.12-9-pve)
+# base-packages.txt - Generated on 2025-05-15 21:15:29
+# Proxmox Version: pve-manager/8.4.1/ (running kernel: 6.8.12-9-pve)
 
 adduser
 apparmor
@@ -51,6 +51,7 @@ debconf-i18n
 debian-archive-keyring
 debian-faq
 debianutils
+dialog
 diffutils
 dirmngr
 distro-info-data
@@ -121,6 +122,7 @@ iputils-ping
 isc-dhcp-client
 isc-dhcp-common
 iso-codes
+jq
 kbd
 keyboard-configuration
 keyutils
@@ -278,6 +280,7 @@ libisns0
 libjansson4
 libjemalloc2
 libjpeg62-turbo
+libjq1
 libjs-bootstrap
 libjs-extjs
 libjs-jquery
@@ -357,6 +360,7 @@ libnumber-compare-perl
 libnvpair3linux
 liboath0
 libogg0
+libonig5
 libopeniscsiusr
 libopus0
 liborc-0.4-0
@@ -578,6 +582,7 @@ proxmox-default-kernel
 proxmox-firewall
 proxmox-grub
 proxmox-kernel-6.8
+proxmox-kernel-6.8.12-10-pve-signed
 proxmox-kernel-6.8.12-9-pve-signed
 proxmox-kernel-helper
 proxmox-mail-forward
@@ -589,6 +594,7 @@ proxmox-ve
 proxmox-websocket-tunnel
 proxmox-widget-toolkit
 psmisc
+pv
 pve-cluster
 pve-container
 pve-docs
@@ -607,6 +613,7 @@ pve-xtermjs
 python3
 python3.11
 python3.11-minimal
+python3.11-venv
 python3-apt
 python3-ceph-argparse
 python3-ceph-common
@@ -623,6 +630,7 @@ python3-idna
 python3-jwt
 python3-lib2to3
 python3-minimal
+python3-pip-whl
 python3-pkg-resources
 python3-prettytable
 python3-protobuf
@@ -636,9 +644,11 @@ python3-reportbug
 python3-requests
 python3-rgw
 python3-setuptools
+python3-setuptools-whl
 python3-six
 python3-systemd
 python3-urllib3
+python3-venv
 python3-wcwidth
 python3-yaml
 python-apt-common
