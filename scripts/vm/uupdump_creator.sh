@@ -41,6 +41,28 @@ show_proxmenux_logo
 
 # ==========================================================
 
+
+detect_iso_dir() {
+  for store in $(pvesm status -content iso | awk 'NR>1 {print $1}'); do
+    for ext in iso img; do
+      volid=$(pvesm list "$store" --content iso | awk -v ext="$ext" 'NR>1 && $2 ~ ext {print $1; exit}')
+      if [[ -n "$volid" ]]; then
+        path=$(pvesm path "$volid" 2>/dev/null)
+        dir=$(dirname "$path")
+        [[ -d "$dir" ]] && echo "$dir" && return 0
+      fi
+    done
+  done
+
+  if [[ -d /var/lib/vz/template/iso ]]; then
+    echo "/var/lib/vz/template/iso"
+    return 0
+  fi
+
+  return 1
+}
+
+
 function run_uupdump_creator() {
 
 
@@ -78,9 +100,16 @@ function run_uupdump_creator() {
     fi
 
 
+ISO_DIR=$(detect_iso_dir)
+if [[ -z "$ISO_DIR" ]]; then
+  msg_error "$(translate "Could not determine a valid ISO storage directory.")"
+  exit 1
+fi
+
+mkdir -p "$ISO_DIR"
 
 TMP_DIR="/root/uup-temp"
-OUT_DIR="/var/lib/vz/template/iso"
+OUT_DIR="$ISO_DIR"
 CONVERTER="/root/uup-converter"
 
 mkdir -p "$TMP_DIR" "$OUT_DIR"
