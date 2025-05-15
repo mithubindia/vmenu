@@ -42,12 +42,13 @@ show_proxmenux_logo
 
 
 
-DEPS=(curl aria2c cabextract wimlib-imagex genisoimage chntpw)
+DEPS=(curl aria2 cabextract wimlib-imagex genisoimage chntpw)
+CHECK_CMDS=(curl aria2c cabextract wimlib-imagex genisoimage chntpw)
 NEEDED=()
 
-for pkg in "${DEPS[@]}"; do
-    if ! command -v "$pkg" &>/dev/null; then
-        NEEDED+=("$pkg")
+for i in "${!CHECK_CMDS[@]}"; do
+    if ! command -v "${CHECK_CMDS[$i]}" &>/dev/null; then
+        NEEDED+=("${DEPS[$i]}")
     fi
 done
 
