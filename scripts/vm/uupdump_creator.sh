@@ -42,22 +42,41 @@ show_proxmenux_logo
 
 
 
-DEPS=(curl aria2 cabextract wimlib-imagex genisoimage chntpw)
-CHECK_CMDS=(curl aria2c cabextract wimlib-imagex genisoimage chntpw)
-NEEDED=()
 
-for i in "${!CHECK_CMDS[@]}"; do
-    if ! command -v "${CHECK_CMDS[$i]}" &>/dev/null; then
-        NEEDED+=("${DEPS[$i]}")
+    local DEPS=(curl aria2 cabextract wimtools genisoimage chntpw)
+    local CMDS=(curl aria2c cabextract wimlib-imagex genisoimage chntpw)
+    local MISSING=()
+    local FAILED=()
+
+    for i in "${!CMDS[@]}"; do
+        if ! command -v "${CMDS[$i]}" &>/dev/null; then
+            MISSING+=("${DEPS[$i]}")
+        fi
+    done
+
+    if [[ ${#MISSING[@]} -gt 0 ]]; then
+        msg_info "$(translate "Installing dependencies: ${MISSING[*]}")"
+        apt-get update -qq >/dev/null 2>&1
+        if ! apt-get install -y "${MISSING[@]}" >/dev/null 2>&1; then
+            msg_error "$(translate "Failed to install: ${MISSING[*]}")"
+            exit 1
+        fi
     fi
-done
 
-if [[ ${#NEEDED[@]} -gt 0 ]]; then
-    msg_info "Installing dependencies: ${NEEDED[*]}"
-    apt-get update -qq >/dev/null
-    DEBIAN_FRONTEND=noninteractive apt-get install -y "${NEEDED[@]}" >/dev/null 2>&1
-    msg_ok "Dependencies successfully installed."
-fi
+    for i in "${!CMDS[@]}"; do
+        if ! command -v "${CMDS[$i]}" &>/dev/null; then
+            FAILED+=("${CMDS[$i]}")
+        fi
+    done
+
+    if [[ ${#FAILED[@]} -eq 0 ]]; then
+        msg_ok "$(translate "All dependencies installed and verified.")"
+    else
+        msg_error "$(translate "Missing commands after installation: ${FAILED[*]}")"
+        exit 1
+    fi
+
+
 
 
 
