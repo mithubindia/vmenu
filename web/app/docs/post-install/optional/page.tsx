@@ -300,6 +300,79 @@ echo "clear && fastfetch" >> ~/.bashrc
       `}
     />
 
+    
+	<h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
+        <StepNumber number={6} />
+        Install and Configure Figurine
+      </h3>
+
+      <p className="mb-4">
+        This option installs and configures Figurine, a tool that creates stylish ASCII text banners for your terminal,
+        displaying your hostname in a visually appealing 3D format.
+      </p>
+
+      <p className="mb-4">
+        <strong>What it does:</strong>
+      </p>
+      <ul className="list-disc pl-5 mb-4">
+        <li>Downloads and installs Figurine v1.3.0 from GitHub</li>
+        <li>Creates a welcome message that displays your hostname in 3D ASCII art when you log in</li>
+        <li>Automatically removes any previous Figurine installation if present</li>
+        <li>Sets up the welcome message to run automatically at login</li>
+      </ul>
+
+      <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+        <p className="font-semibold">Practical Use:</p>
+        <p>
+          When managing multiple Proxmox nodes in a cluster, Figurine provides an immediate visual indication of which
+          node you're currently logged into. This helps prevent accidental commands on the wrong node and improves your
+          workflow when managing multiple servers.
+        </p>
+      </div>
+
+      <p className="mb-4">
+        <strong>Example Output:</strong>
+      </p>
+
+      <div className="mb-6 flex justify-center">
+        <img
+          src="https://macrimi.github.io/ProxMenux/figurine/figurine.png"
+          alt="Figurine Example Output"
+          className="rounded-md shadow-lg border border-gray-200"
+          style={{ maxWidth: "100%" }}
+        />
+      </div>
+
+      <p className="text-lg mb-2">This adjustment automates the following process:</p>
+      <CopyableCode
+        code={`
+# Check for previous installation and remove if found
+if command -v figurine &> /dev/null; then
+  rm -f "/usr/local/bin/figurine"
+fi
+
+# Download and install Figurine
+version="1.3.0"
+file="figurine_linux_amd64_v\${version}.tar.gz"
+url="https://github.com/arsham/figurine/releases/download/v\${version}/\${file}"
+wget -qO "/tmp/\${file}" "\${url}"
+tar -xf "/tmp/\${file}" -C "/tmp"
+mv "/tmp/deploy/figurine" "/usr/local/bin/figurine"
+chmod +x "/usr/local/bin/figurine"
+
+# Create welcome message script
+cat << 'EOF' > "/etc/profile.d/figurine.sh"
+/usr/local/bin/figurine -f "3d.flf" $(hostname)
+EOF
+chmod +x "/etc/profile.d/figurine.sh"
+  `}
+     />
+
+      <p className="mt-4">
+        After installation, you'll see your hostname displayed in 3D ASCII art each time you log in, making it
+        immediately clear which Proxmox node you're working on.
+      </p>
+	
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Automatic Application</h2>
