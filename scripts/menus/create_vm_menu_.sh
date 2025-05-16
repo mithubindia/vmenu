@@ -102,12 +102,13 @@ while true; do
     1 "$(translate "Create") VM System NAS" \
     2 "$(translate "Create") VM System Windows" \
     3 "$(translate "Create") VM System Linux" \
-    4 "$(translate "Create") VM System Others (based Linux)" \
-    5 "$(translate "Return to Main Menu")" \
+    4 "$(translate "Create") VM System macOS (OSX-PROXMOX)" \
+    5 "$(translate "Create") VM System Others (based Linux)" \
+    6 "$(translate "Return to Main Menu")" \
     3>&1 1>&2 2>&3)
 
 
-  [[ $? -ne 0 || "$OS_TYPE" == "5" ]] && exec bash <(curl -s "$MENU_REPO/main_menu.sh")
+  [[ $? -ne 0 || "$OS_TYPE" == "6" ]] && exec bash <(curl -s "$MENU_REPO/main_menu.sh")
 
   case "$OS_TYPE" in
     1)
@@ -120,6 +121,13 @@ while true; do
       source <(curl -fsSL "$ISO_REPO/select_linux_iso.sh") && select_linux_iso || continue
       ;;
     4)
+      whiptail --title "OSX-PROXMOX" --yesno "$(translate "This is an external script that creates a macOS VM in Proxmox VE in just a few steps, whether you are using AMD or Intel hardware.")\n\n$(translate "The script clones the osx-proxmox.com repository and once the setup is complete, the server will automatically reboot.")\n\n$(translate "Make sure there are no critical services running as they will be interrupted. Ensure your server can be safely rebooted.")\n\n$(translate  "Visit https://osx-proxmox.com for more information.")\n\n$(translate "Do you want to run the script now?")" 20 70
+      if [[ $? -eq 0 ]]; then
+        bash -c "$(curl -fsSL https://install.osx-proxmox.com)"
+      fi
+      continue
+      ;;
+    5)
       source <(curl -fsSL "$ISO_REPO/select_linux_iso.sh") && select_linux_other_scripts || continue
       ;;
   esac
