@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
-import { HardDrive, Info, Database, Server, Monitor, Star, Cpu, Github } from "lucide-react"
+import { HardDrive, Info, Database, Server, MonitorIcon, Star, Cpu, Github } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 export const metadata: Metadata = {
@@ -97,11 +97,6 @@ function NASSystemItem({
 
           {isExternal && (
             <div className="flex items-center">
-            <a
-              href="https://github.com/R0GGER/proxmox-zimaos"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
               <Badge
                 variant="outline"
                 className="flex items-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-800 border-gray-300"
@@ -109,8 +104,6 @@ function NASSystemItem({
                 <Github className="h-3.5 w-3.5 text-gray-700" />
                 <span className="text-xs font-medium">External Script</span>
               </Badge>
-            </a>
-              {/* Removed the external link icon since the title now links to the external URL */}
             </div>
           )}
         </div>
@@ -221,7 +214,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (KVM)",
             "Hardware Requirements: High",
           ]}
-          href="/docs/create-vm/system-nas/system-nas-others"
+          href="/docs/virtual-machines/system-nas/truenas-scale"
         />
 
         <NASSystemItem
@@ -235,7 +228,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (Jails)",
             "Hardware Requirements: Moderate to High",
           ]}
-          href="/docs/create-vm/system-nas/system-nas-others"
+          href="/docs/virtual-machines/system-nas/truenas-core"
         />
 
         <NASSystemItem
@@ -254,7 +247,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (via plugins)",
             "Hardware Requirements: Low",
           ]}
-          href="/docs/create-vm/system-nas/system-nas-others"
+          href="/docs/virtual-machines/system-nas/openmediavault"
         />
 
         <NASSystemItem
@@ -273,13 +266,13 @@ export default function SystemNASPage() {
             "Virtualization: Yes (Docker)",
             "Hardware Requirements: Moderate",
           ]}
-          href="/docs/create-vm/system-nas/system-nas-others"
+          href="/docs/virtual-machines/system-nas/rockstor"
         />
 
         <NASSystemItem
           name="ZimaOS"
           description="ZimaOS is a lightweight, customizable NAS operating system designed for simplicity and performance, with a focus on media streaming and home automation."
-          icon={<Monitor className="h-6 w-6 text-blue-500" />}
+          icon={<MonitorIcon className="h-6 w-6 text-blue-500" />}
           features={[
             "Low resource footprint",
             "Docker support",
@@ -292,9 +285,9 @@ export default function SystemNASPage() {
             "Virtualization: Yes (Docker)",
             "Hardware Requirements: Low",
           ]}
-
+          href="/docs/virtual-machines/system-nas/zimaos"
           isExternal={true}
-          externalUrl="https://www.zimaspace.com/docs/zimaos/"
+          externalUrl="https://github.com/R0GGER/proxmox-zimaos"
         />
       </div>
 
