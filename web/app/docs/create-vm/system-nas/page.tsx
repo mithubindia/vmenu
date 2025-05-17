@@ -64,7 +64,7 @@ interface NASSystemProps {
   icon: React.ReactNode
   features: string[]
   technicalDetails: string[]
-  href: string
+  href?: string            
   isExternal?: boolean
   externalUrl?: string
 }
