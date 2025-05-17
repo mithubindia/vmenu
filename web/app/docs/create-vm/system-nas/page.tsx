@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
-import { HardDrive, Info, Database, Server, MonitorIcon, Star, Cpu, Github } from "lucide-react"
+import { HardDrive, Info, Database, Server, Monitor, Star, Cpu, Github } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 export const metadata: Metadata = {
@@ -279,7 +279,7 @@ export default function SystemNASPage() {
         <NASSystemItem
           name="ZimaOS"
           description="ZimaOS is a lightweight, customizable NAS operating system designed for simplicity and performance, with a focus on media streaming and home automation."
-          icon={<MonitorIcon className="h-6 w-6 text-blue-500" />}
+          icon={<Monitor className="h-6 w-6 text-blue-500" />}
           features={[
             "Low resource footprint",
             "Docker support",
