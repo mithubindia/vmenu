@@ -359,12 +359,6 @@ export default function OtherNASSystemsPage() {
                 </li>
                 <li>UEFI boot is recommended</li>
                 <li>VirtIO network adapter provides best performance</li>
-                <li>
-                  After installation, install the QEMU Guest Agent:
-                  <pre className="bg-gray-100 p-2 mt-1 rounded text-sm overflow-x-auto">
-                    apt update && apt install qemu-guest-agent -y
-                  </pre>
-                </li>
               </ul>
             </div>
 
@@ -385,13 +379,6 @@ export default function OtherNASSystemsPage() {
                 </li>
                 <li>UEFI boot is recommended</li>
                 <li>VirtIO network adapter provides best performance</li>
-                <li>
-                  After installation, install the QEMU Guest Agent:
-                  <pre className="bg-gray-100 p-2 mt-1 rounded text-sm overflow-x-auto">
-                    pkg install -y qemu-guest-agent && sysrc qemu_guest_agent_enable=YES && service qemu-guest-agent
-                    start
-                  </pre>
-                </li>
               </ul>
             </div>
 
@@ -412,12 +399,6 @@ export default function OtherNASSystemsPage() {
                 </li>
                 <li>Both UEFI and Legacy BIOS are supported</li>
                 <li>VirtIO network adapter provides best performance</li>
-                <li>
-                  After installation, install the QEMU Guest Agent:
-                  <pre className="bg-gray-100 p-2 mt-1 rounded text-sm overflow-x-auto">
-                    apt update && apt install qemu-guest-agent -y
-                  </pre>
-                </li>
               </ul>
             </div>
 
@@ -438,12 +419,6 @@ export default function OtherNASSystemsPage() {
                 </li>
                 <li>UEFI boot is recommended</li>
                 <li>VirtIO network adapter provides best performance</li>
-                <li>
-                  After installation, install the QEMU Guest Agent:
-                  <pre className="bg-gray-100 p-2 mt-1 rounded text-sm overflow-x-auto">
-                    dnf install -y qemu-guest-agent && systemctl enable --now qemu-guest-agent
-                  </pre>
-                </li>
               </ul>
             </div>
           </div>
