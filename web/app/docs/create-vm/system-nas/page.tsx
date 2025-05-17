@@ -104,6 +104,7 @@ function NASSystemItem({
                 <Github className="h-3.5 w-3.5 text-gray-700" />
                 <span className="text-xs font-medium">External Script</span>
               </Badge>
+
             </div>
           )}
         </div>
@@ -195,7 +196,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (Docker)",
             "Hardware Requirements: Moderate",
           ]}
-          href="/docs/virtual-machines/system-nas/synology"
+          href="/docs/create-vm/synology"
         />
 
         <NASSystemItem
@@ -214,7 +215,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (KVM)",
             "Hardware Requirements: High",
           ]}
-          href="/docs/virtual-machines/system-nas/truenas-scale"
+          href="/docs/create-vm/system-nas/system-nas-others"
         />
 
         <NASSystemItem
@@ -228,7 +229,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (Jails)",
             "Hardware Requirements: Moderate to High",
           ]}
-          href="/docs/virtual-machines/system-nas/truenas-core"
+          href="/docs/create-vm/system-nas/system-nas-others"
         />
 
         <NASSystemItem
@@ -247,7 +248,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (via plugins)",
             "Hardware Requirements: Low",
           ]}
-          href="/docs/virtual-machines/system-nas/openmediavault"
+          href="/docs/create-vm/system-nas/system-nas-others"
         />
 
         <NASSystemItem
@@ -266,7 +267,7 @@ export default function SystemNASPage() {
             "Virtualization: Yes (Docker)",
             "Hardware Requirements: Moderate",
           ]}
-          href="/docs/virtual-machines/system-nas/rockstor"
+          href="/docs/create-vm/system-nas/system-nas-others"
         />
 
         <NASSystemItem
