@@ -284,6 +284,80 @@ export default function WindowsVMPage() {
           </div>
         </div>
 
+                <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <HardDrive className="h-5 w-5 mr-2 text-blue-500" />
+            Disk Selection
+          </h3>
+          <p className="mb-3">
+            Once the machine is configured, the script allows you to choose between two types of disks:
+          </p>
+
+          <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
+          <ul className="list-disc pl-5 mb-4">
+            <li>The script lists the storage options available in Proxmox</li>
+            <li>The user selects the disk and size in GB</li>
+            <li>
+              The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,
+              VirtIO, or IDE)
+            </li>
+            <li>
+              Multiple disks can be added and will be assigned sequential device numbers (e.g., scsi0, scsi1, etc.)
+            </li>
+          </ul>
+
+          <h4 className="text-lg font-medium mt-4 mb-2">Physical Disk Passthrough</h4>
+          <ul className="list-disc pl-5 mb-4">
+            <li>The script detects all available physical disks</li>
+            <li>The user selects the physical disk or disks they want to use</li>
+            <li>
+              The physical disk is directly assigned to the VM via passthrough using the selected interface type (SCSI,
+              SATA, VirtIO, or IDE)
+            </li>
+            <li>
+              Multiple disks can be added and will be assigned sequential device numbers (e.g., scsi0, scsi1, etc.)
+            </li>
+          </ul>
+        </div>
+
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <Settings className="h-5 w-5 mr-2 text-blue-500" />
+            Additional Features
+          </h3>
+
+          <h4 className="text-lg font-medium mt-4 mb-2">EFI Disk Configuration</h4>
+          <p className="mb-3">
+            When UEFI BIOS (OVMF) is selected, the script automatically configures an EFI system disk to ensure compatibility with modern bootloaders:
+          </p>
+          <ul className="list-disc pl-5 mb-4">
+            <li>You’ll be prompted to select the storage location for the EFI disk</li>
+            <li>A 4MB EFI disk is created and attached to the VM</li>
+            <li>The disk is formatted appropriately based on the selected storage backend (e.g., raw format for directory-based storage)</li>
+          </ul>
+          <p className="mb-4">
+            For Windows systems, a <strong>TPM 2.0 device</strong> is also added automatically to meet installation requirements for modern versions like Windows 11 and Windows Server 2022.
+          </p>
+
+          <h4 className="text-lg font-medium mt-4 mb-2">ISO Mounting</h4>
+          <p className="mb-3">
+            The script also handles ISO mounting automatically for both installation media and optional drivers:
+          </p>
+          <ul className="list-disc pl-5 mb-4">
+            <li>The main installation ISO is mounted to the first available IDE slot (typically <code>ide2</code>)</li>
+            <li>If the system is Windows, the VirtIO drivers ISO is downloaded and mounted to the next IDE slot (typically <code>ide3</code>)</li>
+          </ul>
+
+
+          <h4 className="text-lg font-medium mt-4 mb-2">QEMU Guest Agent</h4>
+          <p className="mb-3">The script automatically configures QEMU Guest Agent support:</p>
+          <ul className="list-disc pl-5 mb-4">
+            <li>Enables the QEMU Guest Agent in the VM configuration</li>
+            <li>Sets up the necessary communication channel</li>
+            <li>Provides instructions for installing the guest agent inside the VM after installation</li>
+          </ul>
+        </div>
+
         <div className="mt-12">
           <h2 className="text-2xl font-bold mb-6 text-black">Windows Installation Options</h2>
           <p className="mb-6">ProxMenux offers two methods for installing Windows on your virtual machine:</p>
@@ -304,8 +378,9 @@ export default function WindowsVMPage() {
               </div>
 
               <p className="mb-4">
-                The ProxMenux script UUP Dump ISO Creator allows you to download and create Windows installation media directly from Microsoft's Windows
-                Update servers. This option provides the latest Windows builds, including Insider Preview versions.
+                 The <strong>UUP Dump ISO Creator</strong> script is a utility included in <strong>ProxMenux</strong> that allows you to 
+                 download and create Windows installation media directly from Microsoft's Windows Update servers. 
+                 This option provides access to the latest Windows builds, including Insider Preview versions.
               </p>
 
               <h4 className="font-medium mb-2">Features:</h4>
@@ -317,15 +392,10 @@ export default function WindowsVMPage() {
                 <li>Support for various Windows editions (Home, Pro, Enterprise)</li>
               </ul>
 
-              <p className="text-sm text-gray-600 mt-4">
-                <a
-                  href="https://uupdump.net/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-blue-500 hover:text-blue-700"
-                >
-                  Learn more about UUP Dump ISO Creator <ExternalLink className="ml-1 h-3.5 w-3.5" />
-                </a>
+              <p className="mt-4 text-sm text-blue-600">
+                <Link href="/docs/utils/UUp-Dump-ISO-Creator" className="hover:underline">
+                  Learn more about UUP Dump ISO Creator 
+                </Link>
               </p>
             </div>
 
