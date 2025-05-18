@@ -115,8 +115,9 @@ export default function VirtualMachinesPage() {
           title="Other Linux Systems"
           description="Deploy specialized Linux distributions and configurations for specific use cases"
           icon={<Server className="h-8 w-8 text-blue-500" />}
-          href="/docs/create-vm/other-linux"
+          href="/docs/create-vm/system-linux#other-linux-systems"
         />
+
 
         <VMCard
           title="System macOS"

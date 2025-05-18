@@ -61,7 +61,13 @@ export const sidebarItems: MenuItem[] = [
   {
     title: "Create VM",
     submenu: [
+      { title: "Overview", href: "/docs/create-vm" },
+      { title: "System NAS", href: "/docs/create-vm/system-nas" },
       { title: "Synology VM", href: "/docs/create-vm/synology" },
+      { title: "Others System NAS", href: "/docs/create-vm/system-nas/system-nas-others" },
+      { title: "System Windows", href: "/docs/create-vm/system-windows" },
+      { title: "UUP Dump ISO Creator", href: "/docs/utils/UUp-Dump-ISO-Creator" },
+      { title: "System Linux", href: "/docs/create-vm/system-linux" },
     ],
   },
   {
