@@ -4,11 +4,27 @@
 # ProxMenux - Backup Menu for Proxmox VE
 # =======================================
 
-PBS_REPO="root@pbs@192.168.100.10:host-backups"
+# CONFIGURACIÓN DINÁMICA
+# Solicitar datos de conexión a PBS por separado y construir el repositorio final
+PBS_REPO_FILE="/etc/proxmenux/pbs-repo.conf"
+
+if [[ -f "$PBS_REPO_FILE" ]]; then
+ PBS_REPO=$(tr -d '
+[:space:]' < "$PBS_REPO_FILE")
+else
+  PBS_USER=$(whiptail --inputbox "Introduce el nombre de usuario para el PBS:" 10 60 "root" 3>&1 1>&2 2>&3) || exit
+  PBS_HOST=$(whiptail --inputbox "Introduce la IP o nombre del host del PBS:" 10 60 "192.168.0.42" 3>&1 1>&2 2>&3) || exit
+  PBS_DATASTORE=$(whiptail --inputbox "Introduce el nombre del datastore PBS:" 10 60 "t6pbs" 3>&1 1>&2 2>&3) || exit
+
+  PBS_REPO="${PBS_USER}@pam@${PBS_HOST}:${PBS_DATASTORE}"
+  mkdir -p "$(dirname "$PBS_REPO_FILE")"
+  echo "$PBS_REPO" > "$PBS_REPO_FILE"
+fi
+
 HOSTNAME=$(hostname)
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M)
 SNAPSHOT="${HOSTNAME}-${TIMESTAMP}"
-BACKUP_DIR="/root/backups"
+BACKUP_DIR="/var/backups/proxmox-host/tar"
 
 declare -A BACKUP_PATHS=(
     [etc-pve]="/etc/pve"
@@ -42,8 +58,6 @@ main_menu() {
 }
 
 backup_local_tar_checklist() {
-    BACKUP_DIR=$(whiptail --inputbox "¿Dónde guardar el backup local? (por defecto /root/backups)" 10 60 3>&1 1>&2 2>&3)
-    BACKUP_DIR="${BACKUP_DIR:-/root/backups}"
     mkdir -p "$BACKUP_DIR"
 
     MENU_OPTIONS=("ALL" "Respaldar todos los directorios sugeridos" OFF)
@@ -64,9 +78,9 @@ backup_local_tar_checklist() {
     fi
 
     BACKUP_FILE="${BACKUP_DIR}/${HOSTNAME}-local-backup-${TIMESTAMP}.tar.gz"
-    tar -czf "$BACKUP_FILE" --absolute-names "${SELECTED[@]}" && \
-    echo -e "\\nBackup guardado en: $BACKUP_FILE" || \
-    echo -e "\\nError al crear el backup local."
+    tar --exclude="$BACKUP_FILE" -czf "$BACKUP_FILE" --absolute-names "${SELECTED[@]}" && \
+    echo -e "\nBackup guardado en: $BACKUP_FILE" || \
+    echo -e "\nError al crear el backup local."
     read -p "Pulsa ENTER para continuar..."
 }
 
@@ -81,23 +95,33 @@ backup_modular_pbs_checklist() {
     SELECTED=()
     if echo "$CHOICES" | grep -q "ALL"; then
         for name in "${!BACKUP_PATHS[@]}"; do
-            SELECTED+=("${name}.pxar:${BACKUP_PATHS[$name]}")
+        safe_name=$(echo "$name" | tr '.-' '_')
+        SELECTED+=("${safe_name}.pxar:${BACKUP_PATHS[$name]}")
         done
     else
         for choice in $CHOICES; do
-            key=$(echo "$choice" | tr -d '"')
-            SELECTED+=("${key}.pxar:${BACKUP_PATHS[$key]}")
+        key=$(echo "$choice" | tr -d '"')
+        safe_key=$(echo "$key" | tr '.-' '_')
+        SELECTED+=("${safe_key}.pxar:${BACKUP_PATHS[$key]}")
         done
     fi
 
     for entry in "${SELECTED[@]}"; do
-        proxmox-backup-client backup "$entry" \\
-            --repository "$PBS_REPO" \\
-            --backup-type host \\
-            --backup-id "$HOSTNAME" \\
-            --backup-time "$TIMESTAMP"
+      if [[ "$entry" =~ ^[a-zA-Z0-9_-]+\.pxar:/.* ]]; then
+        echo ">> Enviando: $entry"
+        echo ">> REPO: '$PBS_REPO'"
+        proxmox-backup-client backup "$entry" \
+          --repository "$PBS_REPO" \
+          --backup-type host \
+          --backup-id "${HOSTNAME}-$(echo "$entry" | cut -d'.' -f1)" \
+          --backup-time "$(date +%s)" \
+          --incremental true
+      else
+        echo ">> Saltado (mal formado): $entry"
+      fi
     done
-    echo -e "\\nBackup modular al PBS finalizado."
+
+    echo -e "\nBackup modular al PBS finalizado."
     read -p "Pulsa ENTER para continuar..."
 }
 
@@ -105,30 +129,39 @@ backup_full_local_root() {
     mkdir -p "$BACKUP_DIR"
     BACKUP_FILE="${BACKUP_DIR}/${HOSTNAME}-full-backup-${TIMESTAMP}.tar.gz"
     echo "Creando backup completo local (excluyendo /proc, /sys, /dev, /run, /mnt, /tmp)..."
-    tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run --exclude=/mnt --exclude=/tmp \\
+    tar --exclude="$BACKUP_DIR" --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run --exclude=/mnt --exclude=/tmp \
         -czf "$BACKUP_FILE" / && \
-    echo -e "\\nBackup completo guardado en: $BACKUP_FILE" || \
-    echo -e "\\nError durante el backup completo."
+    echo -e "\nBackup completo guardado en: $BACKUP_FILE" || \
+    echo -e "\nError durante el backup completo."
     read -p "Pulsa ENTER para continuar..."
 }
 
 backup_full_pbs_root() {
-    proxmox-backup-client backup \\
-        --include-dev /boot/efi \\
-        --include-dev /etc/pve \\
-        root-${HOSTNAME}.pxar:/ \\
-        --repository "$PBS_REPO" && \
-    echo -e "\\nBackup completo al PBS finalizado correctamente." || \
-    echo -e "\\nError durante el backup completo."
+    proxmox-backup-client backup \
+        --include-dev /boot/efi \
+        --include-dev /etc/pve \
+        root-${HOSTNAME}.pxar:/ \
+        --repository "$PBS_REPO" \
+        --backup-type host \
+        --backup-id "$HOSTNAME" \
+        --backup-time "$(date +%s)" && \
+    echo -e "
+Backup completo al PBS finalizado correctamente." || \
+    echo -e "
+Error durante el backup completo."
+    read -p "Pulsa ENTER para continuar..."
+    echo -e "\nBackup completo al PBS finalizado correctamente." || \
+    echo -e "\nError durante el backup completo."
     read -p "Pulsa ENTER para continuar..."
 }
 
 backup_min_local_tar() {
     mkdir -p "$BACKUP_DIR"
     BACKUP_FILE="${BACKUP_DIR}/${HOSTNAME}-minimal-${TIMESTAMP}.tar.gz"
-    tar -czf "$BACKUP_FILE" --absolute-names /etc/pve /etc/network /var/lib/pve-cluster /root && \
-    echo -e "\\nBackup mínimo guardado en: $BACKUP_FILE" || \
-    echo -e "\\nError durante el backup mínimo."
+    tar --exclude="$BACKUP_FILE" -czf "$BACKUP_FILE" --absolute-names /etc/pve /etc/network /var/lib/pve-cluster /root && \
+    echo -e "\nBackup mínimo guardado en: $BACKUP_FILE" || \
+    echo -e "\nError durante el backup mínimo."
     read -p "Pulsa ENTER para continuar..."
 }
 
+main_menu
