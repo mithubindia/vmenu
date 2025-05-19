@@ -23,12 +23,12 @@ declare -A BACKUP_PATHS=(
 )
 
 main_menu() {
-    OPTION=$(whiptail --title "Proxmox Host Backup" --menu "Elige una opción de respaldo:" 20 78 10 \\
-        "1" "Backup rápido personalizado (tar.gz, local)" \\
-        "2" "Backup rápido personalizado (PBS)" \\
-        "3" "Backup completo del sistema (tar.gz, local)" \\
-        "4" "Backup completo del sistema (PBS)" \\
-        "5" "Backup mínimo automático (tar.gz, local)" \\
+    OPTION=$(whiptail --title "Proxmox Host Backup" --menu "Elige una opción de respaldo:" 20 78 10 \
+        "1" "Backup rápido personalizado (tar.gz, local)" \
+        "2" "Backup rápido personalizado (PBS)" \
+        "3" "Backup completo del sistema (tar.gz, local)" \
+        "4" "Backup completo del sistema (PBS)" \
+        "5" "Backup mínimo automático (tar.gz, local)" \
         "6" "Salir" 3>&1 1>&2 2>&3)
 
     case "$OPTION" in
@@ -132,10 +132,3 @@ backup_min_local_tar() {
     read -p "Pulsa ENTER para continuar..."
 }
 
-while true; do main_menu; done
-""")
-
-backup_script_path = Path("/mnt/data/proxmox_host_backup_menu_v2.sh")
-backup_script_path.write_text(backup_script_updated)
-backup_script_path.chmod(0o755)
-backup_script_path
