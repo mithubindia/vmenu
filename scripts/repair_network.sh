@@ -210,5 +210,5 @@ show_main_menu() {
 
 
     clear
-    show_proxmenux_logo
+    #show_proxmenux_logo
     show_main_menu
