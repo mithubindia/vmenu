@@ -77,7 +77,7 @@ show_menu() {
             selected_number=$(echo "$script_selection" | awk '{print $1}')
             
             if [ "$selected_number" = "$((${#scripts[@]}+1))" ]; then
-                show_proxmenux_logo
+                #show_proxmenux_logo
                 exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
             fi
 
@@ -88,7 +88,7 @@ show_menu() {
             fi
 
         else
-            show_proxmenux_logo
+            #show_proxmenux_logo
             exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
         fi
     done
