@@ -41,7 +41,7 @@ function select_nas_iso() {
 
   local NAS_OPTIONS=(
     "1" "Synology DSM   VM          (Loader Linux-based)"
-    "2" "TrueNAS SCALE  VM          (Dragonfish)"
+    "2" "TrueNAS SCALE  VM          (Fangtooth)"
     "3" "TrueNAS CORE   VM          (FreeBSD based)"
     "4" "OpenMediaVault VM          (Debian based)"
     "5" "Rockstor       VM          (openSUSE based)"
