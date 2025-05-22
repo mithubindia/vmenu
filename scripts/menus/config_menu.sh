@@ -148,7 +148,7 @@ show_version_info() {
         dialog --title "$(translate "ProxMenux Information")" --clear --textbox "$tmpfile" 20 70
         rm -f "$tmpfile"
     fi
-	show_proxmenux_logo
+	#show_proxmenux_logo
 }
 
 
@@ -250,5 +250,5 @@ uninstall_proxmenu() {
     exit 0
 }
 
-show_proxmenux_logo
+#show_proxmenux_logo
 show_config_menu

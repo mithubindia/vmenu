@@ -2826,8 +2826,9 @@ fi
 
 
 
-show_proxmenux_logo
+
 if [[ "$LANGUAGE" != "en" ]]; then
+    show_proxmenux_logo
     msg_lang "$(translate "Generating automatic translations...")"
 fi
 main_menu
