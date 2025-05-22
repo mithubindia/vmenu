@@ -31,7 +31,7 @@ fi
 
 load_language
 initialize_cache
-show_proxmenux_logo
+#show_proxmenux_logo
 # ==========================================================
 
 # Base URL community-scripts
@@ -157,8 +157,8 @@ show_menu() {
                             --yes-button "$(translate "Accept")" \
                             --no-button "$(translate "Cancel")" \
                             --yesno "$selected_description" 20 78; then
-                    msg_info2 "$(translate "Executing script:") $script_selection"
-                    sleep 2
+                    #msg_info2 "$(translate "Executing script:") $script_selection"
+                    #sleep 2
                     download_script "$selected_url"
                     msg_ok "$(translate "Script completed.")"
                     msg_success "$(translate "Press Enter to return to the main menu...")"
