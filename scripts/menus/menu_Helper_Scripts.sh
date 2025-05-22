@@ -163,6 +163,7 @@ show_menu() {
                     msg_ok "$(translate "Script completed.")"
                     msg_success "$(translate "Press Enter to return to the main menu...")"
                     read -r
+                    clear
                 else
                     msg_info2 "$(translate "Script execution cancelled.")"
                     sleep 2
