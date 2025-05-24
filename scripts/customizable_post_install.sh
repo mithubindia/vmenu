@@ -2727,6 +2727,7 @@ main_menu() {
   declare -A selected_functions
 
   if [ -n "$selected_indices" ]; then
+    show_proxmenux_logo
     msg_title "$SCRIPT_TITLE"
 
     for index in "${selected_options[@]}"; do
