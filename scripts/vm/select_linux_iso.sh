@@ -114,7 +114,7 @@ function select_linux_iso_official() {
     "Linux Mint 22.1|Desktop|ProxMenux|https://mirrors.edge.kernel.org/linuxmint/stable/22.1/linuxmint-22.1-cinnamon-64bit.iso"
     "openSUSE Leap 15.6|Desktop|ProxMenux|https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso"
     "Alpine Linux 3.21|Desktop|ProxMenux|https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.3-x86_64.iso"
-    "Kali Linux 2025.1|Desktop|ProxMenux|https://cdimage.kali.org/kali-2025.1c/kali-linux-2025.1c-qemu-amd64.7z"
+    "Kali Linux 2025.1|Desktop|ProxMenux|https://cdimage.kali.org/kali-2025.1c/kali-linux-2025.1c-installer-amd64.iso"
     "Manjaro 25.0|Desktop|ProxMenux|https://download.manjaro.org/gnome/25.0.0/manjaro-gnome-25.0.0-250414-linux612.iso"
   )
 
