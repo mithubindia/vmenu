@@ -8,7 +8,7 @@ import parse from "html-react-parser"
 import Footer from "@/components/footer"
 import RSSLink from "@/components/rss-link"
 
-// Import CopyableCode dynamically to avoid SSR issues
+
 const CopyableCode = dynamic(() => import("@/components/CopyableCode"), { ssr: false })
 
 async function getChangelogContent() {
