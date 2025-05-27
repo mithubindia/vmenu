@@ -30,7 +30,7 @@ while true; do
         "1" "$(translate "Add Disk Passthrough to a VM")" \
         "2" "$(translate "Add Disk") Passthrough $(translate "to a CT")" \
         "3" "$(translate "Import Disk Image to a VM")" \
-        "4" "$(translate "Import Disk Image to a VM")" \
+        "4" "$(translate "Format Unused Disk in Proxmox")" \
         "5" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
     case $OPTION in
