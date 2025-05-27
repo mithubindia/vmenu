@@ -1,3 +1,45 @@
+## 2025-05-27
+
+### Fixed
+- **Kali Linux ISO URL Updated**  
+  Fixed the incorrect download URL for Kali Linux ISO in the Linux installer module. The new correct path is:  
+  ```
+  https://cdimage.kali.org/kali-2025.1c/kali-linux-2025.1c-installer-amd64.iso
+  ```
+
+### Improved
+- **Faster Dialog Menu Transitions**  
+  Improved UI responsiveness across all interactive menus by replacing `whiptail` with `dialog`, offering faster transitions and smoother navigation.
+
+- **Coral USB Support in LXC**  
+  Improved the logic for configuring Coral USB TPU passthrough into LXC containers:
+  - Refactored configuration into modular blocks with better structure and inline comments.
+  - Clear separation of Coral USB (`/dev/coral`) and Coral M.2 (`/dev/apex_0`) logic.
+  - Maintains backward compatibility with existing LXC configurations.
+  - Introduced persistent Coral USB passthrough using a udev rule:
+    ```bash
+    # Create udev rule for Coral USB
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="9302", MODE="0666", TAG+="uaccess", SYMLINK+="coral"
+    
+    # Map /dev/coral if it exists
+    if [ -e /dev/coral ]; then
+        echo "lxc.mount.entry: /dev/coral dev/coral none bind,optional,create=file" >> "$CONFIG_FILE"
+    fi
+    ```
+  - Special thanks to **@Blaspt** for validating the persistent Coral USB passthrough and suggesting the use of `/dev/coral` symbolic link.
+
+
+### Added
+- **Persistent Coral USB Passthrough Support**  
+  Added udev rule support for Coral USB devices to persistently map them as `/dev/coral`, enabling consistent passthrough across reboots. This path is automatically detected and mapped in the container configuration.
+
+- **RSS Feed Integration**  
+  Added support for generating an RSS feed for the changelog, allowing users to stay informed of updates through news clients.
+
+- **Release Service Automation**  
+  Implemented a new release management service to automate publishing and tagging of versions, starting with version **v1.1.2**.
+
+
 ## 2025-05-13
 
 ### Fixed
