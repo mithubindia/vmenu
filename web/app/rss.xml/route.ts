@@ -20,14 +20,12 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
     const fileContents = fs.readFileSync(changelogPath, "utf8")
     const entries: ChangelogEntry[] = []
 
-    // Split content by versions (assuming format ## [version] - date)
     const sections = fileContents.split(/^## /gm).filter((section) => section.trim())
 
     for (const section of sections) {
       const lines = section.split("\n")
       const headerLine = lines[0]
 
-      // Extract version and date from header
       const versionMatch = headerLine.match(/\[([^\]]+)\]/)
       const dateMatch = headerLine.match(/(\d{4}-\d{2}-\d{2})/)
 
@@ -45,7 +43,7 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
       }
     }
 
-    return entries.slice(0, 10) // Latest 10 entries
+    return entries.slice(0, 10)
   } catch (error) {
     console.error("Error parsing changelog:", error)
     return []
@@ -62,17 +60,18 @@ export async function GET() {
     <title>ProxMenux Changelog</title>
     <description>Latest updates and changes in ProxMenux</description>
     <link>${siteUrl}/changelog</link>
-    <atom:link href="${siteUrl}/api/rss" rel="self" type="application/rss+xml"/>
-    <language>en</language>
+    <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml"/>
+    <language>en-US</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <generator>ProxMenux RSS Generator</generator>
+    <ttl>60</ttl>
     
     ${entries
       .map(
         (entry) => `
     <item>
       <title>ProxMenux ${entry.version}</title>
-      <description><![CDATA[${entry.content.substring(0, 500)}...]]></description>
+      <description><![CDATA[${entry.content.substring(0, 500)}${entry.content.length > 500 ? "..." : ""}]]></description>
       <link>${entry.url}</link>
       <guid isPermaLink="true">${entry.url}</guid>
       <pubDate>${new Date(entry.date).toUTCString()}</pubDate>
