@@ -7,6 +7,7 @@ interface ChangelogEntry {
   date: string
   content: string
   url: string
+  title: string
 }
 
 async function parseChangelog(): Promise<ChangelogEntry[]> {
@@ -20,30 +21,45 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
     const fileContents = fs.readFileSync(changelogPath, "utf8")
     const entries: ChangelogEntry[] = []
 
-    const sections = fileContents.split(/^## /gm).filter((section) => section.trim())
+    // Split by any heading (## or ###) to catch all changes, not just versions
+    const sections = fileContents.split(/^(##\s+.*$)/gm).filter((section) => section.trim())
 
-    for (const section of sections) {
-      const lines = section.split("\n")
-      const headerLine = lines[0]
+    for (let i = 0; i < sections.length - 1; i += 2) {
+      const headerLine = sections[i]
+      const content = sections[i + 1] || ""
 
-      const versionMatch = headerLine.match(/\[([^\]]+)\]/)
-      const dateMatch = headerLine.match(/(\d{4}-\d{2}-\d{2})/)
+      // Check if it's a version header (## [version] - date)
+      const versionMatch = headerLine.match(/##\s+\[([^\]]+)\]\s*-\s*(\d{4}-\d{2}-\d{2})/)
 
       if (versionMatch) {
         const version = versionMatch[1]
-        const date = dateMatch ? dateMatch[1] : new Date().toISOString().split("T")[0]
-        const content = lines.slice(1).join("\n").trim()
+        const date = versionMatch[2]
 
         entries.push({
           version,
           date,
-          content,
-          url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://macrimi.github.io/ProxMenux"}/changelog#${version}`,
+          content: content.trim(),
+          url: `https://macrimi.github.io/ProxMenux/changelog#${version}`,
+          title: `ProxMenux ${version}`,
         })
+      } else {
+        // Check for date-only headers (## 2025-05-13)
+        const dateMatch = headerLine.match(/##\s+(\d{4}-\d{2}-\d{2})/)
+        if (dateMatch) {
+          const date = dateMatch[1]
+
+          entries.push({
+            version: date,
+            date,
+            content: content.trim(),
+            url: `https://macrimi.github.io/ProxMenux/changelog#${date}`,
+            title: `ProxMenux Update ${date}`,
+          })
+        }
       }
     }
 
-    return entries.slice(0, 10)
+    return entries.slice(0, 15) // Latest 15 entries
   } catch (error) {
     console.error("Error parsing changelog:", error)
     return []
@@ -52,7 +68,7 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
 
 export async function GET() {
   const entries = await parseChangelog()
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://macrimi.github.io/ProxMenux"
+  const siteUrl = "https://macrimi.github.io/ProxMenux"
 
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -70,7 +86,7 @@ export async function GET() {
       .map(
         (entry) => `
     <item>
-      <title>ProxMenux ${entry.version}</title>
+      <title>${entry.title}</title>
       <description><![CDATA[${entry.content.substring(0, 500)}${entry.content.length > 500 ? "..." : ""}]]></description>
       <link>${entry.url}</link>
       <guid isPermaLink="true">${entry.url}</guid>

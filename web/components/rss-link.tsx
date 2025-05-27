@@ -6,7 +6,7 @@ import { useState } from "react"
 
 export default function RSSLink() {
   const [copied, setCopied] = useState(false)
-  const rssUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/rss.xml`
+  const rssUrl = "https://macrimi.github.io/ProxMenux/rss.xml"
 
   const copyToClipboard = async () => {
     try {
@@ -43,7 +43,7 @@ export default function RSSLink() {
           </div>
 
           <Link
-            href="/rss.xml"
+            href={rssUrl}
             className="inline-flex items-center justify-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors w-full sm:w-auto"
             target="_blank"
             rel="noopener noreferrer"

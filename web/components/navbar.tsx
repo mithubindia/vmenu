@@ -44,13 +44,13 @@ export default function Navbar() {
               </Link>
             ))}
 
-           {/* RSS Feed Link */}
+            {/* RSS Feed Link */}
             <Link
-              href="/rss.xml"
+              href="https://macrimi.github.io/ProxMenux/rss.xml"
               className="flex items-center space-x-2 transition-colors hover:text-primary text-orange-600 hover:text-orange-700"
               target="_blank"
               rel="noopener noreferrer"
-              title="RSS Feed del Changelog"
+              title="RSS Feed"
             >
               <Rss className="h-4 w-4" />
               <span>RSS</span>
@@ -78,15 +78,15 @@ export default function Navbar() {
                 <span>{item.label}</span>
               </Link>
             ))}
-          
+
             {/* RSS Feed Link - Mobile */}
             <Link
-              href="/rss.xml"
+              href="https://macrimi.github.io/ProxMenux/rss.xml"
               className="flex items-center space-x-2 py-2 transition-colors hover:text-primary text-orange-600 hover:text-orange-700"
               onClick={() => setIsMenuOpen(false)}
               target="_blank"
               rel="noopener noreferrer"
-              title="RSS Feed del Changelog"
+              title="RSS Feed"
             >
               <Rss className="h-4 w-4" />
               <span>RSS</span>
@@ -97,4 +97,3 @@ export default function Navbar() {
     </header>
   )
 }
-
