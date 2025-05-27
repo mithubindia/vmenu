@@ -4,10 +4,11 @@
 # ProxMenu - A menu-driven script for Proxmox VE management
 # ==========================================================
 # Author      : MacRimi
+# Revision    : @Blaspt (USB passthrough via udev rule with persistent /dev/coral)
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
+# Version     : 1.1
+# Last Updated: 16/05/2025
 # ==========================================================
 # Description:
 # This script automates the configuration and installation of
@@ -17,13 +18,10 @@
 # - Installs necessary drivers inside the container
 # - Manages required system and container restarts
 #
-# The script aims to simplify the process of enabling
-# AI-powered video analysis capabilities in containers
-# LXC, leveraging hardware acceleration for
-# improved performance.
+# Supports Coral USB and Coral M.2 (PCIe) devices.
+# Includes USB passthrough enhancement using persistent udev alias (/dev/coral).
 # ==========================================================
 
-# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -38,10 +36,7 @@ initialize_cache
 
 # ==========================================================
 
-
-# Select LXC container
 select_container() {
-
     CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)
     if [ -z "$CONTAINERS" ]; then
         msg_error "$(translate 'No containers available in Proxmox.')"
@@ -64,15 +59,12 @@ select_container() {
     msg_ok "$(translate 'Container selected:') $CONTAINER_ID"
 }
 
-
-# Validate that the selected container is valid
 validate_container_id() {
     if [ -z "$CONTAINER_ID" ]; then
         msg_error "$(translate 'Container ID not defined. Make sure to select a container first.')"
         exit 1
     fi
 
-    # Check if the container is running and stop it before configuration
     if pct status "$CONTAINER_ID" | grep -q "running"; then
         msg_info "$(translate 'Stopping the container before applying configuration...')"
         pct stop "$CONTAINER_ID"
@@ -80,8 +72,20 @@ validate_container_id() {
     fi
 }
 
+# Añadir regla udev para Coral USB para persistencia de permisos
+add_udev_rule_for_coral_usb() {
+    RULE_FILE="/etc/udev/rules.d/99-coral-usb.rules"
+    RULE_CONTENT='SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="9302", MODE="0666", TAG+="uaccess"'
 
-# Configure LXC for Coral TPU and iGPU
+    if [[ ! -f "$RULE_FILE" ]] || ! grep -qF "$RULE_CONTENT" "$RULE_FILE"; then
+        echo "$RULE_CONTENT" > "$RULE_FILE"
+        udevadm control --reload-rules && udevadm trigger
+        msg_ok "$(translate 'Udev rule for Coral USB added and rules reloaded.')"
+    else
+        msg_ok "$(translate 'Udev rule for Coral USB already exists.')"
+    fi
+}
+
 configure_lxc_hardware() {
     validate_container_id
     CONFIG_FILE="/etc/pve/lxc/${CONTAINER_ID}.conf"
@@ -90,6 +94,7 @@ configure_lxc_hardware() {
         exit 1
     fi
 
+    # Privileged container
     if grep -q "^unprivileged: 1" "$CONFIG_FILE"; then
         msg_info "$(translate 'The container is unprivileged. Changing to privileged...')"
         sed -i "s/^unprivileged: 1/unprivileged: 0/" "$CONFIG_FILE"
@@ -103,11 +108,12 @@ configure_lxc_hardware() {
         msg_ok "$(translate 'The container is already privileged.')"
     fi
 
-    # Configure iGPU
+    # Enable nesting feature
     if ! grep -q "features: nesting=1" "$CONFIG_FILE"; then
         echo "features: nesting=1" >> "$CONFIG_FILE"
     fi
 
+    # iGPU support
     if ! grep -q "c 226:0 rwm" "$CONFIG_FILE"; then
         echo "lxc.cgroup2.devices.allow: c 226:0 rwm # iGPU" >> "$CONFIG_FILE"
         echo "lxc.cgroup2.devices.allow: c 226:128 rwm # iGPU" >> "$CONFIG_FILE"
@@ -115,6 +121,7 @@ configure_lxc_hardware() {
         echo "lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file" >> "$CONFIG_FILE"
     fi
 
+    # Framebuffer support
     if ! grep -q "c 29:0 rwm # Framebuffer" "$CONFIG_FILE"; then
         echo "lxc.cgroup2.devices.allow: c 29:0 rwm # Framebuffer" >> "$CONFIG_FILE"
     fi
@@ -123,30 +130,37 @@ configure_lxc_hardware() {
         echo "lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file" >> "$CONFIG_FILE"
     fi
 
-   # Configure Coral TPU (USB and M.2)
+    # ----------------------------------------------------------
+    # Coral USB passthrough (via udev + /dev/coral)
+    # ----------------------------------------------------------
+    add_udev_rule_for_coral_usb
     if ! grep -Pq "^lxc.cgroup2.devices.allow: c 189:\* rwm # Coral USB$" "$CONFIG_FILE"; then
         echo "lxc.cgroup2.devices.allow: c 189:* rwm # Coral USB" >> "$CONFIG_FILE"
     fi
-
-    if ! grep -Pq "^lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/bus/usb dev/bus/usb none bind,optional,create=dir" >> "$CONFIG_FILE"
+    if ! grep -Pq "^lxc.mount.entry: /dev/coral dev/coral none bind,optional,create=file$" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: /dev/coral dev/coral none bind,optional,create=file" >> "$CONFIG_FILE"
     fi
 
-    if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
+    # ----------------------------------------------------------
+    # Coral M.2 (PCIe) support
+    # ----------------------------------------------------------
+    if lspci | grep -iq "Global Unichip"; then
+        if ! grep -Pq "^lxc.cgroup2.devices.allow: c 245:0 rwm # Coral M2 Apex$" "$CONFIG_FILE"; then
+            echo "lxc.cgroup2.devices.allow: c 245:0 rwm # Coral M2 Apex" >> "$CONFIG_FILE"
+        fi
+        if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
+            echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
+        fi
     fi
 
     msg_ok "$(translate 'Coral TPU and iGPU configuration added to container') $CONTAINER_ID."
 }
 
-
-# Install Coral TPU drivers in the container
 install_coral_in_container() {
-
     msg_info2 "$(translate 'Installing iGPU and Coral TPU drivers inside the container...')"
     tput sc
     LOG_FILE=$(mktemp)
-    
+
     pct start "$CONTAINER_ID"
 
     CORAL_M2=$(lspci | grep -i "Global Unichip")
@@ -188,25 +202,21 @@ install_coral_in_container() {
     '" "$LOG_FILE"
 
     if [ $? -eq 0 ]; then
-        tput rc  
-        tput ed  
-        rm -f "$LOG_FILE"  
+        tput rc
+        tput ed
+        rm -f "$LOG_FILE"
         msg_ok "$(translate 'iGPU and Coral TPU drivers installed inside the container.')"
     else
         msg_error "$(translate 'Failed to install iGPU and Coral TPU drivers inside the container.')"
-        cat "$LOG_FILE"  
+        cat "$LOG_FILE"
         rm -f "$LOG_FILE"
         exit 1
     fi
 }
 
-
-
-select_container 
+select_container
 configure_lxc_hardware
-install_coral_in_container 
-
-
+install_coral_in_container
 
 msg_ok "$(translate 'Configuration completed.')"
 sleep 2

@@ -30,7 +30,8 @@ while true; do
         "1" "$(translate "Add Disk Passthrough to a VM")" \
         "2" "$(translate "Add Disk") Passthrough $(translate "to a CT")" \
         "3" "$(translate "Import Disk Image to a VM")" \
-        "4" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
+        "4" "$(translate "Import Disk Image to a VM")" \
+        "5" "$(translate "Return to Main Menu")" 3>&1 1>&2 2>&3)
 
     case $OPTION in
         1)  
@@ -48,7 +49,13 @@ while true; do
             msg_info2 "$(translate "Running script: Import Disk Image to a VM")..."
             bash <(curl -s "$REPO_URL/scripts/storage/import-disk-image.sh")
             ;;
+
         4)
+		    #show_proxmenux_logo
+            msg_info2 "$(translate "Executing script: Format Unused Disk in Proxmox")..."
+            bash <(curl -s "$REPO_URL/scripts/storage/format.disk.sh")
+            ;;
+        5)
 		    #show_proxmenux_logo
             exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
             ;;

@@ -292,51 +292,7 @@ apt_upgrade() {
     fi
 
    
-    msg_info "$(translate "Updating PVE application manager, patience...")"
-    total_steps=$(pveam update 2>&1 | grep -E "^(Downloading|Importing)" | wc -l)
-    [ $total_steps -eq 0 ] && total_steps=1
 
-    tput sc  
-
-    (
-        pveam update 2>&1 | while IFS= read -r line; do
-            if [[ $line == "Downloading"* ]] || [[ $line == "Importing"* ]]; then
-                
-                file_name=$(echo "$line" | sed -E 's/.* (Downloading|Importing) ([^ ]+).*/\2/')
-
-                
-                [ -z "$file_name" ] && file_name="$(translate "Unknown")"
-
-               
-                tput rc
-                tput ed
-
-               
-                row=$(( $(tput lines) - 6 ))
-                tput cup $row 0; echo "$(translate "Updating PVE application manager...")"
-                tput cup $((row + 1)) 0; echo "──────────────────────────────────────────────"
-                tput cup $((row + 2)) 0; echo "Downloading: $file_name"
-                tput cup $((row + 3)) 0; echo "Progress: [                                                  ] 0%"
-                tput cup $((row + 4)) 0; echo "──────────────────────────────────────────────"
-
-               
-                for i in $(seq 1 10); do
-                    progress=$((i * 10))
-                    tput cup $((row + 3)) 9 
-                    printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
-                    sleep 0.2 
-                done
-            fi
-        done
-    )
-
-    if [ $? -eq 0 ]; then
-        tput rc
-        tput ed
-        msg_ok "$(translate "PVE application manager updated")"
-    fi
-
-    tput cnorm  
 
 
     # Install additional Proxmox packages
@@ -2476,6 +2432,24 @@ EOF
 
 
 
+update_pve_appliance_manager() {
+    msg_info "$(translate "Updating PVE application manager...")"
+    if pveam update > /dev/null 2>&1; then
+        msg_ok "$(translate "PVE application manager updated")"
+    else
+        msg_warn "$(translate "No updates or failed to fetch templates")"
+    fi
+}
+
+
+
+
+# ==========================================================
+
+
+
+
+
 # ==========================================================
 #        Auxiliary help functions
 # ==========================================================
@@ -2657,6 +2631,7 @@ main_menu() {
     "Monitoring|Install OVH Real Time Monitoring|OVHRTM"
     "Performance|Use pigz for faster gzip compression|PIGZ"
     "Optional|Install and configure Fastfetch|FASTFETCH"
+    "Optional|Update Proxmox VE Appliance Manager|PVEAM"
     "Optional|Add latest Ceph support|CEPH"
     "Optional|Add Proxmox testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
@@ -2780,6 +2755,7 @@ main_menu() {
           REPOTEST) add_repo_test ;;
           ENABLE_HA) enable_ha ;;
           FIGURINE) configure_figurine ;;
+          PVEAM) update_pve_appliance_manager ;;
           *) echo "Option $function_name not implemented yet" ;;
         esac
       fi
