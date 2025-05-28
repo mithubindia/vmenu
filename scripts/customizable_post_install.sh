@@ -279,7 +279,7 @@ apt_upgrade() {
                     progress=$((i * 10))
                     tput cup $((row + 3)) 9 
                     printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
-                    sleep 0.2  
+                      
                 done
             fi
         done
@@ -2582,20 +2582,17 @@ lvm_repair_check() {
 
 # Main menu function
 main_menu() {
-  local HEADER=$(printf " %-56s %10s" "$(translate "Description")" "Category")
+  local HEADER
+  if [[ "$LANGUAGE" == "es" ]]; then
+    HEADER="Seleccione las opciones a configurar:\n\n           Descripción                                  | Categoría"
+  else
+    HEADER="$(translate "Choose options to configure:")\n\n           Description                                | Category"
+  fi
 
   declare -A category_order=(
-    ["Basic Settings"]=1
-    ["System"]=2
-    ["Hardware"]=3
-    ["Virtualization"]=4
-    ["Network"]=5
-    ["Storage"]=6
-    ["Security"]=7
-    ["Customization"]=8
-    ["Monitoring"]=9
-    ["Performance"]=10
-    ["Optional"]=11
+    ["Basic Settings"]=1 ["System"]=2 ["Hardware"]=3 ["Virtualization"]=4
+    ["Network"]=5 ["Storage"]=6 ["Security"]=7 ["Customization"]=8
+    ["Monitoring"]=9 ["Performance"]=10 ["Optional"]=11
   )
 
   local options=(
@@ -2644,169 +2641,187 @@ main_menu() {
   done | sort -n | cut -d'|' -f2-))
   unset IFS
 
-  local total_width=65
-  local max_desc_width=50
-  local category_width=15
-  local category_position=$((total_width - category_width))
+  local max_desc_length=0
+  local temp_descriptions=()
+  
+  for option in "${sorted_options[@]}"; do
+    IFS='|' read -r category description function_name <<< "$option"
+    local desc_translated="$(translate "$description")"
+    temp_descriptions+=("$desc_translated")
+    
+    local desc_length=${#desc_translated}
+    if [ $desc_length -gt $max_desc_length ]; then
+      max_desc_length=$desc_length
+    fi
+  done
+  
+  if [ $max_desc_length -gt 50 ]; then
+    max_desc_length=50
+  fi
 
-  local menu_items=()
+  local checklist_items=()
   local i=1
+  local desc_index=0
   local previous_category=""
 
   for option in "${sorted_options[@]}"; do
     IFS='|' read -r category description function_name <<< "$option"
-    translated_description="$(translate "$description")"
+    
 
-   
-    local max_cut=$((category_position - 3))
-    [[ "$max_cut" -lt 10 ]] && max_cut=10
-    if [[ ${#translated_description} -gt $max_cut ]]; then
-      translated_description="${translated_description:0:$((max_cut - 3))}..."
-    fi
-
-  
     if [[ "$category" != "$previous_category" && "$category" == "Optional" && -n "$previous_category" ]]; then
-      menu_items+=("" "================================================================" "")
+      checklist_items+=("" "==============================================================" "")
     fi
+    
+    local desc_translated="${temp_descriptions[$desc_index]}"
+    desc_index=$((desc_index + 1))
+    
 
+    if [ ${#desc_translated} -gt $max_desc_length ]; then
+      desc_translated="${desc_translated:0:$((max_desc_length-3))}..."
+    fi
+    
 
-    local line="$translated_description"
-    local spaces_needed=$((category_position - ${#translated_description}))
-    for ((j = 0; j < spaces_needed; j++)); do
-      line+=" "
+    local spaces_needed=$((max_desc_length - ${#desc_translated}))
+    local padding=""
+    for ((j=0; j<spaces_needed; j++)); do
+      padding+=" "
     done
-    line+="$category"
+    
+    local line="${desc_translated}${padding}      | ${category}"
 
-    menu_items+=("$i" "$line" "OFF")
+    checklist_items+=("$i" "$line" "off")
     i=$((i + 1))
     previous_category="$category"
   done
 
-  cleanup
+  exec 3>&1
+  selected_indices=$(dialog --clear \
+    --backtitle "ProxMenux" \
+    --title "$(translate "Post-Installation Options")" \
+    --checklist "$HEADER" 22 80 15 \
+    "${checklist_items[@]}" \
+    2>&1 1>&3)
 
-  local selected_indices=$(whiptail --title "$(translate "ProxMenux Custom Script for Post-Installation")" \
-    --checklist --separate-output \
-    "\n$HEADER\n\n$(translate "Choose options to configure:")\n$(translate "Use [SPACE] to select/deselect and [ENTER] to confirm:")" \
-    20 82 12 \
-    "${menu_items[@]}" \
-    3>&1 1>&2 2>&3)
+  local dialog_exit=$?
+  exec 3>&-
 
-
-  if [ $? -ne 0 ]; then
-    echo "User cancelled. Exiting."
+  if [[ $dialog_exit -ne 0 || -z "$selected_indices" ]]; then
     exit 0
   fi
 
 
-  IFS=$'\n' read -d '' -r -a selected_options <<< "$selected_indices"
-  declare -A selected_functions
-
-  if [ -n "$selected_indices" ]; then
-    show_proxmenux_logo
-    msg_title "$SCRIPT_TITLE"
-
-    for index in "${selected_options[@]}"; do
-      option=${sorted_options[$((index - 1))]}
-      IFS='|' read -r category description function_name <<< "$option"
-      selected_functions[$function_name]=1
 
 
-      [[ "$function_name" == "FASTFETCH" ]] && selected_functions[MOTD]=0
-    done
+declare -A selected_functions
+read -ra indices_array <<< "$selected_indices"
 
-    for index in "${!sorted_options[@]}"; do
-      option=${sorted_options[$index]}
-      IFS='|' read -r category description function_name <<< "$option"
-      if [[ ${selected_functions[$function_name]} -eq 1 ]]; then
-        case $function_name in
-          APTUPGRADE) apt_upgrade ;;
-          TIMESYNC) configure_time_sync ;;
-          NOAPTLANG) skip_apt_languages ;;
-          UTILS) install_system_utils ;;
-          JOURNALD) optimize_journald ;;
-          LOGROTATE) optimize_logrotate ;;
-          LIMITS) increase_system_limits ;;
-          ENTROPY) configure_entropy ;;
-          MEMORYFIXES) optimize_memory_settings ;;
-          KEXEC) enable_kexec ;;
-          KERNELPANIC) configure_kernel_panic ;;
-          KERNELHEADERS) install_kernel_headers ;;
-          AMDFIXES) apply_amd_fixes ;;
-          GUESTAGENT) install_guest_agent ;;
-          VFIO_IOMMU) enable_vfio_iommu ;;
-          KSMTUNED) configure_ksmtuned ;;
-          APTIPV4) force_apt_ipv4 ;;
-          NET) apply_network_optimizations ;;
-          OPENVSWITCH) install_openvswitch ;;
-          TCPFASTOPEN) enable_tcp_fast_open ;;
-          ZFSARC) optimize_zfs_arc ;;
-          ZFSAUTOSNAPSHOT) install_zfs_auto_snapshot ;;
-          VZDUMP) optimize_vzdump ;;
-          DISABLERPC) disable_rpc ;;
-          FAIL2BAN) install_fail2ban ;;
-          LYNIS) install_lynis ;;
-          BASHRC) customize_bashrc ;;
-          MOTD) setup_motd ;;
-          NOSUBBANNER) remove_subscription_banner ;;
-          OVHRTM) install_ovh_rtm ;;
-          PIGZ) configure_pigz ;;
-          FASTFETCH) configure_fastfetch ;;
-          CEPH) install_ceph ;;
-          REPOTEST) add_repo_test ;;
-          ENABLE_HA) enable_ha ;;
-          FIGURINE) configure_figurine ;;
-          PVEAM) update_pve_appliance_manager ;;
-          *) echo "Option $function_name not implemented yet" ;;
-        esac
-      fi
-    done
-
-
-
-
-
-
-
-  if [ "$NECESSARY_REBOOT" -eq 1 ]; then
-    whiptail --title "Reboot Required" --yesno "$(translate "Some changes require a reboot to take effect. Do you want to restart now?")" 10 60
-    if [ $? -eq 0 ]; then
-
-        msg_info "$(translate "Removing no longer required packages and purging old cached updates...")"
-        /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoremove >/dev/null 2>&1
-        /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoclean >/dev/null 2>&1
-        msg_ok "$(translate "Cleanup finished")"
-        msg_success "$(translate "Press Enter to continue...")"
-        read -r
-        msg_warn  "$(translate "Rebooting the system...")"
-        reboot
-    else
-        msg_info "$(translate "Removing no longer required packages and purging old cached updates...")"
-        /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoremove >/dev/null 2>&1
-        /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' autoclean >/dev/null 2>&1
-        msg_ok "$(translate "Cleanup finished")"
-        msg_info2 "$(translate "You can reboot later manually.")"
-        msg_success "$(translate "Press Enter to continue...")"
-        read -r
-        exit 0
-    fi
-
+for index in "${indices_array[@]}"; do
+  if [[ -z "$index" ]] || ! [[ "$index" =~ ^[0-9]+$ ]]; then
+    continue
   fi
-    msg_success "$(translate "All changes applied. No reboot required.")"
-    msg_success "$(translate "Press Enter to return to menu...")"
-    read -r
+  
 
-else
-        exit 0
-fi
+  local item_index=$(( (index - 1) * 3 + 1 ))
+  if [[ $item_index -lt ${#checklist_items[@]} ]]; then
+    local selected_line="${checklist_items[$item_index]}"
+    if [[ "$selected_line" =~ ^.*(\-\-\-|===+).*$ ]]; then
+       return 1
+    fi
+  fi
+  
 
+  option=${sorted_options[$((index - 1))]}
+  IFS='|' read -r _ description function_name <<< "$option"
+  selected_functions[$function_name]=1
+  [[ "$function_name" == "FASTFETCH" ]] && selected_functions[MOTD]=0
+done
+
+
+
+
+  
+  clear
+  show_proxmenux_logo
+  msg_title "$SCRIPT_TITLE"
+
+  for option in "${sorted_options[@]}"; do
+    IFS='|' read -r _ description function_name <<< "$option"
+    if [[ ${selected_functions[$function_name]} -eq 1 ]]; then
+      case $function_name in
+        APTUPGRADE) apt_upgrade ;;
+        TIMESYNC) configure_time_sync ;;
+        NOAPTLANG) skip_apt_languages ;;
+        UTILS) install_system_utils ;;
+        JOURNALD) optimize_journald ;;
+        LOGROTATE) optimize_logrotate ;;
+        LIMITS) increase_system_limits ;;
+        ENTROPY) configure_entropy ;;
+        MEMORYFIXES) optimize_memory_settings ;;
+        KEXEC) enable_kexec ;;
+        KERNELPANIC) configure_kernel_panic ;;
+        KERNELHEADERS) install_kernel_headers ;;
+        AMDFIXES) apply_amd_fixes ;;
+        GUESTAGENT) install_guest_agent ;;
+        VFIO_IOMMU) enable_vfio_iommu ;;
+        KSMTUNED) configure_ksmtuned ;;
+        APTIPV4) force_apt_ipv4 ;;
+        NET) apply_network_optimizations ;;
+        OPENVSWITCH) install_openvswitch ;;
+        TCPFASTOPEN) enable_tcp_fast_open ;;
+        ZFSARC) optimize_zfs_arc ;;
+        ZFSAUTOSNAPSHOT) install_zfs_auto_snapshot ;;
+        VZDUMP) optimize_vzdump ;;
+        DISABLERPC) disable_rpc ;;
+        FAIL2BAN) install_fail2ban ;;
+        LYNIS) install_lynis ;;
+        BASHRC) customize_bashrc ;;
+        MOTD) setup_motd ;;
+        NOSUBBANNER) remove_subscription_banner ;;
+        OVHRTM) install_ovh_rtm ;;
+        PIGZ) configure_pigz ;;
+        FASTFETCH) configure_fastfetch ;;
+        CEPH) install_ceph ;;
+        REPOTEST) add_repo_test ;;
+        ENABLE_HA) enable_ha ;;
+        FIGURINE) configure_figurine ;;
+        PVEAM) update_pve_appliance_manager ;;
+        *) echo "Option $function_name not implemented yet" ;;
+      esac
+    fi
+  done
+
+  if [[ "$NECESSARY_REBOOT" -eq 1 ]]; then
+    whiptail --title "Reboot Required" \
+           --yesno "$(translate "Some changes require a reboot to take effect. Do you want to restart now?")" 10 60
+    if [[ $? -eq 0 ]]; then
+      msg_info "$(translate "Removing no longer required packages and purging old cached updates...")"
+      apt-get -y autoremove >/dev/null 2>&1
+      apt-get -y autoclean >/dev/null 2>&1
+      msg_ok "$(translate "Cleanup finished")"
+      msg_success "$(translate "Press Enter to continue...")"
+      read -r
+      msg_warn "$(translate "Rebooting the system...")"
+      reboot
+    else
+      msg_info "$(translate "Removing no longer required packages and purging old cached updates...")"
+      apt-get -y autoremove >/dev/null 2>&1
+      apt-get -y autoclean >/dev/null 2>&1
+      msg_ok "$(translate "Cleanup finished")"
+      msg_info2 "$(translate "You can reboot later manually.")"
+      msg_success "$(translate "Press Enter to continue...")"
+      read -r
+      exit 0
+    fi
+  fi
+
+  msg_success "$(translate "All changes applied. No reboot required.")"
+  msg_success "$(translate "Press Enter to return to menu...")"
+  read -r
+  clear
 }
 
 
 
 
-if [[ "$LANGUAGE" != "en" ]]; then
-    show_proxmenux_logo
-    msg_lang "$(translate "Generating automatic translations...")"
-fi
 main_menu
 

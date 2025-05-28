@@ -6,11 +6,10 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 24/02/2025
+# Version     : 1.1
+# Last Updated: 28/05/2025
 # ==========================================================
 
-# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -19,21 +18,24 @@ VENV_PATH="/opt/googletrans-env"
 if [[ -f "$UTILS_FILE" ]]; then
     source "$UTILS_FILE"
 fi
+
 load_language
 initialize_cache
-#show_proxmenux_logo
-# ==========================================================
 
+# ==========================================================
 
 confirm_and_run() {
     local name="$1"
     local command="$2"
 
-    if whiptail --title "$(translate "Confirmation")" \
-                --yesno "$(translate "Do you want to run the post-installation script from") $name?" \
-                10 70; then
+    dialog --clear --title "$(translate "Confirmation")" \
+           --yesno "\n\n$(translate "Do you want to run the post-installation script from") $name?" 10 70
+    response=$?
+    clear
+
+    if [ $response -eq 0 ]; then
         eval "$command"
-        echo ""
+        echo
         msg_success "$(translate 'Press ENTER to continue...')"
         read -r _
     else
@@ -42,62 +44,75 @@ confirm_and_run() {
     fi
 }
 
+scripts_es=(
+    "Script post-install personalizable |ProxMenux|bash <(curl -s $REPO_URL/scripts/customizable_post_install.sh)"
+    "Script post-install Proxmox VE |Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
+    "Script post-iinstall xshok-proxmox|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
+    "Desinstalar herramientas|ProxMenux|bash <(curl -s $REPO_URL/scripts/uninstall-tools.sh)"
+)
 
-
-# Define scripts array
-scripts=(
+scripts_all_langs=(
     "Customizable script post-installation|ProxMenux|bash <(curl -s $REPO_URL/scripts/customizable_post_install.sh)"
     "Proxmox VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
-    "xshok-proxmox Post install|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
+    "Xshok-proxmox Post install|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
     "Uninstall Tools|ProxMenux|bash <(curl -s $REPO_URL/scripts/uninstall-tools.sh)"
-
 )
 
 show_menu() {
     while true; do
-        HEADER=$(printf "  %-52s %-20s" "$(translate "Name")" "$(translate "Repository")")
+        local HEADER
+        local current_scripts=()
+
+        if [[ "$LANGUAGE" == "es" ]]; then
+            HEADER="\n Seleccione un script post-instalación:\n\n    Descripción                                     │ Fuente"
+            current_scripts=("${scripts_es[@]}")
+        else
+            HEADER="\n$(translate " Select a post-installation script:")\n\n    Description                                     │ Source"
+            current_scripts=("${scripts_all_langs[@]}")
+        fi
 
         menu_items=()
-        for i in "${!scripts[@]}"; do
-            IFS='|' read -r name repository command <<< "${scripts[$i]}"
+
+        for i in "${!current_scripts[@]}"; do
+            IFS='|' read -r name repository command <<< "${current_scripts[$i]}"
             number=$((i+1))
-            padded_option=$(printf "%2d %-50s" "$number" "$(translate "$name")")
-            menu_items+=("$padded_option" "$repository")
+            local display_name="$name"
+            [[ "$LANGUAGE" != "es" ]] && display_name="$(translate "$name")"
+            formatted_line=$(printf "%-47s │ %s" "$display_name" "$repository")
+            menu_items+=("$number" "$formatted_line")
         done
 
-        menu_items+=("$(printf "%2d %-40s" "$((${#scripts[@]}+1))" "$(translate "Return to Main Menu")")" "")
-        
-        cleanup
-        
-        script_selection=$(whiptail --title "$(translate "Post-Installation Scripts Menu")" \
-                                    --menu "\n$HEADER" 20 78 $((${#scripts[@]}+1)) \
-                                    "${menu_items[@]}" 3>&1 1>&2 2>&3)
+        menu_items+=("$(( ${#current_scripts[@]}+1 ))" "$(translate "Return to Main Menu")")
 
-        if [ -n "$script_selection" ]; then
-            selected_number=$(echo "$script_selection" | awk '{print $1}')
-            
-            if [ "$selected_number" = "$((${#scripts[@]}+1))" ]; then
-                #show_proxmenux_logo
-                exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
-            fi
+        exec 3>&1
+        script_selection=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "Post-Installation Scripts Menu")" \
+                            --menu "$HEADER" 20 78 $((${#menu_items[@]}/2)) \
+                            "${menu_items[@]}" 2>&1 1>&3)
+        exit_status=$?
+        exec 3>&-
 
-            index=$((selected_number - 1))
-            if [ $index -ge 0 ] && [ $index -lt ${#scripts[@]} ]; then
-                IFS='|' read -r name repository command <<< "${scripts[$index]}"
-                eval "$command"
-            fi
+        clear
 
-        else
-            #show_proxmenux_logo
+        if [ $exit_status -ne 0 ]; then
             exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
+        fi
+
+        if [ "$script_selection" = "$(( ${#current_scripts[@]} + 1 ))" ]; then
+            exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
+        fi
+
+        index=$((script_selection - 1))
+        if [ $index -ge 0 ] && [ $index -lt ${#current_scripts[@]} ]; then
+            IFS='|' read -r _ _ command <<< "${current_scripts[$index]}"
+            eval "$command"
         fi
     done
 }
 
-clear
-if [[ "$LANGUAGE" != "en" ]]; then
-    show_proxmenux_logo
-    msg_lang "$(translate "Generating automatic translations...")"
-fi
 
+#if [[ "$LANGUAGE" != "en" ]]; then
+#    show_proxmenux_logo
+#    msg_lang "$(translate "Generating automatic translations...")"
+#fi
+cleanup
 show_menu
