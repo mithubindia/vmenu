@@ -10,6 +10,31 @@ interface ChangelogEntry {
   title: string
 }
 
+// Function to clean and format markdown content for RSS
+function formatContentForRSS(content: string): string {
+  return (
+    content
+      // Convert ### headers to bold text
+      .replace(/^### (.+)$/gm, "**$1**")
+      // Convert ** bold ** to simple bold
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      // Clean code blocks - remove ``` and format nicely
+      .replace(/```[\s\S]*?```/g, (match) => {
+        const code = match.replace(/```/g, "").trim()
+        return `\n${code}\n`
+      })
+      // Convert - bullet points to •
+      .replace(/^- /gm, "• ")
+      // Clean up multiple newlines
+      .replace(/\n{3,}/g, "\n\n")
+      // Remove backslashes used for line breaks
+      .replace(/\\\s*$/gm, "")
+      // Clean up extra spaces
+      .replace(/\s+/g, " ")
+      .trim()
+  )
+}
+
 async function parseChangelog(): Promise<ChangelogEntry[]> {
   try {
     const changelogPath = path.join(process.cwd(), "..", "CHANGELOG.md")
@@ -21,45 +46,67 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
     const fileContents = fs.readFileSync(changelogPath, "utf8")
     const entries: ChangelogEntry[] = []
 
-    // Split by any heading (## or ###) to catch all changes, not just versions
-    const sections = fileContents.split(/^(##\s+.*$)/gm).filter((section) => section.trim())
+    // Split by ## headers (both versions and dates)
+    const lines = fileContents.split("\n")
+    let currentEntry: Partial<ChangelogEntry> | null = null
+    let contentLines: string[] = []
 
-    for (let i = 0; i < sections.length - 1; i += 2) {
-      const headerLine = sections[i]
-      const content = sections[i + 1] || ""
+    for (const line of lines) {
+      // Check for version header: ## [1.1.1] - 2025-03-21
+      const versionMatch = line.match(/^##\s+\[([^\]]+)\]\s*-\s*(\d{4}-\d{2}-\d{2})/)
 
-      // Check if it's a version header (## [version] - date)
-      const versionMatch = headerLine.match(/##\s+\[([^\]]+)\]\s*-\s*(\d{4}-\d{2}-\d{2})/)
+      // Check for date-only header: ## 2025-05-13
+      const dateMatch = line.match(/^##\s+(\d{4}-\d{2}-\d{2})$/)
 
-      if (versionMatch) {
-        const version = versionMatch[1]
-        const date = versionMatch[2]
+      if (versionMatch || dateMatch) {
+        // Save previous entry if exists
+        if (currentEntry && contentLines.length > 0) {
+          const rawContent = contentLines.join("\n").trim()
+          currentEntry.content = formatContentForRSS(rawContent)
+          if (currentEntry.version && currentEntry.date && currentEntry.title) {
+            entries.push(currentEntry as ChangelogEntry)
+          }
+        }
 
-        entries.push({
-          version,
-          date,
-          content: content.trim(),
-          url: `https://macrimi.github.io/ProxMenux/changelog#${version}`,
-          title: `ProxMenux ${version}`,
-        })
-      } else {
-        // Check for date-only headers (## 2025-05-13)
-        const dateMatch = headerLine.match(/##\s+(\d{4}-\d{2}-\d{2})/)
-        if (dateMatch) {
+        // Start new entry
+        if (versionMatch) {
+          const version = versionMatch[1]
+          const date = versionMatch[2]
+          currentEntry = {
+            version,
+            date,
+            url: `https://macrimi.github.io/ProxMenux/changelog#${version}`,
+            title: `ProxMenux ${version}`,
+          }
+        } else if (dateMatch) {
           const date = dateMatch[1]
-
-          entries.push({
+          currentEntry = {
             version: date,
             date,
-            content: content.trim(),
             url: `https://macrimi.github.io/ProxMenux/changelog#${date}`,
             title: `ProxMenux Update ${date}`,
-          })
+          }
+        }
+
+        contentLines = []
+      } else if (currentEntry && line.trim()) {
+        // Add content lines (skip empty lines at the beginning)
+        if (contentLines.length > 0 || line.trim() !== "") {
+          contentLines.push(line)
         }
       }
     }
 
-    return entries.slice(0, 15) // Latest 15 entries
+    // Don't forget the last entry
+    if (currentEntry && contentLines.length > 0) {
+      const rawContent = contentLines.join("\n").trim()
+      currentEntry.content = formatContentForRSS(rawContent)
+      if (currentEntry.version && currentEntry.date && currentEntry.title) {
+        entries.push(currentEntry as ChangelogEntry)
+      }
+    }
+
+    return entries.slice(0, 20) // Latest 20 entries
   } catch (error) {
     console.error("Error parsing changelog:", error)
     return []
@@ -87,7 +134,7 @@ export async function GET() {
         (entry) => `
     <item>
       <title>${entry.title}</title>
-      <description><![CDATA[${entry.content.substring(0, 500)}${entry.content.length > 500 ? "..." : ""}]]></description>
+      <description><![CDATA[${entry.content.length > 1000 ? entry.content.substring(0, 1000) + "..." : entry.content}]]></description>
       <link>${entry.url}</link>
       <guid isPermaLink="true">${entry.url}</guid>
       <pubDate>${new Date(entry.date).toUTCString()}</pubDate>
