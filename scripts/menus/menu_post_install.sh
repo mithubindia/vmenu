@@ -91,7 +91,7 @@ show_menu() {
         exit_status=$?
         exec 3>&-
 
-        clear
+        
 
         if [ $exit_status -ne 0 ]; then
             exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
