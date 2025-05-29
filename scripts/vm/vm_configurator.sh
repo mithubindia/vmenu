@@ -180,7 +180,7 @@ function configure_vm_advanced() {
 #  [[ "$CPU_CHOICE" == "host" ]] && CPU_TYPE=" -cpu host" || CPU_TYPE=" -cpu kvm64"
 
   CPU_CHOICE=$(whiptail --backtitle "ProxMenux" --title "$(translate "CPU Model")" \
-  --radiolist "$(translate "Select CPU model")" 22 78 12 \
+  --radiolist "$(translate "Select CPU model")" 17 70 11 \
   "host"          "Host (recommended)" ON \
   "kvm64"         "Generic KVM64" OFF \
   "kvm32"         "Generic KVM32" OFF \
