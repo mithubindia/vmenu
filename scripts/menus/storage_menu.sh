@@ -36,16 +36,19 @@ while true; do
         1)  
 		    #show_proxmenux_logo
             #msg_info2 "$(translate "Running script: Add Disk Passthrough to a VM")..."
+            clear
             bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough.sh")
             ;;
         2)
 		    #show_proxmenux_logo
             #msg_info2 "$(translate "Running script: Add Disk Passthrough to a CT")..."
+            clear
             bash <(curl -s "$REPO_URL/scripts/storage/disk-passthrough_ct.sh")
             ;;
         3)
 		    #show_proxmenux_logo
             #msg_info2 "$(translate "Running script: Import Disk Image to a VM")..."
+            clear
             bash <(curl -s "$REPO_URL/scripts/storage/import-disk-image.sh")
             ;;
         4)
