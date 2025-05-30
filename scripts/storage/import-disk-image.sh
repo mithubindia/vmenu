@@ -38,6 +38,7 @@ initialize_cache
 # Configuration ============================================
 
 
+
 detect_image_dir() {
   for store in $(pvesm status -content images | awk 'NR>1 {print $1}'); do
     path=$(pvesm path "${store}:template" 2>/dev/null)
@@ -75,8 +76,6 @@ detect_image_dir() {
 }
 
 
-
-
 IMAGES_DIR=$(detect_image_dir)
 if [[ -z "$IMAGES_DIR" ]]; then
   dialog --title "$(translate 'No Images Found')" \
@@ -92,112 +91,195 @@ if [ -z "$IMAGES" ]; then
 fi
 
 
-# === Select VM
+# 1. Select VM
 msg_info "$(translate 'Getting VM list')"
 VM_LIST=$(qm list | awk 'NR>1 {print $1" "$2}')
-[[ -z "$VM_LIST" ]] && { msg_error "$(translate 'No VMs available in the system')"; exit 1; }
+if [ -z "$VM_LIST" ]; then
+    msg_error "$(translate 'No VMs available in the system')"
+    exit 1
+fi
 msg_ok "$(translate 'VM list obtained')"
 
-VMID=$(whiptail --title "$(translate 'Select VM')" \
-        --menu "$(translate 'Select the VM where you want to import the disk image:')" 20 70 10 $VM_LIST 3>&1 1>&2 2>&3)
-[[ -z "$VMID" ]] && exit 1
+VMID=$(whiptail --title "$(translate 'Select VM')" --menu "$(translate 'Select the VM where you want to import the disk image:')" 15 60 8 $VM_LIST 3>&1 1>&2 2>&3)
+
+if [ -z "$VMID" ]; then
+   
+    exit 1
+fi
 
 
 
-
-# === Select storage
+# 2. Select storage volume
 msg_info "$(translate 'Getting storage volumes')"
 STORAGE_LIST=$(pvesm status -content images | awk 'NR>1 {print $1}')
-[[ -z "$STORAGE_LIST" ]] && { msg_error "$(translate 'No storage volumes available')"; exit 1; }
+if [ -z "$STORAGE_LIST" ]; then
+    msg_error "$(translate 'No storage volumes available')"
+    exit 1
+fi
 msg_ok "$(translate 'Storage volumes obtained')"
 
+
 STORAGE_OPTIONS=()
-while read -r storage; do STORAGE_OPTIONS+=("$storage" ""); done <<< "$STORAGE_LIST"
-STORAGE=$(whiptail --title "$(translate 'Select Storage')" \
-         --menu "$(translate 'Select the storage volume for disk import:')" 20 70 10 "${STORAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
-[[ -z "$STORAGE" ]] && exit 1
+while read -r storage; do
+    STORAGE_OPTIONS+=("$storage" "")
+done <<< "$STORAGE_LIST"
+
+STORAGE=$(whiptail --title "$(translate 'Select Storage')" --menu "$(translate 'Select the storage volume for disk import:')" 15 60 8 "${STORAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+if [ -z "$STORAGE" ]; then
+    
+    exit 1
+fi
 
 
 
-# === Select images
+# 3. Select disk images
+msg_info "$(translate 'Scanning disk images')"
+if [ -z "$IMAGES" ]; then
+    msg_warn "$(translate 'No compatible disk images found in') $IMAGES_DIR"
+    exit 0
+fi
+msg_ok "$(translate 'Disk images found')"
+
 IMAGE_OPTIONS=()
-while read -r img; do IMAGE_OPTIONS+=("$img" "" "OFF"); done <<< "$IMAGES"
-SELECTED_IMAGES=$(whiptail --title "$(translate 'Select Disk Images')" \
-                 --checklist "$(translate 'Select the disk images to import:')" 20 70 12 "${IMAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
-[[ -z "$SELECTED_IMAGES" ]] && exit 1
+while read -r img; do
+    IMAGE_OPTIONS+=("$img" "" "OFF")
+done <<< "$IMAGES"
+
+SELECTED_IMAGES=$(whiptail --title "$(translate 'Select Disk Images')" --checklist "$(translate 'Select the disk images to import:')" 20 60 10 "${IMAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+
+if [ -z "$SELECTED_IMAGES" ]; then
+   
+    exit 1
+fi
 
 
 
-# === Import each selected image
+# 4. Import each selected image
 for IMAGE in $SELECTED_IMAGES; do
-  IMAGE=$(echo "$IMAGE" | tr -d '"')
-  INTERFACE=$(whiptail --title "$(translate 'Interface Type')" --menu "$(translate 'Select the interface type for the image:') $IMAGE" 15 40 4 \
-    "sata" "SATA" "scsi" "SCSI" "virtio" "VirtIO" "ide" "IDE" 3>&1 1>&2 2>&3)
-  [[ -z "$INTERFACE" ]] && { msg_error "$(translate 'No interface type selected for') $IMAGE"; continue; }
 
-  FULL_PATH="$IMAGES_DIR/$IMAGE"
-  msg_info "$(translate 'Importing image:') $IMAGE"
-  TEMP_DISK_FILE=$(mktemp)
 
-  qm importdisk "$VMID" "$FULL_PATH" "$STORAGE" 2>&1 | while read -r line; do
-    if [[ "$line" =~ transferred ]]; then
-      PERCENT=$(echo "$line" | grep -oP "\(\d+\.\d+%\)" | tr -d '()%')
-      echo -ne "\r${TAB}${BL}-$(translate 'Importing image:') $IMAGE-${CL} ${PERCENT}%"
-      
-    elif [[ "$line" =~ successfully\ imported\ disk\ \'([^\']+)\' ]]; then
-      DISK_NAME=$(basename "${BASH_REMATCH[1]}")
-      echo "$STORAGE:$DISK_NAME" > "$TEMP_DISK_FILE"
+    IMAGE=$(echo "$IMAGE" | tr -d '"')
+
+
+    INTERFACE=$(whiptail --title "$(translate 'Interface Type')" --menu "$(translate 'Select the interface type for the image:') $IMAGE" 15 40 4 \
+    "sata" "SATA" \
+    "scsi" "SCSI" \
+    "virtio" "VirtIO" \
+    "ide" "IDE" 3>&1 1>&2 2>&3)
+
+    if [ -z "$INTERFACE" ]; then
+        msg_error "$(translate 'No interface type selected for') $IMAGE"
+        continue
     fi
-  done
-  echo -ne "\n"
-  IMPORT_STATUS=${PIPESTATUS[0]}
+
+    FULL_PATH="$IMAGES_DIR/$IMAGE"
 
 
+    msg_info "$(translate 'Importing image:')"
 
-  if [ "$IMPORT_STATUS" -eq 0 ]; then
-    msg_ok "$(translate 'Image imported successfully')"
-    
-    IMPORTED_DISK=$(cat "$TEMP_DISK_FILE")
-    rm -f "$TEMP_DISK_FILE"
-    
+
+    TEMP_DISK_FILE=$(mktemp)
+
+
+    qm importdisk "$VMID" "$FULL_PATH" "$STORAGE" 2>&1 | while read -r line; do
+        if [[ "$line" =~ transferred ]]; then
+
+            PERCENT=$(echo "$line" | grep -oP "\d+\.\d+(?=%)")
  
-    if [[ "$IMPORTED_DISK" != *:* ]]; then
-      IMPORTED_DISK="${STORAGE}:${IMPORTED_DISK##*/}"
-    fi
-    
-    if [ -n "$IMPORTED_DISK" ]; then
-      EXISTING_DISKS=$(qm config "$VMID" | grep -oP "${INTERFACE}\d+" | sort -n)
-      NEXT_SLOT=0
+            echo -ne "\r${TAB}${BL}-$(translate 'Importing image:') $IMAGE-${CL} ${PERCENT}%"
+        elif [[ "$line" =~ successfully\ imported\ disk ]]; then
 
-      
-      [[ -n "$EXISTING_DISKS" ]] && NEXT_SLOT=$(( $(echo "$EXISTING_DISKS" | tail -n1 | sed "s/${INTERFACE}//") + 1 ))
+            echo "$line" | grep -oP "(?<=successfully imported disk ').*(?=')" > "$TEMP_DISK_FILE"
+        fi
+    done
+    echo -ne "\n" 
 
-      SSD_OPTION=""
-      if [ "$INTERFACE" != "virtio" ]; then
-        whiptail --yesno "$(translate 'Do you want to use SSD emulation for this disk?')" 10 60 && SSD_OPTION=",ssd=1"
-      fi
+    IMPORT_STATUS=${PIPESTATUS[0]} 
 
-      msg_info "$(translate 'Configuring disk')"
-      if qm set "$VMID" --${INTERFACE}${NEXT_SLOT} "$IMPORTED_DISK${SSD_OPTION}" &>/dev/null; then
-        msg_ok "$(translate 'Image') $IMAGE $(translate 'configured as') ${INTERFACE}${NEXT_SLOT}"
-        whiptail --yesno "$(translate 'Do you want to make this disk bootable?')" 10 60 && {
-          msg_info "$(translate 'Configuring disk as bootable')"
-          if qm set "$VMID" --boot c --bootdisk ${INTERFACE}${NEXT_SLOT} &>/dev/null; then
-            msg_ok "$(translate 'Disk configured as bootable')"
-          else
-            msg_error "$(translate 'Could not configure the disk as bootable')"
-          fi
-        }
-      else
-        msg_error "$(translate 'Could not configure disk') ${INTERFACE}${NEXT_SLOT} $(translate 'for VM') $VMID"
-      fi
+    if [ $IMPORT_STATUS -eq 0 ]; then
+        msg_ok "$(translate 'Image imported successfully')"
+
+
+        IMPORTED_DISK=$(cat "$TEMP_DISK_FILE")
+        rm -f "$TEMP_DISK_FILE" 
+
+   
+        if [ -z "$IMPORTED_DISK" ]; then
+   
+            STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
+
+            if [[ "$STORAGE_TYPE" == "btrfs" || "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" ]]; then
+   
+                UNUSED_LINE=$(qm config "$VMID" | grep -E '^unused[0-9]+:')
+                IMPORTED_ID=$(echo "$UNUSED_LINE" | cut -d: -f1)
+                IMPORTED_DISK=$(echo "$UNUSED_LINE" | cut -d: -f2- | xargs)
+            else
+   
+                IMPORTED_DISK=$(qm config "$VMID" | grep -E 'unused[0-9]+' | tail -1 | cut -d: -f2- | xargs)
+                IMPORTED_ID=$(qm config "$VMID" | grep -E 'unused[0-9]+' | tail -1 | cut -d: -f1)
+            fi
+        fi
+
+        if [ -n "$IMPORTED_DISK" ]; then
+       
+            EXISTING_DISKS=$(qm config "$VMID" | grep -oP "${INTERFACE}\d+" | sort -n)
+            if [ -z "$EXISTING_DISKS" ]; then
+                NEXT_SLOT=0
+            else
+                LAST_SLOT=$(echo "$EXISTING_DISKS" | tail -n1 | sed "s/${INTERFACE}//")
+                NEXT_SLOT=$((LAST_SLOT + 1))
+            fi
+
+   
+            if [ "$INTERFACE" != "virtio" ]; then
+                if (whiptail --title "$(translate 'SSD Emulation')" --yesno "$(translate 'Do you want to use SSD emulation for this disk?')" 10 60); then
+                    SSD_OPTION=",ssd=1"
+                else
+                    SSD_OPTION=""
+                fi
+            else
+                SSD_OPTION=""
+            fi
+
+            msg_info "$(translate 'Configuring disk')"
+
+ 
+            if qm set "$VMID" --${INTERFACE}${NEXT_SLOT} "$IMPORTED_DISK${SSD_OPTION}" &>/dev/null; then
+                msg_ok "$(translate 'Image') $IMAGE $(translate 'configured as') ${INTERFACE}${NEXT_SLOT}"
+
+   
+                if [[ -n "$IMPORTED_ID" ]]; then
+                    qm set "$VMID" -delete "$IMPORTED_ID" >/dev/null 2>&1
+                fi
+
+  
+                if (whiptail --title "$(translate 'Make Bootable')" --yesno "$(translate 'Do you want to make this disk bootable?')" 10 60); then
+                    msg_info "$(translate 'Configuring disk as bootable')"
+
+                    if qm set "$VMID" --boot c --bootdisk ${INTERFACE}${NEXT_SLOT} &>/dev/null; then
+                        msg_ok "$(translate 'Disk configured as bootable')"
+                    else
+                        msg_error "$(translate 'Could not configure the disk as bootable')"
+                    fi
+                fi
+            else
+                msg_error "$(translate 'Could not configure disk') ${INTERFACE}${NEXT_SLOT} $(translate 'for VM') $VMID"
+                echo "DEBUG: Tried to configure: --${INTERFACE}${NEXT_SLOT} \"$IMPORTED_DISK${SSD_OPTION}\""
+                echo "DEBUG: VM config after import:"
+                qm config "$VMID" | grep -E "(unused|${INTERFACE})"
+            fi
+        else
+            msg_error "$(translate 'Could not find the imported disk')"
+            echo "DEBUG: VM config after import:"
+            qm config "$VMID"
+        fi
     else
-      msg_error "$(translate 'Could not find the imported disk')"
+        msg_error "$(translate 'Could not import') $IMAGE"
     fi
-  else
-    msg_error "$(translate 'Could not import') $IMAGE"
-  fi
 done
+
+
 
 msg_ok "$(translate 'All selected images have been processed')"
 msg_success "$(translate "Press Enter to return to menu...")"
