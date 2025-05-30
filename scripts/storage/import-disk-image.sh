@@ -154,12 +154,20 @@ for IMAGE in $SELECTED_IMAGES; do
 
   if [ "$IMPORT_STATUS" -eq 0 ]; then
     msg_ok "$(translate 'Image imported successfully')"
+    
     IMPORTED_DISK=$(cat "$TEMP_DISK_FILE")
     rm -f "$TEMP_DISK_FILE"
-
+    
+ 
+    if [[ "$IMPORTED_DISK" != *:* ]]; then
+      IMPORTED_DISK="${STORAGE}:${IMPORTED_DISK##*/}"
+    fi
+    
     if [ -n "$IMPORTED_DISK" ]; then
       EXISTING_DISKS=$(qm config "$VMID" | grep -oP "${INTERFACE}\d+" | sort -n)
       NEXT_SLOT=0
+
+      
       [[ -n "$EXISTING_DISKS" ]] && NEXT_SLOT=$(( $(echo "$EXISTING_DISKS" | tail -n1 | sed "s/${INTERFACE}//") + 1 ))
 
       SSD_OPTION=""
