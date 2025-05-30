@@ -45,8 +45,6 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/ProxMenux/main/
 
 🛡️ All executable links follow our [Code of Conduct](https://github.com/MacRimi/ProxMenux?tab=coc-ov-file#-2-security--code-responsibility).
 
-For detailed information on security vulnerabilities and how to report them, please refer to our [Security Policy](./SECURITY.md).
-
 ---
 
 ## 📌 How to Use
