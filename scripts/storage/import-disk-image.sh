@@ -143,8 +143,10 @@ for IMAGE in $SELECTED_IMAGES; do
     if [[ "$line" =~ transferred ]]; then
       PERCENT=$(echo "$line" | grep -oP "\(\d+\.\d+%\)" | tr -d '()%')
       echo -ne "\r${TAB}${BL}-$(translate 'Importing image:') $IMAGE-${CL} ${PERCENT}%"
-    elif [[ "$line" =~ successfully\ imported\ disk ]]; then
-      echo "$line" | grep -oP "(?<=successfully imported disk ').*(?=')" > "$TEMP_DISK_FILE"
+      
+    elif [[ "$line" =~ successfully\ imported\ disk\ \'([^\']+)\' ]]; then
+      DISK_NAME=$(basename "${BASH_REMATCH[1]}")
+      echo "$STORAGE:$DISK_NAME" > "$TEMP_DISK_FILE"
     fi
   done
   echo -ne "\n"
