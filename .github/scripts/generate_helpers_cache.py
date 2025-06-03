@@ -33,6 +33,7 @@ for item in data:
     full_script_url = f"{SCRIPT_BASE}/{script}"
 
     cache.append({
+        "name": name,
         "slug": slug,
         "desc": desc,
         "script": script,
