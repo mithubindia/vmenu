@@ -5,7 +5,7 @@ from pathlib import Path
 API_URL = "https://api.github.com/repos/community-scripts/ProxmoxVE/contents/frontend/public/json"
 
 # Base path to build the full URL for the installable scripts
-SCRIPT_BASE = "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/scripts"
+SCRIPT_BASE = "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main"
 
 # Output file where the consolidated helper scripts cache will be stored
 OUTPUT_FILE = Path("json/helpers_cache.json")
