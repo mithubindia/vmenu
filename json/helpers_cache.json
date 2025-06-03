@@ -11,7 +11,8 @@
     "notes": [
       "Database credentials: `cat ~/2FAuth.creds`",
       "The very first account created is automatically set up as an administrator account."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Actual Budget",
@@ -22,7 +23,8 @@
     "categories": [
       23
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE LXC IP-Tag",
@@ -36,7 +38,8 @@
     "notes": [
       "Execute within the Proxmox shell",
       "The Proxmox Node must contain ipcalc and net-tools. `apt-get install -y ipcalc net-tools`"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "NetBird",
@@ -51,7 +54,8 @@
       "After the script finishes, reboot the LXC then run `netbird up` in the LXC console",
       "Execute within the Proxmox main shell",
       "The script only works in Debian/Ubuntu, not in Alpine!"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "Tailscale",
@@ -66,7 +70,8 @@
       "Only supported on Debian 12 LXCs",
       "After the script finishes, reboot the LXC then run `tailscale up` in the LXC console",
       "Execute within the Proxmox host shell"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "AdGuard Home",
@@ -79,7 +84,8 @@
     ],
     "notes": [
       "Adguard Home can be updated via the user interface."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "AdventureLog",
@@ -93,7 +99,8 @@
     "notes": [
       "AdventureLog uses an initial local IP, if you change your LXC-IP, you need to change the IP here: `/opt/adventurelog/backend/server/.env` and here: `/opt/adventurelog/frontend/.env`",
       "Use `cat ~/adventurelog.creds` to see login credentials."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "AgentDVR",
@@ -104,7 +111,8 @@
     "categories": [
       15
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "All Templates",
@@ -117,7 +125,8 @@
     ],
     "notes": [
       "Resource and network settings are adjustable post LXC creation."
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "Alpine-IT-Tools",
@@ -128,7 +137,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Alpine-Tinyauth",
@@ -141,7 +151,8 @@
     ],
     "notes": [
       "The default credentials are located in `/opt/tinyauth/credentials.txt`."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Alpine",
@@ -154,7 +165,8 @@
     ],
     "notes": [
       "To Update Alpine: `apk -U upgrade`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Apache-Cassandra",
@@ -165,7 +177,8 @@
     "categories": [
       8
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Apache-CouchDB",
@@ -178,7 +191,8 @@
     ],
     "notes": [
       "Show Login Credentials: `cat CouchDB.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Apache Guacamole",
@@ -189,7 +203,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Apache Tika",
@@ -202,7 +217,8 @@
     ],
     "notes": [
       "Configuration file is not created at install time. Example is at: `https://cwiki.apache.org/confluence/display/TIKA/TikaServer+in+Tika+2.x`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Apache Tomcat",
@@ -215,7 +231,8 @@
     ],
     "notes": [
       "User can select which Adoptium JDK should be used for the selected Tomcat version (9, 10.1 or 11). "
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Apt-Cacher-NG",
@@ -226,7 +243,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "ArchiveBox",
@@ -237,7 +255,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Arch Linux",
@@ -250,7 +269,8 @@
     ],
     "notes": [
       "doesnt work with lvm and lvmthin disks!"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Argus",
@@ -261,7 +281,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Aria2",
@@ -274,7 +295,8 @@
     ],
     "notes": [
       "Within the LXC console, run `cat rpc.secret` to display the rpc-secret. Copy this token and paste it into the Aria2 RPC Secret Token box within the AriaNG Settings. Then, click the reload AriaNG button."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Asterisk",
@@ -285,7 +307,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Audiobookshelf",
@@ -296,7 +319,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Authelia",
@@ -309,7 +333,8 @@
     ],
     "notes": [
       "During installation, you will have to input your domain (ex. domain.com). Authelia will use auth.domain.com"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Autobrr",
@@ -320,7 +345,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Baby Buddy",
@@ -333,7 +359,8 @@
     ],
     "notes": [
       "for private SSL setup visit: `https://github.com/babybuddy/babybuddy/blob/master/docs/setup/ssl.md`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Backrest",
@@ -346,7 +373,8 @@
     ],
     "notes": [
       "`cat ~/.ssh/id_ed25519.pub` to view ssh public key. This key is used to authenticate with sftp targets. You can add this key on the sftp server."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Ba\u00efkal",
@@ -357,7 +385,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Barcode Buddy",
@@ -370,7 +399,8 @@
     ],
     "notes": [
       "After install enable the option \"Use Redis cache\" on the settings page."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Bazarr",
@@ -381,7 +411,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Beszel",
@@ -392,7 +423,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Bitmagnet",
@@ -405,7 +437,8 @@
     ],
     "notes": [
       "During installation you will be asked to enter your TMDB API key, if you wanna use it. Make sure you have it ready."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Blocky",
@@ -416,7 +449,8 @@
     "categories": [
       5
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "BookStack",
@@ -429,7 +463,8 @@
     ],
     "notes": [
       "Bookstack works only with static ip. If you Change the IP of your LXC, you Need to edit the .env File `nano /opt/bookstack/.env`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "BunkerWeb",
@@ -440,7 +475,8 @@
     "categories": [
       6
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "ByteStash",
@@ -451,7 +487,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Caddy",
@@ -466,7 +503,8 @@
       "xcaddy needs to be updated manually after a caddy update!",
       "if you need an internal module run: `caddy add-package PACKAGENAME`",
       "if you need an external module run: `xcaddy build --with github.com/caddy-dns/cloudflare`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Calibre-Web",
@@ -479,7 +517,8 @@
     ],
     "notes": [
       "Add Calibre-Web Extras via `update`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "CasaOS",
@@ -493,7 +532,8 @@
     "notes": [
       "If the LXC is created Privileged, the script will automatically set up USB passthrough.",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Change Detection",
@@ -504,7 +544,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Channels DVR Server",
@@ -517,7 +558,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Checkmk",
@@ -530,7 +572,8 @@
     ],
     "notes": [
       "Login Credentials : `cat ~/checkmk.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE LXC Cleaner",
@@ -543,7 +586,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "Proxmox Clean Orphaned LVM",
@@ -556,7 +600,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Cloudflare-DDNS",
@@ -570,7 +615,8 @@
     "notes": [
       "To setup the updater you must have the Cloudflare Token and the domains, please read the Github documentation at `https://github.com/favonia/cloudflare-ddns?tab=readme-ov-file#-step-1-updating-the-compose-file` (only the expandable section)",
       "To update the configuration edit `/etc/systemd/system/cloudflare-ddns.service`. After edit please restard with `systemctl restart cloudflare-ddns`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Cloudflared",
@@ -583,7 +629,8 @@
     ],
     "notes": [
       "With an option to configure cloudflared as a DNS-over-HTTPS (DoH) proxy"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Cockpit",
@@ -596,7 +643,8 @@
     ],
     "notes": [
       "Set a root password if using autologin. This will be the Cockpit password.`sudo passwd root`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Coder Code Server",
@@ -611,7 +659,8 @@
     ],
     "notes": [
       "Execute within an existing LXC Console"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "CommaFeed",
@@ -622,7 +671,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Configarr",
@@ -635,7 +685,8 @@
     ],
     "notes": [
       "change secrets file /opt/configarr/secrets.yml"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Cosmos",
@@ -647,7 +698,8 @@
       2,
       3
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Crafty Controller",
@@ -660,7 +712,8 @@
     ],
     "notes": [
       "Show password: `cat ~/crafty-controller.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE Cron LXC Updater",
@@ -674,7 +727,8 @@
     "notes": [
       "Execute within the Proxmox shell",
       "To exclude LXCs from updating, edit the crontab using `crontab -e` and add CTID as shown in the example below:\n\n\n\n`0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-lxcs-cron.sh)' -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null`"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Cronicle Primary",
@@ -687,7 +741,8 @@
     ],
     "notes": [
       "Primary and Worker Private Keys Must Match in the config file"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "cross-seed",
@@ -700,7 +755,8 @@
     ],
     "notes": [
       "After the installation cross-seed will fail to start with an empty configuration. To fix this, edit the config file to properly configure cross-seed, then restart by running `systemctl restart cross-seed`."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "CrowdSec",
@@ -713,7 +769,8 @@
     ],
     "notes": [
       "Execute within an existing LXC Console. Debian only!"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "CryptPad",
@@ -726,7 +783,8 @@
     ],
     "notes": [
       "After installation finishes, `systemctl status cryptpad.service` to get token URL which you can use to create admin account"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Daemon Sync Server",
@@ -737,7 +795,8 @@
     "categories": [
       19
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Dashy",
@@ -748,7 +807,8 @@
     "categories": [
       10
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Debian 12",
@@ -762,7 +822,8 @@
     "notes": [
       "VM has no root password set. To login type in user `root` and just press enter",
       "After installation, checkout: \u00b4https://github.com/community-scripts/ProxmoxVE/discussions/836\u00b4 for useful Debian commands"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Debian",
@@ -773,7 +834,8 @@
     "categories": [
       2
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "deCONZ",
@@ -784,7 +846,8 @@
     "categories": [
       17
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Deluge",
@@ -795,7 +858,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Docker",
@@ -810,7 +874,8 @@
     "notes": [
       "After the script completes, click on the VM, then on the Summary or Console tab to find the VM IP.",
       "This Script works on amd64 and arm64 Architecture."
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Docker",
@@ -825,7 +890,8 @@
       "If the LXC is created Privileged, the script will automatically set up USB passthrough.",
       "Run Compose V2 by replacing the hyphen (-) with a space, using `docker compose`, instead of `docker-compose`.",
       "Options to Install Portainer and/or Docker Compose V2"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Dockge",
@@ -839,7 +905,8 @@
     "notes": [
       "Options to add Immich and/or Home Assistant",
       "If the LXC is created Privileged, the script will automatically set up USB passthrough."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Docmost",
@@ -850,7 +917,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Documenso",
@@ -861,7 +929,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Dolibarr",
@@ -874,7 +943,8 @@
     ],
     "notes": [
       "Database credentials: `cat ~/dolibarr.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Dotnet ASP Web API",
@@ -887,7 +957,8 @@
     ],
     "notes": [
       "FTP server credentials: `cat ~/ftp.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Duplicati",
@@ -900,7 +971,8 @@
     ],
     "notes": [
       "Admin password and database encryption key: `cat ~/duplicati.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Element Synapse",
@@ -914,7 +986,8 @@
     "notes": [
       "Type `cat ~/matrix.creds` to see admin username/password.",
       "Synapse-Admin is running on port 5173"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Emby Media Server",
@@ -927,7 +1000,8 @@
     ],
     "notes": [
       "With Privileged/Unprivileged Hardware Acceleration Support"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "EMQX",
@@ -940,7 +1014,8 @@
     ],
     "notes": [
       "Setup-Steps: Access Control \u27a1 Authentication \u27a1 Create \u27a1 Next \u27a1 Next \u27a1 Create \u27a1 Users \u27a1 Add \u27a1 Username / Password (to authenicate with MQTT) \u27a1 Save. You're now ready to enjoy a high-performance MQTT Broker."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "ErsatzTV",
@@ -951,7 +1026,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "ESPHome",
@@ -962,7 +1038,8 @@
     "categories": [
       16
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "evcc",
@@ -975,7 +1052,8 @@
     ],
     "notes": [
       "To configure evcc, type `cd /etc` followed by `evcc configure` in the evcc LXC shell"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Excalidraw",
@@ -986,7 +1064,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Fenrus",
@@ -997,7 +1076,8 @@
     "categories": [
       10
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "FHEM",
@@ -1010,7 +1090,8 @@
     ],
     "notes": [
       "If the LXC is created Privileged, the script will automatically set up USB passthrough."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "File Browser",
@@ -1024,7 +1105,8 @@
     ],
     "notes": [
       "Execute within an existing LXC Console"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "FileFlows",
@@ -1037,7 +1119,8 @@
     ],
     "notes": [
       "With Privileged/Unprivileged Hardware Acceleration Support"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Firefly III",
@@ -1050,7 +1133,8 @@
     ],
     "notes": [
       "Database credentials: `cat ~/firefly.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "FlareSolverr",
@@ -1061,7 +1145,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "FlowiseAI",
@@ -1074,7 +1159,8 @@
     ],
     "notes": [
       "Application takes long time to install. Please be patient!"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Fluid-Calendar",
@@ -1088,7 +1174,8 @@
     ],
     "notes": [
       "Creds: cat ~/fluid-calendar.creds"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Forgejo",
@@ -1099,7 +1186,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "FreePBX",
@@ -1112,7 +1200,8 @@
     ],
     "notes": [
       "This script uses the official FreePBX install script. Check it here: https://github.com/FreePBX/sng_freepbx_debian_install"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "FreshRSS",
@@ -1126,7 +1215,8 @@
     "notes": [
       "Database credentials: `cat ~/freshrss.creds`",
       "Per FreshRSS documentation, a cron job to actualize FreshRSS will be setup at `/etc/cron.d/freshrss-actualize`. This can be adjusted as needed"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Frigate",
@@ -1140,7 +1230,8 @@
     "notes": [
       "Discussions (explore more advanced methods): `https://github.com/tteck/Proxmox/discussions/2711`",
       "go2rtc Interface port:`1984`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE LXC Filesystem Trim",
@@ -1154,7 +1245,8 @@
     "notes": [
       "Execute within the Proxmox shell",
       "This is designed to work with SSDs on ext4 filesystems only."
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Fumadocs",
@@ -1165,7 +1257,8 @@
     "categories": [
       10
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "gatus",
@@ -1176,7 +1269,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Ghost",
@@ -1189,7 +1283,8 @@
     ],
     "notes": [
       "To run Ghost-CLI commands, first set a password for the ghost-user by running `sudo passwd ghost-user`. Then, switch to the ghost-user with `sudo -su ghost-user`."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Gitea",
@@ -1200,7 +1295,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Glance",
@@ -1211,7 +1307,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Glances",
@@ -1225,7 +1322,8 @@
     "notes": [
       "Execute within an existing LXC Console",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "GLPI",
@@ -1236,7 +1334,8 @@
     "categories": [
       25
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "go2rtc",
@@ -1247,7 +1346,8 @@
     "categories": [
       15
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Gokapi",
@@ -1258,7 +1358,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "GoMFT",
@@ -1271,7 +1372,8 @@
     ],
     "notes": [
       "For additional configuration options check the documentation."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Gotify",
@@ -1282,7 +1384,8 @@
     "categories": [
       19
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Grafana",
@@ -1293,7 +1396,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Graylog",
@@ -1307,7 +1411,8 @@
     "notes": [
       "Initial Setup credentials: `tail /var/log/graylog-server/server.log` after the server starts for the first time.",
       "Type `cat ~/graylog.creds` to get admin password that you use to log in AFTER the Initial Setup"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Grist",
@@ -1318,7 +1423,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "grocy",
@@ -1329,7 +1435,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Habitica",
@@ -1342,7 +1449,8 @@
     ],
     "notes": [
       "It takes a minute or two after installation for web UI to start, please be patient."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Home Assistant OS",
@@ -1356,7 +1464,8 @@
     "notes": [
       "The disk must have a minimum size of 32GB and its size cannot be changed during the creation of the VM.",
       "After the script completes, click on the VM, then on the Summary or Console tab to find the VM IP."
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Headscale",
@@ -1369,7 +1478,8 @@
     ],
     "notes": [
       "Configuration settings: `/etc/headscale/config.yaml`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Heimdall Dashboard",
@@ -1380,7 +1490,8 @@
     "categories": [
       10
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "hev-socks5-server",
@@ -1394,7 +1505,8 @@
     "notes": [
       "Default credentials: `cat /root/hev.creds`",
       "Config stored at `/etc/hev-socks5-server/main.yml`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "HiveMQ CE",
@@ -1407,7 +1519,8 @@
     ],
     "notes": [
       "To check if HiveMQ is listening to the default port for MQTT `lsof -i :1883`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Homarr",
@@ -1418,7 +1531,8 @@
     "categories": [
       10
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Home Assistant Core",
@@ -1434,7 +1548,8 @@
       "Requires PVE 8.2.2 with kernel 6.8.4-3-pve or newer",
       "Deprecation-Warning: This Core-based setup will be deprecated by August 2025. Use Home Assistant OS is strongly recommended to ensure long-term stability and updates.",
       "config path: `/root/.homeassistant`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Home Assistant Container",
@@ -1450,7 +1565,8 @@
       "config path: `/var/lib/docker/volumes/hass_config/_data`",
       "Portainer interface: $IP: 9443 - User & password must be set manually within 5 minutes, otherwise a restart of Portainer is required!",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "HomeBox",
@@ -1463,7 +1579,8 @@
     ],
     "notes": [
       ".env file location: `/opt/.env`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Homebridge",
@@ -1474,7 +1591,8 @@
     "categories": [
       16
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Homepage",
@@ -1488,7 +1606,8 @@
     "notes": [
       "Configuration (bookmarks.yaml, services.yaml, widgets.yaml) path: `/opt/homepage/config/`",
       "Add additional allowed hosts to `/opt/homepage/.env`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Homer",
@@ -1501,7 +1620,8 @@
     ],
     "notes": [
       "Configuration Path: `/opt/homer/assets/config.yml`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE Host Backup",
@@ -1515,7 +1635,8 @@
     "notes": [
       "Execute within the Proxmox shell",
       "A backup is rendered ineffective when it remains stored on the host"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "HyperHDR",
@@ -1526,7 +1647,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Hyperion",
@@ -1537,7 +1659,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Immich",
@@ -1552,7 +1675,8 @@
       "During installation, HW-accelerated machine-learning (with OpenVINO) is an available option. This also allows for HW-accelerated transcoding, but it must be enabled in Video Transcoding Settings",
       "If using OpenVINO HW machine-learning, increase RAM because OpenVINO is memory-intensive",
       "To change upload location, edit 'IMMICH_MEDIA_LOCATION' in `/opt/immich/.env`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "InfluxDB",
@@ -1566,7 +1690,8 @@
     "notes": [
       "Port for V1: 8888",
       "Port for V2: 8086"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "InspIRCd 4",
@@ -1577,7 +1702,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "InvenTree",
@@ -1590,7 +1716,8 @@
     ],
     "notes": [
       "Please read the documentation for your configuration needs."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "ioBroker",
@@ -1603,7 +1730,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "iVentoy",
@@ -1616,7 +1744,8 @@
     ],
     "notes": [
       "Container must be privileged."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Jackett",
@@ -1627,7 +1756,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Jellyfin Media Server",
@@ -1641,7 +1771,8 @@
     "notes": [
       "With Privileged/Unprivileged Hardware Acceleration Support",
       "FFmpeg path: /usr/lib/jellyfin-ffmpeg/ffmpeg"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Jellyseerr",
@@ -1652,7 +1783,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Jenkins",
@@ -1663,7 +1795,8 @@
     "categories": [
       22
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Jupyter Notebook",
@@ -1676,7 +1809,8 @@
     ],
     "notes": [
       "To get the token to access the Jupyter Notebook, run the following command: jupyter notebook list."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "karakeep",
@@ -1687,7 +1821,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Kasm",
@@ -1701,7 +1836,8 @@
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing.",
       "Show password: `cat ~/kasm.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Kavita",
@@ -1714,7 +1850,8 @@
     ],
     "notes": [
       "To enable folder adding append your lxc.conf on your host with 'lxc.environment: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1'"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE Kernel Clean",
@@ -1727,7 +1864,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Proxmox VE Kernel Pin",
@@ -1740,7 +1878,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Keycloak",
@@ -1754,7 +1893,8 @@
     "notes": [
       "First start can take a few minutes",
       "This script requires some extra steps after the installation, Please checkout the `https://github.com/community-scripts/ProxmoxVE/discussions/193`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Kimai",
@@ -1765,7 +1905,8 @@
     "categories": [
       25
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Koillection",
@@ -1776,7 +1917,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Kometa",
@@ -1790,7 +1932,8 @@
     "notes": [
       "During installation you will be prompted to input your TMDb key, Plex URL and Plex token. Make sure you have them ready.",
       "Configuration file is at `/opt/kometa/config/config.yml`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Komga",
@@ -1803,7 +1946,8 @@
     ],
     "notes": [
       "Starting Komga (Web UI) may take up to 2 minutes after a restart or fresh installation."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Komodo",
@@ -1816,7 +1960,8 @@
     ],
     "notes": [
       "After the initial installation: Enter your desired admin user and password and then click on Sign Up"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Kubo",
@@ -1827,7 +1972,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "LazyLibrarian",
@@ -1838,7 +1984,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Lidarr",
@@ -1849,7 +1996,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Linkwarden",
@@ -1860,7 +2008,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "listmonk",
@@ -1871,7 +2020,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "lldap",
@@ -1882,7 +2032,8 @@
     "categories": [
       6
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "LubeLogger",
@@ -1893,7 +2044,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Container LXC Deletion",
@@ -1906,7 +2058,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Mafl",
@@ -1919,7 +2072,8 @@
     ],
     "notes": [
       "Configuration Path: `/opt/mafl/data/config.yml`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "MagicMirror Server",
@@ -1932,7 +2086,8 @@
     ],
     "notes": [
       "Configuration Path: `/opt/magicmirror/config/config.js`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Mariadb",
@@ -1945,7 +2100,8 @@
     ],
     "notes": [
       "This script requires some extra steps after the installation, Please checkout the 'documentation'"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Matterbridge",
@@ -1959,7 +2115,8 @@
     "notes": [
       "If the LXC is created Privileged, the script will automatically set up USB passthrough.",
       "Updatable via the Matterbridge WebUI"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Mattermost",
@@ -1972,7 +2129,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "MediaMTX",
@@ -1983,7 +2141,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Medusa",
@@ -1994,7 +2153,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Meilisearch",
@@ -2008,7 +2168,8 @@
     "notes": [
       "Meilisearch-UI can optionally be installed for a web-based search interface",
       "Meilisearch-UI has early development status and can cause performance issues"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Memos",
@@ -2019,7 +2180,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "MeshCentral",
@@ -2030,7 +2192,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "MeTube",
@@ -2041,7 +2204,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE Processor Microcode",
@@ -2055,7 +2219,8 @@
     "notes": [
       "Execute within the Proxmox shell",
       "After a reboot, you can check whether any microcode updates are currently in effect by running the following command. `journalctl -k | grep -E \"microcode\" | head -n 1`"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Mikrotik RouterOS CHR",
@@ -2067,7 +2232,8 @@
       2,
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "vm"
   },
   {
     "name": "MinIO",
@@ -2080,7 +2246,8 @@
     ],
     "notes": [
       "Application credentials: `cat ~/minio.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "MongoDB",
@@ -2091,7 +2258,8 @@
     "categories": [
       8
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Monica",
@@ -2102,7 +2270,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE Monitor-All",
@@ -2122,7 +2291,8 @@
       "To add excluded instances: `nano /etc/systemd/system/ping-instances.service`",
       "After changes have been saved, `systemctl daemon-reload` and start the service: `systemctl start ping-instances`",
       "Monitor-All logs: `cat /var/log/ping-instances.log`"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "MotionEye NVR",
@@ -2133,7 +2303,8 @@
     "categories": [
       15
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "MQTT",
@@ -2146,7 +2317,8 @@
     ],
     "notes": [
       "You can find post-install info here: `https://github.com/community-scripts/ProxmoxVE/discussions/782`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Mylar3",
@@ -2157,7 +2329,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "MySpeed",
@@ -2168,7 +2341,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "MySQL",
@@ -2182,7 +2356,8 @@
     "notes": [
       "Database credentials: `cat mysql.creds`",
       "With an option to install the MySQL 8.4 LTS release instead of MySQL 8.0"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "n8n",
@@ -2193,7 +2368,8 @@
     "categories": [
       16
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Navidrome",
@@ -2206,7 +2382,8 @@
     ],
     "notes": [
       "To change Navidrome music folder path, `nano /etc/navidrome/navidrome.toml`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Neo4j",
@@ -2217,7 +2394,8 @@
     "categories": [
       8
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "NetBox",
@@ -2230,7 +2408,8 @@
     ],
     "notes": [
       "Show login and database credentials: `cat netbox.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE Netdata",
@@ -2243,7 +2422,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "Nextcloud",
@@ -2256,7 +2436,8 @@
     ],
     "notes": [
       "This VM requires extra installation steps, see install guide at `https://github.com/community-scripts/ProxmoxVE/discussions/144`"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "NextcloudPi",
@@ -2270,7 +2451,8 @@
     "notes": [
       "Only Alpine: To get the username and password, run the script again inside the LXC shell.",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "NextPVR",
@@ -2281,7 +2463,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Nginx Proxy Manager",
@@ -2295,7 +2478,8 @@
     "notes": [
       "Since there are hundreds of Certbot instances, it's necessary to install the specific Certbot of your preference. Running `/app/scripts/install-certbot-plugins` within the nginxproxymanager LXC shell will install many additional plugins.",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "NocoDB",
@@ -2306,7 +2490,8 @@
     "categories": [
       25
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Node-Red",
@@ -2319,7 +2504,8 @@
     ],
     "notes": [
       "To install themes, type `update` in the LXC console. (debian/ubuntu only)"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "NodeBB",
@@ -2333,7 +2519,8 @@
     ],
     "notes": [
       "Only use Ubuntu 24.04!"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Notifiarr",
@@ -2346,7 +2533,8 @@
     ],
     "notes": [
       "Manually edit `/etc/notifiarr/notifiarr.conf`to enter the API key from Notifiarr.com, and create a password for the UI."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "NPMplus",
@@ -2361,7 +2549,8 @@
       "This uses Docker under the hood, as this can not easily be installed bare-metal. ",
       "The initial starting process can be take 1-2min. ",
       "Application credentials: `cat /opt/.npm_pwd`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "ntfy",
@@ -2372,7 +2561,8 @@
     "categories": [
       19
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Nx Witness",
@@ -2383,7 +2573,8 @@
     "categories": [
       15
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "NZBGet",
@@ -2394,7 +2585,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "OAuth2-Proxy",
@@ -2409,7 +2601,8 @@
     "notes": [
       "This application includes a blank configuration file by default due to the wide range of available configuration options. We recommend referring to the official documentation for guidance: `https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview`. With this you can make your config.toml file accordingly to your needs.",
       "After changing the config restart OAuth2-Proxy with: `systemctl restart oauth2-proxy`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "OctoPrint",
@@ -2420,7 +2613,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Odoo",
@@ -2433,7 +2627,8 @@
     ],
     "notes": [
       "Database Credentials: `cat ~/odoo.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "OliveTin",
@@ -2446,7 +2641,8 @@
     ],
     "notes": [
       "Configuration Path: `/etc/OliveTin/config.yaml`"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "Ollama",
@@ -2457,7 +2653,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Omada Controller",
@@ -2468,7 +2665,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Ombi",
@@ -2479,7 +2677,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "OpenMediaVault",
@@ -2492,7 +2691,8 @@
     ],
     "notes": [
       "Running OVM in a LXC container may require a complicated disk setup, consider using a VM instead. More info: `https://github.com/community-scripts/ProxmoxVE/discussions/175`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "OneDev",
@@ -2503,7 +2703,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Opengist",
@@ -2514,7 +2715,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "openHAB",
@@ -2525,7 +2727,8 @@
     "categories": [
       16
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "OpenObserve",
@@ -2538,7 +2741,8 @@
     ],
     "notes": [
       "Show Login Credentials: `cat /opt/openobserve/data/.env`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "OpenProject",
@@ -2549,7 +2753,8 @@
     "categories": [
       25
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Open WebUI",
@@ -2560,7 +2765,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "OpenWrt",
@@ -2572,7 +2778,8 @@
       4,
       2
     ],
-    "notes": []
+    "notes": [],
+    "type": "vm"
   },
   {
     "name": "openziti-controller",
@@ -2585,7 +2792,8 @@
     ],
     "notes": [
       "The Openziti Controller installation will prompt for configuration settings during installation."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "openziti-tunnel",
@@ -2599,7 +2807,8 @@
     "notes": [
       "The Openziti tunnel is installed in host mode; please see documentation for more information",
       "Openziti tunnel prompts for identity enrollment token during installation"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "OPNsense",
@@ -2613,7 +2822,8 @@
     ],
     "notes": [
       "It will fail with default settings if there is no vmbr0 and vmbr1 on your node. Use advanced settings in this case."
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Outline",
@@ -2627,7 +2837,8 @@
     "notes": [
       "After installation finishes, application will do a database migration so web UI might be unavailable for a minute or two. Also you need to manually add authentication and/or enable HTTPS.",
       "Configuration file is at: `/opt/outline/.env`. Modify to suit your environment."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Overseerr",
@@ -2638,7 +2849,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Owncast",
@@ -2649,7 +2861,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "ownCloud",
@@ -2662,7 +2875,8 @@
     ],
     "notes": [
       "This VM requires extra installation steps, see install guide at `https://github.com/community-scripts/ProxmoxVE/discussions/144`"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "PairDrop",
@@ -2673,7 +2887,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "PaperlessAI",
@@ -2684,7 +2899,8 @@
     "categories": [
       20
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Paperless-GPT",
@@ -2697,7 +2913,8 @@
     ],
     "notes": [
       "Configuration File: `/opt/paperless-gpt-data/.env`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Paperless-ngx",
@@ -2711,7 +2928,8 @@
     "notes": [
       "Show Login Credentials, type `update` in the LXC console",
       "Script installs English as default OCR language. To install additional languages, use `apt-get install tesseract-ocr-[lang]`, where [lang] is the language code (e.g. `apt-get install tesseract-ocr-deu`)."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Part-DB",
@@ -2724,7 +2942,8 @@
     ],
     "notes": [
       "Show login and database credentials: `cat partdb.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Paymenter",
@@ -2737,7 +2956,8 @@
     ],
     "notes": [
       "After installation, navigate to the directory with `cd /opt/paymenter` and run `php artisan app:init`. An interactive setup will prompt you to enter your company name and application URL."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox Backup Server Processor Microcode",
@@ -2751,7 +2971,8 @@
     "notes": [
       "Execute within the Proxmox Backup Server shell on a bare metal system. The script will exit if it detects that it is running in a virtualized environment.",
       "After a reboot, you can check whether any microcode updates are currently in effect by running the following command: `journalctl -k | grep -E \"microcode\" | head -n 1`"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "PeaNUT",
@@ -2762,7 +2983,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Pelican Panel",
@@ -2776,7 +2998,8 @@
     "notes": [
       "Database credentials: `cat ~/pelican-panel.creds`",
       "Step 5 of the Panel installer can be skipped because it has already been set up by the script."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Pelican Wings",
@@ -2789,7 +3012,8 @@
     ],
     "notes": [
       "After installation, you need to use the Auto Deploy command generated by Pelican Panel and, after running the command, restart the Wings service with `systemctl restart wings.service`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Petio",
@@ -2800,7 +3024,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Pf2eTools",
@@ -2811,7 +3036,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "PhotoPrism",
@@ -2824,7 +3050,8 @@
     ],
     "notes": [
       "Please note that Ubuntu 22.04 and Debian 12 are supported, while older Linux distributions may not be compatible."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "phpIPAM",
@@ -2835,7 +3062,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Pi.Alert",
@@ -2848,7 +3076,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Pi-Hole",
@@ -2864,7 +3093,8 @@
       "With an option to add Unbound",
       "With an option to configure Unbound as a forwarding DNS server (using DNS-over-TLS (DoT)) as opposed to a recursive DNS server",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "PiMox HAOS",
@@ -2877,7 +3107,8 @@
     ],
     "notes": [
       "After the script completes, click on the VM, then on the Summary or Console tab to find the VM IP."
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Pingvin Share",
@@ -2890,7 +3121,8 @@
     ],
     "notes": [
       "Run `DATA_DIRECTORY=path-to-your-data-directory pm2 restart all --update-env` to update path to your data directory or to update environment variables."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Plant-it",
@@ -2904,7 +3136,8 @@
     "notes": [
       "This Script use Adoptium JDK 21 - Sometimes the installation of these takes a while",
       "After the initial start, the backend requires approx. 1-2 minutes boot time"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Plex Media Server",
@@ -2918,7 +3151,8 @@
     "notes": [
       "With Privileged/Unprivileged Hardware Acceleration Support",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Pocketbase",
@@ -2929,7 +3163,8 @@
     "categories": [
       8
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Pocket ID",
@@ -2942,7 +3177,8 @@
     ],
     "notes": [
       "Pocket ID requires https to work."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Podman Home Assistant Container",
@@ -2958,7 +3194,8 @@
       "config path: `/var/lib/containers/storage/volumes/hass_config/_data`",
       "Options to Install Portainer or Portainer Agent",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Podman",
@@ -2971,7 +3208,8 @@
     ],
     "notes": [
       "Options to Install Portainer or Portainer Agent"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox Backup Server Post Install",
@@ -2986,7 +3224,8 @@
       "Proxmox Backup Server ONLY",
       "Execute within the Proxmox Backup Server Shell",
       "It is recommended to answer \u201cyes\u201d (y) to all options presented during the process."
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Proxmox Mail Gateway Post Install",
@@ -3001,7 +3240,8 @@
       "Proxmox Mail Gateway ONLY",
       "Execute within the Proxmox Mail Gateway Shell",
       "It is recommended to answer \u201cyes\u201d (y) to all options presented during the process."
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Proxmox VE Post Install",
@@ -3015,7 +3255,8 @@
     "notes": [
       "Execute within the Proxmox shell",
       "It is recommended to answer \u201cyes\u201d (y) to all options presented during the process."
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "PostgreSQL",
@@ -3028,7 +3269,8 @@
     ],
     "notes": [
       "Set a password after installation for postgres user by running `echo \"ALTER USER postgres with encrypted password 'your_password';\" | sudo -u postgres psql`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "PrivateBin",
@@ -3039,7 +3281,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "ProjectSend",
@@ -3052,7 +3295,8 @@
     ],
     "notes": [
       "After running the update script, logging in as a system user in ProjectSend is necessary to upgrade the database."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Prometheus Alertmanager",
@@ -3063,7 +3307,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Prometheus Paperless NGX Exporter",
@@ -3077,7 +3322,8 @@
     "notes": [
       "Please adjust the Paperless URL in the systemd unit file: /etc/systemd/system/prometheus-paperless-ngx-exporter.service",
       "Please adjust the Paperless authentication token in the configuration file: /etc/prometheus-paperless-ngx-exporter/paperless_auth_token_file"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Prometheus Proxmox VE Exporter",
@@ -3091,7 +3337,8 @@
     ],
     "notes": [
       "Please adjust the Proxmox credentials in the configuration file!"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Prometheus",
@@ -3102,7 +3349,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Prowlarr",
@@ -3113,7 +3361,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Proxmox Backup Server",
@@ -3126,7 +3375,8 @@
     ],
     "notes": [
       "Set a root password if using autologin. This will be the PBS password. `passwd root`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox Datacenter Manager",
@@ -3140,7 +3390,8 @@
     "notes": [
       "Set a root password if using autologin. This will be the Proxmox-Datacenter-Manager password. `sudo passwd root`",
       "Proxmox Datacenter Manager is in an alpha stage of development. Use it cautiously, as bugs, incomplete features, and potential instabilities are expected."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Proxmox Mail Gateway",
@@ -3153,7 +3404,8 @@
     ],
     "notes": [
       "Set a root password if using autologin. This will be the PMG password. `passwd root`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "PS5-MQTT",
@@ -3166,7 +3418,8 @@
     ],
     "notes": [
       "After installation, the MQTT endpoint must be configured. The configuration file is located within the LXC container at: `/opt/.config/ps5-mqtt/config.json`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Pterodactyl Panel",
@@ -3179,7 +3432,8 @@
     ],
     "notes": [
       "Show login and database credentials: `cat ~/pterodactyl-panel.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Pterodactyl Wings",
@@ -3192,7 +3446,8 @@
     ],
     "notes": [
       "After installation, you need to use the Auto Deploy command generated by Pterodactyl Panel and, after running the command, restart the Wings service with `systemctl restart wings.service`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Pulse",
@@ -3206,7 +3461,8 @@
     "notes": [
       "Create Proxmox-API-Token first: `https://github.com/rcourtman/Pulse?tab=readme-ov-file#creating-a-proxmox-api-token`",
       "After installation, access the web interface to configure your Proxmox connection details through the built-in setup wizard"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "PVE Privilege Converter",
@@ -3221,7 +3477,8 @@
       "Execute this script inside the Proxmox shell as root.",
       "Ensure that the backup and target storage have enough space.",
       "The container will be recreated with a new ID and desired privilege setting."
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "qBittorrent",
@@ -3232,7 +3489,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "RabbitMQ",
@@ -3243,7 +3501,8 @@
     "categories": [
       18
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Radarr",
@@ -3254,7 +3513,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Radicale",
@@ -3268,7 +3528,8 @@
     "notes": [
       "To view the user credentials : `cat radicale.creds`",
       "This application requires additional configuration. Please refer to https://github.com/community-scripts/ProxmoxVE/discussions/2073."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Rclone",
@@ -3282,7 +3543,8 @@
     "notes": [
       "`cat ~/rclone.creds` to view login credentials",
       "`htpasswd -b -B /opt/login.pwd newuser newuserpassword` to add more users."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Real-Debrid Torrent Client",
@@ -3293,7 +3555,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Reactive Resume",
@@ -3304,7 +3567,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Readarr",
@@ -3315,7 +3579,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Readeck",
@@ -3326,7 +3591,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Recyclarr",
@@ -3337,7 +3603,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Redis ",
@@ -3350,7 +3617,8 @@
     ],
     "notes": [
       "Redis Configuration: `nano /etc/redis/redis.conf` or in Alpine: `nano /etc/redis.conf`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "RevealJS",
@@ -3363,7 +3631,8 @@
     ],
     "notes": [
       "LiveReload is on port: 35729"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Runtipi",
@@ -3376,7 +3645,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "RustDesk Server",
@@ -3390,7 +3660,8 @@
     "notes": [
       "Check our configuration guide for help: `https://github.com/community-scripts/ProxmoxVE/discussions/2388`",
       "Login credentials: `cat ~/rustdesk.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "SABnzbd",
@@ -3401,7 +3672,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE CPU Scaling Governor",
@@ -3414,7 +3686,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "SearXNG",
@@ -3425,7 +3698,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "seelf",
@@ -3438,7 +3712,8 @@
     ],
     "notes": [
       "Initial admin email and password: `cat ~/seelf.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Semaphore",
@@ -3452,7 +3727,8 @@
     "notes": [
       "This instance uses BoltDB",
       "Admin password: `cat ~/semaphore.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "SFTPGo",
@@ -3463,7 +3739,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Shinobi NVR",
@@ -3474,7 +3751,8 @@
     "categories": [
       15
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Silverbullet",
@@ -3485,7 +3763,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "slskd",
@@ -3499,7 +3778,8 @@
     "notes": [
       "See /opt/slskd/config/slskd.yml to add your Soulseek credentials",
       "This LXC includes Soularr; it needs to be configured (/opt/soularr/config.ini) before it will work"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "SmokePing",
@@ -3510,7 +3790,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "SnipeIT",
@@ -3523,7 +3804,8 @@
     ],
     "notes": [
       "Post Install: `https://github.com/community-scripts/ProxmoxVE/discussions/671`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Sonarr",
@@ -3534,7 +3816,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Spoolman",
@@ -3545,7 +3828,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "SQL Server 2022",
@@ -3560,7 +3844,8 @@
       "If you choose not to run the installation setup, execute: `/opt/mssql/bin/mssql-conf setup` in LXC shell.",
       "You can setup the admin account 'SA' during installation",
       "Make sure you disable the SA account if you intend to use this in production!"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Stirling-PDF",
@@ -3571,7 +3856,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Streamlink WebUI",
@@ -3584,7 +3870,8 @@
     ],
     "notes": [
       "This app requires a Twitch cliend_ID and client_secret, set it in the config file. Look in the application documentation on how to obtain it."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Syncthing",
@@ -3595,7 +3882,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Tandoor Recipes",
@@ -3606,7 +3894,8 @@
     "categories": [
       24
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "TasmoAdmin",
@@ -3617,7 +3906,8 @@
     "categories": [
       16
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "TasmoCompiler",
@@ -3628,7 +3918,8 @@
     "categories": [
       16
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Tautulli",
@@ -3639,7 +3930,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Tdarr",
@@ -3652,7 +3944,8 @@
     ],
     "notes": [
       "With Privileged/Unprivileged Hardware Acceleration Support"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Technitium DNS",
@@ -3665,7 +3958,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "TeddyCloud",
@@ -3678,7 +3972,8 @@
     ],
     "notes": [
       "First start of the service can take some time due to certificate generation."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "The Lounge",
@@ -3691,7 +3986,8 @@
     ],
     "notes": [
       "The Lounge is running in private mode. Use `runuser -u thelounge -- thelounge add usernamehere` to create users."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Threadfin",
@@ -3702,7 +3998,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Tianji",
@@ -3713,7 +4010,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Traccar",
@@ -3724,7 +4022,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Traefik",
@@ -3735,7 +4034,8 @@
     "categories": [
       21
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Transmission",
@@ -3749,7 +4049,8 @@
     "notes": [
       "Script disables whitelisting by default. Change config to suit your needs.",
       "Alpine script sets initial disk size to 1GB. Please adjust for your needs after installation ends."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "TriliumNext",
@@ -3760,7 +4061,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "TurnKey",
@@ -3774,7 +4076,8 @@
     "notes": [
       "The script creates a `*.creds` file in the Proxmox root directory with the password of the newly created TurnKey LXC Appliance.",
       "Retrieve Password: `cat turnkey-name.creds`"
-    ]
+    ],
+    "type": "turnkey"
   },
   {
     "name": "TypeSense",
@@ -3787,7 +4090,8 @@
     ],
     "notes": [
       "This script requires some extra steps after the installation, Please checkout the 'documentation' Button"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Ubuntu",
@@ -3798,7 +4102,8 @@
     "categories": [
       2
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Ubuntu 22.04",
@@ -3811,7 +4116,8 @@
     ],
     "notes": [
       "after installation, checkout: \u00b4https://github.com/community-scripts/ProxmoxVE/discussions/272\u00b4"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Ubuntu 24.04",
@@ -3824,7 +4130,8 @@
     ],
     "notes": [
       "after installation, checkout: \u00b4https://github.com/community-scripts/ProxmoxVE/discussions/272\u00b4"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Ubuntu 24.10",
@@ -3837,7 +4144,8 @@
     ],
     "notes": [
       "after installation, checkout: \u00b4https://github.com/community-scripts/ProxmoxVE/discussions/272\u00b4"
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "Umami",
@@ -3850,7 +4158,8 @@
     ],
     "notes": [
       "To view the database credentials : `cat umami.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Umbrel OS",
@@ -3863,7 +4172,8 @@
     ],
     "notes": [
       "This VM use as base a Debian 12 OS with a custom kernel and some additional packages to run Umbrel OS. It is not a standard Debian VM, but it is optimized for Umbrel OS."
-    ]
+    ],
+    "type": "vm"
   },
   {
     "name": "UmlautAdaptarr",
@@ -3874,7 +4184,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Unbound",
@@ -3887,7 +4198,8 @@
     ],
     "notes": [
       "Unbound Configuration Path: `/etc/unbound/unbound.conf.d/unbound.conf`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "UniFi Network Server",
@@ -3900,7 +4212,8 @@
     ],
     "notes": [
       "For non-AVX CPUs, MongoDB 4.4 is installed. Please note this is a legacy solution that may present security risks and could become unsupported in future updates."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Unmanic",
@@ -3911,7 +4224,8 @@
     "categories": [
       0
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Proxmox VE LXC Updater",
@@ -3924,7 +4238,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Proxmox Update Repositories",
@@ -3937,7 +4252,8 @@
     ],
     "notes": [
       "Execute within the Proxmox shell"
-    ]
+    ],
+    "type": "pve"
   },
   {
     "name": "Uptime Kuma",
@@ -3948,7 +4264,8 @@
     "categories": [
       9
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "UrBackup Server",
@@ -3961,7 +4278,8 @@
     ],
     "notes": [
       "You probably want to drastically extend the storage space to fit whatever clients you want to back up"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Vaultwarden",
@@ -3975,7 +4293,8 @@
     "notes": [
       "Application uses self-signed certificate for HTTPS to work and is enabled by default. If you need a different setup, please read the documentation.",
       "To set the Admin Token, run the command below (or type update) in the LXC Console."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "VictoriaMetrics",
@@ -3986,7 +4305,8 @@
     "categories": [
       8
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Vikunja",
@@ -3997,7 +4317,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Wallos",
@@ -4008,7 +4329,8 @@
     "categories": [
       23
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Wastebin",
@@ -4019,7 +4341,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Watcharr",
@@ -4030,7 +4353,8 @@
     "categories": [
       13
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "WatchYourLAN",
@@ -4041,7 +4365,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Wavelog",
@@ -4054,7 +4379,8 @@
     ],
     "notes": [
       "Database credentials: `cat wavelog.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Wazuh",
@@ -4068,7 +4394,8 @@
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing.",
       "Show password: `cat ~/wazuh.creds`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Web-Check",
@@ -4079,7 +4406,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Webmin System Administration",
@@ -4092,7 +4420,8 @@
     ],
     "notes": [
       "Execute within an existing LXC Console"
-    ]
+    ],
+    "type": "addon"
   },
   {
     "name": "wger",
@@ -4105,7 +4434,8 @@
     ],
     "notes": [
       "Enable proxy support by uncommenting this line in `/home/wger/src/settings.py` and pointing it to your URL: `# CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'https://my.domain.example.com']`, then restart the service `systemctl restart wger`."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Whisparr",
@@ -4116,7 +4446,8 @@
     "categories": [
       14
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Wiki.js",
@@ -4127,7 +4458,8 @@
     "categories": [
       12
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "WireGuard",
@@ -4140,7 +4472,8 @@
     ],
     "notes": [
       "Wireguard and WGDashboard are not the same. More info: `https://donaldzou.github.io/WGDashboard-Documentation/what-is-wireguard-what-is-wgdashboard.html`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Wordpress",
@@ -4151,7 +4484,8 @@
     "categories": [
       21
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "yt-dlp-webui",
@@ -4166,7 +4500,8 @@
       "Show password: `cat ~/yt-dlp-webui.creds`",
       "The config file is located in `/opt/yt-dlp-webui/config.conf`",
       "Make sure to either mount an external path or increase the Disk space afterwards"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "YunoHost",
@@ -4179,7 +4514,8 @@
     ],
     "notes": [
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Zabbix",
@@ -4193,7 +4529,8 @@
     "notes": [
       "Database credentials: `cat zabbix.creds`",
       "Zabbix agent 2 is used by default"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Zammad",
@@ -4204,7 +4541,8 @@
     "categories": [
       25
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Zerotier-One",
@@ -4215,7 +4553,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Zigbee2MQTT",
@@ -4228,7 +4567,8 @@
     ],
     "notes": [
       "You can find the post-install guide here: `https://github.com/community-scripts/ProxmoxVE/discussions/410`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Zipline",
@@ -4239,7 +4579,8 @@
     "categories": [
       11
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Zitadel",
@@ -4253,7 +4594,8 @@
     "notes": [
       "Application credentials: `cat ~/zitadel.creds`",
       "Change the ExternalDomain value in `/opt/zitadel/config.yaml` to your domain/hostname/IP and run `bash zitadel-rerun.sh`"
-    ]
+    ],
+    "type": "ct"
   },
   {
     "name": "Zoraxy",
@@ -4264,7 +4606,8 @@
     "categories": [
       4
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Z-Wave JS UI",
@@ -4275,6 +4618,7 @@
     "categories": [
       17
     ],
-    "notes": []
+    "notes": [],
+    "type": "ct"
   }
 ]
