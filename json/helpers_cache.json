@@ -4378,7 +4378,7 @@
       24
     ],
     "notes": [
-      "Database credentials: `cat wavelog.creds`"
+      "Database credentials: `cat ~/wavelog.creds`"
     ],
     "type": "ct"
   },
