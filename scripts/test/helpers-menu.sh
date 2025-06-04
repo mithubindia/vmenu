@@ -31,7 +31,6 @@ fi
 
 load_language
 initialize_cache
-#show_proxmenux_logo
 # ==========================================================
 
 HELPERS_JSON_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/refs/heads/main/json/helpers_cache.json"
