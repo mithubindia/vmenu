@@ -252,9 +252,9 @@ while true; do
     "${MENU_ITEMS[@]}" 3>&1 1>&2 2>&3) || {
      dialog --title "Proxmox VE Helper-Scripts" \
          --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/ProxmoxVE" 15 70
-         
-      break
+
       clear
+      break
   }
 
  
