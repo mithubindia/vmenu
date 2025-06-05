@@ -166,7 +166,11 @@
     "notes": [
       "To Update Alpine: `apk -U upgrade`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": null,
+      "password": "alpine"
+    }
   },
   {
     "name": "Apache-Cassandra",
@@ -204,7 +208,11 @@
       0
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "guacadmin",
+      "password": "guacadmin"
+    }
   },
   {
     "name": "Apache Tika",
@@ -256,7 +264,11 @@
       12
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "archivebox",
+      "password": "helper-scripts.com"
+    }
   },
   {
     "name": "Arch Linux",
@@ -334,7 +346,11 @@
     "notes": [
       "During installation, you will have to input your domain (ex. domain.com). Authelia will use auth.domain.com"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "authelia",
+      "password": "authelia"
+    }
   },
   {
     "name": "Autobrr",
@@ -360,7 +376,11 @@
     "notes": [
       "for private SSL setup visit: `https://github.com/babybuddy/babybuddy/blob/master/docs/setup/ssl.md`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Backrest",
@@ -386,7 +406,11 @@
       0
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "Admin",
+      "password": null
+    }
   },
   {
     "name": "Barcode Buddy",
@@ -464,7 +488,11 @@
     "notes": [
       "Bookstack works only with static ip. If you Change the IP of your LXC, you Need to edit the .env File `nano /opt/bookstack/.env`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@admin.com",
+      "password": "password"
+    }
   },
   {
     "name": "BunkerWeb",
@@ -518,7 +546,11 @@
     "notes": [
       "Add Calibre-Web Extras via `update`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin123"
+    }
   },
   {
     "name": "CasaOS",
@@ -587,7 +619,7 @@
     "notes": [
       "Execute within the Proxmox shell"
     ],
-    "type": "addon"
+    "type": "pve"
   },
   {
     "name": "Proxmox Clean Orphaned LVM",
@@ -672,7 +704,11 @@
       12
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Configarr",
@@ -713,7 +749,11 @@
     "notes": [
       "Show password: `cat ~/crafty-controller.creds`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": null
+    }
   },
   {
     "name": "Proxmox VE Cron LXC Updater",
@@ -726,7 +766,7 @@
     ],
     "notes": [
       "Execute within the Proxmox shell",
-      "To exclude LXCs from updating, edit the crontab using `crontab -e` and add CTID as shown in the example below:\n\n\n\n`0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-lxcs-cron.sh)' -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null`"
+      "To exclude LXCs from updating, edit the crontab using `crontab -e` and add CTID as shown in the example below:\n\n\n\n`0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-lxcs-cron.sh)\" -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null`"
     ],
     "type": "pve"
   },
@@ -859,7 +899,11 @@
       11
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": null,
+      "password": "deluge"
+    }
   },
   {
     "name": "Docker",
@@ -875,7 +919,11 @@
       "After the script completes, click on the VM, then on the Summary or Console tab to find the VM IP.",
       "This Script works on amd64 and arm64 Architecture."
     ],
-    "type": "vm"
+    "type": "vm",
+    "default_credentials": {
+      "username": "root",
+      "password": "docker"
+    }
   },
   {
     "name": "Docker",
@@ -930,7 +978,11 @@
       12
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "helper-scripts@local.com",
+      "password": "helper-scripts"
+    }
   },
   {
     "name": "Dolibarr",
@@ -1015,7 +1067,11 @@
     "notes": [
       "Setup-Steps: Access Control \u27a1 Authentication \u27a1 Create \u27a1 Next \u27a1 Next \u27a1 Create \u27a1 Users \u27a1 Add \u27a1 Username / Password (to authenicate with MQTT) \u27a1 Save. You're now ready to enjoy a high-performance MQTT Broker."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "public"
+    }
   },
   {
     "name": "ErsatzTV",
@@ -1106,7 +1162,11 @@
     "notes": [
       "Execute within an existing LXC Console"
     ],
-    "type": "addon"
+    "type": "addon",
+    "default_credentials": {
+      "username": "admin",
+      "password": "helper-scripts.com"
+    }
   },
   {
     "name": "FileFlows",
@@ -1287,6 +1347,18 @@
     "type": "ct"
   },
   {
+    "name": "Gitea-Mirror",
+    "slug": "gitea-mirror",
+    "desc": "Gitea Mirror auto-syncs GitHub repos to your self-hosted Gitea, with a sleek Web UI and easy Docker deployment. ",
+    "script": "ct/gitea-mirror.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/gitea-mirror.sh",
+    "categories": [
+      7
+    ],
+    "notes": [],
+    "type": "ct"
+  },
+  {
     "name": "Gitea",
     "slug": "gitea",
     "desc": "Gitea is a self-hosted Git service. It provides a lightweight and easy-to-install solution for managing Git repositories. Users can collaborate on code, track issues, and manage project tasks. Gitea includes features like pull requests, code reviews, wiki, and project management tools. It is suitable for small to medium-sized teams seeking control over their Git hosting.",
@@ -1335,7 +1407,11 @@
       25
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "glpi",
+      "password": "glpi"
+    }
   },
   {
     "name": "go2rtc",
@@ -1373,7 +1449,11 @@
     "notes": [
       "For additional configuration options check the documentation."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@example.com",
+      "password": "admin"
+    }
   },
   {
     "name": "Gotify",
@@ -1385,7 +1465,11 @@
       19
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Grafana",
@@ -1397,7 +1481,11 @@
       9
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Graylog",
@@ -1436,7 +1524,11 @@
       24
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Habitica",
@@ -1592,7 +1684,11 @@
       16
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Homepage",
@@ -1717,7 +1813,11 @@
     "notes": [
       "Please read the documentation for your configuration needs."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "`cat /etc/inventree/admin_password.txt`"
+    }
   },
   {
     "name": "ioBroker",
@@ -1906,7 +2006,11 @@
       25
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@helper-scripts.com",
+      "password": "helper-scripts.com"
+    }
   },
   {
     "name": "Koillection",
@@ -2033,7 +2137,11 @@
       6
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "password"
+    }
   },
   {
     "name": "LubeLogger",
@@ -2233,7 +2341,11 @@
       4
     ],
     "notes": [],
-    "type": "vm"
+    "type": "vm",
+    "default_credentials": {
+      "username": "admin",
+      "password": "none"
+    }
   },
   {
     "name": "MinIO",
@@ -2247,7 +2359,11 @@
     "notes": [
       "Application credentials: `cat ~/minio.creds`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "minioadmin",
+      "password": null
+    }
   },
   {
     "name": "MongoDB",
@@ -2271,7 +2387,11 @@
       24
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@helper-scripts.com",
+      "password": "helper-scripts.com"
+    }
   },
   {
     "name": "Proxmox VE Monitor-All",
@@ -2304,7 +2424,11 @@
       15
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "none"
+    }
   },
   {
     "name": "MQTT",
@@ -2395,7 +2519,11 @@
       8
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "neo4j",
+      "password": "neo4j"
+    }
   },
   {
     "name": "NetBox",
@@ -2437,7 +2565,11 @@
     "notes": [
       "This VM requires extra installation steps, see install guide at `https://github.com/community-scripts/ProxmoxVE/discussions/144`"
     ],
-    "type": "vm"
+    "type": "vm",
+    "default_credentials": {
+      "username": "admin",
+      "password": null
+    }
   },
   {
     "name": "NextcloudPi",
@@ -2464,7 +2596,11 @@
       13
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "password"
+    }
   },
   {
     "name": "Nginx Proxy Manager",
@@ -2479,7 +2615,11 @@
       "Since there are hundreds of Certbot instances, it's necessary to install the specific Certbot of your preference. Running `/app/scripts/install-certbot-plugins` within the nginxproxymanager LXC shell will install many additional plugins.",
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@example.com",
+      "password": "changeme"
+    }
   },
   {
     "name": "NocoDB",
@@ -2520,7 +2660,11 @@
     "notes": [
       "Only use Ubuntu 24.04!"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "helper-scripts",
+      "password": "helper-scripts"
+    }
   },
   {
     "name": "Notifiarr",
@@ -2550,7 +2694,11 @@
       "The initial starting process can be take 1-2min. ",
       "Application credentials: `cat /opt/.npm_pwd`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "root",
+      "password": null
+    }
   },
   {
     "name": "ntfy",
@@ -2586,7 +2734,11 @@
       11
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "nzbget",
+      "password": "tegbzn6789"
+    }
   },
   {
     "name": "OAuth2-Proxy",
@@ -2628,7 +2780,11 @@
     "notes": [
       "Database Credentials: `cat ~/odoo.creds`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "OliveTin",
@@ -2692,7 +2848,11 @@
     "notes": [
       "Running OVM in a LXC container may require a complicated disk setup, consider using a VM instead. More info: `https://github.com/community-scripts/ProxmoxVE/discussions/175`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "openmediavault"
+    }
   },
   {
     "name": "OneDev",
@@ -2754,7 +2914,11 @@
       25
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Open WebUI",
@@ -2823,7 +2987,11 @@
     "notes": [
       "It will fail with default settings if there is no vmbr0 and vmbr1 on your node. Use advanced settings in this case."
     ],
-    "type": "vm"
+    "type": "vm",
+    "default_credentials": {
+      "username": "root",
+      "password": "opnsense"
+    }
   },
   {
     "name": "Outline",
@@ -2862,7 +3030,11 @@
       13
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "abc123"
+    }
   },
   {
     "name": "ownCloud",
@@ -2876,7 +3048,11 @@
     "notes": [
       "This VM requires extra installation steps, see install guide at `https://github.com/community-scripts/ProxmoxVE/discussions/144`"
     ],
-    "type": "vm"
+    "type": "vm",
+    "default_credentials": {
+      "username": "admin",
+      "password": null
+    }
   },
   {
     "name": "PairDrop",
@@ -2957,7 +3133,11 @@
     "notes": [
       "After installation, navigate to the directory with `cd /opt/paymenter` and run `php artisan app:init`. An interactive setup will prompt you to enter your company name and application URL."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@paymenter.org",
+      "password": "paymenter"
+    }
   },
   {
     "name": "Proxmox Backup Server Processor Microcode",
@@ -3051,7 +3231,11 @@
     "notes": [
       "Please note that Ubuntu 22.04 and Debian 12 are supported, while older Linux distributions may not be compatible."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "changeme"
+    }
   },
   {
     "name": "phpIPAM",
@@ -3063,7 +3247,11 @@
       4
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "Admin",
+      "password": "ipamadmin"
+    }
   },
   {
     "name": "Pi.Alert",
@@ -3376,7 +3564,11 @@
     "notes": [
       "Set a root password if using autologin. This will be the PBS password. `passwd root`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "root",
+      "password": null
+    }
   },
   {
     "name": "Proxmox Datacenter Manager",
@@ -3405,7 +3597,11 @@
     "notes": [
       "Set a root password if using autologin. This will be the PMG password. `passwd root`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "root",
+      "password": null
+    }
   },
   {
     "name": "PS5-MQTT",
@@ -3490,7 +3686,11 @@
       11
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "changeme"
+    }
   },
   {
     "name": "RabbitMQ",
@@ -3728,7 +3928,11 @@
       "This instance uses BoltDB",
       "Admin password: `cat ~/semaphore.creds`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": null
+    }
   },
   {
     "name": "SFTPGo",
@@ -3752,7 +3956,11 @@
       15
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin@shinobi.video",
+      "password": "admin"
+    }
   },
   {
     "name": "Silverbullet",
@@ -3779,7 +3987,11 @@
       "See /opt/slskd/config/slskd.yml to add your Soulseek credentials",
       "This LXC includes Soularr; it needs to be configured (/opt/soularr/config.ini) before it will work"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "slskd",
+      "password": "slskd"
+    }
   },
   {
     "name": "SmokePing",
@@ -3871,7 +4083,11 @@
     "notes": [
       "This app requires a Twitch cliend_ID and client_secret, set it in the config file. Look in the application documentation on how to obtain it."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "null",
+      "password": "null"
+    }
   },
   {
     "name": "Syncthing",
@@ -4011,7 +4227,11 @@
       9
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Traccar",
@@ -4159,7 +4379,11 @@
     "notes": [
       "To view the database credentials : `cat umami.creds`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "umami"
+    }
   },
   {
     "name": "Umbrel OS",
@@ -4173,7 +4397,11 @@
     "notes": [
       "This VM use as base a Debian 12 OS with a custom kernel and some additional packages to run Umbrel OS. It is not a standard Debian VM, but it is optimized for Umbrel OS."
     ],
-    "type": "vm"
+    "type": "vm",
+    "default_credentials": {
+      "username": "umbrel",
+      "password": "umbrel"
+    }
   },
   {
     "name": "UmlautAdaptarr",
@@ -4395,7 +4623,11 @@
       "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing.",
       "Show password: `cat ~/wazuh.creds`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "root",
+      "password": null
+    }
   },
   {
     "name": "Web-Check",
@@ -4421,7 +4653,11 @@
     "notes": [
       "Execute within an existing LXC Console"
     ],
-    "type": "addon"
+    "type": "addon",
+    "default_credentials": {
+      "username": "root",
+      "password": "root"
+    }
   },
   {
     "name": "wger",
@@ -4435,7 +4671,11 @@
     "notes": [
       "Enable proxy support by uncommenting this line in `/home/wger/src/settings.py` and pointing it to your URL: `# CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'https://my.domain.example.com']`, then restart the service `systemctl restart wger`."
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "adminadmin"
+    }
   },
   {
     "name": "Whisparr",
@@ -4473,7 +4713,11 @@
     "notes": [
       "Wireguard and WGDashboard are not the same. More info: `https://donaldzou.github.io/WGDashboard-Documentation/what-is-wireguard-what-is-wgdashboard.html`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin"
+    }
   },
   {
     "name": "Wordpress",
@@ -4501,7 +4745,11 @@
       "The config file is located in `/opt/yt-dlp-webui/config.conf`",
       "Make sure to either mount an external path or increase the Disk space afterwards"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": null
+    }
   },
   {
     "name": "YunoHost",
@@ -4530,7 +4778,11 @@
       "Database credentials: `cat zabbix.creds`",
       "Zabbix agent 2 is used by default"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "Admin",
+      "password": "zabbix"
+    }
   },
   {
     "name": "Zammad",
@@ -4554,7 +4806,11 @@
       4
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "password"
+    }
   },
   {
     "name": "Zigbee2MQTT",
@@ -4580,7 +4836,11 @@
       11
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "administrator",
+      "password": "password"
+    }
   },
   {
     "name": "Zitadel",
@@ -4595,7 +4855,11 @@
       "Application credentials: `cat ~/zitadel.creds`",
       "Change the ExternalDomain value in `/opt/zitadel/config.yaml` to your domain/hostname/IP and run `bash zitadel-rerun.sh`"
     ],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "zitadel-admin@zitadel.localhost",
+      "password": "Password1!"
+    }
   },
   {
     "name": "Zoraxy",

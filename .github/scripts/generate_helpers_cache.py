@@ -40,8 +40,17 @@ for item in data:
     notes = [note.get("text", "") for note in raw.get("notes", []) if isinstance(note, dict)]
     full_script_url = f"{SCRIPT_BASE}/{script}"
 
-    # Append the script metadata to the cache
-    cache.append({
+
+    credentials = raw.get("default_credentials", {})
+    cred_username = credentials.get("username")
+    cred_password = credentials.get("password")
+ 
+    add_credentials = (
+        (cred_username is not None and str(cred_username).strip() != "") or
+        (cred_password is not None and str(cred_password).strip() != "")
+    )
+
+    entry = {
         "name": name,
         "slug": slug,
         "desc": desc,
@@ -50,7 +59,15 @@ for item in data:
         "categories": categories,
         "notes": notes,
         "type": type_
-    })
+    }
+    if add_credentials:
+        entry["default_credentials"] = {
+            "username": cred_username,
+            "password": cred_password
+        }
+
+    cache.append(entry)
+
 
 # Write the JSON cache to disk
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
