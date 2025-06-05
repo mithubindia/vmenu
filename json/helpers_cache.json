@@ -619,7 +619,7 @@
     "notes": [
       "Execute within the Proxmox shell"
     ],
-    "type": "addon"
+    "type": "pve"
   },
   {
     "name": "Proxmox Clean Orphaned LVM",
@@ -766,7 +766,7 @@
     ],
     "notes": [
       "Execute within the Proxmox shell",
-      "To exclude LXCs from updating, edit the crontab using `crontab -e` and add CTID as shown in the example below:\n\n\n\n`0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-lxcs-cron.sh)' -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null`"
+      "To exclude LXCs from updating, edit the crontab using `crontab -e` and add CTID as shown in the example below:\n\n\n\n`0 0 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-lxcs-cron.sh)\" -s 103 111 >>/var/log/update-lxcs-cron.log 2>/dev/null`"
     ],
     "type": "pve"
   },
@@ -1344,6 +1344,18 @@
     "notes": [
       "To run Ghost-CLI commands, first set a password for the ghost-user by running `sudo passwd ghost-user`. Then, switch to the ghost-user with `sudo -su ghost-user`."
     ],
+    "type": "ct"
+  },
+  {
+    "name": "Gitea-Mirror",
+    "slug": "gitea-mirror",
+    "desc": "Gitea Mirror auto-syncs GitHub repos to your self-hosted Gitea, with a sleek Web UI and easy Docker deployment. ",
+    "script": "ct/gitea-mirror.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/gitea-mirror.sh",
+    "categories": [
+      7
+    ],
+    "notes": [],
     "type": "ct"
   },
   {
