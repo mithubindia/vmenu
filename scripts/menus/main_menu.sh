@@ -43,7 +43,7 @@ show_menu() {
             3 "$(translate "Hardware: GPUs and Coral-TPU")" \
             4 "$(translate "Create VM from template or script")" \
             5 "$(translate "Disk and Storage Manager")" \
-            6 "$(translate "Essential Proxmox VE Helper-Scripts")" \
+            6 "$(translate "Proxmox VE Helper-Scripts")" \
             7 "$(translate "Network")" \
             8 "$(translate "Settings")" \
             9 "$(translate "Exit")" 2>"$TEMP_FILE"
