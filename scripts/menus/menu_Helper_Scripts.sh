@@ -293,7 +293,7 @@ while true; do
      dialog --title "Proxmox VE Helper-Scripts" \
          --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/ProxmoxVE" 15 70
       clear
-      break
+      return
   }
  
   if [[ "$SELECTED" == "search" ]]; then
