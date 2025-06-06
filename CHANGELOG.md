@@ -17,18 +17,6 @@
   The CPU selection menu in VM creation has been greatly expanded to support advanced QEMU and x86-64 CPU profiles.  
   This allows better compatibility with modern guest systems and fine-tuning performance for specific workloads, including nested virtualization and hardware-assisted features.
 
-  ```
-  (*) host           Host (recommended)
-  ( ) kvm64          Generic KVM64
-  ( ) kvm32          Generic KVM32
-  ( ) qemu64         QEMU 64-bit CPU
-  ( ) qemu32         QEMU 32-bit CPU
-  ( ) max            Expose all QEMU CPU features
-  ( ) x86-64-v2      Nehalem-class (x86-64-v2)
-  ( ) x86-64-v2-AES  Same as v2 but with AES
-  ( ) x86-64-v3      Haswell-class (x86-64-v3)
-  ( ) x86-64-v4      Skylake-class (x86-64-v4)
-  ```
 
   ![CPU Config](https://macrimi.github.io/ProxMenux/vm/config-cpu.png)
 
