@@ -3,7 +3,7 @@
 ### Added
 
 - **New Menu: Proxmox PVE Helper Scripts**  
-  Officially introduced the new **Proxmox PVE Helper Scripts** menu, replacing the previous “Esenciales Proxmox”.  
+  Officially introduced the new **Proxmox PVE Helper Scripts** menu, replacing the previous: Esenciales Proxmox.  
   This new menu includes:
   - Script search by name in real time
   - Category-based browsing
