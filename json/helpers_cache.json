@@ -2316,18 +2316,6 @@
     "type": "ct"
   },
   {
-    "name": "MeTube",
-    "slug": "metube",
-    "desc": "MeTube allows you to download videos from YouTube and dozens of other sites.",
-    "script": "ct/metube.sh",
-    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/metube.sh",
-    "categories": [
-      11
-    ],
-    "notes": [],
-    "type": "ct"
-  },
-  {
     "name": "Proxmox VE Processor Microcode",
     "slug": "microcode",
     "desc": "Processor Microcode is a layer of low-level software that runs on the processor and provides patches or updates to its firmware. Microcode updates can fix hardware bugs, improve performance, and enhance security features of the processor.\r\n\r\nIt's important to note that the availability of firmware update mechanisms, such as Intel's Management Engine (ME) or AMD's Platform Security Processor (PSP), may vary depending on the processor and its specific implementation. Therefore, it's recommended to consult the documentation for your processor to confirm whether firmware updates can be applied through the operating system.",
@@ -4881,6 +4869,18 @@
     "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/zoraxy.sh",
     "categories": [
       4
+    ],
+    "notes": [],
+    "type": "ct"
+  },
+  {
+    "name": "Zot Registry",
+    "slug": "zot",
+    "desc": "Zot is a cloud-native OCI image registry focused on extensibility, maintainability, and performance. It supports advanced features such as Web UI, security scanning, authentication via htpasswd and OIDC, and more.",
+    "script": "ct/zot-registry.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/zot-registry.sh",
+    "categories": [
+      13
     ],
     "notes": [],
     "type": "ct"
