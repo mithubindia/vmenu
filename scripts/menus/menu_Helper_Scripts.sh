@@ -293,7 +293,7 @@ while true; do
      dialog --clear --title "Proxmox VE Helper-Scripts" \
          --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/ProxmoxVE" 15 70
       clear
-      REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+      exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
   }
  
   if [[ "$SELECTED" == "search" ]]; then
