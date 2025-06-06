@@ -2170,6 +2170,18 @@
     "type": "pve"
   },
   {
+    "name": "Lyrion Music Server",
+    "slug": "lyrionmusicserver",
+    "desc": "Lyrion Music Server is an open-source server software to stream local music collections, internet radio, and music services to Squeezebox and compatible audio players.",
+    "script": "ct/lyrionmusicserver.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/lyrionmusicserver.sh",
+    "categories": [
+      9
+    ],
+    "notes": [],
+    "type": "ct"
+  },
+  {
     "name": "Mafl",
     "slug": "mafl",
     "desc": "Mafl is an intuitive service for organizing your homepage. Customize Mafl to your individual needs and work even more efficiently!",
