@@ -290,10 +290,10 @@ while true; do
   SELECTED=$(dialog --backtitle "ProxMenux" --title "Proxmox VE Helper-Scripts" --menu \
     "Select a category or search for scripts:" 20 70 14 \
     "${MENU_ITEMS[@]}" 3>&1 1>&2 2>&3) || {
-     dialog --title "Proxmox VE Helper-Scripts" \
+     dialog --clear --title "Proxmox VE Helper-Scripts" \
          --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/ProxmoxVE" 15 70
       clear
-      return
+      REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
   }
  
   if [[ "$SELECTED" == "search" ]]; then
