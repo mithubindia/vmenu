@@ -1,3 +1,72 @@
+## 2025-06-06
+
+### Added
+
+- **New Menu: Proxmox PVE Helper Scripts**  
+  Officially introduced the new **Proxmox PVE Helper Scripts** menu, replacing the previous “Esenciales Proxmox”.  
+  This new menu includes:
+  - Script search by name in real time
+  - Category-based browsing
+
+  It’s a cleaner, faster, and more functional way to access community scripts in Proxmox.
+
+  ![Helper Scripts Menu](https://macrimi.github.io/ProxMenux/menu-helpers-script.png)
+
+
+- **New CPU Models in VM Creation**  
+  The CPU selection menu in VM creation has been greatly expanded to support advanced QEMU and x86-64 CPU profiles.  
+  This allows better compatibility with modern guest systems and fine-tuning performance for specific workloads, including nested virtualization and hardware-assisted features.
+
+  ```
+  (*) host           Host (recommended)
+  ( ) kvm64          Generic KVM64
+  ( ) kvm32          Generic KVM32
+  ( ) qemu64         QEMU 64-bit CPU
+  ( ) qemu32         QEMU 32-bit CPU
+  ( ) max            Expose all QEMU CPU features
+  ( ) x86-64-v2      Nehalem-class (x86-64-v2)
+  ( ) x86-64-v2-AES  Same as v2 but with AES
+  ( ) x86-64-v3      Haswell-class (x86-64-v3)
+  ( ) x86-64-v4      Skylake-class (x86-64-v4)
+  ```
+
+  ![CPU Config](https://macrimi.github.io/ProxMenux/vm/config-cpu.png)
+
+  Thanks to **@Nida Légé (Nidouille)** for suggesting this enhancement.
+
+
+- **Support for `.raw` Disk Images**  
+  The disk import tool for VMs now supports `.raw` files, in addition to `.img`, `.qcow2`, and `.vmdk`.  
+  This improves compatibility when working with disk exports from other hypervisors or backup tools.
+
+  💡 Suggested by **@guilloking** in [GitHub Issue #5](https://github.com/MacRimi/ProxMenux/issues/5)
+
+
+- **Locale Detection in Language Skipping**  
+  The function that disables extra APT languages now includes:
+  - Automatic locale detection (`LANG`)
+  - Auto-generation of `en_US.UTF-8` if none is found
+  - Prevents warnings during script execution due to undefined locale
+
+
+### Improved
+
+- **APT Language Skipping Logic**  
+  Improved locale handling ensures system compatibility before disabling translations:
+  ```bash
+  if ! locale -a | grep -qi "^${default_locale//-/_}$"; then
+      echo "$default_locale UTF-8" >> /etc/locale.gen
+      locale-gen "$default_locale"
+  fi
+  ```
+
+- **System Update Speed**  
+  Post-install system upgrades are now faster:  
+  - The upgrade process (`dist-upgrade`) is separated from container template index updates.
+  - Index refresh is now an optional feature selected in the script.
+
+
+
 ## 2025-05-27
 
 ### Fixed
