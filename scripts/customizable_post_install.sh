@@ -735,7 +735,6 @@ packages_list=(
             progress=$((i * 10))
             tput cup $((row + 3)) 9
             printf "[%-50s] %3d%%" "$(printf "#%.0s" $(seq 1 $((progress/2))))" "$progress"
-            sleep 0.2
         done
 
         /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$package" > /dev/null 2>&1

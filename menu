@@ -49,9 +49,11 @@ fi
 
 # Initialize language configuration
 initialize_config() {
-    show_proxmenux_logo
+   
     # Check if config file exists and has language field
     if [ ! -f "$CONFIG_FILE" ] || [ -z "$(jq -r '.language // empty' "$CONFIG_FILE")" ]; then
+        show_proxmenux_logo
+        sleep 2
         LANGUAGE=$(whiptail --title "$(translate "Select Language")" --menu "$(translate "Choose a language for the menu:")" 20 60 12 \
             "en" "$(translate "English (Recommended)")" \
             "es" "$(translate "Spanish")" \
