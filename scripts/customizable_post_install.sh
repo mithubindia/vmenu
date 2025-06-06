@@ -547,7 +547,7 @@ fs.aio-max-nr = 1048576"
 
 
 
-skip_apt_languages() {
+skip_apt_languages_() {
     msg_info2 "$(translate "Configuring APT to skip downloading additional languages")"
 
     local config_file="/etc/apt/apt.conf.d/99-disable-translations"
@@ -564,6 +564,43 @@ skip_apt_languages() {
 
     msg_success "$(translate "APT configured to skip downloading additional languages")"
 }
+
+
+skip_apt_languages() {
+    msg_info2 "$(translate "Configuring APT to skip downloading additional languages")"
+
+ 
+    local default_locale
+    if [ -f /etc/default/locale ]; then
+        default_locale=$(grep '^LANG=' /etc/default/locale | cut -d= -f2)
+    elif [ -f /etc/environment ]; then
+        default_locale=$(grep '^LANG=' /etc/environment | cut -d= -f2)
+    fi
+
+    default_locale="${default_locale:-en_US.UTF-8}"
+
+    if ! locale -a | grep -qi "^${default_locale//-/_}$"; then
+        msg_info "$(translate "Generating missing locale:") $default_locale"
+        echo "$default_locale UTF-8" >> /etc/locale.gen
+        locale-gen "$default_locale"
+        msg_ok "$(translate "Locale generated")"
+    fi
+
+    local config_file="/etc/apt/apt.conf.d/99-disable-translations"
+    local config_content="Acquire::Languages \"none\";"
+
+    msg_info "$(translate "Setting APT language configuration...")"
+
+    if [ -f "$config_file" ] && grep -q "$config_content" "$config_file"; then
+        msg_ok "$(translate "APT language configuration updated")"
+    else
+        echo -e "$config_content\n" > "$config_file"
+        msg_ok "$(translate "APT language configuration updated")"
+    fi
+
+    msg_success "$(translate "APT configured to skip downloading additional languages")"
+}
+
 
 
 
