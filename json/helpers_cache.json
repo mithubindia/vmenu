@@ -2176,7 +2176,7 @@
     "script": "ct/lyrionmusicserver.sh",
     "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/lyrionmusicserver.sh",
     "categories": [
-      9
+      13
     ],
     "notes": [],
     "type": "ct"
