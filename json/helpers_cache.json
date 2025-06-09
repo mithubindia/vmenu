@@ -2348,6 +2348,22 @@
     }
   },
   {
+    "name": "Minarca",
+    "slug": "minarca",
+    "desc": "Minarca is a self-hosted open source data backup software that allows you to manage your computer and server backups for free from a direct online accessible centralized view of your data with easy retrieval.",
+    "script": "ct/minarca.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/minarca.sh",
+    "categories": [
+      7
+    ],
+    "notes": [],
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "admin123"
+    }
+  },
+  {
     "name": "MinIO",
     "slug": "minio",
     "desc": "MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0. It is API compatible with Amazon S3 cloud storage service. Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads.",
