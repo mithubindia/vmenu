@@ -215,6 +215,7 @@ install_coral_in_container() {
 }
 
 select_container
+show_proxmenux_logo
 configure_lxc_hardware
 install_coral_in_container
 
