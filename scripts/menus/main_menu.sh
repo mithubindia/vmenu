@@ -37,7 +37,7 @@ show_menu() {
         dialog --clear \
             --backtitle "ProxMenux" \
             --title "$(translate "Main ProxMenux")" \
-            --menu "$(translate "Select an option:")" 18 70 10 \
+            --menu "$(translate "Select an option:")" 20 70 10 \
             1 "$(translate "Settings post-install Proxmox")" \
             2 "$(translate "Help and Info Commands")" \
             3 "$(translate "Hardware: GPUs and Coral-TPU")" \
