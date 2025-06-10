@@ -165,8 +165,8 @@ install_igpu_in_container() {
 }
 
 
-show_proxmenux_logo
 select_container 
+show_proxmenux_logo
 configure_lxc_for_igpu
 install_igpu_in_container
 
