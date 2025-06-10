@@ -223,12 +223,12 @@
     "it": "Hardware: GPUs e Coral-TPU",
     "pt": "Hardware: GPUs e Coral-TPU"
   },
-  "Essential Proxmox VE Helper-Scripts": {
-    "es": "Esenciales Proxmox VE Helper-Scripts",
-    "fr": "Essentiels Proxmox VE Helper-Scripts",
-    "de": "Essentielle Proxmox VE Helper-Scriptse",
-    "it": "Essenziali Proxmox VE Helper-Scripts",
-    "pt": "Essenciais Proxmox VE Helper-Scripts"
+  "Proxmox VE Helper-Scripts": {
+    "es": "Proxmox VE Helper-Scripts",
+    "fr": "Proxmox VE Helper-Scripts",
+    "de": "Proxmox VE Helper-Scriptse",
+    "it": "Proxmox VE Helper-Scripts",
+    "pt": "Proxmox VE Helper-Scripts"
   },
   "Generating automatic translations...": {
     "es": "Generando traducciones...",
