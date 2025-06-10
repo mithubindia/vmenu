@@ -1952,8 +1952,43 @@ EOF
 
 
 
-
 remove_subscription_banner() {
+    msg_info2 "$(translate "Removing Proxmox subscription nag banner...")"
+
+    local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+    local APT_HOOK="/etc/apt/apt.conf.d/no-nag-script"
+
+
+    if [[ ! -f "$APT_HOOK" ]]; then
+
+        cat <<'EOF' > "$APT_HOOK"
+DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ $? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi"; };
+EOF
+        msg_ok "$(translate "APT hook for nag removal created")"
+    else
+        msg_info "$(translate "APT hook for nag removal already exists")"
+    fi
+
+
+    if [[ -f "$JS_FILE" ]]; then
+        sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' "$JS_FILE"
+        msg_ok "$(translate "Patched proxmoxlib.js (banner should disappear after browser refresh)")"
+    else
+        msg_error "$(translate "proxmoxlib.js not found. Cannot patch subscription banner.")"
+        return 1
+    fi
+
+
+    apt --reinstall install proxmox-widget-toolkit -y > /dev/null 2>&1
+
+    msg_success "$(translate "Subscription nag banner removed. Please clear browser cache.")"
+}
+
+
+
+
+
+remove_subscription_banner_() {
     msg_info2 "$(translate "Checking Proxmox subscription banner and nag status...")"
 
     local proxmox_js="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
