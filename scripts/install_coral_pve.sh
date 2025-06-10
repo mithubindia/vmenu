@@ -68,6 +68,7 @@ verify_and_add_repos() {
 
 # Function to install Coral TPU drivers on the host
 install_coral_host() {
+    show_proxmenux_logo
     verify_and_add_repos
 
     apt-get install -y git devscripts dh-dkms dkms pve-headers-$(uname -r) >/dev/null 2>&1
