@@ -75,7 +75,7 @@ change_language() {
     else
         echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
     fi
-
+    clear
     msg_ok "$(translate "Language changed to") $LANGUAGE"
 
     # Reload the menu
