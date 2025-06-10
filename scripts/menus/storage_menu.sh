@@ -28,11 +28,11 @@ initialize_cache
 while true; do
     OPTION=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "Disk and Storage Manager Menu")" \
                     --menu "\n$(translate "Select an option:")" 20 70 10 \
-                    "1" "$(translate "Add Disk Passthrough to a VM")" \
+                    "1" "$(translate "Add Disk") Passthrough $(translate "to a VM")" \
                     "2" "$(translate "Add Disk") Passthrough $(translate "to a LXC")" \
                     "3" "$(translate "Import Disk Image to a VM")" \
                     "4" "$(translate "Return to Main Menu")" \
-                    2>&1 >/dev/tty) # Redirect dialog output to stderr, and then capture it
+                    2>&1 >/dev/tty) 
 
     case $OPTION in
         1)  
