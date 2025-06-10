@@ -64,6 +64,7 @@ change_language() {
             "pt" "$(translate "Portuguese")" 3>&1 1>&2 2>&3)
 
     if [ -z "$LANGUAGE" ]; then
+        clear
         msg_error "$(translate "No language selected.")"
         return
     fi
