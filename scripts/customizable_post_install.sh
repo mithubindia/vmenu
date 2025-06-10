@@ -1953,16 +1953,18 @@ EOF
 
 
 remove_subscription_banner() {
+
     msg_info2 "$(translate "Removing Proxmox subscription nag banner...")"
 
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+    local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
     local APT_HOOK="/etc/apt/apt.conf.d/no-nag-script"
 
 
     if [[ ! -f "$APT_HOOK" ]]; then
-
+   
         cat <<'EOF' > "$APT_HOOK"
-DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ $? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi"; };
+DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ $? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; rm -f /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz; }; fi"; };
 EOF
         msg_ok "$(translate "APT hook for nag removal created")"
     else
@@ -1972,6 +1974,13 @@ EOF
 
     if [[ -f "$JS_FILE" ]]; then
         sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' "$JS_FILE"
+     
+        if [[ -f "$GZ_FILE" ]]; then
+            rm -f "$GZ_FILE"
+            msg_info "$(translate "Deleted proxmoxlib.js.gz to force browser refresh")"
+        fi
+   
+        touch "$JS_FILE"
         msg_ok "$(translate "Patched proxmoxlib.js (banner should disappear after browser refresh)")"
     else
         msg_error "$(translate "proxmoxlib.js not found. Cannot patch subscription banner.")"
@@ -1981,8 +1990,9 @@ EOF
 
     apt --reinstall install proxmox-widget-toolkit -y > /dev/null 2>&1
 
-    msg_success "$(translate "Subscription nag banner removed. Please clear browser cache.")"
+    msg_success "$(translate "Subscription nag banner removed.")"
 }
+
 
 
 
