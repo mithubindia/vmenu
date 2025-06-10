@@ -67,8 +67,8 @@ function header_info() {
 # MAIN EXECUTION
 # ==========================================================
 
-header_info
-echo -e "\n Loading..."
+#header_info
+#echo -e "\n Loading..."
 #sleep 1
 
 
