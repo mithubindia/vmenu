@@ -2192,6 +2192,18 @@
     "type": "ct"
   },
   {
+    "name": "Manage My Damn Life",
+    "slug": "managemydamnlife",
+    "desc": "Manage My Damn Life (MMDL) is a self-hosted front end for managing your CalDAV tasks and calendars.",
+    "script": "ct/managemydamnlife.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/managemydamnlife.sh",
+    "categories": [
+      0
+    ],
+    "notes": [],
+    "type": "ct"
+  },
+  {
     "name": "Mariadb",
     "slug": "mariadb",
     "desc": "MariaDB is a fork of the popular MySQL database management system that is developed and maintained by the open-source community. It is also commercially supported, offering enterprise-level features and support for organizations that require them. MariaDB aims to maintain high compatibility with MySQL, ensuring a drop-in replacement capability.",
