@@ -22,7 +22,7 @@ load_language
 initialize_cache
 
 
-mount_disk_host_bk() {
+#mount_disk_host_bk() {
 
 
 
@@ -442,8 +442,8 @@ else
 fi
 
 
-}
+#}
 
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    mount_disk_host_bk
-fi
+#if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+#    mount_disk_host_bk
+#fi
