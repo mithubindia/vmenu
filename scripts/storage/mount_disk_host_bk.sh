@@ -390,51 +390,56 @@ if [ "$SKIP_FORMAT" != true ]; then
     fi
 fi
 
-# ------------------- Mount point and permissions (modular, non-blocking) -------------------
+# ------------------- Mount point and permissions -------------------
 
-mount_disk_host_bk_worker() {
-    local DEFAULT_MOUNT="/mnt/backup"
-    local MOUNT_POINT
+MOUNT_POINT=$(dialog --title "$(translate "Mount Point")" \
+    --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/backup):")" \
+    10 60 "$DEFAULT_MOUNT" 2>&1 >/dev/tty)
+if [ -z "$MOUNT_POINT" ]; then
+    dialog --title "$(translate "Error")" --msgbox "$(translate "No mount point was specified.")" 8 40
+    exit 1
+fi
 
+msg_ok "$(translate "Mount point specified:") $MOUNT_POINT"
 
-    MOUNT_POINT=$(dialog --title "$(translate "Mount Point")" \
-        --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/backup):")" \
-        10 60 "$DEFAULT_MOUNT" 2>&1 >/dev/tty)
+mkdir -p "$MOUNT_POINT"
 
-    if [ -z "$MOUNT_POINT" ]; then
-        >&2 echo "$(translate "No mount point was specified.")"
-        return 1
-    fi
+UUID=$(blkid -s UUID -o value "$PARTITION")
+FS_TYPE=$(lsblk -no FSTYPE "$PARTITION" | xargs)
+FSTAB_ENTRY="UUID=$UUID $MOUNT_POINT $FS_TYPE defaults 0 0"
 
-    mkdir -p "$MOUNT_POINT"
+if grep -q "UUID=$UUID" /etc/fstab; then
+    sed -i "s|^.*UUID=$UUID.*|$FSTAB_ENTRY|" /etc/fstab
+    msg_ok "$(translate "fstab entry updated for") $UUID"
+else
+    echo "$FSTAB_ENTRY" >> /etc/fstab
+    msg_ok "$(translate "fstab entry added for") $UUID"
+fi
 
-    UUID=$(blkid -s UUID -o value "$PARTITION")
-    FS_TYPE=$(lsblk -no FSTYPE "$PARTITION" | xargs)
-    FSTAB_ENTRY="UUID=$UUID $MOUNT_POINT $FS_TYPE defaults 0 0"
+mount "$MOUNT_POINT" 2> >(grep -v "systemd still uses")
 
-    if grep -q "UUID=$UUID" /etc/fstab; then
-        sed -i "s|^.*UUID=$UUID.*|$FSTAB_ENTRY|" /etc/fstab
+if [ $? -eq 0 ]; then
+    if ! getent group sharedfiles >/dev/null; then
+        groupadd sharedfiles
+        msg_ok "$(translate "Group 'sharedfiles' created")"
     else
-        echo "$FSTAB_ENTRY" >> /etc/fstab
+        msg_ok "$(translate "Group 'sharedfiles' already exists")"
     fi
 
-    mount "$MOUNT_POINT" 2> >(grep -v "systemd still uses")
-    if [ $? -eq 0 ]; then
-        if ! getent group sharedfiles >/dev/null; then
-            groupadd sharedfiles
-        fi
-        chown root:sharedfiles "$MOUNT_POINT"
-        chmod 2775 "$MOUNT_POINT"
-        echo "$MOUNT_POINT" > /usr/local/share/proxmenux/last_backup_mount.txt
+    chown root:sharedfiles "$MOUNT_POINT"
+    chmod 2775 "$MOUNT_POINT"
 
-        echo "$MOUNT_POINT"
-        return 0
-    else
-        >&2 echo "$(translate "Failed to mount the disk at") $MOUNT_POINT"
-        return 1
-    fi
-}
-
+    dialog --title "$(translate "Success")" --msgbox "$(translate "The disk has been successfully mounted at") $MOUNT_POINT" 8 60
+    echo "$MOUNT_POINT" > /usr/local/share/proxmenux/last_backup_mount.txt
+    msg_ok "$(translate "Disk mounted at") $MOUNT_POINT"
+    msg_success "$(translate "Press Enter to return to menu...")"
+    read -r
+else
+    dialog --title "$(translate "Mount Error")" --msgbox "$(translate "Failed to mount the disk at") $MOUNT_POINT" 8 60
+    msg_success "$(translate "Press Enter to return to menu...")"
+    read -r
+    exit 1
+fi
 
 
 }
