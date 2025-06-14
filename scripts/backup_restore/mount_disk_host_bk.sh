@@ -21,6 +21,11 @@ fi
 load_language
 initialize_cache
 
+
+mount_disk_host_bk() {
+
+
+
 get_disk_info() {
     local disk=$1
     MODEL=$(lsblk -dn -o MODEL "$disk" | xargs)
@@ -434,4 +439,11 @@ else
     msg_success "$(translate "Press Enter to return to menu...")"
     read -r
     exit 1
+fi
+
+
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    mount_disk_host_bk
 fi
