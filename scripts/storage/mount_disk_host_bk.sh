@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # ==========================================================
-# ProxMenu - Mount independent disk on Proxmox host
+# ProxMenu - Mount disk on Proxmox host for backup
 # ==========================================================
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT
-# Version     : 1.3-dialog
-# Last Updated: 13/12/2024
+# Version     : 1.0
+# Last Updated: 15/06/2024
 # ==========================================================
 
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
@@ -155,7 +155,6 @@ is_system_disk() {
     return 1 
 }
 
-msg_info "$(translate "Detecting available disks...")"
 
 USED_DISKS=$(lsblk -n -o PKNAME,TYPE | grep 'lvm' | awk '{print "/dev/" $1}')
 MOUNTED_DISKS=$(lsblk -ln -o NAME,MOUNTPOINT | awk '$2!="" {print "/dev/" $1}')
@@ -285,11 +284,10 @@ done < <(lsblk -dn -e 7,11 -o PATH)
 
 if [ "${#FREE_DISKS[@]}" -eq 0 ]; then
     dialog --title "$(translate "Error")" --msgbox "$(translate "No available disks found on the host.")" 8 60
-    clear
+    
     exit 1
 fi
 
-msg_ok "$(translate "Available disks detected.")"
 
 # Building the array for dialog (format: tag item on/off tag item on/off...)
 DLG_LIST=()
@@ -303,11 +301,10 @@ SELECTED=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "Select D
 
 if [ -z "$SELECTED" ]; then
     dialog --title "$(translate "Error")" --msgbox "$(translate "No disk was selected.")" 8 50
-    clear
+    
     exit 1
 fi
 
-msg_ok "$(translate "Disk selected successfully:") $SELECTED"
 
 # ------------------- Partitions and formatting ------------------------
 
@@ -320,7 +317,7 @@ if [ -n "$PARTITION" ]; then
     CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
     if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
         SKIP_FORMAT=true
-        msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION."
+      
     else
         dialog --title "$(translate "Unsupported Filesystem")" --yesno \
         "$(translate "The partition") $PARTITION $(translate "has an unsupported filesystem ($CURRENT_FS).\nDo you want to format it?")" 10 70
@@ -331,7 +328,7 @@ else
     if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
         SKIP_FORMAT=true
         PARTITION="$SELECTED"
-        msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $SELECTED."
+
     else
         dialog --title "$(translate "No Valid Partitions")" --yesno \
         "$(translate "The disk has no partitions and no valid filesystem. Do you want to create a new partition and format it?")" 10 70
@@ -384,63 +381,52 @@ if [ "$SKIP_FORMAT" != true ]; then
         "$(translate "Failed to format partition") $PARTITION $(translate "with") $FORMAT_TYPE." 12 70
         exit 1
     else
-        msg_ok "$(translate "Partition") $PARTITION $(translate "successfully formatted with") $FORMAT_TYPE."
+  
         partprobe "$SELECTED"
         sleep 2
     fi
 fi
 
-# ------------------- Mount point and permissions -------------------
 
-MOUNT_POINT=$(dialog --title "$(translate "Mount Point")" \
-    --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/backup):")" \
-    10 60 "$DEFAULT_MOUNT" 2>&1 >/dev/tty)
-if [ -z "$MOUNT_POINT" ]; then
-    dialog --title "$(translate "Error")" --msgbox "$(translate "No mount point was specified.")" 8 40
-    exit 1
-fi
+# ------------------- Mount point and permissions (modular, non-blocking) -------------------
 
-msg_ok "$(translate "Mount point specified:") $MOUNT_POINT"
 
-mkdir -p "$MOUNT_POINT"
+    MOUNT_POINT=$(dialog --clear --title "$(translate "Mount Point")" \
+        --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/backup):")" \
+        10 60 "$DEFAULT_MOUNT" 2>&1 >/dev/tty)
 
-UUID=$(blkid -s UUID -o value "$PARTITION")
-FS_TYPE=$(lsblk -no FSTYPE "$PARTITION" | xargs)
-FSTAB_ENTRY="UUID=$UUID $MOUNT_POINT $FS_TYPE defaults 0 0"
-
-if grep -q "UUID=$UUID" /etc/fstab; then
-    sed -i "s|^.*UUID=$UUID.*|$FSTAB_ENTRY|" /etc/fstab
-    msg_ok "$(translate "fstab entry updated for") $UUID"
-else
-    echo "$FSTAB_ENTRY" >> /etc/fstab
-    msg_ok "$(translate "fstab entry added for") $UUID"
-fi
-
-mount "$MOUNT_POINT" 2> >(grep -v "systemd still uses")
-
-if [ $? -eq 0 ]; then
-    if ! getent group sharedfiles >/dev/null; then
-        groupadd sharedfiles
-        msg_ok "$(translate "Group 'sharedfiles' created")"
-    else
-        msg_ok "$(translate "Group 'sharedfiles' already exists")"
+    if [ -z "$MOUNT_POINT" ]; then
+        >&2 echo "$(translate "No mount point was specified.")"
+        return 1
     fi
 
-    chown root:sharedfiles "$MOUNT_POINT"
-    chmod 2775 "$MOUNT_POINT"
+    mkdir -p "$MOUNT_POINT"
 
-    dialog --title "$(translate "Success")" --msgbox "$(translate "The disk has been successfully mounted at") $MOUNT_POINT" 8 60
-    echo "$MOUNT_POINT" > /usr/local/share/proxmenux/last_backup_mount.txt
-    msg_ok "$(translate "Disk mounted at") $MOUNT_POINT"
-    msg_success "$(translate "Press Enter to return to menu...")"
-    read -r
-else
-    dialog --title "$(translate "Mount Error")" --msgbox "$(translate "Failed to mount the disk at") $MOUNT_POINT" 8 60
-    msg_success "$(translate "Press Enter to return to menu...")"
-    read -r
-    exit 1
-fi
+    UUID=$(blkid -s UUID -o value "$PARTITION")
+    FS_TYPE=$(lsblk -no FSTYPE "$PARTITION" | xargs)
+    FSTAB_ENTRY="UUID=$UUID $MOUNT_POINT $FS_TYPE defaults 0 0"
 
+    if grep -q "UUID=$UUID" /etc/fstab; then
+        sed -i "s|^.*UUID=$UUID.*|$FSTAB_ENTRY|" /etc/fstab
+    else
+        echo "$FSTAB_ENTRY" >> /etc/fstab
+    fi
+
+    mount "$MOUNT_POINT" 2> >(grep -v "systemd still uses")
+    if [ $? -eq 0 ]; then
+        if ! getent group sharedfiles >/dev/null; then
+            groupadd sharedfiles
+        fi
+
+        chown root:sharedfiles "$MOUNT_POINT"
+        chmod 2775 "$MOUNT_POINT"
+        echo "$MOUNT_POINT" > /usr/local/share/proxmenux/last_backup_mount.txt
+
+        MOUNT_POINT=$(echo "$MOUNT_POINT" | head -n1 | tr -d '\r\n\t ')
+        echo "$MOUNT_POINT"
+    else
+        >&2 echo "$(translate "Failed to mount the disk at") $MOUNT_POINT"
+        return 1
+    fi
 
 }
-
