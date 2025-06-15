@@ -391,7 +391,7 @@ fi
 # ------------------- Mount point and permissions (modular, non-blocking) -------------------
 
 
-    # Pedir al usuario (puedes añadir translate aquí si quieres)
+
     MOUNT_POINT=$(dialog --clear --title "$(translate "Mount Point")" \
         --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/backup):")" \
         10 60 "$DEFAULT_MOUNT" 2>&1 >/dev/tty)
@@ -422,7 +422,7 @@ fi
         chown root:sharedfiles "$MOUNT_POINT"
         chmod 2775 "$MOUNT_POINT"
         echo "$MOUNT_POINT" > /usr/local/share/proxmenux/last_backup_mount.txt
-        # ¡IMPORTANTE! Devolver SOLO el path si todo ha ido bien
+
         MOUNT_POINT=$(echo "$MOUNT_POINT" | head -n1 | tr -d '\r\n\t ')
         echo "$MOUNT_POINT"
     else
