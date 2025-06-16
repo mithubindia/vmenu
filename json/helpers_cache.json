@@ -28,18 +28,19 @@
   },
   {
     "name": "Proxmox VE LXC IP-Tag",
-    "slug": "add-lxc-iptag",
+    "slug": "add-iptag",
     "desc": "This script automatically adds IP address as tags to LXC containers using a Systemd service. The service also updates the tags if a LXC IP address is changed.",
-    "script": "tools/pve/add-lxc-iptag.sh",
-    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/add-lxc-iptag.sh",
+    "script": "tools/pve/add-iptag.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/add-iptag.sh",
     "categories": [
       1
     ],
     "notes": [
       "Execute within the Proxmox shell",
+      "Configuration: `nano /opt/iptag/iptag.conf`. iptag.service must be restarted after change.",
       "The Proxmox Node must contain ipcalc and net-tools. `apt-get install -y ipcalc net-tools`"
     ],
-    "type": "pve"
+    "type": "addon"
   },
   {
     "name": "NetBird",
@@ -1192,6 +1193,7 @@
       23
     ],
     "notes": [
+      "Data Importer is at `http://<LXC_IP>/dataimporter/`",
       "Database credentials: `cat ~/firefly.creds`"
     ],
     "type": "ct"
