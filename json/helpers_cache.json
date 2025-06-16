@@ -40,7 +40,7 @@
       "Configuration: `nano /opt/iptag/iptag.conf`. iptag.service must be restarted after change.",
       "The Proxmox Node must contain ipcalc and net-tools. `apt-get install -y ipcalc net-tools`"
     ],
-    "type": "addon"
+    "type": "pve"
   },
   {
     "name": "NetBird",
