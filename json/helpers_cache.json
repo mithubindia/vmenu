@@ -27,9 +27,9 @@
     "type": "ct"
   },
   {
-    "name": "Proxmox VE LXC IP-Tag",
+    "name": "Proxmox VE LXC Tag",
     "slug": "add-iptag",
-    "desc": "This script automatically adds IP address as tags to LXC containers using a Systemd service. The service also updates the tags if a LXC IP address is changed.",
+    "desc": "This script automatically adds IP address as tags to LXC containers or VM's using a systemd service. The service also updates the tags if a LXC/VM IP address is changed.",
     "script": "tools/pve/add-iptag.sh",
     "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/add-iptag.sh",
     "categories": [
