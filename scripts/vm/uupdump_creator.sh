@@ -106,9 +106,14 @@ if [[ -z "$ISO_DIR" ]]; then
   exit 1
 fi
 
+
 mkdir -p "$ISO_DIR"
 
-TMP_DIR="/root/uup-temp"
+TMP_DIR=$(dialog --inputbox "Enter temporary folder path (default: /root/uup-temp):" 10 60 "/root/uup-temp" 3>&1 1>&2 2>&3)
+if [[ $? -ne 0 || -z "$TMP_DIR" ]]; then
+  TMP_DIR="/root/uup-temp"
+fi
+
 OUT_DIR="$ISO_DIR"
 CONVERTER="/root/uup-converter"
 
@@ -218,15 +223,15 @@ if [[ -f "$ISO_FILE" ]]; then
 
   msg_success "$(translate "Press Enter to return to menu...")"
   read -r
+
 else
   msg_warn "$(translate "No ISO was generated.")"
-
+  rm -rf "$TMP_DIR" "$CONVERTER"
   export LANGUAGE=C
   export LANG=C
   export LC_ALL=C
   load_language
   initialize_cache
-
   msg_success "$(translate "Press Enter to return to menu...")"
   read -r
   return 1
