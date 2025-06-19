@@ -647,7 +647,7 @@
     ],
     "notes": [
       "To setup the updater you must have the Cloudflare Token and the domains, please read the Github documentation at `https://github.com/favonia/cloudflare-ddns?tab=readme-ov-file#-step-1-updating-the-compose-file` (only the expandable section)",
-      "To update the configuration edit `/etc/systemd/system/cloudflare-ddns.service`. After edit please restard with `systemctl restart cloudflare-ddns`"
+      "To update the configuration edit `/etc/systemd/system/cloudflare-ddns.service`. After edit please restart with `systemctl restart cloudflare-ddns`"
     ],
     "type": "ct"
   },
@@ -3385,6 +3385,20 @@
     "type": "ct"
   },
   {
+    "name": "PLANKA",
+    "slug": "planka",
+    "desc": "Planka is a powerful, project management platform that transforms how teams collaborate. Create projects with multiple boards, organize tasks with intuitive drag-and-drop cards, attach files, write rich markdown descriptions, set due dates, assign team members, and keep conversations flowing with comments and labels\u2014all with seamless real-time updates and smart notifications.",
+    "script": "ct/planka.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/planka.sh",
+    "categories": [
+      12
+    ],
+    "notes": [
+      "Type `cat ~/planka.creds` inside LXC to see admin user and database credentials."
+    ],
+    "type": "ct"
+  },
+  {
     "name": "Plant-it",
     "slug": "plant-it",
     "desc": "Plant-it is a self-hosted, open-source app designed to help users manage and track plant care. It allows users to add plants, log activities like watering, fertilizing, and pruning, set reminders, and upload photos for visual tracking. The app includes a database of over 400,000 plant species, offering detailed care information such as optimal growing conditions and maintenance tips.\n\nUsers can organize their plant collection, monitor growth, and share data with others. The app is free to use and works on Android, iOS, and the web.",
@@ -4790,6 +4804,19 @@
       "username": "admin",
       "password": "admin"
     }
+  },
+  {
+    "name": "Wizarr",
+    "slug": "wizarr",
+    "desc": "Wizarr is an automatic user invitation system for Plex, Jellyfin and Emby. Create a unique link and share it to a user and they will automatically be invited to your media Server",
+    "script": "ct/wizarr.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/wizarr.sh",
+    "categories": [
+      14,
+      13
+    ],
+    "notes": [],
+    "type": "ct"
   },
   {
     "name": "Wordpress",
