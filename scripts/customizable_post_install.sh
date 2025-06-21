@@ -1710,7 +1710,7 @@ configure_ksmtuned() {
 
 
 
-enable_vfio_iommu() {
+enable_vfio_iommu_() {
     msg_info2 "$(translate "Enabling IOMMU and configuring VFIO for PCI passthrough...")"
     NECESSARY_REBOOT=1
 
@@ -1807,6 +1807,91 @@ enable_vfio_iommu() {
 
     msg_success "$(translate "IOMMU and VFIO setup completed")"
 }
+
+
+
+enable_vfio_iommu() {
+    msg_info2 "$(translate "Enabling IOMMU and configuring VFIO for PCI passthrough...")"
+    NECESSARY_REBOOT=1
+
+    # Detect if system uses ZFS/systemd-boot (Proxmox)
+    local uses_zfs=false
+    local cmdline_file="/etc/kernel/cmdline"
+    if [[ -f "$cmdline_file" ]] && grep -qE 'root=ZFS=|root=ZFS/' "$cmdline_file"; then
+        uses_zfs=true
+    fi
+
+    # Enable IOMMU
+    local cpu_info=$(cat /proc/cpuinfo)
+    local grub_file="/etc/default/grub"
+    local iommu_param=""
+    local additional_params="pcie_acs_override=downstream,multifunction nofb nomodeset video=vesafb:off,efifb:off"
+
+    if [[ "$cpu_info" == *"GenuineIntel"* ]]; then
+        msg_info "$(translate "Detected Intel CPU")"
+        iommu_param="intel_iommu=on"
+    elif [[ "$cpu_info" == *"AuthenticAMD"* ]]; then
+        msg_info "$(translate "Detected AMD CPU")"
+        iommu_param="amd_iommu=on"
+    else
+        msg_warning "$(translate "Unknown CPU type. IOMMU might not be properly enabled.")"
+        return 1
+    fi
+
+    if [[ "$uses_zfs" == true ]]; then
+        # --- SYSTEMD-BOOT: /etc/kernel/cmdline ---
+        if grep -q "$iommu_param" "$cmdline_file"; then
+            msg_ok "$(translate "IOMMU already configured in /etc/kernel/cmdline")"
+        else
+            cp "$cmdline_file" "${cmdline_file}.bak"
+            sed -i "s|\"$| $iommu_param iommu=pt|" "$cmdline_file"
+            msg_ok "$(translate "IOMMU parameters added to /etc/kernel/cmdline")"
+        fi
+    else
+        # --- GRUB ---
+        if grep -q "$iommu_param" "$grub_file"; then
+            msg_ok "$(translate "IOMMU already enabled in GRUB configuration")"
+        else
+            cp "$grub_file" "${grub_file}.bak"
+            sed -i "/GRUB_CMDLINE_LINUX_DEFAULT=/ s|\"$| $iommu_param iommu=pt\"|" "$grub_file"
+            msg_ok "$(translate "IOMMU enabled in GRUB configuration")"
+        fi
+    fi
+
+    # Configure VFIO modules (avoid duplicates)
+    local modules_file="/etc/modules"
+    msg_info "$(translate "Checking VFIO modules...")"
+    local vfio_modules=("vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd")
+    for module in "${vfio_modules[@]}"; do
+        grep -q "^$module" "$modules_file" || echo "$module" >> "$modules_file"
+    done
+    msg_ok "$(translate "VFIO modules configured.")"
+
+    # Blacklist conflicting drivers (avoid duplicates)
+    local blacklist_file="/etc/modprobe.d/blacklist.conf"
+    msg_info "$(translate "Checking conflicting drivers blacklist...")"
+    touch "$blacklist_file"
+    local blacklist_drivers=("nouveau" "lbm-nouveau" "amdgpu" "radeon" "nvidia" "nvidiafb")
+    for driver in "${blacklist_drivers[@]}"; do
+        grep -q "^blacklist $driver" "$blacklist_file" || echo "blacklist $driver" >> "$blacklist_file"
+    done
+    if ! grep -q "options nouveau modeset=0" "$blacklist_file"; then
+        echo "options nouveau modeset=0" >> "$blacklist_file"
+    fi
+    msg_ok "$(translate "Conflicting drivers blacklisted successfully.")"
+
+    # Propagate the settings
+    msg_info "$(translate "Updating initramfs, GRUB, and EFI boot, patience...")"
+    update-initramfs -u -k all > /dev/null 2>&1
+    if [[ "$uses_zfs" == true ]]; then
+        pve-efiboot-tool refresh > /dev/null 2>&1
+    else
+        update-grub > /dev/null 2>&1
+    fi
+
+    msg_success "$(translate "IOMMU and VFIO setup completed")"
+}
+
 
 
 
