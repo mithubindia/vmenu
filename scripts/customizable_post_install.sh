@@ -1844,7 +1844,8 @@ enable_vfio_iommu() {
             msg_ok "$(translate "IOMMU already configured in /etc/kernel/cmdline")"
         else
             cp "$cmdline_file" "${cmdline_file}.bak"
-            sed -i "s|\"$| $iommu_param iommu=pt|" "$cmdline_file"
+          # sed -i "s|\"$| $iommu_param iommu=pt|" "$cmdline_file"
+            sed -i "s|\s*$| $iommu_param iommu=pt|" "$cmdline_file"
             msg_ok "$(translate "IOMMU parameters added to /etc/kernel/cmdline")"
         fi
     else
@@ -1884,7 +1885,7 @@ enable_vfio_iommu() {
     msg_info "$(translate "Updating initramfs, GRUB, and EFI boot, patience...")"
     update-initramfs -u -k all > /dev/null 2>&1
     if [[ "$uses_zfs" == true ]]; then
-        pve-efiboot-tool refresh > /dev/null 2>&1
+        proxmox-boot-tool refresh > /dev/null 2>&1
     else
         update-grub > /dev/null 2>&1
     fi
