@@ -2261,7 +2261,8 @@
       8
     ],
     "notes": [
-      "This script requires some extra steps after the installation, Please checkout the 'documentation'"
+      "This script requires some extra steps after the installation, Please checkout the 'documentation'",
+      "Access Adminer Web UI at `http://<CONTAINER_IP>/adminer.php`"
     ],
     "type": "ct"
   },
