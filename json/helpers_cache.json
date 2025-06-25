@@ -68,7 +68,6 @@
       1
     ],
     "notes": [
-      "Only supported on Debian 12 LXCs",
       "After the script finishes, reboot the LXC then run `tailscale up` in the LXC console",
       "Execute within the Proxmox host shell"
     ],
