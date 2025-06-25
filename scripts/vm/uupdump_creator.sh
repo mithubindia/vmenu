@@ -109,16 +109,32 @@ fi
 
 mkdir -p "$ISO_DIR"
 
-TMP_DIR=$(dialog --inputbox "Enter temporary folder path (default: /root/uup-temp):" 10 60 "/root/uup-temp" 3>&1 1>&2 2>&3)
-if [[ $? -ne 0 || -z "$TMP_DIR" ]]; then
-  TMP_DIR="/root/uup-temp"
+
+DEFAULT_TMP="/root/uup-temp"
+USER_INPUT=$(dialog --inputbox "Enter temporary folder path (default: $DEFAULT_TMP):" 10 60 "$DEFAULT_TMP" 3>&1 1>&2 2>&3)
+if [[ $? -ne 0 || -z "$USER_INPUT" ]]; then
+  USER_INPUT="$DEFAULT_TMP"
 fi
 
-OUT_DIR="$ISO_DIR"
-CONVERTER="/root/uup-converter"
+# 
+if [[ "$USER_INPUT" == "$DEFAULT_TMP" ]]; then
+  TMP_DIR="$USER_INPUT"
+  CLEAN_ALL=true
+else
+  TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+  RANDOM_ID=$(head /dev/urandom | tr -dc a-z0-9 | head -c 4)
+  TMP_DIR="${USER_INPUT%/}/uup-session-${TIMESTAMP}-${RANDOM_ID}"
+  CLEAN_ALL=false
+fi
 
-mkdir -p "$TMP_DIR" "$OUT_DIR"
-cd "$TMP_DIR" || exit 1
+mkdir -p "$TMP_DIR" || {
+  msg_error "$(translate "Failed to create temporary directory:") $TMP_DIR"
+  exit 1
+}
+
+OUT_DIR=$(detect_iso_dir)
+[[ -z "$OUT_DIR" ]] && msg_error "$(translate "Could not determine a valid ISO directory.")" && exit 1
+mkdir -p "$OUT_DIR"
 
 
 UUP_URL=$(whiptail --inputbox "$(translate "Paste the UUP Dump URL here")" 10 90 3>&1 1>&2 2>&3)
@@ -212,7 +228,12 @@ if [[ -f "$ISO_FILE" ]]; then
 
 
   msg_ok "$(translate "Cleaning temporary files...")"
+if [[ "$CLEAN_ALL" == true ]]; then
   rm -rf "$TMP_DIR" "$CONVERTER"
+else
+  [[ -d "$TMP_DIR" ]] && rm -rf "$TMP_DIR"
+  [[ -d "$CONVERTER" ]] && rm -rf "$CONVERTER"
+fi
     
   export OS_TYPE="windows"
   export LANGUAGE=C
