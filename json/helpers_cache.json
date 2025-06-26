@@ -725,6 +725,20 @@
     "type": "ct"
   },
   {
+    "name": "ConvertX",
+    "slug": "convertx",
+    "desc": "ConvertX is a self-hosted online file converter supporting over 1000 formats, including images, audio, video, documents, and more, powered by FFmpeg, GraphicsMagick, and other libraries.",
+    "script": "ct/convertx.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/convertx.sh",
+    "categories": [
+      9
+    ],
+    "notes": [
+      "Complete setup via the web interface at http://<container-ip>:3000. Create and secure the admin account immediately."
+    ],
+    "type": "ct"
+  },
+  {
     "name": "Cosmos",
     "slug": "cosmos",
     "desc": "Cosmos Cloud is a self-hosting platform that automates maintenance and security. It offers an app marketplace, reverse proxy management, container control, VPN integration, real-time monitoring, and disk management. Security features include SSO, anti-DDoS, and encryption. It simplifies self-hosting for all users.",
