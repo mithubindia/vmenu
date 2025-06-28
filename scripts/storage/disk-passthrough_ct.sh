@@ -6,8 +6,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
+# Version     : 1.1
+# Last Updated: 28/06/2025
 # ==========================================================
 # Description:
 # This script allows users to assign physical disks to existing
@@ -19,7 +19,6 @@
 # - Configures the selected disks for the CT and verifies the assignment.
 # ==========================================================
 
-
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
@@ -29,11 +28,11 @@ VENV_PATH="/opt/googletrans-env"
 if [[ -f "$UTILS_FILE" ]]; then
     source "$UTILS_FILE"
 fi
+
 load_language
 initialize_cache
+
 # ==========================================================
-
-
 
 get_disk_info() {
     local disk=$1
@@ -42,14 +41,12 @@ get_disk_info() {
     echo "$MODEL" "$SIZE"
 }
 
-
-
 CT_LIST=$(pct list | awk 'NR>1 {print $1, $3}')
+
 if [ -z "$CT_LIST" ]; then
     whiptail --title "$(translate "Error")" --msgbox "$(translate "No CTs available in the system.")" 8 40
     exit 1
 fi
-
 
 CTID=$(whiptail --title "$(translate "Select CT for destination disk")" --menu "$(translate "Select the CT to which you want to add disks:")" 15 60 8 $CT_LIST 3>&1 1>&2 2>&3)
 
@@ -60,32 +57,32 @@ fi
 
 CTID=$(echo "$CTID" | tr -d '"')
 
+clear
+show_proxmenux_logo
+echo -e
+msg_info2 "$(translate "Add Disk") Passthrough $(translate "to a LXC")"
+echo -e
 msg_ok "$(translate "CT selected successfully.")"
 
-
-
-
 CT_STATUS=$(pct status "$CTID" | awk '{print $2}')
+
 if [ "$CT_STATUS" != "running" ]; then
     msg_info "$(translate "Starting CT") $CTID..."
     pct start "$CTID"
     sleep 2
     if [ "$(pct status "$CTID" | awk '{print $2}')" != "running" ]; then
         msg_error "$(translate "Failed to start the CT.")"
+        sleep 2
         exit 1
     fi
     msg_ok "$(translate "CT started successfully.")"
 fi
-
-
-
 
 CONF_FILE="/etc/pve/lxc/$CTID.conf"
 
 if grep -q '^unprivileged: 1' "$CONF_FILE"; then
     if whiptail --title "$(translate "Privileged Container")" \
         --yesno "$(translate "The selected container is unprivileged. A privileged container is required for direct device passthrough.")\\n\\n$(translate "Do you want to convert it to a privileged container now?")" 12 70; then
-
         msg_info "$(translate "Stopping container") $CTID..."
         pct shutdown "$CTID" &>/dev/null
         for i in {1..10}; do
@@ -94,20 +91,15 @@ if grep -q '^unprivileged: 1' "$CONF_FILE"; then
                 break
             fi
         done
-
         if [ "$(pct status "$CTID" | awk '{print $2}')" == "running" ]; then
             msg_error "$(translate "Failed to stop the container.")"
             exit 1
         fi
-
         msg_ok "$(translate "Container stopped.")"
-
         cp "$CONF_FILE" "$CONF_FILE.bak"
         sed -i '/^unprivileged: 1/d' "$CONF_FILE"
         echo "unprivileged: 0" >> "$CONF_FILE"
-
         msg_ok "$(translate "Container successfully converted to privileged.")"
-
         msg_info "$(translate "Starting container") $CTID..."
         pct start "$CTID" &>/dev/null
         sleep 2
@@ -116,7 +108,6 @@ if grep -q '^unprivileged: 1' "$CONF_FILE"; then
             exit 1
         fi
         msg_ok "$(translate "Container started successfully.")"
-
     else
         whiptail --title "$(translate "Aborted")" \
             --msgbox "$(translate "Operation cancelled. Cannot continue with an unprivileged container.")" 10 60
@@ -124,16 +115,7 @@ if grep -q '^unprivileged: 1' "$CONF_FILE"; then
     fi
 fi
 
-
-
-
-
 ##########################################
-
-
-
-
-
 msg_info "$(translate "Detecting available disks...")"
 
 USED_DISKS=$(lsblk -n -o PKNAME,TYPE | grep 'lvm' | awk '{print "/dev/" $1}')
@@ -151,7 +133,6 @@ for entry in $ZFS_RAW; do
     elif [[ "$entry" == /dev/* ]]; then
         path="$entry"
     fi
-
     if [ -n "$path" ]; then
         base_disk=$(lsblk -no PKNAME "$path" 2>/dev/null)
         if [ -n "$base_disk" ]; then
@@ -160,44 +141,36 @@ for entry in $ZFS_RAW; do
     fi
 done
 
-
 ZFS_DISKS=$(echo "$ZFS_DISKS" | sort -u)
 
 is_disk_in_use() {
     local disk="$1"
-
     while read -r part fstype; do
         case "$fstype" in
             zfs_member|linux_raid_member)
                 return 0 ;;
         esac
-
         if echo "$MOUNTED_DISKS" | grep -q "/dev/$part"; then
             return 0
         fi
     done < <(lsblk -ln -o NAME,FSTYPE "$disk" | tail -n +2)
-
     if echo "$USED_DISKS" | grep -q "$disk" || echo "$ZFS_DISKS" | grep -q "$disk"; then
         return 0
     fi
-
     return 1
 }
 
 FREE_DISKS=()
-
 LVM_DEVICES=$(pvs --noheadings -o pv_name 2> >(grep -v 'File descriptor .* leaked') | xargs -n1 readlink -f | sort -u)
 RAID_ACTIVE=$(grep -Po 'md\d+\s*:\s*active\s+raid[0-9]+' /proc/mdstat | awk '{print $1}' | sort -u)
 
 while read -r DISK; do
     [[ "$DISK" =~ /dev/zd ]] && continue
-
     INFO=($(get_disk_info "$DISK"))
     MODEL="${INFO[@]::${#INFO[@]}-1}"
     SIZE="${INFO[-1]}"
     LABEL=""
     SHOW_DISK=true
-
     IS_MOUNTED=false
     IS_RAID=false
     IS_ZFS=false
@@ -217,11 +190,9 @@ while read -r DISK; do
         IS_MOUNTED=true
     fi
 
-
     USED_BY=""
     REAL_PATH=$(readlink -f "$DISK")
     CONFIG_DATA=$(grep -vE '^\s*#' /etc/pve/qemu-server/*.conf /etc/pve/lxc/*.conf 2>/dev/null)
-
     if grep -Fq "$REAL_PATH" <<< "$CONFIG_DATA"; then
         USED_BY="⚠ $(translate "In use")"
     else
@@ -234,8 +205,6 @@ while read -r DISK; do
             fi
         done
     fi
-
-
 
     if $IS_RAID && grep -q "$DISK" <<< "$(cat /proc/mdstat)"; then
         if grep -q "active raid" /proc/mdstat; then
@@ -260,7 +229,6 @@ while read -r DISK; do
         [[ "$IS_RAID" == true ]] && LABEL+=" ⚠ RAID"
         [[ "$IS_LVM" == true ]] && LABEL+=" ⚠ LVM"
         [[ "$IS_ZFS" == true ]] && LABEL+=" ⚠ ZFS"
-
         DESCRIPTION=$(printf "%-30s %10s%s" "$MODEL" "$SIZE" "$LABEL")
         FREE_DISKS+=("$DISK" "$DESCRIPTION" "OFF")
     fi
@@ -275,19 +243,9 @@ fi
 
 msg_ok "$(translate "Available disks detected.")"
 
-
-
-
-
 ######################################################
-
-
-
-
-
 MAX_WIDTH=$(printf "%s\n" "${FREE_DISKS[@]}" | awk '{print length}' | sort -nr | head -n1)
 TOTAL_WIDTH=$((MAX_WIDTH + 20))
-
 if [ $TOTAL_WIDTH -lt 50 ]; then
     TOTAL_WIDTH=50
 fi
@@ -312,11 +270,9 @@ msg_info "$(translate "Processing selected disks...")"
 for DISK in $SELECTED; do
     DISK=$(echo "$DISK" | tr -d '"')
     DISK_INFO=$(get_disk_info "$DISK")
-
     ASSIGNED_TO=""
     RUNNING_CTS=""
     RUNNING_VMS=""
-
 
     while read -r CT_ID CT_NAME; do
         if [[ "$CT_ID" =~ ^[0-9]+$ ]] && pct config "$CT_ID" | grep -q "$DISK"; then
@@ -327,7 +283,6 @@ for DISK in $SELECTED; do
             fi
         fi
     done < <(pct list | awk 'NR>1 {print $1, $3}')
-
 
     while read -r VM_ID VM_NAME; do
         if [[ "$VM_ID" =~ ^[0-9]+$ ]] && qm config "$VM_ID" | grep -q "$DISK"; then
@@ -354,17 +309,11 @@ for DISK in $SELECTED; do
     fi
     
     cleanup
-
-
-
-
     if lsblk "$DISK" | grep -q "raid" || grep -q "${DISK##*/}" /proc/mdstat; then
         whiptail --title "$(translate "RAID Detected")" --msgbox "$(translate "The disk") $DISK_INFO $(translate "appears to be part of a") RAID. $(translate "For security reasons, the system cannot format it.")\\n\\n$(translate "If you are sure you want to use it, please remove the") RAID metadata $(translate "or format it manually using external tools.")\\n\\n$(translate "After that, run this script again to add it.")" 18 70
+        clear
         exit
     fi
-
-
-
 
     MOUNT_POINT=$(whiptail --title "$(translate "Mount Point")" --inputbox "$(translate "Enter the mount point for the disk (e.g., /mnt/disk_passthrough):")" 10 60 "/mnt/disk_passthrough" 3>&1 1>&2 2>&3)
 
@@ -375,18 +324,12 @@ for DISK in $SELECTED; do
 
     msg_ok "$(translate "Mount point specified: $MOUNT_POINT")"
 
-
-
-
-
-
     PARTITION=$(lsblk -rno NAME "$DISK" | awk -v disk="$(basename "$DISK")" '$1 != disk {print $1; exit}')
     SKIP_FORMAT=false
 
     if [ -n "$PARTITION" ]; then
         PARTITION="/dev/$PARTITION"
         CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
-
         if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
             SKIP_FORMAT=true
             msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION."
@@ -397,27 +340,22 @@ for DISK in $SELECTED; do
             fi
         fi
     else
-
         CURRENT_FS=$(lsblk -no FSTYPE "$DISK" | xargs)
-
         if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
             SKIP_FORMAT=true
             PARTITION="$DISK"
             msg_ok "$(translate "Detected filesystem") $CURRENT_FS $(translate "directly on disk") $DISK."
         else
-
             whiptail --title "$(translate "No Valid Partitions")" --yesno "$(translate "The disk has no partitions and no valid filesystem. Do you want to create a new partition and format it?")" 10 70
             if [ $? -ne 0 ]; then
                 continue
             fi
-
             echo -e "$(translate "Creating partition table and partition...")"
             parted -s "$DISK" mklabel gpt
             parted -s "$DISK" mkpart primary 0% 100%
             sleep 2
             partprobe "$DISK"
             sleep 2
-
             PARTITION=$(lsblk -rno NAME "$DISK" | awk -v disk="$(basename "$DISK")" '$1 != disk {print $1; exit}')
             if [ -n "$PARTITION" ]; then
                 PARTITION="/dev/$PARTITION"
@@ -428,17 +366,12 @@ for DISK in $SELECTED; do
         fi
     fi
 
-
-
-
-
     if [ "$SKIP_FORMAT" != true ]; then
         CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
         if [[ "$CURRENT_FS" == "ext4" || "$CURRENT_FS" == "xfs" || "$CURRENT_FS" == "btrfs" ]]; then
             SKIP_FORMAT=true
             msg_ok "$(translate "Detected existing filesystem") $CURRENT_FS $(translate "on") $PARTITION. $(translate "Skipping format.")"
         else
-
             FORMAT_TYPE=$(whiptail --title "$(translate "Select Format Type")" --menu "$(translate "Select the filesystem type for") $DISK_INFO:" 15 60 6 \
                 "ext4" "$(translate "Extended Filesystem 4 (recommended)")" \
                 "xfs" "$(translate "XFS Filesystem")" \
@@ -450,6 +383,7 @@ for DISK in $SELECTED; do
             fi
 
             whiptail --title "$(translate "WARNING")" --yesno "$(translate "WARNING: This operation will FORMAT the disk") $DISK_INFO $(translate "with") $FORMAT_TYPE.\\n\\n$(translate "ALL DATA ON THIS DISK WILL BE PERMANENTLY LOST!")\\n\\n$(translate "Are you sure you want to continue")" 15 70
+
             if [ $? -ne 0 ]; then
                 whiptail --title "$(translate "Format Cancelled")" --msgbox "$(translate "Format operation cancelled. The disk will not be added.")" 8 60
                 continue
@@ -457,13 +391,8 @@ for DISK in $SELECTED; do
         fi
     fi
 
-
-
-
-
     if [ "$SKIP_FORMAT" != true ]; then
         echo -e "$(translate "Formatting partition") $PARTITION $(translate "with") $FORMAT_TYPE..."
-
         case "$FORMAT_TYPE" in
             "ext4") mkfs.ext4 -F "$PARTITION" ;;
             "xfs") mkfs.xfs -f "$PARTITION" ;;
@@ -480,27 +409,54 @@ for DISK in $SELECTED; do
         fi
     fi
 
-
-
-
     INDEX=0
     while pct config "$CTID" | grep -q "mp${INDEX}:"; do
         ((INDEX++))
     done
 
+    # Determine the filesystem type for mount options
+    CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
+    if [[ -n "$CURRENT_FS" ]]; then
+        FORMAT_TYPE="$CURRENT_FS"
+    fi
 
+    # Install filesystem tools in container if needed
+    FS_PKG=""
+    FS_BIN=""
+    if [[ "$FORMAT_TYPE" == "xfs" ]]; then
+        FS_PKG="xfsprogs"
+        FS_BIN="mkfs.xfs"
+    elif [[ "$FORMAT_TYPE" == "btrfs" ]]; then
+        FS_PKG="btrfs-progs"
+        FS_BIN="mkfs.btrfs"
+    fi
 
+    if [[ -n "$FS_PKG" && -n "$FS_BIN" ]]; then
+        if ! pct exec "$CTID" -- sh -c "command -v $FS_BIN >/dev/null 2>&1"; then
+            msg_info "$(translate "Installing required tools for $FORMAT_TYPE in CT $CTID...")"
+            if pct exec "$CTID" -- sh -c "[ -f /etc/alpine-release ]"; then
+                pct exec "$CTID" -- sh -c "apk update >/dev/null && apk add --no-progress $FS_PKG >/dev/null"
+            elif pct exec "$CTID" -- sh -c "[ -f /etc/os-release ] && (grep -qE 'debian|ubuntu' /etc/os-release)"; then
+                pct exec "$CTID" -- sh -c "apt-get update -qq >/dev/null && apt-get install -y -qq $FS_PKG >/dev/null"
+            fi
+            msg_ok "$(translate "Required tools for $FORMAT_TYPE installed in CT $CTID.")"
+        fi
+    fi
 
     ##############################################################################
 
-    RESULT=$(pct set "$CTID" -mp${INDEX} "$PARTITION,mp=$MOUNT_POINT,backup=0,ro=0,acl=1" 2>&1)
+    CURRENT_FS=$(lsblk -no FSTYPE "$PARTITION" | xargs)
+    if [ "$CURRENT_FS" == "xfs" ] || [ "$FORMAT_TYPE" == "xfs" ]; then
 
-    pct exec "$CTID" -- chmod -R 777 "$MOUNT_POINT"
+        RESULT=$(pct set "$CTID" -mp${INDEX} "$PARTITION,mp=$MOUNT_POINT,backup=0,ro=0" 2>&1)
+    else
 
+        RESULT=$(pct set "$CTID" -mp${INDEX} "$PARTITION,mp=$MOUNT_POINT,backup=0,ro=0,acl=1" 2>&1)
+    fi
+
+
+    pct exec "$CTID" -- chmod -R 777 "$MOUNT_POINT" 2>/dev/null || true
     ##############################################################################
-
-
-
 
     if [ $? -eq 0 ]; then
         MESSAGE="$(translate "The disk") $DISK_INFO $(translate "has been successfully added to CT") $CTID $(translate "as a mount point at") $MOUNT_POINT."
@@ -513,9 +469,8 @@ for DISK in $SELECTED; do
     else
         ERROR_MESSAGES+="$(translate "Could not add disk") $DISK_INFO $(translate "to CT") $CTID.\\n$(translate "Error:") $RESULT\\n\\n"
     fi
+
 done
-
-
 
 msg_ok "$(translate "Disk processing completed.")"
 
