@@ -101,8 +101,12 @@ function select_linux_iso() {
 
 function select_linux_iso_official() {
   DISTROS=(
+    "Ubuntu 25.04|Desktop|ProxMenux|https://releases.ubuntu.com/25.04/ubuntu-25.04-desktop-amd64.iso"
+    "Ubuntu 24.04|Desktop|ProxMenux|https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso"
     "Ubuntu 22.04|Desktop|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-desktop-amd64.iso"
     "Ubuntu 20.04|Desktop|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-desktop-amd64.iso"
+    "Ubuntu 25.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/25.04/ubuntu-25.04-live-server-amd64.iso"
+    "Ubuntu 24.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/24.04/ubuntu-24.04.2-live-server-amd64.iso"
     "Ubuntu 22.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso"
     "Ubuntu 20.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
     "Debian 12|Desktop|ProxMenux|https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso"
@@ -164,7 +168,8 @@ function select_linux_cloudinit() {
     "3" "Ubuntu 22.04 (Cloud-Init automated)   │ Helper Scripts"
     "4" "Ubuntu 24.04 (Cloud-Init automated)   │ Helper Scripts"
     "5" "Ubuntu 24.10 (Cloud-Init automated)   │ Helper Scripts"
-    "6" "$(translate "Return to Main Menu")"
+    "6" "Ubuntu 25.04 (Cloud-Init automated)   │ Helper Scripts"
+    "7" "$(translate "Return to Main Menu")"
   )
 
   local script_selection
@@ -191,6 +196,12 @@ function select_linux_cloudinit() {
       bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2410-vm.sh")
       ;;
     6)
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2504-vm.sh")
+      echo -e
+      echo -e "after installation, checkout:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/272"
+      echo -e
+      ;;  
+    7)
       return
       ;;
   esac
@@ -244,7 +255,8 @@ function select_linux_other_scripts() {
   local OTHER_OPTIONS=(
     "1" "Home Assistant OS VM (HAOS)       │ Helper Scripts"
     "2" "Docker VM (Debian + SSH + Docker) │ Helper Scripts"
-    "3" "$(translate "Return to Main Menu")"
+    "3" "Nextcloud                         │ Helper Scripts"
+    "4" "$(translate "Return to Main Menu")"
   )
 
   local choice
@@ -263,8 +275,16 @@ function select_linux_other_scripts() {
       ;;
     2)
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
-      whiptail --title "Docker VM Info" \
-        --msgbox "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")" 12 50
+      echo -e
+      echo -e "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")"
+      echo -e
+      ;;
+    3)
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/nextcloud-vm.sh)"
+      echo -e
+      echo -e "$(translate "You can use the following credentials to login to the Nextcloud vm.\nUsername: admin")"
+      echo -e "$(translate This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/144")"
+      echo -e
       ;;
   esac
 

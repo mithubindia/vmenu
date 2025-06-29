@@ -46,7 +46,8 @@ function select_nas_iso() {
     "4" "OpenMediaVault VM          (Debian based)"
     "5" "Rockstor       VM          (openSUSE based)"
     "6" "ZimaOS         VM          (R0GGER proxmox-zimaos)"
-    "7" "$(translate "Return to Main Menu")"
+    "7" "Umbrel OS      VM          (Helper Scripts)"
+    "8" "$(translate "Return to Main Menu")"
   )
 
   local NAS_TYPE
@@ -99,6 +100,7 @@ function select_nas_iso() {
         return 1
       fi
       bash -c "$(wget -qLO - https://raw.githubusercontent.com/R0GGER/proxmox-zimaos/refs/heads/main/zimaos_zimacube.sh)"
+      echo -e
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r
       
@@ -107,8 +109,25 @@ function select_nas_iso() {
 
       return 1
       ;;
-
     7)
+      HN="Umbrel OS"
+      if ! confirm_vm_creation; then
+        return 1
+      fi
+      bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/umbrel-os-vm.sh)"
+      echo -e
+      echo -e "$(translate "Default Login Credentials:\n\nUsername: umbrel\nPassword: umbrel")"
+      echo -e
+      msg_success "$(translate "Press Enter to return to menu...")"
+      read -r
+      
+      whiptail --title "Proxmox VE - Umbrel OS" \
+        --msgbox "$(translate "Umbrel OS installer script by Helper Scripts\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE/scripts?id=umbrel-os-vm")" 15 70
+
+      return 1
+      ;;
+
+    8)
       return 1
       ;;
   esac
