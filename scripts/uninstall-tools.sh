@@ -6,19 +6,19 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 02/05/2025
+# Version     : 1.1
+# Last Updated: 19/06/2025
 # ==========================================================
 # Description:
 # This script provides a dynamic menu for uninstalling optional tools 
 # installed through ProxMenux on Proxmox Virtual Environment (VE). 
 # ==========================================================
 
-# Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 RETURN_SCRIPT="$REPO_URL/scripts/menus/menu_post_install.sh"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
+TOOLS_JSON="$BASE_DIR/installed_tools.json"
 VENV_PATH="/opt/googletrans-env"
 
 if [[ -f "$UTILS_FILE" ]]; then
@@ -26,7 +26,59 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 load_language
 initialize_cache
-# ==========================================================
+
+
+ensure_tools_json() {
+  [ -f "$TOOLS_JSON" ] || echo "{}" > "$TOOLS_JSON"
+}
+
+register_tool() {
+  local tool="$1"
+  local state="$2"  
+  ensure_tools_json
+  jq --arg t "$tool" --argjson v "$state" '.[$t]=$v' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
+}
+
+
+
+migrate_installed_tools() {
+    local TOOLS_JSON="/usr/local/share/proxmenux/installed_tools.json"
+
+    if [[ -f "$TOOLS_JSON" ]]; then
+        return
+    fi
+
+    echo "{}" > "$TOOLS_JSON"
+    local updated=false
+
+    # --- Fastfetch ---
+    if command -v fastfetch >/dev/null 2>&1 || [[ -x /usr/local/bin/fastfetch ]] || [[ -x /usr/bin/fastfetch ]]; then
+        jq '. + {"fastfetch": true}' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
+        updated=true
+    fi
+
+    # --- Figurine ---
+    if command -v figurine >/dev/null 2>&1 || [[ -x /usr/local/bin/figurine ]]; then
+        jq '. + {"figurine": true}' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
+        updated=true
+    fi
+
+    # --- Kexec ---
+    if dpkg -s kexec-tools >/dev/null 2>&1 && systemctl list-unit-files | grep -q kexec-pve.service; then
+        jq '. + {"kexec": true}' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
+        updated=true
+    fi
+
+    if [[ "$updated" == true ]]; then
+        echo "Previous settings detected and migrated to $TOOLS_JSON"
+    else
+        echo "No previous settings detected; nothing to migrate."
+    fi
+}
+
+
+
+################################################################
 
 uninstall_fastfetch() {
     if ! command -v fastfetch &>/dev/null; then
@@ -35,7 +87,6 @@ uninstall_fastfetch() {
     fi
 
     msg_info2 "$(translate "Uninstalling Fastfetch...")"
-
     rm -f /usr/local/bin/fastfetch /usr/bin/fastfetch
     rm -rf "$HOME/.config/fastfetch"
     rm -rf /usr/local/share/fastfetch
@@ -44,13 +95,10 @@ uninstall_fastfetch() {
     dpkg -r fastfetch &>/dev/null
 
     msg_ok "$(translate "Fastfetch removed from system")"
-    msg_success "$(translate "You can reinstall it anytime from the post-installation script")"
-    msg_success "$(translate "Press Enter to return...")"
-    read -r
+    register_tool "fastfetch" false
 }
 
-
-# ==========================================================
+################################################################
 
 uninstall_figurine() {
     if ! command -v figurine &>/dev/null; then
@@ -59,70 +107,81 @@ uninstall_figurine() {
     fi
 
     msg_info2 "$(translate "Uninstalling Figurine...")"
-
     rm -f /usr/local/bin/figurine
     rm -f /etc/profile.d/figurine.sh
     sed -i '/figurine/d' "$HOME/.bashrc" "$HOME/.profile" 2>/dev/null
 
     msg_ok "$(translate "Figurine removed from system")"
-    msg_success "$(translate "You can reinstall it anytime from the post-installation script")"
-    msg_success "$(translate "Press ENTER to continue...")"
-    read -r
+    register_tool "figurine" false
 }
 
-# ==========================================================
+################################################################
+
+uninstall_kexec() {
+    if ! dpkg -s kexec-tools >/dev/null 2>&1 && [ ! -f /etc/systemd/system/kexec-pve.service ]; then
+        msg_warn "$(translate "kexec-tools is not installed or already removed.")"
+        return 0
+    fi
+
+    msg_info2 "$(translate "Uninstalling kexec-tools and removing custom service...")"
+    systemctl disable --now kexec-pve.service &>/dev/null
+    rm -f /etc/systemd/system/kexec-pve.service
+    sed -i "/alias reboot-quick='systemctl kexec'/d" /root/.bash_profile
+    apt-get purge -y kexec-tools >/dev/null 2>&1
+
+    msg_ok "$(translate "kexec-tools and related settings removed")"
+    register_tool "kexec" false
+}
+
+################################################################
 
 show_uninstall_menu() {
-    local options=()
-    local index=1
-    declare -A uninstall_map
-
-    if command -v fastfetch >/dev/null 2>&1; then
-        options+=("$index" "$(translate "Uninstall") Fastfetch")
-        uninstall_map[$index]="uninstall_fastfetch"
-        index=$((index + 1))
+    ensure_tools_json
+    mapfile -t tools_installed < <(jq -r 'to_entries | map(select(.value==true)) | .[].key' "$TOOLS_JSON")
+    if [[ ${#tools_installed[@]} -eq 0 ]]; then
+        dialog --backtitle "ProxMenux" --title "ProxMenux" --msgbox "\n\n$(translate "No uninstallable tools detected.")" 10 60
+        return 0
     fi
 
-    if command -v figurine >/dev/null 2>&1; then
-        options+=("$index" "$(translate "Uninstall") Figurine")
-        uninstall_map[$index]="uninstall_figurine"
-        index=$((index + 1))
+    local menu_options=()
+    for tool in "${tools_installed[@]}"; do
+        case "$tool" in
+            fastfetch) desc="Fastfetch";;
+            figurine)  desc="Figurine";;
+            kexec)     desc="Kexec quick reboot";;
+            *)         desc="$tool";;
+        esac
+        menu_options+=("$tool" "$desc" "off")
+    done
+
+    selected_tools=$(dialog --backtitle "ProxMenux" \
+        --title "$(translate "Uninstall Tools")" \
+        --checklist "$(translate "Select tools post-install to uninstall:")" 20 60 12 \
+        "${menu_options[@]}" 3>&1 1>&2 2>&3)
+    local dialog_result=$?
+
+    if [[ $dialog_result -ne 0 || -z "$selected_tools" ]]; then
+        return 0
+
     fi
 
+    for tool in $selected_tools; do
+        tool=$(echo "$tool" | tr -d '"')
+        if declare -f "uninstall_$tool" > /dev/null 2>&1; then
+           clear
+           show_proxmenux_logo 
+           "uninstall_$tool"
+        else
+            msg_warn "$(translate "No uninstaller found for:") $tool"
+        fi
+    done
 
-    if [ ${#options[@]} -eq 0 ]; then
-        whiptail --title "ProxMenux" --msgbox "$(translate "No uninstallable tools detected.")" 10 60
-        return_to_menu
-    fi
+  msg_success "$(translate "All related files and settings have been removed. Reboot required.")"
+  msg_success "$(translate "Press Enter to return to menu...")"
+  read -r
 
-    local choice
-    choice=$(whiptail --title "$(translate "Uninstall Tools")" \
-                      --menu "$(translate "Select a tool to uninstall:")" 15 60 6 \
-                      "${options[@]}" 3>&1 1>&2 2>&3)
-
-    [ -z "$choice" ] && return_to_menu
-
-    local func="${uninstall_map[$choice]}"
-    if [[ -n "$func" ]]; then
-        "$func"
-    fi
-
-    return_to_menu
 }
+################################################################
 
-return_to_menu() {
-    # Descargar temporalmente el script
-    TEMP_SCRIPT=$(mktemp)
-    if curl --fail -s -o "$TEMP_SCRIPT" "$RETURN_SCRIPT"; then
-        bash "$TEMP_SCRIPT"
-        rm -f "$TEMP_SCRIPT"
-    else
-        msg_error "$(translate "Error: Could not return to menu. URL returned 404.")"
-        msg_info2 "$(translate "Please check the menu URL in the script.")"
-        read -r
-        exit 1
-    fi
-}
-
-
+migrate_installed_tools
 show_uninstall_menu
