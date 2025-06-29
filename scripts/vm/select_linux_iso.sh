@@ -252,49 +252,50 @@ function select_linux_custom_iso() {
 
 
 function select_linux_other_scripts() {
-  local OTHER_OPTIONS=(
-    "1" "Home Assistant OS VM (HAOS)       │ Helper Scripts"
-    "2" "Docker VM (Debian + SSH + Docker) │ Helper Scripts"
-    "3" "Nextcloud                         │ Helper Scripts"
-    "4" "$(translate "Return to Main Menu")"
-  )
+local OTHER_OPTIONS=(
+  "1" "Home Assistant OS VM (HAOS)       │ Helper Scripts"
+  "2" "Docker VM (Debian + SSH + Docker) │ Helper Scripts"
+  "3" "Nextcloud                         │ Helper Scripts"
+  "4" "$(translate "Return to Main Menu")"
+)
 
-  local choice
-  choice=$(dialog --backtitle "ProxMenux" \
-    --title "$(translate "Other Prebuilt Linux VMs")" \
-    --menu "\n$(translate "Select one of the ready-to-run Linux VMs:")" 18 70 10 \
-    "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+local choice
+choice=$(dialog --backtitle "ProxMenux" \
+  --title "$(translate "Other Prebuilt Linux VMs")" \
+  --menu "\n$(translate "Select one of the ready-to-run Linux VMs:")" 18 70 10 \
+  "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
-  if [[ $? -ne 0 || "$choice" == "3" ]]; then
-    return 1  
-  fi
+if [[ $? -ne 0 || "$choice" == "4" ]]; then
+  return 1
+fi
 
-  case "$choice" in
-    1)
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/haos-vm.sh)"
-      ;;
-    2)
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
-      echo -e
-      echo -e "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")"
-      echo -e
-      ;;
-    3)
-      bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/nextcloud-vm.sh)"
-      echo -e
-      echo -e "$(translate "You can use the following credentials to login to the Nextcloud vm.\nUsername: admin")"
-      echo -e "$(translate This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/144")"
-      echo -e
-      ;;
-  esac
+case "$choice" in
+  1)
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/haos-vm.sh)"
+    ;;
+  2)
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
+    echo -e
+    echo -e "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")"
+    echo -e
+    ;;
+  3)
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/nextcloud-vm.sh)"
+    echo -e
+    echo -e "$(translate "You can use the following credentials to login to the Nextcloud vm.\nUsername: admin")"
+    echo -e "$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/144")"
+    echo -e
+    ;;
+esac
 
-  msg_success "$(translate "Press Enter to return to menu...")"
-  read -r
+msg_success "$(translate "Press Enter to return to menu...")"
+read -r
 
-  whiptail --title "Proxmox VE Helper-Scripts" \
-    --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+whiptail --title "Proxmox VE Helper-Scripts" \
+  --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
 
-  return 1  
+return 1
+
 }
 
 
