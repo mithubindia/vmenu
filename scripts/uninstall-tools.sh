@@ -152,7 +152,7 @@ show_uninstall_menu() {
         case "$tool" in
             fastfetch) desc="Fastfetch";;
             figurine)  desc="Figurine";;
-            kexec)     desc="Kexec quick reboot";;
+            kexec)     desc="Kexec fast reboot";;
             *)         desc="$tool";;
         esac
         menu_options+=("$tool" "$desc" "off")
@@ -160,7 +160,7 @@ show_uninstall_menu() {
 
     selected_tools=$(dialog --backtitle "ProxMenux" \
         --title "$(translate "Uninstall Tools")" \
-        --checklist "$(translate "Select tools post-install to uninstall:")" 20 60 12 \
+        --checklist "$(translate "Select settings") post-install $(translate "to uninstall:")" 20 60 12 \
         "${menu_options[@]}" 3>&1 1>&2 2>&3)
     local dialog_result=$?
 
