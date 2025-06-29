@@ -44,10 +44,11 @@ function select_nas_iso() {
     "2" "TrueNAS SCALE  VM          (Fangtooth)"
     "3" "TrueNAS CORE   VM          (FreeBSD based)"
     "4" "OpenMediaVault VM          (Debian based)"
-    "5" "Rockstor       VM          (openSUSE based)"
-    "6" "ZimaOS         VM          (R0GGER proxmox-zimaos)"
-    "7" "Umbrel OS      VM          (Helper Scripts)"
-    "8" "$(translate "Return to Main Menu")"
+    "5" "XigmaNAS       VM          (FreeBSD based)"
+    "6" "Rockstor       VM          (openSUSE based)"
+    "7" "ZimaOS         VM          (R0GGER proxmox-zimaos)"
+    "8" "Umbrel OS      VM          (Helper Scripts)"
+    "9" "$(translate "Return to Main Menu")"
   )
 
   local NAS_TYPE
@@ -88,13 +89,20 @@ function select_nas_iso() {
       HN="OpenMediaVault"
       ;;
     5)
+      ISO_NAME="XigmaNAS-13.3.0.5"
+      ISO_URL="https://sourceforge.net/projects/xigmanas/files/XigmaNAS-13.3.0.5/13.3.0.5.10153/XigmaNAS-x64-LiveCD-13.3.0.5.10153.iso/download"
+      ISO_FILE="XigmaNAS-x64-LiveCD-13.3.0.5.10153.iso"
+      ISO_PATH="$ISO_DIR/$ISO_FILE"
+      HN="XigmaNAS"
+      ;;
+    6)
       ISO_NAME="Rockstor"
       ISO_URL="https://rockstor.com/downloads/installer/leap/15.6/x86_64/Rockstor-Leap15.6-generic.x86_64-5.0.15-0.install.iso"
       ISO_FILE="Rockstor-Leap15.6-generic.x86_64-5.0.15-0.install.iso"
       ISO_PATH="$ISO_DIR/$ISO_FILE"
       HN="Rockstor"
       ;;
-    6)
+    7)
       HN="ZimaOS-VM"
       if ! confirm_vm_creation; then
         return 1
@@ -109,7 +117,7 @@ function select_nas_iso() {
 
       return 1
       ;;
-    7)
+    8)
       HN="Umbrel OS"
       bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/umbrel-os-vm.sh)"
       echo -e
@@ -127,7 +135,7 @@ function select_nas_iso() {
       return 1
       ;;
 
-    8)
+    9)
       return 1
       ;;
   esac

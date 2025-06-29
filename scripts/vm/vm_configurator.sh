@@ -95,6 +95,10 @@ function load_default_vm_config() {
       ;;
   esac
 
+  if [[ "$os_type" == "1" && "$HN" == "OpenMediaVault" ]]; then
+  BIOS_TYPE=" -bios seabios"
+  fi
+
 
   [[ -z "$CORE_COUNT" ]] && CORE_COUNT="2"
   [[ -z "$RAM_SIZE" ]] && RAM_SIZE="4096"
@@ -166,11 +170,15 @@ function configure_vm_advanced() {
   [[ "$MACHINE_TYPE" == "q35" ]] && MACHINE=" -machine q35" && FORMAT="" || MACHINE="" && FORMAT=",efitype=4m"
 
   # BIOS
-  BIOS=$(whiptail --backtitle "ProxMenux" --title "$(translate "BIOS Type")" \
-    --radiolist "$(translate "Choose BIOS type")" 10 60 2 \
-    "ovmf"    "UEFI (OVMF)" ON \
-    "seabios" "Legacy BIOS (SeaBIOS)" OFF 3>&1 1>&2 2>&3) || return 1
-  BIOS_TYPE=" -bios $BIOS"
+  if [[ "$HN" == "OpenMediaVault" ]]; then
+    BIOS_TYPE=" -bios seabios"
+  else
+    BIOS=$(whiptail --backtitle "ProxMenux" --title "$(translate "BIOS Type")" \
+      --radiolist "$(translate "Choose BIOS type")" 10 60 2 \
+      "ovmf"    "UEFI (OVMF)" ON \
+      "seabios" "Legacy BIOS (SeaBIOS)" OFF 3>&1 1>&2 2>&3) || return 1
+    BIOS_TYPE=" -bios $BIOS"
+  fi
 
   # CPU Type
 #  CPU_CHOICE=$(whiptail --backtitle "ProxMenux" --title "$(translate "CPU Model")" \
