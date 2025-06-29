@@ -113,7 +113,10 @@ function select_nas_iso() {
       HN="Umbrel OS"
       bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/umbrel-os-vm.sh)"
       echo -e
-      echo -e "$(translate "Default Login Credentials:\n\nUsername: umbrel\nPassword: umbrel")"
+      echo -e "${TAB}$(translate "Default Login Credentials:")"
+      echo -e "${TAB}Username: umbrel"
+      echo -e "${TAB}Password: umbrel"
+      echo -e "${TAB}$(translate "After logging in, run: ip a to obtain the IP address.\nThen, enter that IP address in your web browser like this:\n  http://IP_ADDRESS\n\nThis will open the Umbral OS dashboard.")"
       echo -e
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r

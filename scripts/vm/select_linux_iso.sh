@@ -276,14 +276,17 @@ case "$choice" in
   2)
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
     echo -e
-    echo -e "$(translate "Default Login Credentials:\n\nUsername: root\nPassword: docker")"
+    echo -e "${TAB}$(translate "Default Login Credentials:")"
+    echo -e "${TAB}Username: root"
+    echo -e "${TAB}Password: docker"
     echo -e
     ;;
   3)
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/nextcloud-vm.sh)"
     echo -e
-    echo -e "$(translate "You can use the following credentials to login to the Nextcloud vm.\nUsername: admin")"
-    echo -e "$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/144")"
+    echo -e "${TAB}$(translate "You can use the following credentials to login to the Nextcloud vm:")"
+    echo -e "${TAB}Username: admin"
+    echo -e "${TAB}$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/144")"
     echo -e
     ;;
 esac
