@@ -81,7 +81,6 @@ register_tool() {
   jq --arg t "$tool" --argjson v "$state" '.[$t]=$v' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
 }
 
-
 # ==========================================================
 
 
