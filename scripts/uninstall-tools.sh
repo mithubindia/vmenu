@@ -47,6 +47,9 @@ migrate_installed_tools() {
     if [[ -f "$TOOLS_JSON" ]]; then
         return
     fi
+    clear
+    show_proxmenux_logo
+    msg_info "$(translate 'Detecting previous adjustments...')"   
 
     echo "{}" > "$TOOLS_JSON"
     local updated=false
@@ -69,10 +72,11 @@ migrate_installed_tools() {
         updated=true
     fi
 
+ 
     if [[ "$updated" == true ]]; then
-        echo "Previous settings detected and migrated to $TOOLS_JSON"
-    else
-        echo "No previous settings detected; nothing to migrate."
+        sleep 2
+        msg_ok "$(translate 'Adjustments detected and ready to revert.')"
+        sleep 1
     fi
 }
 
