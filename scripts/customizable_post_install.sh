@@ -68,14 +68,28 @@ RAM_SIZE_GB=$(( $(vmstat -s | grep -i "total memory" | xargs | cut -d" " -f 1) /
 NECESSARY_REBOOT=0
 SCRIPT_TITLE="Customizable post-installation optimization script"
 
+TOOLS_JSON="/usr/local/share/proxmenux/installed_tools.json"
+
+ensure_tools_json() {
+  [ -f "$TOOLS_JSON" ] || echo "{}" > "$TOOLS_JSON"
+}
+
+register_tool() {
+  local tool="$1"
+  local state="$2"  
+  ensure_tools_json
+  jq --arg t "$tool" --argjson v "$state" '.[$t]=$v' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
+}
+
+
 # ==========================================================
-
-
 
 
 enable_kexec() {
     msg_info2 "$(translate "Configuring kexec for quick reboots...")"
     NECESSARY_REBOOT=1 
+    register_tool "kexec" true
+
     # Set default answers for debconf
     echo "kexec-tools kexec-tools/load_kexec boolean false" | debconf-set-selections > /dev/null 2>&1
 
@@ -2290,6 +2304,7 @@ enable_ha() {
 
 configure_fastfetch() {
     msg_info2 "$(translate "Installing and configuring Fastfetch...")"
+    register_tool "fastfetch" true
 
     # Define paths
     local fastfetch_bin="/usr/local/bin/fastfetch"
