@@ -111,9 +111,6 @@ function select_nas_iso() {
       ;;
     7)
       HN="Umbrel OS"
-      if ! confirm_vm_creation; then
-        return 1
-      fi
       bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/umbrel-os-vm.sh)"
       echo -e
       echo -e "$(translate "Default Login Credentials:\n\nUsername: umbrel\nPassword: umbrel")"
