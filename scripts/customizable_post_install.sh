@@ -6,8 +6,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.2
-# Last Updated: 11/03/2025
+# Version     : 1.3
+# Last Updated: 30/06/2025
 # ==========================================================
 # Description:
 # This script automates post-installation configurations and optimizations
@@ -579,40 +579,52 @@ skip_apt_languages_() {
 }
 
 
+
+
 skip_apt_languages() {
     msg_info2 "$(translate "Configuring APT to skip downloading additional languages")"
 
- 
-    local default_locale
+    # 1. Detect locale
+    local default_locale=""
     if [ -f /etc/default/locale ]; then
-        default_locale=$(grep '^LANG=' /etc/default/locale | cut -d= -f2)
+        default_locale=$(grep '^LANG=' /etc/default/locale | cut -d= -f2 | tr -d '"')
     elif [ -f /etc/environment ]; then
-        default_locale=$(grep '^LANG=' /etc/environment | cut -d= -f2)
+        default_locale=$(grep '^LANG=' /etc/environment | cut -d= -f2 | tr -d '"')
     fi
 
+    # Fallback
     default_locale="${default_locale:-en_US.UTF-8}"
 
-    if ! locale -a | grep -qi "^${default_locale//-/_}$"; then
+    # Normalize for comparison (en_US.UTF-8 → en_US.utf8)
+    local normalized_locale
+    normalized_locale=$(echo "$default_locale" | tr 'A-Z' 'a-z' | sed 's/utf-8/utf8/;s/-/_/')
+
+    # 2. Only generate if missing
+    if ! locale -a | grep -qi "^$normalized_locale$"; then
+        # Only add to locale.gen if missing
+        if ! grep -qE "^${default_locale}[[:space:]]+UTF-8" /etc/locale.gen; then
+            echo "$default_locale UTF-8" >> /etc/locale.gen
+        fi
         msg_info "$(translate "Generating missing locale:") $default_locale"
-        echo "$default_locale UTF-8" >> /etc/locale.gen
         locale-gen "$default_locale"
         msg_ok "$(translate "Locale generated")"
     fi
 
+    # 3. Set APT to skip language downloads
     local config_file="/etc/apt/apt.conf.d/99-disable-translations"
-    local config_content="Acquire::Languages \"none\";"
+    local config_content='Acquire::Languages "none";'
 
     msg_info "$(translate "Setting APT language configuration...")"
-
-    if [ -f "$config_file" ] && grep -q "$config_content" "$config_file"; then
-        msg_ok "$(translate "APT language configuration updated")"
+    if [ -f "$config_file" ] && grep -Fxq "$config_content" "$config_file"; then
+        msg_ok "$(translate "APT language configuration already set")"
     else
-        echo -e "$config_content\n" > "$config_file"
+        echo "$config_content" > "$config_file"
         msg_ok "$(translate "APT language configuration updated")"
     fi
 
     msg_success "$(translate "APT configured to skip downloading additional languages")"
 }
+
 
 
 
