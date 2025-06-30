@@ -789,7 +789,9 @@ install_system_utils() {
             return
         fi
 
-
+        clear
+        show_proxmenux_logo
+        msg_title "$SCRIPT_TITLE"
         msg_info2 "$(translate "Installing selected utilities")"
         
         local failed=0
