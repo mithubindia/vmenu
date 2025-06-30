@@ -671,8 +671,197 @@ configure_time_sync() {
 
 
 
-
 install_system_utils() {
+
+    command_exists() {
+        command -v "$1" >/dev/null 2>&1
+    }
+    
+  
+    install_single_package() {
+        local package="$1"
+        local command_name="${2:-$package}"
+        local description="$3"
+        
+        msg_info "$(translate "Installing") $package ($description)..."
+        
+
+        local install_success=false
+        
+        if command_exists apt; then
+
+            if apt update >/dev/null 2>&1 && apt install -y "$package" >/dev/null 2>&1; then
+                install_success=true
+            fi
+            
+        elif command_exists yum; then
+            if yum install -y "$package" >/dev/null 2>&1; then
+                install_success=true
+            fi
+            
+        elif command_exists dnf; then
+            if dnf install -y "$package" >/dev/null 2>&1; then
+                install_success=true
+            fi
+            
+        elif command_exists pacman; then
+            if pacman -S --noconfirm "$package" >/dev/null 2>&1; then
+                install_success=true
+            fi
+            
+        elif command_exists zypper; then
+            if zypper install -y "$package" >/dev/null 2>&1; then
+                install_success=true
+            fi
+        else
+            cleanup
+            msg_error "$(translate "No compatible package manager detected")"
+            return 1
+        fi
+        
+        cleanup
+        
+
+        if [ "$install_success" = true ]; then
+
+            hash -r 2>/dev/null
+            sleep 1
+            
+            if command_exists "$command_name"; then
+                msg_ok "$package $(translate "installed correctly and available")"
+                return 0
+            else
+                msg_warn "$package $(translate "installed but command not immediately available")"
+                msg_info2 "$(translate "May need to restart terminal")"
+                return 2
+            fi
+        else
+            msg_error "$(translate "Error installing") $package"
+            return 1
+        fi
+    }
+    
+
+    show_utilities_selection() {
+        local utilities=(
+            "axel" "$(translate "Download accelerator")" "OFF"
+            "dos2unix" "$(translate "Convert DOS/Unix text files")" "OFF"
+            "grc" "$(translate "Generic log/command colorizer")" "OFF"
+            "htop" "$(translate "Interactive process viewer")" "OFF"
+            "btop" "$(translate "Modern resource monitor")" "OFF"
+            "iftop" "$(translate "Real-time network usage")" "OFF"
+            "iotop" "$(translate "Monitor disk I/O usage")" "OFF"
+            "iperf3" "$(translate "Network performance testing")" "OFF"
+            "ipset" "$(translate "Manage IP sets")" "OFF"
+            "iptraf-ng" "$(translate "Network monitoring tool")" "OFF"
+            "mlocate" "$(translate "Locate files quickly")" "OFF"
+            "msr-tools" "$(translate "Access CPU MSRs")" "OFF"
+            "net-tools" "$(translate "Legacy networking tools")" "OFF"
+            "sshpass" "$(translate "Non-interactive SSH login")" "OFF"
+            "tmux" "$(translate "Terminal multiplexer")" "OFF"
+            "unzip" "$(translate "Extract ZIP files")" "OFF"
+            "zip" "$(translate "Create ZIP files")" "OFF"
+            "libguestfs-tools" "$(translate "VM disk utilities")" "OFF"
+            "aria2" "$(translate "Multi-source downloader")" "OFF"
+            "cabextract" "$(translate "Extract CAB files")" "OFF"
+            "wimtools" "$(translate "Manage WIM images")" "OFF"
+            "genisoimage" "$(translate "Create ISO images")" "OFF"
+            "chntpw" "$(translate "Edit Windows registry/passwords")" "OFF"
+        )
+        
+        local selected
+        selected=$(dialog --clear --backtitle "ProxMenu - $(translate "System Utilities")" \
+                         --title "$(translate "Select utilities to install")" \
+                         --checklist "$(translate "Use SPACE to select/deselect, ENTER to confirm")" \
+                         20 70 12 "${utilities[@]}" 2>&1 >/dev/tty)
+        
+        echo "$selected"
+    }
+    
+
+    install_selected_utilities() {
+        local selected="$1"
+        
+        if [ -z "$selected" ]; then
+            dialog --clear --backtitle "ProxMenu" \
+                   --title "$(translate "No Selection")" \
+                   --msgbox "$(translate "No utilities were selected")" 8 40
+            return
+        fi
+
+
+        msg_info2 "$(translate "Installing selected utilities")"
+        
+        local failed=0
+        local success=0
+        local warning=0
+        
+
+        local selected_array
+        IFS=' ' read -ra selected_array <<< "$selected"
+        
+
+        declare -A package_to_command=(
+            ["mlocate"]="locate"
+            ["msr-tools"]="rdmsr"
+            ["net-tools"]="netstat"
+            ["libguestfs-tools"]="virt-filesystems"
+            ["aria2"]="aria2c"
+            ["wimtools"]="wimlib-imagex"
+        )
+        
+        for util in "${selected_array[@]}"; do
+
+            util=$(echo "$util" | tr -d '"')
+            
+
+            local verify_command="${package_to_command[$util]:-$util}"
+            
+            
+            install_single_package "$util" "$verify_command" "$util"
+            local install_result=$?
+            
+            case $install_result in
+                0) 
+                    success=$((success + 1))
+                    ;;
+                1) 
+                    failed=$((failed + 1))
+                    ;;
+                2) 
+                    warning=$((warning + 1))
+                    ;;
+            esac
+        done
+
+
+        if [ -f ~/.bashrc ]; then
+            source ~/.bashrc >/dev/null 2>&1
+        fi
+        hash -r 2>/dev/null
+
+        echo
+        msg_info2 "$(translate "Installation summary"):"
+        msg_ok "$(translate "Successful"): $success"
+        msg_success "$(translate "Common system utilities installation completed")"
+
+    }
+
+
+    local selected_utilities
+    selected_utilities=$(show_utilities_selection)
+
+    if [ -n "$selected_utilities" ]; then
+        install_selected_utilities "$selected_utilities"
+    fi
+
+
+}
+
+
+
+
+install_system_utils_() {
 
     msg_info2 "$(translate "Installing common system utilities...")"
     
