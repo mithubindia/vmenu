@@ -1970,6 +1970,18 @@
     "type": "ct"
   },
   {
+    "name": "Kapowarr",
+    "slug": "kapowarr",
+    "desc": "Kapowarr allows you to build a digital library of comics. You can add volumes, map them to a folder and start managing! Download, rename, move and convert issues of the volume (including TPB's, One Shots, Hard Covers, and more). The whole process is automated and can be customised in the settings.",
+    "script": "ct/kapowarr.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/kapowarr.sh",
+    "categories": [
+      14
+    ],
+    "notes": [],
+    "type": "ct"
+  },
+  {
     "name": "karakeep",
     "slug": "karakeep",
     "desc": "karakeep (formerly: hoarder) is an AI-powered bookmarking tool that helps you save and organize your digital content. It automatically tags your links, notes, and images, making them easy to find later. With features like auto-fetching, lists, and full-text search, karakeep is the perfect tool for anyone who wants to keep track of their digital life.",
