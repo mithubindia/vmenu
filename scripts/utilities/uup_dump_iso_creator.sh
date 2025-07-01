@@ -82,8 +82,8 @@ function get_destination_path() {
 
         if [[ ! -d "$user_path" ]]; then
             if mkdir -p "$user_path" 2>/dev/null; then
-                msg_ok "$(translate "Directory created successfully:") $user_path"
-                echo "$user_path"
+                #msg_ok "$(translate "Directory created successfully:") $user_path"
+                #echo "$user_path"
                 return 0
             else
                 dialog --msgbox "$(translate "Error: Cannot create directory") '$user_path'. $(translate "Please check permissions and try again.")" 8 60
