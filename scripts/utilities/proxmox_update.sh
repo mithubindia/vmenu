@@ -124,6 +124,7 @@ cleanup_duplicate_repos() {
     if [ $cleaned_count -gt 0 ]; then
         msg_ok "$(translate "Duplicate repositories cleaned: $cleaned_count")"
     fi
+    apt update
 }
 
 apt_upgrade() {
