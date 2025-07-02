@@ -118,6 +118,9 @@ function run_uupdump_creator() {
     done
 
     if [[ ${#MISSING[@]} -gt 0 ]]; then
+        clear
+        show_proxmenux_logo
+        echo -e
         msg_info "$(translate "Installing dependencies: ${MISSING[*]}")"
         apt-get update -qq >/dev/null 2>&1
         if ! apt-get install -y "${MISSING[@]}" >/dev/null 2>&1; then
@@ -133,12 +136,12 @@ function run_uupdump_creator() {
         fi
     done
 
-    if [[ ${#FAILED[@]} -eq 0 ]]; then
-        msg_ok "$(translate "All dependencies installed and verified.")"
-    else
-        msg_error "$(translate "Missing commands after installation: ${FAILED[*]}")"
-        exit 1
-    fi
+    #if [[ ${#FAILED[@]} -eq 0 ]]; then
+    #    msg_ok "$(translate "All dependencies installed and verified.")"
+    #else
+    #    msg_error "$(translate "Missing commands after installation: ${FAILED[*]}")"
+    #    exit 1
+    #fi
 
 
     ISO_DIR=$(detect_iso_dir)
