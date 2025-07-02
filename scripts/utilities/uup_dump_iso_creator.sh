@@ -123,6 +123,7 @@ function run_uupdump_creator() {
         echo -e
         msg_info "$(translate "Installing dependencies: ${MISSING[*]}")"
         apt-get update -qq >/dev/null 2>&1
+        msg_ok "$(translate "All dependencies installed and verified.")"
         if ! apt-get install -y "${MISSING[@]}" >/dev/null 2>&1; then
             msg_error "$(translate "Failed to install: ${MISSING[*]}")"
             exit 1
