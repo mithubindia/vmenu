@@ -3486,20 +3486,6 @@
     "type": "vm"
   },
   {
-    "name": "Pingvin Share",
-    "slug": "pingvin",
-    "desc": "Pingvin Share is self-hosted file sharing platform and an alternative for WeTransfer.",
-    "script": "ct/pingvin.sh",
-    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/pingvin.sh",
-    "categories": [
-      11
-    ],
-    "notes": [
-      "Run `DATA_DIRECTORY=path-to-your-data-directory pm2 restart all --update-env` to update path to your data directory or to update environment variables."
-    ],
-    "type": "ct"
-  },
-  {
     "name": "PLANKA",
     "slug": "planka",
     "desc": "Planka is a powerful, project management platform that transforms how teams collaborate. Create projects with multiple boards, organize tasks with intuitive drag-and-drop cards, attach files, write rich markdown descriptions, set due dates, assign team members, and keep conversations flowing with comments and labels\u2014all with seamless real-time updates and smart notifications.",
@@ -3967,18 +3953,6 @@
     "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/reactive-resume.sh",
     "categories": [
       12
-    ],
-    "notes": [],
-    "type": "ct"
-  },
-  {
-    "name": "Readarr",
-    "slug": "readarr",
-    "desc": "Readarr is an eBook and audiobook management tool designed for Usenet and BitTorrent users. It allows users to manage and organize their eBook and audiobook collection with ease. Readarr integrates with popular Usenet and BitTorrent clients, such as Sonarr and Lidarr, to automate the downloading and organizing of eBook and audiobook files. The software provides a web-based interface for managing and organizing eBooks and audiobooks, making it easy to search and find titles, authors, and genres. Readarr also supports metadata management, including cover art and information, making it easy for users to keep their eBook and audiobook collection organized and up-to-date. The software is designed to be easy to use and provides a simple and intuitive interface for managing and organizing eBook and audiobook collections, making it a valuable tool for book and audiobook enthusiasts who want to keep their collection organized and up-to-date. With Readarr, users can enjoy their eBook and audiobook collection from anywhere, making it a powerful tool for managing and sharing book and audiobook files.",
-    "script": "ct/readarr.sh",
-    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/readarr.sh",
-    "categories": [
-      14
     ],
     "notes": [],
     "type": "ct"
