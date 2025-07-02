@@ -66,7 +66,7 @@ function get_destination_path() {
 
 ######################################
 
-        user_path=$(dialog --inputbox "$(translate "Enter destination path for ISO file")" 10 80 "$default_path" 3>&1 1>&2 2>&3)
+        user_path=$(dialog  --backtitle "ProxMenux" --inputbox "$(translate "Enter destination path for ISO file")" 10 80 "$default_path" 3>&1 1>&2 2>&3)
         
 ######################################
 
@@ -86,7 +86,7 @@ function get_destination_path() {
                 echo "$user_path"
                 return 0
             else
-                dialog --msgbox "$(translate "Error: Cannot create directory") '$user_path'. $(translate "Please check permissions and try again.")" 8 60
+                dialog --backtitle "ProxMenux" --msgbox "$(translate "Error: Cannot create directory") '$user_path'. $(translate "Please check permissions and try again.")" 8 60
 
                 continue
             fi
@@ -96,7 +96,7 @@ function get_destination_path() {
                 echo "$user_path"
                 return 0
             else
-                dialog --msgbox "$(translate "Error: No write permissions in directory") '$user_path'. $(translate "Please choose another path.")" 8 60
+                dialog --backtitle "ProxMenux" --msgbox "$(translate "Error: No write permissions in directory") '$user_path'. $(translate "Please choose another path.")" 8 60
 
                 continue
             fi
@@ -155,13 +155,13 @@ function run_uupdump_creator() {
 ######################################
 
     DEFAULT_TMP="/root/uup-temp"
-    USER_INPUT=$(dialog --inputbox "Enter temporary folder path (default: $DEFAULT_TMP):" 10 60 "$DEFAULT_TMP" 3>&1 1>&2 2>&3)
+    USER_INPUT=$(dialog --backtitle "ProxMenux" --inputbox "Enter temporary folder path (default: $DEFAULT_TMP):" 10 60 "$DEFAULT_TMP" 3>&1 1>&2 2>&3)
     
 ######################################
 
 
     if [[ $? -ne 0 ]]; then
-        return 1
+        return
     fi
 
 
@@ -194,13 +194,13 @@ function run_uupdump_creator() {
 
 ######################################
 
-    UUP_URL=$(whiptail --inputbox "$(translate "Paste the UUP Dump URL here")" 10 90 3>&1 1>&2 2>&3)
+    UUP_URL=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Paste the UUP Dump URL here")" 10 90 3>&1 1>&2 2>&3)
 
 ######################################
 
 
     if [[ $? -ne 0 ]]; then
-        return 1
+        return
     fi
 
     
@@ -213,7 +213,7 @@ function run_uupdump_creator() {
     if [[ ! "$UUP_URL" =~ id=.+\&pack=.+\&edition=.+ ]]; then
         msg_error "$(translate "The URL does not contain the required parameters (id, pack, edition).")"
         sleep 2
-        return 1 
+        return
     fi
 
 

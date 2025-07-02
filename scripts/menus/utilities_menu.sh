@@ -47,9 +47,26 @@ initialize_cache
                 fi
                 ;;
             3)
-                bash <(curl -s "$REPO_URL/scripts/utilities/proxmox_update.sh")
-                if [ $? -ne 0 ]; then
-                    return
+                proxmox_update_msg="\n"
+                proxmox_update_msg+="$(translate "This script will update your Proxmox VE system with advanced options:")\n\n"
+                proxmox_update_msg+="• $(translate "Repairs and optimizes repositories")\n"
+                proxmox_update_msg+="• $(translate "Cleans duplicate or conflicting sources")\n"
+                proxmox_update_msg+="• $(translate "Switches to the free no-subscription repository")\n"
+                proxmox_update_msg+="• $(translate "Updates all Proxmox and Debian packages")\n"
+                proxmox_update_msg+="• $(translate "Installs essential packages if missing")\n"
+                proxmox_update_msg+="• $(translate "Checks for LVM and storage issues")\n"
+                proxmox_update_msg+="• $(translate "Performs automatic cleanup after updating")\n\n"
+                proxmox_update_msg+="$(translate "Do you want to proceed and run the Proxmox System Update?")"
+
+                dialog --colors --backtitle "ProxMenux" --title "$(translate "Proxmox System Update")" \
+                    --yesno "$proxmox_update_msg" 20 70
+
+                dialog_result=$?
+                if [[ $dialog_result -eq 0 ]]; then
+                    bash <(curl -s "$REPO_URL/scripts/utilities/proxmox_update.sh")
+                    if [ $? -ne 0 ]; then
+                        return
+                    fi
                 fi
                 ;;
             4) exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
