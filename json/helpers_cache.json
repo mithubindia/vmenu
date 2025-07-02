@@ -1891,6 +1891,22 @@
     "type": "ct"
   },
   {
+    "name": "ITSM-NG",
+    "slug": "itsm-ng",
+    "desc": "ITSM-NG is a powerful, open-source IT Service Management (ITSM) solution designed for managing IT assets, software, licenses, and support processes in accordance with ITIL best practices. It offers integrated features for asset inventory, incident tracking, problem management, change requests, and service desk workflows.",
+    "script": "ct/itsm-ng.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/itsm-ng.sh",
+    "categories": [
+      25
+    ],
+    "notes": [],
+    "type": "ct",
+    "default_credentials": {
+      "username": "itsm",
+      "password": "itsm"
+    }
+  },
+  {
     "name": "iVentoy",
     "slug": "iventoy",
     "desc": "iVentoy is an upgraded PXE server that allows simultaneous OS booting and installation on multiple machines via network. It is user-friendly, requiring only the placement of ISO files in a designated folder and selecting PXE boot on the client machine. iVentoy supports x86 Legacy BIOS, IA32 UEFI, x86_64 UEFI, and ARM64 UEFI modes. It is compatible with over 110 OS types, including Windows, WinPE, Linux, and VMware.",
@@ -1927,7 +1943,8 @@
     ],
     "notes": [
       "With Privileged/Unprivileged Hardware Acceleration Support",
-      "FFmpeg path: /usr/lib/jellyfin-ffmpeg/ffmpeg"
+      "FFmpeg path: /usr/lib/jellyfin-ffmpeg/ffmpeg",
+      "For NVIDIA graphics cards, you'll need to install the same drivers in the container that you did on the host. In the container, run the driver installation script and add the CLI arg --no-kernel-module"
     ],
     "type": "ct"
   },
@@ -2157,6 +2174,18 @@
     "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/lazylibrarian.sh",
     "categories": [
       13
+    ],
+    "notes": [],
+    "type": "ct"
+  },
+  {
+    "name": "Librespeed Rust",
+    "slug": "librespeed-rust",
+    "desc": "Librespeed is a no flash, no java, no websocket speedtest server. This community script deploys the rust version for simplicity and low resource usage.",
+    "script": "ct/librespeed-rust.sh",
+    "script_url": "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/librespeed-rust.sh",
+    "categories": [
+      4
     ],
     "notes": [],
     "type": "ct"
