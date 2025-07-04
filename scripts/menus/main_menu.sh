@@ -45,7 +45,7 @@ show_menu() {
             5 "$(translate "Disk and Storage Manager")" \
             6 "$(translate "Proxmox VE Helper Scripts")" \
             7 "$(translate "Network")" \
-            8 "$(translate "Utilities and System Tools")" \
+            8 "$(translate "Utilities and Tools")" \
             9 "$(translate "Settings")" \
             0 "$(translate "Exit")" 2>"$TEMP_FILE"
 
