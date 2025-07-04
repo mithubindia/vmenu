@@ -1,11 +1,32 @@
 #!/bin/bash
 
-# Proxmox Update Script - Simplified version
-# System update for Proxmox only
-
-# ======================================================
-# Global variables
-
+# ==========================================================
+# ProxMenu - A menu-driven script for Proxmox VE management
+# ==========================================================
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# Version     : 1.0
+# Last Updated: 04/07/2025
+# ==========================================================
+# Description:
+# This script safely updates your Proxmox VE system and underlying Debian packages
+# through an interactive and automated process.
+#
+# Main features:
+# - Repairs and optimizes APT repositories (Proxmox & Debian)
+# - Removes duplicate or conflicting sources
+# - Switches to the recommended 'no-subscription' Proxmox repository
+# - Updates all Proxmox and Debian system packages
+# - Installs essential packages if missing (e.g., zfsutils, chrony)
+# - Checks for LVM and storage issues and repairs headers if needed
+# - Removes conflicting time sync packages automatically
+# - Performs a system cleanup after updating (autoremove, autoclean)
+# - Provides a summary and prompts for reboot if necessary
+#
+# The goal of this script is to simplify and secure the update process for Proxmox,
+# reduce manual intervention, and prevent common repository and package errors.
+# ==========================================================
 
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -138,9 +159,7 @@ apt_upgrade() {
     echo -e
     msg_title "$(translate "Proxmox system update")"
     
-    # Show detected OS codename
-    msg_info "$(translate "Detected OS codename: $OS_CODENAME")"
-    
+
     # ======================================================
     # Basic checks
     # ======================================================
@@ -202,6 +221,7 @@ apt_upgrade() {
         sed -i '/^deb.*debian main$/d' "$sources_file"
         sed -i '/^deb.*debian -updates/d' "$sources_file"
         debian_changes=true
+        msg_ok "$(translate "Cleaning malformed repository sucefull")"
     fi
     
     # Replace old mirrors
@@ -289,7 +309,6 @@ EOF
     # Show update information
     local upgradable=$(apt list --upgradable 2>/dev/null | grep -c "upgradable")
     if [ "$upgradable" -gt 0 ]; then
-        msg_info "$(translate "Found $upgradable packages to upgrade")"
         
         # Show with dialog if available
         if command -v whiptail >/dev/null 2>&1; then
@@ -297,7 +316,7 @@ EOF
                        --yesno "$(translate "Found $upgradable packages to upgrade.\n\nProceed with system update?")" 10 60; then
                 clear
             else
-                msg_info "$(translate "Update cancelled by user")"
+                msg_info2 "$(translate "Update cancelled by user")"
                 return 0
             fi
         fi
@@ -459,7 +478,7 @@ check_updates_available() {
     if [ "$upgradable" -gt 0 ]; then
         echo "$(translate "Updates available"): $upgradable"
         echo "$(translate "Security updates"): $security_updates"
-        
+        cleanup 
         if command -v whiptail >/dev/null 2>&1; then
             whiptail --title "$(translate "Updates Available")" \
                     --msgbox "$(translate "Updates available: $upgradable\nSecurity updates: $security_updates\n\nUse the update option to proceed.")" 12 60
