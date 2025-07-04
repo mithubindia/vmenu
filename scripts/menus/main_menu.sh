@@ -45,8 +45,9 @@ show_menu() {
             5 "$(translate "Disk and Storage Manager")" \
             6 "$(translate "Proxmox VE Helper Scripts")" \
             7 "$(translate "Network")" \
-            8 "$(translate "Settings")" \
-            9 "$(translate "Exit")" 2>"$TEMP_FILE"
+            8 "$(translate "Utilities")" \
+            9 "$(translate "Settings")" \
+            0 "$(translate "Exit")" 2>"$TEMP_FILE"
 
         local EXIT_STATUS=$?
 
@@ -68,8 +69,9 @@ show_menu() {
             5) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
             6) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
             7) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
-            8) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
-            9) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
+            8) exec bash <(curl -s "$REPO_URL/scripts/menus/utilities_menu.sh") ;;
+            9) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
+            0) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
             *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
         esac
     done
