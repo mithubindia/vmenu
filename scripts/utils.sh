@@ -193,15 +193,22 @@ msg_error() {
 
 # Initialize cache
 initialize_cache() {
-    if [ ! -f "$CACHE_FILE" ]; then
-        mkdir -p "$(dirname "$CACHE_FILE")"
-        echo "{}" > "$CACHE_FILE"
+    if [[ "$LANGUAGE" != "en" ]]; then
+        if [ ! -f "$CACHE_FILE" ]; then
+            mkdir -p "$(dirname "$CACHE_FILE")"
+            echo "{}" > "$CACHE_FILE"
+        fi
     fi
 }
 
+# Load language
 load_language() {
+    LANGUAGE="en"
     if [ -f "$CONFIG_FILE" ]; then
-        LANGUAGE=$(jq -r '.language' "$CONFIG_FILE")
+        lang_candidate=$(jq -r '.language // empty' "$CONFIG_FILE" 2>/dev/null)
+        if [[ -n "$lang_candidate" && "$lang_candidate" != "null" ]]; then
+            LANGUAGE="$lang_candidate"
+        fi
     fi
 }
 
