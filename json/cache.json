@@ -1352,5 +1352,165 @@
   },
   "Manage and inspect VM disk images": {
     "es": "Administrar e inspeccionar imágenes de disco de VM"
-  }
+  },
+  "Utilities and Tools": {
+    "es": "Utilidades y herramientas",
+    "fr": "Utilitaires et outils",
+    "de": "Dienstprogramme und Tools"
+  },
+  "Utilities Menu": {
+    "es": "Menú de utilidades",
+    "fr": "Menu des utilitaires",
+    "de": "Dienstprogramm-Menü"
+  },
+  "UUp Dump ISO creator Custom": {
+    "es": "Creador personalizado de ISOs UUP Dump",
+    "fr": "Créateur personnalisé d’ISO UUP Dump",
+    "de": "Benutzerdefinierter UUP Dump ISO-Ersteller"
+  },
+  "System Utilities Installer": {
+    "es": "Instalador de utilidades del sistema",
+    "fr": "Programme d’installation des utilitaires système",
+    "de": "Systemdienstprogramme-Installer"
+  },
+  "Proxmox System Update": {
+    "es": "Actualización del sistema Proxmox",
+    "fr": "Mise à jour du système Proxmox",
+    "de": "Proxmox-Systemaktualisierung"
+  },
+  "Enter destination path for ISO file": {
+    "es": "Introduce la ruta de destino para el archivo ISO",
+    "fr": "Indiquez le chemin de destination du fichier ISO",
+    "de": "Geben Sie den Zielpfad für die ISO-Datei ein"
+  },
+  "Paste the UUP Dump URL here": {
+    "es": "Pega aquí la URL de UUP Dump",
+    "fr": "Collez ici l’URL de UUP Dump",
+    "de": "Fügen Sie hier die UUP Dump-URL ein"
+  },
+  "Utilities Installation Menu": {
+    "es": "Menú de instalación de utilidades",
+    "fr": "Menu d’installation des utilitaires",
+    "de": "Installationsmenü für Dienstprogramme"
+  },
+  "Select an option": {
+    "es": "Selecciona una opción",
+    "fr": "Sélectionnez une option",
+    "de": "Wählen Sie eine Option"
+  },
+  "Custom selection": {
+    "es": "Selección personalizada",
+    "fr": "Sélection personnalisée",
+    "de": "Benutzerdefinierte Auswahl"
+  },
+  "Install ALL utilities": {
+    "es": "Instalar todas las utilidades",
+    "fr": "Installer tous les utilitaires",
+    "de": "Alle Dienstprogramme installieren"
+  },
+  "Install basic utilities": {
+    "es": "Instalar utilidades básicas",
+    "fr": "Installer les utilitaires de base",
+    "de": "Basis-Dienstprogramme installieren"
+  },
+  "Install development tools": {
+    "es": "Instalar herramientas de desarrollo",
+    "fr": "Installer les outils de développement",
+    "de": "Entwicklungstools installieren"
+  },
+  "Install compression tools": {
+    "es": "Instalar herramientas de compresión",
+    "fr": "Installer les outils de compression",
+    "de": "Komprimierungstools installieren"
+  },
+  "Install terminal multiplexers": {
+    "es": "Instalar multiplexores de terminal",
+    "fr": "Installer les multiplexeurs de terminal",
+    "de": "Terminal-Multiplexer installieren"
+  },
+  "Install analysis tools": {
+    "es": "Instalar herramientas de análisis",
+    "fr": "Installer les outils d’analyse",
+    "de": "Analysetools installieren"
+  },
+  "Install network tools": {
+    "es": "Instalar herramientas de red",
+    "fr": "Installer les outils réseau",
+    "de": "Netzwerktools installieren"
+  },
+  "Verify installations": {
+    "es": "Verificar instalaciones",
+    "fr": "Vérifier les installations",
+    "de": "Installationen überprüfen"
+  },
+  "Return to main menu": {
+    "es": "Volver al menú principal",
+    "fr": "Retour au menu principal",
+    "de": "Zurück zum Hauptmenü"
+  },
+  "Select utilities to install": {
+    "es": "Selecciona las utilidades a instalar",
+    "fr": "Sélectionnez les utilitaires à installer",
+    "de": "Wählen Sie die zu installierenden Dienstprogramme aus"
+  },
+  "Use SPACE to select/deselect, ENTER to confirm": {
+    "es": "Usa ESPACIO para seleccionar/deseleccionar, ENTER para confirmar",
+    "fr": "Utilisez ESPACE pour sélectionner/désélectionner, ENTRÉE pour confirmer",
+    "de": "Mit LEERTASTE auswählen/abwählen, mit ENTER bestätigen"
+  },
+  "No Selection": {
+    "es": "Sin selección",
+    "fr": "Aucune sélection",
+    "de": "Keine Auswahl"
+  },
+  "No utilities were selected": {
+    "es": "No se seleccionó ninguna utilidad",
+    "fr": "Aucun utilitaire sélectionné",
+    "de": "Es wurden keine Dienstprogramme ausgewählt"
+  },
+  "This script will update your Proxmox VE system with advanced options:": {
+    "es": "Este script actualizará su sistema Proxmox VE con opciones avanzadas:",
+    "fr": "Ce script va mettre à jour votre système Proxmox VE avec des options avancées :",
+    "de": "Dieses Skript aktualisiert Ihr Proxmox VE-System mit erweiterten Optionen:"
+  },
+  "Repairs and optimizes repositories": {
+    "es": "Repara y optimiza los repositorios",
+    "fr": "Répare et optimise les dépôts",
+    "de": "Repariert und optimiert die Paketquellen"
+  },
+  "Cleans duplicate or conflicting sources": {
+    "es": "Limpia fuentes duplicadas o conflictivas",
+    "fr": "Nettoie les sources dupliquées ou conflictuelles",
+    "de": "Bereinigt doppelte oder widersprüchliche Quellen"
+  },
+  "Switches to the free no-subscription repository": {
+    "es": "Cambia al repositorio gratuito sin suscripción",
+    "fr": "Passe au dépôt gratuit sans abonnement",
+    "de": "Wechselt zum kostenlosen Repository ohne Abonnement"
+  },
+  "Updates all Proxmox and Debian packages": {
+    "es": "Actualiza todos los paquetes de Proxmox y Debian",
+    "fr": "Met à jour tous les paquets Proxmox et Debian",
+    "de": "Aktualisiert alle Proxmox- und Debian-Pakete"
+  },
+  "Installs essential packages if missing": {
+    "es": "Instala los paquetes esenciales si faltan",
+    "fr": "Installe les paquets essentiels s’ils manquent",
+    "de": "Installiert fehlende essenzielle Pakete"
+  },
+  "Checks for LVM and storage issues": {
+    "es": "Comprueba problemas de LVM y almacenamiento",
+    "fr": "Vérifie les problèmes LVM et de stockage",
+    "de": "Überprüft LVM- und Speicherprobleme"
+  },
+  "Performs automatic cleanup after updating": {
+    "es": "Realiza una limpieza automática tras la actualización",
+    "fr": "Effectue un nettoyage automatique après la mise à jour",
+    "de": "Führt eine automatische Bereinigung nach der Aktualisierung durch"
+  },
+  "Do you want to proceed and run the Proxmox System Update?": {
+    "es": "¿Quieres continuar y ejecutar la actualización del sistema Proxmox?",
+    "fr": "Voulez-vous continuer et lancer la mise à jour du système Proxmox ?",
+    "de": "Möchten Sie fortfahren und die Proxmox-Systemaktualisierung ausführen?"
+  }  
 }
