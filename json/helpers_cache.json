@@ -2634,7 +2634,8 @@
     ],
     "notes": [
       "Database credentials: `cat mysql.creds`",
-      "With an option to install the MySQL 8.4 LTS release instead of MySQL 8.0"
+      "With an option to install the MySQL 8.4 LTS release instead of MySQL 8.0",
+      "If installed, access phpMyAdmin at `http://<LXC_IP>/phpMyAdmin`, case sensitive."
     ],
     "type": "ct"
   },
