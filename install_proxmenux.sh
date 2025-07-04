@@ -45,21 +45,16 @@ LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu"
 VENV_PATH="/opt/googletrans-env"
 
-
 if ! source <(curl -sSf "$UTILS_URL"); then
     echo "Error: Could not load utils.sh from $UTILS_URL"
     exit 1
 fi
 
-
 cleanup_corrupted_files() {
-
     if [ -f "$CONFIG_FILE" ] && ! jq empty "$CONFIG_FILE" >/dev/null 2>&1; then
         echo "Cleaning up corrupted configuration file..."
         rm -f "$CONFIG_FILE"
     fi
-    
-
     if [ -f "$CACHE_FILE" ] && ! jq empty "$CACHE_FILE" >/dev/null 2>&1; then
         echo "Cleaning up corrupted cache file..."
         rm -f "$CACHE_FILE"
@@ -67,26 +62,21 @@ cleanup_corrupted_files() {
 }
 
 # ==========================================================
-
 check_existing_installation() {
     local has_venv=false
     local has_config=false
     local has_language=false
     local has_menu=false
     
-
     if [ -f "$INSTALL_DIR/$MENU_SCRIPT" ]; then
         has_menu=true
     fi
     
-
     if [ -d "$VENV_PATH" ] && [ -f "$VENV_PATH/bin/activate" ]; then
         has_venv=true
     fi
     
-
     if [ -f "$CONFIG_FILE" ]; then
-
         if jq empty "$CONFIG_FILE" >/dev/null 2>&1; then
             has_config=true
             local current_language=$(jq -r '.language // empty' "$CONFIG_FILE" 2>/dev/null)
@@ -94,13 +84,11 @@ check_existing_installation() {
                 has_language=true
             fi
         else
-
             echo "Warning: Corrupted config file detected, removing..."
             rm -f "$CONFIG_FILE"
         fi
     fi
     
-
     if [ "$has_venv" = true ] && [ "$has_language" = true ]; then
         echo "translation"
     elif [ "$has_menu" = true ] && [ "$has_venv" = false ]; then
@@ -111,7 +99,6 @@ check_existing_installation() {
         echo "none"
     fi
 }
-
 
 uninstall_proxmenu() {
     local install_type="$1"
@@ -125,7 +112,6 @@ uninstall_proxmenu() {
     
     echo "Uninstalling ProxMenu..."
     
-
     if [ -f "$VENV_PATH/bin/activate" ]; then
         echo "Removing googletrans and virtual environment..."
         source "$VENV_PATH/bin/activate"
@@ -134,7 +120,6 @@ uninstall_proxmenu() {
         rm -rf "$VENV_PATH"
     fi
     
-
     if [ "$install_type" = "translation" ] && [ "$force_clean" != "force" ]; then
         DEPS_TO_REMOVE=$(whiptail --title "Remove Translation Dependencies" --checklist \
             "Select translation-specific dependencies to remove:" 15 60 3 \
@@ -155,11 +140,9 @@ uninstall_proxmenu() {
         fi
     fi
     
-
     rm -f "$INSTALL_DIR/$MENU_SCRIPT"
     rm -rf "$BASE_DIR"
     
-
     [ -f /root/.bashrc.bak ] && mv /root/.bashrc.bak /root/.bashrc
     if [ -f /etc/motd.bak ]; then
         mv /etc/motd.bak /etc/motd
@@ -171,13 +154,12 @@ uninstall_proxmenu() {
     return 0
 }
 
-
 handle_installation_change() {
     local current_type="$1"
     local new_type="$2"
     
     if [ "$current_type" = "$new_type" ]; then
-        return 0  
+        return 0
     fi
     
     case "$current_type-$new_type" in
@@ -210,31 +192,25 @@ update_config() {
     local status="$2"
     local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
-
     local tracked_components=("dialog" "curl" "jq" "python3" "python3-venv" "python3-pip" "virtual_environment" "pip" "googletrans")
     
-
     if [[ " ${tracked_components[@]} " =~ " ${component} " ]]; then
         mkdir -p "$(dirname "$CONFIG_FILE")"
         
-
         if [ ! -f "$CONFIG_FILE" ] || ! jq empty "$CONFIG_FILE" >/dev/null 2>&1; then
             echo '{}' > "$CONFIG_FILE"
         fi
         
-
         local tmp_file=$(mktemp)
         if jq --arg comp "$component" --arg stat "$status" --arg time "$timestamp" \
            '.[$comp] = {status: $stat, timestamp: $time}' "$CONFIG_FILE" > "$tmp_file" 2>/dev/null; then
             mv "$tmp_file" "$CONFIG_FILE"
         else
-
             echo '{}' > "$CONFIG_FILE"
             jq --arg comp "$component" --arg stat "$status" --arg time "$timestamp" \
                '.[$comp] = {status: $stat, timestamp: $time}' "$CONFIG_FILE" > "$tmp_file" && mv "$tmp_file" "$CONFIG_FILE"
         fi
         
-
         [ -f "$tmp_file" ] && rm -f "$tmp_file"
     fi
 }
@@ -249,9 +225,7 @@ show_progress() {
     msg_info2 "$message"
 }
 
-
 select_language() {
-
     if [ -f "$CONFIG_FILE" ] && jq empty "$CONFIG_FILE" >/dev/null 2>&1; then
         local existing_language=$(jq -r '.language // empty' "$CONFIG_FILE" 2>/dev/null)
         if [[ -n "$existing_language" && "$existing_language" != "null" && "$existing_language" != "empty" ]]; then
@@ -261,7 +235,6 @@ select_language() {
         fi
     fi
     
-
     LANGUAGE=$(whiptail --title "Select Language" --menu "Choose a language for the menu:" 20 60 12 \
         "en" "English (Recommended)" \
         "es" "Spanish" \
@@ -275,40 +248,55 @@ select_language() {
         exit 1
     fi
     
-
     mkdir -p "$(dirname "$CONFIG_FILE")"
     
-
     if [ ! -f "$CONFIG_FILE" ] || ! jq empty "$CONFIG_FILE" >/dev/null 2>&1; then
         echo '{}' > "$CONFIG_FILE"
     fi
     
-
     local tmp_file=$(mktemp)
     if jq --arg lang "$LANGUAGE" '. + {language: $lang}' "$CONFIG_FILE" > "$tmp_file" 2>/dev/null; then
         mv "$tmp_file" "$CONFIG_FILE"
     else
-
         echo "{\"language\": \"$LANGUAGE\"}" > "$CONFIG_FILE"
     fi
     
-
     [ -f "$tmp_file" ] && rm -f "$tmp_file"
     
     msg_ok "Language set to: $LANGUAGE"
 }
 
-####################################################
+# Show installation confirmation for new installations
+show_installation_confirmation() {
+    local install_type="$1"
+    
+    case "$install_type" in
+        "1")
+            if whiptail --title "ProxMenux - Normal Version Installation" \
+                --yesno "ProxMenux Normal Version will install:\n\n• dialog  (interactive menus) - Official Debian package\n• curl       (file downloads) - Official Debian package\n• jq        (JSON processing) - Official Debian package\n• ProxMenux core files     (/usr/local/share/proxmenux)\n\nThis is a lightweight installation with minimal dependencies.\n\nProceed with installation?" 18 70; then
+                return 0
+            else
+                return 1
+            fi
+            ;;
+        "2")
+            if whiptail --title "ProxMenux - Translation Version Installation" \
+                --yesno "ProxMenux Translation Version will install:\n\n• dialog (interactive menus)\n• curl (file downloads)\n• jq (JSON processing)\n• python3 + python3-venv + python3-pip\n• Google Translate library (googletrans)\n• Virtual environment (/opt/googletrans-env)\n• Translation cache system\n• ProxMenux core files\n\nThis version requires more dependencies for translation support.\n\nProceed with installation?" 18 70; then
+                return 0
+            else
+                return 1
+            fi
+            ;;
+    esac
+}
 
+####################################################
 install_normal_version() {
     local total_steps=3
     local current_step=1
     
-
-
     show_progress $current_step $total_steps "Installing basic dependencies"
     
-
     if ! dpkg -l | grep -qw "jq"; then
         msg_info "Installing jq..."
         apt-get update > /dev/null 2>&1
@@ -325,7 +313,6 @@ install_normal_version() {
         update_config "jq" "already_installed"
     fi
     
-
     BASIC_DEPS=("dialog" "curl")
     for pkg in "${BASIC_DEPS[@]}"; do
         if ! dpkg -l | grep -qw "$pkg"; then
@@ -346,13 +333,11 @@ install_normal_version() {
     
     ((current_step++))
     
-
     show_progress $current_step $total_steps "Creating directories and configuration"
     
     mkdir -p "$BASE_DIR"
     mkdir -p "$INSTALL_DIR"
     
-
     if [ ! -f "$CONFIG_FILE" ]; then
         echo '{}' > "$CONFIG_FILE"
     fi
@@ -360,7 +345,6 @@ install_normal_version() {
     msg_ok "Directories and configuration created."
     ((current_step++))
     
-
     show_progress $current_step $total_steps "Downloading necessary files"
     
     FILES=(
@@ -382,22 +366,17 @@ install_normal_version() {
     done
     
     chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
-
 }
 
 ####################################################
-
 install_translation_version() {
     local total_steps=4
     local current_step=1
     
-
-
     show_progress $current_step $total_steps "Language selection"
     select_language
     ((current_step++))
     
-
     show_progress $current_step $total_steps "Installing system dependencies"
     
     if ! dpkg -l | grep -qw "jq"; then
@@ -436,7 +415,6 @@ install_translation_version() {
     
     ((current_step++))
     
-
     show_progress $current_step $total_steps "Setting up translation environment"
     
     if [ ! -d "$VENV_PATH" ] || [ ! -f "$VENV_PATH/bin/activate" ]; then
@@ -481,7 +459,6 @@ install_translation_version() {
     deactivate
     ((current_step++))
     
-
     show_progress $current_step $total_steps "Downloading necessary files"
     
     mkdir -p "$BASE_DIR"
@@ -500,7 +477,6 @@ install_translation_version() {
         sleep 2
         if wget -qO "$dest" "$url"; then
             msg_ok "${dest##*/} downloaded successfully."
-
             if [[ "$dest" == "$CACHE_FILE" ]]; then
                 msg_ok "Cache file updated with latest translations."
             fi
@@ -511,12 +487,9 @@ install_translation_version() {
     done
     
     chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
-
 }
 
 ####################################################
-
-
 show_installation_options() {
     local current_install_type
     current_install_type=$(check_existing_installation)
@@ -524,7 +497,6 @@ show_installation_options() {
     local menu_title="ProxMenux Installation"
     local menu_text="Choose installation type:"
     
-
     if [ "$current_install_type" != "none" ]; then
         case "$current_install_type" in
             "translation")
@@ -548,13 +520,19 @@ show_installation_options() {
         exit 1
     fi
     
-
+    # For new installations, show confirmation with details
+    if [ "$current_install_type" = "none" ]; then
+        if ! show_installation_confirmation "$INSTALL_TYPE"; then
+            msg_warn "Installation cancelled."
+            exit 1
+        fi
+    fi
+    
     if ! handle_installation_change "$current_install_type" "$INSTALL_TYPE"; then
         msg_warn "Installation cancelled."
         exit 1
     fi
 }
-
 
 install_proxmenu() {
     show_installation_options
@@ -576,7 +554,6 @@ install_proxmenu() {
             ;;
     esac
     
-
     msg_title "ProxMenux has been installed successfully"
     echo -ne "${GN}"
     type_text "To run ProxMenux, simply execute this command in the console or terminal:"
@@ -584,13 +561,10 @@ install_proxmenu() {
     echo
 }
 
-
 if [ "$(id -u)" -ne 0 ]; then
     msg_error "This script must be run as root."
     exit 1
 fi
 
-
 cleanup_corrupted_files
-
 install_proxmenu
