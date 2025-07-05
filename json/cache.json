@@ -1,81 +1,4 @@
 {
-  "Installing system dependencies": {
-    "es": "Instalando dependencias del sistema",
-    "fr": "Installation des dépendances système",
-    "de": "Systemabhängigkeiten werden installiert",
-    "it": "Installazione delle dipendenze di sistema",
-    "pt": "Instalando dependências do sistema"
-  },
-  "is already installed.": {
-    "es": "ya está instalado.",
-    "fr": "est déjà installé.",
-    "de": "ist bereits installiert.",
-    "it": "è già installato.",
-    "pt": "já está instalado."
-  },
-  "Setting up translation environment": {
-    "es": "Configurando entorno de traducción",
-    "fr": "Configuration de l'environnement de traduction",
-    "de": "Übersetzungsumgebung wird eingerichtet",
-    "it": "Configurazione dell'ambiente di traduzione",
-    "pt": "Configurando ambiente de tradução"
-  },
-  "Virtual environment already exists.": {
-    "es": "El entorno virtual ya existe.",
-    "fr": "L'environnement virtuel existe déjà.",
-    "de": "Virtuelle Umgebung existiert bereits.",
-    "it": "L'ambiente virtuale esiste già.",
-    "pt": "O ambiente virtual já existe."
-  },
-  "Upgrading pip...": {
-    "es": "Actualizando pip...",
-    "fr": "Mise à jour de pip...",
-    "de": "pip wird aktualisiert...",
-    "it": "Aggiornamento di pip...",
-    "pt": "Atualizando pip..."
-  },
-  "Pip upgraded successfully.": {
-    "es": "pip actualizado correctamente.",
-    "fr": "pip mis à jour avec succès.",
-    "de": "pip erfolgreich aktualisiert.",
-    "it": "pip aggiornato correttamente.",
-    "pt": "pip atualizado com sucesso."
-  },
-  "Installing googletrans...": {
-    "es": "Instalando googletrans...",
-    "fr": "Installation de googletrans...",
-    "de": "googletrans wird installiert...",
-    "it": "Installazione di googletrans...",
-    "pt": "Instalando googletrans..."
-  },
-  "installed successfully.": {
-    "es": "instalado correctamente.",
-    "fr": "installé avec succès.",
-    "de": "erfolgreich installiert.",
-    "it": "installato correttamente.",
-    "pt": "instalado com sucesso."
-  },
-  "Downloading necessary files": {
-    "es": "Descargando archivos necesarios",
-    "fr": "Téléchargement des fichiers nécessaires",
-    "de": "Notwendige Dateien werden heruntergeladen",
-    "it": "Download dei file necessari",
-    "pt": "Baixando arquivos necessários"
-  },
-  "Downloading": {
-    "es": "Descargando",
-    "fr": "Téléchargement",
-    "de": "Herunterladen",
-    "it": "Download",
-    "pt": "Download"
-  },
-  "downloaded successfully.": {
-    "es": "descargado correctamente.",
-    "fr": "téléchargé avec succès.",
-    "de": "erfolgreich heruntergeladen.",
-    "it": "scaricato correttamente.",
-    "pt": "baixado com sucesso."
-  },
   "ProxMenux has been installed successfully": {
     "es": "ProxMenux se ha instalado correctamente.",
     "fr": "ProxMenux a été installé avec succès.",
@@ -980,7 +903,11 @@
     "es": "Comandos de ayuda e información"
   },
   "Create VM from template or script": {
-    "es": "Crear VM a partir de plantilla o script"
+    "es": "Crear VM a partir de plantilla o script",
+    "fr": "Créer une VM à partir d’un modèle ou d’un script",
+    "de": "VM aus Vorlage oder Skript erstellen",
+    "it": "Crea VM da template o script",
+    "pt": "Criar VM a partir de modelo ou script"
   },
   "Disk and Storage Manager": {
     "es": "Administrador de disco y almacenamiento"
@@ -1603,5 +1530,19 @@
     "es": "¿Quieres continuar y ejecutar la actualización del sistema Proxmox?",
     "fr": "Voulez-vous continuer et lancer la mise à jour du système Proxmox ?",
     "de": "Möchten Sie fortfahren und die Proxmox-Systemaktualisierung ausführen?"
-  }  
+  },
+  "Update Proxmox VE Appliance Manager": {
+  "es": "Actualizar Proxmox VE Appliance Manager",
+  "fr": "Mettre à jour Proxmox VE Appliance Manager",
+  "de": "Proxmox VE Appliance Manager aktualisieren",
+  "it": "Aggiorna Proxmox VE Appliance Manager",
+  "pt": "Atualizar o Proxmox VE Appliance Manager"
+  },
+  "Post-Installation Options": {
+    "es": "Ajustes post-instalación",
+    "fr": "Options post-installation",
+    "de": "Optionen nach der Installation",
+    "it": "Opzioni post-installazione",
+    "pt": "Opções pós-instalação"
+  }
 }
