@@ -1526,5 +1526,19 @@
     "es": "¿Quieres continuar y ejecutar la actualización del sistema Proxmox?",
     "fr": "Voulez-vous continuer et lancer la mise à jour du système Proxmox ?",
     "de": "Möchten Sie fortfahren und die Proxmox-Systemaktualisierung ausführen?"
-  }  
+  },
+  "Update Proxmox VE Appliance Manager": {
+  "es": "Actualizar Proxmox VE Appliance Manager",
+  "fr": "Mettre à jour Proxmox VE Appliance Manager",
+  "de": "Proxmox VE Appliance Manager aktualisieren",
+  "it": "Aggiorna Proxmox VE Appliance Manager",
+  "pt": "Atualizar o Proxmox VE Appliance Manager"
+  },
+  "Post-Installation Options": {
+    "es": "Ajustes post-instalación",
+    "fr": "Options post-installation",
+    "de": "Optionen nach der Installation",
+    "it": "Opzioni post-installazione",
+    "pt": "Opções pós-instalação"
+  }
 }
