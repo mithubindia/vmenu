@@ -298,27 +298,24 @@ translate() {
     local text="$1"
     local dest_lang="$LANGUAGE"
 
-    # If the language is English, return the original text without translating or caching
-    if [ "$dest_lang" = "en" ]; then
-        echo "$text"
-        return
-    fi
 
+
+    
     if [ ! -s "$CACHE_FILE" ] || ! jq -e . "$CACHE_FILE" > /dev/null 2>&1; then
         echo "{}" > "$CACHE_FILE"
     fi
-
     local cached_translation=$(jq -r --arg text "$text" --arg lang "$dest_lang" '.[$text][$lang] // .[$text]["notranslate"] // empty' "$CACHE_FILE")
     if [ -n "$cached_translation" ]; then
         echo "$cached_translation"
         return
     fi
 
-    # Robust check: skip python if venv or googletrans not ready
+
     if [ ! -d "$VENV_PATH" ] || [ ! -f "$VENV_PATH/bin/activate" ] || ! "$VENV_PATH/bin/python3" -c "import googletrans" 2>/dev/null; then
         echo "$text"
         return
     fi
+
 
     source "$VENV_PATH/bin/activate"
     local translated
@@ -328,12 +325,12 @@ import sys, json, re
 
 def translate_text(text, dest_lang):
     translator = Translator()
-    # Context is not strictly necessary, but if you want it:
-    context = '###CONTEXT### '
+    # El contexto solo se añade aquí
+    context = 'Context: sysadmin script translation. '
     try:
         result = translator.translate(context + text, dest=dest_lang).text
-        # Remove context marker if present
-        translated = re.sub(r'^.*###CONTEXT### ?', '', result).strip()
+        # Remueve el contexto en el texto traducido
+        translated = re.sub(r'^(Context: sysadmin script translation\. )?', '', result).strip()
         return json.dumps({'success': True, 'text': translated})
     except Exception as e:
         return json.dumps({'success': False, 'error': str(e)})
@@ -348,8 +345,6 @@ print(translate_text('$text', '$dest_lang'))
     if [ "$success" = "true" ]; then
         translated=$(echo "$translation_result" | jq -r '.text')
 
-        # Post-process: Remove context marker again, just in case
-        translated=$(echo "$translated" | sed -E 's/^.*###CONTEXT### ?//g')
 
         if [ "$dest_lang" != "en" ]; then
             local temp_cache=$(mktemp)
@@ -358,12 +353,13 @@ print(translate_text('$text', '$dest_lang'))
                 .[$text][$lang] = $translated
             ' "$CACHE_FILE" > "$temp_cache" && mv "$temp_cache" "$CACHE_FILE"
         fi
-        
+
         echo "$translated"
     else
         echo "$text"
     fi
 }
+
 
 
 
