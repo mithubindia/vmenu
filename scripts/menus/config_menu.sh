@@ -90,7 +90,7 @@ show_config_menu() {
 
         OPTION=$(dialog --clear --backtitle "ProxMenux Configuration" \
                         --title "$(translate "Configuration Menu")" \
-                        --menu "$(translate "Select an option:")" 15 60 4 \
+                        --menu "$(translate "Select an option:")" 20 70 10 \
                         "${menu_options[@]}" 3>&1 1>&2 2>&3)
         
 
