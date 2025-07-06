@@ -54,7 +54,7 @@ confirm_automated_script() {
     script_info+="• $(translate "Remove") \Z4subscription banner\Z0 $(translate "from Proxmox interface")\n"
     script_info+="• $(translate "Optimize") \Z4memory\Z0 $(translate "and") \Z4system limits\Z0\n"
     script_info+="• $(translate "Enhance") \Z4network\Z0 $(translate "performance and") \Z4TCP settings\Z0\n"
-    script_info+="• $(translate "Install") \Z4log2ram\Z0 $(translate "for") \Z4SSD protection\Z0\n"
+    script_info+="• $(translate "Install") \Z4Log2RAM\Z0 $(translate "for") \Z4SSD protection\Z0\n"
     script_info+="• $(translate "Configure") \Z4security\Z0 $(translate "and") \Z4time synchronization\Z0\n"
     script_info+="• $(translate "Optimize") \Z4journald\Z0, \Z4entropy\Z0 $(translate "and") \Z4bash environment\Z0\n"
     script_info+="• $(translate "Apply") \Z4kernel\Z0 $(translate "and") \Z4logrotate\Z0 $(translate "optimizations")\n\n"

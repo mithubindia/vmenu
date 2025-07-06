@@ -1727,11 +1727,88 @@
     "it": "Seleziona le ottimizzazioni da disinstallare:",
     "pt": "Selecione as otimizações para desinstalar:"
   },
-    "Install and configure Log2RAM": {
+  "Install and configure Log2RAM": {
     "es": "Instalar y configurar Log2Ram",
     "fr": "Installer et configurer Log2Ram",
     "de": "Log2Ram installieren und konfigurieren",
     "it": "Installare e configurare Log2Ram",
     "pt": "Instalar e configurar o Log2Ram"
+  },
+  "Select System Type": {
+    "es": "Seleccionar tipo de sistema",
+    "fr": "Sélectionner le type de système",
+    "de": "Systemtyp auswählen",
+    "it": "Seleziona il tipo di sistema",
+    "pt": "Selecionar o tipo de sistema"
+  },
+  "Choose the type of virtual system to install:": {
+    "es": "Elija el tipo de sistema virtual a instalar:",
+    "fr": "Choisissez le type de système virtuel à installer :",
+    "de": "Wählen Sie den zu installierenden virtuellen Systemtyp:",
+    "it": "Scegli il tipo di sistema virtuale da installare:",
+    "pt": "Escolha o tipo de sistema virtual a instalar:"
+  },
+  "Create": {
+    "es": "Crear",
+    "fr": "Créer",
+    "de": "Erstellen",
+    "it": "Crea",
+    "pt": "Criar"
+  },
+  "Other Prebuilt Linux VMs": {
+    "es": "Otras máquinas virtuales Linux preinstaladas",
+    "fr": "Autres machines virtuelles Linux préinstallées",
+    "de": "Weitere vorgefertigte Linux-VMs",
+    "it": "Altre VM Linux preconfigurate",
+    "pt": "Outras VMs Linux pré-construídas"
+  },
+  "Select one of the ready-to-run Linux VMs:": {
+    "es": "Seleccione una de las máquinas virtuales Linux listas para usar:",
+    "fr": "Sélectionnez l'une des machines virtuelles Linux prêtes à l'emploi :",
+    "de": "Wählen Sie eine der einsatzbereiten Linux-VMs aus:",
+    "it": "Seleziona una delle VM Linux pronte all'uso:",
+    "pt": "Selecione uma das VMs Linux prontas para usar:"
+  },
+  "Disk and Storage Manager Menu": {
+    "es": "Menú de gestión de discos y almacenamiento",
+    "fr": "Menu du gestionnaire de disques et de stockage",
+    "de": "Menü für Festplatten- und Speicherverwaltung",
+    "it": "Menu di gestione disco e storage",
+    "pt": "Menu de gerenciamento de disco e armazenamento"
+  },
+  "Add Disk": {
+    "es": "Agregar disco",
+    "fr": "Ajouter un disque",
+    "de": "Festplatte hinzufügen",
+    "it": "Aggiungi disco",
+    "pt": "Adicionar disco"
+  },
+  "to a VM": {
+    "es": "a una VM",
+    "fr": "à une VM",
+    "de": "zu einer VM",
+    "it": "a una VM",
+    "pt": "a uma VM"
+  },
+  "to a LXC": {
+    "es": "a un LXC",
+    "fr": "à un LXC",
+    "de": "zu einem LXC",
+    "it": "a un LXC",
+    "pt": "a um LXC"
+  },
+  "Installation type:": {
+    "es": "Tipo de instalación:",
+    "fr": "Type d'installation :",
+    "de": "Installationstyp:",
+    "it": "Tipo di installazione:",
+    "pt": "Tipo de instalação:"
+  },
+  "Translation Version (Multi-language support)": {
+    "es": "Versión de traducción (soporte multilenguaje)",
+    "fr": "Version traduction (prise en charge multilingue)",
+    "de": "Übersetzungsversion (Mehrsprachige Unterstützung)",
+    "it": "Versione traduzione (supporto multilingue)",
+    "pt": "Versão de tradução (suporte multilíngue)"
   }
 }
