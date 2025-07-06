@@ -10,9 +10,13 @@
 # ==========================================================
 
 # Description:
-# Advanced network management and troubleshooting tool for Proxmox VE.
-# Features include interface detection, bridge management, connectivity testing,
-# network diagnostics, configuration backup/restore, and automated repairs.
+# ProxMenu is an advanced yet user-friendly network management tool for Proxmox VE.
+# Core features:
+# - View and analyze network interfaces, bridges, and routing table
+# - Test Internet and LAN connectivity
+# - Diagnose and repair basic network issues
+# - Backup, restore, and clean network configuration
+# - Safely restart the network service
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
