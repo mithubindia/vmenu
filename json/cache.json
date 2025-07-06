@@ -1726,5 +1726,12 @@
     "de": "Wählen Sie die zu deinstallierenden Optimierungen aus:",
     "it": "Seleziona le ottimizzazioni da disinstallare:",
     "pt": "Selecione as otimizações para desinstalar:"
+  },
+    "Install and configure Log2RAM": {
+    "es": "Instalar y configurar Log2Ram",
+    "fr": "Installer et configurer Log2Ram",
+    "de": "Log2Ram installieren und konfigurieren",
+    "it": "Installare e configurare Log2Ram",
+    "pt": "Instalar e configurar o Log2Ram"
   }
 }
