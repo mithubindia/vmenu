@@ -710,7 +710,7 @@ EOF
 # ==========================================================
 
 install_log2ram_auto() {
-    msg_info2 "$(translate "Checking if system disk is SSD or M.2...")"
+    msg_info "$(translate "Checking if system disk is SSD or M.2...")"
 
     ROOT_PART=$(lsblk -no NAME,MOUNTPOINT | grep ' /$' | awk '{print $1}')
     SYSTEM_DISK=$(lsblk -no PKNAME /dev/$ROOT_PART 2>/dev/null)
