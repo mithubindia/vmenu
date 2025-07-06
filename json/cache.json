@@ -1532,11 +1532,11 @@
     "de": "Möchten Sie fortfahren und die Proxmox-Systemaktualisierung ausführen?"
   },
   "Update Proxmox VE Appliance Manager": {
-  "es": "Actualizar Proxmox VE Appliance Manager",
-  "fr": "Mettre à jour Proxmox VE Appliance Manager",
-  "de": "Proxmox VE Appliance Manager aktualisieren",
-  "it": "Aggiorna Proxmox VE Appliance Manager",
-  "pt": "Atualizar o Proxmox VE Appliance Manager"
+    "es": "Actualizar Proxmox VE Appliance Manager",
+    "fr": "Mettre à jour Proxmox VE Appliance Manager",
+    "de": "Proxmox VE Appliance Manager aktualisieren",
+    "it": "Aggiorna Proxmox VE Appliance Manager",
+    "pt": "Atualizar o Proxmox VE Appliance Manager"
   },
   "Post-Installation Options": {
     "es": "Ajustes post-instalación",
@@ -1544,5 +1544,187 @@
     "de": "Optionen nach der Installation",
     "it": "Opzioni post-installazione",
     "pt": "Opções pós-instalação"
+  },
+  "Automated post-installation script": {
+    "es": "Script automatizado de postinstalación",
+    "fr": "Script automatisé de post-installation",
+    "de": "Automatisches Post-Installationsskript",
+    "it": "Script automatico di post-installazione",
+    "pt": "Script automatizado de pós-instalação"
+  },
+  "Customizable post-installation script": {
+    "es": "Script de postinstalación personalizable",
+    "fr": "Script de post-installation personnalisable",
+    "de": "Anpassbares Post-Installationsskript",
+    "it": "Script di post-installazione personalizzabile",
+    "pt": "Script de pós-instalação personalizável"
+  },
+  "Uninstall optimizations": {
+    "es": "Desinstalar optimizaciones",
+    "fr": "Désinstaller les optimisations",
+    "de": "Optimierungen deinstallieren",
+    "it": "Disinstalla ottimizzazioni",
+    "pt": "Desinstalar otimizações"
+  },
+  "Community Scripts": {
+    "es": "Scripts comunitarios",
+    "fr": "Scripts communautaires",
+    "de": "Community-Skripte",
+    "it": "Script della comunità",
+    "pt": "Scripts da comunidade"
+  },
+  "Xshok-proxmox Post install": {
+    "es": "Postinstalación Xshok-Proxmox",
+    "fr": "Post-installation Xshok-Proxmox",
+    "de": "Xshok-Proxmox-Post-Installation",
+    "it": "Post-installazione Xshok-Proxmox",
+    "pt": "Pós-instalação Xshok-Proxmox"
+  },
+  "Post-Installation Scripts": {
+    "es": "Scripts de postinstalación",
+    "fr": "Scripts de post-installation",
+    "de": "Post-Installationsskripte",
+    "it": "Script di post-installazione",
+    "pt": "Scripts de pós-instalação"
+  },
+  "Select a post-installation script:": {
+    "es": "Seleccione un script de postinstalación:",
+    "fr": "Sélectionnez un script de post-installation :",
+    "de": "Wählen Sie ein Post-Installationsskript aus:",
+    "it": "Seleziona uno script di post-installazione:",
+    "pt": "Selecione um script de pós-instalação:"
+  },
+  "The automated post-install script performs the following system adjustments": {
+    "es": "El script automatizado de postinstalación realiza los siguientes ajustes en el sistema",
+    "fr": "Le script automatisé de post-installation effectue les ajustements système suivants",
+    "de": "Das automatische Post-Installationsskript führt folgende Systemanpassungen durch",
+    "it": "Lo script automatico di post-installazione esegue i seguenti aggiustamenti di sistema",
+    "pt": "O script automatizado de pós-instalação executa os seguintes ajustes no sistema"
+  },
+  "Configure": {
+    "es": "Configurar",
+    "fr": "Configurer",
+    "de": "Konfigurieren",
+    "it": "Configurare",
+    "pt": "Configurar"
+  },
+  "and upgrade system": {
+    "es": "y actualizar el sistema",
+    "fr": "et mettre à niveau le système",
+    "de": "und das System aktualisieren",
+    "it": "e aggiornare il sistema",
+    "pt": "e atualizar o sistema"
+  },
+  "Remove": {
+    "es": "Eliminar",
+    "fr": "Supprimer",
+    "de": "Entfernen",
+    "it": "Rimuovere",
+    "pt": "Remover"
+  },
+  "from Proxmox interface": {
+    "es": "de la interfaz de Proxmox",
+    "fr": "de l'interface Proxmox",
+    "de": "aus der Proxmox-Oberfläche",
+    "it": "dall'interfaccia Proxmox",
+    "pt": "da interface Proxmox"
+  },
+  "Optimize": {
+    "es": "Optimizar",
+    "fr": "Optimiser",
+    "de": "Optimieren",
+    "it": "Ottimizzare",
+    "pt": "Otimizar"
+  },
+  "and": {
+    "es": "y",
+    "fr": "et",
+    "de": "und",
+    "it": "e",
+    "pt": "e"
+  },
+  "Enhance": {
+    "es": "Mejorar",
+    "fr": "Améliorer",
+    "de": "Verbessern",
+    "it": "Migliorare",
+    "pt": "Melhorar"
+  },
+  "performance and": {
+    "es": "el rendimiento y",
+    "fr": "les performances et",
+    "de": "die Leistung und",
+    "it": "le prestazioni e",
+    "pt": "o desempenho e"
+  },
+  "Install": {
+    "es": "Instalar",
+    "fr": "Installer",
+    "de": "Installieren",
+    "it": "Installare",
+    "pt": "Instalar"
+  },
+  "for": {
+    "es": "para",
+    "fr": "pour",
+    "de": "für",
+    "it": "per",
+    "pt": "para"
+  },
+  "Apply": {
+    "es": "Aplicar",
+    "fr": "Appliquer",
+    "de": "Anwenden",
+    "it": "Applicare",
+    "pt": "Aplicar"
+  },
+  "optimizations": {
+    "es": "optimizaciones",
+    "fr": "optimisations",
+    "de": "Optimierungen",
+    "it": "ottimizzazioni",
+    "pt": "otimizações"
+  },
+  "Do you want to run this script?": {
+    "es": "¿Desea ejecutar este script?",
+    "fr": "Voulez-vous exécuter ce script ?",
+    "de": "Möchten Sie dieses Skript ausführen?",
+    "it": "Vuoi eseguire questo script?",
+    "pt": "Deseja executar este script?"
+  },
+  "Automated post-install Script": {
+    "es": "Script automatizado de postinstalación",
+    "fr": "Script automatisé de post-installation",
+    "de": "Automatisches Post-Installationsskript",
+    "it": "Script automatico di post-installazione",
+    "pt": "Script automatizado de pós-instalação"
+  },
+  "Cancelled by user.": {
+    "es": "Cancelado por el usuario.",
+    "fr": "Annulé par l'utilisateur.",
+    "de": "Vom Benutzer abgebrochen.",
+    "it": "Annullato dall'utente.",
+    "pt": "Cancelado pelo usuário."
+  },
+  "No optimizations detected to uninstall.": {
+    "es": "No se detectaron optimizaciones para desinstalar.",
+    "fr": "Aucune optimisation détectée à désinstaller.",
+    "de": "Keine zu deinstallierenden Optimierungen erkannt.",
+    "it": "Nessuna ottimizzazione rilevata da disinstallare.",
+    "pt": "Nenhuma otimização detectada para desinstalar."
+  },
+  "Uninstall Optimizations": {
+    "es": "Desinstalar optimizaciones",
+    "fr": "Désinstaller les optimisations",
+    "de": "Optimierungen deinstallieren",
+    "it": "Disinstalla ottimizzazioni",
+    "pt": "Desinstalar otimizações"
+  },
+  "Select optimizations to uninstall:": {
+    "es": "Seleccione optimizaciones para desinstalar:",
+    "fr": "Sélectionnez les optimisations à désinstaller :",
+    "de": "Wählen Sie die zu deinstallierenden Optimierungen aus:",
+    "it": "Seleziona le ottimizzazioni da disinstallare:",
+    "pt": "Selecione as otimizações para desinstalar:"
   }
 }
