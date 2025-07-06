@@ -68,7 +68,7 @@ show_menu() {
             4) exec bash <(curl -s "$REPO_URL/scripts/menus/create_vm_menu.sh") ;;
             5) exec bash <(curl -s "$REPO_URL/scripts/menus/storage_menu.sh") ;;
             6) exec bash <(curl -s "$REPO_URL/scripts/menus/menu_Helper_Scripts.sh") ;;
-            7) exec bash <(curl -s "$REPO_URL/scripts/repair_network.sh") ;;
+            7) exec bash <(curl -s "$REPO_URL/scripts/menus/network_menu.sh") ;;
             8) exec bash <(curl -s "$REPO_URL/scripts/menus/utilities_menu.sh") ;;
             9) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
             0) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
