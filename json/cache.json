@@ -1546,18 +1546,18 @@
     "pt": "Opções pós-instalação"
   },
   "Automated post-installation script": {
-    "es": "Script automatico post-instalación",
-    "fr": "Script automatisé de post-installation",
+    "es": "Script post-instalación automatico",
+    "fr": "Script post-installation automatisé",
     "de": "Automatisches Post-Installationsskript",
-    "it": "Script automatico di post-installazione",
-    "pt": "Script automatizado de pós-instalação"
+    "it": "Script post-installazione automatico",
+    "pt": "Script pós-instalação automatizado"
   },
   "Customizable post-installation script": {
-    "es": "Script de post-instalación personalizable",
-    "fr": "Script de post-installation personnalisable",
+    "es": "Script post-instalación personalizable",
+    "fr": "Script post-installation personnalisable",
     "de": "Anpassbares Post-Installationsskript",
-    "it": "Script di post-installazione personalizzabile",
-    "pt": "Script de pós-instalação personalizável"
+    "it": "Script post-installazione personalizzabile",
+    "pt": "Script pós-instalação personalizável"
   },
   "Uninstall optimizations": {
     "es": "Desinstalar optimizaciones",
