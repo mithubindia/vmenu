@@ -842,10 +842,6 @@ run_complete_optimization() {
         fi
     fi
 
-    msg_success "$(translate "All changes applied. No reboot required.")"
-    msg_success "$(translate "Press Enter to return to menu...")"
-    read -r
-    clear
 }
 
 

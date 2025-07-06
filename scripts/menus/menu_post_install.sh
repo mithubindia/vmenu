@@ -72,9 +72,6 @@ confirm_automated_script() {
     
     if [ $response -eq 0 ]; then
         bash <(curl -s $REPO_URL/scripts/post_install/auto_post_install.sh)
-        echo
-        msg_success "$(translate 'Press ENTER to continue...')"
-        read -r _
     else
         msg_warn "$(translate "Cancelled by user.")"
         sleep 1
