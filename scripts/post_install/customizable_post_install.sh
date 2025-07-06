@@ -3124,7 +3124,7 @@ main_menu() {
     "Optional|Add Proxmox testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
     "Optional|Install Figurine|FIGURINE"
-    "Optional|Install and Log2RAM|LOG2RAM"
+    "Optional|Install and configure Log2RAM|LOG2RAM"
   )
 
   IFS=$'\n' sorted_options=($(for option in "${options[@]}"; do
