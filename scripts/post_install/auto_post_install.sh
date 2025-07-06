@@ -717,9 +717,9 @@ install_log2ram_auto() {
     SYSTEM_DISK=${SYSTEM_DISK:-sda}
 
     if [[ "$SYSTEM_DISK" == nvme* || "$(cat /sys/block/$SYSTEM_DISK/queue/rotational 2>/dev/null)" == "0" ]]; then
-        msg_ok "$(translate "System disk ($SYSTEM_DISK) is SSD or M.2. Proceeding with log2ram setup.")"
+        msg_ok "$(translate "System disk ($SYSTEM_DISK) is SSD or M.2. Proceeding with Log2RAM setup.")"
     else
-        msg_warn "$(translate "System disk ($SYSTEM_DISK) is not SSD/M.2. Skipping log2ram installation.")"
+        msg_warn "$(translate "System disk ($SYSTEM_DISK) is not SSD/M.2. Skipping Log2RAM installation.")"
         return 0
     fi
 
@@ -737,14 +737,19 @@ install_log2ram_auto() {
 
     msg_info "$(translate "Installing log2ram from GitHub...")"
 
+    if ! command -v git >/dev/null 2>&1; then
+    apt-get update -qq >/dev/null 2>&1
+    apt-get install -y git >/dev/null 2>&1
+    fi
+
     git clone https://github.com/azlux/log2ram.git /tmp/log2ram >/dev/null 2>>/tmp/log2ram_install.log
     cd /tmp/log2ram || return 1
     bash install.sh >>/tmp/log2ram_install.log 2>&1
 
     if [[ -f /etc/log2ram.conf ]] && systemctl list-units --all | grep -q log2ram; then
-        msg_ok "$(translate "log2ram installed successfully")"
+        msg_ok "$(translate "Log2RAM installed successfully")"
     else
-        msg_error "$(translate "Failed to install log2ram. See /tmp/log2ram_install.log")"
+        msg_error "$(translate "Failed to install Log2RAM. See /tmp/log2ram_install.log")"
         return 1
     fi
 
@@ -763,7 +768,7 @@ install_log2ram_auto() {
         CRON_HOURS=6
     fi
 
-    msg_ok "$(translate "Detected RAM:") $RAM_SIZE_GB GB — $(translate "log2ram size set to:") $LOG2RAM_SIZE"
+    msg_ok "$(translate "Detected RAM:") $RAM_SIZE_GB GB — $(translate "Log2RAM size set to:") $LOG2RAM_SIZE"
 
     sed -i "s/^SIZE=.*/SIZE=$LOG2RAM_SIZE/" /etc/log2ram.conf
     rm -f /etc/cron.hourly/log2ram

@@ -2834,6 +2834,113 @@ update_pve_appliance_manager() {
 
 
 
+
+
+configure_log2ram() {
+
+    msg_info2 "$(translate "Preparing Log2RAM configuration")"
+    sleep 2
+
+    RAM_SIZE_GB=$(free -g | awk '/^Mem:/{print $2}')
+    [[ -z "$RAM_SIZE_GB" || "$RAM_SIZE_GB" -eq 0 ]] && RAM_SIZE_GB=4
+
+    if (( RAM_SIZE_GB <= 8 )); then
+        DEFAULT_SIZE="128"
+        DEFAULT_HOURS="1"
+    elif (( RAM_SIZE_GB <= 16 )); then
+        DEFAULT_SIZE="256"
+        DEFAULT_HOURS="3"
+    else
+        DEFAULT_SIZE="512"
+        DEFAULT_HOURS="6"
+    fi
+
+
+    USER_SIZE=$(whiptail --title "Log2RAM" --inputbox "$(translate "Enter the maximum size (in MB) to allocate for /var/log in RAM (e.g. 128, 256, 512):")\n\n$(translate "Recommended for $RAM_SIZE_GB GB RAM:") ${DEFAULT_SIZE}M" 12 70 "$DEFAULT_SIZE" 3>&1 1>&2 2>&3) || return 0
+    LOG2RAM_SIZE="${USER_SIZE}M"
+
+
+    CRON_HOURS=$(whiptail --title "Log2RAM" --radiolist "$(translate "Select the sync interval (in hours):")\n\n$(translate "Suggested interval: every $DEFAULT_HOURS hour(s)")" 15 70 5 \
+        "1" "$(translate "Every hour")" OFF \
+        "3" "$(translate "Every 3 hours")" OFF \
+        "6" "$(translate "Every 6 hours")" OFF \
+        "12" "$(translate "Every 12 hours")" OFF \
+        3>&1 1>&2 2>&3) || return 0
+
+    # Activar auto-sync si se pasa del 90%
+    if whiptail --title "Log2RAM" --yesno "$(translate "Enable auto-sync if /var/log exceeds 90% of its size?")" 10 60; then
+        ENABLE_AUTOSYNC=true
+    else
+        ENABLE_AUTOSYNC=false
+    fi
+
+    # Instalación
+    msg_info "$(translate "Installing Log2RAM from GitHub...")"
+    rm -rf /tmp/log2ram
+
+    # Ensure git is available
+    if ! command -v git >/dev/null 2>&1; then
+        msg_info "$(translate "Installing required package: git")"
+        apt-get update -qq >/dev/null 2>&1
+        apt-get install -y git >/dev/null 2>&1
+    fi
+
+    git clone https://github.com/azlux/log2ram.git /tmp/log2ram >/dev/null 2>&1
+    cd /tmp/log2ram || return 1
+    bash install.sh >/dev/null 2>&1
+
+    if [[ -f /etc/log2ram.conf ]] && systemctl list-units --all | grep -q log2ram; then
+        msg_ok "$(translate "Log2RAM installed successfully")"
+    else
+        msg_error "$(translate "Failed to install Log2RAM.")"
+        return 1
+    fi
+
+    # Aplicar configuración
+    sed -i "s/^SIZE=.*/SIZE=$LOG2RAM_SIZE/" /etc/log2ram.conf
+    rm -f /etc/cron.hourly/log2ram
+    echo "0 */$CRON_HOURS * * * root /usr/sbin/log2ram write" > /etc/cron.d/log2ram
+    msg_ok "$(translate "Log2RAM write scheduled every") $CRON_HOURS $(translate "hour(s)")"
+
+    # Auto-sync
+    if [[ "$ENABLE_AUTOSYNC" == true ]]; then
+        cat << 'EOF' > /usr/local/bin/log2ram-check.sh
+#!/bin/bash
+CONF_FILE="/etc/log2ram.conf"
+LIMIT_KB=$(grep '^SIZE=' "$CONF_FILE" | cut -d'=' -f2 | tr -d 'M')000
+USED_KB=$(df /var/log --output=used | tail -1)
+THRESHOLD=$(( LIMIT_KB * 90 / 100 ))
+if (( USED_KB > THRESHOLD )); then
+    /usr/sbin/log2ram write
+fi
+EOF
+        chmod +x /usr/local/bin/log2ram-check.sh
+        echo "*/5 * * * * root /usr/local/bin/log2ram-check.sh" > /etc/cron.d/log2ram-auto-sync
+        msg_ok "$(translate "Auto-sync enabled when /var/log exceeds 90% of") $LOG2RAM_SIZE"
+    else
+        rm -f /usr/local/bin/log2ram-check.sh /etc/cron.d/log2ram-auto-sync
+        msg_info2 "$(translate "Auto-sync was not enabled")"
+    fi
+    
+    msg_success "$(translate "Log2RAM installation and configuration completed successfully.")"
+
+    register_tool "log2ram" true
+}
+
+
+
+
+
+
+
+# ==========================================================
+
+
+
+
+
+
+
 # ==========================================================
 #        Auxiliary help functions
 # ==========================================================
@@ -3017,6 +3124,7 @@ main_menu() {
     "Optional|Add Proxmox testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
     "Optional|Install Figurine|FIGURINE"
+    "Optional|Install and Log2RAM|LOG2RAM"
   )
 
   IFS=$'\n' sorted_options=($(for option in "${options[@]}"; do
@@ -3168,6 +3276,7 @@ done
         REPOTEST) add_repo_test ;;
         ENABLE_HA) enable_ha ;;
         FIGURINE) configure_figurine ;;
+        LOG2RAM) configure_log2ram ;;
         PVEAM) update_pve_appliance_manager ;;
         *) echo "Option $function_name not implemented yet" ;;
       esac
