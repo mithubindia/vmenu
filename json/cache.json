@@ -1546,14 +1546,14 @@
     "pt": "Opções pós-instalação"
   },
   "Automated post-installation script": {
-    "es": "Script automatizado de postinstalación",
+    "es": "Script automatico post-instalación",
     "fr": "Script automatisé de post-installation",
     "de": "Automatisches Post-Installationsskript",
     "it": "Script automatico di post-installazione",
     "pt": "Script automatizado de pós-instalação"
   },
   "Customizable post-installation script": {
-    "es": "Script de postinstalación personalizable",
+    "es": "Script de post-instalación personalizable",
     "fr": "Script de post-installation personnalisable",
     "de": "Anpassbares Post-Installationsskript",
     "it": "Script di post-installazione personalizzabile",
@@ -1574,21 +1574,21 @@
     "pt": "Scripts da comunidade"
   },
   "Xshok-proxmox Post install": {
-    "es": "Postinstalación Xshok-Proxmox",
+    "es": "Pos-tinstalación Xshok-Proxmox",
     "fr": "Post-installation Xshok-Proxmox",
     "de": "Xshok-Proxmox-Post-Installation",
     "it": "Post-installazione Xshok-Proxmox",
     "pt": "Pós-instalação Xshok-Proxmox"
   },
   "Post-Installation Scripts": {
-    "es": "Scripts de postinstalación",
+    "es": "Scripts de post-instalación",
     "fr": "Scripts de post-installation",
     "de": "Post-Installationsskripte",
     "it": "Script di post-installazione",
     "pt": "Scripts de pós-instalação"
   },
   "Select a post-installation script:": {
-    "es": "Seleccione un script de postinstalación:",
+    "es": "Seleccione un script de post-instalación:",
     "fr": "Sélectionnez un script de post-installation :",
     "de": "Wählen Sie ein Post-Installationsskript aus:",
     "it": "Seleziona uno script di post-installazione:",
@@ -1693,7 +1693,7 @@
     "pt": "Deseja executar este script?"
   },
   "Automated post-install Script": {
-    "es": "Script automatizado de postinstalación",
+    "es": "Script automatizado de post-instalación",
     "fr": "Script automatisé de post-installation",
     "de": "Automatisches Post-Installationsskript",
     "it": "Script automatico di post-installazione",
