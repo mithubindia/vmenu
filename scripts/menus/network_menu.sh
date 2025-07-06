@@ -455,13 +455,14 @@ show_main_menu() {
                                 "3" "$(translate "Show Routing Table")" \
                                 "4" "$(translate "Test Connectivity")" \
                                 "5" "$(translate "Advanced Diagnostics")" \
-                                "6" "$(translate "Repair Bridge Configuration")" \
-                                "7" "$(translate "Clean Network Configuration")" \
                                 "8" "$(translate "Restart Network Service")" \
                                 "9" "$(translate "Show Network Config File")" \
                                 "10" "$(translate "Restore Network Backup")" \
                                 "0" "$(translate "Return to Main Menu")" \
                                 3>&1 1>&2 2>&3)
+
+                               # "6" "$(translate "Repair Bridge Configuration")" \
+                               # "7" "$(translate "Clean Network Configuration")" \
         
         case $selection in
             1) show_interface_details ;;
