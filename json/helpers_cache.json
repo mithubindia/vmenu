@@ -37,8 +37,9 @@
     ],
     "notes": [
       "Execute within the Proxmox shell",
-      "Configuration: `nano /opt/iptag/iptag.conf`. iptag.service must be restarted after change.",
-      "The Proxmox Node must contain ipcalc and net-tools. `apt-get install -y ipcalc net-tools`"
+      "Configuration: `nano /opt/iptag/iptag.conf`. iptag Service must be restarted after change. See here for full documentation: `https://github.com/community-scripts/ProxmoxVE/discussions/5790`",
+      "The Proxmox Node must contain ipcalc and net-tools. `apt-get install -y ipcalc net-tools`",
+      "You can execute the ip tool manually with `iptag-run`"
     ],
     "type": "pve"
   },
@@ -515,7 +516,9 @@
     "categories": [
       6
     ],
-    "notes": [],
+    "notes": [
+      "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
+    ],
     "type": "ct"
   },
   {
@@ -3751,7 +3754,8 @@
       1
     ],
     "notes": [
-      "Set a root password if using autologin. This will be the PBS password. `passwd root`"
+      "Set a root password if using autologin. This will be the PBS password. `passwd root`",
+      "Advanced Install is only possible without root password and root SSH access, you can configure this after installation."
     ],
     "type": "ct",
     "default_credentials": {
