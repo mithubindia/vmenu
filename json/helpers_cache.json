@@ -1091,7 +1091,8 @@
       18
     ],
     "notes": [
-      "Setup-Steps: Access Control \u27a1 Authentication \u27a1 Create \u27a1 Next \u27a1 Next \u27a1 Create \u27a1 Users \u27a1 Add \u27a1 Username / Password (to authenicate with MQTT) \u27a1 Save. You're now ready to enjoy a high-performance MQTT Broker."
+      "Setup-Steps: Access Control \u27a1 Authentication \u27a1 Create \u27a1 Next \u27a1 Next \u27a1 Create \u27a1 Users \u27a1 Add \u27a1 Username / Password (to authenicate with MQTT) \u27a1 Save. You're now ready to enjoy a high-performance MQTT Broker.",
+      "WARNING: Installation sources scripts outside of Community Scripts repo. Please check the source before installing."
     ],
     "type": "ct",
     "default_credentials": {
