@@ -5,8 +5,8 @@
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.1
-# Last Updated: 08/07/2025
+# Version     : 2.0
+# Last Updated: 07/01/2025
 # ==========================================================
 
 # Description:
@@ -15,7 +15,6 @@
 # network diagnostics, configuration backup/restore, and automated repairs.
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
 BASE_DIR="/usr/local/share/proxmenux"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
@@ -76,98 +75,7 @@ get_interface_info() {
     echo "$interface|$ip|$status|$mac"
 }
 
-# ==========================================================
-# Network Information Functions
-show_interface_details() {
-    local interfaces=($(detect_all_interfaces))
-    local info_text=""
-    
-    info_text+="$(translate "Network Interface Details")\n"
-    info_text+="$(printf '=%.0s' {1..50})\n\n"
-    
-    for interface in "${interfaces[@]}"; do
-        local details=$(get_interface_info "$interface")
-        IFS='|' read -r name ip status mac <<< "$details"
-        
-        info_text+="$(translate "Interface"): $name\n"
-        info_text+="  $(translate "IP Address"): $ip\n"
-        info_text+="  $(translate "Status"): $status\n"
-        info_text+="  $(translate "MAC Address"): $mac\n\n"
-    done
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Interface Details")" \
-           --msgbox "$info_text" 20 70
-}
 
-show_bridge_status() {
-    local bridges=($(detect_bridge_interfaces))
-    local bridge_info=""
-    
-    bridge_info+="$(translate "Bridge Configuration Status")\n"
-    bridge_info+="$(printf '=%.0s' {1..40})\n\n"
-    
-    if [ ${#bridges[@]} -eq 0 ]; then
-        bridge_info+="$(translate "No bridges found")\n"
-    else
-        for bridge in "${bridges[@]}"; do
-            local details=$(get_interface_info "$bridge")
-            IFS='|' read -r name ip status mac <<< "$details"
-            
-            # Get bridge ports
-            local ports=$(grep -A5 "iface $bridge" /etc/network/interfaces 2>/dev/null | grep "bridge-ports" | cut -d' ' -f2-)
-            [ -z "$ports" ] && ports="$(translate "None")"
-            
-            bridge_info+="$(translate "Bridge"): $name\n"
-            bridge_info+="  $(translate "IP"): $ip\n"
-            bridge_info+="  $(translate "Status"): $status\n"
-            bridge_info+="  $(translate "Ports"): $ports\n\n"
-        done
-    fi
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Bridge Status")" \
-           --msgbox "$bridge_info" 18 70
-}
-
-show_routing_table_() {
-    local route_info=""
-    route_info+="$(translate "Routing Table")\n"
-    route_info+="$(printf '=%.0s' {1..30})\n\n"
-    route_info+="$(ip route show)\n\n"
-    route_info+="$(translate "Default Gateway"): $(ip route | grep default | awk '{print $3}' | head -1)\n"
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Routing Information")" \
-           --msgbox "$route_info" 15 80
-}
-
-
-show_routing_table() {
-    local route_info=""
-    local default_gw=$(ip route | grep default | awk '{print $3}' | head -1)
-    local routes=$(ip route show)
-    local route_count=$(echo "$routes" | wc -l)
-    
-    route_info+="🗺️  $(translate "Routing Table")\n"
-    route_info+="$(printf '═%.0s' {1..60})\n\n"
-    
-    if [ -z "$routes" ]; then
-        route_info+="⚠️  $(translate "No routing information found.")\n\n"
-    else
-        route_info+="$(translate "Total routes"): $route_count\n\n"
-
-        while read -r line; do
-            if [[ "$line" == *"default"* ]]; then
-                route_info+="➡️  $line\n"
-            else
-                route_info+="   • $line\n"
-            fi
-        done <<< "$routes"
-        route_info+="\n"
-        route_info+="🌍 $(translate "Default Gateway"): ${default_gw:-$(translate "Not found")}\n"
-    fi
-
-    dialog --backtitle "ProxMenux" --title "$(translate "Routing Information")" \
-           --msgbox "$route_info" 20 85
-}
 
 
 # ==========================================================
@@ -717,29 +625,6 @@ guided_configuration_cleanup() {
            --msgbox "$verification_report" 18 70
 }
 
-
-
-restart_network_service() {
-    if dialog --title "$(translate "Restart Network")" \
-              --yesno "$(translate "This will restart the network service and may cause a brief disconnection. Continue?")" 10 60; then
-
-        show_proxmenux_logo
-        msg_info "$(translate "Restarting network service...")"
-
-        if systemctl restart networking; then
-            msg_ok "$(translate "Network service restarted successfully")"
-        else
-            msg_error "$(translate "Failed to restart network service")"
-            msg_warn "$(translate "If you lose connectivity, you can restore from backup using the console.")"
-        fi
-
-        msg_success "$(translate "Press ENTER to continue...")"
-        read -r
-    fi
-}
-
-
-
 # ==========================================================
 # Configuration Management
 show_network_config() {
@@ -757,18 +642,6 @@ show_network_config() {
 }
 
 
-create_network_backup_manual() {
-
-    show_proxmenux_logo
-    echo -e
-    msg_info "$(translate "Creating backup of network interfaces configuration...")"
-    sleep 3
-    backup_network_config
-    echo -e
-    msg_success "$(translate "Press Enter to continue...")"
-    read -r
-
-}
 
 
 
@@ -828,6 +701,141 @@ restore_network_backup() {
 }
 
 
+
+# ==========================================================
+# Emergency System Repair Functions
+# ==========================================================
+
+
+emergency_proxmox_repair() {
+    clear
+    show_proxmenux_logo
+    echo -e
+    echo "=========================================="
+    echo "    $(translate "EMERGENCY PROXMOX SYSTEM REPAIR")"
+    echo "=========================================="
+    echo
+    
+    msg_warn "$(translate "This will reinstall core Proxmox packages and regenerate certificates")"
+    echo "$(translate "This operation may take several minutes and requires internet connectivity.")"
+    echo
+    echo -n "$(translate "Do you want to continue?") (y/N): "
+    read -r confirm
+    
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+        msg_info2 "$(translate "Operation cancelled by user.")"
+        return
+    fi
+    
+    msg_info2 "$(translate "Starting Proxmox system repair...")"
+    echo
+    
+    # Step 1: Update package lists
+    msg_success "$(translate "Step") 1/3: $(translate "Updating package lists...")"
+    if apt-get update; then
+        msg_ok "$(translate "Package lists updated successfully")"
+    else
+        msg_error "$(translate "Failed to update package lists")"
+        echo "$(translate "This might indicate network connectivity issues.")"
+        echo
+        echo "$(translate "Press ENTER to continue...")"
+        read -r
+        return 1
+    fi
+    echo
+    
+    # Step 2: Reinstall core Proxmox packages
+    msg_success "$(translate "Step") 2/3: $(translate "Reinstalling core Proxmox packages...")"
+    echo "$(translate "This may take several minutes...")"
+    
+    if apt-get install --reinstall proxmox-widget-toolkit pve-manager -y; then
+        msg_ok "$(translate "Core Proxmox packages reinstalled successfully")"
+    else
+        msg_error "$(translate "Failed to reinstall Proxmox packages")"
+        echo "$(translate "Check the error messages above for details.")"
+        echo
+        echo "$(translate "Press ENTER to continue...")"
+        read -r
+        return 1
+    fi
+    echo
+    
+    # Step 3: Regenerate certificates and restart services
+    msg_success "$(translate "Step") 3/3: $(translate "Regenerating certificates and restarting services...")"
+    
+    # Update certificates
+    if command -v pvecm >/dev/null 2>&1; then
+        msg_info "$(translate "Updating cluster certificates...")"
+        if pvecm updatecerts -f; then
+            msg_ok "$(translate "Cluster certificates updated")"
+        else
+            msg_warn "$(translate "Failed to update cluster certificates (might not be in a cluster)")"
+        fi
+    else
+        msg_warn "$(translate "pvecm command not found (might not be in a cluster)")"
+    fi
+    
+    # Restart Proxmox services
+    msg_success "$(translate "Restarting Proxmox services...")"
+    local services_restarted=0
+    local services_failed=0
+    
+    for service in pveproxy pvedaemon; do
+        if systemctl restart "$service"; then
+            msg_ok "  $service $(translate "restarted successfully")"
+            ((services_restarted++))
+        else
+            msg_error "  $(translate "Failed to restart") $service"
+            ((services_failed++))
+        fi
+    done
+    
+    echo
+    echo "$(translate "REPAIR SUMMARY"):"
+    echo "==============="
+    echo "  $(translate "Package lists"): $(translate "Updated")"
+    echo "  $(translate "Core packages"): $(translate "Reinstalled")"
+    echo "  $(translate "Services restarted"): $services_restarted"
+    echo "  $(translate "Services failed"): $services_failed"
+    
+    if [ $services_failed -eq 0 ]; then
+        msg_ok "$(translate "Proxmox system repair completed successfully!")"
+        echo
+        echo "$(translate "You should now be able to access the Proxmox web interface.")"
+        echo "$(translate "Try accessing"): https://$(hostname -I | awk '{print $1}'):8006"
+    else
+        msg_warn "$(translate "Proxmox system repair completed with some issues.")"
+        echo "$(translate "Check the service status manually if needed.")"
+    fi
+    
+    echo
+    echo "$(translate "Press ENTER to continue...")"
+    read -r
+}
+
+
+
+restart_network_service() {
+    if dialog --title "$(translate "Restart Network")" \
+              --yesno "$(translate "This will restart the network service and may cause a brief disconnection. Continue?")" 10 60; then
+
+        show_proxmenux_logo
+        msg_info "$(translate "Restarting network service...")"
+
+        if systemctl restart networking; then
+            msg_ok "$(translate "Network service restarted successfully")"
+        else
+            msg_error "$(translate "Failed to restart network service")"
+            msg_warn "$(translate "If you lose connectivity, you can restore from backup using the console.")"
+        fi
+
+        msg_success "$(translate "Press ENTER to continue...")"
+        read -r
+    fi
+}
+
+
+
 # ==========================================================
 # Main Menu
 show_main_menu() {
@@ -836,32 +844,27 @@ show_main_menu() {
                                 --backtitle "ProxMenux" \
                                 --title "$(translate "Network Management - SAFE MODE")" \
                                 --menu "$(translate "Select an option:"):" 20 70 12 \
-                                "1" "$(translate "Show Interface Details")" \
-                                "2" "$(translate "Show Bridge Status")" \
-                                "3" "$(translate "Show Routing Table")" \
-                                "4" "$(translate "Test Connectivity")" \
-                                "5" "$(translate "Advanced Diagnostics")" \
-                                "6" "$(translate "Analyze Bridge Configuration")" \
-                                "7" "$(translate "Analyze Network Configuration")" \
-                                "8" "$(translate "Restart Network Service")" \
-                                "9" "$(translate "Show Network Config File")" \
-                                "10" "$(translate "Create Network Backup")" \
-                                "11" "$(translate "Restore Network Backup")" \
+                                "1" "$(translate "Test Connectivity")" \
+                                "2" "$(translate "Advanced Diagnostics")" \
+                                "3" "$(translate "Analyze Bridge Configuration")" \
+                                "4" "$(translate "Analyze Network Configuration")" \
+                                "5" "$(translate "Restart Network Service")" \
+                                "6" "$(translate "Show Network Config File")" \
+                                "7" "$(translate "Emergency Proxmox System Repair")" \
+                                "8" "$(translate "Restore Network Backup")" \
                                 "0" "$(translate "Return to Main Menu")" \
                                 3>&1 1>&2 2>&3)
         
         case $selection in
-            1) show_interface_details ;;
-            2) show_bridge_status ;;
-            3) show_routing_table ;;
-            4) test_connectivity ;;
-            5) advanced_network_diagnostics ;;
-            6) analyze_bridge_configuration ;;
-            7) analyze_network_configuration ;;
-            8) restart_network_service ;;
-            9) show_network_config ;;
-            10) create_network_backup_manual ;;
-            11) restore_network_backup ;;
+
+            1) test_connectivity ;;
+            2) advanced_network_diagnostics ;;
+            3) analyze_bridge_configuration ;;
+            4) analyze_network_configuration ;;
+            5) restart_network_service ;;
+            6) show_network_config ;;
+            7) emergency_proxmox_repair ;;
+            8) restore_network_backup ;;
             0|"") exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
         esac
     done
