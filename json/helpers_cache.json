@@ -994,7 +994,9 @@
     "categories": [
       12
     ],
-    "notes": [],
+    "notes": [
+      "Use `cat ~/docmost.creds` to see database credentials."
+    ],
     "type": "ct"
   },
   {
