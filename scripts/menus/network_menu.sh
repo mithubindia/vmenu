@@ -721,7 +721,7 @@ guided_configuration_cleanup() {
 
 restart_network_service() {
     if dialog --title "$(translate "Restart Network")" \
-              --yesno "$(translate "This will restart the network service and may cause a brief disconnection. Continue?")" 10 60; then
+              --yesno "\n$(translate "This will restart the network service and may cause a brief disconnection. Continue?")" 10 60; then
 
         show_proxmenux_logo
         msg_info "$(translate "Restarting network service...")"

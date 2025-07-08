@@ -44,7 +44,7 @@ show_menu() {
             4 "$(translate "Create VM from template or script")" \
             5 "$(translate "Disk and Storage Manager")" \
             6 "$(translate "Proxmox VE Helper Scripts")" \
-            7 "$(translate "Network")" \
+            7 "$(translate "Network Management")" \
             8 "$(translate "Utilities and Tools")" \
             9 "$(translate "Settings")" \
             0 "$(translate "Exit")" 2>"$TEMP_FILE"

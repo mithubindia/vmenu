@@ -41,6 +41,7 @@ BASE_DIR="/usr/local/share/proxmenux"
 CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 UTILS_FILE="$BASE_DIR/utils.sh"
+EMERGENCY_FILE="$BASE_DIR/emergency_repair.sh"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
 MENU_SCRIPT="menu"
 VENV_PATH="/opt/googletrans-env"
@@ -349,6 +350,7 @@ install_normal_version() {
     
     FILES=(
         "$UTILS_FILE $REPO_URL/scripts/utils.sh"
+        "$EMERGENCY_FILE $REPO_URL/scripts/emergency_repair.sh"
         "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
         "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
     )
@@ -366,6 +368,7 @@ install_normal_version() {
     done
     
     chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
+    chmod +x "$EMERGENCY_FILE"
 }
 
 ####################################################
@@ -467,6 +470,7 @@ install_translation_version() {
     FILES=(
         "$CACHE_FILE $REPO_URL/json/cache.json"
         "$UTILS_FILE $REPO_URL/scripts/utils.sh"
+        "$EMERGENCY_FILE $REPO_URL/scripts/emergency_repair.sh"
         "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
         "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
     )
@@ -487,6 +491,7 @@ install_translation_version() {
     done
     
     chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
+    chmod +x "$EMERGENCY_FILE"
 }
 
 ####################################################

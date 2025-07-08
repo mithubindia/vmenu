@@ -48,12 +48,12 @@
     "it": "Dischi e archiviazione",
     "pt": "Discos e armazenamento"
   },
-  "Network": {
-    "es": "Red",
-    "fr": "Réseau",
-    "de": "Netzwerk",
-    "it": "Rete",
-    "pt": "Rede"
+  "Network Management": {
+    "es": "Gestión de Red",
+    "fr": "Gestion de Réseau",
+    "de": "Netzwerkmanagement",
+    "it": "Gestione della Rete",
+    "pt": "Gestão de Rede"
   },
   "Settings": {
     "es": "Configuración",
