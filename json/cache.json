@@ -1810,5 +1810,104 @@
     "de": "Übersetzungsversion (Mehrsprachige Unterstützung)",
     "it": "Versione traduzione (supporto multilingue)",
     "pt": "Versão de tradução (suporte multilíngue)"
+  },
+  "This script will apply the following optimizations and advanced adjustments to your Proxmox VE server": {
+    "es": "Este script aplicará las siguientes optimizaciones y ajustes avanzados a su servidor Proxmox VE",
+    "fr": "Ce script appliquera les optimisations et ajustements avancés suivants à votre serveur Proxmox VE",
+    "de": "Dieses Skript wendet die folgenden Optimierungen und erweiterten Anpassungen auf Ihren Proxmox VE-Server an",
+    "it": "Questo script applicherà le seguenti ottimizzazioni e regolazioni avanzate al tuo server Proxmox VE",
+    "pt": "Este script aplicará as seguintes otimizações e ajustes avançados ao seu servidor Proxmox VE"
+  },
+  "and upgrade the system (disables the enterprise repo)": {
+    "es": "y actualizará el sistema (desactiva el repositorio enterprise)",
+    "fr": "et mettra à niveau le système (désactive le dépôt entreprise)",
+    "de": "und aktualisiert das System (deaktiviert das Enterprise-Repository)",
+    "it": "e aggiornerà il sistema (disabilita il repository enterprise)",
+    "pt": "e atualizará o sistema (desativa o repositório enterprise)"
+  },
+  "Optionally remove": {
+    "es": "Opcionalmente eliminara",
+    "fr": "Supprimer en option",
+    "de": "Optional entfernen",
+    "it": "Rimuovi opzionalmente",
+    "pt": "Remover opcionalmente"
+  },
+  "from Proxmox web interface (you will be asked)": {
+    "es": "de la interfaz web de Proxmox.",
+    "fr": "de l'interface web Proxmox.",
+    "de": "aus der Proxmox-Weboberfläche.",
+    "it": "dall'interfaccia web di Proxmox.",
+    "pt": "da interface web do Proxmox."
+  },
+  "for better performance and stability": {
+    "es": "para un mejor rendimiento y estabilidad",
+    "fr": "pour de meilleures performances et stabilité",
+    "de": "für bessere Leistung und Stabilität",
+    "it": "per migliori prestazioni e stabilità",
+    "pt": "para melhor desempenho e estabilidade"
+  },
+  "Install and configure": {
+    "es": "Instalar y configurar",
+    "fr": "Installer et configurer",
+    "de": "Installieren und konfigurieren",
+    "it": "Installare e configurare",
+    "pt": "Instalar e configurar"
+  },
+  "(only on SSD/NVMe) to protect your disk": {
+    "es": "(solo para SSD/NVMe) para proteger su disco",
+    "fr": "(uniquement sur SSD/NVMe) pour protéger votre disque",
+    "de": "(nur auf SSD/NVMe) zum Schutz Ihrer Festplatte",
+    "it": "(solo su SSD/NVMe) per proteggere il tuo disco",
+    "pt": "(apenas em SSD/NVMe) para proteger o seu disco"
+  },
+  "Improve log rotation and limit log size to save space and extend disk life": {
+    "es": "Mejorar la rotación de logs y limitar el tamaño para ahorrar espacio y prolongar la vida útil del disco",
+    "fr": "Améliorer la rotation des logs et limiter leur taille pour économiser de l'espace et prolonger la durée de vie du disque",
+    "de": "Verbessern Sie die Logrotation und begrenzen Sie die Loggröße, um Speicherplatz zu sparen und die Lebensdauer der Festplatte zu verlängern",
+    "it": "Migliora la rotazione dei log e limita la dimensione per risparmiare spazio e prolungare la vita del disco",
+    "pt": "Melhorar a rotação de logs e limitar o tamanho para economizar espaço e prolongar a vida útil do disco"
+  },
+  "Increase file and process limits for advanced workloads": {
+    "es": "Aumentar los límites de archivos y procesos para cargas avanzadas",
+    "fr": "Augmenter les limites de fichiers et de processus pour les charges de travail avancées",
+    "de": "Datei- und Prozesslimits für anspruchsvolle Workloads erhöhen",
+    "it": "Aumentare i limiti di file e processi per carichi di lavoro avanzati",
+    "pt": "Aumentar os limites de arquivos e processos para cargas de trabalho avançadas"
+  },
+  "Set up time synchronization and entropy generation": {
+    "es": "Configurar la sincronización horaria y la generación de entropía",
+    "fr": "Configurer la synchronisation de l'heure et la génération d'entropie",
+    "de": "Zeitsynchronisation und Entropieerzeugung einrichten",
+    "it": "Configurare la sincronizzazione dell'orario e la generazione di entropia",
+    "pt": "Configurar a sincronização do tempo e a geração de entropia"
+  },
+  "Add color prompts and useful aliases to the terminal environment": {
+    "es": "Añadir avisos de color y alias útiles al entorno de terminal",
+    "fr": "Ajouter des invites colorées et des alias utiles à l'environnement terminal",
+    "de": "Farbige Prompts und nützliche Aliase zur Terminalumgebung hinzufügen",
+    "it": "Aggiungere prompt colorati e alias utili all'ambiente terminale",
+    "pt": "Adicionar prompts coloridos e aliases úteis ao ambiente do terminal"
+  },
+  "All changes are reversible using the ProxMenux uninstaller.": {
+    "es": "Todos los cambios son reversibles usando el desinstalador de ProxMenux.",
+    "fr": "Toutes les modifications sont réversibles avec le désinstalleur de ProxMenux.",
+    "de": "Alle Änderungen sind mit dem ProxMenux-Deinstallationsprogramm reversibel.",
+    "it": "Tutte le modifiche sono reversibili utilizzando il programma di disinstallazione di ProxMenux.",
+    "pt": "Todas as alterações são reversíveis usando o desinstalador do ProxMenux."
+  },
+  "Do you want to apply these optimizations now?": {
+    "es": "¿Desea aplicar estas optimizaciones ahora?",
+    "fr": "Voulez-vous appliquer ces optimisations maintenant ?",
+    "de": "Möchten Sie diese Optimierungen jetzt anwenden?",
+    "it": "Vuoi applicare queste ottimizzazioni ora?",
+    "pt": "Deseja aplicar essas otimizações agora?"
+  },
+  "Automated Post-Install Script": {
+    "es": "Script automatizado de post-instalación",
+    "fr": "Script automatisé de post-installation",
+    "de": "Automatisiertes Post-Installationsskript",
+    "it": "Script automatico post-installazione",
+    "pt": "Script automatizado pós-instalação"
   }
+
 }
