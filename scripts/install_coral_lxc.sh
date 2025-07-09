@@ -86,6 +86,19 @@ add_udev_rule_for_coral_usb() {
     fi
 }
 
+
+
+add_mount_if_needed() {
+    local DEVICE="$1"
+    local DEST="$2"
+    local CONFIG_FILE="$3"
+    if [ -e "$DEVICE" ] && ! grep -q "lxc.mount.entry: $DEVICE" "$CONFIG_FILE"; then
+        echo "lxc.mount.entry: $DEVICE $DEST none bind,optional,create=$( [ -c "$DEVICE" ] && echo file || echo dir )" >> "$CONFIG_FILE"
+    fi
+}
+
+
+
 configure_lxc_hardware() {
     validate_container_id
     CONFIG_FILE="/etc/pve/lxc/${CONTAINER_ID}.conf"
@@ -117,29 +130,29 @@ configure_lxc_hardware() {
     if ! grep -q "c 226:0 rwm" "$CONFIG_FILE"; then
         echo "lxc.cgroup2.devices.allow: c 226:0 rwm # iGPU" >> "$CONFIG_FILE"
         echo "lxc.cgroup2.devices.allow: c 226:128 rwm # iGPU" >> "$CONFIG_FILE"
-        echo "lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir" >> "$CONFIG_FILE"
-        echo "lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file" >> "$CONFIG_FILE"
     fi
+
+
+    add_mount_if_needed "/dev/dri" "dev/dri" "$CONFIG_FILE"
+    add_mount_if_needed "/dev/dri/renderD128" "dev/dri/renderD128" "$CONFIG_FILE"
+    add_mount_if_needed "/dev/dri/card0" "dev/dri/card0" "$CONFIG_FILE"
 
     # Framebuffer support
     if ! grep -q "c 29:0 rwm # Framebuffer" "$CONFIG_FILE"; then
         echo "lxc.cgroup2.devices.allow: c 29:0 rwm # Framebuffer" >> "$CONFIG_FILE"
     fi
+    add_mount_if_needed "/dev/fb0" "dev/fb0" "$CONFIG_FILE"
 
-    if ! grep -q "lxc.mount.entry: /dev/fb0" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file" >> "$CONFIG_FILE"
-    fi
 
-    # ----------------------------------------------------------
+     # ----------------------------------------------------------
     # Coral USB passthrough (via udev + /dev/coral)
     # ----------------------------------------------------------
     add_udev_rule_for_coral_usb
     if ! grep -Pq "^lxc.cgroup2.devices.allow: c 189:\* rwm # Coral USB$" "$CONFIG_FILE"; then
         echo "lxc.cgroup2.devices.allow: c 189:* rwm # Coral USB" >> "$CONFIG_FILE"
     fi
-    if ! grep -Pq "^lxc.mount.entry: /dev/coral dev/coral none bind,optional,create=file$" "$CONFIG_FILE"; then
-        echo "lxc.mount.entry: /dev/coral dev/coral none bind,optional,create=file" >> "$CONFIG_FILE"
-    fi
+    add_mount_if_needed "/dev/coral" "dev/coral" "$CONFIG_FILE"
+
 
     # ----------------------------------------------------------
     # Coral M.2 (PCIe) support
@@ -148,10 +161,9 @@ configure_lxc_hardware() {
         if ! grep -Pq "^lxc.cgroup2.devices.allow: c 245:0 rwm # Coral M2 Apex$" "$CONFIG_FILE"; then
             echo "lxc.cgroup2.devices.allow: c 245:0 rwm # Coral M2 Apex" >> "$CONFIG_FILE"
         fi
-        if ! grep -Pq "^lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file$" "$CONFIG_FILE"; then
-            echo "lxc.mount.entry: /dev/apex_0 dev/apex_0 none bind,optional,create=file" >> "$CONFIG_FILE"
-        fi
+        add_mount_if_needed "/dev/apex_0" "dev/apex_0" "$CONFIG_FILE"
     fi
+
 
     msg_ok "$(translate 'Coral TPU and iGPU configuration added to container') $CONTAINER_ID."
 }
