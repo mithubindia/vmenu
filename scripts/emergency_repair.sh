@@ -936,7 +936,7 @@ show_main_menu() {
             6) show_network_config ;;
             7) emergency_proxmox_repair ;;
             8) restore_network_backup ;;
-            0|"") exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
+            0|"") exit ;;
         esac
     done
 }
