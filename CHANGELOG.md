@@ -1,3 +1,70 @@
+## 2025-07-01
+
+### New version v1.1.3
+
+![Installer Menu](https://macrimi.github.io/ProxMenux/install/install.png)
+
+- **Dual Installation Modes for ProxMenux**  
+  The installer now offers two distinct modes:  
+  1. **Lite version (no translations):** Only installs two official Debian packages (`dialog`, `jq`) to enable menus and JSON parsing. No files are written beyond the configuration directory.  
+  2. **Full version (with translations):** Uses a virtual environment and allows selecting the interface language during installation.  
+
+  When updating, if the user switches from full to lite, the old version will be **automatically removed** for a clean transition.
+
+### Added
+
+- **New Script: Automated Post-Installation Setup**  
+  A new minimal post-install script that performs essential setup automatically:  
+  - System upgrade and sync  
+  - Remove enterprise banner  
+  - Optimize APT, journald, logrotate, system limits  
+  - Improve kernel panic handling, memory settings, entropy, network  
+  - Add `.bashrc` tweaks and **Log2RAM auto-install** (if SSD/M.2 is detected)
+
+- **New Function: Log2RAM Configuration**  
+  Now available in both the customizable and automatic post-install scripts.  
+  On systems with SSD/NVMe, Log2RAM is **enabled automatically** to preserve disk life.
+
+- **New Menus:**
+  - 🧰 **System Utilities Menu**  
+    Lets users select and install useful CLI tools with proper command validation.
+  - 🌐 **Network Configuration & Repair**  
+    A new interactive menu for analyzing and repairing network interfaces.
+
+### Improved
+
+- **Post-Install Menu Logic**  
+  Options are now grouped more logically for better usability.
+
+- **VM Creation Menu**  
+  Enhanced with improved CPU model support and custom options.
+
+- **UUP Dump ISO Creator Script**  
+  - Added option to **customize the temporary folder location**  
+  - Fixed issue where entire temp folder was deleted instead of just contents  
+    💡 Suggested by [@igrokit](https://github.com/igrokit)  
+    [#17](https://github.com/MacRimi/ProxMenux/issues/17), [#11](https://github.com/MacRimi/ProxMenux/issues/11)
+
+- **Physical Disk to LXC Script**  
+  Now handles **XFS-formatted disks** correctly.  
+  Thanks to [@antroxin](https://github.com/antroxin) for reporting and testing!
+
+- **System Utilities Installer**  
+  Rewritten to **verify command availability** after installation, ensuring tools work as expected.  
+  🐛 Fix for [#18](https://github.com/MacRimi/ProxMenux/issues/18) by [@DST73](https://github.com/DST73)
+
+### Fixed
+
+- **Enable IOMMU on ZFS**  
+  The detection and configuration for enabling IOMMU on ZFS-based systems is now fully functional.  
+  🐛 Fix for [#15](https://github.com/MacRimi/ProxMenux/issues/15) by [@troponaut](https://github.com/troponaut)
+
+### Other
+
+- Performance and code cleanup improvements across several modules.
+
+
+
 ## 2025-06-06
 
 ### Added
