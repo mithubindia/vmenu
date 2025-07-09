@@ -1908,6 +1908,188 @@
     "de": "Automatisiertes Post-Installationsskript",
     "it": "Script automatico post-installazione",
     "pt": "Script automatizado pós-instalação"
+  },
+    "Network Management - SAFE MODE": {
+    "es": "Gestión de red - Modo seguro",
+    "fr": "Gestion du réseau - Mode sans risque",
+    "de": "Netzwerkverwaltung - SICHERER MODUS",
+    "it": "Gestione rete - Modalità sicura",
+    "pt": "Gerenciamento de rede - Modo seguro"
+  },
+  "Show Interface Details": {
+    "es": "Mostrar detalles de la interfaz",
+    "fr": "Afficher les détails de l'interface",
+    "de": "Schnittstellendetails anzeigen",
+    "it": "Mostra dettagli dell'interfaccia",
+    "pt": "Mostrar detalhes da interface"
+  },
+  "Show Bridge Status": {
+    "es": "Mostrar estado del puente",
+    "fr": "Afficher l'état du pont",
+    "de": "Bridge-Status anzeigen",
+    "it": "Mostra stato del bridge",
+    "pt": "Mostrar status da ponte"
+  },
+  "Show Routing Table": {
+    "es": "Mostrar tabla de enrutamiento",
+    "fr": "Afficher la table de routage",
+    "de": "Routing-Tabelle anzeigen",
+    "it": "Mostra tabella di routing",
+    "pt": "Mostrar tabela de roteamento"
+  },
+  "Test Connectivity": {
+    "es": "Probar conectividad",
+    "fr": "Tester la connectivité",
+    "de": "Konnektivität testen",
+    "it": "Verifica la connettività",
+    "pt": "Testar conectividade"
+  },
+  "Advanced Diagnostics": {
+    "es": "Diagnóstico avanzado",
+    "fr": "Diagnostic avancé",
+    "de": "Erweiterte Diagnose",
+    "it": "Diagnostica avanzata",
+    "pt": "Diagnóstico avançado"
+  },
+  "Analyze Bridge Configuration": {
+    "es": "Analizar configuración del puente",
+    "fr": "Analyser la configuration du pont",
+    "de": "Bridge-Konfiguration analysieren",
+    "it": "Analizza configurazione bridge",
+    "pt": "Analisar configuração da ponte"
+  },
+  "Analyze Network Configuration": {
+    "es": "Analizar configuración de red",
+    "fr": "Analyser la configuration du réseau",
+    "de": "Netzwerkkonfiguration analysieren",
+    "it": "Analizza configurazione di rete",
+    "pt": "Analisar configuração de rede"
+  },
+  "Restart Network Service": {
+    "es": "Reiniciar servicio de red",
+    "fr": "Redémarrer le service réseau",
+    "de": "Netzwerkdienst neu starten",
+    "it": "Riavvia servizio di rete",
+    "pt": "Reiniciar serviço de rede"
+  },
+  "Show Network Config File": {
+    "es": "Mostrar archivo de configuración de red",
+    "fr": "Afficher le fichier de configuration réseau",
+    "de": "Netzwerkkonfigurationsdatei anzeigen",
+    "it": "Mostra file di configurazione di rete",
+    "pt": "Mostrar arquivo de configuração de rede"
+  },
+  "Create Network Backup": {
+    "es": "Crear copia de seguridad de red",
+    "fr": "Créer une sauvegarde du réseau",
+    "de": "Netzwerk-Backup erstellen",
+    "it": "Crea backup della rete",
+    "pt": "Criar backup de rede"
+  },
+  "Restore Network Backup": {
+    "es": "Restaurar copia de seguridad de red",
+    "fr": "Restaurer la sauvegarde du réseau",
+    "de": "Netzwerk-Backup wiederherstellen",
+    "it": "Ripristina backup della rete",
+    "pt": "Restaurar backup de rede"
+  },
+  "Analyzing Bridge Configuration - READ ONLY MODE": {
+    "es": "Analizando configuración del puente - Solo lectura",
+    "fr": "Analyse de la configuration du pont - Mode lecture seule",
+    "de": "Bridge-Konfiguration analysieren - Nur-Lese-Modus",
+    "it": "Analisi configurazione bridge - Solo lettura",
+    "pt": "Analisando configuração da ponte - Modo somente leitura"
+  },
+  "BRIDGE CONFIGURATION ANALYSIS": {
+    "es": "Análisis de configuración del puente",
+    "fr": "Analyse de la configuration du pont",
+    "de": "Bridge-Konfigurationsanalyse",
+    "it": "Analisi configurazione bridge",
+    "pt": "Análise de configuração da ponte"
+  },
+  "Bridge": {
+    "es": "Puente",
+    "fr": "Pont",
+    "de": "Bridge",
+    "it": "Bridge",
+    "pt": "Ponte"
+  },
+  "Status": {
+    "es": "Estado",
+    "fr": "Statut",
+    "de": "Status",
+    "it": "Stato",
+    "pt": "Status"
+  },
+  "IP": {
+    "es": "IP",
+    "fr": "IP",
+    "de": "IP",
+    "it": "IP",
+    "pt": "IP"
+  },
+  "Configured Ports": {
+    "es": "Puertos configurados",
+    "fr": "Ports configurés",
+    "de": "Konfigurierte Ports",
+    "it": "Porte configurate",
+    "pt": "Portas configuradas"
+  },
+  "Port": {
+    "es": "Puerto",
+    "fr": "Port",
+    "de": "Port",
+    "it": "Porta",
+    "pt": "Porta"
+  },
+  "EXISTS": {
+    "es": "Existe",
+    "fr": "Existe",
+    "de": "Existiert",
+    "it": "Esiste",
+    "pt": "Existe"
+  },
+  "ANALYSIS SUMMARY": {
+    "es": "Resumen del análisis",
+    "fr": "Résumé de l'analyse",
+    "de": "Analyse-Zusammenfassung",
+    "it": "Riepilogo analisi",
+    "pt": "Resumo da análise"
+  },
+  "Bridges analyzed": {
+    "es": "Puentes analizados",
+    "fr": "Ponts analysés",
+    "de": "Analysierte Bridges",
+    "it": "Bridge analizzati",
+    "pt": "Pontes analisadas"
+  },
+  "Issues found": {
+    "es": "Problemas encontrados",
+    "fr": "Problèmes trouvés",
+    "de": "Gefundene Probleme",
+    "it": "Problemi trovati",
+    "pt": "Problemas encontrados"
+  },
+  "Physical interfaces available": {
+    "es": "Interfaces físicas disponibles",
+    "fr": "Interfaces physiques disponibles",
+    "de": "Verfügbare physische Schnittstellen",
+    "it": "Interfacce fisiche disponibili",
+    "pt": "Interfaces físicas disponíveis"
+  },
+  "No bridge configuration issues found": {
+    "es": "No se encontraron problemas en la configuración del puente",
+    "fr": "Aucun problème de configuration du pont trouvé",
+    "de": "Keine Bridge-Konfigurationsprobleme gefunden",
+    "it": "Nessun problema di configurazione del bridge trovato",
+    "pt": "Nenhum problema encontrado na configuração da ponte"
+  },
+  "Bridge Configuration Analysis": {
+    "es": "Análisis de configuración del puente",
+    "fr": "Analyse de la configuration du pont",
+    "de": "Bridge-Konfigurationsanalyse",
+    "it": "Analisi configurazione bridge",
+    "pt": "Análise de configuração da ponte"
   }
 
 }
