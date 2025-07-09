@@ -319,7 +319,7 @@ apt_upgrade() {
 }
 
 # ==========================================================
-remove_subscription_banner() {
+remove_subscription_banner_() {
     msg_info "$(translate "Removing Proxmox subscription nag banner...")"
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
@@ -339,6 +339,45 @@ EOF
     
     apt --reinstall install proxmox-widget-toolkit -y > /dev/null 2>&1
     
+    msg_ok "$(translate "Subscription nag banner removed successfully")"
+    register_tool "subscription_banner" true
+}
+
+
+remove_subscription_banner() {
+    local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+    local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
+    local APT_HOOK="/etc/apt/apt.conf.d/no-nag-script"
+
+    # Detect if already applied
+    if grep -q "NoMoreNagging" "$JS_FILE" 2>/dev/null && [[ -f "$APT_HOOK" ]]; then
+        # Already applied, just reapply silently
+        :
+    else
+        # Ask user
+        if ! whiptail --title "$(translate "Proxmox Subscription Banner")" \
+            --yesno "$(translate "Do you want to remove the Proxmox subscription banner from the web interface?")" 10 60; then
+            msg_warn "$(translate "Banner removal cancelled by user.")"
+            return 1
+        fi
+    fi
+
+    msg_info "$(translate "Removing Proxmox subscription nag banner...")"
+
+    if [[ ! -f "$APT_HOOK" ]]; then
+        cat <<'EOF' > "$APT_HOOK"
+DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ $? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; rm -f /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz; }; fi"; };
+EOF
+    fi
+
+    if [[ -f "$JS_FILE" ]]; then
+        sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/;s/Active/NoMoreNagging/}' "$JS_FILE"
+        [[ -f "$GZ_FILE" ]] && rm -f "$GZ_FILE"
+        touch "$JS_FILE"
+    fi
+
+    apt --reinstall install proxmox-widget-toolkit -y > /dev/null 2>&1
+
     msg_ok "$(translate "Subscription nag banner removed successfully")"
     register_tool "subscription_banner" true
 }
