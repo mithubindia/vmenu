@@ -82,18 +82,11 @@ check_updates() {
 
 
 main_menu() {
-    if ! bash <(curl -fsSL "$REPO_URL/scripts/menus/main_menu.sh"); then
-        echo
-        msg_warn "$(translate 'Launching Emergency Repair Tool...')"
-        sleep 2
-        bash /usr/local/share/proxmenux/emergency_repair.sh
-        exit 0
-    fi
+    exec bash <(curl -fsSL "$REPO_URL/scripts/menus/main_menu.sh")
 }
 
 
 load_language
 initialize_cache
 check_updates
-
 main_menu

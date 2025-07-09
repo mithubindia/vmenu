@@ -38,7 +38,6 @@ backup_network_config() {
     local timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
     local backup_file="$BACKUP_DIR/interfaces_backup_$timestamp"
     cp /etc/network/interfaces "$backup_file"
-    msg_ok "$(translate "Network configuration backed up")"
     echo "$backup_file"
 }
 
@@ -923,7 +922,7 @@ show_main_menu() {
                                 "6" "$(translate "Show Network Config File")" \
                                 "7" "$(translate "Emergency Proxmox System Repair")" \
                                 "8" "$(translate "Restore Network Backup")" \
-                                "0" "$(translate "Return to Main Menu")" \
+                                "0" "$(translate "Exit")" \
                                 3>&1 1>&2 2>&3)
         
         case $selection in
