@@ -46,30 +46,29 @@ confirm_and_run() {
 # ==========================================================
 confirm_automated_script() {
     local script_info=""
-    
 
-    script_info+="\n$(translate "The automated post-install script performs the following system adjustments"):\n\n"
-    
-    script_info+="• $(translate "Configure") \Z4repositories\Z0 $(translate "and upgrade system")\n"
-    script_info+="• $(translate "Remove") \Z4subscription banner\Z0 $(translate "from Proxmox interface")\n"
-    script_info+="• $(translate "Optimize") \Z4memory\Z0 $(translate "and") \Z4system limits\Z0\n"
-    script_info+="• $(translate "Enhance") \Z4network\Z0 $(translate "performance and") \Z4TCP settings\Z0\n"
-    script_info+="• $(translate "Install") \Z4Log2RAM\Z0 $(translate "for") \Z4SSD protection\Z0\n"
-    script_info+="• $(translate "Configure") \Z4security\Z0 $(translate "and") \Z4time synchronization\Z0\n"
-    script_info+="• $(translate "Optimize") \Z4journald\Z0, \Z4entropy\Z0 $(translate "and") \Z4bash environment\Z0\n"
-    script_info+="• $(translate "Apply") \Z4kernel\Z0 $(translate "and") \Z4logrotate\Z0 $(translate "optimizations")\n\n"
-    
-    script_info+="$(translate "Do you want to run this script?")"
-    
+
+    script_info+="$(translate "This script will apply the following optimizations and advanced adjustments to your Proxmox VE server"):\n\n"
+    script_info+="• $(translate "Configure") \Z4free repositories\Z0 $(translate "and upgrade the system (disables the enterprise repo)")\n"
+    script_info+="• $(translate "Optionally remove") \Z4subscription banner\Z0 $(translate "from Proxmox web interface (you will be asked)")\n"
+    script_info+="• $(translate "Optimize") \Z4memory\Z0, \Z4kernel\Z0, $(translate "and") \Z4network\Z0 $(translate "for better performance and stability")\n"
+    script_info+="• $(translate "Install and configure") \Z4Log2RAM\Z0 $(translate "(only on SSD/NVMe) to protect your disk")\n"
+    script_info+="• $(translate "Improve log rotation and limit log size to save space and extend disk life")\n"
+    script_info+="• $(translate "Increase file and process limits for advanced workloads")\n"
+    script_info+="• $(translate "Set up time synchronization and entropy generation")\n"
+    script_info+="• $(translate "Add color prompts and useful aliases to the terminal environment")\n\n"
+
+    script_info+="\Zb$(translate "All changes are reversible using the ProxMenux uninstaller.")\Z0\n\n"
+    script_info+="$(translate "Do you want to apply these optimizations now?")"
 
     dialog --clear --colors \
            --backtitle "ProxMenux" \
-           --title "$(translate "Automated post-install Script")" \
-           --yesno "$script_info" 20 70
-    
-    response=$?
+           --title "$(translate "Automated Post-Install Script")" \
+           --yesno "$script_info" 22 80
+
+    local response=$?
     clear
-    
+
     if [ $response -eq 0 ]; then
         bash <(curl -s $REPO_URL/scripts/post_install/auto_post_install.sh)
     else
@@ -81,8 +80,8 @@ confirm_automated_script() {
 # ==========================================================
 
 declare -a PROXMENUX_SCRIPTS=(
-    "Automated post-installation script|ProxMenux|confirm_automated_script"
     "Customizable post-installation script|ProxMenux|bash <(curl -s $REPO_URL/scripts/post_install/customizable_post_install.sh)"
+    "Automated post-installation script|ProxMenux|confirm_automated_script"
     "Uninstall optimizations|ProxMenux|bash <(curl -s $REPO_URL/scripts/post_install/uninstall-tools.sh)"
 )
 
