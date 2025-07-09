@@ -94,19 +94,23 @@ install_coral_host() {
         exit 1
     fi
 
-    msg_ok "$(translate 'Coral TPU drivers installed successfully on the host.')"
+    msg_success "$(translate 'Coral TPU drivers installed successfully on the host.')"
+    echo -e
 }
 
 # Prompt for reboot after installation
-restart_prompt() {
+    restart_prompt() {
     if whiptail --title "$(translate 'Coral TPU Installation')" --yesno "$(translate 'The installation requires a server restart to apply changes. Do you want to restart now?')" 10 70; then
-        #echo -ne "\r${TAB}${YW}-$(translate 'Restarting the server...') ${CL}"
         msg_warn "$(translate 'Restarting the server...')"
         reboot
+    else
+        echo -e
+        msg_success "$(translate "Press Enter to return to menu...")"
+        read -r
     fi
 }
 
-# Main logic
+
 pre_install_prompt
 install_coral_host
 restart_prompt

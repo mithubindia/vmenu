@@ -42,7 +42,7 @@ select_container() {
     fi
 
     CONTAINER_ID=$(whiptail --title "$(translate 'Select Container')" \
-        --menu "$(translate 'Select the LXC container:')" 15 60 8 $CONTAINERS 3>&1 1>&2 2>&3)
+        --menu "$(translate 'Select the LXC container:')" 20 70 10 $CONTAINERS 3>&1 1>&2 2>&3)
 
     if [ -z "$CONTAINER_ID" ]; then
         msg_error "$(translate 'No container selected. Exiting.')"
@@ -172,4 +172,6 @@ install_igpu_in_container
 
 
 msg_success "$(translate 'iGPU configuration completed in container') $CONTAINER_ID."
-sleep 2
+echo -e
+msg_success "$(translate "Press Enter to return to menu...")"
+read -r
