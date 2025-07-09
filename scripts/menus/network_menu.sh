@@ -167,7 +167,7 @@ show_bridge_status() {
     fi
     
     dialog --backtitle "ProxMenux" --title "$(translate "Bridge Status")" \
-           --msgbox "$bridge_info" 18 70
+           --msgbox "$bridge_info" 20 70
 }
 
 show_routing_table_() {
@@ -178,7 +178,7 @@ show_routing_table_() {
     route_info+="$(translate "Default Gateway"): $(ip route | grep default | awk '{print $3}' | head -1)\n"
     
     dialog --backtitle "ProxMenux" --title "$(translate "Routing Information")" \
-           --msgbox "$route_info" 15 80
+           --msgbox "$route_info" 20 80
 }
 
 
@@ -208,7 +208,7 @@ show_routing_table() {
     fi
 
     dialog --backtitle "ProxMenux" --title "$(translate "Routing Information")" \
-           --msgbox "$route_info" 20 85
+           --msgbox "$route_info" 20 80
 }
 
 
@@ -245,7 +245,7 @@ test_connectivity() {
     fi
     cleanup
     dialog --backtitle "ProxMenux" --title "$(translate "Connectivity Test")" \
-           --msgbox "$test_results" 15 60
+           --msgbox "$test_results" 20 70
 }
 
 advanced_network_diagnostics() {
@@ -306,7 +306,7 @@ advanced_network_diagnostics() {
     cleanup 
 
     dialog --backtitle "ProxMenux" --title "$(translate "Network Diagnostics")" \
-           --msgbox "$diag_info" 18 70
+           --msgbox "$diag_info" 20 70
 }
 
 
@@ -887,7 +887,7 @@ restore_network_backup() {
     done
 
     local selection=$(dialog --backtitle "ProxMenux" --title "$(translate "Restore Backup")" \
-                            --menu "$(translate "Select backup to restore:"):" 15 60 8 \
+                            --menu "$(translate "Select backup to restore:"):" 20 70 12 \
                             "${menu_items[@]}" 3>&1 1>&2 2>&3)
 
     if [ -n "$selection" ] && [ "$selection" -ge 1 ] && [ "$selection" -le ${#backups[@]} ]; then
