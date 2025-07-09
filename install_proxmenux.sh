@@ -350,7 +350,7 @@ install_normal_version() {
     
     FILES=(
         "$UTILS_FILE $REPO_URL/scripts/utils.sh"
-        "$EMERGENCY_FILE $REPO_URL/scripts/emergency_repair.sh"
+      #  "$EMERGENCY_FILE $REPO_URL/scripts/emergency_repair.sh"
         "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
         "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
     )
@@ -368,7 +368,7 @@ install_normal_version() {
     done
     
     chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
-    chmod +x "$EMERGENCY_FILE"
+   # chmod +x "$EMERGENCY_FILE"
 }
 
 ####################################################
@@ -470,7 +470,7 @@ install_translation_version() {
     FILES=(
         "$CACHE_FILE $REPO_URL/json/cache.json"
         "$UTILS_FILE $REPO_URL/scripts/utils.sh"
-        "$EMERGENCY_FILE $REPO_URL/scripts/emergency_repair.sh"
+    #    "$EMERGENCY_FILE $REPO_URL/scripts/emergency_repair.sh"
         "$INSTALL_DIR/$MENU_SCRIPT $REPO_URL/$MENU_SCRIPT"
         "$LOCAL_VERSION_FILE $REPO_URL/version.txt"
     )
@@ -491,7 +491,7 @@ install_translation_version() {
     done
     
     chmod +x "$INSTALL_DIR/$MENU_SCRIPT"
-    chmod +x "$EMERGENCY_FILE"
+    #chmod +x "$EMERGENCY_FILE"
 }
 
 ####################################################
