@@ -4251,7 +4251,11 @@
       12
     ],
     "notes": [],
-    "type": "ct"
+    "type": "ct",
+    "default_credentials": {
+      "username": "admin",
+      "password": "stirling"
+    }
   },
   {
     "name": "Streamlink WebUI",
