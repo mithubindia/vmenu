@@ -45,6 +45,29 @@ backup_network_config() {
 
 # ==========================================================
 # Network Detection Functions
+detect_network_method() {
+    # Detect Netplan
+    if compgen -G "/etc/netplan/*.yaml" > /dev/null; then
+        echo "netplan"
+        return 0
+    fi
+
+    # Detect systemd-networkd
+    if systemctl is-active --quiet systemd-networkd 2>/dev/null; then
+        echo "systemd-networkd"
+        return 0
+    fi
+
+    # Detect NetworkManager
+    if systemctl is-active --quiet NetworkManager 2>/dev/null; then
+        echo "networkmanager"
+        return 0
+    fi
+
+    # Default: Debian/Proxmox classic
+    echo "classic"
+}
+
 detect_physical_interfaces() {
     ip -o link show | awk -F': ' '$2 !~ /^(lo|veth|dummy|bond|tap|tun|docker|br-)/ && $2 !~ /vmbr/ {print $2}' | sort
 }
@@ -79,6 +102,16 @@ get_interface_info() {
 # ==========================================================
 # Network Information Functions
 show_interface_details() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
+
     local interfaces=($(detect_all_interfaces))
     local info_text=""
     
@@ -100,6 +133,15 @@ show_interface_details() {
 }
 
 show_bridge_status() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     local bridges=($(detect_bridge_interfaces))
     local bridge_info=""
     
@@ -207,6 +249,15 @@ test_connectivity() {
 }
 
 advanced_network_diagnostics() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     show_proxmenux_logo
     msg_info "$(translate "Advanced Diagnostics")"
     sleep 1
@@ -264,6 +315,15 @@ advanced_network_diagnostics() {
 # ==========================================================
 
 analyze_bridge_configuration() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     show_proxmenux_logo
     msg_info "$(translate "Analyzing Bridge Configuration - READ ONLY MODE")"
     sleep 1
@@ -521,6 +581,15 @@ guided_bridge_repair() {
 }
 
 analyze_network_configuration() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     show_proxmenux_logo
     msg_info "$(translate "Analyzing Network Configuration - READ ONLY MODE")"
     sleep 1
@@ -743,6 +812,15 @@ restart_network_service() {
 # ==========================================================
 # Configuration Management
 show_network_config() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     local config_content
     config_content=$(cat /etc/network/interfaces)
     show_proxmenux_logo
@@ -759,6 +837,14 @@ show_network_config() {
 
 create_network_backup_manual() {
 
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     show_proxmenux_logo
     echo -e
     msg_info "$(translate "Creating backup of network interfaces configuration...")"
@@ -773,6 +859,15 @@ create_network_backup_manual() {
 
 
 restore_network_backup() {
+
+    NETWORK_METHOD=$(detect_network_method)
+
+    if [[ "$NETWORK_METHOD" != "classic" ]]; then
+        dialog --title "Unsupported Network Stack" \
+            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+        exit 1
+    fi
+
     local backups=($(ls -1 "$BACKUP_DIR"/interfaces_backup_* 2>/dev/null | sort -r))
     
     if [ ${#backups[@]} -eq 0 ]; then
