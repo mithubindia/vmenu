@@ -314,7 +314,7 @@ EOF
         if command -v whiptail >/dev/null 2>&1; then
             if whiptail --title "$(translate "Proxmox Update")" \
                        --yesno "$(translate "Found $upgradable packages to upgrade.\n\nProceed with system update?")" 10 60; then
-                clear
+                
             else
                 msg_info2 "$(translate "Update cancelled by user")"
                 return 0
@@ -329,8 +329,8 @@ EOF
     fi
     
     # Perform update
-    msg_info "$(translate "Performing system upgrade...")"
-    echo "$(translate "This process may take several minutes...")"
+    msg_info "$(translate "Performing system upgrade. This process may take several minutes...")"
+    #echo "$(translate "This process may take several minutes...")"
     
     # Update with logging
     if DEBIAN_FRONTEND=noninteractive apt-get -y \
