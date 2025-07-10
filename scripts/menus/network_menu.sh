@@ -100,75 +100,6 @@ get_interface_info() {
 }
 
 # ==========================================================
-# Network Information Functions
-show_interface_details() {
-
-    NETWORK_METHOD=$(detect_network_method)
-
-    if [[ "$NETWORK_METHOD" != "classic" ]]; then
-        dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
-        exit 1
-    fi
-
-
-    local interfaces=($(detect_all_interfaces))
-    local info_text=""
-    
-    info_text+="$(translate "Network Interface Details")\n"
-    info_text+="$(printf '=%.0s' {1..50})\n\n"
-    
-    for interface in "${interfaces[@]}"; do
-        local details=$(get_interface_info "$interface")
-        IFS='|' read -r name ip status mac <<< "$details"
-        
-        info_text+="$(translate "Interface"): $name\n"
-        info_text+="  $(translate "IP Address"): $ip\n"
-        info_text+="  $(translate "Status"): $status\n"
-        info_text+="  $(translate "MAC Address"): $mac\n\n"
-    done
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Interface Details")" \
-           --msgbox "$info_text" 20 70
-}
-
-show_bridge_status() {
-
-    NETWORK_METHOD=$(detect_network_method)
-
-    if [[ "$NETWORK_METHOD" != "classic" ]]; then
-        dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
-        exit 1
-    fi
-
-    local bridges=($(detect_bridge_interfaces))
-    local bridge_info=""
-    
-    bridge_info+="$(translate "Bridge Configuration Status")\n"
-    bridge_info+="$(printf '=%.0s' {1..40})\n\n"
-    
-    if [ ${#bridges[@]} -eq 0 ]; then
-        bridge_info+="$(translate "No bridges found")\n"
-    else
-        for bridge in "${bridges[@]}"; do
-            local details=$(get_interface_info "$bridge")
-            IFS='|' read -r name ip status mac <<< "$details"
-            
-            # Get bridge ports
-            local ports=$(grep -A5 "iface $bridge" /etc/network/interfaces 2>/dev/null | grep "bridge-ports" | cut -d' ' -f2-)
-            [ -z "$ports" ] && ports="$(translate "None")"
-            
-            bridge_info+="$(translate "Bridge"): $name\n"
-            bridge_info+="  $(translate "IP"): $ip\n"
-            bridge_info+="  $(translate "Status"): $status\n"
-            bridge_info+="  $(translate "Ports"): $ports\n\n"
-        done
-    fi
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Bridge Status")" \
-           --msgbox "$bridge_info" 20 70
-}
 
 show_routing_table_() {
     local route_info=""
@@ -428,157 +359,10 @@ analyze_bridge_configuration() {
            --textbox "$temp_file" 25 80
     rm -f "$temp_file"
    
-    # Offer guided repair if issues found
-    if [ $issues_found -gt 0 ]; then
-        if dialog --backtitle "ProxMenux" --title "$(translate "Guided Repair Available")" \
-                  --yesno "$(translate "Issues were found. Would you like to use the Guided Repair Assistant?")" 8 60; then
-            guided_bridge_repair
-        fi
-    fi
+
 }
 
-guided_bridge_repair() {
-    local step=1
-    local total_steps=5
 
-
-    local timestamp=$(date +"%Y%m%d_%H%M%S")
-    local preview_backup_file="$BACKUP_DIR/interfaces_backup_$timestamp"
-
-
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Safety Backup")" \
-                --yesno "$(translate "Before making any changes, we'll create a safety backup.")\n\n$(translate "Backup location"): $preview_backup_file\n\n$(translate "Continue?")" 12 70; then
-        return
-    fi
-    ((step++))
-
-    
-    show_proxmenux_logo
-    local backup_file=$(backup_network_config)
-    sleep 1
-
-    dialog --backtitle "ProxMenux" --title "$(translate "Backup Created")" \
-           --msgbox "$(translate "Safety backup created"): $backup_file\n\n$(translate "You can restore it anytime with"):\ncp $backup_file /etc/network/interfaces" 10 70
-    
-    # Step 2: Show current configuration
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Current Configuration")" \
-                --yesno "$(translate "Let's review your current network configuration.")\n\n$(translate "Would you like to see the current") /etc/network/interfaces $(translate "file?")" 10 70; then
-        return
-    fi
-    ((step++))
-    
-    # Show current config
-    local temp_config=$(mktemp)
-    cat /etc/network/interfaces > "$temp_config"
-    dialog --backtitle "ProxMenux" --title "$(translate "Current Network Configuration")" \
-           --textbox "$temp_config" 20 80
-    rm -f "$temp_config"
-    
-    # Step 3: Identify specific changes needed
-    local physical_interfaces=($(detect_physical_interfaces))
-    local bridges=($(detect_bridge_interfaces))
-    local changes_needed=""
-    
-    for bridge in "${bridges[@]}"; do
-        local current_ports=$(grep -A5 "iface $bridge" /etc/network/interfaces 2>/dev/null | grep "bridge-ports" | cut -d' ' -f2-)
-        
-        if [ -n "$current_ports" ]; then
-            for port in $current_ports; do
-                if ! ip link show "$port" >/dev/null 2>&1; then
-                    if [ ${#physical_interfaces[@]} -gt 0 ]; then
-                        changes_needed+="$(translate "Bridge") $bridge: $(translate "Replace") '$port' $(translate "with") '${physical_interfaces[0]}'\n"
-                    else
-                        changes_needed+="$(translate "Bridge") $bridge: $(translate "Remove invalid port") '$port'\n"
-                    fi
-                fi
-            done
-        fi
-    done
-    
-    if [ -z "$changes_needed" ]; then
-        dialog --backtitle "ProxMenux" --title "$(translate "No Changes Needed")" \
-               --msgbox "$(translate "After detailed analysis, no changes are needed.")" 8 50
-        return
-    fi
-    
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Proposed Changes")" \
-                --yesno "$(translate "These are the changes that will be made"):\n\n$changes_needed\n$(translate "Do you want to proceed?")" 15 70; then
-        return
-    fi
-    ((step++))
-    
-    # Step 4: Apply changes with verification
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Applying Changes")" \
-           --infobox "$(translate "Applying changes safely...")\n\n$(translate "This may take a few seconds...")" 8 50
-    
-    # Apply the changes
-    for bridge in "${bridges[@]}"; do
-        local current_ports=$(grep -A5 "iface $bridge" /etc/network/interfaces 2>/dev/null | grep "bridge-ports" | cut -d' ' -f2-)
-        
-        if [ -n "$current_ports" ]; then
-            local new_ports=""
-            for port in $current_ports; do
-                if ip link show "$port" >/dev/null 2>&1; then
-                    new_ports+="$port "
-                fi
-            done
-            
-            # If no valid ports and we have physical interfaces, use the first one
-            if [ -z "$new_ports" ] && [ ${#physical_interfaces[@]} -gt 0 ]; then
-                new_ports="${physical_interfaces[0]}"
-            fi
-            
-            # Apply the change
-            if [ "$new_ports" != "$current_ports" ]; then
-                sed -i "/iface $bridge/,/bridge-ports/ s/bridge-ports.*/bridge-ports $new_ports/" /etc/network/interfaces
-            fi
-        fi
-    done
-    ((step++))
-    
-    # Step 5: Verification
-    local verification_report=""
-    verification_report+="✅ $(translate "CHANGES APPLIED SUCCESSFULLY")\n\n"
-    verification_report+="$(translate "Verification"):\n"
-    
-    for bridge in "${bridges[@]}"; do
-        local new_ports=$(grep -A5 "iface $bridge" /etc/network/interfaces 2>/dev/null | grep "bridge-ports" | cut -d' ' -f2-)
-        verification_report+="$(translate "Bridge") $bridge: $new_ports\n"
-        
-        # Verify each port exists
-        for port in $new_ports; do
-            if ip link show "$port" >/dev/null 2>&1; then
-                verification_report+="  ✅ $port: $(translate "EXISTS")\n"
-            else
-                verification_report+="  ❌ $port: $(translate "NOT FOUND")\n"
-            fi
-        done
-    done
-    
-    verification_report+="\n$(translate "Backup available at"): $backup_file\n"
-    verification_report+="$(translate "To restore"): cp $backup_file /etc/network/interfaces"
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Repair Complete")" \
-           --msgbox "$verification_report" 18 70
-    
-    # Ask about network restart
-    if dialog --backtitle "ProxMenux" --title "$(translate "Network Restart")" \
-              --yesno "$(translate "Changes have been applied to the configuration file.")\n\n$(translate "Do you want to restart the network service to apply changes?")\n\n$(translate "WARNING: This may cause a brief disconnection.")" 12 70; then
-        
-        clear
-        msg_info "$(translate "Restarting network service...")"
-        
-        if systemctl restart networking; then
-            msg_ok "$(translate "Network service restarted successfully")"
-        else
-            msg_error "$(translate "Failed to restart network service")"
-            msg_warn "$(translate "You can restore the backup with"): cp $backup_file /etc/network/interfaces"
-        fi
-        
-        msg_success "$(translate "Press ENTER to continue...")"
-        read -r
-    fi
-}
 
 analyze_network_configuration() {
 
@@ -667,124 +451,9 @@ analyze_network_configuration() {
            --textbox "$temp_file" 25 80
     rm -f "$temp_file"
     
-    # Offer guided cleanup if issues found
-    if [ $issues_found -gt 0 ]; then
-        if dialog --backtitle "ProxMenux" --title "$(translate "Guided Cleanup Available")" \
-                  --yesno "$(translate "Issues were found. Would you like to use the Guided Cleanup Assistant?")" 8 60; then
-            guided_configuration_cleanup
-        fi
-    fi
 }
 
-guided_configuration_cleanup() {
-    local step=1
-    local total_steps=5
 
-    local timestamp=$(date +"%Y%m%d_%H%M%S")
-    local preview_backup_file="$BACKUP_DIR/interfaces_backup_$timestamp"
-
-
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Safety Backup")" \
-                --yesno "$(translate "Before making any changes, we'll create a safety backup.")\n\n$(translate "Backup location"): $preview_backup_file\n\n$(translate "Continue?")" 12 70; then
-        return
-    fi
-    ((step++))
-
-    
-    show_proxmenux_logo
-    local backup_file=$(backup_network_config)
-    sleep 1
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Backup Created")" \
-           --msgbox "$(translate "Safety backup created"): $backup_file\n\n$(translate "You can restore it anytime with"):\ncp $backup_file /etc/network/interfaces" 10 70
-    
-    # Step 2: Identify interfaces to remove
-    local configured_interfaces=($(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo"))
-    local interfaces_to_remove=""
-    local removal_list=""
-    
-    for iface in "${configured_interfaces[@]}"; do
-        if [[ ! $iface =~ ^(vmbr|bond) ]] && ! ip link show "$iface" >/dev/null 2>&1; then
-            interfaces_to_remove+="$iface "
-            removal_list+="❌ $iface: $(translate "Configured but doesn't exist")\n"
-        fi
-    done
-    
-    if [ -z "$interfaces_to_remove" ]; then
-        dialog --backtitle "ProxMenux" --title "$(translate "No Cleanup Needed")" \
-               --msgbox "$(translate "After detailed analysis, no cleanup is needed.")" 8 50
-        return
-    fi
-    
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Interfaces to Remove")" \
-                --yesno "$(translate "These interface configurations will be removed"):\n\n$removal_list\n$(translate "Do you want to proceed?")" 15 70; then
-        return
-    fi
-    ((step++))
-    
-    # Step 3: Show what will be removed
-    local temp_preview=$(mktemp)
-    echo "$(translate "Configuration sections that will be REMOVED"):" > "$temp_preview"
-    echo "=================================================" >> "$temp_preview"
-    echo "" >> "$temp_preview"
-    
-    for iface in $interfaces_to_remove; do
-        echo "# Interface: $iface" >> "$temp_preview"
-        sed -n "/^iface $iface/,/^$/p" /etc/network/interfaces >> "$temp_preview"
-        echo "" >> "$temp_preview"
-    done
-    
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Preview Changes")" \
-                --yesno "$(translate "Review what will be removed"):\n\n$(translate "Press OK to see the preview, then confirm")" 10 60; then
-        rm -f "$temp_preview"
-        return
-    fi
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Configuration to be Removed")" \
-           --textbox "$temp_preview" 20 80
-    rm -f "$temp_preview"
-    
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Final Confirmation")" \
-                --yesno "$(translate "Are you sure you want to remove these configurations?")" 8 60; then
-        return
-    fi
-    ((step++))
-    
-    # Step 4: Apply changes
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Applying Changes")" \
-           --infobox "$(translate "Removing invalid configurations...")\n\n$(translate "This may take a few seconds...")" 8 50
-    
-    for iface in $interfaces_to_remove; do
-        sed -i "/^iface $iface/,/^$/d" /etc/network/interfaces
-    done
-    ((step++))
-    
-    # Step 5: Verification
-    local verification_report=""
-    verification_report+="✅ $(translate "CLEANUP COMPLETED SUCCESSFULLY")\n\n"
-    verification_report+="$(translate "Removed configurations for"):\n"
-    
-    for iface in $interfaces_to_remove; do
-        verification_report+="❌ $iface\n"
-    done
-    
-    verification_report+="\n$(translate "Verification"): $(translate "Checking remaining interfaces")\n"
-    local remaining_interfaces=($(grep "^iface" /etc/network/interfaces | awk '{print $2}' | grep -v "lo"))
-    
-    for iface in "${remaining_interfaces[@]}"; do
-        if ip link show "$iface" >/dev/null 2>&1; then
-            verification_report+="✅ $iface: $(translate "OK")\n"
-        else
-            verification_report+="⚠️  $iface: $(translate "Still has issues")\n"
-        fi
-    done
-    
-    verification_report+="\n$(translate "Backup available at"): $backup_file\n"
-    verification_report+="$(translate "To restore"): cp $backup_file /etc/network/interfaces"
-    
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Cleanup Complete")" \
-           --msgbox "$verification_report" 18 70
-}
 
 
 
@@ -923,6 +592,27 @@ restore_network_backup() {
 }
 
 
+launch_iftop() {
+    if ! command -v iftop &>/dev/null; then
+        apt-get update -qq && apt-get install -y iftop &>/dev/null
+    fi
+
+    dialog --backtitle "ProxMenux" --title "$(translate "iftop usage")" --msgbox "\n$(translate "To exit iftop, press q")" 8 50
+    clear
+    iftop
+}
+
+launch_iptraf() {
+    if ! command -v iptraf-ng &>/dev/null; then
+        apt-get update -qq && apt-get install -y iptraf-ng &>/dev/null
+    fi
+
+    dialog --backtitle "ProxMenux" --title "$(translate "iptraf-ng usage")" --msgbox "\n$(translate "To exit iptraf-ng, press x")" 8 50
+    clear
+    iptraf-ng
+}
+
+
 # ==========================================================
 # Main Menu
 show_main_menu() {
@@ -931,8 +621,8 @@ show_main_menu() {
                                 --backtitle "ProxMenux" \
                                 --title "$(translate "Network Management - SAFE MODE")" \
                                 --menu "$(translate "Select an option:"):" 20 70 12 \
-                                "1" "$(translate "Show Interface Details")" \
-                                "2" "$(translate "Show Bridge Status")" \
+                                "1" "$(translate "Real-time network usage (iftop)")" \
+                                "2" "$(translate "Network monitoring tool (iptraf-ng)")" \
                                 "3" "$(translate "Show Routing Table")" \
                                 "4" "$(translate "Test Connectivity")" \
                                 "5" "$(translate "Advanced Diagnostics")" \
@@ -946,8 +636,8 @@ show_main_menu() {
                                 3>&1 1>&2 2>&3)
         
         case $selection in
-            1) show_interface_details ;;
-            2) show_bridge_status ;;
+            1) launch_iftop ;;
+            2) launch_iptraf ;;
             3) show_routing_table ;;
             4) test_connectivity ;;
             5) advanced_network_diagnostics ;;
@@ -961,6 +651,7 @@ show_main_menu() {
         esac
     done
 }
+
 
 # ==========================================================
 show_main_menu
