@@ -929,8 +929,9 @@ declare -a PROXMENUX_SCRIPTS=(
 )
 
 
+
 declare -a COMMUNITY_SCRIPTS=(
-    "Disable NIC Offloading (Intel e1000e)|Helper-Scripts|confirm_and_run \"Helper-Scripts\" \"bash -c \\\"\$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/nic-offloading-fix.sh)\\\"\""
+    "Disable NIC Offloading (Intel e1000e)|Helper-Scripts|confirm_and_run \"Helper-Scripts\" \"bash <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/nic-offloading-fix.sh)\""
 )
 
 # ==========================================================
