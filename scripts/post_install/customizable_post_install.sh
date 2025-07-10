@@ -2925,6 +2925,7 @@ EOF
     msg_success "$(translate "Log2RAM installation and configuration completed successfully.")"
 
     register_tool "log2ram" true
+    NECESSARY_REBOOT=1
 }
 
 
