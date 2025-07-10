@@ -2090,6 +2090,48 @@
     "de": "Bridge-Konfigurationsanalyse",
     "it": "Analisi configurazione bridge",
     "pt": "Análise de configuração da ponte"
+  },
+  "Real-time network usage (iftop)": {
+    "es": "Uso de red en tiempo real (iftop)",
+    "fr": "Utilisation du réseau en temps réel (iftop)",
+    "de": "Echtzeit-Netzwerkauslastung (iftop)",
+    "it": "Utilizzo rete in tempo reale (iftop)",
+    "pt": "Uso de rede em tempo real (iftop)"
+  },
+  "Network monitoring tool (iptraf-ng)": {
+    "es": "Herramienta de monitoreo de red (iptraf-ng)",
+    "fr": "Outil de surveillance réseau (iptraf-ng)",
+    "de": "Netzwerküberwachungstool (iptraf-ng)",
+    "it": "Strumento di monitoraggio rete (iptraf-ng)",
+    "pt": "Ferramenta de monitoramento de rede (iptraf-ng)"
+  },
+  "iftop usage": {
+    "es": "Uso de iftop",
+    "fr": "Utilisation de iftop",
+    "de": "Verwendung von iftop",
+    "it": "Utilizzo di iftop",
+    "pt": "Uso do iftop"
+  },
+  "To exit iftop, press q": {
+    "es": "Para salir de iftop, pulse q",
+    "fr": "Pour quitter iftop, appuyez sur q",
+    "de": "Zum Beenden von iftop, q drücken",
+    "it": "Per uscire da iftop, premi q",
+    "pt": "Para sair do iftop, pressione q"
+  },
+  "iptraf-ng usage": {
+    "es": "Uso de iptraf-ng",
+    "fr": "Utilisation de iptraf-ng",
+    "de": "Verwendung von iptraf-ng",
+    "it": "Utilizzo di iptraf-ng",
+    "pt": "Uso do iptraf-ng"
+  },
+  "To exit iptraf-ng, press x": {
+    "es": "Para salir de iptraf-ng, pulse x",
+    "fr": "Pour quitter iptraf-ng, appuyez sur x",
+    "de": "Zum Beenden von iptraf-ng, x drücken",
+    "it": "Per uscire da iptraf-ng, premi x",
+    "pt": "Para sair do iptraf-ng, pressione x"
   }
 
 }
