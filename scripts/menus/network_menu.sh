@@ -791,6 +791,7 @@ create_network_backup_manual() {
     echo -e
     msg_info "$(translate "Creating backup of network interfaces configuration...")"
     sleep 3
+    cleanup
     backup_network_config
     msg_ok "$(translate "Network configuration backed up")"
     echo -e
@@ -888,44 +889,143 @@ launch_iptraf() {
 
 
 # ==========================================================
-# Main Menu
-show_main_menu() {
+
+
+confirm_and_run() {
+    local name="$1"
+    local command="$2"
+    
+    dialog --clear --title "$(translate "Confirmation")" \
+           --yesno "\n\n$(translate "Do you want to run the network script from") $name?" 10 70
+    
+    response=$?
+    clear
+    
+    if [ $response -eq 0 ]; then
+        eval "$command"
+        echo
+        msg_success "$(translate 'Press ENTER to continue...')"
+        read -r _
+    else
+        msg_warn "$(translate "Cancelled by user.")"
+        sleep 1
+    fi
+}
+
+# ==========================================================
+
+declare -a PROXMENUX_SCRIPTS=(
+    "Real-time network usage (iftop)||launch_iftop"
+    "Network monitoring tool (iptraf-ng)||launch_iptraf"
+    "Show Routing Table||show_routing_table"
+    "Test Connectivity||test_connectivity"
+    "Advanced Diagnostics||advanced_network_diagnostics"
+    "Analyze Bridge Configuration||analyze_bridge_configuration"
+    "Analyze Network Configuration||analyze_network_configuration"
+    "Restart Network Service||restart_network_service"
+    "Show Network Config File||show_network_config"
+    "Create Network Backup||create_network_backup_manual"
+    "Restore Network Backup||restore_network_backup"
+)
+
+
+declare -a COMMUNITY_SCRIPTS=(
+    "Disable NIC Offloading (Intel e1000e)|Helper-Scripts|confirm_and_run \"Helper-Scripts\" \"bash -c \\\"\$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/nic-offloading-fix.sh)\\\"\""
+)
+
+# ==========================================================
+format_menu_item() {
+    local description="$1"
+    local source="$2"
+    local total_width=62  
+    
+
+    local desc_length=${#description}
+    local source_length=${#source}
+    local spaces_needed=$((total_width - desc_length - source_length))
+    
+
+    [ $spaces_needed -lt 3 ] && spaces_needed=3
+    
+
+    local spacing=""
+    for ((i=0; i<spaces_needed; i++)); do
+        spacing+=" "
+    done
+    
+    echo "${description}${spacing}${source}"
+}
+
+# ==========================================================
+show_menu() {
     while true; do
-        local selection=$(dialog --clear \
-                                --backtitle "ProxMenux" \
-                                --title "$(translate "Network Management - SAFE MODE")" \
-                                --menu "$(translate "Select an option:"):" 20 70 12 \
-                                "1" "$(translate "Real-time network usage (iftop)")" \
-                                "2" "$(translate "Network monitoring tool (iptraf-ng)")" \
-                                "3" "$(translate "Show Routing Table")" \
-                                "4" "$(translate "Test Connectivity")" \
-                                "5" "$(translate "Advanced Diagnostics")" \
-                                "6" "$(translate "Analyze Bridge Configuration")" \
-                                "7" "$(translate "Analyze Network Configuration")" \
-                                "8" "$(translate "Restart Network Service")" \
-                                "9" "$(translate "Show Network Config File")" \
-                                "10" "$(translate "Create Network Backup")" \
-                                "11" "$(translate "Restore Network Backup")" \
-                                "0" "$(translate "Return to Main Menu")" \
-                                3>&1 1>&2 2>&3)
+        local menu_items=()
         
-        case $selection in
-            1) launch_iftop ;;
-            2) launch_iptraf ;;
-            3) show_routing_table ;;
-            4) test_connectivity ;;
-            5) advanced_network_diagnostics ;;
-            6) analyze_bridge_configuration ;;
-            7) analyze_network_configuration ;;
-            8) restart_network_service ;;
-            9) show_network_config ;;
-            10) create_network_backup_manual ;;
-            11) restore_network_backup ;;
-            0|"") exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh") ;;
-        esac
+
+        declare -A script_commands
+        local counter=1
+
+        for script in "${PROXMENUX_SCRIPTS[@]}"; do
+            IFS='|' read -r name source command <<< "$script"
+            local translated_name="$(translate "$name")"
+            local formatted_item
+            formatted_item=$(format_menu_item "$translated_name" "$source")
+            menu_items+=("$counter" "$formatted_item")
+            script_commands["$counter"]="$command"
+            ((counter++))
+        done
+        
+
+        menu_items+=("" "")
+        menu_items+=("-" "───────────────────── $(translate "Community Scripts") ──────────────────────")
+        menu_items+=("" "")
+        
+
+        for script in "${COMMUNITY_SCRIPTS[@]}"; do
+            IFS='|' read -r name source command <<< "$script"
+            local translated_name="$(translate "$name")"
+            local formatted_item
+            formatted_item=$(format_menu_item "$translated_name" "$source")
+            menu_items+=("$counter" "$formatted_item")
+            script_commands["$counter"]="$command"
+            ((counter++))
+        done
+        
+
+        menu_items+=("" "")
+        menu_items+=("0" "$(translate "Return to Main Menu")")
+        
+
+        exec 3>&1
+        script_selection=$(dialog --clear \
+                                 --backtitle "ProxMenux" \
+                                 --title "$(translate "Network Management")" \
+                                 --menu "\n$(translate "Select a network management option:"):\n" \
+                                 25 78 18 \
+                                 "${menu_items[@]}" 2>&1 1>&3)
+        exit_status=$?
+        exec 3>&-
+        
+
+        if [ $exit_status -ne 0 ] || [ "$script_selection" = "0" ]; then
+            exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
+        fi
+        
+
+        if [[ "$script_selection" == "-" || "$script_selection" == "" ]]; then
+            continue
+        fi
+        
+
+        if [[ -n "${script_commands[$script_selection]}" ]]; then
+            eval "${script_commands[$script_selection]}"
+        else
+            msg_error "$(translate "Invalid selection")"
+            sleep 1
+        fi
     done
 }
 
-
 # ==========================================================
-show_main_menu
+
+show_menu
