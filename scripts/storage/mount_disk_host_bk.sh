@@ -1,17 +1,12 @@
 #!/bin/bash
 
-# ==========================================================
 # ProxMenu - Mount independent disk on Proxmox host
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT
 # Version     : 1.3-dialog
 # Last Updated: 13/12/2024
-# ==========================================================
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 

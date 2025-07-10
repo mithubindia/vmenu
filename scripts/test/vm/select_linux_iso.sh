@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-# ==============================================================
 # ProxMenux - Linux ISO Selector (No download yet)
-# ==============================================================
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 

@@ -1,21 +1,15 @@
 #!/bin/bash
-# ==========================================================
 # ProxMenu - Network Management and Repair Tool
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 2.0
 # Last Updated: 07/01/2025
-# ==========================================================
 
-# Description:
 # Advanced network management and troubleshooting tool for Proxmox VE.
 # Features include interface detection, bridge management, connectivity testing,
 # network diagnostics, configuration backup/restore, and automated repairs.
 
 # Configuration ============================================
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 BACKUP_DIR="/var/backups/proxmenux"
@@ -27,7 +21,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 # Utility Functions
 create_backup_dir() {
     [ ! -d "$BACKUP_DIR" ] && mkdir -p "$BACKUP_DIR"
@@ -41,7 +34,6 @@ backup_network_config() {
     echo "$backup_file"
 }
 
-# ==========================================================
 # Network Detection Functions
 
 detect_network_method() {
@@ -102,7 +94,6 @@ get_interface_info() {
 
 
 
-# ==========================================================
 # Network Testing Functions
 test_connectivity() {
     local test_results=""
@@ -201,9 +192,7 @@ advanced_network_diagnostics() {
 }
 
 
-# ==========================================================
 # SAFE Network Analysis Functions (NO AUTO-REPAIR)
-# ==========================================================
 
 analyze_bridge_configuration() {
 
@@ -677,7 +666,6 @@ guided_configuration_cleanup() {
            --msgbox "$verification_report" 18 70
 }
 
-# ==========================================================
 # Configuration Management
 show_network_config() {
 
@@ -772,9 +760,7 @@ restore_network_backup() {
 
 
 
-# ==========================================================
 # Emergency System Repair Functions
-# ==========================================================
 
 
 emergency_proxmox_repair() {
@@ -906,7 +892,6 @@ restart_network_service() {
 
 
 
-# ==========================================================
 # Main Menu
 show_main_menu() {
     while true; do
@@ -940,5 +925,4 @@ show_main_menu() {
     done
 }
 
-# ==========================================================
 show_main_menu

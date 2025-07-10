@@ -1,22 +1,16 @@
 #!/bin/bash
-# ==========================================================
 # ProxMenu - Network Management and Repair Tool
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 08/07/2025
-# ==========================================================
 
-# Description:
 # Advanced network management and troubleshooting tool for Proxmox VE.
 # Features include interface detection, bridge management, connectivity testing,
 # network diagnostics, configuration backup/restore, and automated repairs.
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 BACKUP_DIR="/var/backups/proxmenux"
@@ -28,7 +22,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 # Utility Functions
 create_backup_dir() {
     [ ! -d "$BACKUP_DIR" ] && mkdir -p "$BACKUP_DIR"
@@ -42,7 +35,6 @@ backup_network_config() {
     echo "$backup_file"
 }
 
-# ==========================================================
 # Network Detection Functions
 detect_network_method() {
     # Detect Netplan
@@ -98,7 +90,6 @@ get_interface_info() {
     echo "$interface|$ip|$status|$mac"
 }
 
-# ==========================================================
 
 show_routing_table_() {
     local route_info=""
@@ -142,7 +133,6 @@ show_routing_table() {
 }
 
 
-# ==========================================================
 # Network Testing Functions
 test_connectivity() {
     local test_results=""
@@ -240,9 +230,7 @@ advanced_network_diagnostics() {
 }
 
 
-# ==========================================================
 # SAFE Network Analysis Functions (NO AUTO-REPAIR)
-# ==========================================================
 
 analyze_bridge_configuration() {
 
@@ -514,7 +502,6 @@ guided_bridge_repair() {
 }
 
 
-# ==========================================================
 
 
 
@@ -727,7 +714,6 @@ guided_configuration_cleanup() {
 }
 
 
-# ==========================================================
 
 
 restart_network_service() {
@@ -751,7 +737,6 @@ restart_network_service() {
 
 
 
-# ==========================================================
 # Configuration Management
 show_network_config() {
 
@@ -888,7 +873,6 @@ launch_iptraf() {
 }
 
 
-# ==========================================================
 
 
 confirm_and_run() {
@@ -912,7 +896,6 @@ confirm_and_run() {
     fi
 }
 
-# ==========================================================
 
 declare -a PROXMENUX_SCRIPTS=(
     "Real-time network usage (iftop)||launch_iftop"
@@ -934,7 +917,6 @@ declare -a COMMUNITY_SCRIPTS=(
     "Disable NIC Offloading (Intel e1000e)|Helper-Scripts|confirm_and_run \"Helper-Scripts\" \"bash <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/nic-offloading-fix.sh)\""
 )
 
-# ==========================================================
 format_menu_item() {
     local description="$1"
     local source="$2"
@@ -957,7 +939,6 @@ format_menu_item() {
     echo "${description}${spacing}${source}"
 }
 
-# ==========================================================
 show_menu() {
     while true; do
         local menu_items=()
@@ -1027,6 +1008,5 @@ show_menu() {
     done
 }
 
-# ==========================================================
 
 show_menu

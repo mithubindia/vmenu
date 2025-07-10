@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-# ==========================================================
 # Disk Selector Module - ProxMenux
-# ==========================================================
 # Reutiliza la lógica original de selección de discos
 # virtuales y físicos con integración de traducciones
-# ==========================================================
 
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -34,9 +31,7 @@ function select_disk_type() {
   fi
 }
 
-# ==========================================================
 # Select Virtual Disks
-# ==========================================================
 function select_virtual_disk() {
 
   VIRTUAL_DISKS=()      
@@ -135,16 +130,13 @@ function select_virtual_disk() {
 
 }
 
-# ==========================================================
 
 
 
 
 
 
-# ==========================================================
 # Select Physical Disks
-# ==========================================================
 function select_passthrough_disk() {
 
   msg_info "$(translate "Detecting available disks...")"
@@ -277,4 +269,3 @@ function select_passthrough_disk() {
 
   
 }
-# ==========================================================

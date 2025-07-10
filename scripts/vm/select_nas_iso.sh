@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
-# ==========================================================
 # ProxMenuX - Virtual Machine Creator Script
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
 # Last Updated: 07/05/2025
-# ==========================================================
-# Description:
 # This script is part of the central ProxMenux VM creation module. It allows users
 # to create virtual machines (VMs) in Proxmox VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
@@ -22,13 +15,12 @@
 #
 # All operations are designed to simplify and accelerate VM creation in a 
 # consistent and maintainable way, using ProxMenux standards.
-# ==========================================================
 
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
 
 [[ -f "$UTILS_FILE" ]] && source "$UTILS_FILE"
 load_language

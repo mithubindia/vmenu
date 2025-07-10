@@ -1,16 +1,9 @@
 #!/bin/bash
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.2
-# Last Updated: 06/07/2025
-# ==========================================================
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -21,7 +14,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 confirm_and_run() {
     local name="$1"
     local command="$2"
@@ -43,7 +35,6 @@ confirm_and_run() {
     fi
 }
 
-# ==========================================================
 confirm_automated_script() {
     local script_info=""
 
@@ -77,7 +68,6 @@ confirm_automated_script() {
     fi
 }
 
-# ==========================================================
 
 declare -a PROXMENUX_SCRIPTS=(
     "Customizable post-installation script|ProxMenux|bash <(curl -s $REPO_URL/scripts/post_install/customizable_post_install.sh)"
@@ -91,7 +81,6 @@ declare -a COMMUNITY_SCRIPTS=(
     "Xshok-proxmox Post install|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
 )
 
-# ==========================================================
 
 format_menu_item() {
     local description="$1"
@@ -115,7 +104,6 @@ format_menu_item() {
     echo "${description}${spacing}${source}"
 }
 
-# ==========================================================
 show_menu() {
     while true; do
         local menu_items=()
@@ -186,6 +174,5 @@ show_menu() {
     done
 }
 
-# ==========================================================
 
 show_menu

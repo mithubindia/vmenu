@@ -1,28 +1,15 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
-# ==========================================================
-# Description:
-# This script allows users to assign physical disks to existing
 # Proxmox containers (CTs) through an interactive menu.
-# - Detects the system disk and excludes it from selection.
 # - Lists all available CTs for the user to choose from.
-# - Identifies and displays unassigned physical disks.
 # - Allows the user to select multiple disks and attach them to a CT.
 # - Configures the selected disks for the CT and verifies the assignment.
-# ==========================================================
 
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -32,7 +19,6 @@ fi
 load_language
 initialize_cache
 show_proxmenux_logo
-# ==========================================================
 
 
 

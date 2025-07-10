@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
-# ==========================================================
 # ProxMenuX - Synology DSM VM Creator Script
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
 # Last Updated: 13/03/2025
-# ==========================================================
-# Description:
 # This script automates the creation and configuration of a Synology DSM 
 # (DiskStation Manager) virtual machine (VM) in Proxmox VE. It simplifies the
 # setup process by allowing both default and advanced configuration options.
@@ -25,12 +18,11 @@
 # Copyright (c) Proxmox VE Helper-Scripts Community
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 #
-# ==========================================================
 
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -39,7 +31,6 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 load_language
 initialize_cache
-# ==========================================================
 
 GEN_MAC="02"
 for i in {1..5}; do
@@ -79,16 +70,13 @@ function header_info() {
   echo -e "${BL}╚═══════════════════════════════════════════════╝${CL}"
   echo -e
 }
-# ==========================================================
 
 
 
 
 
 
-# ==========================================================
 # start Script
-# ==========================================================
 function start_script() {
   if (whiptail --backtitle "ProxMenuX" --title "SETTINGS" --yesno "$(translate  "Use Default Settings?")" --no-button Advanced 10 58); then
     header_info
@@ -100,14 +88,11 @@ function start_script() {
     advanced_settings
   fi
 }
-# ==========================================================
 
 
 
 
-# ==========================================================
 # Default Settings
-# ==========================================================
 function default_settings() {
   VMID="$NEXTID"
   FORMAT=""
@@ -144,15 +129,12 @@ function default_settings() {
   sleep 1
   select_disk_type
 }
-# ==========================================================
 
 
 
 
 
-# ==========================================================
 # advanced Settings
-# ==========================================================
 function advanced_settings() {
   # VM ID Selection
   while true; do
@@ -327,15 +309,12 @@ function advanced_settings() {
    advanced_settings
   fi
 }
-# ==========================================================
 
 
 
 
 
-# ==========================================================
 # Select Disk
-# ==========================================================
 function select_disk_type() {
 
   DISK_TYPE=$(whiptail --backtitle "ProxMenuX" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
@@ -365,15 +344,12 @@ function select_disk_type() {
   fi
 }
 
-# ==========================================================
 
 
 
 
 
-# ==========================================================
 # Select Virtual Disks
-# ==========================================================
 function select_virtual_disk() {
 
   VIRTUAL_DISKS=()      
@@ -473,16 +449,13 @@ function select_virtual_disk() {
   select_loader
 }
 
-# ==========================================================
 
 
 
 
 
 
-# ==========================================================
 # Select Physical Disks
-# ==========================================================
 function select_passthrough_disk() {
 
   msg_info "$(translate "Detecting available disks...")"
@@ -616,16 +589,13 @@ function select_passthrough_disk() {
   
   select_loader
 }
-# ==========================================================
 
 
 
 
 
 
-# ==========================================================
 # Select Loader
-# ==========================================================
 function select_loader() {
   # Ensure the images directory exists
   if [ ! -d "$IMAGES_DIR" ]; then
@@ -708,7 +678,6 @@ function select_custom_image() {
   echo -e "${DGN}${TAB}Using Custom Image: ${BGN}$(basename "$LOADER_FILE")${CL}"
   FILE=$(basename "$LOADER_FILE")
 }
-# ==========================================================
 
 
 
@@ -716,9 +685,7 @@ function select_custom_image() {
 
 
 
-# ==========================================================
 # Download Loader
-# ==========================================================
 function download_loader() {
 
   echo -e "${DGN}${TAB}Retrieving the URL for the ${BGN}$LOADER_NAME loader${CL}"
@@ -807,9 +774,7 @@ function download_loader() {
 
 
 
-# ==========================================================
 # Select UEFI Storage 
-# ==========================================================
 function select_efi_storage() {
   local vmid=$1
   local STORAGE=""
@@ -851,15 +816,12 @@ function select_efi_storage() {
   
   echo "$STORAGE"
 }
-# ==========================================================
 
 
 
 
 
-# ==========================================================
 # Select Storage Loader 
-# ==========================================================
 function select_storage_volume() {
   local vmid=$1
   local purpose=$2
@@ -904,9 +866,7 @@ function select_storage_volume() {
 
 
 
-# ==========================================================
 # Create VM
-# ==========================================================
 function create_vm() {
 
   # Create the VM
@@ -969,7 +929,6 @@ function create_vm() {
 
 
   fi
-# ==========================================================
 
 
 # Select storage volume for loader =======================
@@ -1042,7 +1001,6 @@ function create_vm() {
           ERROR_FLAG=true
     fi
 
-# ==========================================================
 
 if [ "$DISK_TYPE" = "virtual" ]; then
     if [ ${#VIRTUAL_DISKS[@]} -eq 0 ]; then
@@ -1227,13 +1185,10 @@ fi
   
 }
 
-# ==========================================================
 
 
 
-# ==========================================================
 # Main execution
-# ==========================================================
 header_info
 #echo -e "\n Loading..."
 sleep 1
@@ -1249,4 +1204,3 @@ fi
 # Create VM
 create_vm
 
-# ==========================================================

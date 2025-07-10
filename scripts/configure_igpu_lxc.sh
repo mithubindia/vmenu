@@ -1,23 +1,13 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
-# ==========================================================
-# Description:
 # This script automates the process of enabling and configuring Intel Integrated GPU (iGPU) support in Proxmox VE LXC containers.
 # Its goal is to simplify the configuration of hardware-accelerated graphical capabilities within containers, allowing for efficient
 # use of Intel iGPUs for tasks such as transcoding, rendering, and accelerating graphics-intensive applications.
-# ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -28,7 +18,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 
 
 

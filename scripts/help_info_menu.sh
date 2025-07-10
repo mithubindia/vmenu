@@ -1,26 +1,16 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
-# ==========================================================
-# Description:
 # This script provides an interactive command reference menu
 # for Proxmox VE via dialog-based UI.
 # - Categorized and translated lists of common and advanced commands.
 # - Covers system, network, storage, VM/CT, updates, GPU passthrough,
 #   ZFS, backup/restore, and essential CLI tools.
 # - Allows users to view or execute commands directly from the menu.
-# ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -30,7 +20,6 @@ fi
 
 load_language
 initialize_cache
-# ===============================================================
 
 # Colores
 YELLOW="\033[0;33m"
@@ -43,9 +32,7 @@ if ! command -v dialog &>/dev/null; then
 fi
 
 
-# ===============================================================
 # 01 Useful System Commands
-# ===============================================================
 show_system_commands() {
     while true; do
         clear
@@ -149,9 +136,7 @@ show_system_commands() {
 }
 
 
-# ===============================================================
 # 02 VM and CT Management Commands
-# ===============================================================
 show_vm_ct_commands() {
     while true; do
         clear
@@ -242,9 +227,7 @@ show_vm_ct_commands() {
 
 
 
-# ===============================================================
 # 03 Storage and Disks Commands
-# ===============================================================
 show_storage_commands() {
     while true; do
         clear
@@ -468,9 +451,7 @@ show_storage_commands() {
 
 
 
-# ===============================================================
 # 04 Network Commands
-# ===============================================================
 show_network_commands() {
     while true; do
         clear
@@ -549,9 +530,7 @@ show_network_commands() {
 
 
 
-# ===============================================================
 # 05 Updates and Packages Commands
-# ===============================================================
 show_update_commands() {
     while true; do
         clear
@@ -591,9 +570,7 @@ show_update_commands() {
 }
 
 
-# ===============================================================
 # 06 GPU Passthrough Commands
-# ===============================================================
 show_gpu_commands() {
     while true; do
         clear
@@ -638,9 +615,7 @@ show_gpu_commands() {
 
 
 
-# ===============================================================
 # 07 ZFS Management Commands
-# ===============================================================
 show_zfs_commands() {
     while true; do
         clear
@@ -728,9 +703,7 @@ show_zfs_commands() {
 
 
 
-# ===============================================================
 # 08 Backup and Restore Commands
-# ===============================================================
 show_backup_commands() {
     while true; do
         clear
@@ -812,9 +785,7 @@ show_backup_commands() {
 
 
 
-# ===============================================================
 # 09 System CLI Tools Commands
-# ===============================================================
 show_tools_commands() {
     while true; do
         clear
@@ -908,9 +879,7 @@ show_tools_commands() {
 
 
 
-# ===============================================================
 # Help and Info Menu
-# ===============================================================
 while true; do
     OPTION=$(dialog --stdout \
         --title "$(translate 'Help and Info')" \

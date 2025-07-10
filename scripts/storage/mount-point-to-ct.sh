@@ -1,15 +1,11 @@
 #!/bin/bash
 
-# ==========================================================
 # ProxMenu - Mount point from host into LXC container (CT)
-# ==========================================================
-# Author      : MacRimi
 # License     : MIT
 # Description : Mount a folder from /mnt on the host to a mount point in a CT
-# ==========================================================
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 
 if [[ -f "$UTILS_FILE" ]]; then

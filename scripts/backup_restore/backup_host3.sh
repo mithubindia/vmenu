@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -11,7 +11,6 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 load_language
 initialize_cache
-# ==========================================================
 
 
 get_external_backup_mount_point() {

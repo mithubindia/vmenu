@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 29/05/2025
-# ==========================================================
-# Description:
 # This script automates the process of importing disk images into Proxmox VE virtual machines (VMs), 
 # making it easy to attach pre-existing disk files without manual configuration.
 #
@@ -24,11 +17,10 @@
 # - Enable optional settings like SSD emulation or bootable disk configuration.
 #
 # Once completed, the script ensures the selected images are correctly attached and ready to use.
-# ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 

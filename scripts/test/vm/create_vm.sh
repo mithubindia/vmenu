@@ -3,10 +3,9 @@
 # ================================================
 # ProxMenux - Create VM Entry Point
 # ================================================
-# Author : MacRimi
 # ================================================
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 VM_CONFIG="./vm_configurator.sh"
@@ -45,9 +44,7 @@ function header_info() {
   echo -e
 }
 
-# ==========================================================
 # MAIN EXECUTION
-# ==========================================================
 
 header_info
 echo -e "\n Loading..."

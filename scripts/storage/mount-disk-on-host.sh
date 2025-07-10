@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# ==========================================================
 # ProxMenu - Mount independent disk on Proxmox host
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
 # Last Updated: 08/04/2025
-# ==========================================================
-# Description:
 # This script detects unassigned physical disks and allows
 # the user to mount one of them on the host Proxmox system.
 # - Detects unmounted and unassigned disks.
@@ -17,11 +10,10 @@
 # - Allows selecting a disk.
 # - Prepares partition and filesystem if needed.
 # - Mounts the disk in the host at a defined mount point.
-# ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -30,7 +22,6 @@ if [[ -f "$UTILS_FILE" ]]; then
 fi
 load_language
 initialize_cache
-# ==========================================================
 
 get_disk_info() {
     local disk=$1

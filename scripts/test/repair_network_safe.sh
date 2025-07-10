@@ -1,21 +1,13 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT
 # Version     : 1.1
 # Last Updated: 30/04/2025
-# ==========================================================
-# Description:
 # This script allows users to repair or verify network configuration in Proxmox.
 # It avoids making changes if the system is already connected to the internet.
-# ==========================================================
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 

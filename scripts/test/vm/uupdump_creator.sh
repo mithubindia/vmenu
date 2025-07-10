@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-# ==============================================================
 # ProxMenux - Windows ISO Creator from UUP Dump
-# ==============================================================
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 

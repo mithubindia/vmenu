@@ -1,14 +1,6 @@
 #!/bin/bash
-# ==========================================================
 # ProxMenux - Complete Post-Installation Script with Registration
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 06/07/2025
-# ==========================================================
-# Description:
 #
 # The script performs system optimizations including:
 # - Repository configuration and system upgrades
@@ -32,12 +24,11 @@
 # - Rollback compatibility: All optimizations can be reversed using the uninstall script
 #
 # This script is based on the post-install script cutotomizable
-# ==========================================================
 
 
 # Configuration
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 TOOLS_JSON="/usr/local/share/proxmenux/installed_tools.json"
@@ -55,7 +46,6 @@ RAM_SIZE_GB=$(( $(vmstat -s | grep -i "total memory" | xargs | cut -d" " -f 1) /
 NECESSARY_REBOOT=0
 SCRIPT_TITLE="Customizable post-installation optimization script"
 
-# ==========================================================
 # Tool registration system
 ensure_tools_json() {
     [ -f "$TOOLS_JSON" ] || echo "{}" > "$TOOLS_JSON"
@@ -68,7 +58,6 @@ register_tool() {
     jq --arg t "$tool" --argjson v "$state" '.[$t]=$v' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
 }
 
-# ==========================================================
 lvm_repair_check() {
     msg_info "$(translate "Checking and repairing old LVM PV headers (if needed)...")"
     pvs_output=$(LC_ALL=C pvs -v 2>&1 | grep "old PV header")
@@ -102,7 +91,6 @@ lvm_repair_check() {
 
 }
 
-# ==========================================================
 cleanup_duplicate_repos() {
     local sources_file="/etc/apt/sources.list"
     local temp_file=$(mktemp)
@@ -318,7 +306,6 @@ apt_upgrade() {
 
 }
 
-# ==========================================================
 remove_subscription_banner() {
     msg_info "$(translate "Removing Proxmox subscription nag banner...")"
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
@@ -343,7 +330,6 @@ EOF
     register_tool "subscription_banner" true
 }
 
-# ==========================================================
 
 
 configure_time_sync() {
@@ -374,7 +360,6 @@ configure_time_sync() {
 
 }
 
-# ==========================================================
 skip_apt_languages() {
     msg_info "$(translate "Configuring APT to skip downloading additional languages...")"
     local default_locale=""
@@ -401,7 +386,6 @@ skip_apt_languages() {
     register_tool "apt_languages" true
 }
 
-# ==========================================================
 optimize_journald() {
     msg_info "$(translate "Limiting size and optimizing journald...")"
     NECESSARY_REBOOT=1
@@ -434,7 +418,6 @@ EOF
     register_tool "journald" true
 }
 
-# ==========================================================
 optimize_logrotate() {
     msg_info "$(translate "Optimizing logrotate configuration...")"
     local logrotate_conf="/etc/logrotate.conf"
@@ -461,7 +444,6 @@ EOF
     register_tool "logrotate" true
 }
 
-# ==========================================================
 increase_system_limits() {
     msg_info "$(translate "Increasing various system limits...")"
     NECESSARY_REBOOT=1
@@ -532,7 +514,6 @@ EOF
     register_tool "system_limits" true
 }
 
-# ==========================================================
 configure_entropy() {
     msg_info "$(translate "Configuring entropy generation to prevent slowdowns...")"
     
@@ -550,7 +531,6 @@ EOF
     register_tool "entropy" true
 }
 
-# ==========================================================
 optimize_memory_settings() {
     msg_info "$(translate "Optimizing memory settings...")"
     NECESSARY_REBOOT=1
@@ -572,7 +552,6 @@ EOF
     register_tool "memory_settings" true
 }
 
-# ==========================================================
 configure_kernel_panic() {
     msg_info "$(translate "Configuring kernel panic behavior")"
     NECESSARY_REBOOT=1
@@ -589,7 +568,6 @@ EOF
     register_tool "kernel_panic" true
 }
 
-# ==========================================================
 force_apt_ipv4() {
     msg_info "$(translate "Configuring APT to use IPv4...")"
     
@@ -599,7 +577,6 @@ force_apt_ipv4() {
     register_tool "apt_ipv4" true
 }
 
-# ==========================================================
 apply_network_optimizations() {
     msg_info "$(translate "Optimizing network settings...")"
     NECESSARY_REBOOT=1
@@ -662,7 +639,6 @@ EOF
     register_tool "network_optimization" true
 }
 
-# ==========================================================
 disable_rpc() {
     msg_info "$(translate "Disabling portmapper/rpcbind for security...")"
     
@@ -673,7 +649,6 @@ disable_rpc() {
     register_tool "disable_rpc" true
 }
 
-# ==========================================================
 customize_bashrc() {
     msg_info "$(translate "Customizing bashrc for root user...")"
     local bashrc="/root/.bashrc"
@@ -707,7 +682,6 @@ EOF
     register_tool "bashrc_custom" true
 }
 
-# ==========================================================
 
 install_log2ram_auto() {
     msg_info "$(translate "Checking if system disk is SSD or M.2...")"
@@ -789,7 +763,6 @@ EOF
     register_tool "log2ram" true
 }
 
-# ==========================================================
 
 run_complete_optimization() {
     clear

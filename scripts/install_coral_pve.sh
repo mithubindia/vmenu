@@ -1,24 +1,15 @@
 #!/bin/bash
 
 
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 28/01/2025
-# ==========================================================
-# Description:
 # This script installs the Coral TPU drivers on the Proxmox VE host.
 # It ensures that necessary packages are installed and compiles the
 # Coral TPU drivers for proper functionality.
-# ==========================================================
 
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -29,7 +20,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 
 
 # Prompt before installation

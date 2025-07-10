@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# ==========================================================
 # ProxMenux - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
 # Last Updated: 30/06/2025
-# ==========================================================
-# Description:
 # This script provides an interactive system utilities installer with a 
 # comprehensive dialog-based interface for Proxmox VE and Linux systems.
 # It simplifies the installation and management of essential command-line 
@@ -36,8 +29,8 @@
 #
 # Configuration ============================================
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -47,7 +40,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 
 
 

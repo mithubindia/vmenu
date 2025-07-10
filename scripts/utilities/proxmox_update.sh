@@ -1,15 +1,7 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
 # Last Updated: 04/07/2025
-# ==========================================================
-# Description:
 # This script safely updates your Proxmox VE system and underlying Debian packages
 # through an interactive and automated process.
 #
@@ -26,9 +18,8 @@
 #
 # The goal of this script is to simplify and secure the update process for Proxmox,
 # reduce manual intervention, and prevent common repository and package errors.
-# ==========================================================
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -39,7 +30,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 
 
 

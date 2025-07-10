@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
-# ==========================================================
 # VM Creator Module - ProxMenux
-# ==========================================================
 # Este módulo recibe las variables globales y crea la VM
 # con su configuración, discos y descripción.
-# ==========================================================
 
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -18,9 +15,7 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 # Función para montar ISOs
-# ==========================================================
 function mount_iso_to_vm() {
   local vmid="$1"
   local iso_path="$2"
@@ -39,9 +34,7 @@ function mount_iso_to_vm() {
 
 
 
-# ==========================================================
 # Select Interface Type
-# ==========================================================
 function select_interface_type() {
   INTERFACE_TYPE=$(whiptail --backtitle "ProxMenux" --title "$(translate "Select Disk Interface")" --radiolist \
     "$(translate "Select the bus type for the disks:")" 15 70 4 \
@@ -67,9 +60,7 @@ function select_interface_type() {
 }
 
 
-# ==========================================================
 # Función principal para crear la VM
-# ==========================================================
 function create_vm() {
   local BOOT_ORDER=""
   local DISK_INFO=""
@@ -129,9 +120,7 @@ function create_vm() {
 
 
 
-# ==========================================================
 # Crear discos virtuales o físicos con interfaz seleccionada
-# ==========================================================
 
 # Primero seleccionar la interfaz
 select_interface_type
@@ -280,9 +269,7 @@ select_interface_type
 }
 
 
-# ==========================================================
 # Función select_efi_storage (no cambia)
-# ==========================================================
 function select_efi_storage() {
   local vmid=$1
   local STORAGE=""

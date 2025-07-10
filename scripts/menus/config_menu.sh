@@ -1,17 +1,11 @@
 #!/bin/bash
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 04/07/2025
-# ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -27,7 +21,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 
 detect_installation_type() {
     local has_venv=false
@@ -53,7 +46,6 @@ detect_installation_type() {
     fi
 }
 
-# ==========================================================
 show_config_menu() {
     local install_type
     install_type=$(detect_installation_type)
@@ -111,7 +103,6 @@ show_config_menu() {
     done
 }
 
-# ==========================================================
 change_language() {
     local new_language
     new_language=$(dialog --clear --backtitle "ProxMenux Configuration" \
@@ -151,7 +142,6 @@ change_language() {
     exec bash "$TMP_FILE"
 }
 
-# ==========================================================
 show_version_info() {
     local version info_message install_type
     install_type=$(detect_installation_type)
@@ -231,7 +221,6 @@ show_version_info() {
     rm -f "$tmpfile"
 }
 
-# ==========================================================
 uninstall_proxmenu() {
     local install_type
     install_type=$(detect_installation_type)
@@ -322,6 +311,5 @@ uninstall_proxmenu() {
     exit 0
 }
 
-# ==========================================================
 # Main execution
 show_config_menu

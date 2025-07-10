@@ -1,16 +1,9 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
 # Revision    : @Blaspt (USB passthrough via udev rule with persistent /dev/coral)
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 16/05/2025
-# ==========================================================
-# Description:
 # This script automates the configuration and installation of
 # Coral TPU and iGPU support in Proxmox VE containers. It:
 # - Configures a selected LXC container for hardware acceleration
@@ -20,10 +13,9 @@
 #
 # Supports Coral USB and Coral M.2 (PCIe) devices.
 # Includes USB passthrough enhancement using persistent udev alias (/dev/coral).
-# ==========================================================
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -34,7 +26,6 @@ fi
 load_language
 initialize_cache
 
-# ==========================================================
 
 select_container() {
     CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)

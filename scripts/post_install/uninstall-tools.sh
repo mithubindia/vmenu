@@ -1,14 +1,6 @@
 #!/bin/bash
-# ==========================================================
 # ProxMenux - Complete Uninstall Optimizations Script
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# Version     : 1.0
-# Last Updated: 06/07/2025
-# ==========================================================
-# Description:
 # This script provides a complete uninstallation and rollback system 
 # for all post-installation optimizations applied by ProxMenux.
 #
@@ -17,12 +9,11 @@
 #
 # This ensures full control over system configurations and gives users 
 # the confidence to apply, test, and undo ProxMenux enhancements as needed.
-# ==========================================================
 
 
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
 RETURN_SCRIPT="$REPO_URL/scripts/menus/menu_post_install.sh"
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 TOOLS_JSON="$BASE_DIR/installed_tools.json"
 VENV_PATH="/opt/googletrans-env"

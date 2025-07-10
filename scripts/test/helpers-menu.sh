@@ -1,27 +1,19 @@
 #!/bin/bash
 
-# ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
-# ==========================================================
-# Author      : MacRimi
-# Copyright   : (c) 2024 MacRimi
 # License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 04/06/2025
-# ==========================================================
-# Description:
 # This script provides a simple and efficient way to access and execute Proxmox VE scripts
 # from the Community Scripts project (https://community-scripts.github.io/ProxmoxVE/).
 #
 # It serves as a convenient tool to run key automation scripts that simplify system management,
 # continuing the great work and legacy of tteck in making Proxmox VE more accessible.
 # A streamlined solution for executing must-have tools in Proxmox VE.
-# ==========================================================
 
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
+BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -31,7 +23,6 @@ fi
 
 load_language
 initialize_cache
-# ==========================================================
 
 HELPERS_JSON_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/refs/heads/main/json/helpers_cache.json"
 METADATA_URL="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/frontend/public/json/metadata.json"
