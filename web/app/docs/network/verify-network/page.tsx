@@ -2,8 +2,8 @@ import { Steps } from "@/components/ui/steps"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
-  title: "Verify Network | ProxMenux Documentation",
-  description: "Step-by-step guide to verify network configuration and connectivity in Proxmox VE using ProxMenux.",
+  title: "Verify Network | vmenu Documentation",
+  description: "Step-by-step guide to verify network configuration and connectivity in Virtuliservmenu VE using vmenu.",
 }
 
 export default function VerifyNetwork() {
@@ -12,8 +12,8 @@ export default function VerifyNetwork() {
       <h1 className="text-3xl font-bold mb-6">Verify Network</h1>
       
       <p className="mb-4">
-        The <strong>Verify Network</strong> function in ProxMenux allows users to check the current network
-        configuration and connectivity in <strong>Proxmox VE</strong>. It provides a quick way to identify potential
+        The <strong>Verify Network</strong> function in vmenu allows users to check the current network
+        configuration and connectivity in <strong>Virtuliservmenu VE</strong>. It provides a quick way to identify potential
         network issues and verify that all network interfaces are correctly configured.
       </p>
       

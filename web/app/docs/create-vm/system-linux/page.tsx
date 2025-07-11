@@ -41,7 +41,7 @@ export default function LinuxVMContent() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            ProxMenux provides automated scripts that create and configure Linux virtual machines on Proxmox VE. These
+            vmenu provides automated scripts that create and configure Linux virtual machines on Virtuliservmenu VE. These
             scripts simplify the process by handling the necessary configurations and optimizations for various Linux
             distributions, including Ubuntu, Debian, Fedora, and many others.
           </p>
@@ -49,9 +49,9 @@ export default function LinuxVMContent() {
       </div>
 
       <ImageWithCaption
-        src="https://macrimi.github.io/ProxMenux/vm/menu_linux.png"
+        src="https://macrimi.github.io/vmenu/vm/menu_linux.png"
         alt="Linux VM Menu"
-        caption="Linux VM Creation Menu in ProxMenux"
+        caption="Linux VM Creation Menu in vmenu"
       />
 
       <div className="mt-8">
@@ -258,7 +258,7 @@ export default function LinuxVMContent() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Proxmox</li>
+            <li>The script lists the storage options available in Virtuliservmenu</li>
             <li>The user selects the disk and size in GB</li>
             <li>
               The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,
@@ -322,7 +322,7 @@ export default function LinuxVMContent() {
 
         <div className="mt-12">
           <h2 className="text-2xl font-bold mb-6 text-black">Linux Installation Options</h2>
-          <p className="mb-6">ProxMenux offers three methods for installing Linux on your virtual machine:</p>
+          <p className="mb-6">vmenu offers three methods for installing Linux on your virtual machine:</p>
 
           <div className="space-y-24 mt-8">
             <div>
@@ -332,7 +332,7 @@ export default function LinuxVMContent() {
               </div>
 
               <p className="mb-4">
-                This option allows you to install Linux using official distribution ISOs. ProxMenux provides a curated
+                This option allows you to install Linux using official distribution ISOs. vmenu provides a curated
                 list of popular Linux distributions that can be automatically downloaded and used for installation.
               </p>
 
@@ -351,9 +351,9 @@ export default function LinuxVMContent() {
 
               <div className="mt-4">
                 <ImageWithCaption
-                  src="https://macrimi.github.io/ProxMenux/vm/distro_linux.png"
+                  src="https://macrimi.github.io/vmenu/vm/distro_linux.png"
                   alt="Linux Distribution Selection"
-                  caption="Linux Distribution Selection in ProxMenux"
+                  caption="Linux Distribution Selection in vmenu"
                 />
               </div>
             </div>
@@ -387,12 +387,12 @@ export default function LinuxVMContent() {
                   Cloud-Init installations use external helper scripts from the community. For more information, visit:
                 </p>
                 <a
-                  href="https://community-scripts.github.io/ProxmoxVE/"
+                  href="https://community-scripts.github.io/VirtuliservmenuVE/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-blue-600 hover:text-blue-800 flex items-center mt-1"
                 >
-                  community-scripts.github.io/ProxmoxVE
+                  community-scripts.github.io/VirtuliservmenuVE
                   <ExternalLink className="h-3 w-3 ml-1" />
                 </a>
               </div>
@@ -405,15 +405,15 @@ export default function LinuxVMContent() {
               </div>
 
               <p className="mb-4">
-                This option allows you to use your own Linux ISO file that's already uploaded to your Proxmox server's
+                This option allows you to use your own Linux ISO file that's already uploaded to your Virtuliservmenu server's
                 local storage. Ideal if you have custom or specific Linux installation media.
               </p>
 
               <div className="mt-4">
                 <ImageWithCaption
-                  src="https://macrimi.github.io/ProxMenux/vm/local-store.png"
+                  src="https://macrimi.github.io/vmenu/vm/local-store.png"
                   alt="Local ISO Selection Menu"
-                  caption="Local ISO Selection Menu in ProxMenux"
+                  caption="Local ISO Selection Menu in vmenu"
                 />
               </div>
             </div>
@@ -446,7 +446,7 @@ export default function LinuxVMContent() {
             <div>
               <h3 className="text-lg font-medium mb-2">Installing QEMU Guest Agent</h3>
               <p className="mb-3">
-                For better integration with Proxmox, it's recommended to install the QEMU Guest Agent inside your Linux
+                For better integration with Virtuliservmenu, it's recommended to install the QEMU Guest Agent inside your Linux
                 VM. This enables features like proper shutdown, file system freeze for snapshots, and more accurate
                 memory reporting.
               </p>
@@ -543,7 +543,7 @@ export default function LinuxVMContent() {
             Other Linux Systems
           </h2>
           <p className="mb-4">
-            ProxMenux provides access to external community scripts that allow the creation of specialized Linux virtual machines for specific use cases:
+            vmenu provides access to external community scripts that allow the creation of specialized Linux virtual machines for specific use cases:
           </p>
 
 
@@ -578,12 +578,12 @@ export default function LinuxVMContent() {
               These installations are handled by community-maintained scripts. For more information or to contribute, visit:
             </p>
             <a
-              href="https://community-scripts.github.io/ProxmoxVE/"
+              href="https://community-scripts.github.io/VirtuliservmenuVE/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-blue-600 hover:text-blue-800 flex items-center mt-1"
             >
-              community-scripts.github.io/ProxmoxVE
+              community-scripts.github.io/VirtuliservmenuVE
               <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>

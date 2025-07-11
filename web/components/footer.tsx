@@ -22,7 +22,7 @@ export default function Footer() {
               className="hover:opacity-90 transition-opacity flex items-center"
             >
               <Image
-                src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/kofi.png"
+                src="https://raw.githubusercontent.com/MacRimi/vmenu/main/images/kofi.png"
                 alt="Support me on Ko-fi"
                 width={140}
                 height={40}
@@ -39,7 +39,7 @@ export default function Footer() {
               Join the community discussions on GitHub to get help, share ideas, and contribute to the project. Every idea is welcome!
             </p>
             <Link
-              href="https://github.com/MacRimi/ProxMenux/discussions"
+              href="https://github.com/MacRimi/vmenu/discussions"
               className="flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200"
               target="_blank"
               rel="noopener noreferrer"
@@ -53,7 +53,7 @@ export default function Footer() {
         {/* Copyright - Center */}
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
         <p>
-          ProxMenux, an open-source and collaborative project by{' '}
+          vmenu, an open-source and collaborative project by{' '}
           <a
             href="https://macrimi.pro"
             target="_blank"

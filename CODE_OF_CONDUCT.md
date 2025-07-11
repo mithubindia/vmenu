@@ -1,6 +1,6 @@
 # 📝 Code of Conduct & Best Practices
 
-This document defines the **principles and guidelines** for the use of **ProxMenux**, aiming to foster **respect, collaboration, and security** in development.
+This document defines the **principles and guidelines** for the use of **vmenu**, aiming to foster **respect, collaboration, and security** in development.
 
 ## 📌 1. Code Attribution & Recognition
 

@@ -12,7 +12,7 @@ export default function Navbar() {
     { href: "/docs/introduction", icon: <Book className="h-4 w-4" />, label: "Documentation" },
     { href: "/changelog", icon: <FileText className="h-4 w-4" />, label: "Changelog" },
     { href: "/guides", icon: <GitBranch className="h-4 w-4" />, label: "Guides" },
-    { href: "https://github.com/MacRimi/ProxMenux", icon: <Github className="h-4 w-4" />, label: "GitHub" },
+    { href: "https://github.com/MacRimi/vmenu", icon: <Github className="h-4 w-4" />, label: "GitHub" },
   ]
 
   return (
@@ -21,13 +21,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo.png"
-              alt="ProxMenux Logo"
+              src="https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logo.png"
+              alt="vmenu Logo"
               width={32}
               height={32}
               className="w-8 h-8"
             />
-            <span className="text-xl font-bold">ProxMenux</span>
+            <span className="text-xl font-bold">vmenu</span>
           </Link>
 
           {/* Desktop menu */}
@@ -46,7 +46,7 @@ export default function Navbar() {
 
             {/* RSS Feed Link */}
             <Link
-              href="https://macrimi.github.io/ProxMenux/rss.xml"
+              href="https://macrimi.github.io/vmenu/rss.xml"
               className="flex items-center space-x-2 transition-colors hover:text-primary text-orange-600 hover:text-orange-700"
               target="_blank"
               rel="noopener noreferrer"
@@ -81,7 +81,7 @@ export default function Navbar() {
 
             {/* RSS Feed Link - Mobile */}
             <Link
-              href="https://macrimi.github.io/ProxMenux/rss.xml"
+              href="https://macrimi.github.io/vmenu/rss.xml"
               className="flex items-center space-x-2 py-2 transition-colors hover:text-primary text-orange-600 hover:text-orange-700"
               onClick={() => setIsMenuOpen(false)}
               target="_blank"

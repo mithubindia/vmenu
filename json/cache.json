@@ -1,17 +1,17 @@
 {
-  "ProxMenux has been installed successfully": {
-    "es": "ProxMenux se ha instalado correctamente.",
-    "fr": "ProxMenux a été installé avec succès.",
-    "de": "ProxMenux wurde erfolgreich installiert.",
-    "it": "ProxMenux è stato installato correttamente.",
-    "pt": "ProxMenux foi instalado com sucesso."
+  "vmenu has been installed successfully": {
+    "es": "vmenu se ha instalado correctamente.",
+    "fr": "vmenu a été installé avec succès.",
+    "de": "vmenu wurde erfolgreich installiert.",
+    "it": "vmenu è stato installato correttamente.",
+    "pt": "vmenu foi instalado com sucesso."
   },
-  "To run ProxMenux, simply execute this command in the console or terminal:": {
-    "es": "Para ejecutar ProxMenux, simplemente ejecute este comando en la consola o terminal:",
-    "fr": "Pour exécuter ProxMenux, lancez simplement cette commande dans la console ou le terminal :",
-    "de": "Um ProxMenux zu starten, führen Sie diesen Befehl einfach in der Konsole oder im Terminal aus:",
-    "it": "Per avviare ProxMenux, esegui semplicemente questo comando nel terminale:",
-    "pt": "Para executar o ProxMenux, basta executar este comando no console ou terminal:"
+  "To run vmenu, simply execute this command in the console or terminal:": {
+    "es": "Para ejecutar vmenu, simplemente ejecute este comando en la consola o terminal:",
+    "fr": "Pour exécuter vmenu, lancez simplement cette commande dans la console ou le terminal :",
+    "de": "Um vmenu zu starten, führen Sie diesen Befehl einfach in der Konsole oder im Terminal aus:",
+    "it": "Per avviare vmenu, esegui semplicemente questo comando nel terminale:",
+    "pt": "Para executar o vmenu, basta executar este comando no console ou terminal:"
   },
   "Language changed to": {
     "es": "Idioma cambiado a",
@@ -209,21 +209,21 @@
     "it": "Grazie per aver usato ProxMenu. Arrivederci!",
     "pt": "Obrigado por usar o ProxMenu. Adeus!"
   },
-  "Uninstall ProxMenux": {
-    "es": "Desinstalar ProxMenux",
-    "fr": "Désinstaller ProxMenux",
-    "de": "ProxMenux deinstallieren",
-    "it": "Disinstallare ProxMenux",
-    "pt": "Desinstalar ProxMenux"
+  "Uninstall vmenu": {
+    "es": "Desinstalar vmenu",
+    "fr": "Désinstaller vmenu",
+    "de": "vmenu deinstallieren",
+    "it": "Disinstallare vmenu",
+    "pt": "Desinstalar vmenu"
   },
-  "Main ProxMenux": {
-    "es": "ProxMenux principal",
-    "fr": "ProxMenux principal",
-    "de": "ProxMenux Hauptmenü",
-    "it": "ProxMenux principale",
-    "pt": "ProxMenux principal"
+  "Main vmenu": {
+    "es": "vmenu principal",
+    "fr": "vmenu principal",
+    "de": "vmenu Hauptmenü",
+    "it": "vmenu principale",
+    "pt": "vmenu principal"
   },
-  "Settings post-install Proxmox": {
+  "Settings post-install Virtuliservmenu": {
     "es": "Configuración post-instalación",
     "fr": "Paramètres post-installation",
     "de": "Einstellungen nach Installation",
@@ -237,12 +237,12 @@
     "it": "Hardware: GPUs e Coral-TPU",
     "pt": "Hardware: GPUs e Coral-TPU"
   },
-  "Proxmox VE Helper Scripts": {
-    "es": "Proxmox VE Helper Scripts",
-    "fr": "Proxmox VE Helper Scripts",
-    "de": "Proxmox VE Helper Scriptse",
-    "it": "Proxmox VE Helper Scripts",
-    "pt": "Proxmox VE Helper Scripts"
+  "Virtuliservmenu VE Helper Scripts": {
+    "es": "Virtuliservmenu VE Helper Scripts",
+    "fr": "Virtuliservmenu VE Helper Scripts",
+    "de": "Virtuliservmenu VE Helper Scriptse",
+    "it": "Virtuliservmenu VE Helper Scripts",
+    "pt": "Virtuliservmenu VE Helper Scripts"
   },
   "Generating automatic translations...": {
     "es": "Generando traducciones...",
@@ -272,12 +272,12 @@
     "it": "Script personalizzabile",
     "pt": "Script personalizável"
   },
-  "Proxmox VE Post Install": {
-    "es": "Post-instalación Proxmox VE",
-    "fr": "Post-installation Proxmox VE",
-    "de": "Proxmox VE Nachinstallation",
-    "it": "Post-installazione Proxmox VE",
-    "pt": "Pós-instalação Proxmox VE"
+  "Virtuliservmenu VE Post Install": {
+    "es": "Post-instalación Virtuliservmenu VE",
+    "fr": "Post-installation Virtuliservmenu VE",
+    "de": "Virtuliservmenu VE Nachinstallation",
+    "it": "Post-installazione Virtuliservmenu VE",
+    "pt": "Pós-instalação Virtuliservmenu VE"
   },
   "xshok-proxmox Post install": {
     "es": "Post-instalación xshok-proxmox",
@@ -580,10 +580,10 @@
     "it": "Aggiungere supporto Ceph",
     "pt": "Adicionar suporte Ceph"
   },
-  "Add Proxmox testing repository": {
+  "Add Virtuliservmenu testing repository": {
     "es": "Añadir repositorio de pruebas",
     "fr": "Ajouter dépôt de test",
-    "de": "Proxmox-Testrepository hinzufügen",
+    "de": "Virtuliservmenu-Testrepository hinzufügen",
     "it": "Aggiungere repository di test",
     "pt": "Adicionar repositório de teste"
   },
@@ -611,7 +611,7 @@
   "Install Figurine": {
     "es": "Instalar Figurine"
   },
-  "ProxMenux Custom Script for Post-Installation": {
+  "vmenu Custom Script for Post-Installation": {
     "es": "Script personalizado post-instalación",
     "fr": "Script personnalisé post-installation",
     "de": "Benutzerdefiniertes Nachinstallationsskript",
@@ -772,12 +772,12 @@
     "it": "Mostrare informazioni IP",
     "pt": "Mostrar informação IP"
   },
-  "Current ProxMenux version:": {
-    "es": "Versión actual de ProxMenux:",
-    "fr": "Version actuelle de ProxMenux:",
-    "de": "Aktuelle ProxMenux-Version:",
-    "it": "Versione attuale di ProxMenux:",
-    "pt": "Versão atual do ProxMenux:"
+  "Current vmenu version:": {
+    "es": "Versión actual de vmenu:",
+    "fr": "Version actuelle de vmenu:",
+    "de": "Aktuelle vmenu-Version:",
+    "it": "Versione attuale di vmenu:",
+    "pt": "Versão atual do vmenu:"
   },
   "Installed components:": {
     "es": "Componentes instalados:",
@@ -842,12 +842,12 @@
     "it": "Lingua attuale:",
     "pt": "Idioma atual:"
   },
-  "ProxMenux Information": {
-    "es": "Información ProxMenux",
-    "fr": "Information ProxMenux",
-    "de": "ProxMenux-Information",
-    "it": "Informazioni ProxMenux",
-    "pt": "Informação ProxMenux"
+  "vmenu Information": {
+    "es": "Información vmenu",
+    "fr": "Information vmenu",
+    "de": "vmenu-Information",
+    "it": "Informazioni vmenu",
+    "pt": "Informação vmenu"
   },
   "Optimize Memory": {
     "es": "Optimizar memoria",
@@ -1038,14 +1038,14 @@
   "System CLI Tools": {
     "es": "Herramientas CLI del sistema"
   },
-  "Show Proxmox version": {
-    "es": "Mostrar versión de Proxmox"
+  "Show Virtuliservmenu version": {
+    "es": "Mostrar versión de Virtuliservmenu"
   },
-  "Detailed Proxmox version info": {
-    "es": "Información detallada de la versión de Proxmox"
+  "Detailed Virtuliservmenu version info": {
+    "es": "Información detallada de la versión de Virtuliservmenu"
   },
-  "Check Proxmox Web UI status": {
-    "es": "Verificar el estado de la interfaz web de Proxmox"
+  "Check Virtuliservmenu Web UI status": {
+    "es": "Verificar el estado de la interfaz web de Virtuliservmenu"
   },
   "Restart Web UI proxy": {
     "es": "Reiniciar el proxy de la interfaz web"
@@ -1164,8 +1164,8 @@
   "Display logical volumes (LVM)": {
     "es": "Mostrar volúmenes lógicos (LVM)"
   },
-  "Show Proxmox storage configuration": {
-    "es": "Mostrar configuración de almacenamiento de Proxmox"
+  "Show Virtuliservmenu storage configuration": {
+    "es": "Mostrar configuración de almacenamiento de Virtuliservmenu"
   },
   "Show UUID and filesystem type of block devices": {
     "es": "Mostrar UUID y tipo de sistema de archivos de dispositivos de bloque"
@@ -1221,14 +1221,14 @@
   "Show nftables rules": {
     "es": "Mostrar reglas de nftables"
   },
-  "Check Proxmox firewall status": {
-    "es": "Verificar estado del firewall de Proxmox"
+  "Check Virtuliservmenu firewall status": {
+    "es": "Verificar estado del firewall de Virtuliservmenu"
   },
   "Compile firewall rules for all nodes": {
     "es": "Compilar reglas de firewall para todos los nodos"
   },
-  "Reload Proxmox firewall rules": {
-    "es": "Recargar reglas de firewall de Proxmox"
+  "Reload Virtuliservmenu firewall rules": {
+    "es": "Recargar reglas de firewall de Virtuliservmenu"
   },
   "Update and upgrade all system packages": {
     "es": "Actualizar todos los paquetes del sistema"
@@ -1236,11 +1236,11 @@
   "Full system upgrade, including dependencies": {
     "es": "Actualización completa del sistema, incluyendo dependencias"
   },
-  "Update Proxmox package lists": {
-    "es": "Actualizar listas de paquetes de Proxmox"
+  "Update Virtuliservmenu package lists": {
+    "es": "Actualizar listas de paquetes de Virtuliservmenu"
   },
-  "Show available Proxmox upgrades": {
-    "es": "Mostrar actualizaciones disponibles de Proxmox"
+  "Show available Virtuliservmenu upgrades": {
+    "es": "Mostrar actualizaciones disponibles de Virtuliservmenu"
   },
   "Remove unused packages and their config": {
     "es": "Eliminar paquetes no utilizados y su configuración"
@@ -1391,10 +1391,10 @@
     "fr": "Programme d’installation des utilitaires système",
     "de": "Systemdienstprogramme-Installer"
   },
-  "Proxmox System Update": {
-    "es": "Actualización del sistema Proxmox",
-    "fr": "Mise à jour du système Proxmox",
-    "de": "Proxmox-Systemaktualisierung"
+  "Virtuliservmenu System Update": {
+    "es": "Actualización del sistema Virtuliservmenu",
+    "fr": "Mise à jour du système Virtuliservmenu",
+    "de": "Virtuliservmenu-Systemaktualisierung"
   },
   "Enter destination path for ISO file": {
     "es": "Introduce la ruta de destino para el archivo ISO",
@@ -1486,10 +1486,10 @@
     "fr": "Aucun utilitaire sélectionné",
     "de": "Es wurden keine Dienstprogramme ausgewählt"
   },
-  "This script will update your Proxmox VE system with advanced options:": {
-    "es": "Este script actualizará su sistema Proxmox VE con opciones avanzadas:",
-    "fr": "Ce script va mettre à jour votre système Proxmox VE avec des options avancées :",
-    "de": "Dieses Skript aktualisiert Ihr Proxmox VE-System mit erweiterten Optionen:"
+  "This script will update your Virtuliservmenu VE system with advanced options:": {
+    "es": "Este script actualizará su sistema Virtuliservmenu VE con opciones avanzadas:",
+    "fr": "Ce script va mettre à jour votre système Virtuliservmenu VE avec des options avancées :",
+    "de": "Dieses Skript aktualisiert Ihr Virtuliservmenu VE-System mit erweiterten Optionen:"
   },
   "Repairs and optimizes repositories": {
     "es": "Repara y optimiza los repositorios",
@@ -1506,10 +1506,10 @@
     "fr": "Passe au dépôt gratuit sans abonnement",
     "de": "Wechselt zum kostenlosen Repository ohne Abonnement"
   },
-  "Updates all Proxmox and Debian packages": {
-    "es": "Actualiza todos los paquetes de Proxmox y Debian",
-    "fr": "Met à jour tous les paquets Proxmox et Debian",
-    "de": "Aktualisiert alle Proxmox- und Debian-Pakete"
+  "Updates all Virtuliservmenu and Debian packages": {
+    "es": "Actualiza todos los paquetes de Virtuliservmenu y Debian",
+    "fr": "Met à jour tous les paquets Virtuliservmenu et Debian",
+    "de": "Aktualisiert alle Virtuliservmenu- und Debian-Pakete"
   },
   "Installs essential packages if missing": {
     "es": "Instala los paquetes esenciales si faltan",
@@ -1526,17 +1526,17 @@
     "fr": "Effectue un nettoyage automatique après la mise à jour",
     "de": "Führt eine automatische Bereinigung nach der Aktualisierung durch"
   },
-  "Do you want to proceed and run the Proxmox System Update?": {
-    "es": "¿Quieres continuar y ejecutar la actualización del sistema Proxmox?",
-    "fr": "Voulez-vous continuer et lancer la mise à jour du système Proxmox ?",
-    "de": "Möchten Sie fortfahren und die Proxmox-Systemaktualisierung ausführen?"
+  "Do you want to proceed and run the Virtuliservmenu System Update?": {
+    "es": "¿Quieres continuar y ejecutar la actualización del sistema Virtuliservmenu?",
+    "fr": "Voulez-vous continuer et lancer la mise à jour du système Virtuliservmenu ?",
+    "de": "Möchten Sie fortfahren und die Virtuliservmenu-Systemaktualisierung ausführen?"
   },
-  "Update Proxmox VE Appliance Manager": {
-    "es": "Actualizar Proxmox VE Appliance Manager",
-    "fr": "Mettre à jour Proxmox VE Appliance Manager",
-    "de": "Proxmox VE Appliance Manager aktualisieren",
-    "it": "Aggiorna Proxmox VE Appliance Manager",
-    "pt": "Atualizar o Proxmox VE Appliance Manager"
+  "Update Virtuliservmenu VE Appliance Manager": {
+    "es": "Actualizar Virtuliservmenu VE Appliance Manager",
+    "fr": "Mettre à jour Virtuliservmenu VE Appliance Manager",
+    "de": "Virtuliservmenu VE Appliance Manager aktualisieren",
+    "it": "Aggiorna Virtuliservmenu VE Appliance Manager",
+    "pt": "Atualizar o Virtuliservmenu VE Appliance Manager"
   },
   "Post-Installation Options": {
     "es": "Ajustes post-instalación",
@@ -1574,11 +1574,11 @@
     "pt": "Scripts da comunidade"
   },
   "Xshok-proxmox Post install": {
-    "es": "Pos-tinstalación Xshok-Proxmox",
-    "fr": "Post-installation Xshok-Proxmox",
-    "de": "Xshok-Proxmox-Post-Installation",
-    "it": "Post-installazione Xshok-Proxmox",
-    "pt": "Pós-instalação Xshok-Proxmox"
+    "es": "Pos-tinstalación Xshok-Virtuliservmenu",
+    "fr": "Post-installation Xshok-Virtuliservmenu",
+    "de": "Xshok-Virtuliservmenu-Post-Installation",
+    "it": "Post-installazione Xshok-Virtuliservmenu",
+    "pt": "Pós-instalação Xshok-Virtuliservmenu"
   },
   "Post-Installation Scripts": {
     "es": "Scripts de post-instalación",
@@ -1622,12 +1622,12 @@
     "it": "Rimuovere",
     "pt": "Remover"
   },
-  "from Proxmox interface": {
-    "es": "de la interfaz de Proxmox",
-    "fr": "de l'interface Proxmox",
-    "de": "aus der Proxmox-Oberfläche",
-    "it": "dall'interfaccia Proxmox",
-    "pt": "da interface Proxmox"
+  "from Virtuliservmenu interface": {
+    "es": "de la interfaz de Virtuliservmenu",
+    "fr": "de l'interface Virtuliservmenu",
+    "de": "aus der Virtuliservmenu-Oberfläche",
+    "it": "dall'interfaccia Virtuliservmenu",
+    "pt": "da interface Virtuliservmenu"
   },
   "Optimize": {
     "es": "Optimizar",
@@ -1811,12 +1811,12 @@
     "it": "Versione traduzione (supporto multilingue)",
     "pt": "Versão de tradução (suporte multilíngue)"
   },
-  "This script will apply the following optimizations and advanced adjustments to your Proxmox VE server": {
-    "es": "Este script aplicará las siguientes optimizaciones y ajustes avanzados a su servidor Proxmox VE",
-    "fr": "Ce script appliquera les optimisations et ajustements avancés suivants à votre serveur Proxmox VE",
-    "de": "Dieses Skript wendet die folgenden Optimierungen und erweiterten Anpassungen auf Ihren Proxmox VE-Server an",
-    "it": "Questo script applicherà le seguenti ottimizzazioni e regolazioni avanzate al tuo server Proxmox VE",
-    "pt": "Este script aplicará as seguintes otimizações e ajustes avançados ao seu servidor Proxmox VE"
+  "This script will apply the following optimizations and advanced adjustments to your Virtuliservmenu VE server": {
+    "es": "Este script aplicará las siguientes optimizaciones y ajustes avanzados a su servidor Virtuliservmenu VE",
+    "fr": "Ce script appliquera les optimisations et ajustements avancés suivants à votre serveur Virtuliservmenu VE",
+    "de": "Dieses Skript wendet die folgenden Optimierungen und erweiterten Anpassungen auf Ihren Virtuliservmenu VE-Server an",
+    "it": "Questo script applicherà le seguenti ottimizzazioni e regolazioni avanzate al tuo server Virtuliservmenu VE",
+    "pt": "Este script aplicará as seguintes otimizações e ajustes avançados ao seu servidor Virtuliservmenu VE"
   },
   "and upgrade the system (disables the enterprise repo)": {
     "es": "y actualiza el sistema (desactiva el repositorio enterprise).",
@@ -1832,12 +1832,12 @@
     "it": "Rimuovi opzionalmente",
     "pt": "Remover opcionalmente"
   },
-  "from Proxmox web interface (you will be asked)": {
-    "es": "de la interfaz web de Proxmox.",
-    "fr": "de l'interface web Proxmox.",
-    "de": "aus der Proxmox-Weboberfläche.",
-    "it": "dall'interfaccia web di Proxmox.",
-    "pt": "da interface web do Proxmox."
+  "from Virtuliservmenu web interface (you will be asked)": {
+    "es": "de la interfaz web de Virtuliservmenu.",
+    "fr": "de l'interface web Virtuliservmenu.",
+    "de": "aus der Virtuliservmenu-Weboberfläche.",
+    "it": "dall'interfaccia web di Virtuliservmenu.",
+    "pt": "da interface web do Virtuliservmenu."
   },
   "for better performance and stability": {
     "es": "para un mejor rendimiento y estabilidad",
@@ -1888,12 +1888,12 @@
     "it": "Aggiungere prompt colorati e alias utili all'ambiente terminale",
     "pt": "Adicionar prompts coloridos e aliases úteis ao ambiente do terminal"
   },
-  "All changes are reversible using the ProxMenux uninstaller.": {
-    "es": "Todos los cambios son reversibles usando el desinstalador de ProxMenux.",
-    "fr": "Toutes les modifications sont réversibles avec le désinstalleur de ProxMenux.",
-    "de": "Alle Änderungen sind mit dem ProxMenux-Deinstallationsprogramm reversibel.",
-    "it": "Tutte le modifiche sono reversibili utilizzando il programma di disinstallazione di ProxMenux.",
-    "pt": "Todas as alterações são reversíveis usando o desinstalador do ProxMenux."
+  "All changes are reversible using the vmenu uninstaller.": {
+    "es": "Todos los cambios son reversibles usando el desinstalador de vmenu.",
+    "fr": "Toutes les modifications sont réversibles avec le désinstalleur de vmenu.",
+    "de": "Alle Änderungen sind mit dem vmenu-Deinstallationsprogramm reversibel.",
+    "it": "Tutte le modifiche sono reversibili utilizzando il programma di disinstallazione di vmenu.",
+    "pt": "Todas as alterações são reversíveis usando o desinstalador do vmenu."
   },
   "Do you want to apply these optimizations now?": {
     "es": "¿Desea aplicar estas optimizaciones ahora?",

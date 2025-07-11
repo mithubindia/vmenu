@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# VM Creator Module - ProxMenux
+# VM Creator Module - vmenu
 # Este módulo recibe las variables globales y crea la VM
 # con su configuración, discos y descripción.
 
@@ -36,7 +36,7 @@ function mount_iso_to_vm() {
 
 # Select Interface Type
 function select_interface_type() {
-  INTERFACE_TYPE=$(whiptail --backtitle "ProxMenux" --title "$(translate "Select Disk Interface")" --radiolist \
+  INTERFACE_TYPE=$(whiptail --backtitle "vmenu" --title "$(translate "Select Disk Interface")" --radiolist \
     "$(translate "Select the bus type for the disks:")" 15 70 4 \
     "scsi"    "$(translate "SCSI   (recommended for Linux and Windows)")" ON \
     "sata"    "$(translate "SATA   (standard - high compatibility)")" OFF \
@@ -183,7 +183,7 @@ select_interface_type
     local VIRTIO_DOWNLOAD_URL="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
 
     while true; do
-      VIRTIO_OPTION=$(whiptail --title "ProxMenux - VirtIO Drivers" --menu "$(translate "Select how to provide VirtIO drivers")" 15 70 2 \
+      VIRTIO_OPTION=$(whiptail --title "vmenu - VirtIO Drivers" --menu "$(translate "Select how to provide VirtIO drivers")" 15 70 2 \
         "1" "$(translate "Download latest VirtIO ISO automatically")" \
         "2" "$(translate "Use existing VirtIO ISO from storage")" 3>&1 1>&2 2>&3)
 
@@ -193,7 +193,7 @@ select_interface_type
         1)
 
           if [[ -f "$VIRTIO_DIR/virtio-win.iso" ]]; then
-            if whiptail --title "ProxMenux" --yesno "$(translate "A VirtIO ISO already exists. Do you want to overwrite it?")" 10 60; then
+            if whiptail --title "vmenu" --yesno "$(translate "A VirtIO ISO already exists. Do you want to overwrite it?")" 10 60; then
               wget -q --show-progress -O "$VIRTIO_DIR/virtio-win.iso" "$VIRTIO_DOWNLOAD_URL"
               if [[ -f "$VIRTIO_DIR/virtio-win.iso" ]]; then
                 msg_ok "$(translate "VirtIO driver ISO downloaded successfully.")"
@@ -226,7 +226,7 @@ select_interface_type
             continue  # Volver a preguntar
           fi
 
-          VIRTIO_FILE=$(whiptail --title "ProxMenux - VirtIO ISOs" --menu "$(translate "Select a VirtIO ISO to use:")" 20 70 10 "${VIRTIO_LIST[@]}" 3>&1 1>&2 2>&3)
+          VIRTIO_FILE=$(whiptail --title "vmenu - VirtIO ISOs" --menu "$(translate "Select a VirtIO ISO to use:")" 20 70 10 "${VIRTIO_LIST[@]}" 3>&1 1>&2 2>&3)
 
           if [[ -n "$VIRTIO_FILE" ]]; then
             VIRTIO_SELECTED="$VIRTIO_DIR/$VIRTIO_FILE"
@@ -255,7 +255,7 @@ select_interface_type
   msg_ok "$(translate "Boot order set to") $BOOT_FINAL"
 
   # Crear descripción
-  local DESC="<div align='center'><h1>$HN</h1><p>Created with ProxMenux</p>$DISK_INFO</div>"
+  local DESC="<div align='center'><h1>$HN</h1><p>Created with vmenu</p>$DISK_INFO</div>"
   qm set "$VMID" -description "$DESC" >/dev/null
   msg_ok "$(translate "VM description configured")"
 
@@ -288,7 +288,7 @@ function select_efi_storage() {
   elif [ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]; then
     STORAGE=${STORAGE_MENU[0]}
   else
-    STORAGE=$(whiptail --backtitle "ProxMenux" --title "$(translate "EFI Disk Storage")" --radiolist \
+    STORAGE=$(whiptail --backtitle "vmenu" --title "$(translate "EFI Disk Storage")" --radiolist \
       "$(translate "Choose the storage volume for the EFI disk (4MB):")" 16 70 6 \
       "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3) || exit 1
   fi

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# ProxMenux - A menu-driven script for Proxmox VE management
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - A menu-driven script for Virtuliservmenu VE management
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 30/06/2025
 # This script provides an interactive system utilities installer with a 
-# comprehensive dialog-based interface for Proxmox VE and Linux systems.
+# comprehensive dialog-based interface for Virtuliservmenu VE and Linux systems.
 # It simplifies the installation and management of essential command-line 
 # tools and utilities commonly used in server environments.
 #
@@ -113,7 +113,7 @@ install_system_utils() {
 
     show_main_utilities_menu() {
         local choice
-        choice=$(dialog --clear --backtitle "ProxMenux" \
+        choice=$(dialog --clear --backtitle "vmenu" \
                        --title "$(translate "Utilities Installation Menu")" \
                        --menu "$(translate "Select an option"):" 20 70 12 \
                        "1" "$(translate "Custom selection")" \
@@ -159,7 +159,7 @@ install_system_utils() {
         )
         
         local selected
-        selected=$(dialog --clear --backtitle "ProxMenux" \
+        selected=$(dialog --clear --backtitle "vmenu" \
                          --title "$(translate "Select utilities to install")" \
                          --checklist "$(translate "Use SPACE to select/deselect, ENTER to confirm")" \
                          25 80 20 "${utilities[@]}" 2>&1 >/dev/tty)
@@ -214,7 +214,7 @@ install_system_utils() {
         [ $warning -gt 0 ] && msg_warn "$(translate "With warnings"): $warning"
         [ $failed -gt 0 ] && msg_error "$(translate "Failed"): $failed"
         
-        dialog --clear --backtitle "ProxMenux" \
+        dialog --clear --backtitle "vmenu" \
                --title "$(translate "Installation Complete")" \
                --msgbox "$(translate "Group"): $group_name\n$(translate "Successful"): $success\n$(translate "With warnings"): $warning\n$(translate "Failed"): $failed" 10 50
     }
@@ -224,7 +224,7 @@ install_system_utils() {
         local selected="$1"
         
         if [ -z "$selected" ]; then
-            dialog --clear --backtitle "ProxMenux" \
+            dialog --clear --backtitle "vmenu" \
                    --title "$(translate "No Selection")" \
                    --msgbox "$(translate "No utilities were selected")" 8 40
             return
@@ -282,7 +282,7 @@ install_system_utils() {
         [ $warning -gt 0 ] && msg_warn "$(translate "With warnings"): $warning"
         [ $failed -gt 0 ] && msg_error "$(translate "Failed"): $failed"
         
-        dialog --clear --backtitle "ProxMenux" \
+        dialog --clear --backtitle "vmenu" \
                --title "$(translate "Installation Complete")" \
                --msgbox "$(translate "Selected utilities installation completed")\n$(translate "Successful"): $success\n$(translate "With warnings"): $warning\n$(translate "Failed"): $failed" 12 60
     }
@@ -339,7 +339,7 @@ install_system_utils() {
         
         local summary="$(translate "Total"): $((available + missing))\n$(translate "Available"): $available\n$(translate "Missing"): $missing"
         
-        dialog --clear --backtitle "ProxMenux" \
+        dialog --clear --backtitle "vmenu" \
                --title "$(translate "Utilities Verification")" \
                --msgbox "$summary$status_text" 25 80
     }
@@ -448,7 +448,7 @@ install_system_utils() {
                 break
                 ;;
             *)
-                dialog --clear --backtitle "ProxMenux" \
+                dialog --clear --backtitle "vmenu" \
                        --title "$(translate "Invalid Option")" \
                        --msgbox "$(translate "Please select a valid option")" 8 40
                 ;;

@@ -3,30 +3,30 @@ import { HardDrive } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Storage Settings",
+  title: "vmenu Post-Install: Storage Settings",
   description:
-    "Comprehensive guide to Storage Settings in the ProxMenux post-install script for optimizing Proxmox VE storage performance and configuration.",
+    "Comprehensive guide to Storage Settings in the vmenu post-install script for optimizing Virtuliservmenu VE storage performance and configuration.",
   openGraph: {
-    title: "ProxMenux Post-Install: Storage Settings",
+    title: "vmenu Post-Install: Storage Settings",
     description:
-      "Comprehensive guide to Storage Settings in the ProxMenux post-install script for optimizing Proxmox VE storage performance and configuration.",
+      "Comprehensive guide to Storage Settings in the vmenu post-install script for optimizing Virtuliservmenu VE storage performance and configuration.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/storage",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/storage",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/storage-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/storage-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Storage Settings",
+        alt: "vmenu Post-Install Storage Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Storage Settings",
+    title: "vmenu Post-Install: Storage Settings",
     description:
-      "Comprehensive guide to Storage Settings in the ProxMenux post-install script for optimizing Proxmox VE storage performance and configuration.",
-    images: ["https://macrimi.github.io/ProxMenux/storage-settings-image.png"],
+      "Comprehensive guide to Storage Settings in the vmenu post-install script for optimizing Virtuliservmenu VE storage performance and configuration.",
+    images: ["https://macrimi.github.io/vmenu/storage-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function StorageSettingsPage() {
         <h1 className="text-3xl font-bold">Storage Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Storage Settings</strong> category optimizes storage configuration and performance in Proxmox VE. 
+        The <strong>Storage Settings</strong> category optimizes storage configuration and performance in Virtuliservmenu VE. 
         These optimizations are essential for efficient storage operations in virtualized environments where multiple VMs 
         and containers share storage resources.
       </p>

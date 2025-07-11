@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Synology DSM VM Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 13/03/2025
 # This script automates the creation and configuration of a Synology DSM 
-# (DiskStation Manager) virtual machine (VM) in Proxmox VE. It simplifies the
+# (DiskStation Manager) virtual machine (VM) in Virtuliservmenu VE. It simplifies the
 # setup process by allowing both default and advanced configuration options.
 #
 # The script automates the complete VM creation process, including loader 
@@ -12,11 +12,11 @@
 #
 # **Credits**
 # This script is an original idea but incorporates ideas and elements from 
-# a similar script by user **tim104979** from the ProxmoxVE branch:
-# (https://raw.githubusercontent.com/tim104979/ProxmoxVE/refs/heads/main/vm/synology-vm.sh)
+# a similar script by user **tim104979** from the VirtuliservmenuVE branch:
+# (https://raw.githubusercontent.com/tim104979/VirtuliservmenuVE/refs/heads/main/vm/synology-vm.sh)
 #
-# Copyright (c) Proxmox VE Helper-Scripts Community
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# Copyright (c) Virtuliservmenu VE Helper-Scripts Community
+# License: MIT | https://github.com/community-scripts/VirtuliservmenuVE/raw/main/LICENSE
 #
 
 
@@ -1014,7 +1014,7 @@ HTML_DESC="<div align='center'>
 <table style='width: 100%; border-collapse: collapse;'>
 <tr>
 <td style='width: 100px; vertical-align: middle;'>
-<img src='https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo_desc.png' alt='ProxMenux Logo' style='height: 100px;'>
+<img src='https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logo_desc.png' alt='vmenu Logo' style='height: 100px;'>
 </td>
 <td style='vertical-align: middle;'>
 <h1 style='margin: 0;'>Synology DSM VM</h1>
@@ -1025,8 +1025,8 @@ HTML_DESC="<div align='center'>
 </table>
 
 <p>
-<a href='https://macrimi.github.io/ProxMenux/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
-<a href='https://raw.githubusercontent.com/MacRimi/ProxMenux/refs/heads/main/scripts/vm/synology.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
+<a href='https://macrimi.github.io/vmenu/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
+<a href='https://raw.githubusercontent.com/MacRimi/vmenu/refs/heads/main/scripts/vm/synology.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
 <a href='$LOADER_URL' target='_blank'><img src='https://img.shields.io/badge/📦_Loader-orange' alt='Loader'></a>
 <a href='https://ko-fi.com/macrimi' target='_blank'><img src='https://img.shields.io/badge/☕_Ko--fi-red' alt='Ko-fi'></a>
 </p>
@@ -1073,7 +1073,7 @@ HTML_DESC="<div align='center'>
 <table style='width: 100%; border-collapse: collapse;'>
 <tr>
 <td style='width: 100px; vertical-align: middle;'>
-<img src='https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo_desc.png' alt='ProxMenux Logo' style='height: 100px;'>
+<img src='https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logo_desc.png' alt='vmenu Logo' style='height: 100px;'>
 </td>
 <td style='vertical-align: middle;'>
 <h1 style='margin: 0;'>Synology DSM VM</h1>
@@ -1084,8 +1084,8 @@ HTML_DESC="<div align='center'>
 </table>
 
 <p>
-<a href='https://macrimi.github.io/ProxMenux/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
-<a href='https://raw.githubusercontent.com/MacRimi/ProxMenux/refs/heads/main/scripts/vm/synology.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
+<a href='https://macrimi.github.io/vmenu/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
+<a href='https://raw.githubusercontent.com/MacRimi/vmenu/refs/heads/main/scripts/vm/synology.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
 <a href='$LOADER_URL' target='_blank'><img src='https://img.shields.io/badge/📦_Loader-orange' alt='Loader'></a>
 <a href='https://ko-fi.com/macrimi' target='_blank'><img src='https://img.shields.io/badge/☕_Ko--fi-red' alt='Ko-fi'></a>
 </p>

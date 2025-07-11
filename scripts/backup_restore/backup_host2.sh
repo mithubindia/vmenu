@@ -49,11 +49,11 @@ get_external_backup_mount_point() {
 host_backup_menu() {
     while true; do
         local CHOICE
-        CHOICE=$(dialog --backtitle "ProxMenux" \
+        CHOICE=$(dialog --backtitle "vmenu" \
             --title "$(translate 'Host Backup')" \
             --menu "\n$(translate 'Select backup option:')" 22 70 12 \
             ""         "$(translate '--- FULL BACKUP ---')" \
-            1 "$(translate 'Full backup to Proxmox Backup Server (PBS)')" \
+            1 "$(translate 'Full backup to Virtuliservmenu Backup Server (PBS)')" \
             2 "$(translate 'Full backup with BorgBackup')" \
             3 "$(translate 'Full backup to local .tar.gz')" \
             ""         "$(translate '--- CUSTOM BACKUP ---')" \
@@ -195,7 +195,7 @@ for j in "${!PBS_CONFIGS[@]}"; do
     local source_type="${source%%|*}"
 
     if [[ "$source_type" == "proxmox" ]]; then
-        menu_options+=("$i" " $name ($repo) [Proxmox]")
+        menu_options+=("$i" " $name ($repo) [Virtuliservmenu]")
     else
         menu_options+=("$i" " $name ($repo) [Manual]")
     fi
@@ -205,7 +205,7 @@ done
 menu_options+=("" "")
 menu_options+=("$i" "\Z4\Zb $(translate 'Configure new PBS')\Zn")
 local choice
-choice=$(dialog --colors --backtitle "ProxMenux" --title "PBS Server Selection" \
+choice=$(dialog --colors --backtitle "vmenu" --title "PBS Server Selection" \
 --menu "$(translate 'Select PBS server for this backup:')" 22 70 12 "${menu_options[@]}" 3>&1 1>&2 2>&3) || return 1
 
 if [[ $choice -eq $i ]]; then
@@ -241,7 +241,7 @@ else
                 echo "$auth_content" > "$PBS_PASS_FILE"
                 chmod 600 "$PBS_PASS_FILE"
                 password_found=true
-                dialog --backtitle "ProxMenux" --title "PBS Selected" --msgbox "$(translate 'Using Proxmox PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') PBS Cloud Token
@@ -251,7 +251,7 @@ $(translate 'Token ID:') $selected_username" 15 80
                 echo "$full_token" > "$PBS_TOKEN_FILE"
                 chmod 600 "$PBS_TOKEN_FILE"
                 password_found=true
-                dialog --backtitle "ProxMenux" --title "PBS Selected" --msgbox "$(translate 'Using Proxmox PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') API Token
@@ -260,7 +260,7 @@ $(translate 'Token ID:') $selected_username" 15 80
                 echo "$auth_content" > "$PBS_TOKEN_FILE"
                 chmod 600 "$PBS_TOKEN_FILE"
                 password_found=true
-                dialog --backtitle "ProxMenux" --title "PBS Selected" --msgbox "$(translate 'Using Proxmox PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') API Token (Complete)" 12 80
@@ -268,7 +268,7 @@ $(translate 'Authentication:') API Token (Complete)" 12 80
                 echo "$auth_content" > "$PBS_PASS_FILE"
                 chmod 600 "$PBS_PASS_FILE"
                 password_found=true
-                dialog --backtitle "ProxMenux" --title "PBS Selected" --msgbox "$(translate 'Using Proxmox PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') Password" 12 80
@@ -284,7 +284,7 @@ $(translate 'Authentication:') Password" 12 80
                 chmod 600 "$PBS_PASS_FILE"
             } >/dev/null 2>&1
             password_found=true
-            dialog --backtitle "ProxMenux" --title "PBS Selected" --msgbox "$(translate 'Using manual PBS:') $pbs_name
+            dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using manual PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Password:') $(translate 'Previously saved')" 12 80
@@ -292,7 +292,7 @@ $(translate 'Password:') $(translate 'Previously saved')" 12 80
     fi
     
     if ! $password_found; then
-        dialog --backtitle "ProxMenux" --title "Password Required" --msgbox "$(translate 'Password not found for:') $pbs_name
+        dialog --backtitle "vmenu" --title "Password Required" --msgbox "$(translate 'Password not found for:') $pbs_name
 $(translate 'Please enter the password.')" 10 60
         get_pbs_password "$pbs_name" || return 1
     fi
@@ -359,18 +359,18 @@ backup_full_pbs_root() {
     fi
 
   
-    dialog --backtitle "ProxMenux" --title "Encryption" --yesno "$(translate 'Do you want to encrypt the backup?')" 8 60
+    dialog --backtitle "vmenu" --title "Encryption" --yesno "$(translate 'Do you want to encrypt the backup?')" 8 60
     if [[ $? -eq 0 ]]; then
 
         if [[ ! -f "$PBS_ENCRYPTION_PASS_FILE" ]]; then
             while true; do
-                PBS_KEY_PASS=$(dialog --backtitle "ProxMenux" --title "Encryption Password" --insecure --passwordbox "$(translate 'Enter encryption password (different from PBS login):')" 12 70 "" 3>&1 1>&2 2>&3) || return 1
-                PBS_KEY_PASS2=$(dialog --backtitle "ProxMenux" --title "Encryption Password" --insecure --passwordbox "$(translate 'Confirm encryption password:')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
+                PBS_KEY_PASS=$(dialog --backtitle "vmenu" --title "Encryption Password" --insecure --passwordbox "$(translate 'Enter encryption password (different from PBS login):')" 12 70 "" 3>&1 1>&2 2>&3) || return 1
+                PBS_KEY_PASS2=$(dialog --backtitle "vmenu" --title "Encryption Password" --insecure --passwordbox "$(translate 'Confirm encryption password:')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
                 
                 if [[ "$PBS_KEY_PASS" == "$PBS_KEY_PASS2" ]]; then
                     break
                 else
-                    dialog --backtitle "ProxMenux" --title "Error" --msgbox "$(translate 'Passwords do not match! Please try again.')" 8 50
+                    dialog --backtitle "vmenu" --title "Error" --msgbox "$(translate 'Passwords do not match! Please try again.')" 8 50
                 fi
             done
 
@@ -380,14 +380,14 @@ backup_full_pbs_root() {
                 chmod 600 "$PBS_ENCRYPTION_PASS_FILE"
             } >/dev/null 2>&1
             
-            dialog --backtitle "ProxMenux" --title "Success" --msgbox "$(translate 'Encryption password saved successfully!')" 8 50
+            dialog --backtitle "vmenu" --title "Success" --msgbox "$(translate 'Encryption password saved successfully!')" 8 50
         fi
         
 
         if [[ ! -f "$PBS_KEY_FILE" ]]; then
             PBS_ENCRYPTION_PASS=$(<"$PBS_ENCRYPTION_PASS_FILE")
             
-            dialog --backtitle "ProxMenux" --title "Encryption" --infobox "$(translate 'Creating encryption key...')" 5 50
+            dialog --backtitle "vmenu" --title "Encryption" --infobox "$(translate 'Creating encryption key...')" 5 50
             
             expect -c "
             set timeout 30
@@ -406,11 +406,11 @@ backup_full_pbs_root() {
             " >/dev/null 2>&1
 
             if [[ ! -f "$PBS_KEY_FILE" ]]; then
-                dialog --backtitle "ProxMenux" --title "Error" --msgbox "$(translate 'Error creating encryption key.')" 8 40
+                dialog --backtitle "vmenu" --title "Error" --msgbox "$(translate 'Error creating encryption key.')" 8 40
                 return 1
             fi
             
-            dialog --backtitle "ProxMenux" --title "Important" --msgbox "$(translate 'IMPORTANT: Save the key file. Without it you will not be able to restore your backups!')\n\n$(translate 'Key file location:') $PBS_KEY_FILE" 12 70
+            dialog --backtitle "vmenu" --title "Important" --msgbox "$(translate 'IMPORTANT: Save the key file. Without it you will not be able to restore your backups!')\n\n$(translate 'Key file location:') $PBS_KEY_FILE" 12 70
         fi
         ENCRYPT_OPT="--keyfile $PBS_KEY_FILE"
     else
@@ -601,7 +601,7 @@ backup_to_pbs() {
     unset PBS_PASSWORD PBS_API_TOKEN PBS_API_TOKEN_ID PBS_API_TOKEN_SECRET PBS_FINGERPRINT
 
     USE_ENCRYPTION=false
-    dialog --backtitle "ProxMenux" --yesno "$(translate 'Do you want to encrypt the backup?')" 8 60
+    dialog --backtitle "vmenu" --yesno "$(translate 'Do you want to encrypt the backup?')" 8 60
     [[ $? -eq 0 ]] && USE_ENCRYPTION=true
 
     if $USE_ENCRYPTION && ! command -v expect >/dev/null 2>&1; then
@@ -656,13 +656,13 @@ backup_to_pbs() {
                 ENCRYPT_OPT="--keyfile $PBS_KEY_FILE"
             else
                 while true; do
-                    PBS_KEY_PASS=$(dialog --backtitle "ProxMenux" --insecure --passwordbox "$(translate 'Enter encryption password (different from PBS login):')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
-                    PBS_KEY_PASS2=$(dialog --backtitle "ProxMenux" --insecure --passwordbox "$(translate 'Confirm encryption password:')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
+                    PBS_KEY_PASS=$(dialog --backtitle "vmenu" --insecure --passwordbox "$(translate 'Enter encryption password (different from PBS login):')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
+                    PBS_KEY_PASS2=$(dialog --backtitle "vmenu" --insecure --passwordbox "$(translate 'Confirm encryption password:')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
                     
                     if [[ "$PBS_KEY_PASS" == "$PBS_KEY_PASS2" ]]; then
                         break
                     else
-                        dialog --backtitle "ProxMenux" --msgbox "$(translate 'Passwords do not match! Please try again.')" 8 50
+                        dialog --backtitle "vmenu" --msgbox "$(translate 'Passwords do not match! Please try again.')" 8 50
                     fi
                 done
 
@@ -688,11 +688,11 @@ backup_to_pbs() {
                 " >/dev/null 2>&1
 
                 if [[ ! -f "$PBS_KEY_FILE" ]]; then
-                    dialog --backtitle "ProxMenux" --msgbox "$(translate 'Error creating encryption key.')" 8 40
+                    dialog --backtitle "vmenu" --msgbox "$(translate 'Error creating encryption key.')" 8 40
                     return 1
                 fi
                 ENCRYPT_OPT="--keyfile $PBS_KEY_FILE"
-                dialog --backtitle "ProxMenux" --msgbox "$(translate 'Encryption key generated. Save it in a safe place!')" 10 60
+                dialog --backtitle "vmenu" --msgbox "$(translate 'Encryption key generated. Save it in a safe place!')" 10 60
             fi
         fi
 
@@ -842,21 +842,21 @@ backup_with_borg() {
     fi
 
 
-    TYPE=$(dialog --backtitle "ProxMenux" --menu "$(translate 'Select Borg backup destination:')" 15 60 3 \
+    TYPE=$(dialog --backtitle "vmenu" --menu "$(translate 'Select Borg backup destination:')" 15 60 3 \
         "local"   "$(translate 'Local directory')" \
         "usb"     "$(translate 'Internal/External dedicated disk')" \
         "remote"  "$(translate 'Remote server')" \
         3>&1 1>&2 2>&3) || return 1
 
     if [[ "$TYPE" == "local" ]]; then
-        DEST=$(dialog --backtitle "ProxMenux" --inputbox "$(translate 'Enter local directory for backup:')" 10 60 "/backup/borgbackup" 3>&1 1>&2 2>&3) || return 1
+        DEST=$(dialog --backtitle "vmenu" --inputbox "$(translate 'Enter local directory for backup:')" 10 60 "/backup/borgbackup" 3>&1 1>&2 2>&3) || return 1
         mkdir -p "$DEST"
     elif [[ "$TYPE" == "usb" ]]; then
 
     while true; do
         BASE_DEST=$(get_external_backup_mount_point)
         if [[ -z "$BASE_DEST" ]]; then
-            dialog --backtitle "ProxMenux" --yesno "$(translate 'No external disk detected or mounted. Would you like to retry?')" 8 60
+            dialog --backtitle "vmenu" --yesno "$(translate 'No external disk detected or mounted. Would you like to retry?')" 8 60
             [[ $? -eq 0 ]] && continue
             return 1
         fi
@@ -874,7 +874,7 @@ backup_with_borg() {
         fi
         FREE_SPACE=$(df -h "$BASE_DEST" | awk 'NR==2{print $4}')
 
-            dialog --backtitle "ProxMenux" \
+            dialog --backtitle "vmenu" \
                 --title "$(translate "Dedicated Backup Disk")" \
                 --yesno "\n$(translate "Mount point:") $DEST\n\n\
         $(translate "Disk model:") $DISK_MODEL\n\
@@ -890,16 +890,16 @@ backup_with_borg() {
 
 
     elif [[ "$TYPE" == "remote" ]]; then
-        REMOTE_USER=$(dialog --backtitle "ProxMenux" --inputbox "$(translate 'Enter SSH user for remote:')" 10 60 "root" 3>&1 1>&2 2>&3) || return 1
-        REMOTE_HOST=$(dialog --backtitle "ProxMenux" --inputbox "$(translate 'Enter SSH host:')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
-        REMOTE_PATH=$(dialog --backtitle "ProxMenux" --inputbox "$(translate 'Enter remote path:')" 10 60 "/backup/borgbackup" 3>&1 1>&2 2>&3) || return 1
+        REMOTE_USER=$(dialog --backtitle "vmenu" --inputbox "$(translate 'Enter SSH user for remote:')" 10 60 "root" 3>&1 1>&2 2>&3) || return 1
+        REMOTE_HOST=$(dialog --backtitle "vmenu" --inputbox "$(translate 'Enter SSH host:')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
+        REMOTE_PATH=$(dialog --backtitle "vmenu" --inputbox "$(translate 'Enter remote path:')" 10 60 "/backup/borgbackup" 3>&1 1>&2 2>&3) || return 1
         DEST="ssh://$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
     fi
 
 
-    dialog --backtitle "ProxMenux" --yesno "$(translate 'Do you want to encrypt the backup?')" 8 60
+    dialog --backtitle "vmenu" --yesno "$(translate 'Do you want to encrypt the backup?')" 8 60
     if [[ $? -eq 0 ]]; then
-        BORG_KEY=$(dialog --backtitle "ProxMenux" --inputbox "$(translate 'Enter Borg encryption passphrase (will be saved):')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
+        BORG_KEY=$(dialog --backtitle "vmenu" --inputbox "$(translate 'Enter Borg encryption passphrase (will be saved):')" 10 60 "" 3>&1 1>&2 2>&3) || return 1
         ENCRYPT_OPT="--encryption=repokey"
         export BORG_PASSPHRASE="$BORG_KEY"
     else
@@ -920,7 +920,7 @@ backup_with_borg() {
     fi
 
 
-    dialog --backtitle "ProxMenux" --msgbox "$(translate 'Borg backup will start now. This may take a while.')" 8 40
+    dialog --backtitle "vmenu" --msgbox "$(translate 'Borg backup will start now. This may take a while.')" 8 40
 
     clear
     show_proxmenux_logo
@@ -964,13 +964,13 @@ fi
 
 
 
-    TYPE=$(dialog --backtitle "ProxMenux"  --menu "$(translate 'Select backup destination:')" 15 60 2 \
+    TYPE=$(dialog --backtitle "vmenu"  --menu "$(translate 'Select backup destination:')" 15 60 2 \
         "local" "$(translate 'Local directory')" \
         "usb"   "$(translate 'Internal/External dedicated disk')" \
         3>&1 1>&2 2>&3) || return 1
 
     if [[ "$TYPE" == "local" ]]; then
-        DEST=$(dialog --backtitle "ProxMenux" --inputbox "$(translate 'Enter directory for backup:')" 10 60 "/backup" 3>&1 1>&2 2>&3) || return 1
+        DEST=$(dialog --backtitle "vmenu" --inputbox "$(translate 'Enter directory for backup:')" 10 60 "/backup" 3>&1 1>&2 2>&3) || return 1
 
         mkdir -p "$DEST"
 
@@ -981,7 +981,7 @@ else
 while true; do
     DEST=$(get_external_backup_mount_point)
     if [[ -z "$DEST" ]]; then
-        dialog --backtitle "ProxMenux" --yesno "No external disk detected or mounted. Would you like to retry?" 8 60
+        dialog --backtitle "vmenu" --yesno "No external disk detected or mounted. Would you like to retry?" 8 60
         [[ $? -eq 0 ]] && continue
         return 1
     fi
@@ -998,7 +998,7 @@ while true; do
 
 
 
-    dialog --backtitle "ProxMenux" \
+    dialog --backtitle "vmenu" \
     --title "$(translate "Dedicated Backup Disk")" \
     --yesno "\n$(translate "Mount point:") $DEST\n\n\
     $(translate "Disk model:") $DISK_MODEL\n\

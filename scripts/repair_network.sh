@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script allows users to assign physical disks for passthrough to existing
 # - Detects and lists physical and network interfaces.
 # - Verifies and repairs bridge configurations.
@@ -9,7 +9,7 @@
 # - Offers interactive menus for user-friendly operation.
 #
 # The script aims to simplify network troubleshooting and ensure
-# that Proxmox systems maintain stable connectivity.
+# that Virtuliservmenu systems maintain stable connectivity.
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"

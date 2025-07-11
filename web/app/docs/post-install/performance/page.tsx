@@ -3,30 +3,30 @@ import { Zap } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Performance Settings",
+  title: "vmenu Post-Install: Performance Settings",
   description:
-    "Guide to Performance Settings in the ProxMenux post-install script for optimizing your Proxmox VE system performance.",
+    "Guide to Performance Settings in the vmenu post-install script for optimizing your Virtuliservmenu VE system performance.",
   openGraph: {
-    title: "ProxMenux Post-Install: Performance Settings",
+    title: "vmenu Post-Install: Performance Settings",
     description:
-      "Guide to Performance Settings in the ProxMenux post-install script for optimizing your Proxmox VE system performance.",
+      "Guide to Performance Settings in the vmenu post-install script for optimizing your Virtuliservmenu VE system performance.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/performance",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/performance",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/performance-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/performance-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Performance Settings",
+        alt: "vmenu Post-Install Performance Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Performance Settings",
+    title: "vmenu Post-Install: Performance Settings",
     description:
-      "Guide to Performance Settings in the ProxMenux post-install script for optimizing your Proxmox VE system performance.",
-    images: ["https://macrimi.github.io/ProxMenux/performance-settings-image.png"],
+      "Guide to Performance Settings in the vmenu post-install script for optimizing your Virtuliservmenu VE system performance.",
+    images: ["https://macrimi.github.io/vmenu/performance-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function PerformanceSettingsPage() {
         <h1 className="text-3xl font-bold">Performance Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Performance Settings</strong> category focuses on optimizing various aspects of your Proxmox VE
+        The <strong>Performance Settings</strong> category focuses on optimizing various aspects of your Virtuliservmenu VE
         system to enhance overall performance. These settings are designed to improve system efficiency and speed up
         certain operations.
       </p>
@@ -67,7 +67,7 @@ export default function PerformanceSettingsPage() {
 
     <h4 className="text-lg font-semibold mt-4">What does this configuration do?</h4>
     <ul className="list-disc pl-5 mb-4">
-      <li><strong>Forces pigz usage</strong> in vzdump backups to accelerate Proxmox VE backup compression.</li>
+      <li><strong>Forces pigz usage</strong> in vzdump backups to accelerate Virtuliservmenu VE backup compression.</li>
       <li><strong>Ensures pigz is installed</strong> before applying optimizations.</li>
       <li><strong>Creates a pigz wrapper script</strong> to enforce compression behavior.</li>
       <li><strong>Replaces gzip with the pigz wrapper</strong>, making pigz the system-wide default compressor.</li>
@@ -79,7 +79,7 @@ export default function PerformanceSettingsPage() {
 
     <CopyableCode
       code={`
-    # Force pigz usage in vzdump configuration (for Proxmox backups)
+    # Force pigz usage in vzdump configuration (for Virtuliservmenu backups)
     sed -i "s/#pigz:.*/pigz: 1/" /etc/vzdump.conf
 
     # Install pigz package

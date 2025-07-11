@@ -3,30 +3,30 @@ import { Box } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Virtualization Settings",
+  title: "vmenu Post-Install: Virtualization Settings",
   description:
-    "Detailed guide to the Virtualization Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
   openGraph: {
-    title: "ProxMenux Post-Install: Virtualization Settings",
+    title: "vmenu Post-Install: Virtualization Settings",
     description:
-      "Detailed guide to the Virtualization Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+      "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/virtualization",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/virtualization",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/virtualization-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/virtualization-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Virtualization Settings",
+        alt: "vmenu Post-Install Virtualization Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Virtualization Settings",
+    title: "vmenu Post-Install: Virtualization Settings",
     description:
-      "Detailed guide to the Virtualization Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
-    images: ["https://macrimi.github.io/ProxMenux/virtualization-settings-image.png"],
+      "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+    images: ["https://macrimi.github.io/vmenu/virtualization-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function VirtualizationSettingsPage() {
         <h1 className="text-3xl font-bold">Virtualization Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Virtualization Settings</strong> category optimizes Proxmox VE for enhanced virtualization performance, 
+        The <strong>Virtualization Settings</strong> category optimizes Virtuliservmenu VE for enhanced virtualization performance, 
         compatibility, and functionality.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>

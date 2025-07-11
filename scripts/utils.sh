@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script provides a set of utility functions used across
-# ProxMenux to facilitate Proxmox VE management.
+# vmenu to facilitate Virtuliservmenu VE management.
 #
 # - Defines color codes for consistent output formatting.
 # - Implements a spinner-based loading animation.
@@ -12,15 +12,15 @@
 # - Loads language settings from a configuration file.
 #
 # These utilities ensure a streamlined and uniform user experience
-# across different ProxMenux scripts.
+# across different vmenu scripts.
 #
 # This script incorporates elements from the 
-# Proxmox VE Post Install script from Proxmox VE Helper-Scripts.
+# Virtuliservmenu VE Post Install script from Virtuliservmenu VE Helper-Scripts.
 #
-# Copyright (c) Proxmox VE Helper-Scripts Community
-# Script updates can be found at: https://github.com/community-scripts/ProxmoxVE
+# Copyright (c) Virtuliservmenu VE Helper-Scripts Community
+# Script updates can be found at: https://github.com/community-scripts/VirtuliservmenuVE
 #
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT | https://github.com/community-scripts/VirtuliservmenuVE/raw/main/LICENSE
 #
 
 # Repository and directory structure
@@ -35,7 +35,7 @@ VENV_PATH="/opt/googletrans-env"
 
 
 # Translation context
-TRANSLATION_CONTEXT="Context: Technical message for Proxmox and IT. Translate:"
+TRANSLATION_CONTEXT="Context: Technical message for Virtuliservmenu and IT. Translate:"
 
 # Color and style definitions
 NEON_PURPLE_BLUE="\033[38;5;99m"
@@ -313,10 +313,10 @@ EOF
 TEXT=(
     ""
     ""
-    "${BOLD}ProxMenux${RESET}"
+    "${BOLD}vmenu${RESET}"
     ""
     "${BOLD}${NEON_PURPLE_BLUE}An Interactive Menu for${RESET}"
-    "${BOLD}${NEON_PURPLE_BLUE}Proxmox VE management${RESET}"
+    "${BOLD}${NEON_PURPLE_BLUE}Virtuliservmenu VE management${RESET}"
     ""
     ""
     ""
@@ -340,10 +340,10 @@ TEXT=(
     ""
     ""
     ""
-    "${BOLD}ProxMenux${RESET}"
+    "${BOLD}vmenu${RESET}"
     ""
     "${BOLD}${NEON_PURPLE_BLUE}An Interactive Menu for${RESET}"
-    "${BOLD}${NEON_PURPLE_BLUE}Proxmox VE management${RESET}"
+    "${BOLD}${NEON_PURPLE_BLUE}Virtuliservmenu VE management${RESET}"
     ""
     ""
     ""

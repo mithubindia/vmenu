@@ -108,7 +108,7 @@ export default function ZFSManagementPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for managing ZFS file systems in Proxmox VE. Learn how to create and manage
+          This section provides commands for managing ZFS file systems in Virtuliservmenu VE. Learn how to create and manage
           pools, datasets, snapshots, and perform maintenance operations on your ZFS storage.
         </p>
 

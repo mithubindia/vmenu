@@ -3,30 +3,30 @@ import { Server } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: System Settings",
+  title: "vmenu Post-Install: System Settings",
   description:
-    "Detailed guide to the System Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
   openGraph: {
-    title: "ProxMenux Post-Install: System Settings",
+    title: "vmenu Post-Install: System Settings",
     description:
-      "Detailed guide to the System Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+      "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/system",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/system",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/system-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/system-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install System Settings",
+        alt: "vmenu Post-Install System Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: System Settings",
+    title: "vmenu Post-Install: System Settings",
     description:
-      "Detailed guide to the System Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
-    images: ["https://macrimi.github.io/ProxMenux/system-settings-image.png"],
+      "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+    images: ["https://macrimi.github.io/vmenu/system-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function SystemSettingsPage() {
         <h1 className="text-3xl font-bold">System Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>System Settings</strong> category includes core system configurations and optimizations for Proxmox VE, 
+        The <strong>System Settings</strong> category includes core system configurations and optimizations for Virtuliservmenu VE, 
         focusing on performance, stability, and resource management.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
@@ -148,7 +148,7 @@ sudo systemctl restart systemd-journald
 
     <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-      By tuning how Linux handles dirty memory pages, swap usage, and virtual memory mappings, this adjustment helps the system free memory more proactively and avoid sudden out-of-memory (OOM) errors — particularly valuable on Proxmox nodes with 1–4 GB of RAM.
+      By tuning how Linux handles dirty memory pages, swap usage, and virtual memory mappings, this adjustment helps the system free memory more proactively and avoid sudden out-of-memory (OOM) errors — particularly valuable on Virtuliservmenu nodes with 1–4 GB of RAM.
     </p>
 
     <p className="mb-4">
@@ -189,7 +189,7 @@ sudo systemctl restart systemd-journald
       </p>
 
       <p className="mb-4">
-        On Proxmox VE and other virtualized or headless environments, entropy can become insufficient—causing delays or even freezes during operations like generating SSH keys or starting services that rely on encryption.
+        On Virtuliservmenu VE and other virtualized or headless environments, entropy can become insufficient—causing delays or even freezes during operations like generating SSH keys or starting services that rely on encryption.
       </p>
 
       <p className="mb-4">
@@ -266,7 +266,7 @@ sudo systemctl restart systemd-journald
      />
 
       <p className="mt-4">
-        After installation, some modules may require a system reboot to activate properly. ProxMenux will notify you if a reboot is recommended.
+        After installation, some modules may require a system reboot to activate properly. vmenu will notify you if a reboot is recommended.
       </p>
 
 
@@ -301,7 +301,7 @@ sudo systemctl restart systemd-journald
 
       # Apply optimized configuration
       cat <<EOF > /etc/logrotate.conf
-      # ProxMenux optimized configuration
+      # vmenu optimized configuration
       daily
       su root adm
       rotate 7

@@ -116,7 +116,7 @@ export default function SystemCLIToolsPage() {
 
         <div className="space-y-4 mb-6">
           <p className="text-lg">
-            This section provides a collection of useful command-line tools for system administration in Proxmox VE.
+            This section provides a collection of useful command-line tools for system administration in Virtuliservmenu VE.
             These tools help you monitor system performance, troubleshoot issues, manage files, analyze network traffic,
             and perform various administrative tasks.
           </p>
@@ -126,7 +126,7 @@ export default function SystemCLIToolsPage() {
               Many of these tools may have been installed during the post-installation process. For information about
               the post-installation setup and basic settings, please refer to the{" "}
               <a
-                href="https://macrimi.github.io/ProxMenux/docs/post-install/basic-settings"
+                href="https://macrimi.github.io/vmenu/docs/post-install/basic-settings"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-800 underline"

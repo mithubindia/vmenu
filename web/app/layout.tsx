@@ -7,34 +7,34 @@ import type React from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "ProxMenux",
+  title: "vmenu",
   generator: "Next.js",
-  applicationName: "ProxMenux",
+  applicationName: "vmenu",
   referrer: "origin-when-cross-origin",
-  keywords: ["Proxmox VE", "VE", "ProxMenux", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
+  keywords: ["Virtuliservmenu VE", "VE", "vmenu", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
   authors: [{ name: "MacRimi" }],
   creator: "MacRimi",
   publisher: "MacRimi",
   description:
-    "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
+    "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks.",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(`https://macrimi.github.io/ProxMenux/`),
+  metadataBase: new URL(`https://macrimi.github.io/vmenu/`),
   openGraph: {
-    title: "ProxMenux",
+    title: "vmenu",
     description:
-      "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    url: "https://macrimi.github.io/ProxMenux/",
-    siteName: "ProxMenux",
+      "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks.",
+    url: "https://macrimi.github.io/vmenu/",
+    siteName: "vmenu",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/main.png",
+        url: "https://macrimi.github.io/vmenu/main.png",
         width: 1363,
         height: 735,
-        alt: "ProxMenux",
+        alt: "vmenu",
       },
     ],
     locale: "en_US",
@@ -42,17 +42,17 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux",
+    title: "vmenu",
     description:
-      "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    images: ["https://macrimi.github.io/ProxMenux/main.png"],
+      "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks.",
+    images: ["https://macrimi.github.io/vmenu/main.png"],
   },
   icons: {
     icon: [
-      { url: "https://macrimi.github.io/ProxMenux/favicon.ico", sizes: "any" },
-      { url: "https://macrimi.github.io/ProxMenux/icon.svg", type: "image/svg+xml" },
+      { url: "https://macrimi.github.io/vmenu/favicon.ico", sizes: "any" },
+      { url: "https://macrimi.github.io/vmenu/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "https://macrimi.github.io/ProxMenux/apple-touch-icon.png", sizes: "180x180" } as const],
+    apple: [{ url: "https://macrimi.github.io/vmenu/apple-touch-icon.png", sizes: "180x180" } as const],
   },
 }
 

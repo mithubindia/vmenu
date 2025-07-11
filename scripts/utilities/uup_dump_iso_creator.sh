@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# ProxMenux - UUP Dump ISO Creator Custom
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - UUP Dump ISO Creator Custom
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 30/06/2025
-# This script is part of the ProxMenux tools for Proxmox VE.
+# This script is part of the vmenu tools for Virtuliservmenu VE.
 # It allows downloading and converting official Windows ISO images 
 # from UUP Dump using a shared link (with ID, pack, and edition).
 #
@@ -15,7 +15,7 @@
 # - Provides a graphical prompt via whiptail for user-friendly usage
 #
 # This tool simplifies the creation of official Windows ISOs
-# for use in virtual machines within Proxmox VE.
+# for use in virtual machines within Virtuliservmenu VE.
 
 BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -57,7 +57,7 @@ function get_destination_path() {
 
 ######################################
 
-        user_path=$(dialog  --backtitle "ProxMenux" --inputbox "$(translate "Enter destination path for ISO file")" 10 80 "$default_path" 3>&1 1>&2 2>&3)
+        user_path=$(dialog  --backtitle "vmenu" --inputbox "$(translate "Enter destination path for ISO file")" 10 80 "$default_path" 3>&1 1>&2 2>&3)
         
 ######################################
 
@@ -77,7 +77,7 @@ function get_destination_path() {
                 echo "$user_path"
                 return 0
             else
-                dialog --backtitle "ProxMenux" --msgbox "$(translate "Error: Cannot create directory") '$user_path'. $(translate "Please check permissions and try again.")" 8 60
+                dialog --backtitle "vmenu" --msgbox "$(translate "Error: Cannot create directory") '$user_path'. $(translate "Please check permissions and try again.")" 8 60
 
                 continue
             fi
@@ -87,7 +87,7 @@ function get_destination_path() {
                 echo "$user_path"
                 return 0
             else
-                dialog --backtitle "ProxMenux" --msgbox "$(translate "Error: No write permissions in directory") '$user_path'. $(translate "Please choose another path.")" 8 60
+                dialog --backtitle "vmenu" --msgbox "$(translate "Error: No write permissions in directory") '$user_path'. $(translate "Please choose another path.")" 8 60
 
                 continue
             fi
@@ -146,7 +146,7 @@ function run_uupdump_creator() {
 ######################################
 
     DEFAULT_TMP="/root/uup-temp"
-    USER_INPUT=$(dialog --backtitle "ProxMenux" --inputbox "Enter temporary folder path (default: $DEFAULT_TMP):" 10 60 "$DEFAULT_TMP" 3>&1 1>&2 2>&3)
+    USER_INPUT=$(dialog --backtitle "vmenu" --inputbox "Enter temporary folder path (default: $DEFAULT_TMP):" 10 60 "$DEFAULT_TMP" 3>&1 1>&2 2>&3)
     
 ######################################
 
@@ -185,7 +185,7 @@ function run_uupdump_creator() {
 
 ######################################
 
-    UUP_URL=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Paste the UUP Dump URL here")" 10 90 3>&1 1>&2 2>&3)
+    UUP_URL=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Paste the UUP Dump URL here")" 10 90 3>&1 1>&2 2>&3)
 
 ######################################
 

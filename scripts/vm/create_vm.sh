@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 
 
@@ -49,7 +49,7 @@ function header_info() {
   show_proxmenux_logo
   echo -e "${BL}╔═══════════════════════════════════════════════╗${CL}"
   echo -e "${BL}║                                               ║${CL}"
-  echo -e "${BL}║${YWB}             ProxMenux VM Creator              ${BL}║${CL}"
+  echo -e "${BL}║${YWB}             vmenu VM Creator              ${BL}║${CL}"
   echo -e "${BL}║                                               ║${CL}"
   echo -e "${BL}╚═══════════════════════════════════════════════╝${CL}"
   echo -e
@@ -66,7 +66,7 @@ sleep 1
 
 function start_vm_configuration() {
 
-  if (whiptail --title "ProxMenux" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
+  if (whiptail --title "vmenu" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
     header_info
     load_default_vm_config "$OS_TYPE"
 
@@ -86,7 +86,7 @@ function start_vm_configuration() {
 
 
 while true; do
-  OS_TYPE=$(dialog --backtitle "ProxMenux" \
+  OS_TYPE=$(dialog --backtitle "vmenu" \
     --title "$(translate "Select System Type")" \
     --menu "\n$(translate "Choose the type of virtual system to install:")" 18 70 10 \
     1 "$(translate "Create") VM System NAS" \
@@ -111,7 +111,7 @@ while true; do
       source <(curl -fsSL "$ISO_REPO/select_linux_iso.sh") && select_linux_iso || continue
       ;;
     4)
-      whiptail --title "OSX-PROXMOX" --yesno "$(translate "This is an external script that creates a macOS VM in Proxmox VE in just a few steps, whether you are using AMD or Intel hardware.")\n\n$(translate "The script clones the osx-proxmox.com repository and once the setup is complete, the server will automatically reboot.")\n\n$(translate "Make sure there are no critical services running as they will be interrupted. Ensure your server can be safely rebooted.")\n\n$(translate  "Visit https://osx-proxmox.com for more information.")\n\n$(translate "Do you want to run the script now?")" 20 70
+      whiptail --title "OSX-PROXMOX" --yesno "$(translate "This is an external script that creates a macOS VM in Virtuliservmenu VE in just a few steps, whether you are using AMD or Intel hardware.")\n\n$(translate "The script clones the osx-proxmox.com repository and once the setup is complete, the server will automatically reboot.")\n\n$(translate "Make sure there are no critical services running as they will be interrupted. Ensure your server can be safely rebooted.")\n\n$(translate  "Visit https://osx-proxmox.com for more information.")\n\n$(translate "Do you want to run the script now?")" 20 70
       if [[ $? -eq 0 ]]; then
         bash -c "$(curl -fsSL https://install.osx-proxmox.com)"
       fi
@@ -147,7 +147,7 @@ done
 
 function start_vm_configuration() {
 
-  if (whiptail --title "ProxMenux" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
+  if (whiptail --title "vmenu" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
     header_info
     load_default_vm_config "$OS_TYPE"
 

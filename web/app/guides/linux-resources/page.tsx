@@ -70,7 +70,7 @@ export default function LinuxResourcesPage() {
           title: "OpenZFS Documentation",
           url: "https://openzfs.github.io/openzfs-docs/",
           description:
-            "Official and modern guide on ZFS, ideal for administrators using Proxmox with this file system.",
+            "Official and modern guide on ZFS, ideal for administrators using Virtuliservmenu with this file system.",
         },
         {
           title: "ZFS Cheatsheet (DigitalOcean)",
@@ -92,7 +92,7 @@ export default function LinuxResourcesPage() {
           title: "DevHints.io Linux",
           url: "https://devhints.io/bash",
           description:
-            "Bash shortcuts and basic scripting, useful for automating tasks in Proxmox and other environments.",
+            "Bash shortcuts and basic scripting, useful for automating tasks in Virtuliservmenu and other environments.",
         },
       ],
     },

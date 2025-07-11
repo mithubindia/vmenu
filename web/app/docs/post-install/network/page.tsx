@@ -3,30 +3,30 @@ import { Network } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Network Settings",
+  title: "vmenu Post-Install: Network Settings",
   description:
-    "Comprehensive guide to Network Settings in the ProxMenux post-install script for optimizing Proxmox VE network performance and configuration.",
+    "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliservmenu VE network performance and configuration.",
   openGraph: {
-    title: "ProxMenux Post-Install: Network Settings",
+    title: "vmenu Post-Install: Network Settings",
     description:
-      "Comprehensive guide to Network Settings in the ProxMenux post-install script for optimizing Proxmox VE network performance and configuration.",
+      "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliservmenu VE network performance and configuration.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/network",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/network",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/network-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/network-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Network Settings",
+        alt: "vmenu Post-Install Network Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Network Settings",
+    title: "vmenu Post-Install: Network Settings",
     description:
-      "Comprehensive guide to Network Settings in the ProxMenux post-install script for optimizing Proxmox VE network performance and configuration.",
-    images: ["https://macrimi.github.io/ProxMenux/network-settings-image.png"],
+      "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliservmenu VE network performance and configuration.",
+    images: ["https://macrimi.github.io/vmenu/network-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function NetworkSettingsPage() {
         <h1 className="text-3xl font-bold">Network Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration in Proxmox VE. 
+        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration in Virtuliservmenu VE. 
         These settings are essential for efficient network operations in virtualized environments where multiple VMs and containers 
         share network resources.
       </p>

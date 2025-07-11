@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 
 
 # Configuration ============================================
@@ -16,7 +16,7 @@ load_language
 initialize_cache
 
     while true; do
-        OPTION=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "GPUs and Coral-TPU Menu")" \
+        OPTION=$(dialog --clear --backtitle "vmenu" --title "$(translate "GPUs and Coral-TPU Menu")" \
                         --menu "\n$(translate "Select an option:")" 20 70 8 \
                         "1" "$(translate "Add HW iGPU acceleration to an LXC")" \
                         "2" "$(translate "Add Coral TPU to an LXC")" \

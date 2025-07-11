@@ -3,8 +3,8 @@ import CopyableCode from "@/components/CopyableCode"
 import Image from "next/image"
 
 export const metadata = {
-  title: "Enable iGPU Acceleration in LXC | ProxMenux Documentation",
-  description: "Step-by-step guide to enable Intel iGPU acceleration in an LXC container using ProxMenux.",
+  title: "Enable iGPU Acceleration in LXC | vmenu Documentation",
+  description: "Step-by-step guide to enable Intel iGPU acceleration in an LXC container using vmenu.",
 }
 
 export default function IGPUAccelerationLXC() {
@@ -13,13 +13,13 @@ export default function IGPUAccelerationLXC() {
       <h1 className="text-3xl font-bold mb-6">Enable Intel iGPU Acceleration in an LXC</h1>
       
       <p className="mb-4">
-        This guide explains how to configure Intel Integrated GPU (iGPU) acceleration for LXC containers in Proxmox VE
-        using <strong>ProxMenux</strong>. Enabling iGPU support allows containers to use the host’s GPU for hardware acceleration
+        This guide explains how to configure Intel Integrated GPU (iGPU) acceleration for LXC containers in Virtuliservmenu VE
+        using <strong>vmenu</strong>. Enabling iGPU support allows containers to use the host’s GPU for hardware acceleration
         in applications such as video transcoding and rendering.
       </p>
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Overview of the Process</h2>
-      <p className="mb-4">When you run this script in ProxMenux, it performs the following steps:</p>
+      <p className="mb-4">When you run this script in vmenu, it performs the following steps:</p>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
         <li>Prompts you to select an existing LXC container.</li>
         <li>Checks if the container is privileged and adjusts its settings accordingly.</li>
@@ -31,7 +31,7 @@ export default function IGPUAccelerationLXC() {
       <Steps>
         <Steps.Step title="Select an LXC Container">
           <p>You will be presented with a list of your LXC containers to choose from.</p>
-          <Image src="https://macrimi.github.io/ProxMenux/igpu/select-container.png" alt="Select LXC Container" width={800} height={400} className="rounded shadow-lg" />
+          <Image src="https://macrimi.github.io/vmenu/igpu/select-container.png" alt="Select LXC Container" width={800} height={400} className="rounded shadow-lg" />
         </Steps.Step>
         <Steps.Step title="Modify Container Configuration">
           <p>The script applies the following changes to your container:</p>

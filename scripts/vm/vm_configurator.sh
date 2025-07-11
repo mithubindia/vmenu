@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 
 
@@ -35,7 +35,7 @@ function confirm_vm_creation() {
   local CONFIRM_TITLE="${HN:-$(translate "New Virtual Machine")}"
   local CONFIRM_MSG="$(translate "This will create a new VM") $CONFIRM_TITLE. $(translate "Proceed?")"
 
-  if ! whiptail --backtitle "ProxMenux" --title "$CONFIRM_TITLE" --yesno "$CONFIRM_MSG" 10 60; then
+  if ! whiptail --backtitle "vmenu" --title "$CONFIRM_TITLE" --yesno "$CONFIRM_MSG" 10 60; then
     header_info
     msg_warn "$(translate "VM creation cancelled by user.")"
     sleep 1
@@ -132,7 +132,7 @@ function configure_vm_advanced() {
 
   # VMID
   while true; do
-    VMID=$(whiptail --backtitle "ProxMenux" \
+    VMID=$(whiptail --backtitle "vmenu" \
       --inputbox "$(translate "Set Virtual Machine ID")" 8 60 "$NEXTID" \
       --title "VM ID" --cancel-button Exit 3>&1 1>&2 2>&3) || return 1
 
@@ -149,13 +149,13 @@ function configure_vm_advanced() {
   done
 
   # Hostname
-  HN=$(whiptail --backtitle "ProxMenux" \
+  HN=$(whiptail --backtitle "vmenu" \
     --inputbox "$(translate "Set Hostname")" 8 60 "$HN" \
     --title "Hostname" 3>&1 1>&2 2>&3) || return 1
   [[ -z "$HN" ]] && HN="vm-proxmenux"
 
   # Machine Type
-  MACHINE_TYPE=$(whiptail --backtitle "ProxMenux" --title "$(translate "Machine Type")" \
+  MACHINE_TYPE=$(whiptail --backtitle "vmenu" --title "$(translate "Machine Type")" \
     --radiolist "$(translate "Select machine type")" 10 60 2 \
     "q35"     "QEMU q35" ON \
     "i440fx"  "Legacy i440fx" OFF 3>&1 1>&2 2>&3) || return 1
@@ -165,7 +165,7 @@ function configure_vm_advanced() {
   if [[ "$HN" == "OpenMediaVault" ]]; then
     BIOS_TYPE=" -bios seabios"
   else
-    BIOS=$(whiptail --backtitle "ProxMenux" --title "$(translate "BIOS Type")" \
+    BIOS=$(whiptail --backtitle "vmenu" --title "$(translate "BIOS Type")" \
       --radiolist "$(translate "Choose BIOS type")" 10 60 2 \
       "ovmf"    "UEFI (OVMF)" ON \
       "seabios" "Legacy BIOS (SeaBIOS)" OFF 3>&1 1>&2 2>&3) || return 1
@@ -173,13 +173,13 @@ function configure_vm_advanced() {
   fi
 
   # CPU Type
-#  CPU_CHOICE=$(whiptail --backtitle "ProxMenux" --title "$(translate "CPU Model")" \
+#  CPU_CHOICE=$(whiptail --backtitle "vmenu" --title "$(translate "CPU Model")" \
 #    --radiolist "$(translate "Select CPU model")" 10 60 2 \
 #    "host"  "Host (recommended)" ON \
 #    "kvm64" "Generic KVM64" OFF 3>&1 1>&2 2>&3) || return 1
 #  [[ "$CPU_CHOICE" == "host" ]] && CPU_TYPE=" -cpu host" || CPU_TYPE=" -cpu kvm64"
 
-  CPU_CHOICE=$(whiptail --backtitle "ProxMenux" --title "$(translate "CPU Model")" \
+  CPU_CHOICE=$(whiptail --backtitle "vmenu" --title "$(translate "CPU Model")" \
   --radiolist "$(translate "Select CPU model")" 17 70 11 \
   "host"          "Host (recommended)" ON \
   "kvm64"         "Generic KVM64" OFF \
@@ -195,38 +195,38 @@ function configure_vm_advanced() {
   CPU_TYPE=" -cpu $CPU_CHOICE"
 
   # Core Count
-  CORE_COUNT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Number of CPU cores (default: 2)")" \
+  CORE_COUNT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Number of CPU cores (default: 2)")" \
     8 60 "${CORE_COUNT:-2}" --title "CPU Cores" 3>&1 1>&2 2>&3) || return 1
   [[ -z "$CORE_COUNT" ]] && CORE_COUNT="2"
 
   # RAM
-  RAM_SIZE=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Amount of RAM in MiB (default: 4096)")" \
+  RAM_SIZE=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Amount of RAM in MiB (default: 4096)")" \
     8 60 "${RAM_SIZE:-4096}" --title "RAM" 3>&1 1>&2 2>&3) || return 1
   [[ -z "$RAM_SIZE" ]] && RAM_SIZE="4096"
 
   # Bridge
-  BRG=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set network bridge (default: vmbr0)")" \
+  BRG=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set network bridge (default: vmbr0)")" \
     8 60 "${BRG:-vmbr0}" --title "Bridge" 3>&1 1>&2 2>&3) || return 1
 
   # MAC
-  MAC_INPUT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set MAC Address (leave empty for automatic)")" \
+  MAC_INPUT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set MAC Address (leave empty for automatic)")" \
     8 60 "$MAC" --title "MAC Address" 3>&1 1>&2 2>&3) || return 1
   [[ -z "$MAC_INPUT" ]] && MAC=$(generate_mac) || MAC="$MAC_INPUT"
 
   # VLAN
-  VLAN_INPUT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set VLAN (leave empty for none)")" \
+  VLAN_INPUT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set VLAN (leave empty for none)")" \
     8 60 "" --title "VLAN" 3>&1 1>&2 2>&3) || return 1
   VLAN=""
   [[ -n "$VLAN_INPUT" ]] && VLAN=",tag=$VLAN_INPUT"
 
   # MTU
-  MTU_INPUT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set MTU (leave empty for default)")" \
+  MTU_INPUT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set MTU (leave empty for default)")" \
     8 60 "" --title "MTU" 3>&1 1>&2 2>&3) || return 1
   MTU=""
   [[ -n "$MTU_INPUT" ]] && MTU=",mtu=$MTU_INPUT"
 
   # Serial Port
-  if (whiptail --backtitle "ProxMenux" --title "Serial Port" \
+  if (whiptail --backtitle "vmenu" --title "Serial Port" \
     --yesno "$(translate "Do you want to enable the serial port") (socket)?" 10 60); then
     SERIAL_PORT="socket"
   else
@@ -234,7 +234,7 @@ function configure_vm_advanced() {
   fi
 
   # Start VM
-  if (whiptail --backtitle "ProxMenux" --title "$(translate "Start VM")" \
+  if (whiptail --backtitle "vmenu" --title "$(translate "Start VM")" \
     --yesno "$(translate "Start VM after creation?")" 10 60); then
     START_VM="yes"
   else

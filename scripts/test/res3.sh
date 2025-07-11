@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ================================
-# ProxMenux - Restauración completa desde PBS con autoreparación
+# vmenu - Restauración completa desde PBS con autoreparación
 # ================================
 
 PBS_REPO="root@pbs@192.168.100.10:host-backups"

@@ -1,10 +1,10 @@
 #!/bin/bash
 # ProxMenu - Network Management and Repair Tool
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 2.0
 # Last Updated: 07/01/2025
 
-# Advanced network management and troubleshooting tool for Proxmox VE.
+# Advanced network management and troubleshooting tool for Virtuliservmenu VE.
 # Features include interface detection, bridge management, connectivity testing,
 # network diagnostics, configuration backup/restore, and automated repairs.
 
@@ -55,7 +55,7 @@ detect_network_method() {
         return 0
     fi
 
-    # Default: Debian/Proxmox classic
+    # Default: Debian/Virtuliservmenu classic
     echo "classic"
 }
 
@@ -125,7 +125,7 @@ test_connectivity() {
         test_results+="✗ $(translate "DNS Resolution"): $(translate "FAILED")\n"
     fi
     cleanup
-    dialog --backtitle "ProxMenux" --title "$(translate "Connectivity Test")" \
+    dialog --backtitle "vmenu" --title "$(translate "Connectivity Test")" \
            --msgbox "$test_results" 15 60
 }
 
@@ -135,7 +135,7 @@ advanced_network_diagnostics() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -157,12 +157,12 @@ advanced_network_diagnostics() {
     # Check for common issues
     diag_info+="$(translate "Common Issues Check"):\n"
 
-    # Check if NetworkManager is running (shouldn't be on Proxmox)
+    # Check if NetworkManager is running (shouldn't be on Virtuliservmenu)
     if systemctl is-active --quiet NetworkManager 2>/dev/null; then
         diag_info+="⚠ $(translate "NetworkManager is running (may cause conflicts)")\n"
 
         if dialog --title "$(translate "NetworkManager Detected")" \
-                --yesno "$(translate "NetworkManager is running, which may conflict with Proxmox.")\n\n$(translate "Do you want to disable and remove it now?")" 10 70; then
+                --yesno "$(translate "NetworkManager is running, which may conflict with Virtuliservmenu.")\n\n$(translate "Do you want to disable and remove it now?")" 10 70; then
 
             dialog --infobox "$(translate "Disabling and removing NetworkManager...")" 6 60
             systemctl stop NetworkManager >/dev/null 2>&1
@@ -187,7 +187,7 @@ advanced_network_diagnostics() {
 
     cleanup 
 
-    dialog --backtitle "ProxMenux" --title "$(translate "Network Diagnostics")" \
+    dialog --backtitle "vmenu" --title "$(translate "Network Diagnostics")" \
            --msgbox "$diag_info" 18 70
 }
 
@@ -200,7 +200,7 @@ analyze_bridge_configuration() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -219,7 +219,7 @@ analyze_bridge_configuration() {
     cleanup
     if [ ${#bridges[@]} -eq 0 ]; then
         analysis_report+="ℹ️  $(translate "No bridges found in system")\n"
-        dialog --backtitle "ProxMenux" --title "$(translate "Bridge Analysis")" --msgbox "$analysis_report" 10 60
+        dialog --backtitle "vmenu" --title "$(translate "Bridge Analysis")" --msgbox "$analysis_report" 10 60
         return
     fi
     
@@ -304,13 +304,13 @@ analyze_bridge_configuration() {
     # Show analysis in scrollable dialog
     local temp_file=$(mktemp)
     echo -e "$analysis_report" > "$temp_file"
-    dialog --backtitle "ProxMenux" --title "$(translate "Bridge Configuration Analysis")" \
+    dialog --backtitle "vmenu" --title "$(translate "Bridge Configuration Analysis")" \
            --textbox "$temp_file" 25 80
     rm -f "$temp_file"
    
     # Offer guided repair if issues found
     if [ $issues_found -gt 0 ]; then
-        if dialog --backtitle "ProxMenux" --title "$(translate "Guided Repair Available")" \
+        if dialog --backtitle "vmenu" --title "$(translate "Guided Repair Available")" \
                   --yesno "$(translate "Issues were found. Would you like to use the Guided Repair Assistant?")" 8 60; then
             guided_bridge_repair
         fi
@@ -326,7 +326,7 @@ guided_bridge_repair() {
     local preview_backup_file="$BACKUP_DIR/interfaces_backup_$timestamp"
 
 
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Safety Backup")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Safety Backup")" \
                 --yesno "$(translate "Before making any changes, we'll create a safety backup.")\n\n$(translate "Backup location"): $preview_backup_file\n\n$(translate "Continue?")" 12 70; then
         return
     fi
@@ -337,11 +337,11 @@ guided_bridge_repair() {
     local backup_file=$(backup_network_config)
     sleep 1
 
-    dialog --backtitle "ProxMenux" --title "$(translate "Backup Created")" \
+    dialog --backtitle "vmenu" --title "$(translate "Backup Created")" \
            --msgbox "$(translate "Safety backup created"): $backup_file\n\n$(translate "You can restore it anytime with"):\ncp $backup_file /etc/network/interfaces" 10 70
     
     # Step 2: Show current configuration
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Current Configuration")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Current Configuration")" \
                 --yesno "$(translate "Let's review your current network configuration.")\n\n$(translate "Would you like to see the current") /etc/network/interfaces $(translate "file?")" 10 70; then
         return
     fi
@@ -350,7 +350,7 @@ guided_bridge_repair() {
     # Show current config
     local temp_config=$(mktemp)
     cat /etc/network/interfaces > "$temp_config"
-    dialog --backtitle "ProxMenux" --title "$(translate "Current Network Configuration")" \
+    dialog --backtitle "vmenu" --title "$(translate "Current Network Configuration")" \
            --textbox "$temp_config" 20 80
     rm -f "$temp_config"
     
@@ -376,19 +376,19 @@ guided_bridge_repair() {
     done
     
     if [ -z "$changes_needed" ]; then
-        dialog --backtitle "ProxMenux" --title "$(translate "No Changes Needed")" \
+        dialog --backtitle "vmenu" --title "$(translate "No Changes Needed")" \
                --msgbox "$(translate "After detailed analysis, no changes are needed.")" 8 50
         return
     fi
     
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Proposed Changes")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Proposed Changes")" \
                 --yesno "$(translate "These are the changes that will be made"):\n\n$changes_needed\n$(translate "Do you want to proceed?")" 15 70; then
         return
     fi
     ((step++))
     
     # Step 4: Apply changes with verification
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Applying Changes")" \
+    dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Applying Changes")" \
            --infobox "$(translate "Applying changes safely...")\n\n$(translate "This may take a few seconds...")" 8 50
     
     # Apply the changes
@@ -438,11 +438,11 @@ guided_bridge_repair() {
     verification_report+="\n$(translate "Backup available at"): $backup_file\n"
     verification_report+="$(translate "To restore"): cp $backup_file /etc/network/interfaces"
     
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Repair Complete")" \
+    dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Repair Complete")" \
            --msgbox "$verification_report" 18 70
     
     # Ask about network restart
-    if dialog --backtitle "ProxMenux" --title "$(translate "Network Restart")" \
+    if dialog --backtitle "vmenu" --title "$(translate "Network Restart")" \
               --yesno "$(translate "Changes have been applied to the configuration file.")\n\n$(translate "Do you want to restart the network service to apply changes?")\n\n$(translate "WARNING: This may cause a brief disconnection.")" 12 70; then
         
         clear
@@ -466,7 +466,7 @@ analyze_network_configuration() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -543,13 +543,13 @@ analyze_network_configuration() {
     # Show analysis in scrollable dialog
     local temp_file=$(mktemp)
     echo -e "$analysis_report" > "$temp_file"
-    dialog --backtitle "ProxMenux" --title "$(translate "Network Configuration Analysis")" \
+    dialog --backtitle "vmenu" --title "$(translate "Network Configuration Analysis")" \
            --textbox "$temp_file" 25 80
     rm -f "$temp_file"
     
     # Offer guided cleanup if issues found
     if [ $issues_found -gt 0 ]; then
-        if dialog --backtitle "ProxMenux" --title "$(translate "Guided Cleanup Available")" \
+        if dialog --backtitle "vmenu" --title "$(translate "Guided Cleanup Available")" \
                   --yesno "$(translate "Issues were found. Would you like to use the Guided Cleanup Assistant?")" 8 60; then
             guided_configuration_cleanup
         fi
@@ -564,7 +564,7 @@ guided_configuration_cleanup() {
     local preview_backup_file="$BACKUP_DIR/interfaces_backup_$timestamp"
 
 
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Safety Backup")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Safety Backup")" \
                 --yesno "$(translate "Before making any changes, we'll create a safety backup.")\n\n$(translate "Backup location"): $preview_backup_file\n\n$(translate "Continue?")" 12 70; then
         return
     fi
@@ -575,7 +575,7 @@ guided_configuration_cleanup() {
     local backup_file=$(backup_network_config)
     sleep 1
     
-    dialog --backtitle "ProxMenux" --title "$(translate "Backup Created")" \
+    dialog --backtitle "vmenu" --title "$(translate "Backup Created")" \
            --msgbox "$(translate "Safety backup created"): $backup_file\n\n$(translate "You can restore it anytime with"):\ncp $backup_file /etc/network/interfaces" 10 70
     
     # Step 2: Identify interfaces to remove
@@ -591,12 +591,12 @@ guided_configuration_cleanup() {
     done
     
     if [ -z "$interfaces_to_remove" ]; then
-        dialog --backtitle "ProxMenux" --title "$(translate "No Cleanup Needed")" \
+        dialog --backtitle "vmenu" --title "$(translate "No Cleanup Needed")" \
                --msgbox "$(translate "After detailed analysis, no cleanup is needed.")" 8 50
         return
     fi
     
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Interfaces to Remove")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Interfaces to Remove")" \
                 --yesno "$(translate "These interface configurations will be removed"):\n\n$removal_list\n$(translate "Do you want to proceed?")" 15 70; then
         return
     fi
@@ -614,24 +614,24 @@ guided_configuration_cleanup() {
         echo "" >> "$temp_preview"
     done
     
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Preview Changes")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Preview Changes")" \
                 --yesno "$(translate "Review what will be removed"):\n\n$(translate "Press OK to see the preview, then confirm")" 10 60; then
         rm -f "$temp_preview"
         return
     fi
     
-    dialog --backtitle "ProxMenux" --title "$(translate "Configuration to be Removed")" \
+    dialog --backtitle "vmenu" --title "$(translate "Configuration to be Removed")" \
            --textbox "$temp_preview" 20 80
     rm -f "$temp_preview"
     
-    if ! dialog --backtitle "ProxMenux" --title "$(translate "Final Confirmation")" \
+    if ! dialog --backtitle "vmenu" --title "$(translate "Final Confirmation")" \
                 --yesno "$(translate "Are you sure you want to remove these configurations?")" 8 60; then
         return
     fi
     ((step++))
     
     # Step 4: Apply changes
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Applying Changes")" \
+    dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Applying Changes")" \
            --infobox "$(translate "Removing invalid configurations...")\n\n$(translate "This may take a few seconds...")" 8 50
     
     for iface in $interfaces_to_remove; do
@@ -662,7 +662,7 @@ guided_configuration_cleanup() {
     verification_report+="\n$(translate "Backup available at"): $backup_file\n"
     verification_report+="$(translate "To restore"): cp $backup_file /etc/network/interfaces"
     
-    dialog --backtitle "ProxMenux" --title "$(translate "Step") $step/$total_steps: $(translate "Cleanup Complete")" \
+    dialog --backtitle "vmenu" --title "$(translate "Step") $step/$total_steps: $(translate "Cleanup Complete")" \
            --msgbox "$verification_report" 18 70
 }
 
@@ -673,7 +673,7 @@ show_network_config() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -700,14 +700,14 @@ restore_network_backup() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Proxmox network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
     local backups=($(ls -1 "$BACKUP_DIR"/interfaces_backup_* 2>/dev/null | sort -r))
     
     if [ ${#backups[@]} -eq 0 ]; then
-        dialog --backtitle "ProxMenux" --title "$(translate "No Backups")" \
+        dialog --backtitle "vmenu" --title "$(translate "No Backups")" \
                --msgbox "\n$(translate "No network configuration backups found.")" 14 60
         return
     fi
@@ -722,7 +722,7 @@ restore_network_backup() {
         ((counter++))
     done
 
-    local selection=$(dialog --backtitle "ProxMenux" --title "$(translate "Restore Backup")" \
+    local selection=$(dialog --backtitle "vmenu" --title "$(translate "Restore Backup")" \
                             --menu "$(translate "Select backup to restore:"):" 15 60 8 \
                             "${menu_items[@]}" 3>&1 1>&2 2>&3)
 
@@ -730,27 +730,27 @@ restore_network_backup() {
         local selected_backup="${backups[$((selection-1))]}"
 
 
-        if dialog --backtitle "ProxMenux" --title "$(translate "Preview Backup")" \
+        if dialog --backtitle "vmenu" --title "$(translate "Preview Backup")" \
                   --yesno "\n$(translate "Do you want to view the selected backup before restoring?")" 8 60; then
-            dialog --backtitle "ProxMenux" --title "$(translate "Backup Preview")" \
+            dialog --backtitle "vmenu" --title "$(translate "Backup Preview")" \
                    --textbox "$selected_backup" 22 80
         fi
 
-        if dialog --backtitle "ProxMenux" --title "$(translate "Confirm Restore")" \
+        if dialog --backtitle "vmenu" --title "$(translate "Confirm Restore")" \
             --yesno "\n$(translate "Are you sure you want to restore this backup?\nCurrent configuration will be overwritten.")\n\n$(translate "For your safety, a backup of the current configuration will be created automatically before restoring.")" 14 70; then
 
             local pre_restore_backup=$(backup_network_config)
             cp "$selected_backup" /etc/network/interfaces
 
 
-            dialog --backtitle "ProxMenux" --title "$(translate "Backup Restored")" \
+            dialog --backtitle "vmenu" --title "$(translate "Backup Restored")" \
                    --msgbox "\n$(translate "Network configuration has been restored from backup.")" 8 60
 
 
-            if dialog --backtitle "ProxMenux" --title "$(translate "Restart Network")" \
+            if dialog --backtitle "vmenu" --title "$(translate "Restart Network")" \
                       --yesno "\n$(translate "Do you want to restart the network service now to apply changes?")" 8 60; then
                 if systemctl restart networking; then
-                    dialog --backtitle "ProxMenux" --title "$(translate "Network Restarted")" \
+                    dialog --backtitle "vmenu" --title "$(translate "Network Restarted")" \
                            --msgbox "\n$(translate "Network service restarted successfully.")" 8 50
                 fi
             fi
@@ -772,7 +772,7 @@ emergency_proxmox_repair() {
     echo "=========================================="
     echo
     
-    msg_warn "$(translate "This will reinstall core Proxmox packages and regenerate certificates")"
+    msg_warn "$(translate "This will reinstall core Virtuliservmenu packages and regenerate certificates")"
     echo "$(translate "This operation may take several minutes and requires internet connectivity.")"
     echo
     echo -n "$(translate "Do you want to continue?") (y/N): "
@@ -783,7 +783,7 @@ emergency_proxmox_repair() {
         return
     fi
     
-    msg_info2 "$(translate "Starting Proxmox system repair...")"
+    msg_info2 "$(translate "Starting Virtuliservmenu system repair...")"
     echo
     
     # Step 1: Update package lists
@@ -800,14 +800,14 @@ emergency_proxmox_repair() {
     fi
     echo
     
-    # Step 2: Reinstall core Proxmox packages
-    msg_success "$(translate "Step") 2/3: $(translate "Reinstalling core Proxmox packages...")"
+    # Step 2: Reinstall core Virtuliservmenu packages
+    msg_success "$(translate "Step") 2/3: $(translate "Reinstalling core Virtuliservmenu packages...")"
     echo "$(translate "This may take several minutes...")"
     
     if apt-get install --reinstall proxmox-widget-toolkit pve-manager -y; then
-        msg_ok "$(translate "Core Proxmox packages reinstalled successfully")"
+        msg_ok "$(translate "Core Virtuliservmenu packages reinstalled successfully")"
     else
-        msg_error "$(translate "Failed to reinstall Proxmox packages")"
+        msg_error "$(translate "Failed to reinstall Virtuliservmenu packages")"
         echo "$(translate "Check the error messages above for details.")"
         echo
         echo "$(translate "Press ENTER to continue...")"
@@ -831,8 +831,8 @@ emergency_proxmox_repair() {
         msg_warn "$(translate "pvecm command not found (might not be in a cluster)")"
     fi
     
-    # Restart Proxmox services
-    msg_success "$(translate "Restarting Proxmox services...")"
+    # Restart Virtuliservmenu services
+    msg_success "$(translate "Restarting Virtuliservmenu services...")"
     local services_restarted=0
     local services_failed=0
     
@@ -855,12 +855,12 @@ emergency_proxmox_repair() {
     echo "  $(translate "Services failed"): $services_failed"
     
     if [ $services_failed -eq 0 ]; then
-        msg_ok "$(translate "Proxmox system repair completed successfully!")"
+        msg_ok "$(translate "Virtuliservmenu system repair completed successfully!")"
         echo
-        echo "$(translate "You should now be able to access the Proxmox web interface.")"
+        echo "$(translate "You should now be able to access the Virtuliservmenu web interface.")"
         echo "$(translate "Try accessing"): https://$(hostname -I | awk '{print $1}'):8006"
     else
-        msg_warn "$(translate "Proxmox system repair completed with some issues.")"
+        msg_warn "$(translate "Virtuliservmenu system repair completed with some issues.")"
         echo "$(translate "Check the service status manually if needed.")"
     fi
     
@@ -896,7 +896,7 @@ restart_network_service() {
 show_main_menu() {
     while true; do
         local selection=$(dialog --clear \
-                                --backtitle "ProxMenux" \
+                                --backtitle "vmenu" \
                                 --title "$(translate "Network Management - SAFE MODE")" \
                                 --menu "$(translate "Select an option:"):" 20 70 12 \
                                 "1" "$(translate "Test Connectivity")" \
@@ -905,7 +905,7 @@ show_main_menu() {
                                 "4" "$(translate "Analyze Network Configuration")" \
                                 "5" "$(translate "Restart Network Service")" \
                                 "6" "$(translate "Show Network Config File")" \
-                                "7" "$(translate "Emergency Proxmox System Repair")" \
+                                "7" "$(translate "Emergency Virtuliservmenu System Repair")" \
                                 "8" "$(translate "Restore Network Backup")" \
                                 "0" "$(translate "Exit")" \
                                 3>&1 1>&2 2>&3)

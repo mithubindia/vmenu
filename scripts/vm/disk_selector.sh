@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 
 BASE_DIR="/usr/local/share/vmenu"
@@ -29,7 +29,7 @@ load_language
 initialize_cache
 
 function select_disk_type() {
-  DISK_TYPE=$(whiptail --backtitle "ProxMenux" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
+  DISK_TYPE=$(whiptail --backtitle "vmenu" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
     "virtual" "$(translate "Create virtual disk")" \
     "passthrough" "$(translate "Use physical disk passthrough")" \
     --ok-button "Select" --cancel-button "Cancel" 3>&1 1>&2 2>&3)

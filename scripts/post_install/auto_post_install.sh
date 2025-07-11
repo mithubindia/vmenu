@@ -1,6 +1,6 @@
 #!/bin/bash
-# ProxMenux - Complete Post-Installation Script with Registration
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - Complete Post-Installation Script with Registration
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 #
 # The script performs system optimizations including:
 # - Repository configuration and system upgrades
@@ -20,7 +20,7 @@
 # - Comprehensive error handling: Robust installation with fallback mechanisms
 # - Registration system: Tracks installed optimizations for easy management
 # - Reboot management: Intelligently handles reboot requirements
-# - Translation support: Multi-language compatible through ProxMenux framework
+# - Translation support: Multi-language compatible through vmenu framework
 # - Rollback compatibility: All optimizations can be reversed using the uninstall script
 #
 # This script is based on the post-install script cutotomizable
@@ -156,23 +156,23 @@ apt_upgrade() {
 
 
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
-        msg_info "$(translate "Disabling enterprise Proxmox repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliservmenu repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
-        msg_ok "$(translate "Enterprise Proxmox repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliservmenu repository disabled")"
     fi
 
 
     if [ -f /etc/apt/sources.list.d/ceph.list ] && grep -q "^deb" /etc/apt/sources.list.d/ceph.list; then
-        msg_info "$(translate "Disabling enterprise Proxmox Ceph repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliservmenu Ceph repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/ceph.list
-        msg_ok "$(translate "Enterprise Proxmox Ceph repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliservmenu Ceph repository disabled")"
     fi
 
 
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
-        msg_info "$(translate "Enabling free public Proxmox repository...")"
+        msg_info "$(translate "Enabling free public Virtuliservmenu repository...")"
         echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
-        msg_ok "$(translate "Free public Proxmox repository enabled")"
+        msg_ok "$(translate "Free public Virtuliservmenu repository enabled")"
     fi
 
 
@@ -291,23 +291,23 @@ apt_upgrade() {
 
    
 
-    msg_info "$(translate "Installing additional Proxmox packages...")"
+    msg_info "$(translate "Installing additional Virtuliservmenu packages...")"
     if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install zfsutils-linux proxmox-backup-restore-image chrony > /dev/null 2>&1; then
-        msg_ok "$(translate "Additional Proxmox packages installed")"
+        msg_ok "$(translate "Additional Virtuliservmenu packages installed")"
     else
-        msg_error "$(translate "Failed to install additional Proxmox packages")"
+        msg_error "$(translate "Failed to install additional Virtuliservmenu packages")"
     fi
 
     lvm_repair_check
 
     cleanup_duplicate_repos
 
-    msg_ok "$(translate "Proxmox update completed")"
+    msg_ok "$(translate "Virtuliservmenu update completed")"
 
 }
 
 remove_subscription_banner_() {
-    msg_info "$(translate "Removing Proxmox subscription nag banner...")"
+    msg_info "$(translate "Removing Virtuliservmenu subscription nag banner...")"
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
     local APT_HOOK="/etc/apt/apt.conf.d/no-nag-script"
@@ -342,14 +342,14 @@ remove_subscription_banner() {
         :
     else
         # Ask user
-        if ! whiptail --title "$(translate "Proxmox Subscription Banner")" \
-            --yesno "$(translate "Do you want to remove the Proxmox subscription banner from the web interface?")" 10 60; then
+        if ! whiptail --title "$(translate "Virtuliservmenu Subscription Banner")" \
+            --yesno "$(translate "Do you want to remove the Virtuliservmenu subscription banner from the web interface?")" 10 60; then
             msg_warn "$(translate "Banner removal cancelled by user.")"
             return 1
         fi
     fi
 
-    msg_info "$(translate "Removing Proxmox subscription nag banner...")"
+    msg_info "$(translate "Removing Virtuliservmenu subscription nag banner...")"
 
     if [[ ! -f "$APT_HOOK" ]]; then
         cat <<'EOF' > "$APT_HOOK"
@@ -462,10 +462,10 @@ optimize_logrotate() {
     local logrotate_conf="/etc/logrotate.conf"
     local backup_conf="${logrotate_conf}.bak"
     
-    if ! grep -q "# ProxMenux optimized configuration" "$logrotate_conf"; then
+    if ! grep -q "# vmenu optimized configuration" "$logrotate_conf"; then
         cp "$logrotate_conf" "$backup_conf"
         cat <<EOF > "$logrotate_conf"
-# ProxMenux optimized configuration
+# vmenu optimized configuration
 daily
 su root adm
 rotate 7
@@ -489,7 +489,7 @@ increase_system_limits() {
     
 
     cat > /etc/sysctl.d/99-maxwatches.conf << EOF
-# ProxMenux configuration
+# vmenu configuration
 fs.inotify.max_user_watches = 1048576
 fs.inotify.max_user_instances = 1048576
 fs.inotify.max_queued_events = 1048576
@@ -497,7 +497,7 @@ EOF
     
  
     cat > /etc/security/limits.d/99-limits.conf << EOF
-# ProxMenux configuration
+# vmenu configuration
 * soft     nproc          1048576
 * hard     nproc          1048576
 * soft     nofile         1048576
@@ -510,7 +510,7 @@ EOF
     
  
     cat > /etc/sysctl.d/99-maxkeys.conf << EOF
-# ProxMenux configuration
+# vmenu configuration
 kernel.keys.root_maxkeys=1000000
 kernel.keys.maxkeys=1000000
 EOF
@@ -536,14 +536,14 @@ EOF
     
 
     cat > /etc/sysctl.d/99-swap.conf << EOF
-# ProxMenux configuration
+# vmenu configuration
 vm.swappiness = 10
 vm.vfs_cache_pressure = 100
 EOF
     
  
     cat > /etc/sysctl.d/99-fs.conf << EOF
-# ProxMenux configuration
+# vmenu configuration
 fs.nr_open = 12000000
 fs.file-max = 9223372036854775807
 fs.aio-max-nr = 1048576
@@ -700,7 +700,7 @@ customize_bashrc() {
  
     cat >> "$bashrc" << 'EOF'
 
-# ProxMenux customizations
+# vmenu customizations
 export HISTTIMEFORMAT="%d/%m/%y %T "
 export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
 alias l='ls -CF'
@@ -811,7 +811,7 @@ EOF
 run_complete_optimization() {
     clear
     show_proxmenux_logo
-    msg_title "$(translate "ProxMenux Optimization Post-Installation")"
+    msg_title "$(translate "vmenu Optimization Post-Installation")"
     
     ensure_tools_json
     

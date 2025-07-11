@@ -4,30 +4,30 @@ import Image from "next/image"
 import { ArrowLeft, HardDrive, Settings, Zap, Sliders, Server, Database, ExternalLink } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Documentation: Other NAS Systems VM Creation",
+  title: "vmenu Documentation: Other NAS Systems VM Creation",
   description:
-    "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Proxmox VE using ProxMenux.",
+    "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliservmenu VE using vmenu.",
   openGraph: {
-    title: "ProxMenux Documentation: Other NAS Systems VM Creation",
+    title: "vmenu Documentation: Other NAS Systems VM Creation",
     description:
-      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Proxmox VE using ProxMenux.",
+      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliservmenu VE using vmenu.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/virtual-machines/system-nas/others",
+    url: "https://macrimi.github.io/vmenu/docs/virtual-machines/system-nas/others",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/vm/other-nas-systems.png",
+        url: "https://macrimi.github.io/vmenu/vm/other-nas-systems.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Other NAS Systems",
+        alt: "vmenu Other NAS Systems",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Documentation: Other NAS Systems VM Creation",
+    title: "vmenu Documentation: Other NAS Systems VM Creation",
     description:
-      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Proxmox VE using ProxMenux.",
-    images: ["https://macrimi.github.io/ProxMenux/vm/other-nas-systems.png"],
+      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliservmenu VE using vmenu.",
+    images: ["https://macrimi.github.io/vmenu/vm/other-nas-systems.png"],
   },
 }
 
@@ -68,8 +68,8 @@ export default function OtherNASSystemsPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            ProxMenux provides automated scripts that create and configure virtual machines for various NAS systems on
-            Proxmox VE. This documentation covers the VM creation process for TrueNAS SCALE, TrueNAS CORE,
+            vmenu provides automated scripts that create and configure virtual machines for various NAS systems on
+            Virtuliservmenu VE. This documentation covers the VM creation process for TrueNAS SCALE, TrueNAS CORE,
             OpenMediaVault, and Rockstor.
           </p>
         </div>
@@ -281,7 +281,7 @@ export default function OtherNASSystemsPage() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Proxmox</li>
+            <li>The script lists the storage options available in Virtuliservmenu</li>
             <li>The user selects the disk and size in GB</li>
             <li>
               The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,
@@ -468,7 +468,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Shell Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/truenas/truenas-scale-shell.png"
+                    src="https://macrimi.github.io/vmenu/vm/truenas/truenas-scale-shell.png"
                     alt="TrueNAS SCALE Shell Interface"
                     width={600}
                     height={400}
@@ -480,7 +480,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Web Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/truenas/truenas-scale-web.png"
+                    src="https://macrimi.github.io/vmenu/vm/truenas/truenas-scale-web.png"
                     alt="TrueNAS SCALE Web Interface"
                     width={600}
                     height={400}
@@ -510,7 +510,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Shell Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/truenas/truenas-core-shell.png"
+                    src="https://macrimi.github.io/vmenu/vm/truenas/truenas-core-shell.png"
                     alt="TrueNAS CORE Shell Interface"
                     width={600}
                     height={400}
@@ -522,7 +522,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Web Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/truenas/truenas-core-web.png"
+                    src="https://macrimi.github.io/vmenu/vm/truenas/truenas-core-web.png"
                     alt="TrueNAS CORE Web Interface"
                     width={600}
                     height={400}
@@ -552,7 +552,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Shell Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/openmediavault/openmediavault-shell.png"
+                    src="https://macrimi.github.io/vmenu/vm/openmediavault/openmediavault-shell.png"
                     alt="OpenMediaVault Shell Interface"
                     width={600}
                     height={400}
@@ -564,7 +564,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Web Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/openmediavault/openmediavault-web.png"
+                    src="https://macrimi.github.io/vmenu/vm/openmediavault/openmediavault-web.png"
                     alt="OpenMediaVault Web Interface"
                     width={600}
                     height={400}
@@ -594,7 +594,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Shell Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/rockstor/rockstor-shell.png"
+                    src="https://macrimi.github.io/vmenu/vm/rockstor/rockstor-shell.png"
                     alt="Rockstor Shell Interface"
                     width={600}
                     height={400}
@@ -606,7 +606,7 @@ export default function OtherNASSystemsPage() {
                 <h4 className="font-medium mb-2">Web Interface</h4>
                 <div className="border rounded-md overflow-hidden">
                   <Image
-                    src="https://macrimi.github.io/ProxMenux/vm/rockstor/rockstor-web.png"
+                    src="https://macrimi.github.io/vmenu/vm/rockstor/rockstor-web.png"
                     alt="Rockstor Web Interface"
                     width={600}
                     height={400}

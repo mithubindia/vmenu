@@ -23,11 +23,11 @@ export default function UpdateCommandsPage() {
       ],
     },
     {
-      title: "Proxmox Updates",
+      title: "Virtuliservmenu Updates",
       commands: [
-        { command: "pveupdate", description: "Update Proxmox package lists" },
-        { command: "pveupgrade", description: "Show available Proxmox upgrades" },
-        { command: "pve-upgrade", description: "Perform Proxmox VE upgrade" },
+        { command: "pveupdate", description: "Update Virtuliservmenu package lists" },
+        { command: "pveupgrade", description: "Show available Virtuliservmenu upgrades" },
+        { command: "pve-upgrade", description: "Perform Virtuliservmenu VE upgrade" },
         { command: "pveceph upgrade", description: "Upgrade Ceph packages (if Ceph is installed)" },
       ],
     },
@@ -60,7 +60,7 @@ export default function UpdateCommandsPage() {
         { command: "ls -la /etc/apt/sources.list.d/", description: "List additional repository source files" },
         {
           command: "cat /etc/apt/sources.list.d/pve-enterprise.list",
-          description: "Show Proxmox Enterprise repo config",
+          description: "Show Virtuliservmenu Enterprise repo config",
         },
         { command: "apt-key list", description: "List repository signing keys" },
       ],
@@ -84,7 +84,7 @@ export default function UpdateCommandsPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for managing system updates and packages in Proxmox VE. Learn how to update
+          This section provides commands for managing system updates and packages in Virtuliservmenu VE. Learn how to update
           your system, install and remove packages, search for software, and manage repositories.
         </p>
 

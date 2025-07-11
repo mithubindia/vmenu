@@ -1,22 +1,22 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 04/07/2025
-# This script safely updates your Proxmox VE system and underlying Debian packages
+# This script safely updates your Virtuliservmenu VE system and underlying Debian packages
 # through an interactive and automated process.
 #
 # Main features:
-# - Repairs and optimizes APT repositories (Proxmox & Debian)
+# - Repairs and optimizes APT repositories (Virtuliservmenu & Debian)
 # - Removes duplicate or conflicting sources
-# - Switches to the recommended 'no-subscription' Proxmox repository
-# - Updates all Proxmox and Debian system packages
+# - Switches to the recommended 'no-subscription' Virtuliservmenu repository
+# - Updates all Virtuliservmenu and Debian system packages
 # - Installs essential packages if missing (e.g., zfsutils, chrony)
 # - Checks for LVM and storage issues and repairs headers if needed
 # - Removes conflicting time sync packages automatically
 # - Performs a system cleanup after updating (autoremove, autoclean)
 # - Provides a summary and prompts for reboot if necessary
 #
-# The goal of this script is to simplify and secure the update process for Proxmox,
+# The goal of this script is to simplify and secure the update process for Virtuliservmenu,
 # reduce manual intervention, and prevent common repository and package errors.
 
 BASE_DIR="/usr/local/share/vmenu"
@@ -147,7 +147,7 @@ apt_upgrade() {
     clear
     show_proxmenux_logo
     echo -e
-    msg_title "$(translate "Proxmox system update")"
+    msg_title "$(translate "Virtuliservmenu system update")"
     
 
     # ======================================================
@@ -163,19 +163,19 @@ apt_upgrade() {
     
     # Check connectivity
     if ! ping -c 1 download.proxmox.com >/dev/null 2>&1; then
-        msg_error "$(translate "Cannot reach Proxmox repositories")"
+        msg_error "$(translate "Cannot reach Virtuliservmenu repositories")"
         return 1
     fi
     
     # ======================================================
-    # Proxmox repository configuration
+    # Virtuliservmenu repository configuration
     # ======================================================
     
-    # Disable enterprise Proxmox repository
+    # Disable enterprise Virtuliservmenu repository
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
-        msg_info "$(translate "Disabling enterprise Proxmox repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliservmenu repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
-        msg_ok "$(translate "Enterprise Proxmox repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliservmenu repository disabled")"
         changes_made=true
     fi
     
@@ -189,9 +189,9 @@ apt_upgrade() {
     
     # Enable free public repository
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
-        msg_info "$(translate "Enabling free public Proxmox repository...")"
+        msg_info "$(translate "Enabling free public Virtuliservmenu repository...")"
         echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
-        msg_ok "$(translate "Free public Proxmox repository enabled")"
+        msg_ok "$(translate "Free public Virtuliservmenu repository enabled")"
         changes_made=true
     fi
     
@@ -302,7 +302,7 @@ EOF
         
         # Show with dialog if available
         if command -v whiptail >/dev/null 2>&1; then
-            if whiptail --title "$(translate "Proxmox Update")" \
+            if whiptail --title "$(translate "Virtuliservmenu Update")" \
                        --yesno "$(translate "Found $upgradable packages to upgrade.\n\nProceed with system update?")" 10 60; then
                 msg_info "$(translate "Performing system upgrade. This process may take several minutes...")"
             else
@@ -334,7 +334,7 @@ EOF
         return 1
     fi
     
-    # Install essential Proxmox packages if missing
+    # Install essential Virtuliservmenu packages if missing
     local essential_packages=("zfsutils-linux" "proxmox-backup-restore-image" "chrony")
     local missing_packages=()
     
@@ -345,9 +345,9 @@ EOF
     done
     
     if [ ${#missing_packages[@]} -gt 0 ]; then
-        msg_info "$(translate "Installing essential Proxmox packages...")"
+        msg_info "$(translate "Installing essential Virtuliservmenu packages...")"
         DEBIAN_FRONTEND=noninteractive apt-get -y install "${missing_packages[@]}" >> "$log_file" 2>&1
-        msg_ok "$(translate "Essential Proxmox packages installed")"
+        msg_ok "$(translate "Essential Virtuliservmenu packages installed")"
     fi
     
     # Check LVM
@@ -369,7 +369,7 @@ EOF
     echo "$(translate "Packages upgraded"): $upgradable"
     echo ""
     
-    msg_success "$(translate "Proxmox system update completed successfully")"
+    msg_success "$(translate "Virtuliservmenu system update completed successfully")"
     
     
     # ======================================================

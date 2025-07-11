@@ -1,5 +1,5 @@
 #!/bin/bash
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.2
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
@@ -39,9 +39,9 @@ confirm_automated_script() {
     local script_info=""
 
 
-    script_info+="$(translate "This script will apply the following optimizations and advanced adjustments to your Proxmox VE server"):\n\n"
+    script_info+="$(translate "This script will apply the following optimizations and advanced adjustments to your Virtuliservmenu VE server"):\n\n"
     script_info+="• $(translate "Configure") \Z4free repositories\Z0 $(translate "and upgrade the system (disables the enterprise repo)")\n"
-    script_info+="• $(translate "Optionally remove") \Z4subscription banner\Z0 $(translate "from Proxmox web interface (you will be asked)")\n"
+    script_info+="• $(translate "Optionally remove") \Z4subscription banner\Z0 $(translate "from Virtuliservmenu web interface (you will be asked)")\n"
     script_info+="• $(translate "Optimize") \Z4memory\Z0, \Z4kernel\Z0, $(translate "and") \Z4network\Z0 $(translate "for better performance and stability")\n"
     script_info+="• $(translate "Install and configure") \Z4Log2RAM\Z0 $(translate "(only on SSD/NVMe) to protect your disk")\n"
     script_info+="• $(translate "Improve log rotation and limit log size to save space and extend disk life")\n"
@@ -49,11 +49,11 @@ confirm_automated_script() {
     script_info+="• $(translate "Set up time synchronization and entropy generation")\n"
     script_info+="• $(translate "Add color prompts and useful aliases to the terminal environment")\n\n"
 
-    script_info+="\Zb$(translate "All changes are reversible using the ProxMenux uninstaller.")\Z0\n\n"
+    script_info+="\Zb$(translate "All changes are reversible using the vmenu uninstaller.")\Z0\n\n"
     script_info+="$(translate "Do you want to apply these optimizations now?")"
 
     dialog --clear --colors \
-           --backtitle "ProxMenux" \
+           --backtitle "vmenu" \
            --title "$(translate "Automated Post-Install Script")" \
            --yesno "$script_info" 22 80
 
@@ -70,14 +70,14 @@ confirm_automated_script() {
 
 
 declare -a PROXMENUX_SCRIPTS=(
-    "Customizable post-installation script|ProxMenux|bash <(curl -s $REPO_URL/scripts/post_install/customizable_post_install.sh)"
-    "Automated post-installation script|ProxMenux|confirm_automated_script"
-    "Uninstall optimizations|ProxMenux|bash <(curl -s $REPO_URL/scripts/post_install/uninstall-tools.sh)"
+    "Customizable post-installation script|vmenu|bash <(curl -s $REPO_URL/scripts/post_install/customizable_post_install.sh)"
+    "Automated post-installation script|vmenu|confirm_automated_script"
+    "Uninstall optimizations|vmenu|bash <(curl -s $REPO_URL/scripts/post_install/uninstall-tools.sh)"
 )
 
 
 declare -a COMMUNITY_SCRIPTS=(
-    "Proxmox VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
+    "Virtuliservmenu VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
     "Xshok-proxmox Post install|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
 )
 
@@ -146,7 +146,7 @@ show_menu() {
 
         exec 3>&1
         script_selection=$(dialog --clear \
-                                 --backtitle "ProxMenux" \
+                                 --backtitle "vmenu" \
                                  --title "$(translate "Post-Installation Scripts")" \
                                  --menu "\n$(translate "Select a post-installation script:"):\n" \
                                  22 78 15 \

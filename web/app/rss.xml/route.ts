@@ -75,16 +75,16 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
           currentEntry = {
             version,
             date,
-            url: `https://macrimi.github.io/ProxMenux/changelog#${version}`,
-            title: `ProxMenux ${version}`,
+            url: `https://macrimi.github.io/vmenu/changelog#${version}`,
+            title: `vmenu ${version}`,
           }
         } else if (dateMatch) {
           const date = dateMatch[1]
           currentEntry = {
             version: date,
             date,
-            url: `https://macrimi.github.io/ProxMenux/changelog#${date}`,
-            title: `ProxMenux Update ${date}`,
+            url: `https://macrimi.github.io/vmenu/changelog#${date}`,
+            title: `vmenu Update ${date}`,
           }
         }
 
@@ -115,18 +115,18 @@ async function parseChangelog(): Promise<ChangelogEntry[]> {
 
 export async function GET() {
   const entries = await parseChangelog()
-  const siteUrl = "https://macrimi.github.io/ProxMenux"
+  const siteUrl = "https://macrimi.github.io/vmenu"
 
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ProxMenux Changelog</title>
-    <description>Latest updates and changes in ProxMenux</description>
+    <title>vmenu Changelog</title>
+    <description>Latest updates and changes in vmenu</description>
     <link>${siteUrl}/changelog</link>
     <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <generator>ProxMenux RSS Generator</generator>
+    <generator>vmenu RSS Generator</generator>
     <ttl>60</ttl>
     
     ${entries

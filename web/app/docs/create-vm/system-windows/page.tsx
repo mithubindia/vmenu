@@ -4,30 +4,30 @@ import Image from "next/image"
 import { ArrowLeft, Monitor, Settings, Zap, Sliders, HardDrive, ExternalLink, Server, Target } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Documentation: Windows Virtual Machines",
+  title: "vmenu Documentation: Windows Virtual Machines",
   description:
-    "Guide for creating and configuring Windows virtual machines on Proxmox VE using ProxMenux, including UUP Dump ISO and local ISO options.",
+    "Guide for creating and configuring Windows virtual machines on Virtuliservmenu VE using vmenu, including UUP Dump ISO and local ISO options.",
   openGraph: {
-    title: "ProxMenux Documentation: Windows Virtual Machines",
+    title: "vmenu Documentation: Windows Virtual Machines",
     description:
-      "Guide for creating and configuring Windows virtual machines on Proxmox VE using ProxMenux, including UUP Dump ISO and local ISO options.",
+      "Guide for creating and configuring Windows virtual machines on Virtuliservmenu VE using vmenu, including UUP Dump ISO and local ISO options.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/virtual-machines/windows",
+    url: "https://macrimi.github.io/vmenu/docs/virtual-machines/windows",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/vm/menu_windows.png",
+        url: "https://macrimi.github.io/vmenu/vm/menu_windows.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Windows VM Menu",
+        alt: "vmenu Windows VM Menu",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Documentation: Windows Virtual Machines",
+    title: "vmenu Documentation: Windows Virtual Machines",
     description:
-      "Guide for creating and configuring Windows virtual machines on Proxmox VE using ProxMenux, including UUP Dump ISO and local ISO options.",
-    images: ["https://macrimi.github.io/ProxMenux/vm/menu_windows.png"],
+      "Guide for creating and configuring Windows virtual machines on Virtuliservmenu VE using vmenu, including UUP Dump ISO and local ISO options.",
+    images: ["https://macrimi.github.io/vmenu/vm/menu_windows.png"],
   },
 }
 
@@ -68,7 +68,7 @@ export default function WindowsVMPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            ProxMenux provides automated scripts that create and configure Windows virtual machines on Proxmox VE. These
+            vmenu provides automated scripts that create and configure Windows virtual machines on Virtuliservmenu VE. These
             scripts simplify the process by handling the necessary configurations and optimizations for Windows
             installations, including VirtIO drivers setup and TPM configuration.
           </p>
@@ -76,9 +76,9 @@ export default function WindowsVMPage() {
       </div>
 
       <ImageWithCaption
-        src="https://macrimi.github.io/ProxMenux/vm/menu_windows.png"
+        src="https://macrimi.github.io/vmenu/vm/menu_windows.png"
         alt="Windows VM Menu"
-        caption="Windows VM Creation Menu in ProxMenux"
+        caption="Windows VM Creation Menu in vmenu"
       />
 
       <div className="mt-8">
@@ -295,7 +295,7 @@ export default function WindowsVMPage() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Proxmox</li>
+            <li>The script lists the storage options available in Virtuliservmenu</li>
             <li>The user selects the disk and size in GB</li>
             <li>
               The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,
@@ -360,7 +360,7 @@ export default function WindowsVMPage() {
 
         <div className="mt-12">
           <h2 className="text-2xl font-bold mb-6 text-black">Windows Installation Options</h2>
-          <p className="mb-6">ProxMenux offers two methods for installing Windows on your virtual machine:</p>
+          <p className="mb-6">vmenu offers two methods for installing Windows on your virtual machine:</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
@@ -378,7 +378,7 @@ export default function WindowsVMPage() {
               </div>
 
               <p className="mb-4">
-                 The <strong>UUP Dump ISO Creator</strong> script is a utility included in <strong>ProxMenux</strong> that allows you to 
+                 The <strong>UUP Dump ISO Creator</strong> script is a utility included in <strong>vmenu</strong> that allows you to 
                  download and create Windows installation media directly from Microsoft's Windows Update servers. 
                  This option provides access to the latest Windows builds, including Insider Preview versions.
               </p>
@@ -406,15 +406,15 @@ export default function WindowsVMPage() {
               </div>
 
               <p className="mb-4">
-                This option allows you to use your own Windows ISO file that's already uploaded to your Proxmox server's
+                This option allows you to use your own Windows ISO file that's already uploaded to your Virtuliservmenu server's
                 local storage. Ideal if you have custom or specific Windows installation media.
               </p>
 
               <div className="mt-4">
                 <ImageWithCaption
-                  src="https://macrimi.github.io/ProxMenux/vm/local-store-windows.png"
+                  src="https://macrimi.github.io/vmenu/vm/local-store-windows.png"
                   alt="Local ISO Selection Menu"
-                  caption="Local ISO Selection Menu in ProxMenux"
+                  caption="Local ISO Selection Menu in vmenu"
                 />
               </div>
             </div>
@@ -492,7 +492,7 @@ export default function WindowsVMPage() {
               During Windows installation, if no disks are shown on the “Where do you want to install Windows?” screen, it means the required storage drivers for your selected disk interface (such as SCSI or VirtIO) are not available. You'll need to load them manually.
             </p>
             <ImageWithCaption
-              src="https://macrimi.github.io/ProxMenux/vm/windows/virtio-step-1.png"
+              src="https://macrimi.github.io/vmenu/vm/windows/virtio-step-1.png"
               alt="Windows installation - No disks shown"
               caption="Windows installation screen with no disks available"
             />
@@ -505,7 +505,7 @@ export default function WindowsVMPage() {
               Click the “Load driver” button to browse the mounted VirtIO ISO. This will allow you to load the necessary storage drivers so Windows can detect the virtual disk.
             </p>
             <ImageWithCaption
-              src="https://macrimi.github.io/ProxMenux/vm/windows/virtio-step-2.png"
+              src="https://macrimi.github.io/vmenu/vm/windows/virtio-step-2.png"
               alt="Windows installation - Load driver button"
               caption="Click 'Load driver' to browse for VirtIO drivers"
             />
@@ -519,7 +519,7 @@ export default function WindowsVMPage() {
               For example, the <code className="bg-gray-100 px-1 py-0.5 rounded">viostor</code> folder contains storage drivers, and you'll find subfolders organized by version (e.g., Windows 10, 11, Server).
             </p>
             <ImageWithCaption
-              src="https://macrimi.github.io/ProxMenux/vm/windows/virtio-step-3.png"
+              src="https://macrimi.github.io/vmenu/vm/windows/virtio-step-3.png"
               alt="Windows installation - Browse for driver"
               caption="Browse to the appropriate driver folder on the VirtIO ISO"
             />
@@ -532,7 +532,7 @@ export default function WindowsVMPage() {
               After selecting the folder, Windows will list the available drivers. Choose the appropriate one — usually “Red Hat VirtIO SCSI controller” — and click “Next” to proceed with the installation.
             </p>
             <ImageWithCaption
-              src="https://macrimi.github.io/ProxMenux/vm/windows/virtio-step-4.png"
+              src="https://macrimi.github.io/vmenu/vm/windows/virtio-step-4.png"
               alt="Windows installation - Select driver"
               caption="Select the appropriate VirtIO driver for your disk interface"
             />
@@ -545,7 +545,7 @@ export default function WindowsVMPage() {
               <strong>Pro Tip:</strong> If you selected <strong>VirtIO</strong> as the network interface, Windows will not recognize it by default. To enable internet access during installation, load the VirtIO network driver from the ISO by browsing to the <code className="bg-gray-100 px-1 py-0.5 rounded">NetKVM</code> folder and selecting the correct subfolder for your Windows version.
             </p>
             <ImageWithCaption
-              src="https://macrimi.github.io/ProxMenux/vm/windows/virtio-step-5.png"
+              src="https://macrimi.github.io/vmenu/vm/windows/virtio-step-5.png"
               alt="Windows installation - Network drivers"
               caption="Select the appropriate VirtIO network driver to enable internet access"
             />

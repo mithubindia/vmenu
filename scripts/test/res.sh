@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ==============================================
-# ProxMenux - Menú de Restauración de Backups
+# vmenu - Menú de Restauración de Backups
 # ==============================================
 
 BACKUP_DIR="/root/backups"

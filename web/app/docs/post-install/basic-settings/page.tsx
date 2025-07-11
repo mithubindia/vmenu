@@ -3,30 +3,30 @@ import { Settings } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Basic Settings",
+  title: "vmenu Post-Install: Basic Settings",
   description:
-    "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+    "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
   openGraph: {
-    title: "ProxMenux Post-Install: Basic Settings",
+    title: "vmenu Post-Install: Basic Settings",
     description:
-      "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
+      "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/basic-settings",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/basic-settings",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/basic-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/basic-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Basic Settings",
+        alt: "vmenu Post-Install Basic Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Basic Settings",
+    title: "vmenu Post-Install: Basic Settings",
     description:
-      "Detailed guide to the Basic Settings category in the ProxMenux post-install script for Proxmox VE optimization.",
-    images: ["https://macrimi.github.io/ProxMenux/basic-settings-image.png"],
+      "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+    images: ["https://macrimi.github.io/vmenu/basic-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function BasicSettingsPage() {
         <h1 className="text-3xl font-bold">Basic Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Proxmox VE
+        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Virtuliservmenu VE
         installation, including installing essential utilities, adding repositories, managing packages, and keeping the
         system up to date.
       </p>
@@ -63,7 +63,7 @@ export default function BasicSettingsPage() {
       
       <div className="mb-6">
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/menu_utilities.png"
+          src="https://macrimi.github.io/vmenu/basic/menu_utilities.png"
           alt="System Utilities Selection Menu"
           className="rounded shadow-lg border border-gray-200"
         />
@@ -83,7 +83,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">Example usage:</p>
         <code className="block bg-gray-100 p-2 rounded">dialog --title "Hello" --msgbox "Hello, World!" 10 20</code>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/dialog.png"
+          src="https://macrimi.github.io/vmenu/basic/dialog.png"
           alt="Dialog Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -103,7 +103,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">To start htop, simply type:</p>
         <code className="block bg-gray-100 p-2 rounded">htop</code>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/htop.png"
+          src="https://macrimi.github.io/vmenu/basic/htop.png"
           alt="htop Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -113,7 +113,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">To start btop, type:</p>
         <code className="block bg-gray-100 p-2 rounded">btop</code>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/btop.png"
+          src="https://macrimi.github.io/vmenu/basic/btop.png"
           alt="btop Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -123,7 +123,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">To start iftop (requires root):</p>
         <code className="block bg-gray-100 p-2 rounded">iftop</code>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/iftop.png"
+          src="https://macrimi.github.io/vmenu/basic/iftop.png"
           alt="iftop Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -133,7 +133,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">To start iotop (requires root):</p>
         <code className="block bg-gray-100 p-2 rounded">siotop</code>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/iotop.png"
+          src="https://macrimi.github.io/vmenu/basic/iotop.png"
           alt="iotop Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -155,7 +155,7 @@ export default function BasicSettingsPage() {
         <p className="mt-2">To start iptraf-ng:</p>
         <code className="block bg-gray-100 p-2 rounded">iptraf-ng</code>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/iptraf-ng.png"
+          src="https://macrimi.github.io/vmenu/basic/iptraf-ng.png"
           alt="iptraf-ng Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -212,7 +212,7 @@ export default function BasicSettingsPage() {
           </tbody>
         </table>
         <img
-          src="https://macrimi.github.io/ProxMenux/basic/tmux.png"
+          src="https://macrimi.github.io/vmenu/basic/tmux.png"
           alt="tmux Example"
           className="mt-2 rounded shadow-lg"
         />
@@ -284,7 +284,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
       <strong className="block">Why it's beneficial:</strong>
         Accurate timekeeping is crucial for many system operations, log
         consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
-        Proxmox VE system maintains the correct time without manual intervention.
+        Virtuliservmenu VE system maintains the correct time without manual intervention.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
@@ -301,7 +301,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
         Update and Upgrade System
       </h3>
       <p className="mb-4">
-        This optimization updates the system's package lists, upgrades installed packages, and configures Proxmox
+        This optimization updates the system's package lists, upgrades installed packages, and configures Virtuliservmenu
         repositories. It also includes additional steps to properly set up Debian repositories, disable certain
         warnings, and perform safety checks after the update process.
       </p>
@@ -309,21 +309,21 @@ sudo timedatectl set-timezone "$TIMEZONE"
       <strong className="block">Why it's beneficial:</strong>
         Keeping your system up-to-date is essential for security, stability, and
         performance. This optimization ensures you have the latest patches and features, while also configuring the
-        correct repositories for Proxmox VE, enabling access to necessary updates and tools. The disk metadata check helps prevent potential issues with storage devices that may have been modified by virtual machines.
+        correct repositories for Virtuliservmenu VE, enabling access to necessary updates and tools. The disk metadata check helps prevent potential issues with storage devices that may have been modified by virtual machines.
       </p>
       <h4 className="text-lg font-semibold mb-2">Repository changes:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-2">
         <li>
-          <strong>Disabled:</strong> Enterprise Proxmox repository (pve-enterprise.list) - This repository is for users
+          <strong>Disabled:</strong> Enterprise Virtuliservmenu repository (pve-enterprise.list) - This repository is for users
           with a paid subscription.
         </li>
         <li>
-          <strong>Disabled:</strong> Enterprise Proxmox Ceph repository (ceph.list) - This repository is for enterprise
+          <strong>Disabled:</strong> Enterprise Virtuliservmenu Ceph repository (ceph.list) - This repository is for enterprise
           Ceph storage solutions.
         </li>
         <li>
-          <strong>Added:</strong> Free public Proxmox repository (pve-public-repo.list) - This provides access to free
-          Proxmox VE updates and packages.
+          <strong>Added:</strong> Free public Virtuliservmenu repository (pve-public-repo.list) - This provides access to free
+          Virtuliservmenu VE updates and packages.
         </li>
         <li>
           <strong>Configured:</strong> Main Debian repositories - These provide access to the core Debian packages and
@@ -333,17 +333,17 @@ sudo timedatectl set-timezone "$TIMEZONE"
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
-# Disable enterprise Proxmox repository
+# Disable enterprise Virtuliservmenu repository
 if [ -f /etc/apt/sources.list.d/pve-enterprise.list ]; then
   sudo sed -i 's/^deb/#deb/g' /etc/apt/sources.list.d/pve-enterprise.list
 fi
 
-# Disable enterprise Proxmox Ceph repository
+# Disable enterprise Virtuliservmenu Ceph repository
 if [ -f /etc/apt/sources.list.d/ceph.list ]; then
   sudo sed -i 's/^deb/#deb/g' /etc/apt/sources.list.d/ceph.list
 fi
 
-# Enable free public Proxmox repository
+# Enable free public Virtuliservmenu repository
 echo "deb http://download.proxmox.com/debian/pve $(lsb_release -cs) pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-public-repo.list
 
 

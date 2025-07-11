@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
 UUP_REPO="$REPO_URL/scripts/vm"
@@ -40,7 +40,7 @@ function select_windows_iso() {
   while [[ "$EXIT_FLAG" != "yes" ]]; do
     if [[ "$LANGUAGE" == "es" ]]; then
       CHOICE=$(dialog --clear \
-        --backtitle "ProxMenux" \
+        --backtitle "vmenu" \
         --title "Opciones de instalación de Windows" \
         --menu "\nSeleccione el tipo de instalación de Windows:\n\n$header" \
         18 70 10 \
@@ -54,7 +54,7 @@ function select_windows_iso() {
       desc2="$(translate "Install with personal ISO")"
       back="$(translate "Return to main menu")"
       CHOICE=$(dialog --clear \
-        --backtitle "ProxMenux" \
+        --backtitle "vmenu" \
         --title "$(translate "Windows Installation Options")" \
         --menu "\n$(translate "Select the type of Windows installation:")\n\n$header" \
         18 70 10 \
@@ -104,7 +104,7 @@ function select_existing_iso() {
     return 1
   fi
 
-  ISO_FILE=$(dialog --backtitle "ProxMenux" --title "$(translate "Available ISO Images")" \
+  ISO_FILE=$(dialog --backtitle "vmenu" --title "$(translate "Available ISO Images")" \
     --menu "$(translate "Choose a Windows ISO to use:")" 20 70 10 \
     "${ISO_LIST[@]}" 3>&1 1>&2 2>&3)
 

@@ -1,27 +1,27 @@
 import { Users, FlaskRound, Youtube } from "lucide-react"
 
 export const metadata = {
-  title: "ProxMenux Contributors – Meet the Team Behind ProxMenux",
-  description: "Meet the contributors who make ProxMenux possible. Learn more about the developers, testers, and designers who have contributed to the project.",
+  title: "vmenu Contributors – Meet the Team Behind vmenu",
+  description: "Meet the contributors who make vmenu possible. Learn more about the developers, testers, and designers who have contributed to the project.",
   openGraph: {
-    title: "ProxMenux Contributors – Meet the Team Behind ProxMenux",
-    description: "Meet the contributors who make ProxMenux possible. Learn more about the developers, testers, and designers who have contributed to the project.",
+    title: "vmenu Contributors – Meet the Team Behind vmenu",
+    description: "Meet the contributors who make vmenu possible. Learn more about the developers, testers, and designers who have contributed to the project.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/about/contributors",
+    url: "https://macrimi.github.io/vmenu/docs/about/contributors",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/contributors-image.png",
+        url: "https://macrimi.github.io/vmenu/contributors-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Contributors",
+        alt: "vmenu Contributors",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Contributors – Meet the Team Behind ProxMenux",
-    description: "Meet the contributors who make ProxMenux possible. Learn more about the developers, testers, and designers who have contributed to the project.",
-    images: ["https://macrimi.github.io/ProxMenux/contributors-image.png"],
+    title: "vmenu Contributors – Meet the Team Behind vmenu",
+    description: "Meet the contributors who make vmenu possible. Learn more about the developers, testers, and designers who have contributed to the project.",
+    images: ["https://macrimi.github.io/vmenu/contributors-image.png"],
   },
 };
 
@@ -30,28 +30,28 @@ const contributors = [
   {
     name: "MALOW",
     role: "Testing",
-    avatar: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/avatars/malow.png",
+    avatar: "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/avatars/malow.png",
   },
   {
     name: "Segarra",
     role: "Testing",
-    avatar: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/avatars/segarra.png",
+    avatar: "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/avatars/segarra.png",
   },
   {
     name: "Aprilia",
     role: "Testing",
-    avatar: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/avatars/aprilia.png",
+    avatar: "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/avatars/aprilia.png",
   },
   {
     name: "Jonatan Castro",
     role: "Testing and reviewer",
-    avatar: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/avatars/jonatancastro.png",
+    avatar: "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/avatars/jonatancastro.png",
     youtubeUrl: "https://www.youtube.com/@JonatanCastro",
   },
   {
     name: "Kamunhas",
     role: "Testing",
-    avatar: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/avatars/Kamunhas.png",
+    avatar: "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/avatars/Kamunhas.png",
   },
 ]
 
@@ -66,7 +66,7 @@ export default function Contributors() {
 
       {/* 🔹 Description */}
       <p className="text-lg text-black mb-4 text-left">
-        The ProxMenux project grows and thrives thanks to the contribution of its collaborators.
+        The vmenu project grows and thrives thanks to the contribution of its collaborators.
       </p>
       <p className="text-base text-black mb-20">This is the well-deserved recognition of their work:</p>
 

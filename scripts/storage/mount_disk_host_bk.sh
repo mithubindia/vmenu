@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ProxMenu - Mount independent disk on Proxmox host
+# ProxMenu - Mount independent disk on Virtuliservmenu host
 # License     : MIT
 # Version     : 1.3-dialog
 # Last Updated: 13/12/2024
@@ -292,7 +292,7 @@ for ((i=0; i<${#FREE_DISKS[@]}; i+=3)); do
     DLG_LIST+=("${FREE_DISKS[i]}" "${FREE_DISKS[i+1]}" "${FREE_DISKS[i+2]}")
 done
 
-SELECTED=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "Select Disk")" \
+SELECTED=$(dialog --clear --backtitle "vmenu" --title "$(translate "Select Disk")" \
     --radiolist "\n$(translate "Select the disk you want to mount on the host:")" 20 90 10 \
     "${DLG_LIST[@]}" 2>&1 >/dev/tty)
 

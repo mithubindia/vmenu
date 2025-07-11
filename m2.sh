@@ -1,0 +1,23 @@
+find /home/gs/Projects/vmenu -type f -exec sed -i \
+  -e '/^# ==========================================================*/d' \
+  -e '/^# ProxMenu - A menu-driven script for Virtuliservmenu VE management/d' \
+  -e '/^# Author *: MacRimi/d' \
+  -e '/^# Copyright *: (c) 2024 MacRimi/d' \
+  -e '/^# License *: MIT (https:\/\/raw\.githubusercontent\.com\/MacRimi\/vmenu\/main\/LICENSE)/d' \
+  -e '/^# Version *: 1.0/d' \
+  -e '/^# Last Updated: 06\/07\/2025/d' \
+  -e '/^# Description:/d' \
+  -e '/^# This script allows users to assign physical disks to existing/d' \
+  -e '/^# Virtuliservmenu virtual machines (VMs) through an interactive menu./d' \
+  -e '/^# - Detects the system disk and excludes it from selection./d' \
+  -e '/^# - Lists all available VMs for the user to choose from./d' \
+  -e '/^# - Identifies and displays unassigned physical disks./d' \
+  -e '/^# - Allows the user to select multiple disks and attach them to a VM./d' \
+  -e '/^# - Supports interface types: SATA, SCSI, VirtIO, and IDE./d' \
+  -e '/^# - Ensures that disks are not already assigned to active VMs./d' \
+  -e '/^# - Warns about disk sharing between multiple VMs to avoid data corruption./d' \
+  -e '/^# - Configures the selected disks for the VM and verifies the assignment./d' \
+  -e '/^# The goal of this script is to simplify the process of assigning/d' \
+  -e '/^# physical disks to Virtuliservmenu VMs, reducing manual configurations/d' \
+  -e '/^# and preventing potential errors./d' \
+  {} +

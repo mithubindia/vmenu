@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script provides an interactive command reference menu
-# for Proxmox VE via dialog-based UI.
+# for Virtuliservmenu VE via dialog-based UI.
 # - Categorized and translated lists of common and advanced commands.
 # - Covers system, network, storage, VM/CT, updates, GPU passthrough,
 #   ZFS, backup/restore, and essential CLI tools.
@@ -38,9 +38,9 @@ show_system_commands() {
         clear
         echo -e "${YELLOW}$(translate 'Useful System Commands')${NC}"
         echo "----------------------------------------"
-        echo -e " 1) ${GREEN}pveversion${NC}                         - $(translate 'Show Proxmox version')"
-        echo -e " 2) ${GREEN}pveversion -v${NC}                      - $(translate 'Detailed Proxmox version info')"
-        echo -e " 3) ${GREEN}systemctl status pveproxy${NC}          - $(translate 'Check Proxmox Web UI status')"
+        echo -e " 1) ${GREEN}pveversion${NC}                         - $(translate 'Show Virtuliservmenu version')"
+        echo -e " 2) ${GREEN}pveversion -v${NC}                      - $(translate 'Detailed Virtuliservmenu version info')"
+        echo -e " 3) ${GREEN}systemctl status pveproxy${NC}          - $(translate 'Check Virtuliservmenu Web UI status')"
         echo -e " 4) ${GREEN}systemctl restart pveproxy${NC}         - $(translate 'Restart Web UI proxy')"
         echo -e " 5) ${GREEN}journalctl -xe${NC}                     - $(translate 'System errors and logs')"
         echo -e " 6) ${GREEN}uptime${NC}                             - $(translate 'System uptime')"
@@ -248,7 +248,7 @@ show_storage_commands() {
         echo -e "13) ${GREEN}pvs${NC}                         - $(translate 'Concise output of physical volumes')"
         echo -e "14) ${GREEN}vgs${NC}                         - $(translate 'Concise output of volume groups')"
         echo -e "15) ${GREEN}lvs${NC}                         - $(translate 'Concise output of logical volumes')"
-        echo -e "16) ${GREEN}cat /etc/pve/storage.cfg${NC}    - $(translate 'Show Proxmox storage configuration')"
+        echo -e "16) ${GREEN}cat /etc/pve/storage.cfg${NC}    - $(translate 'Show Virtuliservmenu storage configuration')"
         echo -e "17) ${GREEN}pvesm status${NC}                - $(translate 'Show status of all storage pools')"
         echo -e "18) ${GREEN}pvesm list <storage>${NC}        - $(translate 'List content of specific storage')"
         echo -e "19) ${GREEN}pvesm scan <storage>${NC}        - $(translate 'Scan storage for new content')"
@@ -470,9 +470,9 @@ show_network_commands() {
         echo -e "11) ${GREEN}ss -tuln${NC}                       - $(translate 'Show listening ports (TCP/UDP)')"
         echo -e "12) ${GREEN}iptables -L -n -v${NC}              - $(translate 'Show active firewall rules (iptables)')"
         echo -e "13) ${GREEN}nft list ruleset${NC}               - $(translate 'Show nftables rules')"
-        echo -e "14) ${GREEN}pve-firewall status${NC}            - $(translate 'Check Proxmox firewall status')"
+        echo -e "14) ${GREEN}pve-firewall status${NC}            - $(translate 'Check Virtuliservmenu firewall status')"
         echo -e "15) ${GREEN}pve-firewall compile${NC}           - $(translate 'Compile firewall rules for all nodes')"
-        echo -e "16) ${GREEN}pve-firewall reload${NC}            - $(translate 'Reload Proxmox firewall rules')"
+        echo -e "16) ${GREEN}pve-firewall reload${NC}            - $(translate 'Reload Virtuliservmenu firewall rules')"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo
         echo -en "${TAB}${BOLD}${YW}${HOLD}$(translate 'Enter a number, or write or paste a command: ') ${CL}"
@@ -538,8 +538,8 @@ show_update_commands() {
         echo "----------------------------------------------------"
         echo -e " 1) ${GREEN}apt update && apt upgrade -y${NC}   - $(translate 'Update and upgrade all system packages')"
         echo -e " 2) ${GREEN}apt dist-upgrade -y${NC}            - $(translate 'Full system upgrade, including dependencies')"
-        echo -e " 3) ${GREEN}pveupdate${NC}                      - $(translate 'Update Proxmox package lists')"
-        echo -e " 4) ${GREEN}pveupgrade${NC}                     - $(translate 'Show available Proxmox upgrades')"
+        echo -e " 3) ${GREEN}pveupdate${NC}                      - $(translate 'Update Virtuliservmenu package lists')"
+        echo -e " 4) ${GREEN}pveupgrade${NC}                     - $(translate 'Show available Virtuliservmenu upgrades')"
         echo -e " 5) ${GREEN}apt autoremove --purge${NC}         - $(translate 'Remove unused packages and their config')"
         echo -e " ${DEF}0) $(translate ' Back to previous menu or Esc + Enter')"
         echo

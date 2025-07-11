@@ -1,6 +1,6 @@
 ---
 title: "Install Kodi in an LXC and Connect it to a Monitor/TV Using GPU Acceleration"
-description: "Install Kodi in an LXC container on Proxmox, utilize GPU acceleration, and connect it to your TV, turning your Proxmox server into an all-in-one media center."
+description: "Install Kodi in an LXC container on Virtuliservmenu, utilize GPU acceleration, and connect it to your TV, turning your Virtuliservmenu server into an all-in-one media center."
 ---
 
 
@@ -24,7 +24,7 @@ The keyboard, mouse, or USB controllers are /dev/input devices. To add them to t
 ls -l /dev/input
 ```
 
-![Input devices list](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/guides/kodi/kodi1.png)
+![Input devices list](https://raw.githubusercontent.com/MacRimi/vmenu/main/guides/kodi/kodi1.png)
 
 In my case, the code is 13.
 
@@ -42,9 +42,9 @@ lxc.cgroup2.devices.allow = c 13:* rwm
 lxc.mount.entry: /dev/input dev/input none bind,optional,create=dir
 ```
 
-![LXC configuration](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/guides/kodi/kodi2.png)
+![LXC configuration](https://raw.githubusercontent.com/MacRimi/vmenu/main/guides/kodi/kodi2.png)
 
-When we're done, we restart Proxmox:
+When we're done, we restart Virtuliservmenu:
 
 ```bash
 reboot
@@ -66,9 +66,9 @@ When it's finished, we restart, and when it boots up, we'll have Kodi updated.
 
 ### Images
 
-![Kodi interface 1](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/guides/kodi/kodi3.png)
+![Kodi interface 1](https://raw.githubusercontent.com/MacRimi/vmenu/main/guides/kodi/kodi3.png)
 
-![Kodi interface 2](https://raw.githubusercontent.com/MacRimi/ProxMenux/main/guides/kodi/kodi4.jpeg)
+![Kodi interface 2](https://raw.githubusercontent.com/MacRimi/vmenu/main/guides/kodi/kodi4.jpeg)
 
 We can learn more about configuring an LXC with Intel GPU on [Konpat's blog](https://blog.konpat.me/dev/2019/03/11/setting-up-lxc-for-intel-gpu-proxmox.html).
 

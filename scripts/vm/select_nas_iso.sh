@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 
 BASE_DIR="/usr/local/share/vmenu"
@@ -44,7 +44,7 @@ function select_nas_iso() {
   )
 
   local NAS_TYPE
-  NAS_TYPE=$(dialog --backtitle "ProxMenux" \
+  NAS_TYPE=$(dialog --backtitle "vmenu" \
     --title "$(translate "NAS Systems")" \
     --menu "\n$(translate "Select the NAS system to install:")" 18 70 10 \
     "${NAS_OPTIONS[@]}" 3>&1 1>&2 2>&3)
@@ -104,14 +104,14 @@ function select_nas_iso() {
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r
       
-      whiptail --title "Proxmox VE - ZimaOS" \
+      whiptail --title "Virtuliservmenu VE - ZimaOS" \
         --msgbox "$(translate "ZimaOS installer script by R0GGER\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://github.com/R0GGER/proxmox-zimaos")" 15 70
 
       return 1
       ;;
     8)
       HN="Umbrel OS"
-      bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/umbrel-os-vm.sh)"
+      bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/umbrel-os-vm.sh)"
       echo -e
       echo -e "${TAB}$(translate "Default Login Credentials:")"
       echo -e "${TAB}Username: umbrel"
@@ -121,8 +121,8 @@ function select_nas_iso() {
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r
       
-      whiptail --title "Proxmox VE - Umbrel OS" \
-        --msgbox "$(translate "Umbrel OS installer script by Helper Scripts\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE/scripts?id=umbrel-os-vm")" 15 70
+      whiptail --title "Virtuliservmenu VE - Umbrel OS" \
+        --msgbox "$(translate "Umbrel OS installer script by Helper Scripts\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://community-scripts.github.io/VirtuliservmenuVE/scripts?id=umbrel-os-vm")" 15 70
 
       return 1
       ;;

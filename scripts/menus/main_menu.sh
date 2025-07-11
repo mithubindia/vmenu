@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 2.0
 # Last Updated: 04/04/2025
 
@@ -28,15 +28,15 @@ show_menu() {
 
     while true; do
         dialog --clear \
-            --backtitle "ProxMenux" \
-            --title "$(translate "Main ProxMenux")" \
+            --backtitle "vmenu" \
+            --title "$(translate "Main vmenu")" \
             --menu "$(translate "Select an option:")" 20 70 10 \
-            1 "$(translate "Settings post-install Proxmox")" \
+            1 "$(translate "Settings post-install Virtuliservmenu")" \
             2 "$(translate "Help and Info Commands")" \
             3 "$(translate "Hardware: GPUs and Coral-TPU")" \
             4 "$(translate "Create VM from template or script")" \
             5 "$(translate "Disk and Storage Manager")" \
-            6 "$(translate "Proxmox VE Helper Scripts")" \
+            6 "$(translate "Virtuliservmenu VE Helper Scripts")" \
             7 "$(translate "Network Management")" \
             8 "$(translate "Utilities and Tools")" \
             9 "$(translate "Settings")" \

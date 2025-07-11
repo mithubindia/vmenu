@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ================================================
-# ProxMenux - Create VM Entry Point
+# vmenu - Create VM Entry Point
 # ================================================
 # ================================================
 
@@ -38,7 +38,7 @@ function header_info() {
   show_proxmenux_logo
   echo -e "${BL}╔═══════════════════════════════════════════════╗${CL}"
   echo -e "${BL}║                                               ║${CL}"
-  echo -e "${BL}║${YWB}             ProxMenux VM Creator              ${BL}║${CL}"
+  echo -e "${BL}║${YWB}             vmenu VM Creator              ${BL}║${CL}"
   echo -e "${BL}║                                               ║${CL}"
   echo -e "${BL}╚═══════════════════════════════════════════════╝${CL}"
   echo -e
@@ -51,7 +51,7 @@ echo -e "\n Loading..."
 sleep 1
 
 # Step 1 - Select OS Type
-OS_TYPE=$(whiptail --title "ProxMenux" --menu "$(translate "Select the type of system to install")" 15 60 4 \
+OS_TYPE=$(whiptail --title "vmenu" --menu "$(translate "Select the type of system to install")" 15 60 4 \
   "nas"     "$(translate "Create VM System NAS")" \
   "windows" "$(translate "Create VM System Windows")" \
   "linux"   "$(translate "Create VM System Linux")" \
@@ -87,7 +87,7 @@ fi
 
 
 # Step 2 - Default or Advanced config
-if (whiptail --title "ProxMenux" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
+if (whiptail --title "vmenu" --yesno "$(translate "Use Default Settings?")" --no-button "$(translate "Advanced")" 10 60); then
   header_info
   load_default_vm_config "$OS_TYPE"
   apply_default_vm_config

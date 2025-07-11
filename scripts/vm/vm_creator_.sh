@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -48,7 +48,7 @@ function mount_iso_to_vm() {
 
 # Select Interface Type
 function select_interface_type() {
-  INTERFACE_TYPE=$(whiptail --backtitle "ProxMenux" --title "$(translate "Select Disk Interface")" --radiolist \
+  INTERFACE_TYPE=$(whiptail --backtitle "vmenu" --title "$(translate "Select Disk Interface")" --radiolist \
     "$(translate "Select the bus type for the disks:")" 15 70 4 \
     "scsi"    "$(translate "SCSI   (recommended for Linux and Windows)")" ON \
     "sata"    "$(translate "SATA   (standard - high compatibility)")" OFF \
@@ -93,7 +93,7 @@ function select_storage_target() {
     STORAGE="${STORAGE_MENU[0]}"
   else
     kill $SPINNER_PID > /dev/null
-    STORAGE=$(whiptail --backtitle "ProxMenux" --title "$(translate "$PURPOSE Disk Storage")" --radiolist \
+    STORAGE=$(whiptail --backtitle "vmenu" --title "$(translate "$PURPOSE Disk Storage")" --radiolist \
       "$(translate "Choose the storage volume for the $PURPOSE disk (4MB):\n\nUse Spacebar to select.")" 16 70 6 \
       "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3) || exit 1
   fi
@@ -310,7 +310,7 @@ select_interface_type
     local VIRTIO_DOWNLOAD_URL="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
 
     while true; do
-      VIRTIO_OPTION=$(whiptail --title "ProxMenux - VirtIO Drivers" --menu "$(translate "Select how to provide VirtIO drivers")" 15 70 2 \
+      VIRTIO_OPTION=$(whiptail --title "vmenu - VirtIO Drivers" --menu "$(translate "Select how to provide VirtIO drivers")" 15 70 2 \
         "1" "$(translate "Download latest VirtIO ISO automatically")" \
         "2" "$(translate "Use existing VirtIO ISO from storage")" 3>&1 1>&2 2>&3)
 
@@ -320,7 +320,7 @@ select_interface_type
         1)
 
           if [[ -f "$VIRTIO_DIR/virtio-win.iso" ]]; then
-            if whiptail --title "ProxMenux" --yesno "$(translate "A VirtIO ISO already exists. Do you want to overwrite it?")" 10 60; then
+            if whiptail --title "vmenu" --yesno "$(translate "A VirtIO ISO already exists. Do you want to overwrite it?")" 10 60; then
               wget -q --show-progress -O "$VIRTIO_DIR/virtio-win.iso" "$VIRTIO_DOWNLOAD_URL"
               if [[ -f "$VIRTIO_DIR/virtio-win.iso" ]]; then
                 msg_ok "$(translate "VirtIO driver ISO downloaded successfully.")"
@@ -353,7 +353,7 @@ select_interface_type
             continue  
           fi
 
-          VIRTIO_FILE=$(whiptail --title "ProxMenux - VirtIO ISOs" --menu "$(translate "Select a VirtIO ISO to use:")" 20 70 10 "${VIRTIO_LIST[@]}" 3>&1 1>&2 2>&3)
+          VIRTIO_FILE=$(whiptail --title "vmenu - VirtIO ISOs" --menu "$(translate "Select a VirtIO ISO to use:")" 20 70 10 "${VIRTIO_LIST[@]}" 3>&1 1>&2 2>&3)
 
           if [[ -n "$VIRTIO_FILE" ]]; then
             VIRTIO_SELECTED="$VIRTIO_DIR/$VIRTIO_FILE"
@@ -387,18 +387,18 @@ select_interface_type
 <table style='width: 100%; border-collapse: collapse;'>
 <tr>
 <td style='width: 100px; vertical-align: middle;'>
-<img src='https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logo_desc.png' alt='ProxMenux Logo' style='height: 100px;'>
+<img src='https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logo_desc.png' alt='vmenu Logo' style='height: 100px;'>
 </td>
 <td style='vertical-align: middle;'>
 <h1 style='margin: 0;'>$HN VM</h1>
-<p style='margin: 0;'>Created with ProxMenux</p>
+<p style='margin: 0;'>Created with vmenu</p>
 </td>
 </tr>
 </table>
 
 <p>
-<a href='https://macrimi.github.io/ProxMenux/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
-<a href='https://github.com/MacRimi/ProxMenux/blob/main/scripts/vm/create_vm.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
+<a href='https://macrimi.github.io/vmenu/docs/create-vm/synology' target='_blank'><img src='https://img.shields.io/badge/📚_Docs-blue' alt='Docs'></a>
+<a href='https://github.com/MacRimi/vmenu/blob/main/scripts/vm/create_vm.sh' target='_blank'><img src='https://img.shields.io/badge/💻_Code-green' alt='Code'></a>
 <a href='https://ko-fi.com/macrimi' target='_blank'><img src='https://img.shields.io/badge/☕_Ko--fi-red' alt='Ko-fi'></a>
 </p>
 

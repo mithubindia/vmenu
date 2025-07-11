@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 28/06/2025
-# Proxmox containers (CTs) through an interactive menu.
+# Virtuliservmenu containers (CTs) through an interactive menu.
 # - Lists all available CTs for the user to choose from.
 # - Allows the user to select multiple disks and attach them to a CT.
 # - Configures the selected disks for the CT and verifies the assignment.

@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# ProxMenux - Customizable script settings for Proxmox post-installation
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - Customizable script settings for Virtuliservmenu post-installation
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.3
 # Last Updated: 30/06/2025
 # This script automates post-installation configurations and optimizations
-# for Proxmox Virtual Environment (VE). It allows for a variety of system
+# for Virtuliservmenu Virtual Environment (VE). It allows for a variety of system
 # customizations, including kernel optimizations, memory management, network 
 # tweaks, and virtualization environment adjustments. The script facilitates
 # easy installation of useful tools and security enhancements, including 
 # fail2ban, ZFS auto-snapshot, and more.
 #
 # This script is based on the work of Adrian Jon Kriel from eXtremeSHOK.com,
-# and it was originally published as a post-installation script for Proxmox under the 
+# and it was originally published as a post-installation script for Virtuliservmenu under the 
 # BSD License.
 #
 # Copyright (c) Adrian Jon Kriel :: admin@extremeshok.com
@@ -21,12 +21,12 @@
 # License: BSD (Berkeley Software Distribution)
 #
 # Additionally, this script incorporates elements from the 
-# Proxmox VE Post Install script from Proxmox VE Helper-Scripts.
+# Virtuliservmenu VE Post Install script from Virtuliservmenu VE Helper-Scripts.
 #
-# Copyright (c) Proxmox VE Helper-Scripts Community
-# Script updates can be found at: https://github.com/community-scripts/ProxmoxVE
+# Copyright (c) Virtuliservmenu VE Helper-Scripts Community
+# Script updates can be found at: https://github.com/community-scripts/VirtuliservmenuVE
 #
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT | https://github.com/community-scripts/VirtuliservmenuVE/raw/main/LICENSE
 #
 # Key features:
 # - Configures system memory and kernel settings for better performance.
@@ -147,35 +147,35 @@ EOF
 
 apt_upgrade() {
 
-    msg_info2 "$(translate "Configuring Proxmox repositories")"
+    msg_info2 "$(translate "Configuring Virtuliservmenu repositories")"
     NECESSARY_REBOOT=1 
 
     # Disable enterprise proxmox repo
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
-        msg_info "$(translate "Disabling enterprise Proxmox repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliservmenu repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
-        msg_ok "$(translate "Enterprise Proxmox repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliservmenu repository disabled")"
     fi
 
-    # Disable enterprise Proxmox Ceph repo
+    # Disable enterprise Virtuliservmenu Ceph repo
     if [ -f /etc/apt/sources.list.d/ceph.list ] && grep -q "^deb" /etc/apt/sources.list.d/ceph.list; then
-        msg_info "$(translate "Disabling enterprise Proxmox Ceph repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliservmenu Ceph repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/ceph.list
-        msg_ok "$(translate "Enterprise Proxmox Ceph repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliservmenu Ceph repository disabled")"
     fi
 
     # Enable free public proxmox repo
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
-        msg_info "$(translate "Enabling free public Proxmox repository...")"
+        msg_info "$(translate "Enabling free public Virtuliservmenu repository...")"
         echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
-        msg_ok "$(translate "Free public Proxmox repository enabled")"
+        msg_ok "$(translate "Free public Virtuliservmenu repository enabled")"
     fi
 
-#    # Enable Proxmox testing repository
+#    # Enable Virtuliservmenu testing repository
 #    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-#        msg_info "$(translate "Enabling Proxmox testing repository...")"
+#        msg_info "$(translate "Enabling Virtuliservmenu testing repository...")"
 #        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-#        msg_ok "$(translate "Proxmox testing repository enabled")"
+#        msg_ok "$(translate "Virtuliservmenu testing repository enabled")"
 #    fi
 
 # ======================================================
@@ -298,19 +298,19 @@ apt_upgrade() {
 
 
 
-    # Install additional Proxmox packages
-    msg_info "$(translate "Installing additional Proxmox packages...")"
+    # Install additional Virtuliservmenu packages
+    msg_info "$(translate "Installing additional Virtuliservmenu packages...")"
     if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install zfsutils-linux proxmox-backup-restore-image chrony > /dev/null 2>&1; then
-        msg_ok "$(translate "Additional Proxmox packages installed")"
+        msg_ok "$(translate "Additional Virtuliservmenu packages installed")"
     else
-        msg_error "$(translate "Failed to install additional Proxmox packages")"
+        msg_error "$(translate "Failed to install additional Virtuliservmenu packages")"
     fi
 
     lvm_repair_check
 
     cleanup_duplicate_repos
 
-    msg_success "$(translate "Proxmox repository configuration completed")"
+    msg_success "$(translate "Virtuliservmenu repository configuration completed")"
 
 }
 
@@ -462,9 +462,9 @@ increase_system_limits() {
         local temp_file=$(mktemp)
 
         if [ -f "$file" ]; then
-            grep -vF "# ProxMenux configuration" "$file" > "$temp_file"
+            grep -vF "# vmenu configuration" "$file" > "$temp_file"
         fi
-        echo -e "# ProxMenux configuration\n$content" >> "$temp_file"
+        echo -e "# vmenu configuration\n$content" >> "$temp_file"
         mv "$temp_file" "$file"
     }
 
@@ -1038,20 +1038,20 @@ apply_amd_fixes() {
         msg_info "$(translate "KVM report_ignored_msrs option already set")"
     fi
 
-    # Install the latest Proxmox VE kernel
-    msg_info "$(translate "Checking for Proxmox VE kernel updates...")"
+    # Install the latest Virtuliservmenu VE kernel
+    msg_info "$(translate "Checking for Virtuliservmenu VE kernel updates...")"
     local current_kernel=$(uname -r | cut -d'-' -f1-2)
     local latest_kernel=$(apt-cache search pve-kernel | grep "^pve-kernel-${current_kernel}" | sort -V | tail -n1 | cut -d' ' -f1)
     
     if [ "$latest_kernel" != "pve-kernel-$current_kernel" ]; then
-        msg_info "$(translate "Installing the latest Proxmox VE kernel...")"
+        msg_info "$(translate "Installing the latest Virtuliservmenu VE kernel...")"
         if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$latest_kernel" > /dev/null 2>&1; then
-            msg_ok "$(translate "Latest Proxmox VE kernel installed successfully")"
+            msg_ok "$(translate "Latest Virtuliservmenu VE kernel installed successfully")"
         else
-            msg_warn "$(translate "Failed to install the latest Proxmox VE kernel")"
+            msg_warn "$(translate "Failed to install the latest Virtuliservmenu VE kernel")"
         fi
     else
-        msg_ok "$(translate "The latest Proxmox VE kernel is already installed")"
+        msg_ok "$(translate "The latest Virtuliservmenu VE kernel is already installed")"
     fi
 
     msg_success "$(translate "AMD CPU fixes applied successfully")"
@@ -1592,16 +1592,16 @@ install_fail2ban() {
     mkdir -p /etc/fail2ban/jail.d /etc/fail2ban/filter.d
 
    
-    msg_info "$(translate "Configuring Proxmox filter...")"
+    msg_info "$(translate "Configuring Virtuliservmenu filter...")"
     cat > /etc/fail2ban/filter.d/proxmox.conf << EOF
 [Definition]
 failregex = pvedaemon\[.*authentication failure; rhost=<HOST> user=.* msg=.*
 ignoreregex =
 EOF
-    msg_ok "$(translate "Proxmox filter configured")"
+    msg_ok "$(translate "Virtuliservmenu filter configured")"
 
   
-    msg_info "$(translate "Configuring Proxmox jail...")"
+    msg_info "$(translate "Configuring Virtuliservmenu jail...")"
     cat > /etc/fail2ban/jail.d/proxmox.conf << EOF
 [proxmox]
 enabled = true
@@ -1612,7 +1612,7 @@ maxretry = 3
 bantime = 3600
 findtime = 600
 EOF
-    msg_ok "$(translate "Proxmox jail configured")"
+    msg_ok "$(translate "Virtuliservmenu jail configured")"
 
   
     msg_info "$(translate "Configuring general Fail2Ban settings...")"
@@ -1997,7 +1997,7 @@ enable_vfio_iommu() {
     msg_info2 "$(translate "Enabling IOMMU and configuring VFIO for PCI passthrough...")"
     NECESSARY_REBOOT=1
 
-    # Detect if system uses ZFS/systemd-boot (Proxmox)
+    # Detect if system uses ZFS/systemd-boot (Virtuliservmenu)
     local uses_zfs=false
     local cmdline_file="/etc/kernel/cmdline"
     if [[ -f "$cmdline_file" ]] && grep -qE 'root=ZFS=|root=ZFS/' "$cmdline_file"; then
@@ -2137,7 +2137,7 @@ setup_motd() {
     msg_info2 "$(translate "Configuring MOTD (Message of the Day) banner...")"
 
     local motd_file="/etc/motd"
-    local custom_message="    This system is optimised by: ProxMenux"
+    local custom_message="    This system is optimised by: vmenu"
     local changes_made=false
 
     msg_info "$(translate "Checking MOTD configuration...")"
@@ -2183,14 +2183,14 @@ msg_info2 "$(translate "Optimizing logrotate configuration...")"
     local backup_conf="${logrotate_conf}.bak"
 
 
-    if grep -q "# ProxMenux optimized configuration" "$logrotate_conf"; then
+    if grep -q "# vmenu optimized configuration" "$logrotate_conf"; then
         msg_ok "$(translate "Logrotate configuration already optimized.")"
     else
         cp "$logrotate_conf" "$backup_conf"
         
         msg_info "$(translate "Applying optimized logrotate configuration...")"
         cat <<EOF > "$logrotate_conf"
-# ProxMenux optimized configuration
+# vmenu optimized configuration
 daily
 su root adm
 rotate 7
@@ -2219,7 +2219,7 @@ EOF
 
 remove_subscription_banner() {
 
-    msg_info2 "$(translate "Removing Proxmox subscription nag banner...")"
+    msg_info2 "$(translate "Removing Virtuliservmenu subscription nag banner...")"
 
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
@@ -2264,7 +2264,7 @@ EOF
 
 
 remove_subscription_banner_() {
-    msg_info2 "$(translate "Checking Proxmox subscription banner and nag status...")"
+    msg_info2 "$(translate "Checking Virtuliservmenu subscription banner and nag status...")"
 
     local proxmox_js="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local cron_file="/etc/cron.daily/xs-pve-nosub"
@@ -2521,7 +2521,7 @@ configure_fastfetch() {
 
     while true; do
         # Define logo options
-        local logo_options=("ProxMenux" "Proxmox (default)" "Comunidad Helper-Scripts" "Home-Labs-Club" "Proxmology" "Custom")
+        local logo_options=("vmenu" "Virtuliservmenu (default)" "Comunidad Helper-Scripts" "Home-Labs-Club" "Proxmology" "Custom")
         local choice
 
         choice=$(whiptail --title "$(translate "Fastfetch Logo Selection")" --menu "$(translate "Choose a logo for Fastfetch:")" 20 78 6 \
@@ -2535,26 +2535,26 @@ configure_fastfetch() {
 
         case $choice in
             1)
-                msg_info "$(translate "Downloading ProxMenux logo...")"
-                local proxmenux_logo_path="$logos_dir/ProxMenux.txt"
-                if wget -qO "$proxmenux_logo_path" "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logos_txt/logo.txt"; then
+                msg_info "$(translate "Downloading vmenu logo...")"
+                local proxmenux_logo_path="$logos_dir/vmenu.txt"
+                if wget -qO "$proxmenux_logo_path" "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logos_txt/logo.txt"; then
                     jq --arg path "$proxmenux_logo_path" '. + {logo: $path}' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
-                    msg_ok "$(translate "ProxMenux logo applied")"
+                    msg_ok "$(translate "vmenu logo applied")"
                 else
-                    msg_error "$(translate "Failed to download ProxMenux logo")"
+                    msg_error "$(translate "Failed to download vmenu logo")"
                 fi
                 break
                 ;;
             2)
-                msg_info "$(translate "Using default Proxmox logo...")"
+                msg_info "$(translate "Using default Virtuliservmenu logo...")"
                 jq 'del(.logo)' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
-                msg_ok "$(translate "Default Proxmox logo applied")"
+                msg_ok "$(translate "Default Virtuliservmenu logo applied")"
                 break
                 ;;
             3)
                 msg_info "$(translate "Downloading Helper-Scripts logo...")"
                 local helper_scripts_logo_path="$logos_dir/Helper_Scripts.txt"
-                if wget -qO "$helper_scripts_logo_path" "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logos_txt/Helper_Scripts.txt"; then
+                if wget -qO "$helper_scripts_logo_path" "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logos_txt/Helper_Scripts.txt"; then
                     jq --arg path "$helper_scripts_logo_path" '. + {logo: $path}' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
                     msg_ok "$(translate "Helper-Scripts logo applied")"
                 else
@@ -2565,7 +2565,7 @@ configure_fastfetch() {
             4)
                 msg_info "$(translate "Downloading Home-Labs-Club logo...")"
                 local home_lab_club_logo_path="$logos_dir/home_labsclub.txt"
-                if wget -qO "$home_lab_club_logo_path" "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logos_txt/home_labsclub.txt"; then
+                if wget -qO "$home_lab_club_logo_path" "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logos_txt/home_labsclub.txt"; then
                     jq --arg path "$home_lab_club_logo_path" '. + {logo: $path}' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
                     msg_ok "$(translate "Home-Lab-Club logo applied")"
                 else
@@ -2576,7 +2576,7 @@ configure_fastfetch() {
             5)
                 msg_info "$(translate "Downloading Proxmology logo...")"
                 local proxmology_logo_path="$logos_dir/proxmology.txt"
-                if wget -qO "$proxmology_logo_path" "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/images/logos_txt/proxmology.txt"; then
+                if wget -qO "$proxmology_logo_path" "https://raw.githubusercontent.com/MacRimi/vmenu/main/images/logos_txt/proxmology.txt"; then
                     jq --arg path "$proxmology_logo_path" '. + {logo: $path}' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
                     msg_ok "$(translate "Proxmology logo applied")"
                 else
@@ -2626,9 +2626,9 @@ configure_fastfetch() {
 
     jq 'del(.modules[] | select(type == "object" and .type == "custom"))' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
 
-    jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by ProxMenux\u001b[0m"}] + .' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
+    jq '.modules |= [{"type": "custom", "format": "\u001b[1;38;5;166mSystem optimised by vmenu\u001b[0m"}] + .' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
 
-    msg_ok "$(translate "Fastfetch now displays: System optimised by: ProxMenux")"
+    msg_ok "$(translate "Fastfetch now displays: System optimised by: vmenu")"
 
     fastfetch --gen-config > /dev/null 2>&1
     msg_ok "$(translate "Fastfetch configuration updated")"
@@ -2654,14 +2654,14 @@ configure_fastfetch() {
 
 
 add_repo_test() {
- msg_info2 "$(translate "Enable Proxmox testing repository...")"
-    # Enable Proxmox testing repository
+ msg_info2 "$(translate "Enable Virtuliservmenu testing repository...")"
+    # Enable Virtuliservmenu testing repository
     if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-        msg_info "$(translate "Enabling Proxmox testing repository...")"
+        msg_info "$(translate "Enabling Virtuliservmenu testing repository...")"
         echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-        msg_ok "$(translate "Proxmox testing repository enabled")"
+        msg_ok "$(translate "Virtuliservmenu testing repository enabled")"
     fi
- msg_success "$(translate "Proxmox testing repository has been successfully enabled")"
+ msg_success "$(translate "Virtuliservmenu testing repository has been successfully enabled")"
 }
 
 
@@ -2731,10 +2731,10 @@ EOF
 # Aliases personalizados
 alias aptup='apt update && apt dist-upgrade'
 
-alias lxcclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/clean-lxcs.sh)"'
-alias lxcupdate='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-lxcs.sh)"'
-alias kernelclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"'
-alias cpugov='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/scaling-governor.sh)"'
+alias lxcclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/clean-lxcs.sh)"'
+alias lxcupdate='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/update-lxcs.sh)"'
+alias kernelclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/kernel-clean.sh)"'
+alias cpugov='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/scaling-governor.sh)"'
 
 alias updatecerts='pvecm updatecerts'
 alias seqwrite='sync; fio --randrepeat=1 --ioengine=libaio --direct=1 --name=test --filename=test --bs=4M --size=32G --readwrite=write --ramp_time=4'
@@ -3070,9 +3070,9 @@ main_menu() {
     "Monitoring|Install OVH Real Time Monitoring|OVHRTM"
     "Performance|Use pigz for faster gzip compression|PIGZ"
     "Optional|Install and configure Fastfetch|FASTFETCH"
-    "Optional|Update Proxmox VE Appliance Manager|PVEAM"
+    "Optional|Update Virtuliservmenu VE Appliance Manager|PVEAM"
     "Optional|Add latest Ceph support|CEPH"
-    "Optional|Add Proxmox testing repository|REPOTEST"
+    "Optional|Add Virtuliservmenu testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
     "Optional|Install Figurine|FIGURINE"
     "Optional|Install and configure Log2RAM|LOG2RAM"
@@ -3139,7 +3139,7 @@ main_menu() {
 
   exec 3>&1
   selected_indices=$(dialog --clear \
-    --backtitle "ProxMenux" \
+    --backtitle "vmenu" \
     --title "$(translate "Post-Installation Options")" \
     --checklist "$HEADER" 22 80 15 \
     "${checklist_items[@]}" \

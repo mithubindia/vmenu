@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Disk Selector Module - ProxMenux
+# Disk Selector Module - vmenu
 # Reutiliza la lógica original de selección de discos
 # virtuales y físicos con integración de traducciones
 
@@ -17,7 +17,7 @@ load_language
 initialize_cache
 
 function select_disk_type() {
-  DISK_TYPE=$(whiptail --backtitle "ProxMenux" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
+  DISK_TYPE=$(whiptail --backtitle "vmenu" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
     "virtual" "$(translate "Create virtual disk")" \
     "passthrough" "$(translate "Use physical disk passthrough")" \
     --ok-button "Select" --cancel-button "Cancel" 3>&1 1>&2 2>&3)

@@ -3,30 +3,30 @@ import { Shield } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Security Settings",
+  title: "vmenu Post-Install: Security Settings",
   description:
-    "Comprehensive guide to Security Settings in the ProxMenux post-install script for enhancing Proxmox VE security.",
+    "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliservmenu VE security.",
   openGraph: {
-    title: "ProxMenux Post-Install: Security Settings",
+    title: "vmenu Post-Install: Security Settings",
     description:
-      "Comprehensive guide to Security Settings in the ProxMenux post-install script for enhancing Proxmox VE security.",
+      "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliservmenu VE security.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/security",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/security",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/security-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/security-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Security Settings",
+        alt: "vmenu Post-Install Security Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Security Settings",
+    title: "vmenu Post-Install: Security Settings",
     description:
-      "Comprehensive guide to Security Settings in the ProxMenux post-install script for enhancing Proxmox VE security.",
-    images: ["https://macrimi.github.io/ProxMenux/security-settings-image.png"],
+      "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliservmenu VE security.",
+    images: ["https://macrimi.github.io/vmenu/security-settings-image.png"],
   },
 }
 
@@ -46,7 +46,7 @@ export default function SecuritySettingsPage() {
         <h1 className="text-3xl font-bold">Security Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Security Settings</strong> category focuses on enhancing the security of your Proxmox VE
+        The <strong>Security Settings</strong> category focuses on enhancing the security of your Virtuliservmenu VE
         installation. These settings are crucial for protecting your virtualization environment from potential threats
         and unauthorized access.
       </p>
@@ -90,7 +90,7 @@ systemctl stop rpcbind
         <li>Malware detection and system hardening suggestions</li>
       </ul>
       <p className="mb-4">
-        <strong>Installation method:</strong> ProxMenux now installs the latest version of Lynis directly from the
+        <strong>Installation method:</strong> vmenu now installs the latest version of Lynis directly from the
         official GitHub repository to ensure you have the most up-to-date security scanning capabilities.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following process:</p>
@@ -139,7 +139,7 @@ lynis show version
         automatically bans the source IP address to prevent further attacks.
       </p>
       <ul className="list-disc pl-5 mb-4">
-        <li>Protects the Proxmox VE web interface from brute-force attacks</li>
+        <li>Protects the Virtuliservmenu VE web interface from brute-force attacks</li>
         <li>Prevents unauthorized SSH access by banning repeated failed login attempts</li>
         <li>Automatically blocks malicious IPs to reduce attack vectors</li>
       </ul>
@@ -148,17 +148,17 @@ lynis show version
       <p className="mb-4">Fail2Ban is configured with the following security policies:</p>
       <ul className="list-disc pl-5 mb-4">
         <li>
-          <strong>Ban Duration:</strong> 24 hours for SSH and 1 hour for Proxmox
+          <strong>Ban Duration:</strong> 24 hours for SSH and 1 hour for Virtuliservmenu
         </li>
         <li>
-          <strong>Max Retries:</strong> 2 failed attempts for SSH, 3 for Proxmox
+          <strong>Max Retries:</strong> 2 failed attempts for SSH, 3 for Virtuliservmenu
         </li>
         <li>
-          <strong>Find Time:</strong> 30 minutes for SSH, 10 minutes for Proxmox
+          <strong>Find Time:</strong> 30 minutes for SSH, 10 minutes for Virtuliservmenu
         </li>
         <li>
           <strong>Log Monitoring:</strong> <code>/var/log/auth.log</code> for SSH and <code>/var/log/daemon.log</code>{" "}
-          for Proxmox
+          for Virtuliservmenu
         </li>
       </ul>
 
@@ -173,7 +173,7 @@ lynis show version
       <p className="text-lg mt-4"></p>
       <CopyableCode
         code={`
-    # Create the Fail2Ban filter for Proxmox
+    # Create the Fail2Ban filter for Virtuliservmenu
     cat <<EOF > /etc/fail2ban/filter.d/proxmox.conf
     [Definition]
     failregex = pvedaemon\\[.*authentication failure; rhost=<HOST> user=.* msg=.*
@@ -185,7 +185,7 @@ lynis show version
       <p className="text-lg mt-4"></p>
       <CopyableCode
         code={`
-    # Create a jail configuration for Proxmox
+    # Create a jail configuration for Virtuliservmenu
     cat <<EOF > /etc/fail2ban/jail.d/proxmox.conf
     [proxmox]
     enabled = true
@@ -237,7 +237,7 @@ lynis show version
     # Display Fail2Ban status
     fail2ban-client status
 
-    # Check status of Proxmox protection
+    # Check status of Virtuliservmenu protection
     fail2ban-client status proxmox
 
     # Check status of SSH protection
@@ -252,13 +252,13 @@ lynis show version
     # Unban an IP from SSH protection
     fail2ban-client set ssh-iptables unbanip <IP_ADDRESS>
 
-    # Unban an IP from Proxmox protection
+    # Unban an IP from Virtuliservmenu protection
     fail2ban-client set proxmox unbanip <IP_ADDRESS>
       `}
       />
 
       <p className="mt-4">
-        Fail2Ban automatically protect your Proxmox VE and SSH access, reducing the risk of brute-force attacks.
+        Fail2Ban automatically protect your Virtuliservmenu VE and SSH access, reducing the risk of brute-force attacks.
       </p>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">

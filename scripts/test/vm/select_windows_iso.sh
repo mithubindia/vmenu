@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# ProxMenux - Windows ISO Selector
+# vmenu - Windows ISO Selector
 
 BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -20,7 +20,7 @@ mkdir -p "$ISO_DIR"
 
 
 function select_windows_iso() {
-  local CHOICE=$(whiptail --title "ProxMenux - Windows ISO" --menu "$(translate "Select how to provide the Windows ISO")" 15 60 2 \
+  local CHOICE=$(whiptail --title "vmenu - Windows ISO" --menu "$(translate "Select how to provide the Windows ISO")" 15 60 2 \
     "1" "$(translate "Use existing ISO from storage")" \
     "2" "$(translate "Download ISO using UUP Dump")" 3>&1 1>&2 2>&3)
 
@@ -56,7 +56,7 @@ function select_existing_iso() {
     exit 1
   fi
 
-  ISO_FILE=$(whiptail --title "ProxMenux - Windows ISO" --menu "$(translate "Choose a Windows ISO to use:")" 20 70 10 "${ISO_LIST[@]}" 3>&1 1>&2 2>&3)
+  ISO_FILE=$(whiptail --title "vmenu - Windows ISO" --menu "$(translate "Choose a Windows ISO to use:")" 20 70 10 "${ISO_LIST[@]}" 3>&1 1>&2 2>&3)
 
   if [[ -z "$ISO_FILE" ]]; then
     msg_error "$(translate "No ISO selected.")"

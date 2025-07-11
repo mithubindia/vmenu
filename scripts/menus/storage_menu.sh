@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 15/04/2025
 
@@ -19,7 +19,7 @@ initialize_cache
 
 
 while true; do
-    OPTION=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "Disk and Storage Manager Menu")" \
+    OPTION=$(dialog --clear --backtitle "vmenu" --title "$(translate "Disk and Storage Manager Menu")" \
                     --menu "\n$(translate "Select an option:")" 20 70 10 \
                     "1" "$(translate "Add Disk") Passthrough $(translate "to a VM")" \
                     "2" "$(translate "Add Disk") Passthrough $(translate "to a LXC")" \

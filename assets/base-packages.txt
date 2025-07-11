@@ -1,5 +1,5 @@
 # base-packages.txt - Generated on 2025-05-15 21:15:29
-# Proxmox Version: pve-manager/8.4.1/ (running kernel: 6.8.12-9-pve)
+# Virtuliservmenu Version: pve-manager/8.4.1/ (running kernel: 6.8.12-9-pve)
 
 adduser
 apparmor

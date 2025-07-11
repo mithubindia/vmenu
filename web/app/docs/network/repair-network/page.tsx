@@ -2,8 +2,8 @@ import { Steps } from "@/components/ui/steps"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
-  title: "Repair Network | ProxMenux Documentation",
-  description: "Step-by-step guide to repair network configurations in Proxmox VE using ProxMenux.",
+  title: "Repair Network | vmenu Documentation",
+  description: "Step-by-step guide to repair network configurations in Virtuliservmenu VE using vmenu.",
 }
 
 export default function RepairNetwork() {
@@ -12,7 +12,7 @@ export default function RepairNetwork() {
       <h1 className="text-3xl font-bold mb-6">Repair Network</h1>
       
       <p className="mb-4">
-        The <strong>Repair Network</strong> function in <strong>ProxMenux</strong> addresses issues caused by changes in network interface identifiers
+        The <strong>Repair Network</strong> function in <strong>vmenu</strong> addresses issues caused by changes in network interface identifiers
         that occur when modifying hardware components such as network adapters, GPUs, or other PCI devices. This can lead to a loss of
         network connectivity because the system retains old configurations that no longer match the new interface IDs.
       </p>
@@ -20,7 +20,7 @@ export default function RepairNetwork() {
       <h2 className="text-2xl font-semibold mt-8 mb-4">Purpose</h2>
       <p className="mb-4">
         In many cases, when adding or removing hardware (e.g., network cards, GPUs, storage controllers), network interfaces may be renamed
-        due to changes in the system's PCI device enumeration. As a result, Proxmox VE may fail to establish a network
+        due to changes in the system's PCI device enumeration. As a result, Virtuliservmenu VE may fail to establish a network
         connection because the <code>/etc/network/interfaces</code> file references outdated interface names.
       </p>
       <p className="mb-4">

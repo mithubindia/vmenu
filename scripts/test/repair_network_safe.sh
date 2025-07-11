@@ -3,7 +3,7 @@
 # License     : MIT
 # Version     : 1.1
 # Last Updated: 30/04/2025
-# This script allows users to repair or verify network configuration in Proxmox.
+# This script allows users to repair or verify network configuration in Virtuliservmenu.
 # It avoids making changes if the system is already connected to the internet.
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"

@@ -104,7 +104,7 @@ export default function BackupRestorePage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for backing up and restoring virtual machines and containers in Proxmox VE.
+          This section provides commands for backing up and restoring virtual machines and containers in Virtuliservmenu VE.
           Learn how to create backups, restore from backups, manage backup storage, and schedule automated backups.
         </p>
 

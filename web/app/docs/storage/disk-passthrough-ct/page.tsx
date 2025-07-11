@@ -4,16 +4,16 @@ import { ImageWithCaption } from "@/components/ui/image-with-caption"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Disk Passthrough to a CT | ProxMenux Documentation",
-  description: "Step-by-step guide to configure disk passthrough to a container (CT) in Proxmox VE using ProxMenux.",
+  title: "Disk Passthrough to a CT | vmenu Documentation",
+  description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliservmenu VE using vmenu.",
   openGraph: {
-    title: "Disk Passthrough to a CT | ProxMenux Documentation",
-    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Proxmox VE using ProxMenux.",
+    title: "Disk Passthrough to a CT | vmenu Documentation",
+    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliservmenu VE using vmenu.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/disk-ct",
+    url: "https://macrimi.github.io/vmenu/docs/disk-ct",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/disk-ct/disk-selection.png",
+        url: "https://macrimi.github.io/vmenu/disk-ct/disk-selection.png",
         width: 1200,
         height: 630,
         alt: "Disk Passthrough to a CT",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Disk Passthrough to a CT | ProxMenux Documentation",
-    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Proxmox VE using ProxMenux.",
-    images: ["https://macrimi.github.io/ProxMenux/disk-ct/disk-selection.png"],
+    title: "Disk Passthrough to a CT | vmenu Documentation",
+    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliservmenu VE using vmenu.",
+    images: ["https://macrimi.github.io/vmenu/disk-ct/disk-selection.png"],
   },
 }
 
@@ -41,7 +41,7 @@ export default function DiskPassthroughCT() {
 
       <p className="mb-4">
         This guide explains how to assign a <strong>dedicated physical disk</strong> to a container (CT) in{" "}
-        <strong>Proxmox VE</strong> using <strong>ProxMenux</strong>. Assigning a full disk to a container is useful
+        <strong>Virtuliservmenu VE</strong> using <strong>vmenu</strong>. Assigning a full disk to a container is useful
         when you need isolation, ease of access, or the ability to move the disk between systems, especially for
         services handling large volumes of data such as Samba, Nextcloud, or video surveillance software, among others.
       </p>
@@ -74,7 +74,7 @@ export default function DiskPassthroughCT() {
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Description</h2>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Lists physical disks on the Proxmox host, excluding the system disk and mounted system disks.</li>
+        <li>Lists physical disks on the Virtuliservmenu host, excluding the system disk and mounted system disks.</li>
         <li>Displays all existing LXC containers (CTs) for user selection.</li>
         <li>
           Allows the user to select <strong>one physical disk</strong> per execution.
@@ -88,7 +88,7 @@ export default function DiskPassthroughCT() {
       <Steps>
         <Steps.Step title="CT Selection">
         <ImageWithCaption
-            src="https://macrimi.github.io/ProxMenux/disk/select-container.png"
+            src="https://macrimi.github.io/vmenu/disk/select-container.png"
             alt="Select CT"
             caption="CT Selection Menu."
           />
@@ -97,7 +97,7 @@ export default function DiskPassthroughCT() {
         </Steps.Step>
         <Steps.Step title="Disk Detection">
           <ImageWithCaption
-            src="https://macrimi.github.io/ProxMenux/disk/disk-selection-ct.png"
+            src="https://macrimi.github.io/vmenu/disk/disk-selection-ct.png"
             alt="Disk Selection Menu"
             caption="Disk Selection Menu"
           />
@@ -118,7 +118,7 @@ export default function DiskPassthroughCT() {
         </Steps.Step>
         <Steps.Step title="Assignment to CT">
         <ImageWithCaption
-            src="https://macrimi.github.io/ProxMenux/disk/assignment-ct.png"
+            src="https://macrimi.github.io/vmenu/disk/assignment-ct.png"
             alt="Assignment to CT"
             caption="Assignment to CT"
           />
@@ -135,7 +135,7 @@ export default function DiskPassthroughCT() {
         <li>The script shows a summary of the operation, including any warnings or errors.</li>
         <li>The container can use the assigned storage immediately.</li>
         <ImageWithCaption
-            src="https://macrimi.github.io/ProxMenux/disk/result-point.png"
+            src="https://macrimi.github.io/vmenu/disk/result-point.png"
             alt="Mount point created successfully"
             caption="Mount point created successfully"
           />

@@ -1,6 +1,6 @@
 # Mensajes generales del sistema
-MAIN_MENU_TITLE="ProxMenux - Menú Principal"
-CONFIG_TITLE="ProxMenux - Configuración"
+MAIN_MENU_TITLE="vmenu - Menú Principal"
+CONFIG_TITLE="vmenu - Configuración"
 SELECT_OPTION="Selecciona una opción:"
 LANG_OPTION="Cambiar idioma"
 UNINSTALL_OPTION="Desinstalar ProxMenu"
@@ -15,7 +15,7 @@ OPTION_3="Configuración"
 # Mensajes de versión
 VERSION_OPTION="Mostrar información de versión"
 VERSION_TITLE="Información de versión"
-VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/ProxMenux"
+VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/vmenu"
 
 # Mensajes de actualización
 UPDATE_CHECKING="Comprobando actualizaciones..."

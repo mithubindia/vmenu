@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the central ProxMenux VM creation module. It allows users
-# to create virtual machines (VMs) in Proxmox VE using either default or advanced
+# This script is part of the central vmenu VM creation module. It allows users
+# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
 #
 # Key features:
@@ -14,7 +14,7 @@
 # - Automatically generates a detailed and styled HTML description for each VM.
 #
 # All operations are designed to simplify and accelerate VM creation in a 
-# consistent and maintainable way, using ProxMenux standards.
+# consistent and maintainable way, using vmenu standards.
 
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
@@ -45,7 +45,7 @@ function select_linux_iso() {
     if [[ "$LANGUAGE" == "es" ]]; then
 
                 CHOICE=$(dialog --clear \
-                  --backtitle "ProxMenux" \
+                  --backtitle "vmenu" \
                   --title "Opciones de instalación de Linux" \
                   --menu "\nSeleccione el tipo de instalación de Linux:\n\n$header" \
                   18 72 10 \
@@ -62,7 +62,7 @@ function select_linux_iso() {
                 desc3="$(translate "Install with personal ISO")"
                 back="$(translate "Return to main menu")"
                           CHOICE=$(dialog --clear \
-        --backtitle "ProxMenux" \
+        --backtitle "vmenu" \
         --title "$(translate "Linux Installation Options")" \
         --menu "\n$(translate "Select the type of Linux installation:")\n\n$header" \
         18 70 10 \
@@ -91,25 +91,25 @@ function select_linux_iso() {
 
 function select_linux_iso_official() {
   DISTROS=(
-    "Ubuntu 25.04|Desktop|ProxMenux|https://releases.ubuntu.com/25.04/ubuntu-25.04-desktop-amd64.iso"
-    "Ubuntu 24.04|Desktop|ProxMenux|https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso"
-    "Ubuntu 22.04|Desktop|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-desktop-amd64.iso"
-    "Ubuntu 20.04|Desktop|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-desktop-amd64.iso"
-    "Ubuntu 25.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/25.04/ubuntu-25.04-live-server-amd64.iso"
-    "Ubuntu 24.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/24.04/ubuntu-24.04.2-live-server-amd64.iso"
-    "Ubuntu 22.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso"
-    "Ubuntu 20.04 Server|CLI|ProxMenux|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
-    "Debian 12|Desktop|ProxMenux|https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso"
-    "Debian 11|Desktop|ProxMenux|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-dvd/debian-11.11.0-amd64-DVD-1.iso"
-    "Debian 12 Netinst|CLI|ProxMenux|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.10.0-amd64-netinst.iso"
-    "Debian 11 Netinst|CLI|ProxMenux|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso"
-    "Fedora Workstation 42|Desktop|ProxMenux|https://download.fedoraproject.org/pub/fedora/linux/releases/42/Workstation/x86_64/iso/Fedora-Workstation-Live-42-1.1.x86_64.iso"
-    "Rocky Linux 9.5|Desktop|ProxMenux|https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.5-x86_64-dvd.iso"
-    "Linux Mint 22.1|Desktop|ProxMenux|https://mirrors.edge.kernel.org/linuxmint/stable/22.1/linuxmint-22.1-cinnamon-64bit.iso"
-    "openSUSE Leap 15.6|Desktop|ProxMenux|https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso"
-    "Alpine Linux 3.21|Desktop|ProxMenux|https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.3-x86_64.iso"
-    "Kali Linux 2025.1|Desktop|ProxMenux|https://cdimage.kali.org/kali-2025.1c/kali-linux-2025.1c-installer-amd64.iso"
-    "Manjaro 25.0|Desktop|ProxMenux|https://download.manjaro.org/gnome/25.0.0/manjaro-gnome-25.0.0-250414-linux612.iso"
+    "Ubuntu 25.04|Desktop|vmenu|https://releases.ubuntu.com/25.04/ubuntu-25.04-desktop-amd64.iso"
+    "Ubuntu 24.04|Desktop|vmenu|https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso"
+    "Ubuntu 22.04|Desktop|vmenu|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-desktop-amd64.iso"
+    "Ubuntu 20.04|Desktop|vmenu|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-desktop-amd64.iso"
+    "Ubuntu 25.04 Server|CLI|vmenu|https://releases.ubuntu.com/25.04/ubuntu-25.04-live-server-amd64.iso"
+    "Ubuntu 24.04 Server|CLI|vmenu|https://releases.ubuntu.com/24.04/ubuntu-24.04.2-live-server-amd64.iso"
+    "Ubuntu 22.04 Server|CLI|vmenu|https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso"
+    "Ubuntu 20.04 Server|CLI|vmenu|https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
+    "Debian 12|Desktop|vmenu|https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso"
+    "Debian 11|Desktop|vmenu|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-dvd/debian-11.11.0-amd64-DVD-1.iso"
+    "Debian 12 Netinst|CLI|vmenu|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.10.0-amd64-netinst.iso"
+    "Debian 11 Netinst|CLI|vmenu|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso"
+    "Fedora Workstation 42|Desktop|vmenu|https://download.fedoraproject.org/pub/fedora/linux/releases/42/Workstation/x86_64/iso/Fedora-Workstation-Live-42-1.1.x86_64.iso"
+    "Rocky Linux 9.5|Desktop|vmenu|https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.5-x86_64-dvd.iso"
+    "Linux Mint 22.1|Desktop|vmenu|https://mirrors.edge.kernel.org/linuxmint/stable/22.1/linuxmint-22.1-cinnamon-64bit.iso"
+    "openSUSE Leap 15.6|Desktop|vmenu|https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso"
+    "Alpine Linux 3.21|Desktop|vmenu|https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.3-x86_64.iso"
+    "Kali Linux 2025.1|Desktop|vmenu|https://cdimage.kali.org/kali-2025.1c/kali-linux-2025.1c-installer-amd64.iso"
+    "Manjaro 25.0|Desktop|vmenu|https://download.manjaro.org/gnome/25.0.0/manjaro-gnome-25.0.0-250414-linux612.iso"
   )
 
   MENU_OPTIONS=()
@@ -125,7 +125,7 @@ function select_linux_iso_official() {
   HEADER="%-42s │ %-10s │ %s"
   HEADER_TEXT=$(printf "$HEADER" "            Distribution" "Type" "Script Install")
 
-  CHOICE=$(dialog --backtitle "ProxMenux" \
+  CHOICE=$(dialog --backtitle "vmenu" \
     --title "$(translate "Official Linux Distributions")" \
     --menu "$(translate "Select the Linux distribution to install:")\n\n$HEADER_TEXT" 20 80 12 \
     "${MENU_OPTIONS[@]}" \
@@ -163,7 +163,7 @@ function select_linux_cloudinit() {
   )
 
   local script_selection
-  script_selection=$(dialog --backtitle "ProxMenux" --title "$(translate "Cloud-Init Automated Installers")" \
+  script_selection=$(dialog --backtitle "vmenu" --title "$(translate "Cloud-Init Automated Installers")" \
     --menu "\n$(translate "Select a pre-configured Linux VM script to execute:")" 20 78 10 \
     "${CLOUDINIT_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
@@ -171,24 +171,24 @@ function select_linux_cloudinit() {
 
   case "$script_selection" in
     1)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/archlinux-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/archlinux-vm.sh")
       ;;
     2)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/debian-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/debian-vm.sh")
       ;;
     3)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2204-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2204-vm.sh")
       ;;
     4)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2404-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2404-vm.sh")
       ;;
     5)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2410-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2410-vm.sh")
       ;;
     6)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2504-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2504-vm.sh")
       echo -e
-      echo -e "after installation, checkout:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/272"
+      echo -e "after installation, checkout:\nhttps://github.com/community-scripts/VirtuliservmenuVE/discussions/272"
       echo -e
       ;;  
     7)
@@ -199,8 +199,8 @@ function select_linux_cloudinit() {
   msg_success "$(translate "Press Enter to return to menu...")"
   read -r
 
-  whiptail --title "Proxmox VE Helper-Scripts" \
-           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+  whiptail --title "Virtuliservmenu VE Helper-Scripts" \
+           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/VirtuliservmenuVE")" 15 70
 
   exec bash <(curl -s "$REPO_URL/scripts/vm/create_vm.sh")
 }
@@ -221,7 +221,7 @@ function select_linux_custom_iso() {
     return 1
   fi
 
-  ISO_FILE=$(dialog --backtitle "ProxMenux" --title "$(translate "Available ISO Images")" \
+  ISO_FILE=$(dialog --backtitle "vmenu" --title "$(translate "Available ISO Images")" \
     --menu "$(translate "Select a custom ISO to use:")" 20 70 10 \
     "${ISO_LIST[@]}" 3>&1 1>&2 2>&3)
 
@@ -250,7 +250,7 @@ local OTHER_OPTIONS=(
 )
 
 local choice
-choice=$(dialog --backtitle "ProxMenux" \
+choice=$(dialog --backtitle "vmenu" \
   --title "$(translate "Other Prebuilt Linux VMs")" \
   --menu "\n$(translate "Select one of the ready-to-run Linux VMs:")" 18 70 10 \
   "${OTHER_OPTIONS[@]}" 3>&1 1>&2 2>&3)
@@ -261,10 +261,10 @@ fi
 
 case "$choice" in
   1)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/haos-vm.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/haos-vm.sh)"
     ;;
   2)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/docker-vm.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/docker-vm.sh)"
     echo -e
     echo -e "${TAB}$(translate "Default Login Credentials:")"
     echo -e "${TAB}Username: root"
@@ -272,11 +272,11 @@ case "$choice" in
     echo -e
     ;;
   3)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/nextcloud-vm.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/nextcloud-vm.sh)"
     echo -e
     echo -e "${TAB}$(translate "You can use the following credentials to login to the Nextcloud vm:")"
     echo -e "${TAB}Username: admin"
-    echo -e "${TAB}$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/ProxmoxVE/discussions/144")"
+    echo -e "${TAB}$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/VirtuliservmenuVE/discussions/144")"
     echo -e
     ;;
 esac
@@ -284,8 +284,8 @@ esac
 msg_success "$(translate "Press Enter to return to menu...")"
 read -r
 
-whiptail --title "Proxmox VE Helper-Scripts" \
-  --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/ProxmoxVE")" 15 70
+whiptail --title "Virtuliservmenu VE Helper-Scripts" \
+  --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/VirtuliservmenuVE")" 15 70
 
 return 1
 

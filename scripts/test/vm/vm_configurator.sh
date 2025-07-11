@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ================================================
-# VM Configuration Module - ProxMenux
+# VM Configuration Module - vmenu
 # ================================================
 
 
@@ -106,7 +106,7 @@ function apply_default_vm_config() {
 function configure_vm_advanced() {
   # VMID
   while true; do
-    VMID=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set Virtual Machine ID")" 8 58 "$VMID" --title "VM ID" 3>&1 1>&2 2>&3) || return
+    VMID=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set Virtual Machine ID")" 8 58 "$VMID" --title "VM ID" 3>&1 1>&2 2>&3) || return
     if [ -z "$VMID" ]; then continue; fi
     if qm status "$VMID" &>/dev/null || pct status "$VMID" &>/dev/null; then
       msg_error "$(translate "ID already in use. Please choose another.")"
@@ -116,11 +116,11 @@ function configure_vm_advanced() {
   done
 
   # Hostname
-  HN=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set Hostname")" 8 58 "$HN" --title "Hostname" 3>&1 1>&2 2>&3) || return
+  HN=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set Hostname")" 8 58 "$HN" --title "Hostname" 3>&1 1>&2 2>&3) || return
   [[ -z "$HN" ]] && HN="vm-proxmenux"
 
   # Machine Type
-  MACHINE_TYPE=$(whiptail --backtitle "ProxMenux" --title "$(translate "MACHINE TYPE")" --radiolist \
+  MACHINE_TYPE=$(whiptail --backtitle "vmenu" --title "$(translate "MACHINE TYPE")" --radiolist \
     "$(translate "Select machine type")" 10 60 2 \
     "q35"     "QEMU q35" ON \
     "i440fx"  "Legacy i440fx" OFF 3>&1 1>&2 2>&3) || return
@@ -134,7 +134,7 @@ function configure_vm_advanced() {
   fi
 
   # BIOS
-  BIOS=$(whiptail --backtitle "ProxMenux" --title "$(translate "BIOS TYPE")" --radiolist \
+  BIOS=$(whiptail --backtitle "vmenu" --title "$(translate "BIOS TYPE")" --radiolist \
     "$(translate "Choose BIOS type")" 10 60 2 \
     "ovmf"    "UEFI (OVMF)" ON \
     "seabios" "Legacy BIOS (SeaBIOS)" OFF 3>&1 1>&2 2>&3) || return
@@ -142,7 +142,7 @@ function configure_vm_advanced() {
   BIOS_TYPE=" -bios $BIOS"
 
   # CPU Type
-  CPU_CHOICE=$(whiptail --backtitle "ProxMenux" --title "$(translate "CPU MODEL")" --radiolist \
+  CPU_CHOICE=$(whiptail --backtitle "vmenu" --title "$(translate "CPU MODEL")" --radiolist \
     "$(translate "Select CPU model")" 10 60 2 \
     "host"  "Host (recommended)" ON \
     "kvm64" "Generic KVM64" OFF 3>&1 1>&2 2>&3) || return
@@ -154,16 +154,16 @@ function configure_vm_advanced() {
   fi
 
   # Core Count
-  CORE_COUNT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Number of CPU cores")" 8 58 "$CORE_COUNT" --title "CPU Cores" 3>&1 1>&2 2>&3) || return
+  CORE_COUNT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Number of CPU cores")" 8 58 "$CORE_COUNT" --title "CPU Cores" 3>&1 1>&2 2>&3) || return
 
   # RAM
-  RAM_SIZE=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Amount of RAM in MiB")" 8 58 "$RAM_SIZE" --title "RAM" 3>&1 1>&2 2>&3) || return
+  RAM_SIZE=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Amount of RAM in MiB")" 8 58 "$RAM_SIZE" --title "RAM" 3>&1 1>&2 2>&3) || return
 
   # Bridge
-  BRG=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set network bridge")" 8 58 "$BRG" --title "Network Bridge" 3>&1 1>&2 2>&3) || return
+  BRG=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set network bridge")" 8 58 "$BRG" --title "Network Bridge" 3>&1 1>&2 2>&3) || return
 
   # MAC
-  MAC_INPUT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set MAC Address (leave empty for random)")" 8 58 "$MAC" --title "MAC Address" 3>&1 1>&2 2>&3) || return
+  MAC_INPUT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set MAC Address (leave empty for random)")" 8 58 "$MAC" --title "MAC Address" 3>&1 1>&2 2>&3) || return
   if [[ -z "$MAC_INPUT" ]]; then
     MAC=$(generate_mac)
   else
@@ -171,17 +171,17 @@ function configure_vm_advanced() {
   fi
 
   # VLAN
-  VLAN_INPUT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set VLAN Tag (leave empty for none)")" 8 58 --title "VLAN" 3>&1 1>&2 2>&3) || return
+  VLAN_INPUT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set VLAN Tag (leave empty for none)")" 8 58 --title "VLAN" 3>&1 1>&2 2>&3) || return
   VLAN=""
   [[ -n "$VLAN_INPUT" ]] && VLAN=",tag=$VLAN_INPUT"
 
   # MTU
-  MTU_INPUT=$(whiptail --backtitle "ProxMenux" --inputbox "$(translate "Set MTU size (leave empty for default)")" 8 58 --title "MTU" 3>&1 1>&2 2>&3) || return
+  MTU_INPUT=$(whiptail --backtitle "vmenu" --inputbox "$(translate "Set MTU size (leave empty for default)")" 8 58 --title "MTU" 3>&1 1>&2 2>&3) || return
   MTU=""
   [[ -n "$MTU_INPUT" ]] && MTU=",mtu=$MTU_INPUT"
 
   # Start VM
-  if (whiptail --backtitle "ProxMenux" --title "$(translate "START VM")" --yesno "$(translate "Start VM when finished?")" 10 60); then
+  if (whiptail --backtitle "vmenu" --title "$(translate "START VM")" --yesno "$(translate "Start VM when finished?")" 10 60); then
     START_VM="yes"
   else
     START_VM="no"

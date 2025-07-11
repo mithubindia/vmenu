@@ -2,9 +2,9 @@
 
 ### New version v1.1.3
 
-![Installer Menu](https://macrimi.github.io/ProxMenux/install/install.png)
+![Installer Menu](https://macrimi.github.io/vmenu/install/install.png)
 
-- **Dual Installation Modes for ProxMenux**  
+- **Dual Installation Modes for vmenu**  
   The installer now offers two distinct modes:  
   1. **Lite version (no translations):** Only installs two official Debian packages (`dialog`, `jq`) to enable menus and JSON parsing. No files are written beyond the configuration directory.  
   2. **Full version (with translations):** Uses a virtual environment and allows selecting the interface language during installation.  
@@ -43,7 +43,7 @@
   - Added option to **customize the temporary folder location**  
   - Fixed issue where entire temp folder was deleted instead of just contents  
     💡 Suggested by [@igrokit](https://github.com/igrokit)  
-    [#17](https://github.com/MacRimi/ProxMenux/issues/17), [#11](https://github.com/MacRimi/ProxMenux/issues/11)
+    [#17](https://github.com/MacRimi/vmenu/issues/17), [#11](https://github.com/MacRimi/vmenu/issues/11)
 
 - **Physical Disk to LXC Script**  
   Now handles **XFS-formatted disks** correctly.  
@@ -51,13 +51,13 @@
 
 - **System Utilities Installer**  
   Rewritten to **verify command availability** after installation, ensuring tools work as expected.  
-  🐛 Fix for [#18](https://github.com/MacRimi/ProxMenux/issues/18) by [@DST73](https://github.com/DST73)
+  🐛 Fix for [#18](https://github.com/MacRimi/vmenu/issues/18) by [@DST73](https://github.com/DST73)
 
 ### Fixed
 
 - **Enable IOMMU on ZFS**  
   The detection and configuration for enabling IOMMU on ZFS-based systems is now fully functional.  
-  🐛 Fix for [#15](https://github.com/MacRimi/ProxMenux/issues/15) by [@troponaut](https://github.com/troponaut)
+  🐛 Fix for [#15](https://github.com/MacRimi/vmenu/issues/15) by [@troponaut](https://github.com/troponaut)
 
 ### Other
 
@@ -69,15 +69,15 @@
 
 ### Added
 
-- **New Menu: Proxmox PVE Helper Scripts**  
-  Officially introduced the new **Proxmox PVE Helper Scripts** menu, replacing the previous: Esenciales Proxmox.  
+- **New Menu: Virtuliservmenu PVE Helper Scripts**  
+  Officially introduced the new **Virtuliservmenu PVE Helper Scripts** menu, replacing the previous: Esenciales Virtuliservmenu.  
   This new menu includes:
   - Script search by name in real time
   - Category-based browsing
 
-  It’s a cleaner, faster, and more functional way to access community scripts in Proxmox.
+  It’s a cleaner, faster, and more functional way to access community scripts in Virtuliservmenu.
 
-  ![Helper Scripts Menu](https://macrimi.github.io/ProxMenux/menu-helpers-script.png)
+  ![Helper Scripts Menu](https://macrimi.github.io/vmenu/menu-helpers-script.png)
 
 
 - **New CPU Models in VM Creation**  
@@ -85,7 +85,7 @@
   This allows better compatibility with modern guest systems and fine-tuning performance for specific workloads, including nested virtualization and hardware-assisted features.
 
 
-  ![CPU Config](https://macrimi.github.io/ProxMenux/vm/config-cpu.png)
+  ![CPU Config](https://macrimi.github.io/vmenu/vm/config-cpu.png)
 
   Thanks to **@Nida Légé (Nidouille)** for suggesting this enhancement.
 
@@ -94,7 +94,7 @@
   The disk import tool for VMs now supports `.raw` files, in addition to `.img`, `.qcow2`, and `.vmdk`.  
   This improves compatibility when working with disk exports from other hypervisors or backup tools.
 
-  💡 Suggested by **@guilloking** in [GitHub Issue #5](https://github.com/MacRimi/ProxMenux/issues/5)
+  💡 Suggested by **@guilloking** in [GitHub Issue #5](https://github.com/MacRimi/vmenu/issues/5)
 
 
 - **Locale Detection in Language Skipping**  
@@ -168,8 +168,8 @@
 
 ### Fixed
 
-- **Startup Fix on Newer Proxmox Versions**\
-  Fixed an issue where some recent Proxmox installations lacked the `/usr/local/bin` directory, causing errors when installing the execution menu. The script now creates the directory if it does not exist before downloading the main menu.\
+- **Startup Fix on Newer Virtuliservmenu Versions**\
+  Fixed an issue where some recent Virtuliservmenu installations lacked the `/usr/local/bin` directory, causing errors when installing the execution menu. The script now creates the directory if it does not exist before downloading the main menu.\
   Thanks to **@danielmateos** for detecting and reporting this issue.
 
 ### Improved
@@ -214,10 +214,10 @@
 
 ### Added
 - **Interactive Help & Info Menu**  
-  Added a new script called `Help and Info`, which provides an interactive command reference menu for Proxmox VE through a dialog-based interface.  
-  This tool offers users a quick way to browse and copy useful commands for managing and maintaining their Proxmox server, all in one centralized location.
+  Added a new script called `Help and Info`, which provides an interactive command reference menu for Virtuliservmenu VE through a dialog-based interface.  
+  This tool offers users a quick way to browse and copy useful commands for managing and maintaining their Virtuliservmenu server, all in one centralized location.
 
-  ![Help and Info Menu](https://macrimi.github.io/ProxMenux/help/help-info-menu.png)
+  ![Help and Info Menu](https://macrimi.github.io/vmenu/help/help-info-menu.png)
 
   *Figure 1: Help and Info interactive command reference menu.*
 
@@ -241,7 +241,7 @@
 
 ### Added
 - **New Script: Disk Passthrough to a CT**
-Introduced a new script that enables assigning a dedicated physical disk to a container (CT) in Proxmox VE.
+Introduced a new script that enables assigning a dedicated physical disk to a container (CT) in Virtuliservmenu VE.
 This utility lists available physical disks (excluding system and mounted disks), allows the user to select a container and one disk, and then formats or reuses the disk before mounting it inside the CT at a specified path.
 It supports detection of existing filesystems and ensures permissions are properly configured. Ideal for use cases such as Samba, Nextcloud, or video surveillance containers.
 
@@ -252,7 +252,7 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 
 ## 2025-03-24  
 ### Improved  
-- Improved the logic for detecting physical disks in the **Disk Passthrough to a VM** script. Previously, the script would display disks that were already mounted in the system on some setups. This update ensures that only unmounted disks are shown in Proxmox, preventing confusion and potential conflicts.  
+- Improved the logic for detecting physical disks in the **Disk Passthrough to a VM** script. Previously, the script would display disks that were already mounted in the system on some setups. This update ensures that only unmounted disks are shown in Virtuliservmenu, preventing confusion and potential conflicts.  
 
 - This improvement ensures that disks already mounted or assigned to other VMs are excluded from the list of available disks, providing a more accurate and reliable selection process.
 
@@ -266,7 +266,7 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
   A new script that creates a VM to install Synology DSM. The script automates the process of downloading three different loaders with the option to use a custom loader provided by the user from the local storage options.  
   Additionally, it allows the use of both virtual and physical disks, which are automatically assigned by the script.  
 
-  ![VM description](https://macrimi.github.io/ProxMenux/vm/synology/dsm_desc.png)
+  ![VM description](https://macrimi.github.io/vmenu/vm/synology/dsm_desc.png)
   
   *Figure 1: Synology DSM VM setup overview.*
 
@@ -282,11 +282,11 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 
 ## [1.1.0] - 2025-03-04
 ### Added
-- Created a customizable post-install script for Proxmox with 10 sections and 35 different selectable options.
+- Created a customizable post-install script for Virtuliservmenu with 10 sections and 35 different selectable options.
 
 ## [1.0.7] - 2025-02-17
 ### Added
-- Created a menu with essential scripts from the Proxmox VE Helper-Scripts community.
+- Created a menu with essential scripts from the Virtuliservmenu VE Helper-Scripts community.
 
 ## [1.0.6] - 2025-02-10
 ### Added
@@ -326,7 +326,7 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 - Updated the **Coral TPU configuration script** to:
   - Also include Intel iGPU setup.
   - Install GPU drivers for video surveillance applications to support VAAPI and QuickSync.
-- Added a function to **uninstall ProxMenux**.
+- Added a function to **uninstall vmenu**.
 
 ## [1.0.1] - 2025-01-03
 ### Added
@@ -334,5 +334,5 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 
 ## [1.0.0] - 2024-12-18
 ### Added
-- Initial release of **ProxMenux**.
-- Created a script to add **Coral TPU drivers** to Proxmox.
+- Initial release of **vmenu**.
+- Created a script to add **Coral TPU drivers** to Virtuliservmenu.

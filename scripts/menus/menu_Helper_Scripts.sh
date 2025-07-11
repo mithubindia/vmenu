@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 04/06/2025
-# This script provides a simple and efficient way to access and execute Proxmox VE scripts
-# from the Community Scripts project (https://community-scripts.github.io/ProxmoxVE/).
+# This script provides a simple and efficient way to access and execute Virtuliservmenu VE scripts
+# from the Community Scripts project (https://community-scripts.github.io/VirtuliservmenuVE/).
 #
 # It serves as a convenient tool to run key automation scripts that simplify system management,
-# continuing the great work and legacy of tteck in making Proxmox VE more accessible.
-# A streamlined solution for executing must-have tools in Proxmox VE.
+# continuing the great work and legacy of tteck in making Virtuliservmenu VE more accessible.
+# A streamlined solution for executing must-have tools in Virtuliservmenu VE.
 
 
 # Configuration ============================================
@@ -24,8 +24,8 @@ fi
 load_language
 initialize_cache
 
-HELPERS_JSON_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/refs/heads/main/json/helpers_cache.json"
-METADATA_URL="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/frontend/public/json/metadata.json"
+HELPERS_JSON_URL="https://raw.githubusercontent.com/MacRimi/vmenu/refs/heads/main/json/helpers_cache.json"
+METADATA_URL="https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/frontend/public/json/metadata.json"
 
 for cmd in curl jq dialog; do
   if ! command -v "$cmd" >/dev/null; then
@@ -137,7 +137,7 @@ run_script_by_slug() {
   [[ -n "$notes_dialog" ]] && msg+="\n\n\Zb\Z4Notes:\Zn\n$notes_dialog"
   [[ -n "$credentials" ]] && msg+="\n\n\Zb\Z4Default Credentials:\Zn\n$credentials"
 
-  dialog --clear --colors --backtitle "ProxMenux" --title "$name" --yesno "$msg\n\nExecute this script?" 22 85
+  dialog --clear --colors --backtitle "vmenu" --title "$name" --yesno "$msg\n\nExecute this script?" 22 85
   if [[ $? -eq 0 ]]; then
     download_script "$script_url"
     echo
@@ -231,7 +231,7 @@ search_and_filter_scripts() {
       fi
       
       local selected
-      selected=$(dialog --colors --backtitle "ProxMenux" \
+      selected=$(dialog --colors --backtitle "vmenu" \
                  --title "$title" \
                  --menu "Select a script or action:" \
                  22 75 15 "${menu_items[@]}" 3>&1 1>&2 2>&3)
@@ -278,11 +278,11 @@ while true; do
     MENU_ITEMS+=("$id" "$padded_name $padded_count")
   done
 
-  SELECTED=$(dialog --backtitle "ProxMenux" --title "Proxmox VE Helper-Scripts" --menu \
+  SELECTED=$(dialog --backtitle "vmenu" --title "Virtuliservmenu VE Helper-Scripts" --menu \
     "Select a category or search for scripts:" 20 70 14 \
     "${MENU_ITEMS[@]}" 3>&1 1>&2 2>&3) || {
-     dialog --clear --title "Proxmox VE Helper-Scripts" \
-         --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/ProxmoxVE" 15 70
+     dialog --clear --title "Virtuliservmenu VE Helper-Scripts" \
+         --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/VirtuliservmenuVE" 15 70
       #clear
       exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
   }
@@ -306,7 +306,7 @@ while true; do
     done < <(echo "$CACHE_JSON" | jq -r --argjson id "$SELECTED" \
       '[.[] | select(.categories | index($id)) | {slug, name, type}] | sort_by(.name)[] | [.slug, .name, .type] | @tsv')
 
-    SCRIPT_INDEX=$(dialog --colors --backtitle "ProxMenux" --title "Scripts in ${CATEGORY_NAMES[$SELECTED]}" --menu \
+    SCRIPT_INDEX=$(dialog --colors --backtitle "vmenu" --title "Scripts in ${CATEGORY_NAMES[$SELECTED]}" --menu \
       "Choose a script to execute:" 20 70 14 \
       "${SCRIPTS[@]}" 3>&1 1>&2 2>&3) || break
 

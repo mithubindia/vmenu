@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# ProxMenux - UUP Dump ISO Creator
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - UUP Dump ISO Creator
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 07/05/2025
-# This script is part of the ProxMenux tools for Proxmox VE.
+# This script is part of the vmenu tools for Virtuliservmenu VE.
 # It allows downloading and converting official Windows ISO images 
 # from UUP Dump using a shared link (with ID, pack, and edition).
 #
@@ -15,7 +15,7 @@
 # - Provides a graphical prompt via whiptail for user-friendly usage
 #
 # This tool simplifies the creation of official Windows ISOs
-# for use in virtual machines within Proxmox VE.
+# for use in virtual machines within Virtuliservmenu VE.
 
 BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"

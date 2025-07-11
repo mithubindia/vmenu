@@ -19,30 +19,30 @@ import {
 
 
 export const metadata: Metadata = {
-  title: "ProxMenux Documentation: Help and Info",
+  title: "vmenu Documentation: Help and Info",
   description:
-    "Comprehensive collection of useful commands and references for Proxmox VE, organized by category for easy access and quick reference.",
+    "Comprehensive collection of useful commands and references for Virtuliservmenu VE, organized by category for easy access and quick reference.",
   openGraph: {
-    title: "ProxMenux Documentation: Help and Info",
+    title: "vmenu Documentation: Help and Info",
     description:
-      "Comprehensive collection of useful commands and references for Proxmox VE, organized by category for easy access and quick reference.",
+      "Comprehensive collection of useful commands and references for Virtuliservmenu VE, organized by category for easy access and quick reference.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/help-info",
+    url: "https://macrimi.github.io/vmenu/docs/help-info",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/help/help-info-menu.png",
+        url: "https://macrimi.github.io/vmenu/help/help-info-menu.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Help and Info Menu",
+        alt: "vmenu Help and Info Menu",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Documentation: Help and Info",
+    title: "vmenu Documentation: Help and Info",
     description:
-      "Comprehensive collection of useful commands and references for Proxmox VE, organized by category for easy access and quick reference.",
-    images: ["https://macrimi.github.io/ProxMenux/help/help-info-menu.png"],
+      "Comprehensive collection of useful commands and references for Virtuliservmenu VE, organized by category for easy access and quick reference.",
+    images: ["https://macrimi.github.io/vmenu/help/help-info-menu.png"],
   },
 }
 
@@ -83,7 +83,7 @@ export default function HelpAndInfoPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            ProxMenu provides an interactive command reference menu for Proxmox VE through a dialog-based interface.
+            ProxMenu provides an interactive command reference menu for Virtuliservmenu VE through a dialog-based interface.
             Select one of the categories below to explore the available commands.
           </p>
 
@@ -97,7 +97,7 @@ export default function HelpAndInfoPage() {
       </div>
 
       <ImageWithCaption
-        src="https://macrimi.github.io/ProxMenux/help/help-info-menu.png"
+        src="https://macrimi.github.io/vmenu/help/help-info-menu.png"
         alt="Help and Info Menu"
         caption="Help and Info Menu"
       />
@@ -105,7 +105,7 @@ export default function HelpAndInfoPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
         <CommandCard
           title="Useful System Commands"
-          description="Basic commands to manage and monitor the Proxmox system"
+          description="Basic commands to manage and monitor the Virtuliservmenu system"
           icon={<Terminal className="h-8 w-8 text-blue-500" />}
           href="/docs/help-info/system-commands"
         />
@@ -175,7 +175,7 @@ export default function HelpAndInfoPage() {
 
         <p className="text-lg mb-6 text-black">
           Check out the guides section for additional resources, tutorials, and documentation to help you get the most
-          out of Proxmox VE and ProxMenu.
+          out of Virtuliservmenu VE and ProxMenu.
         </p>
 
         <div className="flex justify-center">

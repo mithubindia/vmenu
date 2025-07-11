@@ -6,30 +6,30 @@ import { HardDrive, Info, Database, Server, MonitorIcon, Star, Cpu, Github } fro
 import { Badge } from "@/components/ui/badge"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Documentation: System NAS Virtual Machines",
+  title: "vmenu Documentation: System NAS Virtual Machines",
   description:
-    "Guide for creating and configuring NAS virtual machines on Proxmox VE using ProxMenux, including Synology DSM, TrueNAS, and other storage systems.",
+    "Guide for creating and configuring NAS virtual machines on Virtuliservmenu VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
   openGraph: {
-    title: "ProxMenux Documentation: System NAS Virtual Machines",
+    title: "vmenu Documentation: System NAS Virtual Machines",
     description:
-      "Guide for creating and configuring NAS virtual machines on Proxmox VE using ProxMenux, including Synology DSM, TrueNAS, and other storage systems.",
+      "Guide for creating and configuring NAS virtual machines on Virtuliservmenu VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/virtual-machines/system-nas",
+    url: "https://macrimi.github.io/vmenu/docs/virtual-machines/system-nas",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/vm/system-nas-menu.png",
+        url: "https://macrimi.github.io/vmenu/vm/system-nas-menu.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux System NAS Menu",
+        alt: "vmenu System NAS Menu",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Documentation: System NAS Virtual Machines",
+    title: "vmenu Documentation: System NAS Virtual Machines",
     description:
-      "Guide for creating and configuring NAS virtual machines on Proxmox VE using ProxMenux, including Synology DSM, TrueNAS, and other storage systems.",
-    images: ["https://macrimi.github.io/ProxMenux/vm/system-nas-menu.png"],
+      "Guide for creating and configuring NAS virtual machines on Virtuliservmenu VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
+    images: ["https://macrimi.github.io/vmenu/vm/system-nas-menu.png"],
   },
 }
 
@@ -156,15 +156,15 @@ export default function SystemNASPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            ProxMenux provides automated scripts that create and configure virtual machines for various NAS systems on
-            Proxmox VE. These scripts simplify the process by handling the necessary configurations and optimizations
+            vmenu provides automated scripts that create and configure virtual machines for various NAS systems on
+            Virtuliservmenu VE. These scripts simplify the process by handling the necessary configurations and optimizations
             for each NAS platform.
           </p>
         </div>
       </div>
 
       <ImageWithCaption
-        src="https://macrimi.github.io/ProxMenux/vm/system-nas-menu.png"
+        src="https://macrimi.github.io/vmenu/vm/system-nas-menu.png"
         alt="System NAS Menu"
         caption="System NAS Menu"
       />
@@ -297,12 +297,12 @@ export default function SystemNASPage() {
         <div className="space-y-4">
           <p className="text-black">
             Network Attached Storage (NAS) systems provide file-level data storage services to other devices on the
-            network. Running NAS software in a virtual machine on Proxmox VE allows you to leverage the reliability and
-            management features of Proxmox while providing flexible storage solutions.
+            network. Running NAS software in a virtual machine on Virtuliservmenu VE allows you to leverage the reliability and
+            management features of Virtuliservmenu while providing flexible storage solutions.
           </p>
 
           <p className="text-black">
-            ProxMenux simplifies the creation of NAS virtual machines by automating the configuration process, including
+            vmenu simplifies the creation of NAS virtual machines by automating the configuration process, including
             network settings, storage allocation, and system optimization for each specific NAS platform.
           </p>
         </div>

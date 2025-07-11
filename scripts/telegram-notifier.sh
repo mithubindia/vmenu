@@ -341,7 +341,7 @@ capture_journal_events() {
 
     while true; do
 
-        # Use tail for Proxmox tasks file
+        # Use tail for Virtuliservmenu tasks file
         tail -F /var/log/pve/tasks/index 2>/dev/null | while read -r line; do
 
             event_id=$(echo "$line" | md5sum | cut -d' ' -f1)
@@ -631,7 +631,7 @@ capture_journal_events() {
                     if [[ "$line" =~ "sshd" ]]; then
                         SERVICE="SSH"
                     elif [[ "$line" =~ "pvedaemon" || "$line" =~ "pveproxy" ]]; then
-                        SERVICE="Proxmox Web UI"
+                        SERVICE="Virtuliservmenu Web UI"
                     elif [[ "$line" =~ "nginx" || "$line" =~ "apache" ]]; then
                         SERVICE="Web Server"
                     elif [[ "$line" =~ "smtp" || "$line" =~ "mail" ]]; then
@@ -1385,7 +1385,7 @@ capture_journal_events() {
                     # Try to determine what was updated
                     update_type="system"
                     if [[ "$line" =~ "proxmox" || "$line" =~ "pve" ]]; then
-                        update_type="Proxmox VE"
+                        update_type="Virtuliservmenu VE"
                     elif [[ "$line" =~ "kernel" ]]; then
                         update_type="kernel"
                     elif [[ "$line" =~ "package" ]]; then
@@ -1532,7 +1532,7 @@ capture_direct_events() {
                     continue
                 fi
                 
-                # Skip certain Proxmox-specific filesystems that normally show high inode usage
+                # Skip certain Virtuliservmenu-specific filesystems that normally show high inode usage
                 # but don't represent a real problem
                 if [[ "$filesystem" =~ ^/dev/mapper/pve- || 
                     "$filesystem" =~ ^/dev/pve/ || 
@@ -1666,13 +1666,13 @@ capture_direct_events() {
             # Check for security updates specifically
             security_updates=$(apt list --upgradable 2>/dev/null | grep -i security | wc -l)
             
-            # Check for Proxmox VE updates specifically
+            # Check for Virtuliservmenu VE updates specifically
             proxmox_updates=$(apt list --upgradable 2>/dev/null | grep -E "^(proxmox-ve|pve-manager|pve-kernel|pve-container|pve-firewall|pve-ha-manager|pve-docs|pve-qemu-kvm|pve-storage|pve-cluster|pve-gui|pve-headers|pve-firmware|pve-zsync|pve-guest-common)" | wc -l)
             
-            # Get Proxmox version information
+            # Get Virtuliservmenu version information
             current_pve_version=$(pveversion -v 2>/dev/null | grep -oP "pve-manager/\K[0-9]+\.[0-9]+" || echo "unknown")
             
-            # Check if there's a new major Proxmox version available
+            # Check if there's a new major Virtuliservmenu version available
             new_pve_version=""
             if [[ $proxmox_updates -gt 0 ]]; then
                 new_version_check=$(apt list --upgradable 2>/dev/null | grep "^pve-manager/" | grep -oP "pve-manager/\K[0-9]+\.[0-9]+" || echo "")
@@ -1699,13 +1699,13 @@ capture_direct_events() {
                 fi
                 
                 
-                # If there's a new Proxmox version, highlight it
+                # If there's a new Virtuliservmenu version, highlight it
                 if [[ -n "$new_pve_version" ]]; then
                     update_msg="🔄 $(translate "NEW PROXMOX VERSION AVAILABLE:") $new_pve_version ($(translate "current:") $current_pve_version)
 
                 $update_msg"
                 elif [[ $proxmox_updates -gt 0 ]]; then
-                    update_msg="🔄 $(translate "Proxmox updates available") ($proxmox_updates $(translate "packages"))
+                    update_msg="🔄 $(translate "Virtuliservmenu updates available") ($proxmox_updates $(translate "packages"))
 
                 $update_msg"
                 fi
@@ -1773,7 +1773,7 @@ capture_direct_events() {
                 # Log the event
                 logger -t proxmox-notify "Low disk space detected"
                 
-                # Suggest cleanup options for Proxmox
+                # Suggest cleanup options for Virtuliservmenu
                 if [[ -d /var/lib/vz/dump || -d /var/lib/vz/template ]]; then
                     cleanup_msg="$(translate "TIP: Consider cleaning up old backups with:") 'rm -f /var/lib/vz/dump/vzdump-*.tar' $(translate "or old templates with:") 'rm -f /var/lib/vz/template/cache/*.tar.gz'"
                     send_notification "$cleanup_msg"
@@ -2235,14 +2235,14 @@ install_systemd_service() {
 
     cat > "$WRAPPER_PATH" <<EOW
 #!/bin/bash
-exec bash <(curl -fsSL https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/telegram-notifier.sh) "\$@"
+exec bash <(curl -fsSL https://raw.githubusercontent.com/MacRimi/vmenu/main/scripts/telegram-notifier.sh) "\$@"
 EOW
     chmod +x "$WRAPPER_PATH"
 
 
     cat > /etc/systemd/system/proxmox-telegram.service <<EOF
 [Unit]
-Description=Proxmox Telegram Notification Service
+Description=Virtuliservmenu Telegram Notification Service
 After=network.target pve-cluster.service
 
 [Service]
@@ -2288,7 +2288,7 @@ main_menu() {
         )
         
 
-        OPTION=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Proxmox Notification Configuration")" \
+        OPTION=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Virtuliservmenu Notification Configuration")" \
                          --menu "$(translate "Choose an option:")" 20 70 10 \
                          "${menu_options[@]}" \
                          3>&1 1>&2 2>&3)

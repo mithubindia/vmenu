@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
-# This script installs the Coral TPU drivers on the Proxmox VE host.
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# This script installs the Coral TPU drivers on the Virtuliservmenu VE host.
 # It ensures that necessary packages are installed and compiles the
 # Coral TPU drivers for proper functionality.
 

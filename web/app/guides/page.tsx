@@ -48,8 +48,8 @@ export default function GuidesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-16 flex flex-col">
       <div className="flex-grow container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-8">ProxMenux Guides</h1>
-        <p className="text-xl mb-8">Complementary guides to make the most of your Proxmox VE.</p>
+        <h1 className="text-4xl font-bold mb-8">vmenu Guides</h1>
+        <p className="text-xl mb-8">Complementary guides to make the most of your Virtuliservmenu VE.</p>
 
         {/* Dynamic Guides */}
         <div className="grid md:grid-cols-2 gap-6 mb-12">
@@ -69,7 +69,7 @@ export default function GuidesPage() {
         <h2 className="text-3xl font-bold mb-6">Additional Resources</h2>
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <a
-            href="https://github.com/community-scripts/ProxmoxVE/blob/main/.github/CONTRIBUTOR_AND_GUIDES/USER_SUBMITTED_GUIDES.md"
+            href="https://github.com/community-scripts/VirtuliservmenuVE/blob/main/.github/CONTRIBUTOR_AND_GUIDES/USER_SUBMITTED_GUIDES.md"
             target="_blank"
             rel="noopener noreferrer"
             className="block p-6 bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-colors"
@@ -79,7 +79,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Guides Helper-Scripts</h2>
             </div>
             <p className="text-gray-200">
-              User-submitted guides for Proxmox VE from the community Helper-Scripts.
+              User-submitted guides for Virtuliservmenu VE from the community Helper-Scripts.
             </p>
           </a>
           <a
@@ -93,21 +93,21 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Official Documentation</h2>
             </div>
             <p className="text-gray-200">
-              Comprehensive Proxmox VE documentation and administration guide available.
+              Comprehensive Virtuliservmenu VE documentation and administration guide available.
             </p>
           </a>
           <a
-            href="https://community-scripts.github.io/ProxmoxVE/"
+            href="https://community-scripts.github.io/VirtuliservmenuVE/"
             target="_blank"
             rel="noopener noreferrer"
             className="block p-6 bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 transition-colors"
           >
             <div className="flex items-center gap-3 mb-2">
               <Code className="h-6 w-6 text-white" />
-              <h2 className="text-2xl font-semibold text-white">Proxmox VE Helper-Scripts</h2>
+              <h2 className="text-2xl font-semibold text-white">Virtuliservmenu VE Helper-Scripts</h2>
             </div>
             <p className="text-gray-200">
-              Proxmox VE Helper-Scripts is a set of tools for simplifying the installation of applications and the management of Proxmox VE, maintained by the community.
+              Virtuliservmenu VE Helper-Scripts is a set of tools for simplifying the installation of applications and the management of Virtuliservmenu VE, maintained by the community.
             </p>
           </a>
           
@@ -140,7 +140,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Backup Server Docs</h2>
             </div>
             <p className="text-gray-200">
-              Information about Proxmox Backup Server, a powerful backup solution for Proxmox VE.
+              Information about Virtuliservmenu Backup Server, a powerful backup solution for Virtuliservmenu VE.
             </p>
           </a>
         </div>
@@ -159,7 +159,7 @@ export default function GuidesPage() {
               <h2 className="text-2xl font-semibold text-white">Official Video Training</h2>
             </div>
             <p className="text-gray-200">
-              Access official Proxmox video tutorials and training courses for skill development.
+              Access official Virtuliservmenu video tutorials and training courses for skill development.
             </p>
           </a>
         </div>
@@ -175,21 +175,21 @@ export default function GuidesPage() {
           >
             <div className="flex items-center gap-3 mb-2">
               <MessageCircle className="h-6 w-6 text-white" />
-              <h2 className="text-2xl font-semibold text-white">Proxmox Forum</h2>
+              <h2 className="text-2xl font-semibold text-white">Virtuliservmenu Forum</h2>
             </div>
-            <p className="text-gray-200">Access the official Proxmox forum for questions, troubleshooting, and shared experiences.</p>
+            <p className="text-gray-200">Access the official Virtuliservmenu forum for questions, troubleshooting, and shared experiences.</p>
           </a>
           <a
-            href="https://www.reddit.com/r/Proxmox/"
+            href="https://www.reddit.com/r/Virtuliservmenu/"
             target="_blank"
             rel="noopener noreferrer"
             className="block p-6 bg-orange-600 rounded-lg shadow-md hover:bg-orange-700 transition-colors"
           >
             <div className="flex items-center gap-3 mb-2">
               <Users className="h-6 w-6 text-white" />
-              <h2 className="text-2xl font-semibold text-white">Proxmox Reddit</h2>
+              <h2 className="text-2xl font-semibold text-white">Virtuliservmenu Reddit</h2>
             </div>
-            <p className="text-gray-200">Access the Proxmox community on Reddit for discussions, tips, and technical support.</p>
+            <p className="text-gray-200">Access the Virtuliservmenu community on Reddit for discussions, tips, and technical support.</p>
           </a>
         </div>
       </div>

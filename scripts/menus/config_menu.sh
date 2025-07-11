@@ -1,5 +1,5 @@
 #!/bin/bash
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 04/07/2025
 
@@ -62,7 +62,7 @@ show_config_menu() {
             menu_options+=("2" "$(translate "Show Version Information")")
             option_actions[2]="show_version_info"
             
-            menu_options+=("3" "$(translate "Uninstall ProxMenux")")
+            menu_options+=("3" "$(translate "Uninstall vmenu")")
             option_actions[3]="uninstall_proxmenu"
             
             menu_options+=("4" "$(translate "Return to Main Menu")")
@@ -72,7 +72,7 @@ show_config_menu() {
             menu_options+=("1" "Show Version Information")
             option_actions[1]="show_version_info"
             
-            menu_options+=("2" "Uninstall ProxMenux")
+            menu_options+=("2" "Uninstall vmenu")
             option_actions[2]="uninstall_proxmenu"
             
             menu_options+=("3" "Return to Main Menu")
@@ -80,7 +80,7 @@ show_config_menu() {
         fi
         
 
-        OPTION=$(dialog --clear --backtitle "ProxMenux Configuration" \
+        OPTION=$(dialog --clear --backtitle "vmenu Configuration" \
                         --title "$(translate "Configuration Menu")" \
                         --menu "$(translate "Select an option:")" 20 70 10 \
                         "${menu_options[@]}" 3>&1 1>&2 2>&3)
@@ -105,7 +105,7 @@ show_config_menu() {
 
 change_language() {
     local new_language
-    new_language=$(dialog --clear --backtitle "ProxMenux Configuration" \
+    new_language=$(dialog --clear --backtitle "vmenu Configuration" \
                           --title "$(translate "Change Language")" \
                           --menu "$(translate "Select a new language for the menu:")" 20 60 6 \
                           "en" "$(translate "English")" \
@@ -116,7 +116,7 @@ change_language() {
                           "pt" "$(translate "Portuguese")" 3>&1 1>&2 2>&3)
     
     if [ -z "$new_language" ]; then
-        dialog --clear --backtitle "ProxMenux Configuration" \
+        dialog --clear --backtitle "vmenu Configuration" \
                --title "$(translate "Language Change")" \
                --msgbox "\n\n$(translate "No language selected.")" 10 50
         return
@@ -130,7 +130,7 @@ change_language() {
         echo "{\"language\": \"$new_language\"}" > "$CONFIG_FILE"
     fi
     
-    dialog --clear --backtitle "ProxMenux Configuration" \
+    dialog --clear --backtitle "vmenu Configuration" \
            --title "$(translate "Language Change")" \
            --msgbox "\n\n$(translate "Language changed to") $new_language" 10 50
     
@@ -152,7 +152,7 @@ show_version_info() {
         version="Unknown"
     fi
     
-    info_message+="$(translate "Current ProxMenux version:") $version\n\n"
+    info_message+="$(translate "Current vmenu version:") $version\n\n"
     
 
     info_message+="$(translate "Installation type:")\n"
@@ -215,8 +215,8 @@ show_version_info() {
 
     tmpfile=$(mktemp)
     echo -e "$info_message" > "$tmpfile"
-    dialog --clear --backtitle "ProxMenux Configuration" \
-           --title "$(translate "ProxMenux Information")" \
+    dialog --clear --backtitle "vmenu Configuration" \
+           --title "$(translate "vmenu Information")" \
            --textbox "$tmpfile" 25 80
     rm -f "$tmpfile"
 }
@@ -225,7 +225,7 @@ uninstall_proxmenu() {
     local install_type
     install_type=$(detect_installation_type)
     
-    if ! dialog --clear --backtitle "ProxMenux Configuration" \
+    if ! dialog --clear --backtitle "vmenu Configuration" \
                 --title "Uninstall ProxMenu" \
                 --yesno "\n$(translate "Are you sure you want to uninstall ProxMenu?")" 8 60; then
         return
@@ -235,7 +235,7 @@ uninstall_proxmenu() {
     
 
     if [ "$install_type" = "translation" ]; then
-        deps_to_remove=$(dialog --clear --backtitle "ProxMenux Configuration" \
+        deps_to_remove=$(dialog --clear --backtitle "vmenu Configuration" \
                                --title "Remove Dependencies" \
                                --checklist "Select dependencies to remove:" 15 60 4 \
                                "python3-venv" "Python virtual environment" OFF \
@@ -244,7 +244,7 @@ uninstall_proxmenu() {
                                "jq" "JSON processor" OFF \
                                3>&1 1>&2 2>&3)
     else
-        deps_to_remove=$(dialog --clear --backtitle "ProxMenux Configuration" \
+        deps_to_remove=$(dialog --clear --backtitle "vmenu Configuration" \
                                --title "Remove Dependencies" \
                                --checklist "Select dependencies to remove:" 12 60 2 \
                                "dialog" "Interactive dialog boxes" OFF \
@@ -287,24 +287,24 @@ uninstall_proxmenu() {
         if [ -f /etc/motd.bak ]; then
             mv /etc/motd.bak /etc/motd
         else
-            sed -i '/This system is optimised by: ProxMenux/d' /etc/motd
+            sed -i '/This system is optimised by: vmenu/d' /etc/motd
         fi
         
         echo "100" ; echo "Uninstallation complete!"
         sleep 1
         
-    ) | dialog --clear --backtitle "ProxMenux Configuration" \
-               --title "Uninstalling ProxMenux" \
+    ) | dialog --clear --backtitle "vmenu Configuration" \
+               --title "Uninstalling vmenu" \
                --gauge "Starting uninstallation..." 10 60 0
     
 
-    local final_message="ProxMenux has been uninstalled successfully.\n\n"
+    local final_message="vmenu has been uninstalled successfully.\n\n"
     if [ -n "$deps_to_remove" ]; then
         final_message+="The following dependencies were removed:\n$deps_to_remove\n\n"
     fi
-    final_message+="Thank you for using ProxMenux!"
+    final_message+="Thank you for using vmenu!"
     
-    dialog --clear --backtitle "ProxMenux Configuration" \
+    dialog --clear --backtitle "vmenu Configuration" \
            --title "Uninstallation Complete" \
            --msgbox "$final_message" 12 60
     clear    

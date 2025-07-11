@@ -1,14 +1,14 @@
 #!/bin/bash
-# ProxMenux - Complete Uninstall Optimizations Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - Complete Uninstall Optimizations Script
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script provides a complete uninstallation and rollback system 
-# for all post-installation optimizations applied by ProxMenux.
+# for all post-installation optimizations applied by vmenu.
 #
 # It allows administrators to safely revert any changes made during the 
 # optimization process, restoring the system to its original state.
 #
 # This ensures full control over system configurations and gives users 
-# the confidence to apply, test, and undo ProxMenux enhancements as needed.
+# the confidence to apply, test, and undo vmenu enhancements as needed.
 
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
@@ -233,13 +233,13 @@ uninstall_logrotate() {
 uninstall_system_limits() {
     msg_info "$(translate "Removing system limits optimizations...")"
     
-    # Remove ProxMenux sysctl configurations
+    # Remove vmenu sysctl configurations
     rm -f /etc/sysctl.d/99-maxwatches.conf
     rm -f /etc/sysctl.d/99-maxkeys.conf
     rm -f /etc/sysctl.d/99-swap.conf
     rm -f /etc/sysctl.d/99-fs.conf
     
-    # Remove ProxMenux limits configuration
+    # Remove vmenu limits configuration
     rm -f /etc/security/limits.d/99-limits.conf
     
     # Remove systemd limits (restore defaults)
@@ -292,7 +292,7 @@ uninstall_entropy() {
 uninstall_memory_settings() {
     msg_info "$(translate "Removing memory optimizations...")"
     
-    # Remove ProxMenux memory configuration
+    # Remove vmenu memory configuration
     rm -f /etc/sysctl.d/99-memory.conf
     
     # Reload sysctl
@@ -307,7 +307,7 @@ uninstall_memory_settings() {
 uninstall_kernel_panic() {
     msg_info "$(translate "Removing kernel panic configuration...")"
     
-    # Remove ProxMenux kernel panic configuration
+    # Remove vmenu kernel panic configuration
     rm -f /etc/sysctl.d/99-kernelpanic.conf
     
     # Reload sysctl
@@ -334,7 +334,7 @@ uninstall_apt_ipv4() {
 uninstall_network_optimization() {
     msg_info "$(translate "Removing network optimizations...")"
     
-    # Remove ProxMenux network configuration
+    # Remove vmenu network configuration
     rm -f /etc/sysctl.d/99-network.conf
     
     # Remove interfaces.d source line if we added it
@@ -376,12 +376,12 @@ uninstall_bashrc_custom() {
         mv /root/.bashrc.bak /root/.bashrc
         msg_ok "$(translate "Original bashrc restored")"
     else
-        # Remove ProxMenux customizations manually
+        # Remove vmenu customizations manually
         if [ -f /root/.bashrc ]; then
             # Remove our customization block
-            sed -i '/# ProxMenux customizations/,/source \/etc\/profile\.d\/bash_completion\.sh/d' /root/.bashrc
+            sed -i '/# vmenu customizations/,/source \/etc\/profile\.d\/bash_completion\.sh/d' /root/.bashrc
         fi
-        msg_ok "$(translate "ProxMenux customizations removed from bashrc")"
+        msg_ok "$(translate "vmenu customizations removed from bashrc")"
     fi
     
     # Remove bash_profile source line if we added it
@@ -496,7 +496,7 @@ migrate_installed_tools() {
     fi
     
     # Bashrc customization
-    if grep -q "# ProxMenux customizations" /root/.bashrc 2>/dev/null; then
+    if grep -q "# vmenu customizations" /root/.bashrc 2>/dev/null; then
         jq '. + {"bashrc_custom": true}' "$TOOLS_JSON" > "$TOOLS_JSON.tmp" && mv "$TOOLS_JSON.tmp" "$TOOLS_JSON"
         updated=true
     fi
@@ -523,7 +523,7 @@ show_uninstall_menu() {
     mapfile -t tools_installed < <(jq -r 'to_entries | map(select(.value==true)) | .[].key' "$TOOLS_JSON")
     
     if [[ ${#tools_installed[@]} -eq 0 ]]; then
-        dialog --backtitle "ProxMenux" --title "ProxMenux" \
+        dialog --backtitle "vmenu" --title "vmenu" \
                --msgbox "\n\n$(translate "No optimizations detected to uninstall.")" 10 60
         return 0
     fi
@@ -553,7 +553,7 @@ show_uninstall_menu() {
         menu_options+=("$tool" "$desc" "off")
     done
     
-    selected_tools=$(dialog --backtitle "ProxMenux" \
+    selected_tools=$(dialog --backtitle "vmenu" \
                            --title "$(translate "Uninstall Optimizations")" \
                            --checklist "$(translate "Select optimizations to uninstall:")" 20 70 12 \
                            "${menu_options[@]}" 3>&1 1>&2 2>&3)
@@ -564,7 +564,7 @@ show_uninstall_menu() {
     fi
     
     # Show confirmation
-    if ! dialog --backtitle "ProxMenux" \
+    if ! dialog --backtitle "vmenu" \
                 --title "$(translate "Confirm Uninstallation")" \
                 --yesno "\n\n$(translate "Are you sure you want to uninstall the selected optimizations.")" 10 60; then
         return 0
@@ -585,7 +585,7 @@ show_uninstall_menu() {
     msg_success "$(translate "Selected optimizations have been uninstalled.")"
     msg_warn "$(translate "A system reboot is recommended to ensure all changes take effect.")"
     
-    if dialog --backtitle "ProxMenux" \
+    if dialog --backtitle "vmenu" \
               --title "$(translate "Reboot Recommended")" \
               --yesno "$(translate "Do you want to reboot now?")" 8 50; then
         reboot

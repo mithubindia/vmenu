@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# ProxMenux - NAS ISO Selector
+# vmenu - NAS ISO Selector
 
 # Configuracion Base
 BASE_DIR="/usr/local/share/vmenu"
@@ -27,14 +27,14 @@ function select_nas_iso() {
     "5" "$(translate "Rockstor VM (openSUSE based)")"
   )
 
-  NAS_TYPE=$(whiptail --title "ProxMenux - NAS Systems" --menu "$(translate "Select the NAS system to install")" 20 70 6 \
+  NAS_TYPE=$(whiptail --title "vmenu - NAS Systems" --menu "$(translate "Select the NAS system to install")" 20 70 6 \
     "${NAS_OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
   [[ $? -ne 0 ]] && echo "Cancelled." && exit 1
 
   case "$NAS_TYPE" in
     1)
-      bash <(curl -s "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/vm/synology.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/MacRimi/vmenu/main/scripts/vm/synology.sh")
       exit 0
       ;;
     2)

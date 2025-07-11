@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Guest Agent Configurator - ProxMenux
+# Guest Agent Configurator - vmenu
 # Añade soporte al QEMU Guest Agent y dispositivos útiles.
 # Se adapta según el sistema operativo.
 

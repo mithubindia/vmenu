@@ -26,7 +26,7 @@ const resources = [
     icon: <Github className="h-6 w-6" />,
     title: "GitHub Repository",
     description: "Explore the source code.",
-    link: "https://github.com/MacRimi/ProxMenux",
+    link: "https://github.com/MacRimi/vmenu",
   },
 ]
 

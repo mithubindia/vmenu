@@ -3,30 +3,30 @@ import { LineChart } from "lucide-react"
 import CopyableCode from "@/components/CopyableCode"
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Monitoring Settings",
+  title: "vmenu Post-Install: Monitoring Settings",
   description:
-    "Guide to Monitoring Settings in the ProxMenux post-install script for enhancing your Proxmox VE monitoring capabilities.",
+    "Guide to Monitoring Settings in the vmenu post-install script for enhancing your Virtuliservmenu VE monitoring capabilities.",
   openGraph: {
-    title: "ProxMenux Post-Install: Monitoring Settings",
+    title: "vmenu Post-Install: Monitoring Settings",
     description:
-      "Guide to Monitoring Settings in the ProxMenux post-install script for enhancing your Proxmox VE monitoring capabilities.",
+      "Guide to Monitoring Settings in the vmenu post-install script for enhancing your Virtuliservmenu VE monitoring capabilities.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/monitoring",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/monitoring",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/monitoring-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/monitoring-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Post-Install Monitoring Settings",
+        alt: "vmenu Post-Install Monitoring Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Monitoring Settings",
+    title: "vmenu Post-Install: Monitoring Settings",
     description:
-      "Guide to Monitoring Settings in the ProxMenux post-install script for enhancing your Proxmox VE monitoring capabilities.",
-    images: ["https://macrimi.github.io/ProxMenux/monitoring-settings-image.png"],
+      "Guide to Monitoring Settings in the vmenu post-install script for enhancing your Virtuliservmenu VE monitoring capabilities.",
+    images: ["https://macrimi.github.io/vmenu/monitoring-settings-image.png"],
   },
 }
 
@@ -47,7 +47,7 @@ export default function MonitoringSettingsPage() {
       </div>
       <p className="mb-4">
         The <strong>Monitoring Settings</strong> category focuses on enhancing the monitoring capabilities of your
-        Proxmox VE installation. These settings are designed to provide better insights into your system's performance
+        Virtuliservmenu VE installation. These settings are designed to provide better insights into your system's performance
         and health.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>

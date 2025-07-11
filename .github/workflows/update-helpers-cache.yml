@@ -31,7 +31,7 @@ jobs:
 
       - name: 📤 Commit and push if updated
         run: |
-          git config user.name "ProxMenuxBot"
+          git config user.name "vmenuBot"
           git config user.email "bot@proxmenux.local"
           git add json/helpers_cache.json
           git diff --cached --quiet || git commit -m "Update helpers_cache.json"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# ProxMenux - A menu-driven script for Proxmox VE management
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# vmenu - A menu-driven script for Virtuliservmenu VE management
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 02/07/2025
 
 
@@ -18,11 +18,11 @@ load_language
 initialize_cache
 
     while true; do
-        OPTION=$(dialog --clear --backtitle "ProxMenux" --title "$(translate "Utilities Menu")" \
+        OPTION=$(dialog --clear --backtitle "vmenu" --title "$(translate "Utilities Menu")" \
                         --menu "\n$(translate "Select an option:")" 20 70 8 \
                         "1" "$(translate "UUp Dump ISO creator Custom")" \
                         "2" "$(translate "System Utilities Installer")" \
-                        "3" "$(translate "Proxmox System Update")" \
+                        "3" "$(translate "Virtuliservmenu System Update")" \
                         "4" "$(translate "Return to Main Menu")" \
                         2>&1 >/dev/tty)
 
@@ -41,17 +41,17 @@ initialize_cache
                 ;;
             3)
                 proxmox_update_msg="\n"
-                proxmox_update_msg+="$(translate "This script will update your Proxmox VE system with advanced options:")\n\n"
+                proxmox_update_msg+="$(translate "This script will update your Virtuliservmenu VE system with advanced options:")\n\n"
                 proxmox_update_msg+="• $(translate "Repairs and optimizes repositories")\n"
                 proxmox_update_msg+="• $(translate "Cleans duplicate or conflicting sources")\n"
                 proxmox_update_msg+="• $(translate "Switches to the free no-subscription repository")\n"
-                proxmox_update_msg+="• $(translate "Updates all Proxmox and Debian packages")\n"
+                proxmox_update_msg+="• $(translate "Updates all Virtuliservmenu and Debian packages")\n"
                 proxmox_update_msg+="• $(translate "Installs essential packages if missing")\n"
                 proxmox_update_msg+="• $(translate "Checks for LVM and storage issues")\n"
                 proxmox_update_msg+="• $(translate "Performs automatic cleanup after updating")\n\n"
-                proxmox_update_msg+="$(translate "Do you want to proceed and run the Proxmox System Update?")"
+                proxmox_update_msg+="$(translate "Do you want to proceed and run the Virtuliservmenu System Update?")"
 
-                dialog --colors --backtitle "ProxMenux" --title "$(translate "Proxmox System Update")" \
+                dialog --colors --backtitle "vmenu" --title "$(translate "Virtuliservmenu System Update")" \
                     --yesno "$proxmox_update_msg" 20 70
 
                 dialog_result=$?

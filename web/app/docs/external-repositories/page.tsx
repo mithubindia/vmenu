@@ -3,30 +3,30 @@ import { Link2 } from "lucide-react"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "ProxMenux - External Repositories",
+  title: "vmenu - External Repositories",
   description:
-    "Learn about the external repositories used in ProxMenux, how they are selected, and how to report issues or suggest new integrations.",
+    "Learn about the external repositories used in vmenu, how they are selected, and how to report issues or suggest new integrations.",
   openGraph: {
-    title: "ProxMenux - External Repositories",
+    title: "vmenu - External Repositories",
     description:
-      "Learn about the external repositories used in ProxMenux, how they are selected, and how to report issues or suggest new integrations.",
+      "Learn about the external repositories used in vmenu, how they are selected, and how to report issues or suggest new integrations.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/external-repositories",
+    url: "https://macrimi.github.io/vmenu/docs/external-repositories",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/external-repos-image.png",
+        url: "https://macrimi.github.io/vmenu/external-repos-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux External Repositories",
+        alt: "vmenu External Repositories",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux - External Repositories",
+    title: "vmenu - External Repositories",
     description:
-      "Learn about the external repositories used in ProxMenux, how they are selected, and how to report issues or suggest new integrations.",
-    images: ["https://macrimi.github.io/ProxMenux/external-repos-image.png"],
+      "Learn about the external repositories used in vmenu, how they are selected, and how to report issues or suggest new integrations.",
+    images: ["https://macrimi.github.io/vmenu/external-repos-image.png"],
   },
 }
 
@@ -51,32 +51,32 @@ export default function ExternalRepositoriesPage() {
 
       {/* Introduction */}
       <p className="mb-4">
-        ProxMenux integrates with selected external repositories to provide alternative scripts for various
+        vmenu integrates with selected external repositories to provide alternative scripts for various
         functionalities. These scripts come from <strong>trusted sources</strong> and serve as additional options in
         some menu sections.
       </p>
       <p className="mb-4">
-        When an external script is available as an alternative, ProxMenux will clearly indicate that it originates from
+        When an external script is available as an alternative, vmenu will clearly indicate that it originates from
         an external repository and specify which one.
       </p>
 
       {/* 1️⃣ Example of External Repository */}
       <SectionHeader number={1} title="Example of External Repositories" />
-      <p className="mb-4">Essential repositories for Proxmox VE users include:</p>
+      <p className="mb-4">Essential repositories for Virtuliservmenu VE users include:</p>
       <p className="mb-4">
         <Link
-          href="https://community-scripts.github.io/ProxmoxVE/"
+          href="https://community-scripts.github.io/VirtuliservmenuVE/"
           className="text-blue-500 hover:underline"
           target="_blank"
         >
-          Proxmox VE Helper-Scripts
+          Virtuliservmenu VE Helper-Scripts
         </Link>{" "}
-        - A highly recommended repository that provides additional tools and utilities for managing Proxmox VE more
+        - A highly recommended repository that provides additional tools and utilities for managing Virtuliservmenu VE more
         efficiently.
       </p>
       <p className="mb-4">
         <Link href="https://github.com/R0GGER/proxmox-zimaos" className="text-blue-500 hover:underline" target="_blank">
-          Proxmox ZimaOS
+          Virtuliservmenu ZimaOS
         </Link>{" "}
         - Script para instalar una VM del sistema NAS ZimaOS en menos de 5 minutos.
       </p>
@@ -94,23 +94,23 @@ export default function ExternalRepositoriesPage() {
       <p className="mb-4">
         If you encounter an issue with an external script,{" "}
         <strong>please report it directly to the original repository</strong> instead of opening an issue in the
-        ProxMenux repository.
+        vmenu repository.
       </p>
       <p className="mb-4">
-        <strong>ProxMenux does not modify external scripts</strong>; it simply provides a link to the original source.
+        <strong>vmenu does not modify external scripts</strong>; it simply provides a link to the original source.
         Therefore, any problems related to functionality should be reported to the respective developers.
       </p>
 
       {/* 4️⃣ Suggesting New External Repositories */}
       <SectionHeader number={4} title="Suggesting New External Repositories" />
       <p className="mb-4">
-        If you know of a script or repository that could enhance ProxMenux, feel free to suggest it by opening a
+        If you know of a script or repository that could enhance vmenu, feel free to suggest it by opening a
         discussion or issue in our GitHub repository.
       </p>
       <p className="mb-4">
         🔗{" "}
         <Link
-          href="https://github.com/MacRimi/ProxMenux/discussions"
+          href="https://github.com/MacRimi/vmenu/discussions"
           className="text-blue-500 hover:underline"
           target="_blank"
         >
@@ -118,7 +118,7 @@ export default function ExternalRepositoriesPage() {
         </Link>{" "}
         |{" "}
         <Link
-          href="https://github.com/MacRimi/ProxMenux/issues"
+          href="https://github.com/MacRimi/vmenu/issues"
           className="text-blue-500 hover:underline"
           target="_blank"
         >

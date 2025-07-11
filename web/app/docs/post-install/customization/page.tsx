@@ -3,30 +3,30 @@ import { Sliders } from "lucide-react"
 
 
 export const metadata: Metadata = {
-  title: "ProxMenux Post-Install: Customization Settings",
+  title: "vmenu Post-Install: Customization Settings",
   description:
-    "Guide to Customization Settings in the ProxMenux post-install script for configuring the Proxmox VE environment.",
+    "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliservmenu VE environment.",
   openGraph: {
-    title: "ProxMenux Post-Install: Customization Settings",
+    title: "vmenu Post-Install: Customization Settings",
     description:
-      "Guide to Customization Settings in the ProxMenux post-install script for configuring the Proxmox VE environment.",
+      "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliservmenu VE environment.",
     type: "article",
-    url: "https://macrimi.github.io/ProxMenux/docs/post-install/customization",
+    url: "https://macrimi.github.io/vmenu/docs/post-install/customization",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/customization-settings-image.png",
+        url: "https://macrimi.github.io/vmenu/customization-settings-image.png",
         width: 1200,
         height: 630,
-        alt: "ProxMenux Customization Settings",
+        alt: "vmenu Customization Settings",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux Post-Install: Customization Settings",
+    title: "vmenu Post-Install: Customization Settings",
     description:
-      "Guide to Customization Settings in the ProxMenux post-install script for configuring the Proxmox VE environment.",
-    images: ["https://macrimi.github.io/ProxMenux/customization-settings-image.png"],
+      "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliservmenu VE environment.",
+    images: ["https://macrimi.github.io/vmenu/customization-settings-image.png"],
   },
 }
 
@@ -47,7 +47,7 @@ export default function CustomizationSettingsPage() {
         <h1 className="text-3xl font-bold">Customization Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Customization Settings</strong> section allows you to configure and personalize the Proxmox VE
+        The <strong>Customization Settings</strong> section allows you to configure and personalize the Virtuliservmenu VE
         environment with specific adjustments.
       </p>
 
@@ -92,23 +92,23 @@ source /root/.bashrc`}
         <StepNumber number={2} />
         Configure MOTD (Message of the Day)
       </h3>
-      <p className="mb-4">This option customizes the MOTD to display a ProxMenux optimization message upon login.</p>
+      <p className="mb-4">This option customizes the MOTD to display a vmenu optimization message upon login.</p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <div className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto mb-6 border border-gray-300">
         <pre className="whitespace-pre-wrap text-sm">
           {`# Backup original MOTD
 cp /etc/motd /etc/motd.bak
 
-echo "This system is optimized by: ProxMenux" | cat - /etc/motd > temp && mv temp /etc/motd`}
+echo "This system is optimized by: vmenu" | cat - /etc/motd > temp && mv temp /etc/motd`}
         </pre>
       </div>
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={3} />
-        Remove Proxmox Subscription Banner
+        Remove Virtuliservmenu Subscription Banner
       </h3>
       <p className="mb-4">
-        This option removes the Proxmox subscription banner and nag prompts from the web interface.
+        This option removes the Virtuliservmenu subscription banner and nag prompts from the web interface.
       </p>
       <p className="mb-4">What it does:</p>
       <ul className="list-disc pl-5 mb-4">
@@ -121,7 +121,7 @@ echo "This system is optimized by: ProxMenux" | cat - /etc/motd > temp && mv tem
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <div className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto mb-6 border border-gray-300">
         <pre className="whitespace-pre-wrap text-sm">
-          {`# Remove Proxmox subscription banner
+          {`# Remove Virtuliservmenu subscription banner
 sed -i "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
 sed -i "s/checked_command: function(orig_cmd) {/checked_command: function() {} || function(orig_cmd) {/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
 
