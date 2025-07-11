@@ -2,10 +2,10 @@ import requests, json
 from pathlib import Path
 
 # GitHub API URL to fetch all .json files describing scripts
-API_URL = "https://api.github.com/repos/community-scripts/VirtuliservmenuVE/contents/frontend/public/json"
+API_URL = "https://api.github.com/repos/community-scripts/VirtuliserVE/contents/frontend/public/json"
 
 # Base path to build the full URL for the installable scripts
-SCRIPT_BASE = "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main"
+SCRIPT_BASE = "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main"
 
 # Output file where the consolidated helper scripts cache will be stored
 OUTPUT_FILE = Path("json/helpers_cache.json")

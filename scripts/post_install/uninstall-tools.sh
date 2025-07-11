@@ -1,12 +1,8 @@
-#!/bin/bash
 # vmenu - Complete Uninstall Optimizations Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script provides a complete uninstallation and rollback system 
 # for all post-installation optimizations applied by vmenu.
-#
 # It allows administrators to safely revert any changes made during the 
 # optimization process, restoring the system to its original state.
-#
 # This ensures full control over system configurations and gives users 
 # the confidence to apply, test, and undo vmenu enhancements as needed.
 
@@ -165,16 +161,13 @@ uninstall_journald() {
     # Restore default journald configuration
     cat > /etc/systemd/journald.conf << 'EOF'
 #  This file is part of systemd.
-#
 #  systemd is free software; you can redistribute it and/or modify it
 #  under the terms of the GNU Lesser General Public License as published by
 #  the Free Software Foundation; either version 2.1 of the License, or
 #  (at your option) any later version.
-#
 # Entries in this file show the compile time defaults.
 # You can change settings by editing this file.
 # Defaults can be restored by simply deleting this file.
-#
 # See journald.conf(5) for details.
 
 [Journal]

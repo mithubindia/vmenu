@@ -5,11 +5,11 @@ import CopyableCode from "@/components/CopyableCode"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: Network Settings",
   description:
-    "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliservmenu VE network performance and configuration.",
+    "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliser VE network performance and configuration.",
   openGraph: {
     title: "vmenu Post-Install: Network Settings",
     description:
-      "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliservmenu VE network performance and configuration.",
+      "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliser VE network performance and configuration.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/network",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: Network Settings",
     description:
-      "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliservmenu VE network performance and configuration.",
+      "Comprehensive guide to Network Settings in the vmenu post-install script for optimizing Virtuliser VE network performance and configuration.",
     images: ["https://macrimi.github.io/vmenu/network-settings-image.png"],
   },
 }
@@ -46,7 +46,7 @@ export default function NetworkSettingsPage() {
         <h1 className="text-3xl font-bold">Network Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration in Virtuliservmenu VE. 
+        The <strong>Network Settings</strong> category focuses on optimizing network performance and configuration in Virtuliser VE. 
         These settings are essential for efficient network operations in virtualized environments where multiple VMs and containers 
         share network resources.
       </p>

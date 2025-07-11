@@ -1,21 +1,16 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 29/05/2025
-# This script automates the process of importing disk images into Virtuliservmenu VE virtual machines (VMs), 
+# This script automates the process of importing disk images into Virtuliser VE virtual machines (VMs), 
 # making it easy to attach pre-existing disk files without manual configuration.
-#
 # Before running the script, ensure that disk images are available in /var/lib/vz/template/images/. 
 # The script scans this directory for compatible formats (.img, .qcow2, .vmdk, .raw) and lists the available files.
-#
 # Using an interactive menu, you can:
 # - Select a VM to attach the imported disk.
 # - Choose one or multiple disk images for import.
-# - Pick a storage volume in Virtuliservmenu for disk placement.
+# - Pick a storage volume in Virtuliser for disk placement.
 # - Assign a suitable interface (SATA, SCSI, VirtIO, or IDE).
 # - Enable optional settings like SSD emulation or bootable disk configuration.
-#
 # Once completed, the script ensures the selected images are correctly attached and ready to use.
 
 # Configuration ============================================

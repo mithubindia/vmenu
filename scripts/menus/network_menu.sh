@@ -1,10 +1,8 @@
-#!/bin/bash
-# ProxMenu - Network Management and Repair Tool
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenu - Network Management and Repair Tool
 # Version     : 1.1
 # Last Updated: 08/07/2025
 
-# Advanced network management and troubleshooting tool for Virtuliservmenu VE.
+# Advanced network management and troubleshooting tool for Virtuliser VE.
 # Features include interface detection, bridge management, connectivity testing,
 # network diagnostics, configuration backup/restore, and automated repairs.
 
@@ -55,7 +53,7 @@ detect_network_method() {
         return 0
     fi
 
-    # Default: Debian/Virtuliservmenu classic
+    # Default: Debian/Virtuliser classic
     echo "classic"
 }
 
@@ -174,7 +172,7 @@ advanced_network_diagnostics() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -195,12 +193,12 @@ advanced_network_diagnostics() {
     # Check for common issues
     diag_info+="$(translate "Common Issues Check"):\n"
 
-    # Check if NetworkManager is running (shouldn't be on Virtuliservmenu)
+    # Check if NetworkManager is running (shouldn't be on Virtuliser)
     if systemctl is-active --quiet NetworkManager 2>/dev/null; then
         diag_info+="⚠ $(translate "NetworkManager is running (may cause conflicts)")\n"
 
         if dialog --title "$(translate "NetworkManager Detected")" \
-                --yesno "$(translate "NetworkManager is running, which may conflict with Virtuliservmenu.")\n\n$(translate "Do you want to disable and remove it now?")" 10 70; then
+                --yesno "$(translate "NetworkManager is running, which may conflict with Virtuliser.")\n\n$(translate "Do you want to disable and remove it now?")" 10 70; then
 
             dialog --infobox "$(translate "Disabling and removing NetworkManager...")" 6 60
             systemctl stop NetworkManager >/dev/null 2>&1
@@ -238,7 +236,7 @@ analyze_bridge_configuration() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -512,7 +510,7 @@ analyze_network_configuration() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -744,7 +742,7 @@ show_network_config() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -768,7 +766,7 @@ create_network_backup_manual() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -793,7 +791,7 @@ restore_network_backup() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -914,7 +912,7 @@ declare -a PROXMENUX_SCRIPTS=(
 
 
 declare -a COMMUNITY_SCRIPTS=(
-    "Disable NIC Offloading (Intel e1000e)|Helper-Scripts|confirm_and_run \"Helper-Scripts\" \"bash <(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/nic-offloading-fix.sh)\""
+    "Disable NIC Offloading (Intel e1000e)|Helper-Scripts|confirm_and_run \"Helper-Scripts\" \"bash <(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/tools/pve/nic-offloading-fix.sh)\""
 )
 
 format_menu_item() {

@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 
 # vmenu - UUP Dump ISO Creator Custom
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 30/06/2025
-# This script is part of the vmenu tools for Virtuliservmenu VE.
+# This script is part of the vmenu tools for Virtuliser VE.
 # It allows downloading and converting official Windows ISO images 
 # from UUP Dump using a shared link (with ID, pack, and edition).
-#
 # Key features:
 # - Automatically installs and verifies required dependencies (aria2c, cabextract, wimlib-imagex…)
 # - Downloads the selected Windows edition from UUP Dump using aria2
 # - Converts the downloaded files into a bootable ISO
 # - Stores the resulting ISO in the default template path (/var/lib/vz/template/iso)
 # - Provides a graphical prompt via whiptail for user-friendly usage
-#
 # This tool simplifies the creation of official Windows ISOs
-# for use in virtual machines within Virtuliservmenu VE.
+# for use in virtual machines within Virtuliser VE.
 
 BASE_DIR="/usr/local/share/vmenu"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -237,7 +234,6 @@ function run_uupdump_creator() {
 
 
     cat > uup_download_linux.sh <<EOF
-#!/bin/bash
 mkdir -p files
 echo "https://git.uupdump.net/uup-dump/converter/archive/refs/heads/master.tar.gz" > files/converter_multi
 

@@ -15,7 +15,7 @@ export default function IntroductionPage() {
           className="mr-4"
         />
         <p className="mb-4">
-        vmenu is a tool designed to make Virtuliservmenu VE accessible to all users, regardless of their experience and technical knowledge.
+        vmenu is a tool designed to make Virtuliser VE accessible to all users, regardless of their experience and technical knowledge.
         </p>
       </div>
 
@@ -23,7 +23,7 @@ export default function IntroductionPage() {
       Designed with a menu-based interface, vmenu simplifies the execution of commands to perform actions on:
       </p>
       <ul className="list-disc list-inside mb-4 ml-4">
-        <li>The Virtuliservmenu server</li>
+        <li>The Virtuliser server</li>
         <li>Virtual machines (VMs)</li>
         <li>Containers (LXC)</li>
       </ul>
@@ -52,7 +52,7 @@ export default function IntroductionPage() {
 
       {/* Guides Link */}
       <p className="mt-6">
-        For additional Virtuliservmenu-related information, including official documentation, forums, and discussions, visit the{" "}
+        For additional Virtuliser-related information, including official documentation, forums, and discussions, visit the{" "}
         <Link href="/guides" className="text-blue-500 hover:underline">
           Guides
         </Link>{" "} 

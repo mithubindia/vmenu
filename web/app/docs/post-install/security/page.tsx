@@ -5,11 +5,11 @@ import CopyableCode from "@/components/CopyableCode"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: Security Settings",
   description:
-    "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliservmenu VE security.",
+    "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliser VE security.",
   openGraph: {
     title: "vmenu Post-Install: Security Settings",
     description:
-      "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliservmenu VE security.",
+      "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliser VE security.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/security",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: Security Settings",
     description:
-      "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliservmenu VE security.",
+      "Comprehensive guide to Security Settings in the vmenu post-install script for enhancing Virtuliser VE security.",
     images: ["https://macrimi.github.io/vmenu/security-settings-image.png"],
   },
 }
@@ -46,7 +46,7 @@ export default function SecuritySettingsPage() {
         <h1 className="text-3xl font-bold">Security Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Security Settings</strong> category focuses on enhancing the security of your Virtuliservmenu VE
+        The <strong>Security Settings</strong> category focuses on enhancing the security of your Virtuliser VE
         installation. These settings are crucial for protecting your virtualization environment from potential threats
         and unauthorized access.
       </p>
@@ -105,7 +105,6 @@ git clone https://github.com/CISOfy/lynis.git /opt/lynis
 
 # Create wrapper script for easy execution
 cat << 'EOF' > /usr/local/bin/lynis
-#!/bin/bash
 cd /opt/lynis && ./lynis "$@"
 EOF
 chmod +x /usr/local/bin/lynis
@@ -139,7 +138,7 @@ lynis show version
         automatically bans the source IP address to prevent further attacks.
       </p>
       <ul className="list-disc pl-5 mb-4">
-        <li>Protects the Virtuliservmenu VE web interface from brute-force attacks</li>
+        <li>Protects the Virtuliser VE web interface from brute-force attacks</li>
         <li>Prevents unauthorized SSH access by banning repeated failed login attempts</li>
         <li>Automatically blocks malicious IPs to reduce attack vectors</li>
       </ul>
@@ -148,17 +147,17 @@ lynis show version
       <p className="mb-4">Fail2Ban is configured with the following security policies:</p>
       <ul className="list-disc pl-5 mb-4">
         <li>
-          <strong>Ban Duration:</strong> 24 hours for SSH and 1 hour for Virtuliservmenu
+          <strong>Ban Duration:</strong> 24 hours for SSH and 1 hour for Virtuliser
         </li>
         <li>
-          <strong>Max Retries:</strong> 2 failed attempts for SSH, 3 for Virtuliservmenu
+          <strong>Max Retries:</strong> 2 failed attempts for SSH, 3 for Virtuliser
         </li>
         <li>
-          <strong>Find Time:</strong> 30 minutes for SSH, 10 minutes for Virtuliservmenu
+          <strong>Find Time:</strong> 30 minutes for SSH, 10 minutes for Virtuliser
         </li>
         <li>
           <strong>Log Monitoring:</strong> <code>/var/log/auth.log</code> for SSH and <code>/var/log/daemon.log</code>{" "}
-          for Virtuliservmenu
+          for Virtuliser
         </li>
       </ul>
 
@@ -173,7 +172,7 @@ lynis show version
       <p className="text-lg mt-4"></p>
       <CopyableCode
         code={`
-    # Create the Fail2Ban filter for Virtuliservmenu
+    # Create the Fail2Ban filter for Virtuliser
     cat <<EOF > /etc/fail2ban/filter.d/proxmox.conf
     [Definition]
     failregex = pvedaemon\\[.*authentication failure; rhost=<HOST> user=.* msg=.*
@@ -185,7 +184,7 @@ lynis show version
       <p className="text-lg mt-4"></p>
       <CopyableCode
         code={`
-    # Create a jail configuration for Virtuliservmenu
+    # Create a jail configuration for Virtuliser
     cat <<EOF > /etc/fail2ban/jail.d/proxmox.conf
     [proxmox]
     enabled = true
@@ -237,7 +236,7 @@ lynis show version
     # Display Fail2Ban status
     fail2ban-client status
 
-    # Check status of Virtuliservmenu protection
+    # Check status of Virtuliser protection
     fail2ban-client status proxmox
 
     # Check status of SSH protection
@@ -252,13 +251,13 @@ lynis show version
     # Unban an IP from SSH protection
     fail2ban-client set ssh-iptables unbanip <IP_ADDRESS>
 
-    # Unban an IP from Virtuliservmenu protection
+    # Unban an IP from Virtuliser protection
     fail2ban-client set proxmox unbanip <IP_ADDRESS>
       `}
       />
 
       <p className="mt-4">
-        Fail2Ban automatically protect your Virtuliservmenu VE and SSH access, reducing the risk of brute-force attacks.
+        Fail2Ban automatically protect your Virtuliser VE and SSH access, reducing the risk of brute-force attacks.
       </p>
 
       <section className="mt-12 p-4 bg-blue-100 rounded-md">

@@ -3,7 +3,7 @@ import { Steps } from "@/components/ui/steps"
 
 export const metadata: Metadata = {
   title: "Show IP Information | vmenu Documentation",
-  description: "Learn how to display IP information for Virtuliservmenu VE and its virtual machines using vmenu.",
+  description: "Learn how to display IP information for Virtuliser VE and its virtual machines using vmenu.",
 }
 
 export default function ShowIPInformation() {
@@ -13,7 +13,7 @@ export default function ShowIPInformation() {
 
       <p className="mb-4">
         The Show IP Information function it provides a quick and
-        easy way to view the IP configurations of all relevant network interfaces in your Virtuliservmenu VE system.
+        easy way to view the IP configurations of all relevant network interfaces in your Virtuliser VE system.
       </p>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">What Does Show IP Information Do?</h2>

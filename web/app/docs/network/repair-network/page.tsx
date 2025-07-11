@@ -3,7 +3,7 @@ import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
   title: "Repair Network | vmenu Documentation",
-  description: "Step-by-step guide to repair network configurations in Virtuliservmenu VE using vmenu.",
+  description: "Step-by-step guide to repair network configurations in Virtuliser VE using vmenu.",
 }
 
 export default function RepairNetwork() {
@@ -20,7 +20,7 @@ export default function RepairNetwork() {
       <h2 className="text-2xl font-semibold mt-8 mb-4">Purpose</h2>
       <p className="mb-4">
         In many cases, when adding or removing hardware (e.g., network cards, GPUs, storage controllers), network interfaces may be renamed
-        due to changes in the system's PCI device enumeration. As a result, Virtuliservmenu VE may fail to establish a network
+        due to changes in the system's PCI device enumeration. As a result, Virtuliser VE may fail to establish a network
         connection because the <code>/etc/network/interfaces</code> file references outdated interface names.
       </p>
       <p className="mb-4">

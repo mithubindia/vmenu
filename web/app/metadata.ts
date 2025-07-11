@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 
 
-const description = "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks."
+const description = "A menu-driven script for Virtuliser VE management, designed to simplify and streamline the execution of commands and tasks."
 
 export const metadata: Metadata = {
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   generator: "Next.js",
   applicationName: "vmenu",
   referrer: "origin-when-cross-origin",
-  keywords: ["Virtuliservmenu VE", "VE", "vmenu", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
+  keywords: ["Virtuliser VE", "VE", "vmenu", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
   authors: [{ name: "MacRimi" }],
   creator: "MacRimi",
   publisher: "MacRimi",

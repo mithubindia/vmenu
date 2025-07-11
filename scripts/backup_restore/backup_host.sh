@@ -53,7 +53,7 @@ host_backup_menu() {
             --title "$(translate 'Host Backup')" \
             --menu "\n$(translate 'Select backup option:')" 22 70 12 \
             ""         "$(translate '--- FULL BACKUP ---')" \
-            1 "$(translate 'Full backup to Virtuliservmenu Backup Server (PBS)')" \
+            1 "$(translate 'Full backup to Virtuliser Backup Server (PBS)')" \
             2 "$(translate 'Full backup with BorgBackup')" \
             3 "$(translate 'Full backup to local .tar.gz')" \
             ""         "$(translate '--- CUSTOM BACKUP ---')" \
@@ -188,7 +188,7 @@ configure_pbs_repository() {
 
 
         if [[ "$source_type" == "proxmox" ]]; then
-            menu_options+=("$i" " $name ($repo) [Virtuliservmenu]")
+            menu_options+=("$i" " $name ($repo) [Virtuliser]")
         else
             menu_options+=("$i" " $name ($repo) [Manual]")
         fi

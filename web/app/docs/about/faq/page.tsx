@@ -49,7 +49,7 @@ export default function FaqPage() {
         What is vmenu, and what is it used for?
       </h3>
       <p className="mb-4">
-        <strong>vmenu</strong> is an interactive menu-driven tool designed to make <strong>Virtuliservmenu VE</strong> more accessible  
+        <strong>vmenu</strong> is an interactive menu-driven tool designed to make <strong>Virtuliser VE</strong> more accessible  
         to all users, regardless of their technical experience. It simplifies command execution, allowing users to perform  
         actions on their system without requiring advanced Linux knowledge.
       </p>
@@ -58,7 +58,7 @@ export default function FaqPage() {
         menu interface, reducing the need for manual terminal input.
       </p>
       <p className="mb-4">
-        Virtuliservmenu VE is widely used for:
+        Virtuliser VE is widely used for:
       </p>
       <ul className="list-disc list-inside mb-4 ml-4">
         <li>Enterprise-grade virtualization</li>
@@ -90,10 +90,10 @@ export default function FaqPage() {
       {/* 3️⃣ Compatibility */}
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={3} />
-        Is vmenu compatible with all Virtuliservmenu versions?
+        Is vmenu compatible with all Virtuliser versions?
       </h3>
       <p className="mb-4">
-        No, <strong>vmenu is only compatible with Virtuliservmenu VE 8 and later versions.</strong>
+        No, <strong>vmenu is only compatible with Virtuliser VE 8 and later versions.</strong>
       </p>
 
       {/* 4️⃣ Customization */}
@@ -172,12 +172,12 @@ export default function FaqPage() {
         Does vmenu modify critical system files?
       </h3>
       <p className="mb-4">
-        No, <strong>vmenu does not modify critical Virtuliservmenu system files.</strong>  
+        No, <strong>vmenu does not modify critical Virtuliser system files.</strong>  
         It only installs dependencies such as <code className="bg-gray-200 px-1 rounded">whiptail</code>, <code className="bg-gray-200 px-1 rounded">curl</code>,  
         <code className="bg-gray-200 px-1 rounded">jq</code>, and <code className="bg-gray-200 px-1 rounded">Python3</code>, sets up a virtual environment for translations,  
         and downloads its scripts into <code className="bg-gray-200 px-1 rounded">/usr/local/share/proxmenux/</code>.  
         The executable <code className="bg-gray-200 px-1 rounded">menu</code> is placed in <code className="bg-gray-200 px-1 rounded">/usr/local/bin/</code>.  
-        vmenu does not interfere with Virtuliservmenu’s core operations.
+        vmenu does not interfere with Virtuliser’s core operations.
       </p>
 
       {/* 9️⃣ Production Use */}
@@ -187,7 +187,7 @@ export default function FaqPage() {
       </h3>
       <p className="mb-4">
         Yes, <strong>vmenu is safe for production</strong>.  
-        Since it does not modify core Virtuliservmenu files, it can be used in production environments.  
+        Since it does not modify core Virtuliser files, it can be used in production environments.  
         However, it is always recommended to test it in a controlled environment first.
       </p>
 

@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 
-# ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenuX - Virtual Machine Creator Script
 # Last Updated: 07/05/2025
 # This script is part of the central vmenu VM creation module. It allows users
-# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
+# to create virtual machines (VMs) in Virtuliser VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
-#
 # Key features:
 # - Supports both virtual disk creation and physical disk passthrough.
 # - Automates CPU, RAM, BIOS, network and storage configuration.
 # - Provides a user-friendly menu to select OS type, ISO image and disk interface.
 # - Automatically generates a detailed and styled HTML description for each VM.
-#
 # All operations are designed to simplify and accelerate VM creation in a 
 # consistent and maintainable way, using vmenu standards.
 
@@ -111,7 +108,7 @@ while true; do
       source <(curl -fsSL "$ISO_REPO/select_linux_iso.sh") && select_linux_iso || continue
       ;;
     4)
-      whiptail --title "OSX-PROXMOX" --yesno "$(translate "This is an external script that creates a macOS VM in Virtuliservmenu VE in just a few steps, whether you are using AMD or Intel hardware.")\n\n$(translate "The script clones the osx-proxmox.com repository and once the setup is complete, the server will automatically reboot.")\n\n$(translate "Make sure there are no critical services running as they will be interrupted. Ensure your server can be safely rebooted.")\n\n$(translate  "Visit https://osx-proxmox.com for more information.")\n\n$(translate "Do you want to run the script now?")" 24 70
+      whiptail --title "OSX-PROXMOX" --yesno "$(translate "This is an external script that creates a macOS VM in Virtuliser VE in just a few steps, whether you are using AMD or Intel hardware.")\n\n$(translate "The script clones the osx-proxmox.com repository and once the setup is complete, the server will automatically reboot.")\n\n$(translate "Make sure there are no critical services running as they will be interrupted. Ensure your server can be safely rebooted.")\n\n$(translate  "Visit https://osx-proxmox.com for more information.")\n\n$(translate "Do you want to run the script now?")" 24 70
       if [[ $? -eq 0 ]]; then
         bash -c "$(curl -fsSL https://install.osx-proxmox.com)"
       fi

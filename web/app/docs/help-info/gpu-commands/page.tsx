@@ -88,7 +88,7 @@ export default function GPUPassthroughPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for configuring and managing GPU passthrough in Virtuliservmenu VE. Learn how to
+          This section provides commands for configuring and managing GPU passthrough in Virtuliser VE. Learn how to
           identify GPU devices, configure VFIO and IOMMU, and set up VMs for GPU passthrough.
         </p>
 

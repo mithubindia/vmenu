@@ -1,6 +1,4 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Description : Allows unmounting a previously mounted disk
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"

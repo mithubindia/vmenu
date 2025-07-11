@@ -41,7 +41,7 @@ export default function LinuxVMContent() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            vmenu provides automated scripts that create and configure Linux virtual machines on Virtuliservmenu VE. These
+            vmenu provides automated scripts that create and configure Linux virtual machines on Virtuliser VE. These
             scripts simplify the process by handling the necessary configurations and optimizations for various Linux
             distributions, including Ubuntu, Debian, Fedora, and many others.
           </p>
@@ -258,7 +258,7 @@ export default function LinuxVMContent() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Virtuliservmenu</li>
+            <li>The script lists the storage options available in Virtuliser</li>
             <li>The user selects the disk and size in GB</li>
             <li>
               The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,
@@ -387,12 +387,12 @@ export default function LinuxVMContent() {
                   Cloud-Init installations use external helper scripts from the community. For more information, visit:
                 </p>
                 <a
-                  href="https://community-scripts.github.io/VirtuliservmenuVE/"
+                  href="https://community-scripts.github.io/VirtuliserVE/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-blue-600 hover:text-blue-800 flex items-center mt-1"
                 >
-                  community-scripts.github.io/VirtuliservmenuVE
+                  community-scripts.github.io/VirtuliserVE
                   <ExternalLink className="h-3 w-3 ml-1" />
                 </a>
               </div>
@@ -405,7 +405,7 @@ export default function LinuxVMContent() {
               </div>
 
               <p className="mb-4">
-                This option allows you to use your own Linux ISO file that's already uploaded to your Virtuliservmenu server's
+                This option allows you to use your own Linux ISO file that's already uploaded to your Virtuliser server's
                 local storage. Ideal if you have custom or specific Linux installation media.
               </p>
 
@@ -446,7 +446,7 @@ export default function LinuxVMContent() {
             <div>
               <h3 className="text-lg font-medium mb-2">Installing QEMU Guest Agent</h3>
               <p className="mb-3">
-                For better integration with Virtuliservmenu, it's recommended to install the QEMU Guest Agent inside your Linux
+                For better integration with Virtuliser, it's recommended to install the QEMU Guest Agent inside your Linux
                 VM. This enables features like proper shutdown, file system freeze for snapshots, and more accurate
                 memory reporting.
               </p>
@@ -578,12 +578,12 @@ export default function LinuxVMContent() {
               These installations are handled by community-maintained scripts. For more information or to contribute, visit:
             </p>
             <a
-              href="https://community-scripts.github.io/VirtuliservmenuVE/"
+              href="https://community-scripts.github.io/VirtuliserVE/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-blue-600 hover:text-blue-800 flex items-center mt-1"
             >
-              community-scripts.github.io/VirtuliservmenuVE
+              community-scripts.github.io/VirtuliserVE
               <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>

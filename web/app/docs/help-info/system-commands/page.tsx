@@ -15,8 +15,8 @@ export default function SystemCommandsPage() {
     {
       title: "System Information",
       commands: [
-        { command: "pveversion", description: "Show Virtuliservmenu version" },
-        { command: "pveversion -v", description: "Detailed Virtuliservmenu version info" },
+        { command: "pveversion", description: "Show Virtuliser version" },
+        { command: "pveversion -v", description: "Detailed Virtuliser version info" },
         { command: "hostnamectl", description: "System hostname and kernel info" },
         { command: "uname -a", description: "Kernel and architecture info" },
         { command: "cat /etc/os-release", description: "OS release details" },
@@ -35,7 +35,7 @@ export default function SystemCommandsPage() {
     {
       title: "Service Management",
       commands: [
-        { command: "systemctl status pveproxy", description: "Check Virtuliservmenu Web UI status" },
+        { command: "systemctl status pveproxy", description: "Check Virtuliser Web UI status" },
         { command: "systemctl restart pveproxy", description: "Restart Web UI proxy" },
         { command: "journalctl -xe", description: "System errors and logs" },
         { command: "dmesg -T | tail -n 50", description: "Last 50 kernel log lines" },
@@ -79,7 +79,7 @@ export default function SystemCommandsPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides a collection of essential system commands for managing and monitoring your Virtuliservmenu VE
+          This section provides a collection of essential system commands for managing and monitoring your Virtuliser VE
           system. Each command is accompanied by a brief description of its function.
         </p>
 

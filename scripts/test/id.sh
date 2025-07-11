@@ -1,7 +1,4 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
-#
 
 
 # Configuration ============================================

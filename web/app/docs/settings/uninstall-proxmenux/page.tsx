@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Uninstall vmenu | vmenu Documentation",
-  description: "Guide to uninstalling vmenu from your Virtuliservmenu VE system.",
+  description: "Guide to uninstalling vmenu from your Virtuliser VE system.",
 }
 
 export default function Uninstallvmenu() {
@@ -11,7 +11,7 @@ export default function Uninstallvmenu() {
       <h1 className="text-3xl font-bold mb-6">Uninstall vmenu</h1>
       
       <p className="mb-4">
-        The <strong>Uninstall vmenu</strong> function, remove vmenu and its related components from their Virtuliservmenu VE system.
+        The <strong>Uninstall vmenu</strong> function, remove vmenu and its related components from their Virtuliser VE system.
         The script provides an interactive option to remove dependencies as well, ensuring a clean uninstallation process.
       </p>
 

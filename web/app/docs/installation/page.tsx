@@ -13,7 +13,7 @@ export default function InstallationPage() {
       <h1 className="text-3xl font-bold mb-6">Installing vmenu</h1>
 
       <h2 className="text-xl font-semibold mt-6 mb-2">Installation</h2>
-      <p className="mb-2">To install vmenu, simply run the following command in your Virtuliservmenu server terminal:</p>
+      <p className="mb-2">To install vmenu, simply run the following command in your Virtuliser server terminal:</p>
       <div className="w-full mb-4">
         <CopyableCode code={installationCode} />
       </div>

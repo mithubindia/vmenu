@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # =======================================
-# vmenu - Backup Menu for Virtuliservmenu VE
+# vmenu - Backup Menu for Virtuliser VE
 # =======================================
 
 # CONFIGURACIÓN DINÁMICA
@@ -39,7 +39,7 @@ declare -A BACKUP_PATHS=(
 )
 
 main_menu() {
-    OPTION=$(whiptail --title "Virtuliservmenu Host Backup" --menu "Elige una opción de respaldo:" 20 78 10 \
+    OPTION=$(whiptail --title "Virtuliser Host Backup" --menu "Elige una opción de respaldo:" 20 78 10 \
         "1" "Backup rápido personalizado (tar.gz, local)" \
         "2" "Backup rápido personalizado (PBS)" \
         "3" "Backup completo del sistema (tar.gz, local)" \

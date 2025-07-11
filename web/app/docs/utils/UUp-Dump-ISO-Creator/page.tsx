@@ -163,16 +163,16 @@ export default function UUPDumpISOCreatorPage() {
           <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
               <Server className="h-6 w-6 text-blue-500" />
-              <h3 className="text-xl font-semibold">Virtuliservmenu Integration</h3>
+              <h3 className="text-xl font-semibold">Virtuliser Integration</h3>
             </div>
-            <p className="mb-3">The script integrates seamlessly with the Virtuliservmenu VE environment:</p>
+            <p className="mb-3">The script integrates seamlessly with the Virtuliser VE environment:</p>
             <ul className="list-disc pl-5 space-y-1 mb-4">
-              <li>Automatic detection of the ISO storage directory in Virtuliservmenu</li>
+              <li>Automatic detection of the ISO storage directory in Virtuliser</li>
               <li>Storage of the resulting ISO image in the correct location</li>
               <li>Immediate availability of the ISO for use in VM creation</li>
-              <li>Compatibility with different Virtuliservmenu storage configurations</li>
+              <li>Compatibility with different Virtuliser storage configurations</li>
             </ul>
-            <p className="mb-2">The script automatically detects the ISO storage directory in Virtuliservmenu by:</p>
+            <p className="mb-2">The script automatically detects the ISO storage directory in Virtuliser by:</p>
             <p className="text-sm text-gray-600">
               If none is found, uses the default directory /var/lib/vz/template/iso
             </p>
@@ -371,7 +371,7 @@ export default function UUPDumpISOCreatorPage() {
             </h3>
             <p className="mb-4">
               Once the process is complete, the script will display a success message and the location of the created
-              ISO image. The ISO will be immediately available for use in creating virtual machines in Virtuliservmenu.
+              ISO image. The ISO will be immediately available for use in creating virtual machines in Virtuliser.
             </p>
             <ImageWithCaption
               src="https://macrimi.github.io/vmenu/iso-creator/end-uupdump-iso-creator.png"

@@ -1,33 +1,24 @@
-#!/bin/bash
 
-# vmenu - Customizable script settings for Virtuliservmenu post-installation
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenu - Customizable script settings for Virtuliser post-installation
 # Version     : 1.3
 # Last Updated: 30/06/2025
 # This script automates post-installation configurations and optimizations
-# for Virtuliservmenu Virtual Environment (VE). It allows for a variety of system
+# for Virtuliser Virtual Environment (VE). It allows for a variety of system
 # customizations, including kernel optimizations, memory management, network 
 # tweaks, and virtualization environment adjustments. The script facilitates
 # easy installation of useful tools and security enhancements, including 
 # fail2ban, ZFS auto-snapshot, and more.
-#
 # This script is based on the work of Adrian Jon Kriel from eXtremeSHOK.com,
-# and it was originally published as a post-installation script for Virtuliservmenu under the 
+# and it was originally published as a post-installation script for Virtuliser under the 
 # BSD License.
-#
 # Copyright (c) Adrian Jon Kriel :: admin@extremeshok.com
 # Script updates can be found at: https://github.com/extremeshok/xshok-proxmox
-#
 # License: BSD (Berkeley Software Distribution)
-#
 # Additionally, this script incorporates elements from the 
-# Virtuliservmenu VE Post Install script from Virtuliservmenu VE Helper-Scripts.
-#
-# Copyright (c) Virtuliservmenu VE Helper-Scripts Community
-# Script updates can be found at: https://github.com/community-scripts/VirtuliservmenuVE
-#
-# License: MIT | https://github.com/community-scripts/VirtuliservmenuVE/raw/main/LICENSE
-#
+# Virtuliser VE Post Install script from Virtuliser VE Helper-Scripts.
+# Copyright (c) Virtuliser VE Helper-Scripts Community
+# Script updates can be found at: https://github.com/community-scripts/VirtuliserVE
+# License: MIT | https://github.com/community-scripts/VirtuliserVE/raw/main/LICENSE
 # Key features:
 # - Configures system memory and kernel settings for better performance.
 # - Enables IOMMU and VFIO for PCI passthrough and virtualization optimizations.
@@ -38,7 +29,6 @@
 # - Provides a wide range of additional options for customization and optimization.
 # - Offers interactive selection of features using an easy-to-use menu-driven interface.
 # - And many more...
-#
 
 
 # Configuration
@@ -147,35 +137,35 @@ EOF
 
 apt_upgrade() {
 
-    msg_info2 "$(translate "Configuring Virtuliservmenu repositories")"
+    msg_info2 "$(translate "Configuring Virtuliser repositories")"
     NECESSARY_REBOOT=1 
 
     # Disable enterprise proxmox repo
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
-        msg_info "$(translate "Disabling enterprise Virtuliservmenu repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliser repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
-        msg_ok "$(translate "Enterprise Virtuliservmenu repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliser repository disabled")"
     fi
 
-    # Disable enterprise Virtuliservmenu Ceph repo
+    # Disable enterprise Virtuliser Ceph repo
     if [ -f /etc/apt/sources.list.d/ceph.list ] && grep -q "^deb" /etc/apt/sources.list.d/ceph.list; then
-        msg_info "$(translate "Disabling enterprise Virtuliservmenu Ceph repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliser Ceph repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/ceph.list
-        msg_ok "$(translate "Enterprise Virtuliservmenu Ceph repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliser Ceph repository disabled")"
     fi
 
     # Enable free public proxmox repo
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
-        msg_info "$(translate "Enabling free public Virtuliservmenu repository...")"
+        msg_info "$(translate "Enabling free public Virtuliser repository...")"
         echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
-        msg_ok "$(translate "Free public Virtuliservmenu repository enabled")"
+        msg_ok "$(translate "Free public Virtuliser repository enabled")"
     fi
 
-#    # Enable Virtuliservmenu testing repository
+#    # Enable Virtuliser testing repository
 #    if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-#        msg_info "$(translate "Enabling Virtuliservmenu testing repository...")"
+#        msg_info "$(translate "Enabling Virtuliser testing repository...")"
 #        echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-#        msg_ok "$(translate "Virtuliservmenu testing repository enabled")"
+#        msg_ok "$(translate "Virtuliser testing repository enabled")"
 #    fi
 
 # ======================================================
@@ -298,19 +288,19 @@ apt_upgrade() {
 
 
 
-    # Install additional Virtuliservmenu packages
-    msg_info "$(translate "Installing additional Virtuliservmenu packages...")"
+    # Install additional Virtuliser packages
+    msg_info "$(translate "Installing additional Virtuliser packages...")"
     if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install zfsutils-linux proxmox-backup-restore-image chrony > /dev/null 2>&1; then
-        msg_ok "$(translate "Additional Virtuliservmenu packages installed")"
+        msg_ok "$(translate "Additional Virtuliser packages installed")"
     else
-        msg_error "$(translate "Failed to install additional Virtuliservmenu packages")"
+        msg_error "$(translate "Failed to install additional Virtuliser packages")"
     fi
 
     lvm_repair_check
 
     cleanup_duplicate_repos
 
-    msg_success "$(translate "Virtuliservmenu repository configuration completed")"
+    msg_success "$(translate "Virtuliser repository configuration completed")"
 
 }
 
@@ -765,7 +755,7 @@ install_system_utils() {
         )
         
         local selected
-        selected=$(dialog --clear --backtitle "ProxMenu - $(translate "System Utilities")" \
+        selected=$(dialog --clear --backtitle "vmenu - $(translate "System Utilities")" \
                          --title "$(translate "Select utilities to install")" \
                          --checklist "$(translate "Use SPACE to select/deselect, ENTER to confirm")" \
                          20 70 12 "${utilities[@]}" 2>&1 >/dev/tty)
@@ -778,7 +768,7 @@ install_system_utils() {
         local selected="$1"
         
         if [ -z "$selected" ]; then
-            dialog --clear --backtitle "ProxMenu" \
+            dialog --clear --backtitle "vmenu" \
                    --title "$(translate "No Selection")" \
                    --msgbox "$(translate "No utilities were selected")" 8 40
             return
@@ -1038,20 +1028,20 @@ apply_amd_fixes() {
         msg_info "$(translate "KVM report_ignored_msrs option already set")"
     fi
 
-    # Install the latest Virtuliservmenu VE kernel
-    msg_info "$(translate "Checking for Virtuliservmenu VE kernel updates...")"
+    # Install the latest Virtuliser VE kernel
+    msg_info "$(translate "Checking for Virtuliser VE kernel updates...")"
     local current_kernel=$(uname -r | cut -d'-' -f1-2)
     local latest_kernel=$(apt-cache search pve-kernel | grep "^pve-kernel-${current_kernel}" | sort -V | tail -n1 | cut -d' ' -f1)
     
     if [ "$latest_kernel" != "pve-kernel-$current_kernel" ]; then
-        msg_info "$(translate "Installing the latest Virtuliservmenu VE kernel...")"
+        msg_info "$(translate "Installing the latest Virtuliser VE kernel...")"
         if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install "$latest_kernel" > /dev/null 2>&1; then
-            msg_ok "$(translate "Latest Virtuliservmenu VE kernel installed successfully")"
+            msg_ok "$(translate "Latest Virtuliser VE kernel installed successfully")"
         else
-            msg_warn "$(translate "Failed to install the latest Virtuliservmenu VE kernel")"
+            msg_warn "$(translate "Failed to install the latest Virtuliser VE kernel")"
         fi
     else
-        msg_ok "$(translate "The latest Virtuliservmenu VE kernel is already installed")"
+        msg_ok "$(translate "The latest Virtuliser VE kernel is already installed")"
     fi
 
     msg_success "$(translate "AMD CPU fixes applied successfully")"
@@ -1592,16 +1582,16 @@ install_fail2ban() {
     mkdir -p /etc/fail2ban/jail.d /etc/fail2ban/filter.d
 
    
-    msg_info "$(translate "Configuring Virtuliservmenu filter...")"
+    msg_info "$(translate "Configuring Virtuliser filter...")"
     cat > /etc/fail2ban/filter.d/proxmox.conf << EOF
 [Definition]
 failregex = pvedaemon\[.*authentication failure; rhost=<HOST> user=.* msg=.*
 ignoreregex =
 EOF
-    msg_ok "$(translate "Virtuliservmenu filter configured")"
+    msg_ok "$(translate "Virtuliser filter configured")"
 
   
-    msg_info "$(translate "Configuring Virtuliservmenu jail...")"
+    msg_info "$(translate "Configuring Virtuliser jail...")"
     cat > /etc/fail2ban/jail.d/proxmox.conf << EOF
 [proxmox]
 enabled = true
@@ -1612,7 +1602,7 @@ maxretry = 3
 bantime = 3600
 findtime = 600
 EOF
-    msg_ok "$(translate "Virtuliservmenu jail configured")"
+    msg_ok "$(translate "Virtuliser jail configured")"
 
   
     msg_info "$(translate "Configuring general Fail2Ban settings...")"
@@ -1767,7 +1757,6 @@ install_lynis() {
     if git clone --quiet https://github.com/CISOfy/lynis.git /opt/lynis >/dev/null 2>&1; then
         # Create wrapper script instead of symbolic link
         cat << 'EOF' > /usr/local/bin/lynis
-#!/bin/bash
 cd /opt/lynis && ./lynis "$@"
 EOF
         chmod +x /usr/local/bin/lynis
@@ -1997,7 +1986,7 @@ enable_vfio_iommu() {
     msg_info2 "$(translate "Enabling IOMMU and configuring VFIO for PCI passthrough...")"
     NECESSARY_REBOOT=1
 
-    # Detect if system uses ZFS/systemd-boot (Virtuliservmenu)
+    # Detect if system uses ZFS/systemd-boot (Virtuliser)
     local uses_zfs=false
     local cmdline_file="/etc/kernel/cmdline"
     if [[ -f "$cmdline_file" ]] && grep -qE 'root=ZFS=|root=ZFS/' "$cmdline_file"; then
@@ -2219,7 +2208,7 @@ EOF
 
 remove_subscription_banner() {
 
-    msg_info2 "$(translate "Removing Virtuliservmenu subscription nag banner...")"
+    msg_info2 "$(translate "Removing Virtuliser subscription nag banner...")"
 
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
@@ -2264,7 +2253,7 @@ EOF
 
 
 remove_subscription_banner_() {
-    msg_info2 "$(translate "Checking Virtuliservmenu subscription banner and nag status...")"
+    msg_info2 "$(translate "Checking Virtuliser subscription banner and nag status...")"
 
     local proxmox_js="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local cron_file="/etc/cron.daily/xs-pve-nosub"
@@ -2521,7 +2510,7 @@ configure_fastfetch() {
 
     while true; do
         # Define logo options
-        local logo_options=("vmenu" "Virtuliservmenu (default)" "Comunidad Helper-Scripts" "Home-Labs-Club" "Proxmology" "Custom")
+        local logo_options=("vmenu" "Virtuliser (default)" "Comunidad Helper-Scripts" "Home-Labs-Club" "Proxmology" "Custom")
         local choice
 
         choice=$(whiptail --title "$(translate "Fastfetch Logo Selection")" --menu "$(translate "Choose a logo for Fastfetch:")" 20 78 6 \
@@ -2546,9 +2535,9 @@ configure_fastfetch() {
                 break
                 ;;
             2)
-                msg_info "$(translate "Using default Virtuliservmenu logo...")"
+                msg_info "$(translate "Using default Virtuliser logo...")"
                 jq 'del(.logo)' "$fastfetch_config" > "${fastfetch_config}.tmp" && mv "${fastfetch_config}.tmp" "$fastfetch_config"
-                msg_ok "$(translate "Default Virtuliservmenu logo applied")"
+                msg_ok "$(translate "Default Virtuliser logo applied")"
                 break
                 ;;
             3)
@@ -2654,14 +2643,14 @@ configure_fastfetch() {
 
 
 add_repo_test() {
- msg_info2 "$(translate "Enable Virtuliservmenu testing repository...")"
-    # Enable Virtuliservmenu testing repository
+ msg_info2 "$(translate "Enable Virtuliser testing repository...")"
+    # Enable Virtuliser testing repository
     if [ ! -f /etc/apt/sources.list.d/pve-testing-repo.list ] || ! grep -q "pvetest" /etc/apt/sources.list.d/pve-testing-repo.list; then
-        msg_info "$(translate "Enabling Virtuliservmenu testing repository...")"
+        msg_info "$(translate "Enabling Virtuliser testing repository...")"
         echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pvetest\\n" > /etc/apt/sources.list.d/pve-testing-repo.list
-        msg_ok "$(translate "Virtuliservmenu testing repository enabled")"
+        msg_ok "$(translate "Virtuliser testing repository enabled")"
     fi
- msg_success "$(translate "Virtuliservmenu testing repository has been successfully enabled")"
+ msg_success "$(translate "Virtuliser testing repository has been successfully enabled")"
 }
 
 
@@ -2731,10 +2720,10 @@ EOF
 # Aliases personalizados
 alias aptup='apt update && apt dist-upgrade'
 
-alias lxcclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/clean-lxcs.sh)"'
-alias lxcupdate='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/update-lxcs.sh)"'
-alias kernelclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/kernel-clean.sh)"'
-alias cpugov='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/scaling-governor.sh)"'
+alias lxcclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/tools/pve/clean-lxcs.sh)"'
+alias lxcupdate='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/tools/pve/update-lxcs.sh)"'
+alias kernelclean='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/tools/pve/kernel-clean.sh)"'
+alias cpugov='bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/tools/pve/scaling-governor.sh)"'
 
 alias updatecerts='pvecm updatecerts'
 alias seqwrite='sync; fio --randrepeat=1 --ioengine=libaio --direct=1 --name=test --filename=test --bs=4M --size=32G --readwrite=write --ramp_time=4'
@@ -2859,7 +2848,6 @@ configure_log2ram() {
     # Auto-sync
     if [[ "$ENABLE_AUTOSYNC" == true ]]; then
         cat << 'EOF' > /usr/local/bin/log2ram-check.sh
-#!/bin/bash
 CONF_FILE="/etc/log2ram.conf"
 LIMIT_KB=$(grep '^SIZE=' "$CONF_FILE" | cut -d'=' -f2 | tr -d 'M')000
 USED_KB=$(df /var/log --output=used | tail -1)
@@ -3070,9 +3058,9 @@ main_menu() {
     "Monitoring|Install OVH Real Time Monitoring|OVHRTM"
     "Performance|Use pigz for faster gzip compression|PIGZ"
     "Optional|Install and configure Fastfetch|FASTFETCH"
-    "Optional|Update Virtuliservmenu VE Appliance Manager|PVEAM"
+    "Optional|Update Virtuliser VE Appliance Manager|PVEAM"
     "Optional|Add latest Ceph support|CEPH"
-    "Optional|Add Virtuliservmenu testing repository|REPOTEST"
+    "Optional|Add Virtuliser testing repository|REPOTEST"
     "Optional|Enable High Availability services|ENABLE_HA"
     "Optional|Install Figurine|FIGURINE"
     "Optional|Install and configure Log2RAM|LOG2RAM"

@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 
-# ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenuX - Virtual Machine Creator Script
 # Last Updated: 07/05/2025
 # This script is part of the central vmenu VM creation module. It allows users
-# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
+# to create virtual machines (VMs) in Virtuliser VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
-#
 # Key features:
 # - Supports both virtual disk creation and physical disk passthrough.
 # - Automates CPU, RAM, BIOS, network and storage configuration.
 # - Provides a user-friendly menu to select OS type, ISO image and disk interface.
 # - Automatically generates a detailed and styled HTML description for each VM.
-#
 # All operations are designed to simplify and accelerate VM creation in a 
 # consistent and maintainable way, using vmenu standards.
 
@@ -104,14 +101,14 @@ function select_nas_iso() {
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r
       
-      whiptail --title "Virtuliservmenu VE - ZimaOS" \
+      whiptail --title "Virtuliser VE - ZimaOS" \
         --msgbox "$(translate "ZimaOS installer script by R0GGER\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://github.com/R0GGER/proxmox-zimaos")" 15 70
 
       return 1
       ;;
     8)
       HN="Umbrel OS"
-      bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/umbrel-os-vm.sh)"
+      bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/umbrel-os-vm.sh)"
       echo -e
       echo -e "${TAB}$(translate "Default Login Credentials:")"
       echo -e "${TAB}Username: umbrel"
@@ -121,8 +118,8 @@ function select_nas_iso() {
       msg_success "$(translate "Press Enter to return to menu...")"
       read -r
       
-      whiptail --title "Virtuliservmenu VE - Umbrel OS" \
-        --msgbox "$(translate "Umbrel OS installer script by Helper Scripts\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://community-scripts.github.io/VirtuliservmenuVE/scripts?id=umbrel-os-vm")" 15 70
+      whiptail --title "Virtuliser VE - Umbrel OS" \
+        --msgbox "$(translate "Umbrel OS installer script by Helper Scripts\n\nVisit the GitHub repo to learn more, contribute, or support the project:\n\nhttps://community-scripts.github.io/VirtuliserVE/scripts?id=umbrel-os-vm")" 15 70
 
       return 1
       ;;

@@ -3,7 +3,7 @@ import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
   title: "Disk Passthrough to a VM | vmenu Documentation",
-  description: "Step-by-step guide to configure disk passthrough to a virtual machine in Virtuliservmenu VE using vmenu.",
+  description: "Step-by-step guide to configure disk passthrough to a virtual machine in Virtuliser VE using vmenu.",
 }
 
 export default function DiskPassthroughVM() {
@@ -12,14 +12,14 @@ export default function DiskPassthroughVM() {
       <h1 className="text-3xl font-bold mb-6">Disk Passthrough to a VM</h1>
       
       <p className="mb-4">
-        This guide explains how to assign physical disks to virtual machines (VMs) in <strong>Virtuliservmenu VE</strong> using <strong>vmenu</strong>.
+        This guide explains how to assign physical disks to virtual machines (VMs) in <strong>Virtuliser VE</strong> using <strong>vmenu</strong>.
         Disk passthrough allows a VM to have direct access to a physical disk, providing improved performance and compatibility for certain applications.
       </p>
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Overview</h2>
       <p className="mb-4">The script automates the following steps:</p>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Lists available physical disks on the Virtuliservmenu host, excluding the system disk.</li>
+        <li>Lists available physical disks on the Virtuliser host, excluding the system disk.</li>
         <li>Displays a list of available virtual machines (VMs) for selection.</li>
         <li>Allows the user to select multiple disks to assign to a VM.</li>
         <li>Ensures selected disks are not already in use by another VM.</li>

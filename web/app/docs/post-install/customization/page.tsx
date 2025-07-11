@@ -5,11 +5,11 @@ import { Sliders } from "lucide-react"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: Customization Settings",
   description:
-    "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliservmenu VE environment.",
+    "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliser VE environment.",
   openGraph: {
     title: "vmenu Post-Install: Customization Settings",
     description:
-      "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliservmenu VE environment.",
+      "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliser VE environment.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/customization",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: Customization Settings",
     description:
-      "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliservmenu VE environment.",
+      "Guide to Customization Settings in the vmenu post-install script for configuring the Virtuliser VE environment.",
     images: ["https://macrimi.github.io/vmenu/customization-settings-image.png"],
   },
 }
@@ -47,7 +47,7 @@ export default function CustomizationSettingsPage() {
         <h1 className="text-3xl font-bold">Customization Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Customization Settings</strong> section allows you to configure and personalize the Virtuliservmenu VE
+        The <strong>Customization Settings</strong> section allows you to configure and personalize the Virtuliser VE
         environment with specific adjustments.
       </p>
 
@@ -105,10 +105,10 @@ echo "This system is optimized by: vmenu" | cat - /etc/motd > temp && mv temp /e
 
       <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
         <StepNumber number={3} />
-        Remove Virtuliservmenu Subscription Banner
+        Remove Virtuliser Subscription Banner
       </h3>
       <p className="mb-4">
-        This option removes the Virtuliservmenu subscription banner and nag prompts from the web interface.
+        This option removes the Virtuliser subscription banner and nag prompts from the web interface.
       </p>
       <p className="mb-4">What it does:</p>
       <ul className="list-disc pl-5 mb-4">
@@ -121,7 +121,7 @@ echo "This system is optimized by: vmenu" | cat - /etc/motd > temp && mv temp /e
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
       <div className="bg-gray-100 text-gray-800 p-4 rounded-md overflow-x-auto mb-6 border border-gray-300">
         <pre className="whitespace-pre-wrap text-sm">
-          {`# Remove Virtuliservmenu subscription banner
+          {`# Remove Virtuliser subscription banner
 sed -i "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
 sed -i "s/checked_command: function(orig_cmd) {/checked_command: function() {} || function(orig_cmd) {/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
 

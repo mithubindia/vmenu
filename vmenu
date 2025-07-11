@@ -1,4 +1,3 @@
-#!/bin/bash
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
 BASE_DIR="/usr/local/share/vmenu"
@@ -35,7 +34,7 @@ check_updates() {
     if whiptail --title "$(translate "Update Available")" \
                 --yesno "$(translate "New version available") ($REMOTE_VERSION)\n\n$(translate "Do you want to update now?")" \
                 10 60 --defaultno; then
-        msg_warn "$(translate "Starting ProxMenu update...")"
+        msg_warn "$(translate "Starting vmenu update...")"
 
         if wget -qO "$INSTALL_SCRIPT" "$REPO_URL/install_proxmenux.sh"; then
             chmod +x "$INSTALL_SCRIPT"

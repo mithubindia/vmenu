@@ -1,6 +1,5 @@
-#!/bin/bash
 
-# ProxMenu - Mount point from host into LXC container (CT)
+# vmenu - Mount point from host into LXC container (CT)
 # License     : MIT
 # Description : Mount a folder from /mnt on the host to a mount point in a CT
 

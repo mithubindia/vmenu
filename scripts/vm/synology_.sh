@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 
-# ProxMenuX - Synology DSM VM Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenuX - Synology DSM VM Creator Script
 # Last Updated: 13/03/2025
 # This script automates the creation and configuration of a Synology DSM 
-# (DiskStation Manager) virtual machine (VM) in Virtuliservmenu VE. It simplifies the
+# (DiskStation Manager) virtual machine (VM) in Virtuliser VE. It simplifies the
 # setup process by allowing both default and advanced configuration options.
-#
 # The script automates the complete VM creation process, including loader 
 # download, disk configuration, and VM boot setup.
-#
 # **Credits**
 # This script is an original idea but incorporates ideas and elements from 
-# a similar script by user **tim104979** from the VirtuliservmenuVE branch:
-# (https://raw.githubusercontent.com/tim104979/VirtuliservmenuVE/refs/heads/main/vm/synology-vm.sh)
-#
-# Copyright (c) Virtuliservmenu VE Helper-Scripts Community
-# License: MIT | https://github.com/community-scripts/VirtuliservmenuVE/raw/main/LICENSE
-#
+# a similar script by user **tim104979** from the VirtuliserVE branch:
+# (https://raw.githubusercontent.com/tim104979/VirtuliserVE/refs/heads/main/vm/synology-vm.sh)
+# Copyright (c) Virtuliser VE Helper-Scripts Community
+# License: MIT | https://github.com/community-scripts/VirtuliserVE/raw/main/LICENSE
 
 
 # Configuration ============================================
@@ -49,7 +44,7 @@ ERROR_FLAG=false
 
 function exit_script() {
   clear
-      if whiptail --backtitle "ProxMenuX" --title "$NAME" --yesno "$(translate "This will create a New $NAME. Proceed?")" 10 58; then
+      if whiptail --backtitle "vmenuX" --title "$NAME" --yesno "$(translate "This will create a New $NAME. Proceed?")" 10 58; then
         start_script
       else
         clear
@@ -78,7 +73,7 @@ function header_info() {
 
 # start Script
 function start_script() {
-  if (whiptail --backtitle "ProxMenuX" --title "SETTINGS" --yesno "$(translate  "Use Default Settings?")" --no-button Advanced 10 58); then
+  if (whiptail --backtitle "vmenuX" --title "SETTINGS" --yesno "$(translate  "Use Default Settings?")" --no-button Advanced 10 58); then
     header_info
     echo -e "${DEF}Using Default Settings${CL}"
     default_settings
@@ -138,7 +133,7 @@ function default_settings() {
 function advanced_settings() {
   # VM ID Selection
   while true; do
-    if VMID=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Set Virtual Machine ID")" 8 58 $NEXTID --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+    if VMID=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Set Virtual Machine ID")" 8 58 $NEXTID --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
       if [ -z "$VMID" ]; then
         VMID="$NEXTID"
       fi
@@ -155,7 +150,7 @@ function advanced_settings() {
   done
 
   # Machine Type Selection
-  if MACH=$(whiptail --backtitle "ProxMenuX" --title "$(translate "MACHINE TYPE")" --radiolist --cancel-button Exit-Script "Choose Type" 10 58 2 \
+  if MACH=$(whiptail --backtitle "vmenuX" --title "$(translate "MACHINE TYPE")" --radiolist --cancel-button Exit-Script "Choose Type" 10 58 2 \
     "q35" "Machine q35" ON \
     "i440fx" "Machine i440fx" OFF \
     3>&1 1>&2 2>&3); then
@@ -173,7 +168,7 @@ function advanced_settings() {
   fi
 
     # BIOS Type Selection 
-  if BIOS=$(whiptail --backtitle "ProxMenuX" --title "$(translate "BIOS TYPE")" --radiolist --cancel-button Exit-Script "Choose BIOS Type" 10 58 2 \
+  if BIOS=$(whiptail --backtitle "vmenuX" --title "$(translate "BIOS TYPE")" --radiolist --cancel-button Exit-Script "Choose BIOS Type" 10 58 2 \
     "ovmf" "UEFI (OVMF)" ON \
     "seabios" "SeaBIOS (Legacy)" OFF \
     3>&1 1>&2 2>&3); then
@@ -189,7 +184,7 @@ function advanced_settings() {
    fi
 
   # Hostname Selection
-  if VM_NAME=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Set Hostname")" 8 58 Synology-DSM --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if VM_NAME=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Set Hostname")" 8 58 Synology-DSM --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $VM_NAME ]; then
       HN="Synology-DSM"
       echo -e "${DGN}Using Hostname: ${BGN}$HN${CL}"
@@ -202,7 +197,7 @@ function advanced_settings() {
   fi
 
   # CPU Type Selection 
-  if CPU_TYPE1=$(whiptail --backtitle "ProxMenuX" --title "$(translate "CPU MODEL")" --radiolist "Choose" --cancel-button Exit-Script 10 58 2 \
+  if CPU_TYPE1=$(whiptail --backtitle "vmenuX" --title "$(translate "CPU MODEL")" --radiolist "Choose" --cancel-button Exit-Script 10 58 2 \
     "1" "Host" ON \
     "0" "KVM64" OFF \
     3>&1 1>&2 2>&3); then
@@ -218,7 +213,7 @@ function advanced_settings() {
   fi
 
   # Core Count Selection
-  if CORE_COUNT=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Allocate CPU Cores")" 8 58 2 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if CORE_COUNT=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Allocate CPU Cores")" 8 58 2 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $CORE_COUNT ]; then
       CORE_COUNT="2"
       echo -e "${DGN}Allocated Cores: ${BGN}$CORE_COUNT${CL}"
@@ -230,7 +225,7 @@ function advanced_settings() {
   fi
 
   # RAM Size Selection
-  if RAM_SIZE=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Allocate RAM in MiB")" 8 58 4096 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if RAM_SIZE=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Allocate RAM in MiB")" 8 58 4096 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $RAM_SIZE ]; then
       RAM_SIZE="4096"
       echo -e "${DGN}Allocated RAM: ${BGN}$RAM_SIZE${CL}"
@@ -242,7 +237,7 @@ function advanced_settings() {
   fi
 
   # Bridge Selection
-  if BRG=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Set a Bridge")" 8 58 vmbr0 --title "BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if BRG=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Set a Bridge")" 8 58 vmbr0 --title "BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $BRG ]; then
       BRG="vmbr0"
       echo -e "${DGN}Using Bridge: ${BGN}$BRG${CL}"
@@ -254,7 +249,7 @@ function advanced_settings() {
   fi
 
   # MAC Address Selection
-  if MAC1=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Set a MAC Address")" 8 58 $GEN_MAC --title "MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MAC1=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Set a MAC Address")" 8 58 $GEN_MAC --title "MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $MAC1 ]; then
       MAC="$GEN_MAC"
       echo -e "${DGN}Using MAC Address: ${BGN}$MAC${CL}"
@@ -267,7 +262,7 @@ function advanced_settings() {
   fi
 
   # VLAN Selection
-  if VLAN1=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Set a Vlan(leave blank for default)")" 8 58 --title "VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if VLAN1=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Set a Vlan(leave blank for default)")" 8 58 --title "VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $VLAN1 ]; then
       VLAN1="Default"
       VLAN=""
@@ -281,7 +276,7 @@ function advanced_settings() {
   fi
 
   # MTU Selection
-  if MTU1=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "Set Interface MTU Size (leave blank for default)")" 8 58 --title "MTU SIZE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MTU1=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "Set Interface MTU Size (leave blank for default)")" 8 58 --title "MTU SIZE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $MTU1 ]; then
       MTU1="Default"
       MTU=""
@@ -297,7 +292,7 @@ function advanced_settings() {
 
 
   # Confirmation
-  if (whiptail --backtitle "ProxMenuX" --title "$(translate "ADVANCED SETTINGS COMPLETE")" --yesno "Ready to create a $NAME?" --no-button Do-Over 10 58); then
+  if (whiptail --backtitle "vmenuX" --title "$(translate "ADVANCED SETTINGS COMPLETE")" --yesno "Ready to create a $NAME?" --no-button Do-Over 10 58); then
     echo -e
     echo -e "${CUS}Creating a $NAME using the above advanced settings${CL}"
     sleep 1
@@ -317,7 +312,7 @@ function advanced_settings() {
 # Select Disk
 function select_disk_type() {
 
-  DISK_TYPE=$(whiptail --backtitle "ProxMenuX" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
+  DISK_TYPE=$(whiptail --backtitle "vmenuX" --title "DISK TYPE" --menu "$(translate "Choose disk type:")" 12 58 2 \
     "virtual" "$(translate "Create virtual disk")" \
     "passthrough" "$(translate "Use physical disk passthrough")" \
     --ok-button "Select" --cancel-button "Cancel" 3>&1 1>&2 2>&3)
@@ -329,7 +324,7 @@ function select_disk_type() {
       header_info
       msg_error "Operation cancelled by user. Returning to start scrip..."
       sleep 2
-      if whiptail --backtitle "ProxMenuX" --title "$NAME" --yesno "$(translate "This will create a New $NAME. Proceed?")" 10 58; then
+      if whiptail --backtitle "vmenuX" --title "$NAME" --yesno "$(translate "This will create a New $NAME. Proceed?")" 10 58; then
         start_script
       else
         clear
@@ -386,7 +381,7 @@ function select_virtual_disk() {
     else
 
       kill $SPINNER_PID > /dev/null
-      STORAGE=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Select Storage Volume")" --radiolist \
+      STORAGE=$(whiptail --backtitle "vmenuX" --title "$(translate "Select Storage Volume")" --radiolist \
         "$(translate  "Choose the storage volume for the virtual disk:\n")" 20 78 10 \
         "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3)
       
@@ -404,7 +399,7 @@ function select_virtual_disk() {
     fi
 
     # Request disk size
-    DISK_SIZE=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
+    DISK_SIZE=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
     
     if [ $? -ne 0 ]; then
       if [ ${#VIRTUAL_DISKS[@]} -eq 0 ]; then
@@ -427,7 +422,7 @@ function select_virtual_disk() {
 
 
     # Ask if you want to create another disk
-    if ! whiptail --backtitle "ProxMenuX" --title "$(translate "Add Another Disk")" \
+    if ! whiptail --backtitle "vmenuX" --title "$(translate "Add Another Disk")" \
       --yesno "$(translate "Do you want to add another virtual disk?")" 8 58; then
       add_more_disks=false
     fi
@@ -606,7 +601,7 @@ function select_loader() {
   fi
 
   # Create the loader selection menu
-  LOADER_OPTION=$(whiptail --backtitle "ProxMenuX" --title "SELECT LOADER" --menu "$(translate "Choose a loader for Synology DSM:")" 15 70 4 \
+  LOADER_OPTION=$(whiptail --backtitle "vmenuX" --title "SELECT LOADER" --menu "$(translate "Choose a loader for Synology DSM:")" 15 70 4 \
     "1" "AuxXxilium Arc Loader" \
     "2" "RedPill Loader (RROrg - RR)" \
     "3" "TinyCore RedPill Loader (PeterSuh-Q3 M-shell)" \
@@ -668,7 +663,7 @@ function select_custom_image() {
   done <<< "$IMAGES"
   
   # Let the user select an image
-  LOADER_FILE=$(whiptail --backtitle "ProxMenuX" --title "SELECT CUSTOM IMAGE" --menu "$(translate "Choose a custom image:")" 20 70 10 "${IMAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
+  LOADER_FILE=$(whiptail --backtitle "vmenuX" --title "SELECT CUSTOM IMAGE" --menu "$(translate "Choose a custom image:")" 20 70 10 "${IMAGE_OPTIONS[@]}" 3>&1 1>&2 2>&3)
   
   if [ -z "$LOADER_FILE" ]; then
     msg_error "No custom image selected"
@@ -805,7 +800,7 @@ function select_efi_storage() {
   else
     kill $SPINNER_PID > /dev/null
     while [ -z "${STORAGE:+x}" ]; do
-      STORAGE=$(whiptail --backtitle "ProxMenuX" --title "EFI Disk Storage" --radiolist \
+      STORAGE=$(whiptail --backtitle "vmenuX" --title "EFI Disk Storage" --radiolist \
         "$(translate "Choose the storage volume for the EFI disk (4MB):\n\nUse Spacebar to select.")" \
         16 $(($MSG_MAX_LENGTH + 23)) 6 \
         "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3) || exit 
@@ -851,7 +846,7 @@ function select_storage_volume() {
     STORAGE=${STORAGE_MENU[0]}
   else
     while [ -z "${STORAGE:+x}" ]; do
-      STORAGE=$(whiptail --backtitle "ProxMenuX" --title "Storage Pools" --radiolist \
+      STORAGE=$(whiptail --backtitle "vmenuX" --title "Storage Pools" --radiolist \
         "$(translate "Choose the storage volume for $purpose:\n\nUse Spacebar to select.")" \
         16 $(($MSG_MAX_LENGTH + 23)) 6 \
         "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3) || exit
@@ -1018,7 +1013,7 @@ HTML_DESC="<div align='center'>
 </td>
 <td style='vertical-align: middle;'>
 <h1 style='margin: 0;'>Synology DSM VM</h1>
-<p style='margin: 0;'>Created with ProxMenuX</p>
+<p style='margin: 0;'>Created with vmenuX</p>
 <p style='margin: 0;'>Loader: $LOADER_NAME</p>
 </td>
 </tr>
@@ -1077,7 +1072,7 @@ HTML_DESC="<div align='center'>
 </td>
 <td style='vertical-align: middle;'>
 <h1 style='margin: 0;'>Synology DSM VM</h1>
-<p style='margin: 0;'>Created with ProxMenuX</p>
+<p style='margin: 0;'>Created with vmenuX</p>
 <p style='margin: 0;'>Loader: $LOADER_NAME</p>
 </td>
 </tr>
@@ -1134,7 +1129,7 @@ header_info
 sleep 1
 
 # Start script
-if whiptail --backtitle "ProxMenuX" --title "$NAME" --yesno "$(translate "This will create a New $NAME. Proceed?")" 10 58; then
+if whiptail --backtitle "vmenuX" --title "$NAME" --yesno "$(translate "This will create a New $NAME. Proceed?")" 10 58; then
   start_script
 else
   clear

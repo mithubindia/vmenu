@@ -69,13 +69,13 @@
 
 ### Added
 
-- **New Menu: Virtuliservmenu PVE Helper Scripts**  
-  Officially introduced the new **Virtuliservmenu PVE Helper Scripts** menu, replacing the previous: Esenciales Virtuliservmenu.  
+- **New Menu: Virtuliser PVE Helper Scripts**  
+  Officially introduced the new **Virtuliser PVE Helper Scripts** menu, replacing the previous: Esenciales Virtuliser.  
   This new menu includes:
   - Script search by name in real time
   - Category-based browsing
 
-  It’s a cleaner, faster, and more functional way to access community scripts in Virtuliservmenu.
+  It’s a cleaner, faster, and more functional way to access community scripts in Virtuliser.
 
   ![Helper Scripts Menu](https://macrimi.github.io/vmenu/menu-helpers-script.png)
 
@@ -168,8 +168,8 @@
 
 ### Fixed
 
-- **Startup Fix on Newer Virtuliservmenu Versions**\
-  Fixed an issue where some recent Virtuliservmenu installations lacked the `/usr/local/bin` directory, causing errors when installing the execution menu. The script now creates the directory if it does not exist before downloading the main menu.\
+- **Startup Fix on Newer Virtuliser Versions**\
+  Fixed an issue where some recent Virtuliser installations lacked the `/usr/local/bin` directory, causing errors when installing the execution menu. The script now creates the directory if it does not exist before downloading the main menu.\
   Thanks to **@danielmateos** for detecting and reporting this issue.
 
 ### Improved
@@ -214,8 +214,8 @@
 
 ### Added
 - **Interactive Help & Info Menu**  
-  Added a new script called `Help and Info`, which provides an interactive command reference menu for Virtuliservmenu VE through a dialog-based interface.  
-  This tool offers users a quick way to browse and copy useful commands for managing and maintaining their Virtuliservmenu server, all in one centralized location.
+  Added a new script called `Help and Info`, which provides an interactive command reference menu for Virtuliser VE through a dialog-based interface.  
+  This tool offers users a quick way to browse and copy useful commands for managing and maintaining their Virtuliser server, all in one centralized location.
 
   ![Help and Info Menu](https://macrimi.github.io/vmenu/help/help-info-menu.png)
 
@@ -241,7 +241,7 @@
 
 ### Added
 - **New Script: Disk Passthrough to a CT**
-Introduced a new script that enables assigning a dedicated physical disk to a container (CT) in Virtuliservmenu VE.
+Introduced a new script that enables assigning a dedicated physical disk to a container (CT) in Virtuliser VE.
 This utility lists available physical disks (excluding system and mounted disks), allows the user to select a container and one disk, and then formats or reuses the disk before mounting it inside the CT at a specified path.
 It supports detection of existing filesystems and ensures permissions are properly configured. Ideal for use cases such as Samba, Nextcloud, or video surveillance containers.
 
@@ -252,7 +252,7 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 
 ## 2025-03-24  
 ### Improved  
-- Improved the logic for detecting physical disks in the **Disk Passthrough to a VM** script. Previously, the script would display disks that were already mounted in the system on some setups. This update ensures that only unmounted disks are shown in Virtuliservmenu, preventing confusion and potential conflicts.  
+- Improved the logic for detecting physical disks in the **Disk Passthrough to a VM** script. Previously, the script would display disks that were already mounted in the system on some setups. This update ensures that only unmounted disks are shown in Virtuliser, preventing confusion and potential conflicts.  
 
 - This improvement ensures that disks already mounted or assigned to other VMs are excluded from the list of available disks, providing a more accurate and reliable selection process.
 
@@ -282,11 +282,11 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 
 ## [1.1.0] - 2025-03-04
 ### Added
-- Created a customizable post-install script for Virtuliservmenu with 10 sections and 35 different selectable options.
+- Created a customizable post-install script for Virtuliser with 10 sections and 35 different selectable options.
 
 ## [1.0.7] - 2025-02-17
 ### Added
-- Created a menu with essential scripts from the Virtuliservmenu VE Helper-Scripts community.
+- Created a menu with essential scripts from the Virtuliser VE Helper-Scripts community.
 
 ## [1.0.6] - 2025-02-10
 ### Added
@@ -335,4 +335,4 @@ Disks now display tags like ⚠ In use, ⚠ RAID, ⚠ LVM, or ⚠ ZFS, making it
 ## [1.0.0] - 2024-12-18
 ### Added
 - Initial release of **vmenu**.
-- Created a script to add **Coral TPU drivers** to Virtuliservmenu.
+- Created a script to add **Coral TPU drivers** to Virtuliser.

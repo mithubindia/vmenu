@@ -1,5 +1,3 @@
-#!/bin/bash
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 04/07/2025
 
@@ -187,7 +185,7 @@ show_version_info() {
         info_message+="$(translate "No installation information available.")\n"
     fi
     
-    info_message+="\n$(translate "ProxMenu files:")\n"
+    info_message+="\n$(translate "vmenu files:")\n"
     [ -f "$INSTALL_DIR/$MENU_SCRIPT" ] && info_message+="✓ $MENU_SCRIPT → $INSTALL_DIR/$MENU_SCRIPT\n" || info_message+="✗ $MENU_SCRIPT\n"
     [ -f "$UTILS_FILE" ] && info_message+="✓ utils.sh → $UTILS_FILE\n" || info_message+="✗ utils.sh\n"
     [ -f "$CONFIG_FILE" ] && info_message+="✓ config.json → $CONFIG_FILE\n" || info_message+="✗ config.json\n"
@@ -226,8 +224,8 @@ uninstall_proxmenu() {
     install_type=$(detect_installation_type)
     
     if ! dialog --clear --backtitle "vmenu Configuration" \
-                --title "Uninstall ProxMenu" \
-                --yesno "\n$(translate "Are you sure you want to uninstall ProxMenu?")" 8 60; then
+                --title "Uninstall vmenu" \
+                --yesno "\n$(translate "Are you sure you want to uninstall vmenu?")" 8 60; then
         return
     fi
     
@@ -254,7 +252,7 @@ uninstall_proxmenu() {
     
 
     (
-        echo "10" ; echo "Removing ProxMenu files..."
+        echo "10" ; echo "Removing vmenu files..."
         sleep 1
         
 
@@ -266,7 +264,7 @@ uninstall_proxmenu() {
             rm -rf "$VENV_PATH"
         fi
         
-        echo "50" ; echo "Removing ProxMenu files..."
+        echo "50" ; echo "Removing vmenu files..."
         rm -f "$INSTALL_DIR/$MENU_SCRIPT"
         rm -rf "$BASE_DIR"
         

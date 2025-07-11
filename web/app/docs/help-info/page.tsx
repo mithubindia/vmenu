@@ -21,11 +21,11 @@ import {
 export const metadata: Metadata = {
   title: "vmenu Documentation: Help and Info",
   description:
-    "Comprehensive collection of useful commands and references for Virtuliservmenu VE, organized by category for easy access and quick reference.",
+    "Comprehensive collection of useful commands and references for Virtuliser VE, organized by category for easy access and quick reference.",
   openGraph: {
     title: "vmenu Documentation: Help and Info",
     description:
-      "Comprehensive collection of useful commands and references for Virtuliservmenu VE, organized by category for easy access and quick reference.",
+      "Comprehensive collection of useful commands and references for Virtuliser VE, organized by category for easy access and quick reference.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/help-info",
     images: [
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Documentation: Help and Info",
     description:
-      "Comprehensive collection of useful commands and references for Virtuliservmenu VE, organized by category for easy access and quick reference.",
+      "Comprehensive collection of useful commands and references for Virtuliser VE, organized by category for easy access and quick reference.",
     images: ["https://macrimi.github.io/vmenu/help/help-info-menu.png"],
   },
 }
@@ -83,7 +83,7 @@ export default function HelpAndInfoPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            ProxMenu provides an interactive command reference menu for Virtuliservmenu VE through a dialog-based interface.
+            vmenu provides an interactive command reference menu for Virtuliser VE through a dialog-based interface.
             Select one of the categories below to explore the available commands.
           </p>
 
@@ -105,7 +105,7 @@ export default function HelpAndInfoPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
         <CommandCard
           title="Useful System Commands"
-          description="Basic commands to manage and monitor the Virtuliservmenu system"
+          description="Basic commands to manage and monitor the Virtuliser system"
           icon={<Terminal className="h-8 w-8 text-blue-500" />}
           href="/docs/help-info/system-commands"
         />
@@ -170,12 +170,12 @@ export default function HelpAndInfoPage() {
       <div className="mt-16 mb-6">
         <div className="flex items-center gap-3 mb-6">
           <Book className="h-8 w-8 mr-2 text-blue-500" />
-          <h2 className="text-2xl font-bold text-black">ProxMenu Guides</h2>
+          <h2 className="text-2xl font-bold text-black">vmenu Guides</h2>
         </div>
 
         <p className="text-lg mb-6 text-black">
           Check out the guides section for additional resources, tutorials, and documentation to help you get the most
-          out of Virtuliservmenu VE and ProxMenu.
+          out of Virtuliser VE and vmenu.
         </p>
 
         <div className="flex justify-center">

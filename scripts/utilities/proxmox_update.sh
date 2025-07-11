@@ -1,22 +1,18 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Last Updated: 04/07/2025
-# This script safely updates your Virtuliservmenu VE system and underlying Debian packages
+# This script safely updates your Virtuliser VE system and underlying Debian packages
 # through an interactive and automated process.
-#
 # Main features:
-# - Repairs and optimizes APT repositories (Virtuliservmenu & Debian)
+# - Repairs and optimizes APT repositories (Virtuliser & Debian)
 # - Removes duplicate or conflicting sources
-# - Switches to the recommended 'no-subscription' Virtuliservmenu repository
-# - Updates all Virtuliservmenu and Debian system packages
+# - Switches to the recommended 'no-subscription' Virtuliser repository
+# - Updates all Virtuliser and Debian system packages
 # - Installs essential packages if missing (e.g., zfsutils, chrony)
 # - Checks for LVM and storage issues and repairs headers if needed
 # - Removes conflicting time sync packages automatically
 # - Performs a system cleanup after updating (autoremove, autoclean)
 # - Provides a summary and prompts for reboot if necessary
-#
-# The goal of this script is to simplify and secure the update process for Virtuliservmenu,
+# The goal of this script is to simplify and secure the update process for Virtuliser,
 # reduce manual intervention, and prevent common repository and package errors.
 
 BASE_DIR="/usr/local/share/vmenu"
@@ -147,7 +143,7 @@ apt_upgrade() {
     clear
     show_proxmenux_logo
     echo -e
-    msg_title "$(translate "Virtuliservmenu system update")"
+    msg_title "$(translate "Virtuliser system update")"
     
 
     # ======================================================
@@ -163,19 +159,19 @@ apt_upgrade() {
     
     # Check connectivity
     if ! ping -c 1 download.proxmox.com >/dev/null 2>&1; then
-        msg_error "$(translate "Cannot reach Virtuliservmenu repositories")"
+        msg_error "$(translate "Cannot reach Virtuliser repositories")"
         return 1
     fi
     
     # ======================================================
-    # Virtuliservmenu repository configuration
+    # Virtuliser repository configuration
     # ======================================================
     
-    # Disable enterprise Virtuliservmenu repository
+    # Disable enterprise Virtuliser repository
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
-        msg_info "$(translate "Disabling enterprise Virtuliservmenu repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliser repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
-        msg_ok "$(translate "Enterprise Virtuliservmenu repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliser repository disabled")"
         changes_made=true
     fi
     
@@ -189,9 +185,9 @@ apt_upgrade() {
     
     # Enable free public repository
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
-        msg_info "$(translate "Enabling free public Virtuliservmenu repository...")"
+        msg_info "$(translate "Enabling free public Virtuliser repository...")"
         echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
-        msg_ok "$(translate "Free public Virtuliservmenu repository enabled")"
+        msg_ok "$(translate "Free public Virtuliser repository enabled")"
         changes_made=true
     fi
     
@@ -302,7 +298,7 @@ EOF
         
         # Show with dialog if available
         if command -v whiptail >/dev/null 2>&1; then
-            if whiptail --title "$(translate "Virtuliservmenu Update")" \
+            if whiptail --title "$(translate "Virtuliser Update")" \
                        --yesno "$(translate "Found $upgradable packages to upgrade.\n\nProceed with system update?")" 10 60; then
                 msg_info "$(translate "Performing system upgrade. This process may take several minutes...")"
             else
@@ -334,7 +330,7 @@ EOF
         return 1
     fi
     
-    # Install essential Virtuliservmenu packages if missing
+    # Install essential Virtuliser packages if missing
     local essential_packages=("zfsutils-linux" "proxmox-backup-restore-image" "chrony")
     local missing_packages=()
     
@@ -345,9 +341,9 @@ EOF
     done
     
     if [ ${#missing_packages[@]} -gt 0 ]; then
-        msg_info "$(translate "Installing essential Virtuliservmenu packages...")"
+        msg_info "$(translate "Installing essential Virtuliser packages...")"
         DEBIAN_FRONTEND=noninteractive apt-get -y install "${missing_packages[@]}" >> "$log_file" 2>&1
-        msg_ok "$(translate "Essential Virtuliservmenu packages installed")"
+        msg_ok "$(translate "Essential Virtuliser packages installed")"
     fi
     
     # Check LVM
@@ -369,7 +365,7 @@ EOF
     echo "$(translate "Packages upgraded"): $upgradable"
     echo ""
     
-    msg_success "$(translate "Virtuliservmenu system update completed successfully")"
+    msg_success "$(translate "Virtuliser system update completed successfully")"
     
     
     # ======================================================

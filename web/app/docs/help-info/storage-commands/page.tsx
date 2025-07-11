@@ -43,9 +43,9 @@ export default function StorageCommandsPage() {
       ],
     },
     {
-      title: "Virtuliservmenu Storage",
+      title: "Virtuliser Storage",
       commands: [
-        { command: "cat /etc/pve/storage.cfg", description: "Show Virtuliservmenu storage configuration" },
+        { command: "cat /etc/pve/storage.cfg", description: "Show Virtuliser storage configuration" },
         { command: "pvesm status", description: "Show status of all storage pools" },
         { command: "pvesm list", description: "List all available storage" },
         { command: "pvesm list <storage>", description: "List content of specific storage" },
@@ -79,8 +79,8 @@ export default function StorageCommandsPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for managing and monitoring storage devices and disk partitions in Virtuliservmenu VE.
-          Learn how to list disks, check storage usage, manage LVM volumes, and configure Virtuliservmenu storage.
+          This section provides commands for managing and monitoring storage devices and disk partitions in Virtuliser VE.
+          Learn how to list disks, check storage usage, manage LVM volumes, and configure Virtuliser storage.
         </p>
 
         <div className="flex gap-2 mb-6">

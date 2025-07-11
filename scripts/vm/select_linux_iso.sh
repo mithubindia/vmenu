@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 
-# ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenuX - Virtual Machine Creator Script
 # Last Updated: 07/05/2025
 # This script is part of the central vmenu VM creation module. It allows users
-# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
+# to create virtual machines (VMs) in Virtuliser VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
-#
 # Key features:
 # - Supports both virtual disk creation and physical disk passthrough.
 # - Automates CPU, RAM, BIOS, network and storage configuration.
 # - Provides a user-friendly menu to select OS type, ISO image and disk interface.
 # - Automatically generates a detailed and styled HTML description for each VM.
-#
 # All operations are designed to simplify and accelerate VM creation in a 
 # consistent and maintainable way, using vmenu standards.
 
@@ -171,24 +168,24 @@ function select_linux_cloudinit() {
 
   case "$script_selection" in
     1)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/archlinux-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/archlinux-vm.sh")
       ;;
     2)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/debian-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/debian-vm.sh")
       ;;
     3)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2204-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2204-vm.sh")
       ;;
     4)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2404-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2404-vm.sh")
       ;;
     5)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2410-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2410-vm.sh")
       ;;
     6)
-      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2504-vm.sh")
+      bash <(curl -s "https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2504-vm.sh")
       echo -e
-      echo -e "after installation, checkout:\nhttps://github.com/community-scripts/VirtuliservmenuVE/discussions/272"
+      echo -e "after installation, checkout:\nhttps://github.com/community-scripts/VirtuliserVE/discussions/272"
       echo -e
       ;;  
     7)
@@ -199,8 +196,8 @@ function select_linux_cloudinit() {
   msg_success "$(translate "Press Enter to return to menu...")"
   read -r
 
-  whiptail --title "Virtuliservmenu VE Helper-Scripts" \
-           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/VirtuliservmenuVE")" 15 70
+  whiptail --title "Virtuliser VE Helper-Scripts" \
+           --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/VirtuliserVE")" 15 70
 
   exec bash <(curl -s "$REPO_URL/scripts/vm/create_vm.sh")
 }
@@ -261,10 +258,10 @@ fi
 
 case "$choice" in
   1)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/haos-vm.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/haos-vm.sh)"
     ;;
   2)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/docker-vm.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/docker-vm.sh)"
     echo -e
     echo -e "${TAB}$(translate "Default Login Credentials:")"
     echo -e "${TAB}Username: root"
@@ -272,11 +269,11 @@ case "$choice" in
     echo -e
     ;;
   3)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/nextcloud-vm.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/nextcloud-vm.sh)"
     echo -e
     echo -e "${TAB}$(translate "You can use the following credentials to login to the Nextcloud vm:")"
     echo -e "${TAB}Username: admin"
-    echo -e "${TAB}$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/VirtuliservmenuVE/discussions/144")"
+    echo -e "${TAB}$(translate "This VM requires extra installation steps, see install guide at:\nhttps://github.com/community-scripts/VirtuliserVE/discussions/144")"
     echo -e
     ;;
 esac
@@ -284,8 +281,8 @@ esac
 msg_success "$(translate "Press Enter to return to menu...")"
 read -r
 
-whiptail --title "Virtuliservmenu VE Helper-Scripts" \
-  --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/VirtuliservmenuVE")" 15 70
+whiptail --title "Virtuliser VE Helper-Scripts" \
+  --msgbox "$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:\n\nhttps://community-scripts.github.io/VirtuliserVE")" 15 70
 
 return 1
 

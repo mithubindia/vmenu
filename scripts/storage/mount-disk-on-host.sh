@@ -1,10 +1,8 @@
-#!/bin/bash
 
-# ProxMenu - Mount independent disk on Virtuliservmenu host
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenu - Mount independent disk on Virtuliser host
 # Last Updated: 08/04/2025
 # This script detects unassigned physical disks and allows
-# the user to mount one of them on the host Virtuliservmenu system.
+# the user to mount one of them on the host Virtuliser system.
 # - Detects unmounted and unassigned disks.
 # - Filters out ZFS, LVM, RAID and system disks.
 # - Allows selecting a disk.

@@ -3,7 +3,7 @@ import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
   title: "Install Coral TPU on the Host | vmenu Documentation",
-  description: "Step-by-step guide to install Google Coral TPU drivers on a Virtuliservmenu VE host using vmenu.",
+  description: "Step-by-step guide to install Google Coral TPU drivers on a Virtuliser VE host using vmenu.",
 }
 
 export default function InstallCoralTPUHost() {
@@ -12,9 +12,9 @@ export default function InstallCoralTPUHost() {
       <h1 className="text-3xl font-bold mb-6">Install Coral TPU on the Host</h1>
 
       <p className="mb-4">
-        <strong>Before using Coral TPU inside an LXC container, the drivers must first be installed on the Virtuliservmenu VE host. This script automates that process, ensuring the necessary setup is completed.</strong>
+        <strong>Before using Coral TPU inside an LXC container, the drivers must first be installed on the Virtuliser VE host. This script automates that process, ensuring the necessary setup is completed.</strong>
         <br /><br />
-        This guide explains how to install and configure Google Coral TPU drivers on a Virtuliservmenu VE host using <strong>vmenu</strong>. This setup enables hardware acceleration for AI-based applications that leverage Coral TPU.
+        This guide explains how to install and configure Google Coral TPU drivers on a Virtuliser VE host using <strong>vmenu</strong>. This setup enables hardware acceleration for AI-based applications that leverage Coral TPU.
       </p>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Overview</h2>
@@ -52,7 +52,7 @@ export default function InstallCoralTPUHost() {
               <li><code>devscripts</code></li>
               <li><code>dh-dkms</code></li>
               <li><code>dkms</code></li>
-              <li><code>pve-headers-$(uname -r)</code> (Virtuliservmenu kernel headers)</li>
+              <li><code>pve-headers-$(uname -r)</code> (Virtuliser kernel headers)</li>
             </ul>
             <li>Clones the Coral TPU driver source from:</li>
             <ul className="list-disc pl-10">
@@ -79,7 +79,7 @@ dpkg -i ../gasket-dkms_*.deb`}
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Expected Results</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>The Coral TPU drivers are installed successfully on the Virtuliservmenu VE host.</li>
+        <li>The Coral TPU drivers are installed successfully on the Virtuliser VE host.</li>
         <li>Required repositories and dependencies are configured properly.</li>
         <li>A system restart is performed to complete the installation.</li>
       </ul>

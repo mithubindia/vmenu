@@ -13,7 +13,7 @@ export default function IGPUAccelerationLXC() {
       <h1 className="text-3xl font-bold mb-6">Enable Intel iGPU Acceleration in an LXC</h1>
       
       <p className="mb-4">
-        This guide explains how to configure Intel Integrated GPU (iGPU) acceleration for LXC containers in Virtuliservmenu VE
+        This guide explains how to configure Intel Integrated GPU (iGPU) acceleration for LXC containers in Virtuliser VE
         using <strong>vmenu</strong>. Enabling iGPU support allows containers to use the host’s GPU for hardware acceleration
         in applications such as video transcoding and rendering.
       </p>

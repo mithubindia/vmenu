@@ -1,6 +1,5 @@
-#!/bin/bash
 
-# ProxMenu - Mount disk on Virtuliservmenu host for backups
+# vmenu - Mount disk on Virtuliser host for backups
 # License     : MIT
 # Version     : 1.3-dialog
 # Last Updated: 13/12/2024

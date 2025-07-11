@@ -1,16 +1,13 @@
-#!/bin/bash
 
 # Revision    : @Blaspt (USB passthrough via udev rule with persistent /dev/coral)
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 16/05/2025
 # This script automates the configuration and installation of
-# Coral TPU and iGPU support in Virtuliservmenu VE containers. It:
+# Coral TPU and iGPU support in Virtuliser VE containers. It:
 # - Configures a selected LXC container for hardware acceleration
-# - Installs and sets up Coral TPU drivers on the Virtuliservmenu host
+# - Installs and sets up Coral TPU drivers on the Virtuliser host
 # - Installs necessary drivers inside the container
 # - Manages required system and container restarts
-#
 # Supports Coral USB and Coral M.2 (PCIe) devices.
 # Includes USB passthrough enhancement using persistent udev alias (/dev/coral).
 
@@ -30,7 +27,7 @@ initialize_cache
 select_container() {
     CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)
     if [ -z "$CONTAINERS" ]; then
-        msg_error "$(translate 'No containers available in Virtuliservmenu.')"
+        msg_error "$(translate 'No containers available in Virtuliser.')"
         exit 1
     fi
 

@@ -1,14 +1,11 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 04/06/2025
-# This script provides a simple and efficient way to access and execute Virtuliservmenu VE scripts
-# from the Community Scripts project (https://community-scripts.github.io/VirtuliservmenuVE/).
-#
+# This script provides a simple and efficient way to access and execute Virtuliser VE scripts
+# from the Community Scripts project (https://community-scripts.github.io/VirtuliserVE/).
 # It serves as a convenient tool to run key automation scripts that simplify system management,
-# continuing the great work and legacy of tteck in making Virtuliservmenu VE more accessible.
-# A streamlined solution for executing must-have tools in Virtuliservmenu VE.
+# continuing the great work and legacy of tteck in making Virtuliser VE more accessible.
+# A streamlined solution for executing must-have tools in Virtuliser VE.
 
 
 # Configuration ============================================
@@ -25,7 +22,7 @@ load_language
 initialize_cache
 
 HELPERS_JSON_URL="https://raw.githubusercontent.com/MacRimi/vmenu/refs/heads/main/json/helpers_cache.json"
-METADATA_URL="https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/frontend/public/json/metadata.json"
+METADATA_URL="https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/frontend/public/json/metadata.json"
 
 for cmd in curl jq dialog; do
   if ! command -v "$cmd" >/dev/null; then
@@ -278,11 +275,11 @@ while true; do
     MENU_ITEMS+=("$id" "$padded_name $padded_count")
   done
 
-  SELECTED=$(dialog --backtitle "vmenu" --title "Virtuliservmenu VE Helper-Scripts" --menu \
+  SELECTED=$(dialog --backtitle "vmenu" --title "Virtuliser VE Helper-Scripts" --menu \
     "Select a category or search for scripts:" 20 70 14 \
     "${MENU_ITEMS[@]}" 3>&1 1>&2 2>&3) || {
-     dialog --clear --title "Virtuliservmenu VE Helper-Scripts" \
-         --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/VirtuliservmenuVE" 15 70
+     dialog --clear --title "Virtuliser VE Helper-Scripts" \
+         --msgbox "\n\n$(translate "Visit the website to discover more scripts, stay updated with the latest updates, and support the project:")\n\nhttps://community-scripts.github.io/VirtuliserVE" 15 70
       #clear
       exec bash <(curl -s "$REPO_URL/scripts/menus/main_menu.sh")
   }

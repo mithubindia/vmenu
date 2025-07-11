@@ -6,11 +6,11 @@ import { ArrowLeft, HardDrive, Settings, Zap, Sliders, Server, Database, Externa
 export const metadata: Metadata = {
   title: "vmenu Documentation: Other NAS Systems VM Creation",
   description:
-    "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliservmenu VE using vmenu.",
+    "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliser VE using vmenu.",
   openGraph: {
     title: "vmenu Documentation: Other NAS Systems VM Creation",
     description:
-      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliservmenu VE using vmenu.",
+      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliser VE using vmenu.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/virtual-machines/system-nas/others",
     images: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Documentation: Other NAS Systems VM Creation",
     description:
-      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliservmenu VE using vmenu.",
+      "Guide for creating and configuring virtual machines for TrueNAS SCALE, TrueNAS CORE, OpenMediaVault, and Rockstor on Virtuliser VE using vmenu.",
     images: ["https://macrimi.github.io/vmenu/vm/other-nas-systems.png"],
   },
 }
@@ -69,7 +69,7 @@ export default function OtherNASSystemsPage() {
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
             vmenu provides automated scripts that create and configure virtual machines for various NAS systems on
-            Virtuliservmenu VE. This documentation covers the VM creation process for TrueNAS SCALE, TrueNAS CORE,
+            Virtuliser VE. This documentation covers the VM creation process for TrueNAS SCALE, TrueNAS CORE,
             OpenMediaVault, and Rockstor.
           </p>
         </div>
@@ -281,7 +281,7 @@ export default function OtherNASSystemsPage() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Virtuliservmenu</li>
+            <li>The script lists the storage options available in Virtuliser</li>
             <li>The user selects the disk and size in GB</li>
             <li>
               The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,

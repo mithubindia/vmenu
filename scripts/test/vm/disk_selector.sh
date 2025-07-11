@@ -68,7 +68,7 @@ function select_virtual_disk() {
     else
 
       kill $SPINNER_PID > /dev/null
-      STORAGE=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Select Storage Volume")" --radiolist \
+      STORAGE=$(whiptail --backtitle "vmenuX" --title "$(translate "Select Storage Volume")" --radiolist \
         "$(translate  "Choose the storage volume for the virtual disk:\n")" 20 78 10 \
         "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3)
       
@@ -86,7 +86,7 @@ function select_virtual_disk() {
     fi
 
     # Request disk size
-    DISK_SIZE=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
+    DISK_SIZE=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
     
     if [ $? -ne 0 ]; then
       if [ ${#VIRTUAL_DISKS[@]} -eq 0 ]; then
@@ -109,7 +109,7 @@ function select_virtual_disk() {
 
 
     # Ask if you want to create another disk
-    if ! whiptail --backtitle "ProxMenuX" --title "$(translate "Add Another Disk")" \
+    if ! whiptail --backtitle "vmenuX" --title "$(translate "Add Another Disk")" \
       --yesno "$(translate "Do you want to add another virtual disk?")" 8 58; then
       add_more_disks=false
     fi

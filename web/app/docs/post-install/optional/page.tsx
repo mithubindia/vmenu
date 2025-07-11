@@ -5,11 +5,11 @@ import CopyableCode from "@/components/CopyableCode"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: Optional Settings",
   description:
-    "Guide to Optional Settings in the vmenu post-install script for additional Virtuliservmenu VE features and optimizations.",
+    "Guide to Optional Settings in the vmenu post-install script for additional Virtuliser VE features and optimizations.",
   openGraph: {
     title: "vmenu Post-Install: Optional Settings",
     description:
-      "Guide to Optional Settings in the vmenu post-install script for additional Virtuliservmenu VE features and optimizations.",
+      "Guide to Optional Settings in the vmenu post-install script for additional Virtuliser VE features and optimizations.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/optional",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: Optional Settings",
     description:
-      "Guide to Optional Settings in the vmenu post-install script for additional Virtuliservmenu VE features and optimizations.",
+      "Guide to Optional Settings in the vmenu post-install script for additional Virtuliser VE features and optimizations.",
     images: ["https://macrimi.github.io/vmenu/optional-settings-image.png"],
   },
 }
@@ -47,7 +47,7 @@ export default function OptionalSettingsPage() {
       </div>
       <p className="mb-4">
         The <strong>Optional Settings</strong> category provides additional features and optimizations that you can
-        choose to apply to your Virtuliservmenu VE installation. These settings are not essential but can enhance your system's
+        choose to apply to your Virtuliser VE installation. These settings are not essential but can enhance your system's
         capabilities in specific scenarios.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optional Features</h2>
@@ -57,7 +57,7 @@ export default function OptionalSettingsPage() {
         Add Latest Ceph Support
       </h3>
       <p className="mb-4">
-        This option installs the latest Ceph storage system support for Virtuliservmenu VE. Ceph is a distributed storage system
+        This option installs the latest Ceph storage system support for Virtuliser VE. Ceph is a distributed storage system
         that provides high performance, reliability, and scalability.
       </p>
       <p className="mb-4">What it does:</p>
@@ -68,7 +68,7 @@ export default function OptionalSettingsPage() {
         <li>Verifies the installation</li>
       </ul>
       <p className="mb-4">
-        How to use: After installation, you can configure and manage Ceph storage using the Virtuliservmenu VE web interface or
+        How to use: After installation, you can configure and manage Ceph storage using the Virtuliser VE web interface or
         command-line tools.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -100,7 +100,7 @@ pveceph status
         <li>Detects if an AMD EPYC or Ryzen CPU is present</li>
         <li>Applies kernel parameter 'idle=nomwait' to prevent random crashes</li>
         <li>Configures KVM to ignore certain MSRs (Model Specific Registers) for better Windows guest compatibility</li>
-        <li>Installs the latest Virtuliservmenu VE kernel</li>
+        <li>Installs the latest Virtuliser VE kernel</li>
       </ul>
       <p className="mb-4">
         How to use: These fixes are applied automatically and require a system reboot to take effect.
@@ -116,7 +116,7 @@ update-grub
 echo "options kvm ignore_msrs=Y" >> /etc/modprobe.d/kvm.conf
 echo "options kvm report_ignored_msrs=N" >> /etc/modprobe.d/kvm.conf
 
-# Install latest Virtuliservmenu VE kernel
+# Install latest Virtuliser VE kernel
 apt-get install pve-kernel-$(uname -r | cut -d'-' -f1-2)
       `}
       />
@@ -126,7 +126,7 @@ apt-get install pve-kernel-$(uname -r | cut -d'-' -f1-2)
         Enable High Availability Services
       </h3>
       <p className="mb-4">
-        This option enables High Availability (HA) services in Virtuliservmenu VE, allowing for automatic failover of VMs and
+        This option enables High Availability (HA) services in Virtuliser VE, allowing for automatic failover of VMs and
         containers in case of node failure.
       </p>
       <p className="mb-4">What it does:</p>
@@ -136,7 +136,7 @@ apt-get install pve-kernel-$(uname -r | cut -d'-' -f1-2)
         <li>Enables and starts the corosync service for cluster communication</li>
       </ul>
       <p className="mb-4">
-        How to use: After enabling these services, you can configure HA groups and resources in the Virtuliservmenu VE web
+        How to use: After enabling these services, you can configure HA groups and resources in the Virtuliser VE web
         interface.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following commands:</p>
@@ -149,24 +149,24 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
 
     <h3 className="text-xl font-semibold mt-16 mb-4 flex items-center">
       <StepNumber number={4} />
-      Enable Virtuliservmenu Testing Repository
+      Enable Virtuliser Testing Repository
     </h3>
     <p className="mb-4">
-      This option enables the Virtuliservmenu testing repository, allowing access to the latest, potentially unstable versions of Virtuliservmenu VE packages.
+      This option enables the Virtuliser testing repository, allowing access to the latest, potentially unstable versions of Virtuliser VE packages.
     </p>
     <p className="mb-4">What it does:</p>
     <ul className="list-disc pl-5 mb-4">
-      <li>Adds the Virtuliservmenu testing repository to the system's package sources</li>
+      <li>Adds the Virtuliser testing repository to the system's package sources</li>
       <li>Creates a new file in /etc/apt/sources.list.d/ for the testing repository</li>
       <li>Updates the package lists to include packages from the new repository</li>
     </ul>
     <p className="mb-4">
-      How to use: After enabling this repository, you can update and upgrade your system to get the latest testing versions of Virtuliservmenu VE packages. Use with caution as these versions may be unstable.
+      How to use: After enabling this repository, you can update and upgrade your system to get the latest testing versions of Virtuliser VE packages. Use with caution as these versions may be unstable.
     </p>
-    <p className="text-lg mb-2">To manually add the Virtuliservmenu testing repository, you can use these commands:</p>
+    <p className="text-lg mb-2">To manually add the Virtuliser testing repository, you can use these commands:</p>
     <CopyableCode
       code={`
-    # Add Virtuliservmenu testing repository
+    # Add Virtuliser testing repository
     echo "deb http://download.proxmox.com/debian/pve $(lsb_release -cs) pvetest" | sudo tee /etc/apt/sources.list.d/pve-testing-repo.list
 
     # Update package lists
@@ -174,7 +174,7 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
       `}
     />
     <p className="mt-4 text-sm text-gray-600">
-      Note: $(lsb_release -cs) automatically detects your Virtuliservmenu VE version codename (e.g., bullseye).
+      Note: $(lsb_release -cs) automatically detects your Virtuliser VE version codename (e.g., bullseye).
     </p>
     <p className="mt-4 text-yellow-600">
       Warning: Enabling the testing repository may lead to system instability. It's recommended for testing environments only.
@@ -198,7 +198,7 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
       <li>Silently downloads and installs the latest version of Fastfetch</li>
       <li>
         Allows you to choose a custom logo (
-        <strong>vmenu, Virtuliservmenu, Helper-Scripts, Home-Labs-Club, Proxmology</strong>, or a custom one)
+        <strong>vmenu, Virtuliser, Helper-Scripts, Home-Labs-Club, Proxmology</strong>, or a custom one)
       </li>
       <li>
         Configures Fastfetch to display <em>"System optimised by vmenu"</em>
@@ -209,7 +209,7 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
     <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
       <p className="font-semibold">Important:</p>
       <p>
-        If you connect to Virtuliservmenu via SSH, you should select the <strong>Virtuliservmenu</strong> logo or create a custom one
+        If you connect to Virtuliser via SSH, you should select the <strong>Virtuliser</strong> logo or create a custom one
         using <code>jp2a</code> or <code>img2txt</code>. The other logos are generated using <code>chafa</code> and may
         not display correctly in a standard SSH session.
       </p>
@@ -250,10 +250,10 @@ systemctl enable --now pve-ha-lrm pve-ha-crm corosync
         />
       </div>
       <div>
-        <p className="font-semibold text-center">Virtuliservmenu</p>
+        <p className="font-semibold text-center">Virtuliser</p>
         <img
           src="https://macrimi.github.io/vmenu/fastfetch/proxmox.png"
-          alt="Virtuliservmenu Logo"
+          alt="Virtuliser Logo"
           className="rounded shadow-lg"
         />
       </div>
@@ -324,7 +324,7 @@ echo "clear && fastfetch" >> ~/.bashrc
       <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
         <p className="font-semibold">Practical Use:</p>
         <p>
-          When managing multiple Virtuliservmenu nodes in a cluster, Figurine provides an immediate visual indication of which
+          When managing multiple Virtuliser nodes in a cluster, Figurine provides an immediate visual indication of which
           node you're currently logged into. This helps prevent accidental commands on the wrong node and improves your
           workflow when managing multiple servers.
         </p>
@@ -370,7 +370,7 @@ chmod +x "/etc/profile.d/figurine.sh"
 
       <p className="mt-4">
         After installation, you'll see your hostname displayed in 3D ASCII art each time you log in, making it
-        immediately clear which Virtuliservmenu node you're working on.
+        immediately clear which Virtuliser node you're working on.
       </p>
 	
 

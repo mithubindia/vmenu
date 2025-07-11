@@ -62,7 +62,6 @@ fi
 
 # Crear script de descarga uup_download_linux.sh
 cat > uup_download_linux.sh <<EOF
-#!/bin/bash
 mkdir -p files
 echo "https://git.uupdump.net/uup-dump/converter/archive/refs/heads/master.tar.gz" > files/converter_multi
 

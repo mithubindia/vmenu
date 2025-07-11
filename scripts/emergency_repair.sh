@@ -1,10 +1,8 @@
-#!/bin/bash
-# ProxMenu - Network Management and Repair Tool
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenu - Network Management and Repair Tool
 # Version     : 2.0
 # Last Updated: 07/01/2025
 
-# Advanced network management and troubleshooting tool for Virtuliservmenu VE.
+# Advanced network management and troubleshooting tool for Virtuliser VE.
 # Features include interface detection, bridge management, connectivity testing,
 # network diagnostics, configuration backup/restore, and automated repairs.
 
@@ -55,7 +53,7 @@ detect_network_method() {
         return 0
     fi
 
-    # Default: Debian/Virtuliservmenu classic
+    # Default: Debian/Virtuliser classic
     echo "classic"
 }
 
@@ -135,7 +133,7 @@ advanced_network_diagnostics() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -157,12 +155,12 @@ advanced_network_diagnostics() {
     # Check for common issues
     diag_info+="$(translate "Common Issues Check"):\n"
 
-    # Check if NetworkManager is running (shouldn't be on Virtuliservmenu)
+    # Check if NetworkManager is running (shouldn't be on Virtuliser)
     if systemctl is-active --quiet NetworkManager 2>/dev/null; then
         diag_info+="⚠ $(translate "NetworkManager is running (may cause conflicts)")\n"
 
         if dialog --title "$(translate "NetworkManager Detected")" \
-                --yesno "$(translate "NetworkManager is running, which may conflict with Virtuliservmenu.")\n\n$(translate "Do you want to disable and remove it now?")" 10 70; then
+                --yesno "$(translate "NetworkManager is running, which may conflict with Virtuliser.")\n\n$(translate "Do you want to disable and remove it now?")" 10 70; then
 
             dialog --infobox "$(translate "Disabling and removing NetworkManager...")" 6 60
             systemctl stop NetworkManager >/dev/null 2>&1
@@ -200,7 +198,7 @@ analyze_bridge_configuration() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -466,7 +464,7 @@ analyze_network_configuration() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -673,7 +671,7 @@ show_network_config() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -700,7 +698,7 @@ restore_network_backup() {
 
     if [[ "$NETWORK_METHOD" != "classic" ]]; then
         dialog --title "Unsupported Network Stack" \
-            --msgbox "WARNING: This script only supports the classic Debian/Virtuliservmenu network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
+            --msgbox "WARNING: This script only supports the classic Debian/Virtuliser network configuration (/etc/network/interfaces).\n\nDetected: $NETWORK_METHOD.\n\nAborting for safety.\n\nPlease configure your network using your distribution's supported tools." 14 70
         exit 1
     fi
 
@@ -772,7 +770,7 @@ emergency_proxmox_repair() {
     echo "=========================================="
     echo
     
-    msg_warn "$(translate "This will reinstall core Virtuliservmenu packages and regenerate certificates")"
+    msg_warn "$(translate "This will reinstall core Virtuliser packages and regenerate certificates")"
     echo "$(translate "This operation may take several minutes and requires internet connectivity.")"
     echo
     echo -n "$(translate "Do you want to continue?") (y/N): "
@@ -783,7 +781,7 @@ emergency_proxmox_repair() {
         return
     fi
     
-    msg_info2 "$(translate "Starting Virtuliservmenu system repair...")"
+    msg_info2 "$(translate "Starting Virtuliser system repair...")"
     echo
     
     # Step 1: Update package lists
@@ -800,14 +798,14 @@ emergency_proxmox_repair() {
     fi
     echo
     
-    # Step 2: Reinstall core Virtuliservmenu packages
-    msg_success "$(translate "Step") 2/3: $(translate "Reinstalling core Virtuliservmenu packages...")"
+    # Step 2: Reinstall core Virtuliser packages
+    msg_success "$(translate "Step") 2/3: $(translate "Reinstalling core Virtuliser packages...")"
     echo "$(translate "This may take several minutes...")"
     
     if apt-get install --reinstall proxmox-widget-toolkit pve-manager -y; then
-        msg_ok "$(translate "Core Virtuliservmenu packages reinstalled successfully")"
+        msg_ok "$(translate "Core Virtuliser packages reinstalled successfully")"
     else
-        msg_error "$(translate "Failed to reinstall Virtuliservmenu packages")"
+        msg_error "$(translate "Failed to reinstall Virtuliser packages")"
         echo "$(translate "Check the error messages above for details.")"
         echo
         echo "$(translate "Press ENTER to continue...")"
@@ -831,8 +829,8 @@ emergency_proxmox_repair() {
         msg_warn "$(translate "pvecm command not found (might not be in a cluster)")"
     fi
     
-    # Restart Virtuliservmenu services
-    msg_success "$(translate "Restarting Virtuliservmenu services...")"
+    # Restart Virtuliser services
+    msg_success "$(translate "Restarting Virtuliser services...")"
     local services_restarted=0
     local services_failed=0
     
@@ -855,12 +853,12 @@ emergency_proxmox_repair() {
     echo "  $(translate "Services failed"): $services_failed"
     
     if [ $services_failed -eq 0 ]; then
-        msg_ok "$(translate "Virtuliservmenu system repair completed successfully!")"
+        msg_ok "$(translate "Virtuliser system repair completed successfully!")"
         echo
-        echo "$(translate "You should now be able to access the Virtuliservmenu web interface.")"
+        echo "$(translate "You should now be able to access the Virtuliser web interface.")"
         echo "$(translate "Try accessing"): https://$(hostname -I | awk '{print $1}'):8006"
     else
-        msg_warn "$(translate "Virtuliservmenu system repair completed with some issues.")"
+        msg_warn "$(translate "Virtuliser system repair completed with some issues.")"
         echo "$(translate "Check the service status manually if needed.")"
     fi
     
@@ -905,7 +903,7 @@ show_main_menu() {
                                 "4" "$(translate "Analyze Network Configuration")" \
                                 "5" "$(translate "Restart Network Service")" \
                                 "6" "$(translate "Show Network Config File")" \
-                                "7" "$(translate "Emergency Virtuliservmenu System Repair")" \
+                                "7" "$(translate "Emergency Virtuliser System Repair")" \
                                 "8" "$(translate "Restore Network Backup")" \
                                 "0" "$(translate "Exit")" \
                                 3>&1 1>&2 2>&3)

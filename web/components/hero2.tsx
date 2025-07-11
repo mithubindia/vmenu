@@ -13,11 +13,11 @@ export default function Hero() {
         <h1 className="text-4xl sm:text-5xl font-extrabold mb-6">
           vmenu{" "}
           <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-bold">
-            An Interactive Menu for Virtuliservmenu VE Management
+            An Interactive Menu for Virtuliser VE Management
           </span>
         </h1>
         <p className="text-base sm:text-lg mb-8 max-w-4xl mx-auto text-gray-300">
-          vmenu is a management tool for Virtuliservmenu VE that simplifies system administration through an interactive
+          vmenu is a management tool for Virtuliser VE that simplifies system administration through an interactive
           menu, allowing you to execute commands and scripts with ease.
         </p>
         <div className="flex justify-center">
@@ -47,13 +47,13 @@ export default function Hero() {
             <div className="text-left max-w-md lg:max-w-lg xl:max-w-xl">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight">vmenu</h1>
               <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-bold leading-tight">
-                An Interactive Menu for Virtuliservmenu VE Management
+                An Interactive Menu for Virtuliser VE Management
               </p>
             </div>
           </div>
         </div>
         <p className="text-base md:text-lg lg:text-xl mb-8 max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto text-gray-300 text-center leading-relaxed">
-          vmenu is a management tool for Virtuliservmenu VE that simplifies system administration through an interactive
+          vmenu is a management tool for Virtuliser VE that simplifies system administration through an interactive
           menu, allowing you to execute commands and scripts with ease.
         </p>
         <div className="flex justify-center">

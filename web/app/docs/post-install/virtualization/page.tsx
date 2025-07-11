@@ -5,11 +5,11 @@ import CopyableCode from "@/components/CopyableCode"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: Virtualization Settings",
   description:
-    "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+    "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliser VE optimization.",
   openGraph: {
     title: "vmenu Post-Install: Virtualization Settings",
     description:
-      "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+      "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliser VE optimization.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/virtualization",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: Virtualization Settings",
     description:
-      "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+      "Detailed guide to the Virtualization Settings category in the vmenu post-install script for Virtuliser VE optimization.",
     images: ["https://macrimi.github.io/vmenu/virtualization-settings-image.png"],
   },
 }
@@ -46,7 +46,7 @@ export default function VirtualizationSettingsPage() {
         <h1 className="text-3xl font-bold">Virtualization Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Virtualization Settings</strong> category optimizes Virtuliservmenu VE for enhanced virtualization performance, 
+        The <strong>Virtualization Settings</strong> category optimizes Virtuliser VE for enhanced virtualization performance, 
         compatibility, and functionality.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>

@@ -3,7 +3,7 @@ MAIN_MENU_TITLE="vmenu - Main Menu"
 CONFIG_TITLE="vmenu - Configuration"
 SELECT_OPTION="Select an option:"
 LANG_OPTION="Change language"
-UNINSTALL_OPTION="Uninstall ProxMenu"
+UNINSTALL_OPTION="Uninstall vmenu"
 EXIT_MENU="Exit"
 EXIT_MESSAGE="Exiting menu. Goodbye!"
 
@@ -30,10 +30,10 @@ UPDATE_COMPLETE="Update completed to version %s."
 UPDATE_ERROR_DOWNLOAD="Error downloading the update."
 
 # Uninstall messages
-UNINSTALL_TITLE="Uninstall ProxMenu"
-UNINSTALL_CONFIRM="Are you sure you want to uninstall ProxMenu?"
-UNINSTALL_COMPLETE="ProxMenu has been uninstalled successfully."
-UNINSTALL_PROCESS="Uninstalling ProxMenu..."
+UNINSTALL_TITLE="Uninstall vmenu"
+UNINSTALL_CONFIRM="Are you sure you want to uninstall vmenu?"
+UNINSTALL_COMPLETE="vmenu has been uninstalled successfully."
+UNINSTALL_PROCESS="Uninstalling vmenu..."
 
 # Script messages
 SCRIPT_RUNNING="Running igpu_tpu.sh script..."

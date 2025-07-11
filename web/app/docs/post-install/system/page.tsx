@@ -5,11 +5,11 @@ import CopyableCode from "@/components/CopyableCode"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: System Settings",
   description:
-    "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+    "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliser VE optimization.",
   openGraph: {
     title: "vmenu Post-Install: System Settings",
     description:
-      "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+      "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliser VE optimization.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/system",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: System Settings",
     description:
-      "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+      "Detailed guide to the System Settings category in the vmenu post-install script for Virtuliser VE optimization.",
     images: ["https://macrimi.github.io/vmenu/system-settings-image.png"],
   },
 }
@@ -46,7 +46,7 @@ export default function SystemSettingsPage() {
         <h1 className="text-3xl font-bold">System Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>System Settings</strong> category includes core system configurations and optimizations for Virtuliservmenu VE, 
+        The <strong>System Settings</strong> category includes core system configurations and optimizations for Virtuliser VE, 
         focusing on performance, stability, and resource management.
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4">Available Optimizations</h2>
@@ -148,7 +148,7 @@ sudo systemctl restart systemd-journald
 
     <p className="mb-4">
       <strong className="block">Why it's beneficial:</strong>
-      By tuning how Linux handles dirty memory pages, swap usage, and virtual memory mappings, this adjustment helps the system free memory more proactively and avoid sudden out-of-memory (OOM) errors — particularly valuable on Virtuliservmenu nodes with 1–4 GB of RAM.
+      By tuning how Linux handles dirty memory pages, swap usage, and virtual memory mappings, this adjustment helps the system free memory more proactively and avoid sudden out-of-memory (OOM) errors — particularly valuable on Virtuliser nodes with 1–4 GB of RAM.
     </p>
 
     <p className="mb-4">
@@ -189,7 +189,7 @@ sudo systemctl restart systemd-journald
       </p>
 
       <p className="mb-4">
-        On Virtuliservmenu VE and other virtualized or headless environments, entropy can become insufficient—causing delays or even freezes during operations like generating SSH keys or starting services that rely on encryption.
+        On Virtuliser VE and other virtualized or headless environments, entropy can become insufficient—causing delays or even freezes during operations like generating SSH keys or starting services that rely on encryption.
       </p>
 
       <p className="mb-4">

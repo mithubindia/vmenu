@@ -11,12 +11,12 @@ export const metadata = {
   generator: "Next.js",
   applicationName: "vmenu",
   referrer: "origin-when-cross-origin",
-  keywords: ["Virtuliservmenu VE", "VE", "vmenu", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
+  keywords: ["Virtuliser VE", "VE", "vmenu", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
   authors: [{ name: "MacRimi" }],
   creator: "MacRimi",
   publisher: "MacRimi",
   description:
-    "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks.",
+    "A menu-driven script for Virtuliser VE management, designed to simplify and streamline the execution of commands and tasks.",
   formatDetection: {
     email: false,
     address: false,
@@ -26,7 +26,7 @@ export const metadata = {
   openGraph: {
     title: "vmenu",
     description:
-      "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks.",
+      "A menu-driven script for Virtuliser VE management, designed to simplify and streamline the execution of commands and tasks.",
     url: "https://macrimi.github.io/vmenu/",
     siteName: "vmenu",
     images: [
@@ -44,7 +44,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "vmenu",
     description:
-      "A menu-driven script for Virtuliservmenu VE management, designed to simplify and streamline the execution of commands and tasks.",
+      "A menu-driven script for Virtuliser VE management, designed to simplify and streamline the execution of commands and tasks.",
     images: ["https://macrimi.github.io/vmenu/main.png"],
   },
   icons: {

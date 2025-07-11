@@ -1,6 +1,5 @@
-#!/bin/bash
 
-# ProxMenu - Mount independent disk on Virtuliservmenu host
+# vmenu - Mount independent disk on Virtuliser host
 # License     : MIT
 # Version     : 1.3-dialog
 # Last Updated: 13/12/2024

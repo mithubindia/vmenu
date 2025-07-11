@@ -70,7 +70,7 @@ export default function LinuxResourcesPage() {
           title: "OpenZFS Documentation",
           url: "https://openzfs.github.io/openzfs-docs/",
           description:
-            "Official and modern guide on ZFS, ideal for administrators using Virtuliservmenu with this file system.",
+            "Official and modern guide on ZFS, ideal for administrators using Virtuliser with this file system.",
         },
         {
           title: "ZFS Cheatsheet (DigitalOcean)",
@@ -92,7 +92,7 @@ export default function LinuxResourcesPage() {
           title: "DevHints.io Linux",
           url: "https://devhints.io/bash",
           description:
-            "Bash shortcuts and basic scripting, useful for automating tasks in Virtuliservmenu and other environments.",
+            "Bash shortcuts and basic scripting, useful for automating tasks in Virtuliser and other environments.",
         },
       ],
     },
@@ -111,7 +111,7 @@ export default function LinuxResourcesPage() {
 
           <p className="text-lg mb-8 text-gray-700">
             A collection of useful resources for learning Linux commands, security practices, monitoring tools, and
-            more. These resources complement the commands available in ProxMenu and will help you deepen your knowledge
+            more. These resources complement the commands available in vmenu and will help you deepen your knowledge
             of Linux system administration.
           </p>
         </div>

@@ -1,4 +1,3 @@
-#!/bin/bash
 
 
 # Configuration ============================================
@@ -251,7 +250,7 @@ configure_notifications() {
     done
 
     # whiptail menu
-    selected_indices=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Telegram Notification Configuration")" \
+    selected_indices=$(whiptail --backtitle "vmenuX" --title "$(translate "Telegram Notification Configuration")" \
                             --checklist --separate-output \
                             "\n$(translate "Select the events you want to receive:")\n" \
                             30 100 20 \
@@ -277,7 +276,7 @@ configure_notifications() {
 
         source "$CONFIG_FILE"
 
-        whiptail --backtitle "ProxMenuX" --title "$(translate "Success")" \
+        whiptail --backtitle "vmenuX" --title "$(translate "Success")" \
                  --msgbox "$(translate "Configuration updated successfully.")" 10 70
     fi
 }
@@ -341,7 +340,7 @@ capture_journal_events() {
 
     while true; do
 
-        # Use tail for Virtuliservmenu tasks file
+        # Use tail for Virtuliser tasks file
         tail -F /var/log/pve/tasks/index 2>/dev/null | while read -r line; do
 
             event_id=$(echo "$line" | md5sum | cut -d' ' -f1)
@@ -631,7 +630,7 @@ capture_journal_events() {
                     if [[ "$line" =~ "sshd" ]]; then
                         SERVICE="SSH"
                     elif [[ "$line" =~ "pvedaemon" || "$line" =~ "pveproxy" ]]; then
-                        SERVICE="Virtuliservmenu Web UI"
+                        SERVICE="Virtuliser Web UI"
                     elif [[ "$line" =~ "nginx" || "$line" =~ "apache" ]]; then
                         SERVICE="Web Server"
                     elif [[ "$line" =~ "smtp" || "$line" =~ "mail" ]]; then
@@ -1385,7 +1384,7 @@ capture_journal_events() {
                     # Try to determine what was updated
                     update_type="system"
                     if [[ "$line" =~ "proxmox" || "$line" =~ "pve" ]]; then
-                        update_type="Virtuliservmenu VE"
+                        update_type="Virtuliser VE"
                     elif [[ "$line" =~ "kernel" ]]; then
                         update_type="kernel"
                     elif [[ "$line" =~ "package" ]]; then
@@ -1532,7 +1531,7 @@ capture_direct_events() {
                     continue
                 fi
                 
-                # Skip certain Virtuliservmenu-specific filesystems that normally show high inode usage
+                # Skip certain Virtuliser-specific filesystems that normally show high inode usage
                 # but don't represent a real problem
                 if [[ "$filesystem" =~ ^/dev/mapper/pve- || 
                     "$filesystem" =~ ^/dev/pve/ || 
@@ -1666,13 +1665,13 @@ capture_direct_events() {
             # Check for security updates specifically
             security_updates=$(apt list --upgradable 2>/dev/null | grep -i security | wc -l)
             
-            # Check for Virtuliservmenu VE updates specifically
+            # Check for Virtuliser VE updates specifically
             proxmox_updates=$(apt list --upgradable 2>/dev/null | grep -E "^(proxmox-ve|pve-manager|pve-kernel|pve-container|pve-firewall|pve-ha-manager|pve-docs|pve-qemu-kvm|pve-storage|pve-cluster|pve-gui|pve-headers|pve-firmware|pve-zsync|pve-guest-common)" | wc -l)
             
-            # Get Virtuliservmenu version information
+            # Get Virtuliser version information
             current_pve_version=$(pveversion -v 2>/dev/null | grep -oP "pve-manager/\K[0-9]+\.[0-9]+" || echo "unknown")
             
-            # Check if there's a new major Virtuliservmenu version available
+            # Check if there's a new major Virtuliser version available
             new_pve_version=""
             if [[ $proxmox_updates -gt 0 ]]; then
                 new_version_check=$(apt list --upgradable 2>/dev/null | grep "^pve-manager/" | grep -oP "pve-manager/\K[0-9]+\.[0-9]+" || echo "")
@@ -1699,13 +1698,13 @@ capture_direct_events() {
                 fi
                 
                 
-                # If there's a new Virtuliservmenu version, highlight it
+                # If there's a new Virtuliser version, highlight it
                 if [[ -n "$new_pve_version" ]]; then
                     update_msg="🔄 $(translate "NEW PROXMOX VERSION AVAILABLE:") $new_pve_version ($(translate "current:") $current_pve_version)
 
                 $update_msg"
                 elif [[ $proxmox_updates -gt 0 ]]; then
-                    update_msg="🔄 $(translate "Virtuliservmenu updates available") ($proxmox_updates $(translate "packages"))
+                    update_msg="🔄 $(translate "Virtuliser updates available") ($proxmox_updates $(translate "packages"))
 
                 $update_msg"
                 fi
@@ -1773,7 +1772,7 @@ capture_direct_events() {
                 # Log the event
                 logger -t proxmox-notify "Low disk space detected"
                 
-                # Suggest cleanup options for Virtuliservmenu
+                # Suggest cleanup options for Virtuliser
                 if [[ -d /var/lib/vz/dump || -d /var/lib/vz/template ]]; then
                     cleanup_msg="$(translate "TIP: Consider cleaning up old backups with:") 'rm -f /var/lib/vz/dump/vzdump-*.tar' $(translate "or old templates with:") 'rm -f /var/lib/vz/template/cache/*.tar.gz'"
                     send_notification "$cleanup_msg"
@@ -2234,7 +2233,6 @@ install_systemd_service() {
 
 
     cat > "$WRAPPER_PATH" <<EOW
-#!/bin/bash
 exec bash <(curl -fsSL https://raw.githubusercontent.com/MacRimi/vmenu/main/scripts/telegram-notifier.sh) "\$@"
 EOW
     chmod +x "$WRAPPER_PATH"
@@ -2242,7 +2240,7 @@ EOW
 
     cat > /etc/systemd/system/proxmox-telegram.service <<EOF
 [Unit]
-Description=Virtuliservmenu Telegram Notification Service
+Description=Virtuliser Telegram Notification Service
 After=network.target pve-cluster.service
 
 [Service]
@@ -2288,7 +2286,7 @@ main_menu() {
         )
         
 
-        OPTION=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Virtuliservmenu Notification Configuration")" \
+        OPTION=$(whiptail --backtitle "vmenuX" --title "$(translate "Virtuliser Notification Configuration")" \
                          --menu "$(translate "Choose an option:")" 20 70 10 \
                          "${menu_options[@]}" \
                          3>&1 1>&2 2>&3)

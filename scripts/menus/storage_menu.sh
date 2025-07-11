@@ -1,6 +1,4 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.1
 # Last Updated: 15/04/2025
 

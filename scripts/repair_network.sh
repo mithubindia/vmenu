@@ -1,15 +1,12 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script allows users to assign physical disks for passthrough to existing
 # - Detects and lists physical and network interfaces.
 # - Verifies and repairs bridge configurations.
 # - Ensures network connectivity by checking IP assignments.
 # - Provides options to manually repair or verify network settings.
 # - Offers interactive menus for user-friendly operation.
-#
 # The script aims to simplify network troubleshooting and ensure
-# that Virtuliservmenu systems maintain stable connectivity.
+# that Virtuliser systems maintain stable connectivity.
 
 # Configuration ============================================
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"

@@ -53,7 +53,7 @@ host_backup_menu() {
             --title "$(translate 'Host Backup')" \
             --menu "\n$(translate 'Select backup option:')" 22 70 12 \
             ""         "$(translate '--- FULL BACKUP ---')" \
-            1 "$(translate 'Full backup to Virtuliservmenu Backup Server (PBS)')" \
+            1 "$(translate 'Full backup to Virtuliser Backup Server (PBS)')" \
             2 "$(translate 'Full backup with BorgBackup')" \
             3 "$(translate 'Full backup to local .tar.gz')" \
             ""         "$(translate '--- CUSTOM BACKUP ---')" \
@@ -195,7 +195,7 @@ for j in "${!PBS_CONFIGS[@]}"; do
     local source_type="${source%%|*}"
 
     if [[ "$source_type" == "proxmox" ]]; then
-        menu_options+=("$i" " $name ($repo) [Virtuliservmenu]")
+        menu_options+=("$i" " $name ($repo) [Virtuliser]")
     else
         menu_options+=("$i" " $name ($repo) [Manual]")
     fi
@@ -241,7 +241,7 @@ else
                 echo "$auth_content" > "$PBS_PASS_FILE"
                 chmod 600 "$PBS_PASS_FILE"
                 password_found=true
-                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliser PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') PBS Cloud Token
@@ -251,7 +251,7 @@ $(translate 'Token ID:') $selected_username" 15 80
                 echo "$full_token" > "$PBS_TOKEN_FILE"
                 chmod 600 "$PBS_TOKEN_FILE"
                 password_found=true
-                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliser PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') API Token
@@ -260,7 +260,7 @@ $(translate 'Token ID:') $selected_username" 15 80
                 echo "$auth_content" > "$PBS_TOKEN_FILE"
                 chmod 600 "$PBS_TOKEN_FILE"
                 password_found=true
-                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliser PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') API Token (Complete)" 12 80
@@ -268,7 +268,7 @@ $(translate 'Authentication:') API Token (Complete)" 12 80
                 echo "$auth_content" > "$PBS_PASS_FILE"
                 chmod 600 "$PBS_PASS_FILE"
                 password_found=true
-                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliservmenu PBS:') $pbs_name
+                dialog --backtitle "vmenu" --title "PBS Selected" --msgbox "$(translate 'Using Virtuliser PBS:') $pbs_name
 
 $(translate 'Repository:') $PBS_REPO
 $(translate 'Authentication:') Password" 12 80

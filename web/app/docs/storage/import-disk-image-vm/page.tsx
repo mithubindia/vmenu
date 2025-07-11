@@ -3,7 +3,7 @@ import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
   title: "Import Disk Image to a VM | vmenu Documentation",
-  description: "Step-by-step guide to import a disk image into a virtual machine in Virtuliservmenu VE using vmenu.",
+  description: "Step-by-step guide to import a disk image into a virtual machine in Virtuliser VE using vmenu.",
 }
 
 export default function ImportDiskImageVM() {
@@ -12,7 +12,7 @@ export default function ImportDiskImageVM() {
       <h1 className="text-3xl font-bold mb-6">Import Disk Image to a VM</h1>
       
       <p className="mb-4">
-        This guide explains how to import a disk image into a virtual machine (VM) in <strong>Virtuliservmenu VE</strong> using <strong>vmenu</strong>.
+        This guide explains how to import a disk image into a virtual machine (VM) in <strong>Virtuliser VE</strong> using <strong>vmenu</strong>.
         The script simplifies the process by scanning for available disk images and allowing users to attach them to VMs without manual configuration.
       </p>
       
@@ -36,7 +36,7 @@ export default function ImportDiskImageVM() {
           <p>Select the VM where the disk image(s) will be imported.</p>
         </Steps.Step>
         <Steps.Step title="Storage Selection">
-          <p>Choose the Virtuliservmenu storage volume where the imported disk(s) will be placed.</p>
+          <p>Choose the Virtuliser storage volume where the imported disk(s) will be placed.</p>
         </Steps.Step>
         <Steps.Step title="Image Selection">
           <p>Select one or more disk images to import from the list of detected compatible images.</p>
@@ -66,7 +66,7 @@ export default function ImportDiskImageVM() {
       
       <h2 className="text-2xl font-semibold mt-8 mb-4">Important Considerations</h2>
       <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>Ensure you have sufficient storage space in the selected Virtuliservmenu storage volume.</li>
+        <li>Ensure you have sufficient storage space in the selected Virtuliser storage volume.</li>
         <li>Supported disk image formats include <code>.img</code>, <code>.qcow2</code>, and <code>.vmdk</code>.</li>
         <li>The target VM must be powered off before importing disk images.</li>
         <li>SSD emulation is only available for non-VirtIO interfaces (SATA, SCSI, IDE).</li>

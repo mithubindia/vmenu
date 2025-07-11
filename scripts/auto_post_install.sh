@@ -1,29 +1,3 @@
-#!/bin/bash
-# vmenu - Complete Post-Installation Script with Registration
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
-#
-# The script performs system optimizations including:
-# - Repository configuration and system upgrades
-# - Subscription banner removal and UI enhancements  
-# - Advanced memory management and kernel optimizations
-# - Network stack tuning and security hardening
-# - Storage optimizations including log2ram for SSD protection
-# - System limits increases and entropy generation improvements
-# - Journald and logrotate optimizations for better log management
-# - Security enhancements including RPC disabling and time synchronization
-# - Bash environment customization and system monitoring setup
-#
-# Key Features:
-# - Zero-interaction automation: Runs completely unattended
-# - Intelligent hardware detection: Automatically detects SSD/NVMe for log2ram
-# - RAM-aware configurations: Adjusts settings based on available system memory
-# - Comprehensive error handling: Robust installation with fallback mechanisms
-# - Registration system: Tracks installed optimizations for easy management
-# - Reboot management: Intelligently handles reboot requirements
-# - Translation support: Multi-language compatible through vmenu framework
-# - Rollback compatibility: All optimizations can be reversed using the uninstall script
-#
-# This script is based on the post-install script cutotomizable
 
 
 # Configuration
@@ -156,23 +130,23 @@ apt_upgrade() {
 
 
     if [ -f /etc/apt/sources.list.d/pve-enterprise.list ] && grep -q "^deb" /etc/apt/sources.list.d/pve-enterprise.list; then
-        msg_info "$(translate "Disabling enterprise Virtuliservmenu repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliser repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
-        msg_ok "$(translate "Enterprise Virtuliservmenu repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliser repository disabled")"
     fi
 
 
     if [ -f /etc/apt/sources.list.d/ceph.list ] && grep -q "^deb" /etc/apt/sources.list.d/ceph.list; then
-        msg_info "$(translate "Disabling enterprise Virtuliservmenu Ceph repository...")"
+        msg_info "$(translate "Disabling enterprise Virtuliser Ceph repository...")"
         sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/ceph.list
-        msg_ok "$(translate "Enterprise Virtuliservmenu Ceph repository disabled")"
+        msg_ok "$(translate "Enterprise Virtuliser Ceph repository disabled")"
     fi
 
 
     if [ ! -f /etc/apt/sources.list.d/pve-public-repo.list ] || ! grep -q "pve-no-subscription" /etc/apt/sources.list.d/pve-public-repo.list; then
-        msg_info "$(translate "Enabling free public Virtuliservmenu repository...")"
+        msg_info "$(translate "Enabling free public Virtuliser repository...")"
         echo "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription" > /etc/apt/sources.list.d/pve-public-repo.list
-        msg_ok "$(translate "Free public Virtuliservmenu repository enabled")"
+        msg_ok "$(translate "Free public Virtuliser repository enabled")"
     fi
 
 
@@ -291,23 +265,23 @@ apt_upgrade() {
 
    
 
-    msg_info "$(translate "Installing additional Virtuliservmenu packages...")"
+    msg_info "$(translate "Installing additional Virtuliser packages...")"
     if /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' install zfsutils-linux proxmox-backup-restore-image chrony > /dev/null 2>&1; then
-        msg_ok "$(translate "Additional Virtuliservmenu packages installed")"
+        msg_ok "$(translate "Additional Virtuliser packages installed")"
     else
-        msg_error "$(translate "Failed to install additional Virtuliservmenu packages")"
+        msg_error "$(translate "Failed to install additional Virtuliser packages")"
     fi
 
     lvm_repair_check
 
     cleanup_duplicate_repos
 
-    msg_ok "$(translate "Virtuliservmenu update completed")"
+    msg_ok "$(translate "Virtuliser update completed")"
 
 }
 
 remove_subscription_banner() {
-    msg_info "$(translate "Removing Virtuliservmenu subscription nag banner...")"
+    msg_info "$(translate "Removing Virtuliser subscription nag banner...")"
     local JS_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
     local GZ_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js.gz"
     local APT_HOOK="/etc/apt/apt.conf.d/no-nag-script"
@@ -745,7 +719,6 @@ install_log2ram_auto() {
     msg_ok "$(translate "log2ram write scheduled every") $CRON_HOURS $(translate "hour(s)")"
 
     cat << 'EOF' > /usr/local/bin/log2ram-check.sh
-#!/bin/bash
 CONF_FILE="/etc/log2ram.conf"
 LIMIT_KB=$(grep '^SIZE=' "$CONF_FILE" | cut -d'=' -f2 | tr -d 'M')000
 USED_KB=$(df /var/log --output=used | tail -1)

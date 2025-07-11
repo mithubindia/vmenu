@@ -41,11 +41,11 @@ DISTROS=(
   "Alpine Linux 3.19|CLI|vmenu|https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-standard-3.19.1-x86_64.iso"
   "Kali Linux 2024.1|Desktop|vmenu|https://cdimage.kali.org/kali-2024.1/kali-linux-2024.1-installer-amd64.iso"
   "Manjaro 23.1 GNOME|Desktop|vmenu|https://download.manjaro.org/gnome/23.1/manjaro-gnome-23.1-231017-linux65.iso"
-  "Arch Linux   (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/archlinux-vm.sh"
-  "Debian 12    (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/debian-vm.sh"
-  "Ubuntu 22.04 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2204-vm.sh"
-  "Ubuntu 24.04 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2404-vm.sh"
-  "Ubuntu 24.10 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/vm/ubuntu2410-vm.sh"
+  "Arch Linux   (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/archlinux-vm.sh"
+  "Debian 12    (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/debian-vm.sh"
+  "Ubuntu 22.04 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2204-vm.sh"
+  "Ubuntu 24.04 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2404-vm.sh"
+  "Ubuntu 24.10 (automatizado)|Cloud-ini|Helper Scripts|https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/vm/ubuntu2410-vm.sh"
 )
 
 MENU_OPTIONS=()

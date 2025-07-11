@@ -1,6 +1,6 @@
 ---
 title: "Install Kodi in an LXC and Connect it to a Monitor/TV Using GPU Acceleration"
-description: "Install Kodi in an LXC container on Virtuliservmenu, utilize GPU acceleration, and connect it to your TV, turning your Virtuliservmenu server into an all-in-one media center."
+description: "Install Kodi in an LXC container on Virtuliser, utilize GPU acceleration, and connect it to your TV, turning your Virtuliser server into an all-in-one media center."
 ---
 
 
@@ -44,7 +44,7 @@ lxc.mount.entry: /dev/input dev/input none bind,optional,create=dir
 
 ![LXC configuration](https://raw.githubusercontent.com/MacRimi/vmenu/main/guides/kodi/kodi2.png)
 
-When we're done, we restart Virtuliservmenu:
+When we're done, we restart Virtuliser:
 
 ```bash
 reboot

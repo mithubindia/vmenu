@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 
-# ProxMenuX - Virtual Machine Creator Script
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenuX - Virtual Machine Creator Script
 # Last Updated: 07/05/2025
 # This script is part of the central vmenu VM creation module. It allows users
-# to create virtual machines (VMs) in Virtuliservmenu VE using either default or advanced
+# to create virtual machines (VMs) in Virtuliser VE using either default or advanced
 # configurations, streamlining the deployment of Linux, Windows, and other systems.
-#
 # Key features:
 # - Supports both virtual disk creation and physical disk passthrough.
 # - Automates CPU, RAM, BIOS, network and storage configuration.
 # - Provides a user-friendly menu to select OS type, ISO image and disk interface.
 # - Automatically generates a detailed and styled HTML description for each VM.
-#
 # All operations are designed to simplify and accelerate VM creation in a 
 # consistent and maintainable way, using vmenu standards.
 
@@ -80,7 +77,7 @@ function select_virtual_disk() {
     else
 
       kill $SPINNER_PID > /dev/null
-      STORAGE=$(whiptail --backtitle "ProxMenuX" --title "$(translate "Select Storage Volume")" --radiolist \
+      STORAGE=$(whiptail --backtitle "vmenuX" --title "$(translate "Select Storage Volume")" --radiolist \
         "$(translate  "Choose the storage volume for the virtual disk:\n")" 20 78 10 \
         "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3)
       
@@ -98,7 +95,7 @@ function select_virtual_disk() {
     fi
 
 
-    DISK_SIZE=$(whiptail --backtitle "ProxMenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
+    DISK_SIZE=$(whiptail --backtitle "vmenuX" --inputbox "$(translate "System Disk Size (GB)")" 8 58 32 --title "VIRTUAL DISK" --cancel-button Cancel 3>&1 1>&2 2>&3)
     
     if [ $? -ne 0 ]; then
       if [ ${#VIRTUAL_DISKS[@]} -eq 0 ]; then
@@ -121,7 +118,7 @@ function select_virtual_disk() {
 
 
 
-    if ! whiptail --backtitle "ProxMenuX" --title "$(translate "Add Another Disk")" \
+    if ! whiptail --backtitle "vmenuX" --title "$(translate "Add Another Disk")" \
       --yesno "$(translate "Do you want to add another virtual disk?")" 8 58; then
       add_more_disks=false
     fi

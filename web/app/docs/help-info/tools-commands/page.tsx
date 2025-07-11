@@ -116,7 +116,7 @@ export default function SystemCLIToolsPage() {
 
         <div className="space-y-4 mb-6">
           <p className="text-lg">
-            This section provides a collection of useful command-line tools for system administration in Virtuliservmenu VE.
+            This section provides a collection of useful command-line tools for system administration in Virtuliser VE.
             These tools help you monitor system performance, troubleshoot issues, manage files, analyze network traffic,
             and perform various administrative tasks.
           </p>

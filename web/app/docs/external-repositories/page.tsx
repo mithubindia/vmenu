@@ -62,21 +62,21 @@ export default function ExternalRepositoriesPage() {
 
       {/* 1️⃣ Example of External Repository */}
       <SectionHeader number={1} title="Example of External Repositories" />
-      <p className="mb-4">Essential repositories for Virtuliservmenu VE users include:</p>
+      <p className="mb-4">Essential repositories for Virtuliser VE users include:</p>
       <p className="mb-4">
         <Link
-          href="https://community-scripts.github.io/VirtuliservmenuVE/"
+          href="https://community-scripts.github.io/VirtuliserVE/"
           className="text-blue-500 hover:underline"
           target="_blank"
         >
-          Virtuliservmenu VE Helper-Scripts
+          Virtuliser VE Helper-Scripts
         </Link>{" "}
-        - A highly recommended repository that provides additional tools and utilities for managing Virtuliservmenu VE more
+        - A highly recommended repository that provides additional tools and utilities for managing Virtuliser VE more
         efficiently.
       </p>
       <p className="mb-4">
         <Link href="https://github.com/R0GGER/proxmox-zimaos" className="text-blue-500 hover:underline" target="_blank">
-          Virtuliservmenu ZimaOS
+          Virtuliser ZimaOS
         </Link>{" "}
         - Script para instalar una VM del sistema NAS ZimaOS en menos de 5 minutos.
       </p>

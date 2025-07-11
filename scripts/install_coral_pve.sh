@@ -1,8 +1,6 @@
-#!/bin/bash
 
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
-# This script installs the Coral TPU drivers on the Virtuliservmenu VE host.
+# This script installs the Coral TPU drivers on the Virtuliser VE host.
 # It ensures that necessary packages are installed and compiles the
 # Coral TPU drivers for proper functionality.
 

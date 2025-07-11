@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Change Language | vmenu Documentation",
-  description: "Guide to changing the language settings in vmenu for Virtuliservmenu VE.",
+  description: "Guide to changing the language settings in vmenu for Virtuliser VE.",
 }
 
 export default function ChangeLanguage() {

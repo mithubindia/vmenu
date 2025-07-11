@@ -1,6 +1,4 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 2.0
 # Last Updated: 04/04/2025
 
@@ -31,12 +29,12 @@ show_menu() {
             --backtitle "vmenu" \
             --title "$(translate "Main vmenu")" \
             --menu "$(translate "Select an option:")" 20 70 10 \
-            1 "$(translate "Settings post-install Virtuliservmenu")" \
+            1 "$(translate "Settings post-install Virtuliser")" \
             2 "$(translate "Help and Info Commands")" \
             3 "$(translate "Hardware: GPUs and Coral-TPU")" \
             4 "$(translate "Create VM from template or script")" \
             5 "$(translate "Disk and Storage Manager")" \
-            6 "$(translate "Virtuliservmenu VE Helper Scripts")" \
+            6 "$(translate "Virtuliser VE Helper Scripts")" \
             7 "$(translate "Network Management")" \
             8 "$(translate "Utilities and Tools")" \
             9 "$(translate "Settings")" \
@@ -47,7 +45,7 @@ show_menu() {
         if [[ $EXIT_STATUS -ne 0 ]]; then
             # ESC pressed or Cancel
             clear
-            msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"
+            msg_ok "$(translate "Thank you for using vmenu. Goodbye!")"
             rm -f "$TEMP_FILE"
             exit 0
         fi
@@ -64,7 +62,7 @@ show_menu() {
             7) exec bash <(curl -s "$REPO_URL/scripts/menus/network_menu.sh") ;;
             8) exec bash <(curl -s "$REPO_URL/scripts/menus/utilities_menu.sh") ;;
             9) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
-            0) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
+            0) clear; msg_ok "$(translate "Thank you for using vmenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
             *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
         esac
     done

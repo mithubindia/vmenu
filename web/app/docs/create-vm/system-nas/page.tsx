@@ -8,11 +8,11 @@ import { Badge } from "@/components/ui/badge"
 export const metadata: Metadata = {
   title: "vmenu Documentation: System NAS Virtual Machines",
   description:
-    "Guide for creating and configuring NAS virtual machines on Virtuliservmenu VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
+    "Guide for creating and configuring NAS virtual machines on Virtuliser VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
   openGraph: {
     title: "vmenu Documentation: System NAS Virtual Machines",
     description:
-      "Guide for creating and configuring NAS virtual machines on Virtuliservmenu VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
+      "Guide for creating and configuring NAS virtual machines on Virtuliser VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/virtual-machines/system-nas",
     images: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Documentation: System NAS Virtual Machines",
     description:
-      "Guide for creating and configuring NAS virtual machines on Virtuliservmenu VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
+      "Guide for creating and configuring NAS virtual machines on Virtuliser VE using vmenu, including Synology DSM, TrueNAS, and other storage systems.",
     images: ["https://macrimi.github.io/vmenu/vm/system-nas-menu.png"],
   },
 }
@@ -157,7 +157,7 @@ export default function SystemNASPage() {
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
             vmenu provides automated scripts that create and configure virtual machines for various NAS systems on
-            Virtuliservmenu VE. These scripts simplify the process by handling the necessary configurations and optimizations
+            Virtuliser VE. These scripts simplify the process by handling the necessary configurations and optimizations
             for each NAS platform.
           </p>
         </div>
@@ -297,8 +297,8 @@ export default function SystemNASPage() {
         <div className="space-y-4">
           <p className="text-black">
             Network Attached Storage (NAS) systems provide file-level data storage services to other devices on the
-            network. Running NAS software in a virtual machine on Virtuliservmenu VE allows you to leverage the reliability and
-            management features of Virtuliservmenu while providing flexible storage solutions.
+            network. Running NAS software in a virtual machine on Virtuliser VE allows you to leverage the reliability and
+            management features of Virtuliser while providing flexible storage solutions.
           </p>
 
           <p className="text-black">

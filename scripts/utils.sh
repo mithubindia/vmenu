@@ -1,27 +1,19 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # This script provides a set of utility functions used across
-# vmenu to facilitate Virtuliservmenu VE management.
-#
+# vmenu to facilitate Virtuliser VE management.
 # - Defines color codes for consistent output formatting.
 # - Implements a spinner-based loading animation.
 # - Provides standardized message functions (info, success, error, warning).
 # - Handles translation with caching to reduce API requests.
 # - Initializes and manages a local cache for improved performance.
 # - Loads language settings from a configuration file.
-#
 # These utilities ensure a streamlined and uniform user experience
 # across different vmenu scripts.
-#
 # This script incorporates elements from the 
-# Virtuliservmenu VE Post Install script from Virtuliservmenu VE Helper-Scripts.
-#
-# Copyright (c) Virtuliservmenu VE Helper-Scripts Community
-# Script updates can be found at: https://github.com/community-scripts/VirtuliservmenuVE
-#
-# License: MIT | https://github.com/community-scripts/VirtuliservmenuVE/raw/main/LICENSE
-#
+# Virtuliser VE Post Install script from Virtuliser VE Helper-Scripts.
+# Copyright (c) Virtuliser VE Helper-Scripts Community
+# Script updates can be found at: https://github.com/community-scripts/VirtuliserVE
+# License: MIT | https://github.com/community-scripts/VirtuliserVE/raw/main/LICENSE
 
 # Repository and directory structure
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
@@ -35,7 +27,7 @@ VENV_PATH="/opt/googletrans-env"
 
 
 # Translation context
-TRANSLATION_CONTEXT="Context: Technical message for Virtuliservmenu and IT. Translate:"
+TRANSLATION_CONTEXT="Context: Technical message for Virtuliser and IT. Translate:"
 
 # Color and style definitions
 NEON_PURPLE_BLUE="\033[38;5;99m"
@@ -316,7 +308,7 @@ TEXT=(
     "${BOLD}vmenu${RESET}"
     ""
     "${BOLD}${NEON_PURPLE_BLUE}An Interactive Menu for${RESET}"
-    "${BOLD}${NEON_PURPLE_BLUE}Virtuliservmenu VE management${RESET}"
+    "${BOLD}${NEON_PURPLE_BLUE}Virtuliser VE management${RESET}"
     ""
     ""
     ""
@@ -343,7 +335,7 @@ TEXT=(
     "${BOLD}vmenu${RESET}"
     ""
     "${BOLD}${NEON_PURPLE_BLUE}An Interactive Menu for${RESET}"
-    "${BOLD}${NEON_PURPLE_BLUE}Virtuliservmenu VE management${RESET}"
+    "${BOLD}${NEON_PURPLE_BLUE}Virtuliser VE management${RESET}"
     ""
     ""
     ""

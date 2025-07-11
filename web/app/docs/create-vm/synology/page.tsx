@@ -30,7 +30,7 @@ export default function Page() {
         </h2>
         <p className="mb-4">
           vmenu provides an automated script that creates and configures a virtual machine (VM) to install Synology
-          DSM (DiskStation Manager) on Virtuliservmenu VE. This script simplifies the process by downloading and adding one of
+          DSM (DiskStation Manager) on Virtuliser VE. This script simplifies the process by downloading and adding one of
           the available loaders to the VM boot, giving you the option between four different choices:
         </p>
         <ul className="list-disc pl-5 mb-4">
@@ -208,7 +208,7 @@ export default function Page() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Virtuliservmenu</li>
+            <li>The script lists the storage options available in Virtuliser</li>
             <li>The user selects the disk and size in GB</li>
             <li>The virtual disk is automatically assigned to the VM. If more disks are configured, they will be added as <strong>SATA</strong> (e.g., sata0, sata1, etc.), up to a maximum of 6 virtual disks.</li>
           </ul>

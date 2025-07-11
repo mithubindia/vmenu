@@ -1,17 +1,13 @@
-#!/bin/bash
 
-# vmenu - A menu-driven script for Virtuliservmenu VE management
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
+# vmenu - A menu-driven script for Virtuliser VE management
 # Last Updated: 30/06/2025
 # This script provides an interactive system utilities installer with a 
-# comprehensive dialog-based interface for Virtuliservmenu VE and Linux systems.
+# comprehensive dialog-based interface for Virtuliser VE and Linux systems.
 # It simplifies the installation and management of essential command-line 
 # tools and utilities commonly used in server environments.
-#
 # The script offers both individual utility selection and predefined groups
 # for different use cases, ensuring administrators can quickly set up their
 # preferred toolset without manual package management.
-#
 # Supported utility categories:
 # - Basic utilities: grc, htop, tree, curl, wget
 # - Development tools: git, vim, nano, dos2unix
@@ -21,12 +17,10 @@
 # - System tools: mlocate, net-tools, ipset, msr-tools
 # - Virtualization tools: libguestfs-tools, wimtools, genisoimage, chntpw
 # - Download tools: axel, aria2
-#
 # The script automatically handles package name differences across distributions
 # and provides detailed feedback on installation success, warnings, and failures.
 # It includes built-in troubleshooting for common PATH and command availability
 # issues that may occur after package installation.
-#
 # Configuration ============================================
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"

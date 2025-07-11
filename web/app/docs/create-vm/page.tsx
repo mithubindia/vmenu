@@ -8,11 +8,11 @@ import { ArrowRight, Server, ComputerIcon as Windows, LaptopIcon as Linux, HardD
 export const metadata: Metadata = {
   title: "vmenu Documentation: Virtual Machines",
   description:
-    "Comprehensive guide for creating and configuring virtual machines on Virtuliservmenu VE using vmenu, with dedicated sections for NAS, Windows, and Linux systems.",
+    "Comprehensive guide for creating and configuring virtual machines on Virtuliser VE using vmenu, with dedicated sections for NAS, Windows, and Linux systems.",
   openGraph: {
     title: "vmenu Documentation: Virtual Machines",
     description:
-      "Comprehensive guide for creating and configuring virtual machines on Virtuliservmenu VE using vmenu, with dedicated sections for NAS, Windows, and Linux systems.",
+      "Comprehensive guide for creating and configuring virtual machines on Virtuliser VE using vmenu, with dedicated sections for NAS, Windows, and Linux systems.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/virtual-machines",
     images: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Documentation: Virtual Machines",
     description:
-      "Comprehensive guide for creating and configuring virtual machines on Virtuliservmenu VE using vmenu, with dedicated sections for NAS, Windows, and Linux systems.",
+      "Comprehensive guide for creating and configuring virtual machines on Virtuliser VE using vmenu, with dedicated sections for NAS, Windows, and Linux systems.",
     images: ["https://macrimi.github.io/vmenu/vm/vm-creation-menu.png"],
   },
 }
@@ -70,7 +70,7 @@ export default function VirtualMachinesPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            vmenu provides an automated system for creating and configuring virtual machines on Virtuliservmenu VE through
+            vmenu provides an automated system for creating and configuring virtual machines on Virtuliser VE through
             an interactive menu interface. Select one of the categories below to explore the available VM creation
             options.
           </p>
@@ -121,7 +121,7 @@ export default function VirtualMachinesPage() {
 
         <VMCard
           title="System macOS"
-          description="Easily install macOS on Virtuliservmenu VE with just a few steps! This guide provides the simplest and most effective way to set up macOS on Virtuliservmenu, whether you're using AMD or Intel hardware. This is an external script; for more information, visit the project's page."
+          description="Easily install macOS on Virtuliser VE with just a few steps! This guide provides the simplest and most effective way to set up macOS on Virtuliser, whether you're using AMD or Intel hardware. This is an external script; for more information, visit the project's page."
           icon={<Monitor className="h-8 w-8 text-blue-500" />}
           href="https://osx-proxmox.com"
           externalLink 

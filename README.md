@@ -1,6 +1,6 @@
 <div align="center">
     <img src="https://github.com/MacRimi/vmenu/blob/main/images/main.png" 
-         alt="ProxMenu Logo" 
+         alt="vmenu Logo" 
          style="max-width: 100%; height: auto;" >
         
 </div>
@@ -26,12 +26,12 @@
 <br />
 
 
-**vmenu** is a management tool for **Virtuliservmenu VE** that simplifies system administration through an interactive menu, allowing you to execute commands and scripts with ease.
+**vmenu** is a management tool for **Virtuliser VE** that simplifies system administration through an interactive menu, allowing you to execute commands and scripts with ease.
 
 ---
 
 ## 📌 Installation
-To install vmenu, simply run the following command in your Virtuliservmenu server terminal:
+To install vmenu, simply run the following command in your Virtuliser server terminal:
 
 ```bash
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/MacRimi/vmenu/main/install_proxmenux.sh)"
@@ -53,13 +53,13 @@ Once installed, launch **vmenu** by running:
 ```bash
 menu
 ```
-Then, follow the on-screen options to manage your Virtuliservmenu server efficiently.
+Then, follow the on-screen options to manage your Virtuliser server efficiently.
 
 ---
 
 ## 📌 System Requirements
 🖥 **Compatible with:**
-- Virtuliservmenu VE 8.x**
+- Virtuliser VE 8.x**
 
 📦 **Dependencies:**
 - `bash`, `curl`, `wget`, `jq`, `whiptail`, `python3-venv` (These dependencies are installed automatically during setup.)

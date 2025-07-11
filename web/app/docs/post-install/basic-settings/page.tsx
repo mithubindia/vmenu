@@ -5,11 +5,11 @@ import CopyableCode from "@/components/CopyableCode"
 export const metadata: Metadata = {
   title: "vmenu Post-Install: Basic Settings",
   description:
-    "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+    "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliser VE optimization.",
   openGraph: {
     title: "vmenu Post-Install: Basic Settings",
     description:
-      "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+      "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliser VE optimization.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install/basic-settings",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install: Basic Settings",
     description:
-      "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliservmenu VE optimization.",
+      "Detailed guide to the Basic Settings category in the vmenu post-install script for Virtuliser VE optimization.",
     images: ["https://macrimi.github.io/vmenu/basic-settings-image.png"],
   },
 }
@@ -46,7 +46,7 @@ export default function BasicSettingsPage() {
         <h1 className="text-3xl font-bold">Basic Settings</h1>
       </div>
       <p className="mb-4">
-        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Virtuliservmenu VE
+        The <strong>Basic Settings</strong> category focuses on foundational configurations for your Virtuliser VE
         installation, including installing essential utilities, adding repositories, managing packages, and keeping the
         system up to date.
       </p>
@@ -284,7 +284,7 @@ echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99-disable-tran
       <strong className="block">Why it's beneficial:</strong>
         Accurate timekeeping is crucial for many system operations, log
         consistency, and proper functioning of time-sensitive applications. Automatic synchronization ensures your
-        Virtuliservmenu VE system maintains the correct time without manual intervention.
+        Virtuliser VE system maintains the correct time without manual intervention.
       </p>
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
@@ -301,7 +301,7 @@ sudo timedatectl set-timezone "$TIMEZONE"
         Update and Upgrade System
       </h3>
       <p className="mb-4">
-        This optimization updates the system's package lists, upgrades installed packages, and configures Virtuliservmenu
+        This optimization updates the system's package lists, upgrades installed packages, and configures Virtuliser
         repositories. It also includes additional steps to properly set up Debian repositories, disable certain
         warnings, and perform safety checks after the update process.
       </p>
@@ -309,21 +309,21 @@ sudo timedatectl set-timezone "$TIMEZONE"
       <strong className="block">Why it's beneficial:</strong>
         Keeping your system up-to-date is essential for security, stability, and
         performance. This optimization ensures you have the latest patches and features, while also configuring the
-        correct repositories for Virtuliservmenu VE, enabling access to necessary updates and tools. The disk metadata check helps prevent potential issues with storage devices that may have been modified by virtual machines.
+        correct repositories for Virtuliser VE, enabling access to necessary updates and tools. The disk metadata check helps prevent potential issues with storage devices that may have been modified by virtual machines.
       </p>
       <h4 className="text-lg font-semibold mb-2">Repository changes:</h4>
       <ul className="list-disc pl-5 mb-4 space-y-2">
         <li>
-          <strong>Disabled:</strong> Enterprise Virtuliservmenu repository (pve-enterprise.list) - This repository is for users
+          <strong>Disabled:</strong> Enterprise Virtuliser repository (pve-enterprise.list) - This repository is for users
           with a paid subscription.
         </li>
         <li>
-          <strong>Disabled:</strong> Enterprise Virtuliservmenu Ceph repository (ceph.list) - This repository is for enterprise
+          <strong>Disabled:</strong> Enterprise Virtuliser Ceph repository (ceph.list) - This repository is for enterprise
           Ceph storage solutions.
         </li>
         <li>
-          <strong>Added:</strong> Free public Virtuliservmenu repository (pve-public-repo.list) - This provides access to free
-          Virtuliservmenu VE updates and packages.
+          <strong>Added:</strong> Free public Virtuliser repository (pve-public-repo.list) - This provides access to free
+          Virtuliser VE updates and packages.
         </li>
         <li>
           <strong>Configured:</strong> Main Debian repositories - These provide access to the core Debian packages and
@@ -333,17 +333,17 @@ sudo timedatectl set-timezone "$TIMEZONE"
       <p className="text-lg mb-2">This adjustment automates the following command:</p>
       <CopyableCode
         code={`
-# Disable enterprise Virtuliservmenu repository
+# Disable enterprise Virtuliser repository
 if [ -f /etc/apt/sources.list.d/pve-enterprise.list ]; then
   sudo sed -i 's/^deb/#deb/g' /etc/apt/sources.list.d/pve-enterprise.list
 fi
 
-# Disable enterprise Virtuliservmenu Ceph repository
+# Disable enterprise Virtuliser Ceph repository
 if [ -f /etc/apt/sources.list.d/ceph.list ]; then
   sudo sed -i 's/^deb/#deb/g' /etc/apt/sources.list.d/ceph.list
 fi
 
-# Enable free public Virtuliservmenu repository
+# Enable free public Virtuliser repository
 echo "deb http://download.proxmox.com/debian/pve $(lsb_release -cs) pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-public-repo.list
 
 

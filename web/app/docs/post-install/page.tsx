@@ -4,11 +4,11 @@ import Link from "next/link"
 export const metadata: Metadata = {
   title: "vmenu Post-Install Script Documentation",
   description:
-    "Comprehensive guide to the customizable post-install script for Virtuliservmenu VE, covering various optimization categories and settings.",
+    "Comprehensive guide to the customizable post-install script for Virtuliser VE, covering various optimization categories and settings.",
   openGraph: {
     title: "vmenu Post-Install Script Documentation",
     description:
-      "Comprehensive guide to the customizable post-install script for Virtuliservmenu VE, covering various optimization categories and settings.",
+      "Comprehensive guide to the customizable post-install script for Virtuliser VE, covering various optimization categories and settings.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/post-install",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Post-Install Script Documentation",
     description:
-      "Comprehensive guide to the customizable post-install script for Virtuliservmenu VE, covering various optimization categories and settings.",
+      "Comprehensive guide to the customizable post-install script for Virtuliser VE, covering various optimization categories and settings.",
     images: ["https://macrimi.github.io/vmenu/post-install-image.png"],
   },
 }
@@ -48,22 +48,22 @@ export default function PostInstallPage() {
       <h1 className="text-3xl font-bold mb-6">vmenu Post-Install Script Documentation</h1>
       <p className="mb-4">
         The <strong>Customizable Post-Install Script</strong> is a utility designed to optimize the installation of
-        Virtuliservmenu VE by adjusting system configurations. One of the advantages of its modular and selectable structure is
+        Virtuliser VE by adjusting system configurations. One of the advantages of its modular and selectable structure is
         that it allows users to choose specific settings based on their requirements, needs, and preferences.
       </p>
       <p className="mb-4">
         This script is primarily based on the work of{" "}
         <Link href="https://github.com/extremeshok/xshok-proxmox" className="text-blue-500 hover:underline">
-          extremeshok – Scripts for working with and optimizing Virtuliservmenu
+          extremeshok – Scripts for working with and optimizing Virtuliser
         </Link>{" "}
         and the{" "}
-        <Link href="https://github.com/community-scripts/VirtuliservmenuVE" className="text-blue-500 hover:underline">
-          Virtuliservmenu VE Post Install script from Virtuliservmenu VE Helper-Scripts
+        <Link href="https://github.com/community-scripts/VirtuliserVE" className="text-blue-500 hover:underline">
+          Virtuliser VE Post Install script from Virtuliser VE Helper-Scripts
         </Link>
         .
       </p>
       <p className="mb-6">
-        This script includes {categories.length} main categories, each targeting a key aspect of Virtuliservmenu VE performance,
+        This script includes {categories.length} main categories, each targeting a key aspect of Virtuliser VE performance,
         security, and usability:
       </p>
       <ul className="list-disc pl-5 mb-6">

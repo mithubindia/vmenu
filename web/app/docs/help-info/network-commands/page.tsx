@@ -58,9 +58,9 @@ export default function NetworkCommandsPage() {
       commands: [
         { command: "iptables -L -n -v", description: "Show active firewall rules (iptables)" },
         { command: "nft list ruleset", description: "Show nftables rules" },
-        { command: "pve-firewall status", description: "Check Virtuliservmenu firewall status" },
+        { command: "pve-firewall status", description: "Check Virtuliser firewall status" },
         { command: "pve-firewall compile", description: "Compile firewall rules for all nodes" },
-        { command: "pve-firewall reload", description: "Reload Virtuliservmenu firewall rules" },
+        { command: "pve-firewall reload", description: "Reload Virtuliser firewall rules" },
       ],
     },
   ]
@@ -82,7 +82,7 @@ export default function NetworkCommandsPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for configuring, monitoring, and troubleshooting network connections in Virtuliservmenu
+          This section provides commands for configuring, monitoring, and troubleshooting network connections in Virtuliser
           VE. Learn how to view network interfaces, test connectivity, configure network settings, and manage firewall
           rules.
         </p>

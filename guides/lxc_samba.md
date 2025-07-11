@@ -1,10 +1,10 @@
 ---
 title: "How to Add a Hard Drive or USB Memory to an LXC for Use and Network Sharing"
-description: "Add a USB hard drive to an LXC in Virtuliservmenu, set up Samba for network sharing, and utilize the added storage for various purposes."
+description: "Add a USB hard drive to an LXC in Virtuliser, set up Samba for network sharing, and utilize the added storage for various purposes."
 ---
 
 
-Sometimes, it can be useful to add a hard drive or USB memory to our Virtuliservmenu setup, especially if we have a mini PC with limited expansion possibilities.
+Sometimes, it can be useful to add a hard drive or USB memory to our Virtuliser setup, especially if we have a mini PC with limited expansion possibilities.
 
 We'll see how to add a USB hard drive to an LXC where we'll use it and also share its content via Samba.
 
@@ -37,7 +37,7 @@ After adding our USB disk:
 
 ### 1.2 Format the disk
 
-For us to use it, we have to format it in a compatible file system, for example ext4 in the case of a hard drive. We do this from the Virtuliservmenu console:
+For us to use it, we have to format it in a compatible file system, for example ext4 in the case of a hard drive. We do this from the Virtuliser console:
 
 ```bash
 mkfs.ext4 /dev/sdb1
@@ -53,7 +53,7 @@ mkdir /mnt/lxc_USB
 
 ### 1.4 Create a mount point in our LXC
 
-To do this, we go to the Virtuliservmenu console (not in the LXC), and edit the LXC's configuration file. Change the id (100) to the corresponding one for your LXC:
+To do this, we go to the Virtuliser console (not in the LXC), and edit the LXC's configuration file. Change the id (100) to the corresponding one for your LXC:
 
 ```bash
 nano /etc/pve/lxc/100.conf

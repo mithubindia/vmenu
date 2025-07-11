@@ -1,7 +1,5 @@
-#!/bin/bash
 
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
-# This script automates the process of enabling and configuring Intel Integrated GPU (iGPU) support in Virtuliservmenu VE LXC containers.
+# This script automates the process of enabling and configuring Intel Integrated GPU (iGPU) support in Virtuliser VE LXC containers.
 # Its goal is to simplify the configuration of hardware-accelerated graphical capabilities within containers, allowing for efficient
 # use of Intel iGPUs for tasks such as transcoding, rendering, and accelerating graphics-intensive applications.
 
@@ -26,7 +24,7 @@ select_container() {
 
     CONTAINERS=$(pct list | awk 'NR>1 {print $1, $3}' | xargs -n2)
     if [ -z "$CONTAINERS" ]; then
-        msg_error "$(translate 'No containers available in Virtuliservmenu.')"
+        msg_error "$(translate 'No containers available in Virtuliser.')"
         exit 1
     fi
 

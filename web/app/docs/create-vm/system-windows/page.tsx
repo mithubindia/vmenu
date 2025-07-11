@@ -6,11 +6,11 @@ import { ArrowLeft, Monitor, Settings, Zap, Sliders, HardDrive, ExternalLink, Se
 export const metadata: Metadata = {
   title: "vmenu Documentation: Windows Virtual Machines",
   description:
-    "Guide for creating and configuring Windows virtual machines on Virtuliservmenu VE using vmenu, including UUP Dump ISO and local ISO options.",
+    "Guide for creating and configuring Windows virtual machines on Virtuliser VE using vmenu, including UUP Dump ISO and local ISO options.",
   openGraph: {
     title: "vmenu Documentation: Windows Virtual Machines",
     description:
-      "Guide for creating and configuring Windows virtual machines on Virtuliservmenu VE using vmenu, including UUP Dump ISO and local ISO options.",
+      "Guide for creating and configuring Windows virtual machines on Virtuliser VE using vmenu, including UUP Dump ISO and local ISO options.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/virtual-machines/windows",
     images: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "vmenu Documentation: Windows Virtual Machines",
     description:
-      "Guide for creating and configuring Windows virtual machines on Virtuliservmenu VE using vmenu, including UUP Dump ISO and local ISO options.",
+      "Guide for creating and configuring Windows virtual machines on Virtuliser VE using vmenu, including UUP Dump ISO and local ISO options.",
     images: ["https://macrimi.github.io/vmenu/vm/menu_windows.png"],
   },
 }
@@ -68,7 +68,7 @@ export default function WindowsVMPage() {
 
         <div className="space-y-4 mt-6">
           <p className="text-lg text-black">
-            vmenu provides automated scripts that create and configure Windows virtual machines on Virtuliservmenu VE. These
+            vmenu provides automated scripts that create and configure Windows virtual machines on Virtuliser VE. These
             scripts simplify the process by handling the necessary configurations and optimizations for Windows
             installations, including VirtIO drivers setup and TPM configuration.
           </p>
@@ -295,7 +295,7 @@ export default function WindowsVMPage() {
 
           <h4 className="text-lg font-medium mt-4 mb-2">Virtual Disk</h4>
           <ul className="list-disc pl-5 mb-4">
-            <li>The script lists the storage options available in Virtuliservmenu</li>
+            <li>The script lists the storage options available in Virtuliser</li>
             <li>The user selects the disk and size in GB</li>
             <li>
               The virtual disk is automatically assigned to the VM using the selected interface type (SCSI, SATA,
@@ -406,7 +406,7 @@ export default function WindowsVMPage() {
               </div>
 
               <p className="mb-4">
-                This option allows you to use your own Windows ISO file that's already uploaded to your Virtuliservmenu server's
+                This option allows you to use your own Windows ISO file that's already uploaded to your Virtuliser server's
                 local storage. Ideal if you have custom or specific Windows installation media.
               </p>
 

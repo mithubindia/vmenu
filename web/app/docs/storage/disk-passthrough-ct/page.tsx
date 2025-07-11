@@ -5,10 +5,10 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Disk Passthrough to a CT | vmenu Documentation",
-  description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliservmenu VE using vmenu.",
+  description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliser VE using vmenu.",
   openGraph: {
     title: "Disk Passthrough to a CT | vmenu Documentation",
-    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliservmenu VE using vmenu.",
+    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliser VE using vmenu.",
     type: "article",
     url: "https://macrimi.github.io/vmenu/docs/disk-ct",
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Disk Passthrough to a CT | vmenu Documentation",
-    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliservmenu VE using vmenu.",
+    description: "Step-by-step guide to configure disk passthrough to a container (CT) in Virtuliser VE using vmenu.",
     images: ["https://macrimi.github.io/vmenu/disk-ct/disk-selection.png"],
   },
 }
@@ -41,7 +41,7 @@ export default function DiskPassthroughCT() {
 
       <p className="mb-4">
         This guide explains how to assign a <strong>dedicated physical disk</strong> to a container (CT) in{" "}
-        <strong>Virtuliservmenu VE</strong> using <strong>vmenu</strong>. Assigning a full disk to a container is useful
+        <strong>Virtuliser VE</strong> using <strong>vmenu</strong>. Assigning a full disk to a container is useful
         when you need isolation, ease of access, or the ability to move the disk between systems, especially for
         services handling large volumes of data such as Samba, Nextcloud, or video surveillance software, among others.
       </p>
@@ -74,7 +74,7 @@ export default function DiskPassthroughCT() {
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Description</h2>
       <ol className="list-decimal pl-6 space-y-2 mb-6">
-        <li>Lists physical disks on the Virtuliservmenu host, excluding the system disk and mounted system disks.</li>
+        <li>Lists physical disks on the Virtuliser host, excluding the system disk and mounted system disks.</li>
         <li>Displays all existing LXC containers (CTs) for user selection.</li>
         <li>
           Allows the user to select <strong>one physical disk</strong> per execution.

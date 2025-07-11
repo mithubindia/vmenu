@@ -87,7 +87,7 @@ export default function VMCTCommandsPage() {
         </div>
 
         <p className="text-lg mb-6">
-          This section provides commands for managing virtual machines (VMs) and containers (CTs) in Virtuliservmenu VE. Learn
+          This section provides commands for managing virtual machines (VMs) and containers (CTs) in Virtuliser VE. Learn
           how to list, start, stop, configure, and perform other operations on your virtualized environments.
         </p>
 

@@ -1,5 +1,3 @@
-#!/bin/bash
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/vmenu/main/LICENSE)
 # Version     : 1.2
 
 REPO_URL="https://raw.githubusercontent.com/mithubindia/vmenu/main"
@@ -39,9 +37,9 @@ confirm_automated_script() {
     local script_info=""
 
 
-    script_info+="$(translate "This script will apply the following optimizations and advanced adjustments to your Virtuliservmenu VE server"):\n\n"
+    script_info+="$(translate "This script will apply the following optimizations and advanced adjustments to your Virtuliser VE server"):\n\n"
     script_info+="• $(translate "Configure") \Z4free repositories\Z0 $(translate "and upgrade the system (disables the enterprise repo)")\n"
-    script_info+="• $(translate "Optionally remove") \Z4subscription banner\Z0 $(translate "from Virtuliservmenu web interface (you will be asked)")\n"
+    script_info+="• $(translate "Optionally remove") \Z4subscription banner\Z0 $(translate "from Virtuliser web interface (you will be asked)")\n"
     script_info+="• $(translate "Optimize") \Z4memory\Z0, \Z4kernel\Z0, $(translate "and") \Z4network\Z0 $(translate "for better performance and stability")\n"
     script_info+="• $(translate "Install and configure") \Z4Log2RAM\Z0 $(translate "(only on SSD/NVMe) to protect your disk")\n"
     script_info+="• $(translate "Improve log rotation and limit log size to save space and extend disk life")\n"
@@ -77,7 +75,7 @@ declare -a PROXMENUX_SCRIPTS=(
 
 
 declare -a COMMUNITY_SCRIPTS=(
-    "Virtuliservmenu VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/VirtuliservmenuVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
+    "Virtuliser VE Post Install|Helper-Scripts|bash -c \"\$(wget -qLO - https://raw.githubusercontent.com/community-scripts/VirtuliserVE/main/tools/pve/post-pve-install.sh); msg_success \\\"\$(translate 'Press ENTER to continue...')\\\"; read -r _\""
     "Xshok-proxmox Post install|fork xshok-proxmox|confirm_and_run \"Xshok\" \"wget https://raw.githubusercontent.com/MacRimi/xshok-proxmox/master/install-post.sh -c -O install-post.sh && bash install-post.sh && rm install-post.sh\""
 )
 

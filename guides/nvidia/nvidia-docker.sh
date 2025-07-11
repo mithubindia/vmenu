@@ -1,4 +1,3 @@
-#!/bin/bash
 
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   apt-key add -

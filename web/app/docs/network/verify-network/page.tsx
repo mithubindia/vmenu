@@ -3,7 +3,7 @@ import CopyableCode from "@/components/CopyableCode"
 
 export const metadata = {
   title: "Verify Network | vmenu Documentation",
-  description: "Step-by-step guide to verify network configuration and connectivity in Virtuliservmenu VE using vmenu.",
+  description: "Step-by-step guide to verify network configuration and connectivity in Virtuliser VE using vmenu.",
 }
 
 export default function VerifyNetwork() {
@@ -13,7 +13,7 @@ export default function VerifyNetwork() {
       
       <p className="mb-4">
         The <strong>Verify Network</strong> function in vmenu allows users to check the current network
-        configuration and connectivity in <strong>Virtuliservmenu VE</strong>. It provides a quick way to identify potential
+        configuration and connectivity in <strong>Virtuliser VE</strong>. It provides a quick way to identify potential
         network issues and verify that all network interfaces are correctly configured.
       </p>
       

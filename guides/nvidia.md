@@ -1,6 +1,6 @@
 ---
-title: "Installing NVIDIA Graphics Card Drivers on Virtuliservmenu (PVE 8)"
-description: "Install and config NVIDIA drivers on Virtuliservmenu VE host and enable GPU usage in LXC containers."
+title: "Installing NVIDIA Graphics Card Drivers on Virtuliser (PVE 8)"
+description: "Install and config NVIDIA drivers on Virtuliser VE host and enable GPU usage in LXC containers."
 ---
 
 
@@ -9,7 +9,7 @@ Before we begin, I want to thank my colleague @juanlu13 for providing the [origi
 
 In this guide, we will install the Nvidia drivers, the persistent service, and an optional patch to remove the maximum encoding sessions limit.
 
-- We will install Nvidia drivers on the Virtuliservmenu host.
+- We will install Nvidia drivers on the Virtuliser host.
 - We will configure the drivers for use in any LXC.
 
 To perform the installation, we must:
@@ -37,13 +37,13 @@ reboot
 
 2. Make sure we have these repositories added:
 
-(*If we have installed the post-installation script from [tteck](https://tteck.github.io/Virtuliservmenu/) or [xshok](https://github.com/extremeshok/xshok-proxmox), we can skip this step as it's not necessary since these repositories are already added.*)
+(*If we have installed the post-installation script from [tteck](https://tteck.github.io/Virtuliser/) or [xshok](https://github.com/extremeshok/xshok-proxmox), we can skip this step as it's not necessary since these repositories are already added.*)
 
 ```
 nano /etc/apt/sources.list
 ```
 
-## Virtuliservmenu 7
+## Virtuliser 7
 ```
 deb http://ftp.debian.org/debian bullseye main contrib
 deb http://ftp.debian.org/debian bullseye-updates main contrib
@@ -51,7 +51,7 @@ deb http://security.debian.org/debian-security bullseye-security main contrib
 deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
 ```
 
-## Virtuliservmenu 8
+## Virtuliser 8
 ```
 deb http://ftp.debian.org/debian bookworm main contrib
 deb http://ftp.debian.org/debian bookworm-updates main contrib
@@ -62,7 +62,7 @@ deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
 deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware
 ```
 
-Update the packages and Virtuliservmenu
+Update the packages and Virtuliser
 
 ```
 apt update && apt dist-upgrade -y
@@ -77,7 +77,7 @@ apt-get install git
 apt-get install -qqy pve-headers-`uname -r` gcc make 
 ```
 
-## 1 - Install Nvidia drivers on the Virtuliservmenu host
+## 1 - Install Nvidia drivers on the Virtuliser host
 
 ### - Driver:
 
@@ -131,7 +131,7 @@ Once finished, we reboot.
 ```
 reboot
 ```
-After Virtuliservmenu has rebooted, we continue with the installation. We execute:
+After Virtuliser has rebooted, we continue with the installation. We execute:
 ```
 /opt/nvidia/NVIDIA-Linux-x86_64-525.116.03.run --no-questions --ui=none
 ```
@@ -164,7 +164,6 @@ We paste:
 # /etc/udev/rules.d/70-nvidia.rules
 # Create /nvidia0, /dev/nvidia1 … and /nvidiactl when nvidia module is loaded
 KERNEL=="nvidia", RUN+="/bin/bash -c '/usr/bin/nvidia-smi -L'"
-#
 # Create the CUDA node when nvidia_uvm CUDA module is loaded
 KERNEL=="nvidia_uvm", RUN+="/bin/bash -c '/usr/bin/nvidia-modprobe -c0 -u'"
 ```
@@ -244,7 +243,7 @@ We save:
 ctrl + x.
 
 We run the LXC and we're going to install the Nvidia driver inside it.
-**IMPORTANT: we do this installation from the LXC console, not from Virtuliservmenu**
+**IMPORTANT: we do this installation from the LXC console, not from Virtuliser**
 
 ```
 mkdir /opt/nvidia
@@ -282,7 +281,7 @@ ls -l /dev/nv*
 
 ## We check that Plex uses the graphics card.
 
-As we can see, the Plex LXC container makes use of the Nvidia graphics card from our Virtuliservmenu host.
+As we can see, the Plex LXC container makes use of the Nvidia graphics card from our Virtuliser host.
 
 ![Plex using NVIDIA GPU 1](https://raw.githubusercontent.com/MacRimi/vmenu/main/guides/nvidia/nvidia-11.png)
 
