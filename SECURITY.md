@@ -2,7 +2,7 @@
 
 ## 📅 Supported Versions
 
-We actively maintain the latest release of ProxMenux. Only the most recent version receives security updates.
+We actively maintain the latest release of Vmenu-X. Only the most recent version receives security updates.
 
 | Version | Supported |
 | ------- | --------- |
@@ -38,4 +38,4 @@ We follow responsible disclosure principles. If a vulnerability is confirmed, we
 
 ---
 
-🔐 Thank you for helping make ProxMenux a safer project for everyone!
+🔐 Thank you for helping make Vmenu-X a safer project for everyone!

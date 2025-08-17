@@ -13,12 +13,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
-        pathname: "/MacRimi/ProxMenux/main/images/**",
+        pathname: "/MacRimi/Vmenu-X/main/images/**",
       },
     ],
   },
-  assetPrefix: "/ProxMenux/",
-  basePath: "/ProxMenux",
+  assetPrefix: "/Vmenu-X/",
+  basePath: "/Vmenu-X",
   staticPageGenerationTimeout: 180,
   webpack: (config, { isServer }) => {
     config.resolve.alias["@guides"] = join(__dirname, "..", "guides")

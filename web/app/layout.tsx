@@ -7,11 +7,11 @@ import type React from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "ProxMenux",
+  title: "Vmenu-X",
   generator: "Next.js",
-  applicationName: "ProxMenux",
+  applicationName: "Vmenu-X",
   referrer: "origin-when-cross-origin",
-  keywords: ["Proxmox VE", "VE", "ProxMenux", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
+  keywords: ["Proxmox VE", "VE", "Vmenu-X", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
   authors: [{ name: "MacRimi" }],
   creator: "MacRimi",
   publisher: "MacRimi",
@@ -22,19 +22,19 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(`https://macrimi.github.io/ProxMenux/`),
+  metadataBase: new URL(`https://macrimi.github.io/Vmenu-X/`),
   openGraph: {
-    title: "ProxMenux",
+    title: "Vmenu-X",
     description:
       "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    url: "https://macrimi.github.io/ProxMenux/",
-    siteName: "ProxMenux",
+    url: "https://macrimi.github.io/Vmenu-X/",
+    siteName: "Vmenu-X",
     images: [
       {
-        url: "https://macrimi.github.io/ProxMenux/main.png",
+        url: "https://macrimi.github.io/Vmenu-X/main.png",
         width: 1363,
         height: 735,
-        alt: "ProxMenux",
+        alt: "Vmenu-X",
       },
     ],
     locale: "en_US",
@@ -42,17 +42,17 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux",
+    title: "Vmenu-X",
     description:
       "A menu-driven script for Proxmox VE management, designed to simplify and streamline the execution of commands and tasks.",
-    images: ["https://macrimi.github.io/ProxMenux/main.png"],
+    images: ["https://macrimi.github.io/Vmenu-X/main.png"],
   },
   icons: {
     icon: [
-      { url: "https://macrimi.github.io/ProxMenux/favicon.ico", sizes: "any" },
-      { url: "https://macrimi.github.io/ProxMenux/icon.svg", type: "image/svg+xml" },
+      { url: "https://macrimi.github.io/Vmenu-X/favicon.ico", sizes: "any" },
+      { url: "https://macrimi.github.io/Vmenu-X/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "https://macrimi.github.io/ProxMenux/apple-touch-icon.png", sizes: "180x180" } as const],
+    apple: [{ url: "https://macrimi.github.io/Vmenu-X/apple-touch-icon.png", sizes: "180x180" } as const],
   },
 }
 

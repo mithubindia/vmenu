@@ -1,9 +1,17 @@
 #!/bin/bash
 
 # ==========================================================
-# Vmenu-X - A menu-driven script for Virtualisation management
+# Vmenu-X - A menu-driven script for Proxmox VE management
 # ==========================================================
-
+# Author      : MacRimi
+# Copyright   : (c) 2024 MacRimi
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/LICENSE)
+# Version     : 1.3
+# Last Updated: 04/07/2025
+# ==========================================================
+# Description:
+# This script installs and configures Vmenu-X, a menu-driven
+# tool for managing Proxmox VE.
 #
 # - Ensures the script is run with root privileges.
 # - Displays an installation confirmation prompt.
@@ -26,8 +34,8 @@
 # ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/mithubindia/Vmenu-X/main"
-UTILS_URL="https://raw.githubusercontent.com/mithubindia/Vmenu-X/main/scripts/utils.sh"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/Vmenu-X/main"
+UTILS_URL="https://raw.githubusercontent.com/mithubindia/vmenu/refs/heads/feat/rename-package-and-update-menu/scripts/utils.sh"
 INSTALL_DIR="/usr/local/bin"
 BASE_DIR="/usr/local/share/vmenu-x"
 CONFIG_FILE="$BASE_DIR/config.json"

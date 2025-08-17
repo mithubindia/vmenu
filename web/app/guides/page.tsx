@@ -48,7 +48,7 @@ export default function GuidesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-16 flex flex-col">
       <div className="flex-grow container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-8">ProxMenux Guides</h1>
+        <h1 className="text-4xl font-bold mb-8">Vmenu-X Guides</h1>
         <p className="text-xl mb-8">Complementary guides to make the most of your Proxmox VE.</p>
 
         {/* Dynamic Guides */}
