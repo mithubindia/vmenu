@@ -1,11 +1,7 @@
 
-
-```bash
-menu
-```
-Then, follow the on-screen options to manage your Proxmox server efficiently.
-
----
+## Install 
+Clone the repository
+git clone --branch feat/rename-package-and-update-menu   --single-branch https://github.com/mithubindia/vmenu.git
 
 ## 📌 System Requirements
 🖥 **Compatible with:**
