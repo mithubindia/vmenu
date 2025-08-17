@@ -86,11 +86,11 @@ export const sidebarItems: MenuItem[] = [
     ],
   },
   {
-    title: "Settings ProxMenux",
+    title: "Settings Vmenu-X",
     submenu: [
       { title: "Change Language", href: "/docs/settings/change-language" },
       { title: "Show Version Information", href: "/docs/settings/show-version-information" },
-      { title: "Uninstall ProxMenux", href: "/docs/settings/uninstall-proxmenux" },
+      { title: "Uninstall Vmenu-X", href: "/docs/settings/uninstall-vmenux" },
     ],
   },
   {

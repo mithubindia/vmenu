@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
+# Vmenu-X - A menu-driven script for Proxmox VE management
 # ==========================================================
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/LICENSE)
 # Version     : 2.0
 # Last Updated: 04/04/2025
 # ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-BASE_DIR="/usr/local/share/proxmenux"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/Vmenu-X/main"
+BASE_DIR="/usr/local/share/vmenu-x"
 UTILS_FILE="$BASE_DIR/utils.sh"
 VENV_PATH="/opt/googletrans-env"
 
@@ -44,11 +44,11 @@ check_pve9_translation_compatibility() {
         if [[ "$has_googletrans" = true ]] || [[ "$has_cache" = true ]]; then
             
             dialog --clear \
-                --backtitle "ProxMenux - Compatibility Required" \
+                --backtitle "Vmenu-X - Compatibility Required" \
                 --title "Translation Environment Incompatible with PVE $pve_version" \
-                --msgbox "NOTICE: You are running Proxmox VE $pve_version with translation components installed.\n\nTranslations are NOT supported in PVE 9+. This causes:\n• Menu loading errors\n• Translation failures\n• System instability\n\nREQUIRED ACTION:\nProxMenux will now automatically reinstall the Normal Version.\n\nThis process will:\n• Remove incompatible translation components\n• Install PVE 9+ compatible version\n• Preserve all your settings and preferences\n\nPress OK to continue with automatic reinstallation..." 20 75
+                --msgbox "NOTICE: You are running Proxmox VE $pve_version with translation components installed.\n\nTranslations are NOT supported in PVE 9+. This causes:\n• Menu loading errors\n• Translation failures\n• System instability\n\nREQUIRED ACTION:\nVmenu-X will now automatically reinstall the Normal Version.\n\nThis process will:\n• Remove incompatible translation components\n• Install PVE 9+ compatible version\n• Preserve all your settings and preferences\n\nPress OK to continue with automatic reinstallation..." 20 75
             
-            bash <(curl -sSL "$REPO_URL/install_proxmenux.sh")
+            bash <(curl -sSL "$REPO_URL/install_vmenux.sh")
 
         fi
         exit 
@@ -68,7 +68,7 @@ if ! command -v dialog &>/dev/null; then
     apt install -y dialog >/dev/null 2>&1
 fi
 
-if [[ "$PROXMENUX_PVE9_WARNING_SHOWN" = "1" ]]; then
+if [[ "$VMENUX_PVE9_WARNING_SHOWN" = "1" ]]; then
 
     if ! load_language 2>/dev/null; then
         LANGUAGE="en"
@@ -87,21 +87,21 @@ show_menu() {
 
     while true; do
 
-        local menu_title="Main ProxMenux"
-        if [[ -n "$PROXMENUX_PVE9_WARNING_SHOWN" ]]; then
-            menu_title="Main ProxMenux"
+        local menu_title="Main Vmenu-X"
+        if [[ -n "$VMENUX_PVE9_WARNING_SHOWN" ]]; then
+            menu_title="Main Vmenu-X"
         fi
 
         dialog --clear \
-            --backtitle "ProxMenux" \
+            --backtitle "Vmenu-X" \
             --title "$(translate "$menu_title")" \
             --menu "$(translate "Select an option:")" 20 70 10 \
-            1 "$(translate "Settings post-install Proxmox")" \
+            1 "$(translate "Virt Install - Post Install Actions")" \
             2 "$(translate "Help and Info Commands")" \
             3 "$(translate "Hardware: GPUs and Coral-TPU")" \
             4 "$(translate "Create VM from template or script")" \
             5 "$(translate "Disk and Storage Manager")" \
-            6 "$(translate "Proxmox VE Helper Scripts")" \
+            6 "$(translate "Helper Scripts")" \
             7 "$(translate "Network Management")" \
             8 "$(translate "Utilities and Tools")" \
             9 "$(translate "Settings")" \
@@ -111,7 +111,7 @@ show_menu() {
 
         if [[ $EXIT_STATUS -ne 0 ]]; then
             clear
-            msg_ok "$(translate "Thank you for using ProxMenux. Goodbye!")"
+            msg_ok "$(translate "Thank you for using Vmenu-X. Goodbye!")"
             rm -f "$TEMP_FILE"
             exit 0
         fi
@@ -128,7 +128,7 @@ show_menu() {
             7) exec bash <(curl -s "$REPO_URL/scripts/menus/network_menu.sh") ;;
             8) exec bash <(curl -s "$REPO_URL/scripts/menus/utilities_menu.sh") ;;
             9) exec bash <(curl -s "$REPO_URL/scripts/menus/config_menu.sh") ;;
-            0) clear; msg_ok "$(translate "Thank you for using ProxMenu. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
+            0) clear; msg_ok "$(translate "Thank you for using Vmenu-X. Goodbye!")"; rm -f "$TEMP_FILE"; exit 0 ;;
             *) msg_warn "$(translate "Invalid option")"; sleep 2 ;;
         esac
     done

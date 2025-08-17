@@ -1,9 +1,9 @@
 # Mensajes generales del sistema
-MAIN_MENU_TITLE="ProxMenux - Menú Principal"
-CONFIG_TITLE="ProxMenux - Configuración"
+MAIN_MENU_TITLE="Vmenu-X - Menú Principal"
+CONFIG_TITLE="Vmenu-X - Configuración"
 SELECT_OPTION="Selecciona una opción:"
 LANG_OPTION="Cambiar idioma"
-UNINSTALL_OPTION="Desinstalar ProxMenu"
+UNINSTALL_OPTION="Desinstalar Vmenu-X"
 EXIT_MENU="Salir"
 EXIT_MESSAGE="Saliendo del menú. ¡Hasta luego!"
 
@@ -15,7 +15,7 @@ OPTION_3="Configuración"
 # Mensajes de versión
 VERSION_OPTION="Mostrar información de versión"
 VERSION_TITLE="Información de versión"
-VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/ProxMenux"
+VERSION_INFO="Versión actual: %s\n\nPara más información, visita:\nhttps://github.com/MacRimi/Vmenu-X"
 
 # Mensajes de actualización
 UPDATE_CHECKING="Comprobando actualizaciones..."
@@ -31,10 +31,10 @@ UPDATE_ERROR_DOWNLOAD="Error al descargar la actualización."
 
 
 # Mensajes de desinstalación
-UNINSTALL_TITLE="Desinstalar ProxMenu"
-UNINSTALL_CONFIRM="¿Estás seguro de que quieres desinstalar ProxMenu?"
-UNINSTALL_COMPLETE="ProxMenu ha sido desinstalado correctamente."
-UNINSTALL_PROCESS="Desinstalando ProxMenu..."
+UNINSTALL_TITLE="Desinstalar Vmenu-X"
+UNINSTALL_CONFIRM="¿Estás seguro de que quieres desinstalar Vmenu-X?"
+UNINSTALL_COMPLETE="Vmenu-X ha sido desinstalado correctamente."
+UNINSTALL_PROCESS="Desinstalando Vmenu-X..."
 
 # Mensajes de script
 SCRIPT_RUNNING="Ejecutando script igpu_tpu.sh..."

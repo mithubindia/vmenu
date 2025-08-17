@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
+# Vmenu-X - A menu-driven script for Proxmox VE management
 # ==========================================================
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/LICENSE)
 # Version     : 1.3
 # Last Updated: 04/07/2025
 # ==========================================================
 # Description:
-# This script installs and configures ProxMenux, a menu-driven
+# This script installs and configures Vmenu-X, a menu-driven
 # tool for managing Proxmox VE.
 #
 # - Ensures the script is run with root privileges.
@@ -21,23 +21,23 @@
 # - jq (for handling JSON data)
 # - Python 3 and virtual environment (for translations)
 # - Configures the Python virtual environment and installs googletrans.
-# - Creates necessary directories for storing ProxMenux data.
+# - Creates necessary directories for storing Vmenu-X data.
 # - Downloads required files from GitHub, including:
 # - Cache file (`cache.json`) for translation caching.
 # - Utility script (`utils.sh`) for core functions.
-# - Main script (`menu.sh`) to launch ProxMenux.
+# - Main script (`menu.sh`) to launch Vmenu-X.
 # - Sets correct permissions for execution.
-# - Displays final instructions on how to start ProxMenux.
+# - Displays final instructions on how to start Vmenu-X.
 #
 # This installer ensures a smooth setup process and prepares
-# the system for running ProxMenux efficiently.
+# the system for running Vmenu-X efficiently.
 # ==========================================================
 
 # Configuration ============================================
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
-UTILS_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main/scripts/utils.sh"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/Vmenu-X/main"
+UTILS_URL="https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/scripts/utils.sh"
 INSTALL_DIR="/usr/local/bin"
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu-x"
 CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 UTILS_FILE="$BASE_DIR/utils.sh"
@@ -101,17 +101,17 @@ check_existing_installation() {
     fi
 }
 
-uninstall_proxmenu() {
+uninstall_vmenux() {
     local install_type="$1"
     local force_clean="$2"
     
     if [ "$force_clean" != "force" ]; then
-        if ! whiptail --title "Uninstall ProxMenu" --yesno "Are you sure you want to uninstall ProxMenu?" 10 60; then
+        if ! whiptail --title "Uninstall Vmenu-X" --yesno "Are you sure you want to uninstall Vmenu-X?" 10 60; then
             return 1
         fi
     fi
     
-    echo "Uninstalling ProxMenu..."
+    echo "Uninstalling Vmenu-X..."
     
     if [ -f "$VENV_PATH/bin/activate" ]; then
         echo "Removing googletrans and virtual environment..."
@@ -148,10 +148,10 @@ uninstall_proxmenu() {
     if [ -f /etc/motd.bak ]; then
         mv /etc/motd.bak /etc/motd
     else
-        sed -i '/This system is optimised by: ProxMenux/d' /etc/motd
+        sed -i '/This system is optimised by: Vmenu-X/d' /etc/motd
     fi
     
-    echo "ProxMenu has been uninstalled."
+    echo "Vmenu-X has been uninstalled."
     return 0
 }
 
@@ -168,7 +168,7 @@ handle_installation_change() {
             if whiptail --title "Installation Type Change" \
                 --yesno "Switch from Translation to Normal Version?\n\nThis will remove translation components." 10 60; then
                 echo "Preparing for installation type change..."
-                uninstall_proxmenu "translation" "force" >/dev/null 2>&1
+                uninstall_vmenux "translation" "force" >/dev/null 2>&1
                 return 0
             else
                 return 1
@@ -221,7 +221,7 @@ show_progress() {
     local total="$2"
     local message="$3"
     
-    echo -e "\n${BOLD}${BL}${TAB}Installing ProxMenu: Step $step of $total${CL}"
+    echo -e "\n${BOLD}${BL}${TAB}Installing Vmenu-X: Step $step of $total${CL}"
     echo
     msg_info2 "$message"
 }
@@ -273,16 +273,16 @@ show_installation_confirmation() {
     
     case "$install_type" in
         "1")
-            if whiptail --title "ProxMenux - Normal Version Installation" \
-                --yesno "ProxMenux Normal Version will install:\n\n• dialog  (interactive menus) - Official Debian package\n• curl       (file downloads) - Official Debian package\n• jq        (JSON processing) - Official Debian package\n• ProxMenux core files     (/usr/local/share/proxmenux)\n\nThis is a lightweight installation with minimal dependencies.\n\nProceed with installation?" 18 70; then
+            if whiptail --title "Vmenu-X - Normal Version Installation" \
+                --yesno "Vmenu-X Normal Version will install:\n\n• dialog  (interactive menus) - Official Debian package\n• curl       (file downloads) - Official Debian package\n• jq        (JSON processing) - Official Debian package\n• Vmenu-X core files     (/usr/local/share/vmenu-x)\n\nThis is a lightweight installation with minimal dependencies.\n\nProceed with installation?" 18 70; then
                 return 0
             else
                 return 1
             fi
             ;;
         "2")
-            if whiptail --title "ProxMenux - Translation Version Installation" \
-                --yesno "ProxMenux Translation Version will install:\n\n• dialog (interactive menus)\n• curl (file downloads)\n• jq (JSON processing)\n• python3 + python3-venv + python3-pip\n• Google Translate library (googletrans)\n• Virtual environment (/opt/googletrans-env)\n• Translation cache system\n• ProxMenux core files\n\nThis version requires more dependencies for translation support.\n\nProceed with installation?" 18 70; then
+            if whiptail --title "Vmenu-X - Translation Version Installation" \
+                --yesno "Vmenu-X Translation Version will install:\n\n• dialog (interactive menus)\n• curl (file downloads)\n• jq (JSON processing)\n• python3 + python3-venv + python3-pip\n• Google Translate library (googletrans)\n• Virtual environment (/opt/googletrans-env)\n• Translation cache system\n• Vmenu-X core files\n\nThis version requires more dependencies for translation support.\n\nProceed with installation?" 18 70; then
                 return 0
             else
                 return 1
@@ -501,19 +501,19 @@ show_installation_options() {
     local pve_version
     pve_version=$(pveversion 2>/dev/null | grep -oP 'pve-manager/\K[0-9]+' | head -1)
     
-    local menu_title="ProxMenux Installation"
+    local menu_title="Vmenu-X Installation"
     local menu_text="Choose installation type:"
     
     if [ "$current_install_type" != "none" ]; then
         case "$current_install_type" in
             "translation")
-                menu_title="ProxMenux Update - Translation Version Detected"
+                menu_title="Vmenu-X Update - Translation Version Detected"
                 ;;
             "normal")
-                menu_title="ProxMenux Update - Normal Version Detected"
+                menu_title="Vmenu-X Update - Normal Version Detected"
                 ;;
             "unknown")
-                menu_title="ProxMenux Update - Existing Installation Detected"
+                menu_title="Vmenu-X Update - Existing Installation Detected"
                 ;;
         esac
     fi
@@ -522,21 +522,21 @@ show_installation_options() {
 
 
     if [[ "$pve_version" -ge 9 ]]; then
-        INSTALL_TYPE=$(whiptail --backtitle "ProxMenux" --title "$menu_title" --menu "\n$menu_text" 14 70 2 \
+        INSTALL_TYPE=$(whiptail --backtitle "Vmenu-X" --title "$menu_title" --menu "\n$menu_text" 14 70 2 \
             "1" "Normal Version      (English only)" 3>&1 1>&2 2>&3)
         
         if [ -z "$INSTALL_TYPE" ]; then
-            show_proxmenux_logo
+            show_vmenux_logo
             msg_warn "Installation cancelled."
             exit 1
         fi
     else
-        INSTALL_TYPE=$(whiptail --backtitle "ProxMenux" --title "$menu_title" --menu "\n$menu_text" 14 70 2 \
+        INSTALL_TYPE=$(whiptail --backtitle "Vmenu-X" --title "$menu_title" --menu "\n$menu_text" 14 70 2 \
             "1" "Normal Version      (English only)" \
             "2" "Translation Version (Multi-language support)" 3>&1 1>&2 2>&3)
         
         if [ -z "$INSTALL_TYPE" ]; then
-            show_proxmenux_logo
+            show_vmenux_logo
             msg_warn "Installation cancelled."
             exit 1
         fi
@@ -545,7 +545,7 @@ show_installation_options() {
  
     
     if [ -z "$INSTALL_TYPE" ]; then
-        show_proxmenux_logo
+        show_vmenux_logo
         msg_warn "Installation cancelled."
         exit 1
     fi
@@ -553,31 +553,31 @@ show_installation_options() {
     # For new installations, show confirmation with details
     if [ "$current_install_type" = "none" ]; then
         if ! show_installation_confirmation "$INSTALL_TYPE"; then
-            show_proxmenux_logo
+            show_vmenux_logo
             msg_warn "Installation cancelled."
             exit 1
         fi
     fi
     
     if ! handle_installation_change "$current_install_type" "$INSTALL_TYPE"; then
-        show_proxmenux_logo
+        show_vmenux_logo
         msg_warn "Installation cancelled."
         exit 1
     fi
 }
 
-install_proxmenu() {
+install_vmenux() {
     show_installation_options
     
     case "$INSTALL_TYPE" in
         "1")
-            show_proxmenux_logo
-            msg_title "Installing ProxMenux - Normal Version"
+            show_vmenux_logo
+            msg_title "Installing Vmenu-X - Normal Version"
             install_normal_version
             ;;
         "2")
-            show_proxmenux_logo
-            msg_title "Installing ProxMenux - Translation Version"
+            show_vmenux_logo
+            msg_title "Installing Vmenu-X - Translation Version"
             install_translation_version
             ;;
         *)
@@ -586,9 +586,9 @@ install_proxmenu() {
             ;;
     esac
     
-    msg_title "$(translate "ProxMenux has been installed successfully")"
+    msg_title "$(translate "Vmenu-X has been installed successfully")"
     echo -ne "${GN}"
-    type_text "$(translate "To run ProxMenux, simply execute this command in the console or terminal:")"
+    type_text "$(translate "To run Vmenu-X, simply execute this command in the console or terminal:")"
     echo -e "${YWB}    menu${CL}"
     echo
 }
@@ -599,4 +599,4 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 cleanup_corrupted_files
-install_proxmenu
+install_vmenux

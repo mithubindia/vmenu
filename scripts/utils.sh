@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # ==========================================================
-# ProxMenu - A menu-driven script for Proxmox VE management
+# Vmenu-X - A menu-driven script for Proxmox VE management
 # ==========================================================
 # Author      : MacRimi
 # Copyright   : (c) 2024 MacRimi
-# License     : MIT (https://raw.githubusercontent.com/MacRimi/ProxMenux/main/LICENSE)
+# License     : MIT (https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/LICENSE)
 # Version     : 1.0
 # Last Updated: 28/01/2025
 # ==========================================================
 # Description:
 # This script provides a set of utility functions used across
-# ProxMenux to facilitate Proxmox VE management.
+# Vmenu-X to facilitate Proxmox VE management.
 #
 # - Defines color codes for consistent output formatting.
 # - Implements a spinner-based loading animation.
@@ -21,7 +21,7 @@
 # - Loads language settings from a configuration file.
 #
 # These utilities ensure a streamlined and uniform user experience
-# across different ProxMenux scripts.
+# across different Vmenu-X scripts.
 #
 # This script incorporates elements from the 
 # Proxmox VE Post Install script from Proxmox VE Helper-Scripts.
@@ -34,9 +34,9 @@
 # ==========================================================
 
 # Repository and directory structure
-REPO_URL="https://raw.githubusercontent.com/MacRimi/ProxMenux/main"
+REPO_URL="https://raw.githubusercontent.com/MacRimi/Vmenu-X/main"
 INSTALL_DIR="/usr/local/bin"
-BASE_DIR="/usr/local/share/proxmenux"
+BASE_DIR="/usr/local/share/vmenu-x"
 CONFIG_FILE="$BASE_DIR/config.json"
 CACHE_FILE="$BASE_DIR/cache.json"
 LOCAL_VERSION_FILE="$BASE_DIR/version.txt"
@@ -311,7 +311,7 @@ translate_text(
 
 
 
-show_proxmenux_logo() {
+show_vmenux_logo() {
 clear
 
 if [[ -z "$SSH_TTY" && -z "$(who am i | awk '{print $NF}' | grep -E '([0-9]{1,3}\.){3}[0-9]{1,3}')" ]]; then
@@ -336,7 +336,7 @@ EOF
 TEXT=(
     ""
     ""
-    "${BOLD}ProxMenux${RESET}"
+    "${BOLD}Vmenu-X${RESET}"
     ""
     "${BOLD}${NEON_PURPLE_BLUE}An Interactive Menu for${RESET}"
     "${BOLD}${NEON_PURPLE_BLUE}Proxmox VE management${RESET}"
@@ -363,7 +363,7 @@ TEXT=(
     ""
     ""
     ""
-    "${BOLD}ProxMenux${RESET}"
+    "${BOLD}Vmenu-X${RESET}"
     ""
     "${BOLD}${NEON_PURPLE_BLUE}An Interactive Menu for${RESET}"
     "${BOLD}${NEON_PURPLE_BLUE}Proxmox VE management${RESET}"

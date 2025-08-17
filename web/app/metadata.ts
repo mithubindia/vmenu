@@ -6,12 +6,12 @@ const description = "A menu-driven script for Proxmox VE management, designed to
 
 export const metadata: Metadata = {
 
-  title: "ProxMenux",
+  title: "Vmenu-X",
   description,
   generator: "Next.js",
-  applicationName: "ProxMenux",
+  applicationName: "Vmenu-X",
   referrer: "origin-when-cross-origin",
-  keywords: ["Proxmox VE", "VE", "ProxMenux", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
+  keywords: ["Proxmox VE", "VE", "Vmenu-X", "MacRimi", "menu-driven", "menu", "scripts", "virtualization"],
   authors: [{ name: "MacRimi" }],
   creator: "MacRimi",
   publisher: "MacRimi",
@@ -20,15 +20,15 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(`https://macrimi.github.io/ProxMenux/`),
+  metadataBase: new URL(`https://macrimi.github.io/Vmenu-X/`),
   openGraph: {
-    title: "ProxMenux",
+    title: "Vmenu-X",
     description,
-    url: `https://macrimi.github.io/ProxMenux/`,
-    siteName: "ProxMenux",
+    url: `https://macrimi.github.io/Vmenu-X/`,
+    siteName: "Vmenu-X",
     images: [
       {
-        url: `https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`,
+        url: `https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/web/public/main.png`,
         width: 1363,
         height: 735,
       },
@@ -38,15 +38,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProxMenux",
+    title: "Vmenu-X",
     description,
-    images: [`https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/main.png`],
+    images: [`https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/web/public/main.png`],
   },
   icons: {
     icon: [
-      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/favicon.ico", sizes: "any" },
-      { url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public/icon.svg", type: "image/svg+xml" },
+      { url: "https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/web/public/favicon.ico", sizes: "any" },
+      { url: "https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/web/public/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "https://raw.githubusercontent.com/MacRimi/ProxMenux/main/web/public//apple-touch-icon.png" }],
+    apple: [{ url: "https://raw.githubusercontent.com/MacRimi/Vmenu-X/main/web/public//apple-touch-icon.png" }],
   },
 }
